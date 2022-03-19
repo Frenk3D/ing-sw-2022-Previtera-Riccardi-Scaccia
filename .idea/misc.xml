@@ -7,7 +7,11 @@
       </list>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="openjdk-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
+=======
+  <component name="ProjectRootManager" version="2" project-jdk-name="17" project-jdk-type="JavaSDK" />
+>>>>>>> origin/main
 </project>
