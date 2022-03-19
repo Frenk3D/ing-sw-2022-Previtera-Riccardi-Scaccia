@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 /**
  * Hello world!
- *
+ * ok Fra, ok Nic
  */
 public class ProvaGit
 {
