@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 /** Deselezionare sempre .idea e pom.xml sia da push che da pull per evitare problemi!!!
  * Hello world!
- *
+ * ok Fra, ok Nic, ok marco
  */
 public class ProvaGit
 {
