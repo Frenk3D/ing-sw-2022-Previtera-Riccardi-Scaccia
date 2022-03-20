@@ -62,4 +62,8 @@ public class Island {
     public void setStudentsList(List<Student> studentsList) {
         this.studentsList = studentsList;
     }
+
+    public void addStudent(Student student){
+        this.studentsList.add(student);
+    }
 }

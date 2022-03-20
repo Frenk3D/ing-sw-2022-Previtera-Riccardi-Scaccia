@@ -6,11 +6,11 @@ commenti in italiano per comodita'
 
 import java.util.ArrayList;
 import java.util.List; ////Intellij consiglia di togliere Student ecc da <> quando si inizializza (i prof no), prova a toglierlo in Bag
-
+import java.util.Collections;
 
 public class Game {
     private int currentPlayer;
-    private final int numOfPlayers; //numofplayers, playerslist e expertmode final, deciso all' inizio
+    final int numOfPlayers; //numofplayers, playerslist e expertmode final, deciso all' inizio,da vedere se private o friendly per generateTower?
     private int motherNaturePos;
     private final boolean expertMode;
     private List<Cloud> cloudsList;
@@ -51,23 +51,33 @@ public class Game {
         return bag;
     }
 
-    public void addPlayer(String name){
-
+    public void addPlayer(Player player){
+        this.playersList.add(player); //da aggiungere all'uml
     }
     public void start(){
 
     }
-    public void generateIslands(){
+    public void generateIslands(){ //come le genero, da dove vengono? serve json come dicono amici Nico?
 
     }
     private void setMotherNaturePosition(int pos){
         motherNaturePos=pos;
 
     }
-    public void initStudentIsland(){
-
+    public void initStudentIsland(){ //da verificare
+        int counter = 0;
+        Collections.shuffle(bag.studentsList); //mischia l'arraylist per randomicità
+        for (Island island: islandsList) {
+            if(counter!=motherNaturePos && counter!=motherNaturePos+6) {
+                island.addStudent(bag.studentsList.get(0)); //da vedere se va bene friendly o usare get
+                bag.studentsList.remove(0);
+                island.addStudent(bag.studentsList.get(0));
+                bag.studentsList.remove(0);
+            }
+            counter++;
+        }
     }
-    public void generateProfessorsList(){
+    public void generateProfessorsList(){ //come generateislands, da dove li prendo?
 
     }
     public void insertTowers(){ //riempie la plancia di ogni giocatore con le torri
@@ -84,10 +94,11 @@ public class Game {
         }
     }
     public void selectWizard(int type){
+        playersList.get(currentPlayer).getAssistantDeck().setWizard(type);
 
     }
 
-    public void placeStudentHall(){
+    public void placeStudentHall(){ //player piazza all'entrata della sua dashboard? serve altro attributo
 
     }
 
@@ -115,7 +126,7 @@ public class Game {
         return currentPlayer;
     }
 
-    public void extractCharacters(){
+    public void extractCharacters(){ //estraggo come? serve parametro id ?
 
     }
 

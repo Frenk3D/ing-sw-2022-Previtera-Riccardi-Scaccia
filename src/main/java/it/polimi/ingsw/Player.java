@@ -43,11 +43,17 @@ public class Player {
         return playerTowerColor;
     }
 
-    public void generateTower(){
+    public void generateTower(Game game){ //serve sapere quanti giocatori stanno giocando
+        if(game.numOfPlayers==2 && game.numOfPlayers==4){
+            dashboard.setTowersList(8); //parametro lista di torri o int?
+        }
+        if(game.numOfPlayers==3){
+            dashboard.setTowersList(6);
+        }
 
     }
 
-    public void generateDeck(){
+    public void generateDeck(){ //da attrib wizard di assistantdeck
 
     }
 

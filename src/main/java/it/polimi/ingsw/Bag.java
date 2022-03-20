@@ -5,7 +5,7 @@ import java.util.List;
 
 
 public class Bag {
-    private List<Student> studentsList;
+     List<Student> studentsList;
 
     public Bag(){
         studentsList = new ArrayList<>(); //tolto argomento da <> come vuole Intellij
@@ -27,7 +27,7 @@ public class Bag {
         }
         return result;
     }
-    public void addAllStudents() {
+    public void addAllStudents() { //chiamato da game solo per l inizio?
 
     }
 
