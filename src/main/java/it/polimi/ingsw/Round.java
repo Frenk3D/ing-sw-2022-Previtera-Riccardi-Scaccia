@@ -35,12 +35,12 @@ public class Round {
 
     }
     public boolean checkWin(){
-
+        return false;
     }
     private Player calculateInfluence(Island island){
-
+        return null;
     }
     public boolean useCharacter(Character character){
-
+        return false;
     }
 }

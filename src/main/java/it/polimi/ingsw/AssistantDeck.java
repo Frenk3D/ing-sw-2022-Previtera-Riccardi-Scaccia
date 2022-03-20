@@ -13,6 +13,7 @@ public class AssistantDeck {
 
     public Assistant extractAssistant(){
 
+        return null;
     }
     public void setWizard (int type){
         wizard = type;

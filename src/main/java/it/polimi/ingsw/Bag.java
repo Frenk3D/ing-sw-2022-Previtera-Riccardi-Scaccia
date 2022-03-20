@@ -14,7 +14,7 @@ public class Bag {
 
     }
     public List<Student> extractStudents (int num) {
-
+        return null;
     }
     public void addAllStudents() {
 

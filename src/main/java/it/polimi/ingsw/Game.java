@@ -36,13 +36,13 @@ public class Game {
 
 
     public List<Island> getIslands(){
-
+        return islandsList;
     }
     public List<Cloud> getClouds(){
-
+        return cloudsList;
     }
     public Bag getBag(){
-
+        return bag;
     }
 
     public void addPlayer(String name){
@@ -82,6 +82,7 @@ public class Game {
     }
     public int getCurrentPlayer(){
 
+        return currentPlayer;
     }
 
     public void extractCharacters(){
