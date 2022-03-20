@@ -18,6 +18,21 @@ public class Game {
 
 
     //costruttore
+    public Game(int numOfPlayers,boolean expertMode){
+        this.numOfPlayers = numOfPlayers;
+        this.expertMode = expertMode;
+        bag = new Bag();
+        cloudsList = new ArrayList<Cloud>();
+        playersList = new ArrayList<Player>();
+        charactersList = new ArrayList<Character>();
+        tableProfessorsList = new ArrayList<Professor>();
+        islandsList = new ArrayList<Island>();
+        generateIslands();
+        initStudentIsland();
+        generateProfessorsList();
+        insertTowers();
+        placeStudentHall();
+    }
 
 
     public List<Island> getIslands(){

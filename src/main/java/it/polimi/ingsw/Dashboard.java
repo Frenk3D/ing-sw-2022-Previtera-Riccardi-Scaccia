@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Dashboard {
@@ -11,6 +12,17 @@ public class Dashboard {
     List<Student> hallList;
     List<Tower> towersList;
     List<Professor> professorsList;
+
+    public Dashboard(){
+        numofRedStudents= 0;
+        numofGreenStudents= 0;
+        numofBlueStudents= 0;
+        numofPinkStudents= 0;
+        numofYellowStudents=0;
+        hallList = new ArrayList<Student>();
+        towersList = new ArrayList<Tower>();
+        professorsList= new ArrayList<Professor>();
+    }
 
     public int getNumofRedStudents() {
         return numofRedStudents;

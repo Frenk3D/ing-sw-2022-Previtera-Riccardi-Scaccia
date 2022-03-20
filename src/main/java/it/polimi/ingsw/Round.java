@@ -6,8 +6,12 @@ public class Round {
     private Assistant extractedAssistant;
     private Player currPlayer;
 
-    public void setPlayer(Player name){
+    public Round(Game game){
+        this.game=game;
+    }
 
+    public void setPlayer(Player name){
+        currPlayer= name;
     }
     public void fillCloud(){
 

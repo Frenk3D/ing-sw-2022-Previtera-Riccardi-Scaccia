@@ -8,7 +8,12 @@ public class Player {
     private TowerColor playerTowerColor;
     private Dashboard dashboard;
 
-
+    public Player(String name){
+        numOfMoney=1;
+        this.name= name;
+        assistantDeck = new AssistantDeck();
+        dashboard = new Dashboard();
+    }
     public String getName() {
         return name;
     }
@@ -22,11 +27,11 @@ public class Player {
     }
 
     public void setSelectedAssistant(Assistant selAssistant){
-
+        selectedAssistant= selAssistant;
     }
 
     public void setTowerColor(TowerColor color){
-
+        playerTowerColor= color;
     }
 
     public void generateTower(){
@@ -38,7 +43,7 @@ public class Player {
     }
 
     public void setMoney(int num){
-
+        numOfMoney= num;
     }
 
     public int getMoney() {

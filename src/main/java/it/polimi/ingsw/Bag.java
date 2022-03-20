@@ -6,6 +6,9 @@ import java.util.List;
 public class Bag {
     private List<Student> hallList;
 
+    public Bag(){
+        hallList = new ArrayList<Student>();
+    }
 
     public void fillBag(List<Student> studentsList) {
 

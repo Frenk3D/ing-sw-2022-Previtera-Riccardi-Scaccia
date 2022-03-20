@@ -5,6 +5,10 @@ public class Character {
     private int id;
     private int initialCost;
 
+    public Character(int id,int initialCost){
+        this.id = id;
+        this.initialCost = initialCost;
+    }
     public int getNumOfUse() {
         return numOfUse;
     }

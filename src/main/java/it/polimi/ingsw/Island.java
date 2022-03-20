@@ -1,15 +1,24 @@
 package it.polimi.ingsw;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Island {
-    int nextIsland;
-    int prevIsland;
-    boolean forbidCard;
-    int islandType;
-    Tower tower;
-    List<Student> studentsList;
+    private int nextIsland;
+    private int prevIsland;
+    private boolean forbidCard;
+    private int islandType;
+    private Tower tower;
+    private List<Student> studentsList;
 
+    public Island(int islandType){
+        this.islandType = islandType;
+        nextIsland= -1;
+        prevIsland= -1;
+        forbidCard= false;
+        tower= null;
+        studentsList= new ArrayList<Student>();
+    }
     public int getNextIsland() {
         return nextIsland;
     }
