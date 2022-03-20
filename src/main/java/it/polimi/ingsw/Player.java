@@ -14,6 +14,7 @@ public class Player {
         assistantDeck = new AssistantDeck();
         dashboard = new Dashboard();
     }
+
     public String getName() {
         return name;
     }
@@ -30,8 +31,16 @@ public class Player {
         selectedAssistant= selAssistant;
     }
 
+    public Assistant getSelectedAssistant(){
+        return selectedAssistant;
+    }
+
     public void setTowerColor(TowerColor color){
         playerTowerColor= color;
+    }
+
+    public TowerColor getTowerColor(){
+        return playerTowerColor;
     }
 
     public void generateTower(){

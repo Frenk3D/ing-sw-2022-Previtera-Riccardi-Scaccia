@@ -22,6 +22,7 @@ public class Game {
         this.numOfPlayers = numOfPlayers;
         this.expertMode = expertMode;
         bag = new Bag();
+        currRound=new Round(this);
         cloudsList = new ArrayList<Cloud>();
         playersList = new ArrayList<Player>();
         charactersList = new ArrayList<Character>();
@@ -55,6 +56,7 @@ public class Game {
 
     }
     private void setMotherNaturePosition(int pos){
+        motherNaturePos=pos;
 
     }
     public void initStudentIsland(){
@@ -63,8 +65,18 @@ public class Game {
     public void generateProfessorsList(){
 
     }
-    public void insertTowers(){
+    public void insertTowers(){ //riempie la plancia di ogni giocatore con le torri
+        for(Player p : playersList){
+            TowerColor color = p.getTowerColor();
+            int towersToCreate=8;
+            if(numOfPlayers==3) towersToCreate=6;
 
+            while(towersToCreate>0){
+                Tower t = new Tower(color);
+                p.getDashboard().getTowersList().add(t);
+                towersToCreate--;
+            }
+        }
     }
     public void selectWizard(int type){
 
@@ -73,15 +85,28 @@ public class Game {
     public void placeStudentHall(){
 
     }
-    public void chooseStartingPlayer(){
 
+    public void chooseStartingPlayer(){ //sceglie chi deve iniziare il gioco all'inizio
+        int randomInt = (int)(Math.random() * (numOfPlayers + 1));
+        currentPlayer=randomInt;
+    }
+
+    public Player getNextPlayer(){ //NUOVA FUNZIONE(da completare)!! ritorna di chi è il prossimo turno in base agli assistenti scelti
+        int currMin=11;
+        Player currMinPlayer=null;
+        for (Player p: playersList){
+            if(p.getSelectedAssistant().getValue()<currMin){
+                currMin=p.getSelectedAssistant().getValue();
+                currMinPlayer=p;
+            }
+        }
+        return currMinPlayer;
     }
 
     public void endGame (Player winner){
 
     }
     public int getCurrentPlayer(){
-
         return currentPlayer;
     }
 
@@ -89,6 +114,9 @@ public class Game {
 
     }
 
+    public int getNumOfPlayers(){
+        return numOfPlayers;
+    }
 
 
 

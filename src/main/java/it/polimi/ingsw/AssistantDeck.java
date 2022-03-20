@@ -9,15 +9,28 @@ public class AssistantDeck {
 
     public AssistantDeck(){
         assistantsList = new ArrayList<Assistant>();
+        assistantsList.add(new Assistant(1,1));
+        assistantsList.add(new Assistant(2,1));
+        assistantsList.add(new Assistant(3,2));
+        assistantsList.add(new Assistant(4,2));
+        assistantsList.add(new Assistant(5,3));
+        assistantsList.add(new Assistant(6,3));
+        assistantsList.add(new Assistant(7,4));
+        assistantsList.add(new Assistant(8,4));
+        assistantsList.add(new Assistant(9,5));
+        assistantsList.add(new Assistant(10,5));
     }
 
-    public Assistant extractAssistant(){
-
-        return null;
+    public Assistant extractAssistant(int listPos){
+        if(assistantsList.isEmpty()) return null;
+        Assistant extractedAssistant;
+        extractedAssistant=assistantsList.get(listPos);
+        assistantsList.remove(listPos);
+        return extractedAssistant;
     }
+
     public void setWizard (int type){
         wizard = type;
-
     }
 
 }
