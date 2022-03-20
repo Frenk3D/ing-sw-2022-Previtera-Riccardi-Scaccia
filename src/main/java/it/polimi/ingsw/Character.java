@@ -2,8 +2,8 @@ package it.polimi.ingsw;
 
 public class Character {
     private int numOfUse;
-    private int id;
-    private int initialCost;
+    private final int id;
+    private final int initialCost;
 
     public Character(int id,int initialCost){
         this.id = id;

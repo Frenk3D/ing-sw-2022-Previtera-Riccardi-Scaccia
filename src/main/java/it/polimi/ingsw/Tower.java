@@ -1,7 +1,7 @@
 package it.polimi.ingsw;
 
 public class Tower {
-    private TowerColor color;
+    private final TowerColor color;
     public Tower(TowerColor color){
         this.color= color;
     }

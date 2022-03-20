@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AssistantDeck {
-    private int wizard;
-    private List<Assistant> assistantsList;
+    private int wizard; //ogni mago e' il "rappresentante" del deck
+    private List<Assistant> assistantsList; //gestire quando vengono scartate...
 
     public AssistantDeck(){
         assistantsList = new ArrayList<Assistant>();

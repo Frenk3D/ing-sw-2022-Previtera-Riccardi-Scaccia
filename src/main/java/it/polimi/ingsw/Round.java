@@ -1,10 +1,10 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw; //ben collegato a Game
 
 import java.util.List;
 
 public class Round {
-    private int stage;
-    private Game game;
+    private int stage; //for now never used
+    private Game game;  //intellij dice deve essere final ma no, varia
     private Assistant extractedAssistant;
     private Player currPlayer;
 

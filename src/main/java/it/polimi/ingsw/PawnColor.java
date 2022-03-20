@@ -5,5 +5,5 @@ public enum PawnColor {
     GREEN,
     YELLOW,
     PINK,
-    BLUE;
+    BLUE
 }

@@ -19,7 +19,7 @@ public class Dashboard {
         numofBlueStudents= 0;
         numofPinkStudents= 0;
         numofYellowStudents=0;
-        hallList = new ArrayList<Student>();
+        hallList = new ArrayList<Student>(); //intellij consiglia di togliere da <>
         towersList = new ArrayList<Tower>();
         professorsList= new ArrayList<Professor>();
     }

@@ -7,7 +7,7 @@ public class Cloud {
     private List<Student> studentsList;
 
     public Cloud(){
-        studentsList = new ArrayList<Student>();
+        studentsList = new ArrayList<Student>(); //togliere student da <> dice Intellij, ma prof no
     }
     public void setStudentsList(List<Student> studentsList) {
 

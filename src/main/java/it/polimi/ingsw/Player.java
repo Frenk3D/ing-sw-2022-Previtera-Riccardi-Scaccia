@@ -1,7 +1,7 @@
 package it.polimi.ingsw;
 
 public class Player {
-    private String name;
+    private final String name;
     private int numOfMoney;
     private AssistantDeck assistantDeck;
     private Assistant selectedAssistant;
@@ -17,7 +17,7 @@ public class Player {
 
     public String getName() {
         return name;
-    }
+    } //serve veramente name?
 
     public Dashboard getDashboard() {
         return dashboard;

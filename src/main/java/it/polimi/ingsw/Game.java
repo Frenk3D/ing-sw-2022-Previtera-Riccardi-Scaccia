@@ -1,20 +1,25 @@
 package it.polimi.ingsw;
+/*Tipo "main" collegato a Round : Game supervisor con dati e Round operator con azioni (MODEL);
+molti warning su cose non usate perche' ancora da finire implementazione,
+commenti in italiano per comodita'
+*/
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.List; ////Intellij consiglia di togliere Student ecc da <> quando si inizializza (i prof no), prova a toglierlo in Bag
+
 
 public class Game {
     private int currentPlayer;
-    private int numOfPlayers;
+    private final int numOfPlayers; //numofplayers, playerslist e expertmode final, deciso all' inizio
     private int motherNaturePos;
-    private boolean expertMode;
+    private final boolean expertMode;
     private List<Cloud> cloudsList;
     private Bag bag;
-    private List<Player> playersList;
+    private final List<Player> playersList;
     private List<Character> charactersList;
     private List<Professor> tableProfessorsList;
     private Round currRound;
-    private List<Island> islandsList;
+    private List<Island> islandsList; //non varia anche quando si gruppano le isole, ho attrib nella classe Island
 
 
     //costruttore
@@ -103,7 +108,7 @@ public class Game {
         return currMinPlayer;
     }
 
-    public void endGame (Player winner){
+    public void endGame (Player winner){ //round me lo usa?
 
     }
     public int getCurrentPlayer(){

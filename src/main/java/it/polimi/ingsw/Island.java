@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Island {
-    private int nextIsland;
+    private int nextIsland; //per gestire i gruppi
     private int prevIsland;
     private boolean forbidCard;
-    private int islandType;
+    private  int  islandType; //forse final?, serve?
     private Tower tower;
     private List<Student> studentsList;
 
@@ -17,7 +17,7 @@ public class Island {
         prevIsland= -1;
         forbidCard= false;
         tower= null;
-        studentsList= new ArrayList<Student>();
+        studentsList= new ArrayList<Student>(); // Intellij consigliava di togliere Student da <>
     }
     public int getNextIsland() {
         return nextIsland;

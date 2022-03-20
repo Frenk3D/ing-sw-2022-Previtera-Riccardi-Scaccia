@@ -3,11 +3,12 @@ package it.polimi.ingsw;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Bag {
     private List<Student> studentsList;
 
     public Bag(){
-        studentsList = new ArrayList<Student>();
+        studentsList = new ArrayList<>(); //tolto argomento da <> come vuole Intellij
     }
 
     public void fillBag(List<Student> studentsList) {
@@ -16,7 +17,7 @@ public class Bag {
     public List<Student> extractStudents (int num) {
         if(studentsList.size()<num) return null;
 
-        List<Student> result = new ArrayList<Student>();
+        List<Student> result = new ArrayList<>(); //..
         int remainingExtraction=num;
         while (remainingExtraction>0){
             int randomInt = (int)(Math.random() * (studentsList.size() + 1));
