@@ -5,15 +5,21 @@ import java.util.List;
 
 
 public class Bag {
-     List<Student> studentsList;
+     private List<Student> studentsList;
 
     public Bag(){
         studentsList = new ArrayList<>(); //tolto argomento da <> come vuole Intellij
     }
 
-    public void fillBag(List<Student> studentsList) {
-
+    public void initialBagFill() { //riempie il sacchetto con due studenti di ogni colore
+        for(int i=0;i<2;i++){
+        studentsList.add(new Student(PawnColor.BLUE));
+        studentsList.add(new Student(PawnColor.RED));
+        studentsList.add(new Student(PawnColor.GREEN));
+        studentsList.add(new Student(PawnColor.PINK));
+        studentsList.add(new Student(PawnColor.YELLOW));
     }
+}
     public List<Student> extractStudents (int num) {
         if(studentsList.size()<num) return null;
 
@@ -27,9 +33,17 @@ public class Bag {
         }
         return result;
     }
-    public void addAllStudents() { //chiamato da game solo per l inizio?
-
+    public void addAllStudents() { //riempe il sacchetto con gli studenti rimanenti
+        for(int i=0;i<24;i++){
+            studentsList.add(new Student(PawnColor.BLUE));
+            studentsList.add(new Student(PawnColor.RED));
+            studentsList.add(new Student(PawnColor.GREEN));
+            studentsList.add(new Student(PawnColor.PINK));
+            studentsList.add(new Student(PawnColor.YELLOW));
+        }
     }
 
-
+    public List<Student> getStudentsList() {
+        return studentsList;
+    }
 }

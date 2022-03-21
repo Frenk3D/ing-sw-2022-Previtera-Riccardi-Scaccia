@@ -1,5 +1,8 @@
 package it.polimi.ingsw;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
     private final String name;
     private int numOfMoney;
@@ -7,17 +10,34 @@ public class Player {
     private Assistant selectedAssistant;
     private TowerColor playerTowerColor;
     private Dashboard dashboard;
+    private boolean hasTower;
+    private int team;
 
     public Player(String name){
         numOfMoney=1;
         this.name= name;
         assistantDeck = new AssistantDeck();
         dashboard = new Dashboard();
+        team = 0;
+        hasTower = true;
+    }
+    public void setTeam(int team){
+        this.team = team;
+
+    }
+    public int getTeam(){
+        return team;
+    }
+    public void setHasTower(boolean tower){
+        this.hasTower = tower;
+    }
+    public boolean hasTower(){
+        return hasTower;
     }
 
     public String getName() {
         return name;
-    } //serve veramente name?
+    }
 
     public Dashboard getDashboard() {
         return dashboard;
@@ -44,18 +64,20 @@ public class Player {
     }
 
     public void generateTower(Game game){ //serve sapere quanti giocatori stanno giocando
-        if(game.numOfPlayers==2 && game.numOfPlayers==4){
-            dashboard.setTowersList(8); //parametro lista di torri o int?
+        int towersToGenerate;
+        if(game.getNumOfPlayers()==2 || game.getNumOfPlayers()==4) {
+            towersToGenerate = 8;
         }
-        if(game.numOfPlayers==3){
-            dashboard.setTowersList(6);
+        else {
+            towersToGenerate = 6;
         }
-
+            List<Tower> towers = new ArrayList<>();
+        for(int i=0;i<towersToGenerate;i++){
+                towers.add(new Tower(playerTowerColor));
+        }
+        dashboard.setTowersList(towers);
     }
 
-    public void generateDeck(){ //da attrib wizard di assistantdeck
-
-    }
 
     public void setMoney(int num){
         numOfMoney= num;

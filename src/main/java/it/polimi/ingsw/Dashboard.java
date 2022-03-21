@@ -9,9 +9,9 @@ public class Dashboard {
     private int numofYellowStudents;
     private int numofPinkStudents;
     private int numofBlueStudents;
-    List<Student> hallList;
-    List<Tower> towersList;
-    List<Professor> professorsList;
+    private List<Student> hallList;
+    private List<Tower> towersList;
+    private List<Professor> professorsList;
 
     public Dashboard(){
         numofRedStudents= 0;
@@ -44,28 +44,34 @@ public class Dashboard {
         return numofBlueStudents;
     }
 
-    public void setNumofRedStudents(int numofRedStudents) {
-        this.numofRedStudents = numofRedStudents;
+    public void addRedStudent() {
+        numofRedStudents++;
     }
 
-    public void setNumofGreenStudents(int numofGreenStudents) {
-        this.numofGreenStudents = numofGreenStudents;
+    public void addBlueStudent() {
+        numofBlueStudents++;
     }
 
-    public void setNumofYellowStudents(int numofYellowStudents) {
-        this.numofYellowStudents = numofYellowStudents;
+    public void addGreenStudent() {
+        numofGreenStudents++;
     }
 
-    public void setNumofPinkStudents(int numofPinkStudents) {
-        this.numofPinkStudents = numofPinkStudents;
+    public void addYellowStudent() {
+        numofYellowStudents++;
     }
 
-    public void setNumofBlueStudents(int numofBlueStudents) {
-        this.numofBlueStudents = numofBlueStudents;
-    }
+    public void addPinkStudent() { numofPinkStudents++; }
 
     public List<Tower> getTowersList() {
         return towersList;
+    }
+
+    public List<Student> getHallList() {
+        return hallList;
+    }
+
+    public List<Professor> getProfessorsList() {
+        return professorsList;
     }
 
     public void setTowersList(List<Tower> towersList) {

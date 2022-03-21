@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AssistantDeck {
-    private int wizard; //ogni mago e' il "rappresentante" del deck
+    private int wizard; //ogni mago e' il "rappresentante" del deck, ogni mago ha lo stesso deck e l'attributo lo impostiamo da player per comodità
     private List<Assistant> assistantsList; //gestire quando vengono scartate...
 
     public AssistantDeck(){
