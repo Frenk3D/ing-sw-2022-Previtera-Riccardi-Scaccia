@@ -7,12 +7,10 @@ public class Island {
     private int nextIsland; //per gestire i gruppi
     private int prevIsland;
     private boolean forbidCard;
-    private  int  islandType; //forse final?, serve?
     private Tower tower;
     private List<Student> studentsList;
 
-    public Island(int islandType){
-        this.islandType = islandType;
+    public Island(){
         nextIsland= -1;
         prevIsland= -1;
         forbidCard= false;
@@ -29,10 +27,6 @@ public class Island {
 
     public boolean getForbidCard() {
         return forbidCard;
-    }
-
-    public int getIslandType() {
-        return islandType;
     }
 
     public Tower getTower() {

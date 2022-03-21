@@ -73,9 +73,13 @@ public class Game {
         finishedState = false;
 
     }
-    public void generateIslands(){ //come le genero, da dove vengono? serve json come dicono amici Nico?
 
+    public void generateIslands(){ //come le genero, da dove vengono? serve json come dicono amici Nico?
+        for(int i=0; i<12; i++){
+            islandsList.add(new Island());
+        }
     }
+
     private void setMotherNaturePosition(int pos){
         motherNaturePos=pos;
 
