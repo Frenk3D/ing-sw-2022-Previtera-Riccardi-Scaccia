@@ -8,5 +8,5 @@ public class Student {
 
     public PawnColor getColor() {
         return color;
-    } //per ora never used, ma da fuori si
+    } //never used for now, but used outside of here
 }

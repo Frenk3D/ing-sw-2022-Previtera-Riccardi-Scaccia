@@ -16,16 +16,7 @@ public class Round {
         currPlayer= name;
     }
 
-    public void fillCloud(){
-        List<Cloud> cloudList = game.getClouds();
-        Bag bag = game.getBag();
-        int studentsToExtract=3;
-        if(game.getNumOfPlayers()==3) studentsToExtract=4;
 
-        for(Cloud c: cloudList){
-            c.setStudentsList(bag.extractStudents(studentsToExtract));
-        }
-    }
 
     public void moveStudentIsland(Student shiftedStudent,Island island){
         currPlayer.getDashboard().getHallList().remove(shiftedStudent);

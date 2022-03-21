@@ -143,7 +143,14 @@ public class Game {
         int randomInt = (int)(Math.random() * (numOfPlayers + 1));
         currentPlayer=randomInt;
     }
+    public void fillCloud(){
+        int studentsToExtract=3;
+        if(numOfPlayers==3) studentsToExtract=4;
 
+        for(Cloud c: cloudsList){
+            c.setStudentsList(bag.extractStudents(studentsToExtract));
+        }
+    }
     public Player getNextPlayer(){ //NUOVA FUNZIONE(da completare)!! ritorna di chi è il prossimo turno in base agli assistenti scelti
         int currMin=11;
         Player currMinPlayer=null;
