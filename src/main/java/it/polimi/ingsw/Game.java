@@ -1,9 +1,13 @@
 package it.polimi.ingsw;
-/*Like "main" connected to Round : Game supervisor with data and Round operator with actions (MODEL);
+/*Like "main" connected to Round : Game supervisor with data and Round operator with actions (Controller) (Model the others classes, view to do);
 many warnings on unused things because yet to be implemented or other else.
 ? :  operator ok but better if
-exceptions a bit from view
+exceptions a bit from view, but also here
+we use a lot of concatenated methods, asked, not a problem for Cugola
+
 MIGLIORARE LEGGIBILITA' E USO CLASSI/METODI AL POSTO DI IF ECC
+UN PACKAGE PER CLIENT E UNO PER SERVER E QUI DENTRO PACKAGE MODEL-CONTROLLER E PACKAGE RETE(VIEW?)
+METTERE ECCEZIONI, FINIRE METODI IN ROUND, FARE I TEST, PASSARE TIPI SEMPLICI AL POSTO DI OGGETTI IN TUTTI I METODI (INT, BOOLEAN E STRING OK), SE PASSO OGGETTI PASSO COPIA E NON PUNTATORE, POSSO AVERE PROBLEMI
 */
 
 import java.util.ArrayList;
@@ -73,13 +77,6 @@ public class Game {
         return numOfPlayers;
     }
 
-
-
-    /* TO PUT IN A SUPERIOR CLASS
-    public void addPlayer(String name){
-        Player p= new Player(name);
-        this.playersList.add(p); //add in uml
-    } */
 
     public void setMotherNaturePosition(int pos){
         motherNaturePos=pos;
@@ -166,36 +163,27 @@ public class Game {
             c.setStudentsList(bag.extractStudents(studentsToExtract));
         }
     }
-   /* public Player getNextPlayer(){ //NEW FUNCTION(TO BE COMPLETED)!! Returns whose turn it is depending on the assistant chosen
-        int currMin=11; //il max e' a 10, aggiorno sicuro la prima volta
-        Player currMinPlayer=null;
-        for (Player p: playersList){
-            if(p.getSelectedAssistant().getValue()<currMin){
-                currMin=p.getSelectedAssistant().getValue();
-                currMinPlayer=p;
-            }
-        }
-        playersOrder.add(currMinPlayer);
-        return currMinPlayer;
-    }
 
-    public void playerThrowsAssistant(int playerId, Assistant thrownAssistant){
+    public void playerThrowsAssistant(int playerId, int thrownAssistantIndex){
+        Assistant thrownAssistant = playersList.get(playerId).getAssistantDeck().getAssistantsList().get(thrownAssistantIndex);
         int currAssistantValue = thrownAssistant.getValue();
+        int i=0;
         List<Assistant> currlist= playersList.get(playerId).getAssistantDeck().getAssistantsList();
-        if(currlist.isEmpty()) return ; //game finished?
+        if(currlist.isEmpty()) return ; //game finished call endgame?
         currlist.remove(thrownAssistant); //linked to the player's deck
         playersList.get(playerId).setSelectedAssistant(thrownAssistant);
         if (playersOrder.isEmpty() ) {
             playersOrder.add(playersList.get(playerId));
             return;
         }
-        while (playersOrder.get(i)){
-
+        while (playersOrder.get(i).getSelectedAssistant().getValue()>=currAssistantValue){
+            i++;
         }
-
-        playersList.get(playerId).getAssistantDeck().extractAssistant(thrownAssistant);
+        playersOrder.add(i, playersList.get(playerId));
     }
-*/
+
+
+
     public void endGame (Player winner){
         ingameState = false;
         finishedState = true;
@@ -213,4 +201,9 @@ public class Game {
 
 }
 
+ /* TO PUT IN A SUPERIOR CLASS
+    public void addPlayer(String name){
+        Player p= new Player(name);
+        this.playersList.add(p); //add in uml
+    } */
 
