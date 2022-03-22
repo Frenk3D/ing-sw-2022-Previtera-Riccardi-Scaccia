@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AssistantDeck {
+    //attributes
     private int wizard; //every wizard is the deck's representative, every wizard has the same deck and the attribute is set from Game for practical purposes
     private List<Assistant> assistantsList; //manage when removed...
 
+
+    //Methods
+    //constructor
     public AssistantDeck(){
         assistantsList = new ArrayList<Assistant>();
         assistantsList.add(new Assistant(1,1));
@@ -21,16 +25,17 @@ public class AssistantDeck {
         assistantsList.add(new Assistant(10,5));
     }
 
-    public Assistant extractAssistant(int listPos){
-        if(assistantsList.isEmpty()) return null;
-        Assistant extractedAssistant;
-        extractedAssistant=assistantsList.get(listPos);
-        assistantsList.remove(listPos);
-        return extractedAssistant;
-    }
-
+    //setter
     public void setWizard (int type){
         wizard = type;
     }
+
+    public List<Assistant> getAssistantsList() {
+        return assistantsList;
+    }
+
+
+
+
 
 }

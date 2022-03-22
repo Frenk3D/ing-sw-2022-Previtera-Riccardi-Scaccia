@@ -4,18 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Character {
+    //attributes
     private int numOfUse;
     private final int id;
     private final int initialCost;
 
+
+    //Methods
+    //constructor
     public Character(int id,int initialCost){
         this.id = id;
         this.initialCost = initialCost;
     }
+
+    //getter
     public int getNumOfUse() {
         return numOfUse;
     }
-
     public int getId() {
         return id;
     }
@@ -23,9 +28,12 @@ public class Character {
         return initialCost;
     }
 
+    //setter
     public void setNumOfUse(int numOfUse) {
         this.numOfUse = numOfUse;
     }
+
+
     public static List<Character> getAllCharacters(){
         List<Character> newlist = new ArrayList<>();
         newlist.add(new Character(1,1));

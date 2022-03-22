@@ -5,11 +5,21 @@ import java.util.List;
 
 
 public class Bag {
-     private List<Student> studentsList;
+    //attributes
+    private List<Student> studentsList;
 
+
+    //Methods
+    //constructor
     public Bag(){
         studentsList = new ArrayList<>(); //removed argument from <> as Intellij suggests
     }
+
+    //getter
+    public List<Student> getStudentsList() {
+        return studentsList;
+    }
+
 
     public void initialBagFill() { //fills the bag with two students of each color
         for(int i=0;i<2;i++){
@@ -33,6 +43,7 @@ public class Bag {
         }
         return result;
     }
+
     public void addAllStudents() { //fills the bag with remaining students
         for(int i=0;i<24;i++){
             studentsList.add(new Student(PawnColor.BLUE));
@@ -43,7 +54,4 @@ public class Bag {
         }
     }
 
-    public List<Student> getStudentsList() {
-        return studentsList;
-    }
 }

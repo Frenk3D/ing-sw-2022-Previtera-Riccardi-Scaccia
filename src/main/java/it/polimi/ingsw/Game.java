@@ -1,6 +1,9 @@
 package it.polimi.ingsw;
-/*Type "main" connected to Round : Game supervisor with data and Round operator with actions (MODEL);
-many warnings on unused things because yet to be implemented.
+/*Like "main" connected to Round : Game supervisor with data and Round operator with actions (MODEL);
+many warnings on unused things because yet to be implemented or other else.
+? :  operator ok but better if
+exceptions a bit from view
+MIGLIORARE LEGGIBILITA' E USO CLASSI/METODI AL POSTO DI IF ECC
 */
 
 import java.util.ArrayList;
@@ -8,6 +11,7 @@ import java.util.List; ////Intellij advises to remove Student ecc from <> when i
 import java.util.Collections;
 
 public class Game {
+    //attributes
     private int currentPlayer;
     private final int numOfPlayers; //numofplayers, playerslist and expertmode final, decided from the start
     private int motherNaturePos;
@@ -22,7 +26,7 @@ public class Game {
     private boolean ingameState;
     private boolean finishedState;
     private List<Island> islandsList; //doesn't change even when you group islands, attrib in Island class
-
+    private List<Player> playersOrder;
 
     //constructor
     public Game(List<Player> playersList, boolean expertMode){
@@ -35,6 +39,7 @@ public class Game {
         charactersList = new ArrayList<Character>();
         tableProfessorsList = new ArrayList<Professor>();
         islandsList = new ArrayList<Island>();
+        playersOrder = new ArrayList<Player>();
         settingState = true;
         ingameState = false;
         finishedState = false;
@@ -50,7 +55,8 @@ public class Game {
         }
     }
 
-
+    //Methods
+    //getter
     public List<Island> getIslands(){
         return islandsList;
     }
@@ -60,12 +66,25 @@ public class Game {
     public Bag getBag(){
         return bag;
     }
+    public int getCurrentPlayer(){
+        return currentPlayer;
+    }
+    public int getNumOfPlayers(){
+        return numOfPlayers;
+    }
+
+
 
     /* TO PUT IN A SUPERIOR CLASS
     public void addPlayer(String name){
         Player p= new Player(name);
         this.playersList.add(p); //add in uml
     } */
+
+    public void setMotherNaturePosition(int pos){
+        motherNaturePos=pos;
+    }
+
     public void start(){
         settingState = false;
         ingameState = true;
@@ -79,10 +98,7 @@ public class Game {
         }
     }
 
-    public void setMotherNaturePosition(int pos){
-        motherNaturePos=pos;
 
-    }
     public void initMotherNaturePos(){
         int randomInt = (int)(Math.random() * (13));
         motherNaturePos = randomInt;
@@ -150,8 +166,8 @@ public class Game {
             c.setStudentsList(bag.extractStudents(studentsToExtract));
         }
     }
-    public Player getNextPlayer(){ //NEW FUNCTION(TO BE COMPLETED)!! Returns whose turn it is depending on the assistant chosen
-        int currMin=11;
+   /* public Player getNextPlayer(){ //NEW FUNCTION(TO BE COMPLETED)!! Returns whose turn it is depending on the assistant chosen
+        int currMin=11; //il max e' a 10, aggiorno sicuro la prima volta
         Player currMinPlayer=null;
         for (Player p: playersList){
             if(p.getSelectedAssistant().getValue()<currMin){
@@ -159,15 +175,30 @@ public class Game {
                 currMinPlayer=p;
             }
         }
+        playersOrder.add(currMinPlayer);
         return currMinPlayer;
     }
 
+    public void playerThrowsAssistant(int playerId, Assistant thrownAssistant){
+        int currAssistantValue = thrownAssistant.getValue();
+        List<Assistant> currlist= playersList.get(playerId).getAssistantDeck().getAssistantsList();
+        if(currlist.isEmpty()) return ; //game finished?
+        currlist.remove(thrownAssistant); //linked to the player's deck
+        playersList.get(playerId).setSelectedAssistant(thrownAssistant);
+        if (playersOrder.isEmpty() ) {
+            playersOrder.add(playersList.get(playerId));
+            return;
+        }
+        while (playersOrder.get(i)){
+
+        }
+
+        playersList.get(playerId).getAssistantDeck().extractAssistant(thrownAssistant);
+    }
+*/
     public void endGame (Player winner){
         ingameState = false;
         finishedState = true;
-    }
-    public int getCurrentPlayer(){
-        return currentPlayer;
     }
 
     public void extractCharacters(){
@@ -176,10 +207,6 @@ public class Game {
         charactersList.add(newlist.get(0));
         charactersList.add(newlist.get(1));
         charactersList.add(newlist.get(2));
-    }
-
-    public int getNumOfPlayers(){
-        return numOfPlayers;
     }
 
 

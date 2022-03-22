@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
+    //attributes
     private final String name;
     private int numOfMoney;
     private AssistantDeck assistantDeck;
@@ -13,6 +14,8 @@ public class Player {
     private boolean hasTower;
     private int team;
 
+    //Methods
+    //constructor
     public Player(String name){
         numOfMoney=1;
         this.name= name;
@@ -21,46 +24,50 @@ public class Player {
         team = 0;
         hasTower = true;
     }
-    public void setTeam(int team){
-        this.team = team;
 
-    }
+    //getter
     public int getTeam(){
         return team;
+    }
+    public String getName() {
+        return name;
+    }
+    public Dashboard getDashboard() {
+        return dashboard;
+    }
+    public AssistantDeck getAssistantDeck() {
+        return assistantDeck;
+    }
+    public Assistant getSelectedAssistant(){
+        return selectedAssistant;
+    }
+    public TowerColor getTowerColor(){
+        return playerTowerColor;
+    }
+    public int getMoney() {
+        return numOfMoney;
+    }
+
+    //setter
+    public void setTeam(int team){
+        this.team = team;
     }
     public void setHasTower(boolean tower){
         this.hasTower = tower;
     }
-    public boolean hasTower(){
-        return hasTower;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Dashboard getDashboard() {
-        return dashboard;
-    }
-
-    public AssistantDeck getAssistantDeck() {
-        return assistantDeck;
-    }
-
     public void setSelectedAssistant(Assistant selAssistant){
         selectedAssistant= selAssistant;
     }
-
-    public Assistant getSelectedAssistant(){
-        return selectedAssistant;
-    }
-
     public void setTowerColor(TowerColor color){
         playerTowerColor= color;
     }
+    public void setMoney(int num){
+        numOfMoney= num;
+    }
 
-    public TowerColor getTowerColor(){
-        return playerTowerColor;
+
+    public boolean hasTower(){
+        return hasTower;
     }
 
     public void generateTower(Game game){ //number of players is needed
@@ -79,12 +86,6 @@ public class Player {
     }
 
 
-    public void setMoney(int num){
-        numOfMoney= num;
-    }
 
-    public int getMoney() {
-        return numOfMoney;
-    }
 
 }
