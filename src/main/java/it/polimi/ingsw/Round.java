@@ -1,10 +1,10 @@
-package it.polimi.ingsw; //ben collegato a Game
+package it.polimi.ingsw; //well connected to Game
 
 import java.util.List;
 
 public class Round {
     private int stage; //for now never used
-    private Game game;  //intellij dice deve essere final ma no, varia
+    private Game game;  //intellij says it should be final,but it actually changes so it's not
     private Assistant extractedAssistant;
     private Player currPlayer;
 
@@ -58,7 +58,7 @@ public class Round {
         }
     }
     public boolean checkWin(){
-        //chiama endgame di Game return false;
+        //chiama endgame of Game and returns false;
         return false;
     }
     private Player calculateInfluence(Island island){

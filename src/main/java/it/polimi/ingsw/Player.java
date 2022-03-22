@@ -63,7 +63,7 @@ public class Player {
         return playerTowerColor;
     }
 
-    public void generateTower(Game game){ //serve sapere quanti giocatori stanno giocando
+    public void generateTower(Game game){ //number of players is needed
         int towersToGenerate;
         if(game.getNumOfPlayers()==2 || game.getNumOfPlayers()==4) {
             towersToGenerate = 8;

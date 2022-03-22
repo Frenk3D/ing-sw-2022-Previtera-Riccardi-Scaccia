@@ -8,10 +8,10 @@ public class Bag {
      private List<Student> studentsList;
 
     public Bag(){
-        studentsList = new ArrayList<>(); //tolto argomento da <> come vuole Intellij
+        studentsList = new ArrayList<>(); //removed argument from <> as Intellij suggests
     }
 
-    public void initialBagFill() { //riempie il sacchetto con due studenti di ogni colore
+    public void initialBagFill() { //fills the bag with two students of each color
         for(int i=0;i<2;i++){
         studentsList.add(new Student(PawnColor.BLUE));
         studentsList.add(new Student(PawnColor.RED));
@@ -33,7 +33,7 @@ public class Bag {
         }
         return result;
     }
-    public void addAllStudents() { //riempe il sacchetto con gli studenti rimanenti
+    public void addAllStudents() { //fills the bag with remaining students
         for(int i=0;i<24;i++){
             studentsList.add(new Student(PawnColor.BLUE));
             studentsList.add(new Student(PawnColor.RED));

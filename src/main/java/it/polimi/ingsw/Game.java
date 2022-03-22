@@ -1,16 +1,15 @@
 package it.polimi.ingsw;
-/*Tipo "main" collegato a Round : Game supervisor con dati e Round operator con azioni (MODEL);
-molti warning su cose non usate perche' ancora da finire implementazione,
-commenti in italiano per comodita'
+/*Type "main" connected to Round : Game supervisor with data and Round operator with actions (MODEL);
+many warnings on unused things because yet to be implemented.
 */
 
 import java.util.ArrayList;
-import java.util.List; ////Intellij consiglia di togliere Student ecc da <> quando si inizializza (i prof no), prova a toglierlo in Bag
+import java.util.List; ////Intellij advises to remove Student ecc from <> when initializing List (professors don't), try to remove it in Bag
 import java.util.Collections;
 
 public class Game {
     private int currentPlayer;
-    private final int numOfPlayers; //numofplayers, playerslist e expertmode final, deciso all' inizio,da vedere se private o friendly per generateTower?
+    private final int numOfPlayers; //numofplayers, playerslist and expertmode final, decided from the start
     private int motherNaturePos;
     private final boolean expertMode;
     private List<Cloud> cloudsList;
@@ -22,10 +21,10 @@ public class Game {
     private boolean settingState;
     private boolean ingameState;
     private boolean finishedState;
-    private List<Island> islandsList; //non varia anche quando si gruppano le isole, ho attrib nella classe Island
+    private List<Island> islandsList; //doesn't change even when you group islands, attrib in Island class
 
 
-    //costruttore
+    //constructor
     public Game(List<Player> playersList, boolean expertMode){
         this.numOfPlayers = playersList.size();
         this.expertMode = expertMode;
@@ -62,10 +61,10 @@ public class Game {
         return bag;
     }
 
-    /* DA METTERE IN UNA CLASSE SUPERIORE
+    /* TO PUT IN A SUPERIOR CLASS
     public void addPlayer(String name){
         Player p= new Player(name);
-        this.playersList.add(p); //da aggiungere all'uml
+        this.playersList.add(p); //add in uml
     } */
     public void start(){
         settingState = false;
@@ -74,13 +73,13 @@ public class Game {
 
     }
 
-    public void generateIslands(){ //come le genero, da dove vengono? serve json come dicono amici Nico?
+    public void generateIslands(){
         for(int i=0; i<12; i++){
             islandsList.add(new Island());
         }
     }
 
-    private void setMotherNaturePosition(int pos){
+    public void setMotherNaturePosition(int pos){
         motherNaturePos=pos;
 
     }
@@ -88,7 +87,7 @@ public class Game {
         int randomInt = (int)(Math.random() * (13));
         motherNaturePos = randomInt;
     }
-    public void initStudentIsland(){ //da verificare
+    public void initStudentIsland(){
         int counter = 0;
         bag.initialBagFill();
         List<Student> l=bag.extractStudents(10);
@@ -98,20 +97,20 @@ public class Game {
 
         for (Island island: islandsList) {
             if(counter!=motherNaturePos && counter!=emptyPos) {
-                island.addStudent(l.get(0)); //da vedere se va bene friendly o usare get
+                island.addStudent(l.get(0));
                 l.remove(0);
             }
             counter++;
         }
     }
-    public void generateProfessorsList(){ //come generateislands, da dove li prendo?
+    public void generateProfessorsList(){
         tableProfessorsList.add(new Professor(PawnColor.YELLOW));
         tableProfessorsList.add(new Professor(PawnColor.RED));
         tableProfessorsList.add(new Professor(PawnColor.GREEN));
         tableProfessorsList.add(new Professor(PawnColor.BLUE));
         tableProfessorsList.add(new Professor(PawnColor.PINK));
     }
-    public void insertTowers(){ //riempie la plancia di ogni giocatore con le torri, usa generate tower
+    public void insertTowers(){ //fills every player's dashboard with towers, uses generate tower
         for(Player player : playersList){
             player.generateTower(this);
         }
@@ -122,7 +121,7 @@ public class Game {
     }
 
 
-    public void placeStudentHall(){ //player piazza all'entrata della sua dashboard? serve altro attributo
+    public void placeStudentHall(){
         List<Student> hallList = new ArrayList<>();
         int numOfStudents;
         if(numOfPlayers==2 || numOfPlayers==4){
@@ -139,7 +138,7 @@ public class Game {
         }
     }
 
-    public void chooseStartingPlayer(){ //sceglie chi deve iniziare il gioco all'inizio
+    public void chooseStartingPlayer(){ //chooses the first Player at the beginning of the game
         int randomInt = (int)(Math.random() * (numOfPlayers + 1));
         currentPlayer=randomInt;
     }
@@ -151,7 +150,7 @@ public class Game {
             c.setStudentsList(bag.extractStudents(studentsToExtract));
         }
     }
-    public Player getNextPlayer(){ //NUOVA FUNZIONE(da completare)!! ritorna di chi è il prossimo turno in base agli assistenti scelti
+    public Player getNextPlayer(){ //NEW FUNCTION(TO BE COMPLETED)!! Returns whose turn it is depending on the assistant chosen
         int currMin=11;
         Player currMinPlayer=null;
         for (Player p: playersList){
@@ -163,7 +162,7 @@ public class Game {
         return currMinPlayer;
     }
 
-    public void endGame (Player winner){ //round me lo usa?
+    public void endGame (Player winner){
         ingameState = false;
         finishedState = true;
     }
@@ -171,7 +170,7 @@ public class Game {
         return currentPlayer;
     }
 
-    public void extractCharacters(){ //estraggo come? serve parametro id ?
+    public void extractCharacters(){
         List<Character> newlist = Character.getAllCharacters();
         Collections.shuffle(newlist);
         charactersList.add(newlist.get(0));
