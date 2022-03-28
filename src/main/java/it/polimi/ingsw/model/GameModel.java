@@ -27,24 +27,21 @@ public class GameModel {
     private int motherNaturePos;
     private final boolean expertMode;
     private List<Cloud> cloudsList;
+    private List<Integer> wizardList;
     private Bag bag;
     private final List<Player> playersList;
     private List<Character> charactersList;
     private List<Professor> tableProfessorsList;
-    private Controller currRound;
-    private boolean settingState;
-    private boolean ingameState;
-    private boolean finishedState;
+    private Round currRound;
+    private GameState state;
     private List<Island> islandsList; //doesn't change even when you group islands, attrib in Island class
-    private List<Player> playersOrder;
 
     //constructor
     public GameModel(List<Player> playersList, boolean expertMode){
         this.numOfPlayers = playersList.size();
         this.expertMode = expertMode;
         this.playersList = playersList;
-        bag = new Bag();
-        currRound=new Controller(this);
+        bag = Bag.getInstance();
         cloudsList = new ArrayList<Cloud>();
         charactersList = new ArrayList<Character>();
         tableProfessorsList = new ArrayList<Professor>();
@@ -65,28 +62,6 @@ public class GameModel {
         }
     }
 
-    //Methods
-    //getter
-    public List<Island> getIslands(){
-        return islandsList;
-    }
-    public List<Cloud> getClouds(){
-        return cloudsList;
-    }
-    public Bag getBag(){
-        return bag;
-    }
-    public int getCurrentPlayer(){
-        return currentPlayer;
-    }
-    public int getNumOfPlayers(){
-        return numOfPlayers;
-    }
-
-
-    public void setMotherNaturePosition(int pos){
-        motherNaturePos=pos;
-    }
 
     public void start(){
         settingState = false;
@@ -95,39 +70,68 @@ public class GameModel {
 
     }
 
-    public void generateIslands(){
-        for(int i=0; i<12; i++){
-            islandsList.add(new Island());
-        }
+
+    public void setMotherNaturePosition(int pos){
+        motherNaturePos=pos;
     }
 
 
-    public void initMotherNaturePos(){
+    private void initMotherNaturePos(){
         int randomInt = (int)(Math.random() * (13));
         motherNaturePos = randomInt;
     }
-    public void initStudentIsland(){
-        int counter = 0;
-        bag.initialBagFill();
-        List<Student> l=bag.extractStudents(10);
-        int emptyPos;
-        if(motherNaturePos<6) emptyPos = motherNaturePos+6;
-        else emptyPos = motherNaturePos-6;
 
-        for (Island island: islandsList) {
-            if(counter!=motherNaturePos && counter!=emptyPos) {
-                island.addStudent(l.get(0));
-                l.remove(0);
-            }
-            counter++;
-        }
+
+    public void chooseStartingPlayer(){ //chooses the first Player at the beginning of the game
+        int randomInt = (int)(Math.random() * (numOfPlayers + 1));
+        currentPlayer=randomInt;
     }
+
+    public Player getPlayerById(int playerId){
+        return null;
+    }
+
+    public Island getIslandByIndex(int islandIndex){
+        return null;
+    }
+
+    public Cloud getCloudByIndex(int cloudIndex){
+        return null;
+    }
+
+    public Character getCharacterByIndex(int characterIndex){
+        return null;
+    }
+
+    public Player checkWin(){
+        return null;
+    }
+
+
+    public void extractCharacters(){
+        List<Character> newlist = Character.getAllCharacters();
+        Collections.shuffle(newlist);
+        charactersList.add(newlist.get(0));
+        charactersList.add(newlist.get(1));
+        charactersList.add(newlist.get(2));
+    }
+
+    public int getNumOfPlayers(){
+        return numOfPlayers;
+    }
+
+    public Round getCurrRound(){
+        return currRound;
+    }
+
+    public List<Player> getPlayersList(){
+        return null;
+    }
+
+
+    //------------------------------------------------------------
+
     public void generateProfessorsList(){
-        tableProfessorsList.add(new Professor(PawnColor.YELLOW));
-        tableProfessorsList.add(new Professor(PawnColor.RED));
-        tableProfessorsList.add(new Professor(PawnColor.GREEN));
-        tableProfessorsList.add(new Professor(PawnColor.BLUE));
-        tableProfessorsList.add(new Professor(PawnColor.PINK));
     }
     public void insertTowers(){ //fills every player's dashboard with towers, uses generate tower
         for(Player player : playersList){
@@ -157,10 +161,7 @@ public class GameModel {
         }
     }
 
-    public void chooseStartingPlayer(){ //chooses the first Player at the beginning of the game
-        int randomInt = (int)(Math.random() * (numOfPlayers + 1));
-        currentPlayer=randomInt;
-    }
+
     public void fillCloud(){
         int studentsToExtract=3;
         if(numOfPlayers==3) studentsToExtract=4;
@@ -195,13 +196,7 @@ public class GameModel {
         finishedState = true;
     }
 
-    public void extractCharacters(){
-        List<Character> newlist = Character.getAllCharacters();
-        Collections.shuffle(newlist);
-        charactersList.add(newlist.get(0));
-        charactersList.add(newlist.get(1));
-        charactersList.add(newlist.get(2));
-    }
+
 
 
 

@@ -6,13 +6,21 @@ import java.util.List;
 
 public class Bag {
     //attributes
+    private static Bag instance = null;
     private List<Student> studentsList;
 
 
     //Methods
     //constructor
-    public Bag(){
+    private Bag(){
         studentsList = new ArrayList<>(); //removed argument from <> as Intellij suggests
+    }
+
+    public static Bag getInstance(){
+        if(instance == null){
+            instance = new Bag();
+        }
+        return instance;
     }
 
     //getter
