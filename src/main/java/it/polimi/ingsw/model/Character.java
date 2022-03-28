@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Character {
+public abstract class Character {
     //attributes
     private int numOfUse;
     private final int id;
