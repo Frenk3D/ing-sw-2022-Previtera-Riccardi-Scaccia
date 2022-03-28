@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 /*Like "main" connected to Round : Game supervisor with data and Round operator with actions (Controller) (Model the others classes, view to do);
 many warnings on unused things because yet to be implemented or other else.
 ? :  operator ok but better if
@@ -14,11 +14,13 @@ PASSARE TIPI SEMPLICI AL POSTO DI OGGETTI IN TUTTI I METODI (INT, BOOLEAN E STRI
 FINIRE E FARE DESCRIZIONE NOSTRO UML PER IL GRUPPO GC57 E FARE REVIEW UML PER IL GRUPPO GC12 (INVIARE TUTTO PER EMAIL REFERENTE)
 */
 
+import it.polimi.ingsw.controller.Controller;
+
 import java.util.ArrayList;
 import java.util.List; ////Intellij advises to remove Student ecc from <> when initializing List (professors don't), try to remove it in Bag
 import java.util.Collections;
 
-public class Game {
+public class GameModel {
     //attributes
     private int currentPlayer;
     private final int numOfPlayers; //numofplayers, playerslist and expertmode final, decided from the start
@@ -29,7 +31,7 @@ public class Game {
     private final List<Player> playersList;
     private List<Character> charactersList;
     private List<Professor> tableProfessorsList;
-    private Round currRound;
+    private Controller currRound;
     private boolean settingState;
     private boolean ingameState;
     private boolean finishedState;
@@ -37,12 +39,12 @@ public class Game {
     private List<Player> playersOrder;
 
     //constructor
-    public Game(List<Player> playersList, boolean expertMode){
+    public GameModel(List<Player> playersList, boolean expertMode){
         this.numOfPlayers = playersList.size();
         this.expertMode = expertMode;
         this.playersList = playersList;
         bag = new Bag();
-        currRound=new Round(this);
+        currRound=new Controller(this);
         cloudsList = new ArrayList<Cloud>();
         charactersList = new ArrayList<Character>();
         tableProfessorsList = new ArrayList<Professor>();

@@ -1,17 +1,18 @@
-package it.polimi.ingsw; //well connected to Game
+package it.polimi.ingsw.controller; //well connected to Game
 
-import java.util.List;
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Character;
 
-public class Round {
+public class Controller {
     //attributes
     private int stage; //for now never used
-    private Game game;  //intellij says it should be final,but it actually changes so it's not
+    private GameModel game;  //intellij says it should be final,but it actually changes so it's not
     private Assistant extractedAssistant;
     private Player currPlayer;
 
     //Methods
     //constructor
-    public Round(Game game){
+    public Controller(GameModel game){
         this.game=game;
     }
 
@@ -21,7 +22,7 @@ public class Round {
     }
 
 
-    public void moveStudentIsland(Student shiftedStudent,Island island){
+    public void moveStudentIsland(Student shiftedStudent, Island island){
         currPlayer.getDashboard().getHallList().remove(shiftedStudent);
         island.addStudent(shiftedStudent);
     }

@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +70,7 @@ public class Player {
         return hasTower;
     }
 
-    public void generateTower(Game game){ //number of players is needed
+    public void generateTower(GameModel game){ //number of players is needed
         int towersToGenerate;
         if(game.getNumOfPlayers()==2 || game.getNumOfPlayers()==4) {
             towersToGenerate = 8;
