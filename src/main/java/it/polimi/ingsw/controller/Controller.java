@@ -5,73 +5,33 @@ import it.polimi.ingsw.model.Character;
 
 public class Controller {
     //attributes
-    private int stage; //for now never used
     private GameModel game;  //intellij says it should be final,but it actually changes so it's not
-    private Assistant extractedAssistant;
-    private Player currPlayer;
 
-    //Methods
     //constructor
     public Controller(GameModel game){
         this.game=game;
     }
 
-    //setter
-    public void setPlayer(Player name){
-        currPlayer= name;
-    }
-
-
-    public void moveStudentIsland(Student shiftedStudent, Island island){
-        currPlayer.getDashboard().getHallList().remove(shiftedStudent);
-        island.addStudent(shiftedStudent);
-    }
-
-    public void moveStudentDashboard(Student shiftedStudent){
-        currPlayer.getDashboard().getHallList().remove(shiftedStudent);
-        switch(shiftedStudent.getColor()){
-
-            case RED:
-                currPlayer.getDashboard().addRedStudent();
-                break;
-            case GREEN:
-                currPlayer.getDashboard().addGreenStudent();
-                break;
-            case YELLOW:
-                currPlayer.getDashboard().addYellowStudent();
-                break;
-            case PINK:
-                currPlayer.getDashboard().addPinkStudent();
-                break;
-            case BLUE:
-                currPlayer.getDashboard().addBlueStudent();
-                break;
-        }
-
-    }
-    public void updateIslandDomain(Island island){
-
-    }
-    public void mergeIsland(Island island){
+    //methods
+    public void moveStudentIsland(int entryListIndex,int islandIndex){
 
     }
 
-    public void takeFromCloud(Cloud cloud){
-        for(Student s : cloud.getStudents()){
-            currPlayer.getDashboard().getHallList().add(s);
-            cloud.getStudents().remove(s);
-        }
+    public void moveStudentDashboard(int entryListIndex){
+
     }
-    public boolean checkWin(){
-        //chiama endgame of Game and returns false;
+    public void moveMotherNature(int islandIndex){
+
+    }
+    public void takeFromCloud(int cloudIndex){
+
+    }
+
+    public void selectAssistant(int playerId,int assistantId){
+
+    }
+    public boolean useCharacter(int characterIndex){
         return false;
     }
 
-    private Player calculateInfluence(Island island){
-        return null;
-    }
-
-    public boolean useCharacter(Character character){
-        return false;
-    }
 }

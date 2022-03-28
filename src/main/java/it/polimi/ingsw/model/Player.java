@@ -14,7 +14,6 @@ public class Player {
     private boolean hasTower;
     private int team;
 
-    //Methods
     //constructor
     public Player(String name){
         numOfMoney=1;
@@ -65,7 +64,7 @@ public class Player {
         numOfMoney= num;
     }
 
-
+    //methods
     public boolean hasTower(){
         return hasTower;
     }
@@ -83,6 +82,9 @@ public class Player {
                 towers.add(new Tower(playerTowerColor));
         }
         dashboard.setTowersList(towers);
+    }
+    public void selectWizard(List<Integer> wizardsList){
+
     }
 
 
