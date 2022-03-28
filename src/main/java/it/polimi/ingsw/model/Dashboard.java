@@ -27,8 +27,34 @@ public class Dashboard {
     public List<Student> getStudentsListByColor(PawnColor color){
         return null;
     }
-    public void placeStudentEntrance(int numOfPlayers){
 
+    public void placeStudentEntrance(int numOfPlayers){
+        List<Student> hallList = new ArrayList<>();
+        int numOfStudents;
+        if(numOfPlayers==2 || numOfPlayers==4){
+            numOfStudents = 7;
+        }
+        else{
+            numOfStudents = 9;
+        }
+        Bag bag = Bag.getInstance();
+        hallList = bag.extractStudents(numOfStudents);
+        setEntranceList(hallList);
+    }
+
+    public void generateTower(int numOfPlayers, TowerColor playerTowerColor){ //number of players is needed
+        int towersToGenerate;
+        if(numOfPlayers==2 || numOfPlayers==4) {
+            towersToGenerate = 8;
+        }
+        else {
+            towersToGenerate = 6;
+        }
+        List<Tower> towers = new ArrayList<>();
+        for(int i=0;i<towersToGenerate;i++){
+            towers.add(new Tower(playerTowerColor));
+        }
+        setTowersList(towers);
     }
 
     public void setTowersList(List<Tower> towersList) {

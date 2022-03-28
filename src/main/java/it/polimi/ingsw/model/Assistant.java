@@ -2,8 +2,8 @@ package it.polimi.ingsw.model;
 
 public class Assistant {
     //attributes
-    int value;
-    int motherNaturePosShift;
+    private int value;
+    private int motherNaturePosShift;
 
 
     //Methods
@@ -17,6 +17,9 @@ public class Assistant {
     public int getValue() {
         return value;
     }
+    public int getId(){
+        return value;
+    } //id and value are the same attributes
     public int getMotherNaturePosShift() {
         return motherNaturePosShift;
     }

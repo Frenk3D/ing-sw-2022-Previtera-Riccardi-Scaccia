@@ -35,6 +35,14 @@ public class AssistantDeck {
     }
 
 
+    public Assistant getAssistantById(int id){
+        for(Assistant assistant : assistantsList){
+            if(assistant.getId()==id){
+                return assistant;
+            }
+        }
+        return null;
+    }
 
 
 

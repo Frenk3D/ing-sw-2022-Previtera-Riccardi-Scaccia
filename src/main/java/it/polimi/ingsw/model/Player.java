@@ -54,9 +54,12 @@ public class Player {
     public void setHasTower(boolean tower){
         this.hasTower = tower;
     }
-    public void setSelectedAssistant(Assistant selAssistant){
-        selectedAssistant= selAssistant;
+
+    public void setSelectedAssistant(int selAssistantId){
+        selectedAssistant = assistantDeck.getAssistantById(selAssistantId);
+        assistantDeck.getAssistantsList().remove(assistantDeck.getAssistantById(selAssistantId));
     }
+
     public void setTowerColor(TowerColor color){
         playerTowerColor= color;
     }
@@ -69,22 +72,10 @@ public class Player {
         return hasTower;
     }
 
-    public void generateTower(GameModel game){ //number of players is needed
-        int towersToGenerate;
-        if(game.getNumOfPlayers()==2 || game.getNumOfPlayers()==4) {
-            towersToGenerate = 8;
-        }
-        else {
-            towersToGenerate = 6;
-        }
-            List<Tower> towers = new ArrayList<>();
-        for(int i=0;i<towersToGenerate;i++){
-                towers.add(new Tower(playerTowerColor));
-        }
-        dashboard.setTowersList(towers);
-    }
-    public void selectWizard(List<Integer> wizardsList){
 
+    public void selectWizard(List<Integer> wizardsList, int type){
+        getAssistantDeck().setWizard(type);
+        wizardsList.remove((Integer) type);
     }
 
 

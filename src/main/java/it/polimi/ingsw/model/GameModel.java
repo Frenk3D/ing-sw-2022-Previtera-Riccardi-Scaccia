@@ -46,16 +46,8 @@ public class GameModel {
         charactersList = new ArrayList<Character>();
         tableProfessorsList = new ArrayList<Professor>();
         islandsList = new ArrayList<Island>();
-        playersOrder = new ArrayList<Player>();
-        settingState = true;
-        ingameState = false;
-        finishedState = false;
-        generateIslands();
+        state = GameState.SETTING_STATE;
         initMotherNaturePos();
-        initStudentIsland();
-        generateProfessorsList();
-        insertTowers();
-        placeStudentHall();
 
         if(expertMode){
             extractCharacters();
@@ -64,10 +56,7 @@ public class GameModel {
 
 
     public void start(){
-        settingState = false;
-        ingameState = true;
-        finishedState = false;
-
+        state = GameState.INGAME_STATE;
     }
 
 
@@ -128,83 +117,4 @@ public class GameModel {
         return null;
     }
 
-
-    //------------------------------------------------------------
-
-    public void generateProfessorsList(){
-    }
-    public void insertTowers(){ //fills every player's dashboard with towers, uses generate tower
-        for(Player player : playersList){
-            player.generateTower(this);
-        }
-    }
-    public void selectWizard(Player player,int type){
-        player.getAssistantDeck().setWizard(type);
-
-    }
-
-
-    public void placeStudentHall(){
-        List<Student> hallList = new ArrayList<>();
-        int numOfStudents;
-        if(numOfPlayers==2 || numOfPlayers==4){
-            numOfStudents = 7;
-        }
-        else{
-            numOfStudents = 9;
-        }
-        for(Player p : playersList) {
-            if(p.hasTower()) {
-                hallList = bag.extractStudents(numOfStudents);
-                p.getDashboard().setHallList(hallList);
-            }
-        }
-    }
-
-
-    public void fillCloud(){
-        int studentsToExtract=3;
-        if(numOfPlayers==3) studentsToExtract=4;
-
-        for(Cloud c: cloudsList){
-            c.setStudentsList(bag.extractStudents(studentsToExtract));
-        }
-    }
-
-    public void playerThrowsAssistant(int playerId, int thrownAssistantIndex){
-        Assistant thrownAssistant = playersList.get(playerId).getAssistantDeck().getAssistantsList().get(thrownAssistantIndex);
-        int currAssistantValue = thrownAssistant.getValue();
-        int i=0;
-        List<Assistant> currlist= playersList.get(playerId).getAssistantDeck().getAssistantsList();
-        if(currlist.isEmpty()) return ; //game finished call endgame?
-        currlist.remove(thrownAssistant); //linked to the player's deck
-        playersList.get(playerId).setSelectedAssistant(thrownAssistant);
-        if (playersOrder.isEmpty() ) {
-            playersOrder.add(playersList.get(playerId));
-            return;
-        }
-        while (playersOrder.get(i).getSelectedAssistant().getValue()>=currAssistantValue){
-            i++;
-        }
-        playersOrder.add(i, playersList.get(playerId));
-    }
-
-
-
-    public void endGame (Player winner){
-        ingameState = false;
-        finishedState = true;
-    }
-
-
-
-
-
 }
-
- /* TO PUT IN A SUPERIOR CLASS
-    public void addPlayer(String name){
-        Player p= new Player(name);
-        this.playersList.add(p); //add in uml
-    } */
-

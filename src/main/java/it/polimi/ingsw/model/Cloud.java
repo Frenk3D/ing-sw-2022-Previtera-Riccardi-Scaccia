@@ -25,5 +25,9 @@ public class Cloud {
 
     }
 
+    public static List<Cloud> generateCloudsList(int numOfPlayers){
+        return null;
+    }
+
 
 }

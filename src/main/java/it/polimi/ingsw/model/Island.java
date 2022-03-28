@@ -5,46 +5,22 @@ import java.util.List;
 
 public class Island {
     //attributes
-    private int nextIsland; //used to manage groups
-    private int prevIsland;
     private boolean forbidCard;
+    private int weight;
     private List<Tower> towersList;
     private List<Student> studentsList;
 
     //Methods
     //constructor
     public Island(){
-        nextIsland= -1;
-        prevIsland= -1;
         forbidCard= false;
         towersList= new ArrayList<>();
         studentsList= new ArrayList<Student>();
     }
 
-    //getter
-    public int getNextIsland() {
-        return nextIsland;
-    }
-    public int getPrevIsland() {
-        return prevIsland;
-    }
-
-
-
-    //setter
-    public void setNextIsland(int nextIsland) {
-        this.nextIsland = nextIsland;
-    }
-    public void setPrevIsland(int prevIsland) {
-        this.prevIsland = prevIsland;
-    }
-    public void setTower(Tower tower) {
-        this.tower = tower;
-    }
-
 
     public static void initStudentIsland(List<Island> islandsList, int motherNaturePos){
-        Bag bag;
+        Bag bag = Bag.getInstance();
 
         int counter = 0;
         bag.initialBagFill();
