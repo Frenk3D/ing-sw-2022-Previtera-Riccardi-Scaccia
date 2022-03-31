@@ -48,3 +48,6 @@ public abstract class Character {
         return newlist;
     }
 }
+
+
+//constructor protected?
