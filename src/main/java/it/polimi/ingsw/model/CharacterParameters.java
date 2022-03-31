@@ -3,12 +3,12 @@ package it.polimi.ingsw.model;
 import java.util.List;
 
 public class CharacterParameters {
-    Island island;
-    Player player;
-    List<Player> playersList;
-    List<Integer> studentsIndexList;
-    PawnColor selectedColor;
-    Characters3and4and5 forbidCharacter;
+    private Island island;
+    private Player player;
+    private List<Player> playersList;
+    private List<Integer> studentsIndexList;
+    private PawnColor selectedColor;
+    private Characters3and4and5 forbidCharacter;
 
     public CharacterParameters() {
         island = null;
