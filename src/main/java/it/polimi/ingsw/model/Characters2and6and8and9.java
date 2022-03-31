@@ -12,38 +12,62 @@ public class Characters2and6and8and9 extends Character {
     }
 
     //methods
-    private void updateIslandDomain(Island island,List<Player> playersList){
+    private void updateIslandDomain2(Island island,List<Player> playersList, Characters3and4and5 forbidCharater){
 
     }
 
-    private void updateIslandDomain(Island island,List<Player> playersList,PawnColor color){
+    private void modifiedCalculateInfluence2(Island island, Player player){
+
+    }
+
+    private void updateIslandDomain6(Island island,List<Player> playersList, Characters3and4and5 forbidCharater){
+
+    }
+
+    private void modifiedCalculateInfluence6(Island island, Player player){
+
+    }
+
+    private void updateIslandDomain8(Island island,List<Player> playersList, Characters3and4and5 forbidCharater){
+
+    }
+
+    private void modifiedCalculateInfluence8(Island island, Player player){
+
+    }
+
+    private void updateIslandDomain9(Island island,List<Player> playersList,PawnColor selectedColor, Characters3and4and5 forbidCharater){
 
     }
 
 
-    private void modifiedCalculateInfluence(Player player){
-
-    }
-    private void modifiedCalculateInfluence(Player player, PawnColor color){
+    private void modifiedCalculateInfluence9(Island island, Player player, PawnColor selectedColor){
 
     }
 
     @Override
-    public void applyEffect(Object object) {
+    public void applyEffect(CharacterParameters params) {
+        switch (id){
+            case 2:
+                updateIslandDomain2(params.getIsland(),params.getPlayersList(), params.getForbidCharacter());
+                break;
 
-    }
+            case 6:
+                updateIslandDomain6(params.getIsland(),params.getPlayersList(), params.getForbidCharacter());
+                break;
 
-    @Override
-    public void applyEffect(Object object1, Object object2) {
-        if (object1 instanceof Island && object2 instanceof List){
-            updateIslandDomain((Island) object1,(List<Player>) object2);
+            case 8:
+                updateIslandDomain8(params.getIsland(),params.getPlayersList(), params.getForbidCharacter());
+                break;
+
+            case 9:
+                updateIslandDomain9(params.getIsland(),params.getPlayersList(),params.getSelectedColor(), params.getForbidCharacter());
+                break;
+
+            default:
+                break;
         }
-    }
 
-    @Override
-    public void applyEffect(Object object1, Object object2, Object object3) {
-        if(object1 instanceof Island && object2 instanceof List && object3 instanceof PawnColor){
-            updateIslandDomain((Island) object1, (List<Player>) object2, (PawnColor) object3);
-        }
+
     }
 }

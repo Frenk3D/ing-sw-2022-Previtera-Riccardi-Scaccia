@@ -28,9 +28,7 @@ public abstract class Character {
         this.numOfUse = numOfUse;
     }
 
-    public abstract void applyEffect(Object object);
-    public abstract void applyEffect(Object object1, Object object2);
-    public abstract void applyEffect(Object object1, Object object2, Object object3);
+    public abstract void applyEffect(CharacterParameters params);
 
     public static List<Character> getAllCharacters(){
         List<Character> newlist = new ArrayList<>();

@@ -30,8 +30,8 @@ public class Controller {
     public void selectAssistant(int playerId,int assistantId){
 
     }
-    public boolean useCharacter(int characterIndex){
-        return false;
+    public void useCharacter(int characterIndex){
+
     }
 
 }

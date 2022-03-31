@@ -31,34 +31,34 @@ public class Characters1and7and11 extends Character {
         }
     }
 
-    private void moveStudent(Island island){
+    private void moveStudent1(Island island){
 
     }
 
-    private void moveStudent(Player currPlayer){
+    private void moveStudent7(Player currPlayer, List<Integer> studentsIndexList){
+
+    }
+
+    private void moveStudent11(Player currPlayer, List<Integer> studentsIndexList){
 
     }
 
     @Override
-    public void applyEffect(Object object) {
-        if(object instanceof Island){
-            moveStudent((Island) object);
+    public void applyEffect(CharacterParameters params) {
+        switch (id){
+
+            case 1:
+                moveStudent1(params.getIsland());
+                break;
+            case 7:
+                moveStudent7(params.getPlayer(),params.getStudentsIndexList());
+                break;
+            case 11:
+                moveStudent11(params.getPlayer(),params.getStudentsIndexList());
+                break;
+            default:
+                break;
         }
-
-        else if(object instanceof Player){
-            moveStudent((Player) object);
-        }
-    }
-
-
-    @Override
-    public void applyEffect(Object object1, Object object2) {
-    //errore passaggio parametri
-    }
-
-    @Override
-    public void applyEffect(Object object1, Object object2, Object object3) {
-
     }
 
 }

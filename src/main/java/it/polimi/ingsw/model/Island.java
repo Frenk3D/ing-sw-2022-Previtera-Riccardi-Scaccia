@@ -79,10 +79,13 @@ public class Island {
     }
 
 
-    public void updateIslandDomain(List<Player> playerList){
+    public void updateIslandDomain(List<Player> playersList){
 
     }
 
+    public void updateIslandDomainExpert(List<Player> playersList, Characters3and4and5 forbidCharacter){
+
+    }
     private void calculateInfluence(Player player){
 
     }

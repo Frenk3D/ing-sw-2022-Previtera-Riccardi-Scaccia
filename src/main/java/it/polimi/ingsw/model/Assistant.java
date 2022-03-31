@@ -23,4 +23,10 @@ public class Assistant {
     public int getMotherNaturePosShift() {
         return motherNaturePosShift;
     }
+
+    //setter
+
+    public void setMotherNaturePosShift(int motherNaturePosShift) {
+        this.motherNaturePosShift = motherNaturePosShift;
+    }
 }

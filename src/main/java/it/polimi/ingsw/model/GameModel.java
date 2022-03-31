@@ -96,6 +96,14 @@ public class GameModel {
         return null;
     }
 
+    public Characters3and4and5 getForbidCharacter(){
+        for (Character c : charactersList) {
+            if (c.getId() == 5) {
+                return (Characters3and4and5) c;
+            }
+        }
+        return null;
+    }
 
     public void extractCharacters(){
         List<Character> newlist = Character.getAllCharacters();
