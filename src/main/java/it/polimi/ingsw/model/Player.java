@@ -6,6 +6,7 @@ import java.util.List;
 public class Player {
     //attributes
     private final String name;
+    private final int id;
     private int numOfMoney;
     private AssistantDeck assistantDeck;
     private Assistant selectedAssistant;
@@ -15,13 +16,14 @@ public class Player {
     private int team;
 
     //constructor
-    public Player(String name){
+    public Player(String name, int id){
         numOfMoney=1;
         this.name= name;
         assistantDeck = new AssistantDeck();
         dashboard = new Dashboard();
         team = 0;
         hasTower = true;
+        this.id = id;
     }
 
     //getter

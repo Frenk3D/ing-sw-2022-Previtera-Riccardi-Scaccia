@@ -44,7 +44,7 @@ public class Round {
     }
 
     public Player getNextPlayer(){
-        return null;
+        return playersOrder.remove(0);
     }
 
     public Turn getCurrTurn(){

@@ -16,17 +16,20 @@ public class Cloud {
 
     //getter
     public List<Student> getStudents(){
-
         return studentsList;
     }
 
     //setter
     public void setStudentsList(List<Student> studentsList) {
-
+        this.studentsList=studentsList;
     }
 
     public static List<Cloud> generateCloudsList(int numOfPlayers){
-        return null;
+        List<Cloud> cloudsList = new ArrayList<>();
+        for(int i=0; i<numOfPlayers; i++){
+            cloudsList.add(new Cloud());
+        }
+        return cloudsList;
     }
 
 

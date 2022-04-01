@@ -22,9 +22,35 @@ public class Dashboard {
         entranceList = new ArrayList<Student>(); //intellij suggests to remove Student from <>
         towersList = new ArrayList<Tower>();
         professorsList= new ArrayList<Professor>();
+        redStudentsList = new ArrayList<>();
+        greenStudentsList = new ArrayList<>();
+        yellowStudentsList = new ArrayList<>();
+        pinkStudentsList = new ArrayList<>();
+        blueStudentsList = new ArrayList<>();
     }
 
     public List<Student> getStudentsListByColor(PawnColor color){
+        switch (color){
+            case RED:
+                return redStudentsList;
+            case GREEN:
+                return greenStudentsList;
+            case YELLOW:
+                return yellowStudentsList;
+            case PINK:
+                return pinkStudentsList;
+            case BLUE:
+                return blueStudentsList;
+        }
+        return null;
+    }
+
+    public Professor getProfessorByColor(PawnColor color){
+        for(Professor p : professorsList){
+            if(p.getColor().equals(color)){
+                return p;
+            }
+        }
         return null;
     }
 

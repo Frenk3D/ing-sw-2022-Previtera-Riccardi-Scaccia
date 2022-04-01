@@ -77,6 +77,8 @@ public class GameModel {
     }
 
     public Player getPlayerById(int playerId){
+        for(Player p : playersList){
+        }
         return null;
     }
 
