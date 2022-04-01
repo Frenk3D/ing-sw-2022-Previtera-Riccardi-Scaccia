@@ -80,14 +80,56 @@ public class Island {
 
 
     public void updateIslandDomain(List<Player> playersList){
-
+        Player tmpPlayer = playersList.get(0);
+        int counter = 0;
+        for(Player p : playersList){
+            if(calculateInfluence(tmpPlayer) < calculateInfluence(p)) {
+                tmpPlayer = p;
+            }
+            else if(calculateInfluence(tmpPlayer) == calculateInfluence(p)){
+                counter++;
+            }
+        }
+        if(counter < playersList.size()) { //if counter is less than the number of players we have to update domain,or else we do nothing
+            this.towersList.add(tmpPlayer.getDashboard().getTowersList().remove(0));
+        }
     }
 
     public void updateIslandDomainExpert(List<Player> playersList, Characters3and4and5 forbidCharacter){
-
+        if(this.forbidCard == true){
+            this.forbidCard = false;
+            forbidCharacter.addForbidCard5();
+        }
+        else {
+            Player tmpPlayer = playersList.get(0);
+            int counter = 0;
+            for (Player p : playersList) {
+                if (calculateInfluence(tmpPlayer) < calculateInfluence(p)) {
+                    tmpPlayer = p;
+                } else if (calculateInfluence(tmpPlayer) == calculateInfluence(p)) {
+                    counter++;
+                }
+            }
+            if (counter < playersList.size()) { //if counter is less than the number of players we have to update domain,or else we do nothing
+                this.towersList.add(tmpPlayer.getDashboard().getTowersList().remove(0));
+            }
+        }
     }
-    private void calculateInfluence(Player player){
-
+    private int calculateInfluence(Player player){
+        int influence = 0;
+        PawnColor[] colors = {PawnColor.RED,PawnColor.GREEN,PawnColor.BLUE,PawnColor.YELLOW, PawnColor.PINK};
+        for(PawnColor c : colors){
+            int numOfThatColor = 0;
+            for(Student s : studentsList){
+                if(s.getColor() == c){
+                    numOfThatColor++;
+                }
+            }
+            if(player.getDashboard().getProfessorByColor(c) != null){
+                influence = influence + numOfThatColor;
+            }
+        }
+        return influence;
     }
 
 }

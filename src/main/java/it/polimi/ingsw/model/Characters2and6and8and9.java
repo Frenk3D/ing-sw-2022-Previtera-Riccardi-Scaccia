@@ -16,24 +16,24 @@ public class Characters2and6and8and9 extends Character {
 
     }
 
-    private void modifiedCalculateInfluence2(Island island, Player player){
-
+    private int modifiedCalculateInfluence2(Island island, Player player){
+        return 0;
     }
 
     private void updateIslandDomain6(Island island,List<Player> playersList, Characters3and4and5 forbidCharater){
 
     }
 
-    private void modifiedCalculateInfluence6(Island island, Player player){
-
+    private int modifiedCalculateInfluence6(Island island, Player player){
+        return 0;
     }
 
     private void updateIslandDomain8(Island island,List<Player> playersList, Characters3and4and5 forbidCharater){
 
     }
 
-    private void modifiedCalculateInfluence8(Island island, Player player){
-
+    private int modifiedCalculateInfluence8(Island island, Player player){
+        return 0;
     }
 
     private void updateIslandDomain9(Island island,List<Player> playersList,PawnColor selectedColor, Characters3and4and5 forbidCharater){
@@ -41,8 +41,8 @@ public class Characters2and6and8and9 extends Character {
     }
 
 
-    private void modifiedCalculateInfluence9(Island island, Player player, PawnColor selectedColor){
-
+    private int modifiedCalculateInfluence9(Island island, Player player, PawnColor selectedColor){
+        return 0;
     }
 
     @Override

@@ -49,6 +49,10 @@ public class Player {
         return numOfMoney;
     }
 
+    public int getId() {
+        return id;
+    }
+
     //setter
     public void setTeam(int team){
         this.team = team;
@@ -56,6 +60,7 @@ public class Player {
     public void setHasTower(boolean tower){
         this.hasTower = tower;
     }
+
 
     public void setSelectedAssistant(int selAssistantId){
         selectedAssistant = assistantDeck.getAssistantById(selAssistantId);
@@ -79,6 +84,7 @@ public class Player {
         getAssistantDeck().setWizard(type);
         wizardsList.remove((Integer) type);
     }
+
 
 
 

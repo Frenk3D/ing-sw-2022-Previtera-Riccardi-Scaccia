@@ -78,19 +78,37 @@ public class GameModel {
 
     public Player getPlayerById(int playerId){
         for(Player p : playersList){
+            if(p.getId() == playerId){
+                return p;
+            }
         }
         return null;
     }
 
     public Island getIslandByIndex(int islandIndex){
+        for(Island i : islandsList){
+            if(islandsList.indexOf(i) == islandIndex){
+                return i;
+            }
+        }
         return null;
     }
 
     public Cloud getCloudByIndex(int cloudIndex){
+        for(Cloud c : cloudsList){
+            if(cloudsList.indexOf(c) == cloudIndex){
+                return c;
+            }
+        }
         return null;
     }
 
     public Character getCharacterByIndex(int characterIndex){
+        for(Character c : charactersList){
+            if(charactersList.indexOf(c) == characterIndex){
+                return c;
+            }
+        }
         return null;
     }
 
@@ -124,7 +142,7 @@ public class GameModel {
     }
 
     public List<Player> getPlayersList(){
-        return null;
+        return playersList;
     }
 
 }
