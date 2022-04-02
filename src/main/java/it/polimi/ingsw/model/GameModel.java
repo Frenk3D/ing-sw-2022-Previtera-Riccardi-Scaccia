@@ -22,6 +22,7 @@ import java.util.Collections;
 
 public class GameModel {
     //attributes
+
     private int currentPlayer;
     private final int numOfPlayers; //numofplayers, playerslist and expertmode final, decided from the start
     private int motherNaturePos;
@@ -45,9 +46,13 @@ public class GameModel {
         cloudsList = new ArrayList<Cloud>();
         charactersList = new ArrayList<Character>();
         tableProfessorsList = new ArrayList<Professor>();
-        islandsList = new ArrayList<Island>();
+        //islandsList = new ArrayList<Island>();
         state = GameState.SETTING_STATE;
         initMotherNaturePos();
+        islandsList=Island.generateIslandsList();
+        for (Player p: playersList){
+            p.getDashboard().generateTower(numOfPlayers,p.getTowerColor());
+        }
 
         if(expertMode){
             extractCharacters();
@@ -86,31 +91,22 @@ public class GameModel {
     }
 
     public Island getIslandByIndex(int islandIndex){
-        for(Island i : islandsList){
-            if(islandsList.indexOf(i) == islandIndex){
-                return i;
+                return islandsList.get(islandIndex);
             }
-        }
-        return null;
-    }
+
+
+
 
     public Cloud getCloudByIndex(int cloudIndex){
-        for(Cloud c : cloudsList){
-            if(cloudsList.indexOf(c) == cloudIndex){
-                return c;
+
+                return cloudsList.get(cloudIndex);
             }
-        }
-        return null;
-    }
 
     public Character getCharacterByIndex(int characterIndex){
-        for(Character c : charactersList){
-            if(charactersList.indexOf(c) == characterIndex){
-                return c;
+
+                return charactersList.get(characterIndex);
             }
-        }
-        return null;
-    }
+
 
     public Player checkWin(){
         return null;

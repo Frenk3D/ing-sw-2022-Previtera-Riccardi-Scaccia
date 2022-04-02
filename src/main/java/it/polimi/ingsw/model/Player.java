@@ -16,14 +16,15 @@ public class Player {
     private int team;
 
     //constructor
-    public Player(String name, int id){
+    public Player(String name, int id, int team, TowerColor playerTowercolor){
         numOfMoney=1;
         this.name= name;
         assistantDeck = new AssistantDeck();
         dashboard = new Dashboard();
-        team = 0;
+        this.team = team;
         hasTower = true;
         this.id = id;
+        this.playerTowerColor = playerTowercolor;
     }
 
     //getter
@@ -54,9 +55,6 @@ public class Player {
     }
 
     //setter
-    public void setTeam(int team){
-        this.team = team;
-    }
     public void setHasTower(boolean tower){
         this.hasTower = tower;
     }
@@ -67,9 +65,6 @@ public class Player {
         assistantDeck.getAssistantsList().remove(assistantDeck.getAssistantById(selAssistantId));
     }
 
-    public void setTowerColor(TowerColor color){
-        playerTowerColor= color;
-    }
     public void setMoney(int num){
         numOfMoney= num;
     }
