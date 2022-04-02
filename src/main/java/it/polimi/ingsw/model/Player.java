@@ -81,6 +81,14 @@ public class Player {
     }
 
 
+    public Player getTeamPlayer(List<Player> playersList){
+        for(Player p : playersList){
+            if(p.getTeam()==team && p != this){
+                return p;
+            }
+        }
+        return this; //player is alone
+    }
 
 
 

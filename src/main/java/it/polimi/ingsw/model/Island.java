@@ -82,57 +82,54 @@ public class Island {
 
 
     public void updateIslandDomain(List<Player> playersList) {
-        Player tmpPlayer = playersList.get(0);
-        int counter = 0;
+        Player oldDominatingPlayer = null;
+        Player tmpPlayer = playersList.get(0); //tmpPlayer is the current dominating player
+        boolean allParity = true;
         for (Player p : playersList) {
-            if (calculateInfluence(tmpPlayer) < calculateInfluence(p)) {
+            if(getTower().getColor().equals(p.getTowerColor()) && p.hasTower()) { //check on hasTower for 4 players
+                oldDominatingPlayer = p;
+            }
+
+            if (calculateInfluence(p,playersList) > calculateInfluence(tmpPlayer,playersList) && p.hasTower()) {
                 tmpPlayer = p;
-            } else if (calculateInfluence(tmpPlayer) == calculateInfluence(p)) {
-                counter++;
+                allParity=false;
             }
         }
-        if (counter < playersList.size()) { //if counter is less than the number of players we have to update domain,or else we do nothing
-            this.towersList.add(tmpPlayer.getDashboard().getTowersList().remove(0));
+        if (allParity == false) { //if the var is false there is a change of domain, or else we do nothing
+            if (tmpPlayer != oldDominatingPlayer){ //if we have to change the tower
+                for (Tower t: towersList) {
+                    oldDominatingPlayer.getDashboard().getTowersList().add(t);
+                    towersList.remove(t);
+                }
+                for(int i = 0; i < weight; i++){
+                    try{
+                        Tower movedTower = tmpPlayer.getDashboard().getTowersList().remove(0);
+                        towersList.add(movedTower);
+                    }
+                    catch (IndexOutOfBoundsException e){
+                        //win todo
+                    }
+                }
+            }
         }
-
     }
+
+
     public void updateIslandDomainExpert(List<Player> playersList, Characters3and4and5 forbidCharacter){
         if(forbidCard == true){
             forbidCard = false;
             forbidCharacter.addForbidCard5();
+            return;
         }
-        else {
-            Player domainingPlayer = null;
-            Player tmpPlayer = playersList.get(0); //tmpPlayer is the current domaining player
-            boolean allParity = true;
-            for (Player p : playersList) {
-                if(getTower().getColor().equals(p.getTowerColor()) && p.hasTower()) //check on hasTower for 4 players
-                    domainingPlayer = p;
-
-                if (calculateInfluence(p) > calculateInfluence(tmpPlayer)) {
-                    tmpPlayer = p;
-                    allParity=false;
-                }
-            }
-            if (!allParity) { //if the var is false there is a change of domain, or else we do nothing
-                if (!getTower().getColor().equals(tmpPlayer.getTowerColor())){
-
-                    for (Tower t: towersList) {
-
-                    }
-                }
-                towersList.add(tmpPlayer.getDashboard().getTowersList().remove(0));
-                if(tmpPlayer.getDashboard().getTowersList().size()==0) ; //win
-            }
-           /* Island prevIsland = islandsList.get(0);
-            for (Island i : islandsList) {
-                if ()
-            } */
-        }
+        updateIslandDomain(playersList);
     }
-    private int calculateInfluence(Player player){
+
+
+    private int calculateInfluence(Player player, List<Player> playersList){
         int influence = 0;
+        Player teamPlayer = player.getTeamPlayer(playersList);
         PawnColor[] colors = {PawnColor.RED,PawnColor.GREEN,PawnColor.BLUE,PawnColor.YELLOW, PawnColor.PINK};
+
         for(PawnColor c : colors){
             int numOfThatColor = 0;
             for(Student s : studentsList){
@@ -140,14 +137,29 @@ public class Island {
                     numOfThatColor++;
                 }
             }
-            if(player.getDashboard().getProfessorByColor(c) != null){
+            if(player.getDashboard().getProfessorByColor(c) != null || teamPlayer.getDashboard().getProfessorByColor(c) != null){
                 influence = influence + numOfThatColor;
             }
         }
-        if (this.getTower().getColor().equals(player.getTowerColor())){
-            influence = influence + this.weight;
+        if (getTower().getColor().equals(player.getTowerColor())){
+            influence = influence + weight;
         }
         return influence;
     }
 
+    public boolean mergeIsland(Island nextIsland){
+        if (getTower().getColor() == nextIsland.getTower().getColor()){
+            weight = weight + nextIsland.weight;
+
+            towersList.addAll(nextIsland.getTowersList());
+            studentsList.addAll(nextIsland.getStudentsList());
+
+            if((nextIsland.getForbidCard() == true && forbidCard == false) || (nextIsland.getForbidCard() == false && forbidCard == true)){
+                forbidCard = true;
+            }
+
+            return true;
+        }
+        return false;
+    }
 }

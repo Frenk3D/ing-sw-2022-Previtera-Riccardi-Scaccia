@@ -76,4 +76,16 @@ public class Turn {
 
     }
 
+    public void updateIslandList(List<Island> islandsList){
+        for (int i = 0; i<islandsList.size()-1; i++){
+            if(islandsList.get(i).mergeIsland(islandsList.get(i+1)) == true){
+                islandsList.remove(i+1);
+            }
+        }
+
+        if(islandsList.get(0).mergeIsland(islandsList.get(islandsList.size())) == true){
+            islandsList.remove(islandsList.size());
+        }
+    }
+
 }
