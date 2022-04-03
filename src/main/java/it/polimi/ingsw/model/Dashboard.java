@@ -29,7 +29,7 @@ public class Dashboard {
         blueStudentsList = new ArrayList<>();
     }
 
-    public List<Student> getStudentsListByColor(PawnColor color){
+    public List<Student> getHallStudentsListByColor(PawnColor color){
         switch (color){
             case RED:
                 return redStudentsList;
@@ -54,8 +54,8 @@ public class Dashboard {
         return null;
     }
 
-    public void placeStudentEntrance(int numOfPlayers){
-        List<Student> hallList = new ArrayList<>();
+    public void placeStudentEntrance(int numOfPlayers){ //init function
+        List<Student> entranceList = new ArrayList<>();
         int numOfStudents;
         if(numOfPlayers==2 || numOfPlayers==4){
             numOfStudents = 7;
@@ -64,8 +64,8 @@ public class Dashboard {
             numOfStudents = 9;
         }
         Bag bag = Bag.getInstance();
-        hallList = bag.extractStudents(numOfStudents);
-        setEntranceList(hallList);
+        entranceList = bag.extractStudents(numOfStudents);
+        setEntranceList(entranceList);
     }
 
     public void generateTower(int numOfPlayers, TowerColor playerTowerColor){ //number of players is needed
@@ -81,6 +81,14 @@ public class Dashboard {
             towers.add(new Tower(playerTowerColor));
         }
         setTowersList(towers);
+    }
+
+    public void addStudentHall(Student student, Player currPlayer){
+        getHallStudentsListByColor(student.getColor()).add(student);
+        if ((getHallStudentsListByColor(student.getColor()).size() % 3)==0 && currPlayer.getMoney()!=-1){
+            currPlayer.setMoney(currPlayer.getMoney()+1);
+        }
+
     }
 
     public void setTowersList(List<Tower> towersList) {
@@ -106,5 +114,8 @@ public class Dashboard {
         return professorsList;
     }
 
+    public int getNumOfHallStudents(PawnColor color){
+        return getHallStudentsListByColor(color).size();
+    }
 
 }

@@ -40,11 +40,11 @@ public class Turn {
                     currentProfessorPlayer=p;
                 }
 
-                if(p.getDashboard().getStudentsListByColor(currColor).size() > tmpPlayer.getDashboard().getStudentsListByColor(currColor).size()){ //if we find a player that has more students than tmp player we update the variable
+                if(p.getDashboard().getHallStudentsListByColor(currColor).size() > tmpPlayer.getDashboard().getHallStudentsListByColor(currColor).size()){ //if we find a player that has more students than tmp player we update the variable
                     tmpPlayer = p;
                 }
 
-                else if(p.getDashboard().getStudentsListByColor(currColor).size() == tmpPlayer.getDashboard().getStudentsListByColor(currColor).size()){ //if the players have the same number of student the professor must remain to the old holder
+                else if(p.getDashboard().getHallStudentsListByColor(currColor).size() == tmpPlayer.getDashboard().getHallStudentsListByColor(currColor).size()){ //if the players have the same number of student the professor must remain to the old holder
                     if(p.getDashboard().getProfessorByColor(currColor)!=null){
                         tmpPlayer = p;
                     }

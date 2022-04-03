@@ -17,12 +17,17 @@ public class Controller {
 
     }
 
-    public void moveStudentDashboard(int entryListIndex){
-
+    public void moveStudentDashboard(int entranceListIndex){
+        Player currPlayer = game.getCurrPlayer();
+        Student studentToMove = currPlayer.getDashboard().getEntranceList().get(entranceListIndex);
+        currPlayer.getDashboard().addStudentHall(studentToMove,currPlayer);
+        currPlayer.getDashboard().getEntranceList().remove(studentToMove);
     }
+
     public void moveMotherNature(int islandIndex){
 
     }
+
     public void takeFromCloud(int cloudIndex){
 
     }

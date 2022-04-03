@@ -7,6 +7,8 @@ public class CharacterParameters {
     private Player player;
     private List<Player> playersList;
     private List<Integer> studentsIndexList;
+    private List<Integer> studentsIndexEntranceList;
+    private int studentIndex;
     private PawnColor selectedColor;
     private Characters3and4and5 forbidCharacter;
 
@@ -16,7 +18,9 @@ public class CharacterParameters {
         playersList = null;
         selectedColor = null;
         studentsIndexList = null;
+        studentsIndexEntranceList = null;
         forbidCharacter = null;
+        studentIndex = -1;
     }
 
     public Island getIsland() {
@@ -65,5 +69,21 @@ public class CharacterParameters {
 
     public void setForbidCharacter(Characters3and4and5 forbidCharacter) {
         this.forbidCharacter = forbidCharacter;
+    }
+
+    public int getStudentIndex() {
+        return studentIndex;
+    }
+
+    public void setStudentIndex(int studentIndex) {
+        this.studentIndex = studentIndex;
+    }
+
+    public List<Integer> getStudentsIndexEntranceList() {
+        return studentsIndexEntranceList;
+    }
+
+    public void setStudentsIndexEntranceList(List<Integer> studentsIndexEntranceList) {
+        this.studentsIndexEntranceList = studentsIndexEntranceList;
     }
 }

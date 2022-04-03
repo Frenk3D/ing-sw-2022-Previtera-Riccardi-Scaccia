@@ -44,18 +44,21 @@ public class GameModel {
         this.playersList = playersList;
         bag = Bag.getInstance();
         cloudsList = new ArrayList<Cloud>();
-        charactersList = new ArrayList<Character>();
         tableProfessorsList = new ArrayList<Professor>();
-        //islandsList = new ArrayList<Island>();
+
+
+        //initialization of the game
         state = GameState.SETTING_STATE;
         initMotherNaturePos();
         islandsList=Island.generateIslandsList();
         for (Player p: playersList){
             p.getDashboard().generateTower(numOfPlayers,p.getTowerColor());
         }
-
         if(expertMode){
-            extractCharacters();
+            charactersList = Character.extractCharacters();
+            for (Player p: playersList){
+                p.setMoney(1);
+            }
         }
     }
 
@@ -121,14 +124,6 @@ public class GameModel {
         return null;
     }
 
-    public void extractCharacters(){
-        List<Character> newlist = Character.getAllCharacters();
-        Collections.shuffle(newlist);
-        charactersList.add(newlist.get(0));
-        charactersList.add(newlist.get(1));
-        charactersList.add(newlist.get(2));
-    }
-
     public int getNumOfPlayers(){
         return numOfPlayers;
     }
@@ -139,6 +134,10 @@ public class GameModel {
 
     public List<Player> getPlayersList(){
         return playersList;
+    }
+
+    public Player getCurrPlayer(){
+        return getCurrRound().getCurrTurn().getCurrPlayer();
     }
 
 }

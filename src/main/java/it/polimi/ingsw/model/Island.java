@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Island {
     //attributes
-    private boolean forbidCard;
+    private int forbidCard;
     private int weight;
     private List<Tower> towersList;
     private List<Student> studentsList;
@@ -14,7 +14,7 @@ public class Island {
     //Methods
     //constructor
     public Island(){
-        forbidCard= false;
+        forbidCard = 0;
         towersList= new ArrayList<>();
         studentsList= new ArrayList<Student>();
     }
@@ -48,11 +48,11 @@ public class Island {
     }
 
 
-    public boolean getForbidCard() {
+    public int getForbidCard() {
         return forbidCard;
     }
 
-    public void setForbidCard(boolean forbidCard) {
+    public void setForbidCard(int forbidCard) {
         this.forbidCard = forbidCard;
     }
 
@@ -116,8 +116,8 @@ public class Island {
 
 
     public void updateIslandDomainExpert(List<Player> playersList, Characters3and4and5 forbidCharacter){
-        if(forbidCard == true){
-            forbidCard = false;
+        if(forbidCard > 0){
+            forbidCard--;
             forbidCharacter.addForbidCard5();
             return;
         }
@@ -153,13 +153,18 @@ public class Island {
 
             towersList.addAll(nextIsland.getTowersList());
             studentsList.addAll(nextIsland.getStudentsList());
-
-            if((nextIsland.getForbidCard() == true && forbidCard == false) || (nextIsland.getForbidCard() == false && forbidCard == true)){
-                forbidCard = true;
-            }
+            forbidCard = forbidCard + nextIsland.getForbidCard();
 
             return true;
         }
         return false;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public int getWeight() {
+        return weight;
     }
 }

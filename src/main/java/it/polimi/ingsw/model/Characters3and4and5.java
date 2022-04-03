@@ -33,7 +33,7 @@ public class Characters3and4and5 extends Character{
 
     private void moveForbidCard5(Island island){
         forbidCards--;
-        island.setForbidCard(true);
+        island.setForbidCard(island.getForbidCard()+1);
     }
 
     public void addForbidCard5(){

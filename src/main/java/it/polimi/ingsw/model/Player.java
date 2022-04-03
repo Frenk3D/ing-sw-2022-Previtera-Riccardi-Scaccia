@@ -17,7 +17,7 @@ public class Player {
 
     //constructor
     public Player(String name, int id, int team, TowerColor playerTowercolor){
-        numOfMoney=1;
+        numOfMoney=-1; //if numOfMoney is -1 we are in normal mode
         this.name= name;
         assistantDeck = new AssistantDeck();
         dashboard = new Dashboard();

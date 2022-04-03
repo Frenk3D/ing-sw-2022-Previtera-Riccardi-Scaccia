@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class Character {
@@ -30,22 +31,20 @@ public abstract class Character {
 
     public abstract void applyEffect(CharacterParameters params);
 
-    public static List<Character> getAllCharacters(){
-        List<Character> newlist = new ArrayList<>();
-        newlist.add(Factory.newCharacter(1,1));
-        newlist.add(Factory.newCharacter(2,2));
-        newlist.add(Factory.newCharacter(3,3));
-        newlist.add(Factory.newCharacter(4,1));
-        newlist.add(Factory.newCharacter(5,2));
-        newlist.add(Factory.newCharacter(6,3));
-        newlist.add(Factory.newCharacter(7,1));
-        newlist.add(Factory.newCharacter(8,2));
-        newlist.add(Factory.newCharacter(9,3));
-        newlist.add(Factory.newCharacter(10,1));
-        newlist.add(Factory.newCharacter(11,2));
-        newlist.add(Factory.newCharacter(12,3));
+    public static List<Character> extractCharacters(){
+        List<Character> returnList = new ArrayList<>();
+        List<Integer> idList = new ArrayList<>(); //we use integers to avoid generating useless characters
 
-        return newlist;
+        for (int i=1;i<=12;i++){
+            idList.add(i);
+        }
+
+        Collections.shuffle(idList);
+
+        returnList.add(Factory.newCharacter(idList.get(0)));
+        returnList.add(Factory.newCharacter(idList.get(1)));
+        returnList.add(Factory.newCharacter(idList.get(2)));
+        return returnList;
     }
 }
 

@@ -12,19 +12,96 @@ public class Characters2and6and8and9 extends Character {
     }
 
     //methods
-    private void updateIslandDomain2(Island island,List<Player> playersList, Characters3and4and5 forbidCharater){
+    private void updateIslandDomain2(Player cardPlayer, Island island, List<Player> playersList, Characters3and4and5 forbidCharacter){
+        if(island.getForbidCard() > 0){
+            island.setForbidCard(island.getForbidCard()-1);
+            forbidCharacter.addForbidCard5();
+            return;
+        }
 
+        Player oldDominatingPlayer = null;
+        Player tmpPlayer = playersList.get(0); //tmpPlayer is the current dominating player
+        boolean allParity = true;
+        for (Player p : playersList) {
+            if(island.getTower().getColor().equals(p.getTowerColor()) && p.hasTower()) { //check on hasTower for 4 players
+                oldDominatingPlayer = p;
+            }
+
+            if (modifiedCalculateInfluence2(island, p, cardPlayer, playersList) > modifiedCalculateInfluence2(island,tmpPlayer, cardPlayer,playersList) && p.hasTower()) {
+                tmpPlayer = p;
+                allParity=false;
+            }
+        }
+        if (allParity == false) { //if the var is false there is a change of domain, or else we do nothing
+            if (tmpPlayer != oldDominatingPlayer){ //if we have to change the tower
+                for (Tower t: island.getTowersList()) {
+                    oldDominatingPlayer.getDashboard().getTowersList().add(t);
+                    island.getTowersList().remove(t);
+                }
+                for(int i = 0; i < island.getWeight(); i++){
+                    try{
+                        Tower movedTower = tmpPlayer.getDashboard().getTowersList().remove(0);
+                        island.getTowersList().add(movedTower);
+                    }
+                    catch (IndexOutOfBoundsException e){
+                        //win todo
+                    }
+                }
+            }
+        }
     }
 
-    private int modifiedCalculateInfluence2(Island island, Player player){
-        return 0;
+    private int modifiedCalculateInfluence2(Island island, Player currPlayer, Player cardPlayer, List<Player> playersList){
+        int influence = 0;
+        Player teamPlayer = currPlayer.getTeamPlayer(playersList);
+        Player professorHolderPlayer;
+        PawnColor[] colors = {PawnColor.RED,PawnColor.GREEN,PawnColor.BLUE,PawnColor.YELLOW, PawnColor.PINK};
+
+        for(PawnColor c : colors){
+            professorHolderPlayer = null;
+            int numOfThatColor = 0;
+            for(Student s : island.getStudentsList()){
+                if(s.getColor() == c){
+                    numOfThatColor++;
+                }
+            }
+
+            for (Player p: playersList){ //get the player which holds the professor of the color c
+                if(p.getDashboard().getProfessorByColor(c)!=null){
+                    professorHolderPlayer = p;
+                    break;
+                }
+            }
+
+            //i am the card player and i have the same number of students on the island of the current professor holder
+            if(currPlayer == cardPlayer && professorHolderPlayer != null && professorHolderPlayer.getDashboard().getNumOfHallStudents(c) == currPlayer.getDashboard().getNumOfHallStudents(c)){
+                influence = influence + numOfThatColor;
+            }
+            //i am the player that loses the professor
+            else if(currPlayer != cardPlayer && professorHolderPlayer == currPlayer && cardPlayer.getDashboard().getNumOfHallStudents(c) == currPlayer.getDashboard().getNumOfHallStudents(c)) {
+                //we do not increment the influence
+            }
+            //i already have the professor of that color
+            else if((currPlayer.getDashboard().getProfessorByColor(c) != null)){
+                influence = influence + numOfThatColor;
+            }
+            //my team player or myself have the professor of that color
+            else if(teamPlayer.getDashboard().getProfessorByColor(c) != null){
+                influence = influence + numOfThatColor;
+            }
+        }
+
+        if (island.getTower().getColor().equals(currPlayer.getTowerColor())){
+            influence = influence + island.getWeight();
+        }
+        return influence;
     }
 
     private void updateIslandDomain6(Island island,List<Player> playersList, Characters3and4and5 forbidCharater){
 
     }
 
-    private int modifiedCalculateInfluence6(Island island, Player player){
+    private int modifiedCalculateInfluence6(Island island, Player currPlayer, List<Player> playersList){
         return 0;
     }
 
@@ -32,7 +109,7 @@ public class Characters2and6and8and9 extends Character {
 
     }
 
-    private int modifiedCalculateInfluence8(Island island, Player player){
+    private int modifiedCalculateInfluence8(Island island, Player currPlayer, List<Player> playersList){
         return 0;
     }
 
@@ -41,7 +118,7 @@ public class Characters2and6and8and9 extends Character {
     }
 
 
-    private int modifiedCalculateInfluence9(Island island, Player player, PawnColor selectedColor){
+    private int modifiedCalculateInfluence9(Island island, Player currPlayer, PawnColor selectedColor, List<Player> playersList){
         return 0;
     }
 
@@ -49,7 +126,7 @@ public class Characters2and6and8and9 extends Character {
     public void applyEffect(CharacterParameters params) {
         switch (id){
             case 2:
-                updateIslandDomain2(params.getIsland(),params.getPlayersList(), params.getForbidCharacter());
+                updateIslandDomain2(params.getPlayer(), params.getIsland(),params.getPlayersList(), params.getForbidCharacter());
                 break;
 
             case 6:
