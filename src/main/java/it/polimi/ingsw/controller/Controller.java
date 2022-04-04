@@ -28,7 +28,7 @@ public class Controller {
 
     }
 
-    public void takeFromCloud(int cloudIndex){
+    public void takeFromCloud(int cloudIndex){ //they go in the entranceList
 
     }
 
