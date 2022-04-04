@@ -35,7 +35,7 @@ public class Round {
                 playersOrder.add(p);
                 return;
             }
-            while (playersOrder.get(i).getSelectedAssistant().getValue() >= currAssistantValue) {
+            while (playersOrder.get(i).getSelectedAssistant().getValue() >= currAssistantValue) {     //if a player has only a card with the same value he can throw it, or else ha can't
                 i++;
             }
             playersOrder.add(i, p);
