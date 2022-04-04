@@ -24,7 +24,6 @@ public class AssistantDeck {
         assistantsList.add(new Assistant(9,5));
         assistantsList.add(new Assistant(10,5));
     }
-
     //setter
     public void setWizard (int type){
         wizard = type;
@@ -43,7 +42,10 @@ public class AssistantDeck {
         }
         return null;
     }
-
+    //only for test purposes
+    public int getWizard(){
+        return wizard;
+    }
 
 
 }
