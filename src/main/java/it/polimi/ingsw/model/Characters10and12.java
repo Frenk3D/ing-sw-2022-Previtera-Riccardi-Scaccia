@@ -12,11 +12,36 @@ public class Characters10and12 extends Character{
     }
     //methods
 
-    private void swapStudents10(Player currPlayer, List<Integer> studentsIndexList){
-
+    private void swapStudents10(Player cardPlayer,List<Integer> studentsIndexEntranceList,PawnColor hallStudentColor1,PawnColor hallStudentColor2){
+        for(Integer i : studentsIndexEntranceList){
+            PawnColor selectedColor = cardPlayer.getDashboard().getEntranceList().get(i).getColor();
+            cardPlayer.getDashboard().getHallStudentsListByColor(selectedColor).add(cardPlayer.getDashboard().getEntranceList().get(i));
+            cardPlayer.getDashboard().getEntranceList().remove(i.intValue());
+        }
+        int size1 = cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor1).size();
+        cardPlayer.getDashboard().getEntranceList().add(cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor1).remove(size1-1));
+        if(studentsIndexEntranceList.size() == 2) {
+            int size2 = cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor2).size();
+            cardPlayer.getDashboard().getEntranceList().add(cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor2).remove(size2 - 1));
+        }
     }
 
-    private void fillBagFromHall12(PawnColor color,List<Player> playersList){
+    private void fillBagFromHall12(PawnColor hallColor,List<Player> playersList){
+        Bag bag = Bag.getInstance();
+        for(Player p: playersList) {
+            for (int i = 0; i < 3; i++) {
+                try {
+                    int size = p.getDashboard().getNumOfHallStudents(hallColor);
+                    Student s = p.getDashboard().getHallStudentsListByColor(hallColor).remove(size - 1);
+                    bag.getStudentsList().add(s);
+                }
+                catch (IndexOutOfBoundsException e){
+                    System.out.println("No more students of this color");
+                    e.printStackTrace();
+                }
+
+            }
+        }
 
     }
 
@@ -24,7 +49,7 @@ public class Characters10and12 extends Character{
     public void applyEffect(CharacterParameters params) {
         switch (id){
             case 10:
-                swapStudents10(params.getPlayer(),params.getStudentsIndexList());
+                swapStudents10(params.getPlayer(),params.getStudentsIndexList(),params.getSelectedColor(),params.getSelectedColor2());
                 break;
             case 12:
                 fillBagFromHall12(params.getSelectedColor(),params.getPlayersList());

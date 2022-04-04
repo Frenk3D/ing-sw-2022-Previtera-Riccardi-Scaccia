@@ -18,13 +18,13 @@ public class Characters3and4and5 extends Character{
 
 
     //methods
-    private void updateIslandDomain3(Island island, List<Player> playersList, Characters3and4and5 forbidCharater){
-        island.updateIslandDomainExpert(playersList,forbidCharater);
+    private void updateIslandDomain3(Island island, List<Player> playersList, Characters3and4and5 forbidCharacter){
+        island.updateIslandDomainExpert(playersList,forbidCharacter);
     }
 
-    private void modifyMotherNaturePosShift4(Player currPlayer){
-        int prevPosShift=currPlayer.getSelectedAssistant().getMotherNaturePosShift();
-        currPlayer.getSelectedAssistant().setMotherNaturePosShift(prevPosShift+2);
+    private void modifyMotherNaturePosShift4(Player cardPlayer){
+        int prevPosShift=cardPlayer.getSelectedAssistant().getMotherNaturePosShift();
+        cardPlayer.getSelectedAssistant().setMotherNaturePosShift(prevPosShift+2);
     }
 
     private void initForbidCards5(){

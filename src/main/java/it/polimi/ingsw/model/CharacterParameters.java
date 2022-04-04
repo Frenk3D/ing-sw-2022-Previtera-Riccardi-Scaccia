@@ -4,17 +4,18 @@ import java.util.List;
 
 public class CharacterParameters {
     private Island island;
-    private Player player;
+    private Player cardPlayer;
     private List<Player> playersList;
     private List<Integer> studentsIndexList;
     private List<Integer> studentsIndexEntranceList;
     private int studentIndex;
     private PawnColor selectedColor;
+    private PawnColor selectedColor2;
     private Characters3and4and5 forbidCharacter;
 
     public CharacterParameters() {
         island = null;
-        player = null;
+        cardPlayer = null;
         playersList = null;
         selectedColor = null;
         studentsIndexList = null;
@@ -28,7 +29,7 @@ public class CharacterParameters {
     }
 
     public Player getPlayer() {
-        return player;
+        return cardPlayer;
     }
 
     public List<Player> getPlayersList() {
@@ -39,12 +40,14 @@ public class CharacterParameters {
         return selectedColor;
     }
 
+    public PawnColor getSelectedColor2() { return selectedColor2;}
+
     public void setIsland(Island island) {
         this.island = island;
     }
 
     public void setPlayer(Player player) {
-        this.player = player;
+        this.cardPlayer = player;
     }
 
     public void setPlayersList(List<Player> playersList) {
@@ -53,6 +56,10 @@ public class CharacterParameters {
 
     public void setSelectedColor(PawnColor selectedColor) {
         this.selectedColor = selectedColor;
+    }
+
+    public void setSelectedColor2(PawnColor selectedColor2) {
+        this.selectedColor2 = selectedColor2;
     }
 
     public List<Integer> getStudentsIndexList() {
