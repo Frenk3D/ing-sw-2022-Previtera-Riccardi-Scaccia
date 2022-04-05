@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 many warnings on unused things because yet to be implemented or other else.
 ? :  operator ok but better if
 exceptions a bit from view, but also here
-we use a lot of concatenated methods, asked, not a problem for Cugola
+we use a lot of concatenated methods, asked, not a problem for Cugola, passing the var Game is not good
 
 CONSEGNE:
 UN PACKAGE PER CLIENT E UNO PER SERVER E QUI DENTRO PACKAGE MODEL-CONTROLLER E PACKAGE RETE(VIEW?),

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
-
+//if we want more matches we have to use bag like a normal class and not like a singleton
 import it.polimi.ingsw.model.enumerations.PawnColor;
-
+//singleton is not good for multiple matches
 import java.util.ArrayList;
 import java.util.List;
 
