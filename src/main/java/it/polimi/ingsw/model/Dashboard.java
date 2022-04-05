@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.enumerations.PawnColor;
+import it.polimi.ingsw.model.enumerations.TowerColor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

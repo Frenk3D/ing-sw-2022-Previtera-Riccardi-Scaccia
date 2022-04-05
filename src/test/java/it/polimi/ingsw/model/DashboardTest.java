@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 //we do not use assume statements
+import it.polimi.ingsw.model.enumerations.PawnColor;
+import it.polimi.ingsw.model.enumerations.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -7,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.model.TowerColor.*;
+import static it.polimi.ingsw.model.enumerations.TowerColor.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DashboardTest {

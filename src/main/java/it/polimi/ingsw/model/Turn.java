@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.characters.Character;
+import it.polimi.ingsw.model.enumerations.PawnColor;
+
 import java.util.List;
 
 public class Turn {

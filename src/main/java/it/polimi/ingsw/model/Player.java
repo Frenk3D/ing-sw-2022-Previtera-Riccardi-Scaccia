@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
-import java.util.ArrayList;
+import it.polimi.ingsw.model.enumerations.TowerColor;
+
 import java.util.List;
 
 public class Player {

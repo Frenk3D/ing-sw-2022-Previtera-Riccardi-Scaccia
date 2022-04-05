@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
-import java.lang.reflect.Array;
+import it.polimi.ingsw.model.characters.Characters3and4and5;
+import it.polimi.ingsw.model.enumerations.PawnColor;
+
 import java.util.ArrayList;
 import java.util.List;
 

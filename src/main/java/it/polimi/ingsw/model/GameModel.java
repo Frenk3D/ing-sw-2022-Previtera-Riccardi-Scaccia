@@ -13,13 +13,16 @@ PASSARE TIPI SEMPLICI AL POSTO DI OGGETTI IN TUTTI I METODI (INT, BOOLEAN E STRI
 FINIRE E FARE DESCRIZIONE NOSTRO UML PER IL GRUPPO GC57 E FARE REVIEW UML PER IL GRUPPO GC12 (INVIARE TUTTO PER EMAIL REFERENTE)
 */
 
-import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.model.characters.Character;
+import it.polimi.ingsw.model.characters.Characters3and4and5;
+import it.polimi.ingsw.model.enumerations.GameState;
+import it.polimi.ingsw.observer.Observable;
 
 import java.util.ArrayList;
 import java.util.List; ////Intellij advises to remove Student ecc from <> when initializing List (professors don't), try to remove it in Bag
-import java.util.Collections;
 
-public class GameModel {
+
+public class GameModel extends Observable {
     //attributes
 
     private int currentPlayer;
@@ -37,17 +40,31 @@ public class GameModel {
     private List<Island> islandsList; //doesn't change even when you group islands, attrib in Island class
 
     //constructor
-    public GameModel(List<Player> playersList, boolean expertMode){
-        this.numOfPlayers = playersList.size();
+    public GameModel(int numOfPlayers, boolean expertMode){
+        this.numOfPlayers = numOfPlayers;
         this.expertMode = expertMode;
-        this.playersList = playersList;
-        bag = Bag.getInstance();
-        cloudsList = new ArrayList<Cloud>();
-        tableProfessorsList = new ArrayList<Professor>();
 
+        playersList = new ArrayList<>();
+        bag = Bag.getInstance();
+        cloudsList = new ArrayList<>();
+        tableProfessorsList = new ArrayList<>();
+        state = GameState.SETTING_STATE;
+    }
+
+
+    public void addPlayer(Player player){
+        if(playersList.size()<numOfPlayers) {
+            playersList.add(player);
+        }
+    }
+
+    public void start(){
+
+        if(playersList.size()!=numOfPlayers){
+            return;
+        }
 
         //initialization of the game
-        state = GameState.SETTING_STATE;
         initMotherNaturePos();
         islandsList=Island.generateIslandsList();
         for (Player p: playersList){
@@ -59,10 +76,7 @@ public class GameModel {
                 p.setMoney(1);
             }
         }
-    }
 
-
-    public void start(){
         state = GameState.INGAME_STATE;
     }
 

@@ -1,4 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.characters;
+
+import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.Player;
 
 import java.util.List;
 

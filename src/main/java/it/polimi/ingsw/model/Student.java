@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.enumerations.PawnColor;
+
 import java.util.Objects;
 
 public class Student {

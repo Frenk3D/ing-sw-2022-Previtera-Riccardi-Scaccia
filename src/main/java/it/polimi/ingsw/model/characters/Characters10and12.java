@@ -1,4 +1,9 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.characters;
+
+import it.polimi.ingsw.model.Bag;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Student;
+import it.polimi.ingsw.model.enumerations.PawnColor;
 
 import java.util.List;
 
@@ -12,7 +17,7 @@ public class Characters10and12 extends Character{
     }
     //methods
 
-    private void swapStudents10(Player cardPlayer,List<Integer> studentsIndexEntranceList,PawnColor hallStudentColor1,PawnColor hallStudentColor2){
+    private void swapStudents10(Player cardPlayer, List<Integer> studentsIndexEntranceList, PawnColor hallStudentColor1, PawnColor hallStudentColor2){
         for(Integer i : studentsIndexEntranceList){
             PawnColor selectedColor = cardPlayer.getDashboard().getEntranceList().get(i).getColor();
             cardPlayer.getDashboard().getHallStudentsListByColor(selectedColor).add(cardPlayer.getDashboard().getEntranceList().get(i));

@@ -1,9 +1,10 @@
 package it.polimi.ingsw.controller; //well connected to Game, need to Observ
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.Character;
+import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.observer.Observer;
 
-public class Controller {
+public class Controller implements Observer {
     //attributes
     private GameModel game;  //intellij says it should be final,but it actually changes so it's not
 
@@ -39,4 +40,13 @@ public class Controller {
 
     }
 
+    public int nextTurn(){
+        game.getCurrRound().getCurrTurn().getCurrPlayer();
+        return 0;
+    }
+
+    @Override
+    public void update(Message message) {
+
+    }
 }
