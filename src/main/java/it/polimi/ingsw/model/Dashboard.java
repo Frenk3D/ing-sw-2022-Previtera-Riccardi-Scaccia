@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Dashboard {
     //attributes
@@ -55,7 +56,8 @@ public class Dashboard {
     }
 
     public void placeStudentEntrance(int numOfPlayers){ //init function
-        List<Student> entranceList = new ArrayList<>();
+        List<Student> entranceList;
+        entranceList = new ArrayList<>();
         int numOfStudents;
         if(numOfPlayers==2 || numOfPlayers==4){
             numOfStudents = 7;
@@ -100,7 +102,7 @@ public class Dashboard {
     }
 
 
-    public void setEntranceList(List<Student> studentList) {
+    public void setEntranceList(List<Student> entranceList) {
         this.entranceList = entranceList;
     }
 
@@ -118,4 +120,18 @@ public class Dashboard {
         return getHallStudentsListByColor(color).size();
     }
 
+
+    //for test purposes
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Dashboard)) return false;
+        Dashboard dashboard = (Dashboard) o;
+        return redStudentsList.equals(dashboard.redStudentsList) && greenStudentsList.equals(dashboard.greenStudentsList) && yellowStudentsList.equals(dashboard.yellowStudentsList) && pinkStudentsList.equals(dashboard.pinkStudentsList) && blueStudentsList.equals(dashboard.blueStudentsList) && getEntranceList().equals(dashboard.getEntranceList()) && getTowersList().equals(dashboard.getTowersList()) && getProfessorsList().equals(dashboard.getProfessorsList());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(redStudentsList, greenStudentsList, yellowStudentsList, pinkStudentsList, blueStudentsList, getEntranceList(), getTowersList(), getProfessorsList());
+    }
 }

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller; //well connected to Game
+package it.polimi.ingsw.controller; //well connected to Game, need to Observ
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Character;
