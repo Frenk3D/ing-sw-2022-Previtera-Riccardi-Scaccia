@@ -10,19 +10,18 @@ import java.util.List;
 public class Characters1and7and11 extends Character {
     //attributes
     private List<Student> cardStudentsList;
+    Bag bag;
 
     //constructor
 
     public Characters1and7and11(int id, int initialCost) {
         this.id=id;
         this.initialCost=initialCost;
-        initStudents();
     }
 
     //methods
 
     private void initStudents(){
-        Bag bag = Bag.getInstance();
         switch (id){
             case 1:
             case 11:
@@ -62,7 +61,6 @@ public class Characters1and7and11 extends Character {
     private void moveStudent11(Player cardPlayer, int studentIndex){
         cardPlayer.getDashboard().getEntranceList().add(cardStudentsList.get(studentIndex));
         cardStudentsList.remove(studentIndex);
-        Bag bag = Bag.getInstance();
         cardStudentsList.add(bag.extractStudents(1).get(0));
     }
 
@@ -82,6 +80,12 @@ public class Characters1and7and11 extends Character {
             default:
                 break;
         }
+    }
+
+    @Override
+    public void initCharacter(CharacterParameters params) {
+        bag = params.getBag();
+        initStudents();
     }
 
 }

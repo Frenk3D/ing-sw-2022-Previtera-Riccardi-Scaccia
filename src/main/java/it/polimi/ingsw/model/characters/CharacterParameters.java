@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.characters;
 
+import it.polimi.ingsw.model.Bag;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enumerations.PawnColor;
@@ -16,6 +17,7 @@ public class CharacterParameters {
     private PawnColor selectedColor;
     private PawnColor selectedColor2;
     private Characters3and4and5 forbidCharacter;
+    private Bag bag;
 
     public CharacterParameters() {
         island = null;
@@ -25,6 +27,7 @@ public class CharacterParameters {
         studentsIndexList = null;
         studentsIndexEntranceList = null;
         forbidCharacter = null;
+        bag = null;
         studentIndex = -1;
     }
 
@@ -96,5 +99,13 @@ public class CharacterParameters {
 
     public void setStudentsIndexEntranceList(List<Integer> studentsIndexEntranceList) {
         this.studentsIndexEntranceList = studentsIndexEntranceList;
+    }
+
+    public Bag getBag() {
+        return bag;
+    }
+
+    public void setBag(Bag bag) {
+        this.bag = bag;
     }
 }

@@ -1,9 +1,11 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.characters;
 
 import it.polimi.ingsw.model.characters.*;
 import it.polimi.ingsw.model.characters.Character;
 
 public class Factory {
+
+
 
     //methods
     public static Character newCharacter(int id){

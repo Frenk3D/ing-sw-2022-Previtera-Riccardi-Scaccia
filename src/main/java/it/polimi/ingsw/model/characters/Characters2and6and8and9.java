@@ -315,4 +315,9 @@ public class Characters2and6and8and9 extends Character {
 
 
     }
+
+    @Override
+    public void initCharacter(CharacterParameters params) {
+        //we don't need initialization
+    }
 }

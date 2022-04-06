@@ -14,6 +14,7 @@ FINIRE E FARE DESCRIZIONE NOSTRO UML PER IL GRUPPO GC57 E FARE REVIEW UML PER IL
 */
 
 import it.polimi.ingsw.model.characters.Character;
+import it.polimi.ingsw.model.characters.CharacterParameters;
 import it.polimi.ingsw.model.characters.Characters3and4and5;
 import it.polimi.ingsw.model.enumerations.GameState;
 import it.polimi.ingsw.observer.Observable;
@@ -38,6 +39,7 @@ public class GameModel extends Observable {
     private Round currRound;
     private GameState state;
     private List<Island> islandsList; //doesn't change even when you group islands, attrib in Island class
+    private Integer tableMoney;
 
     //constructor
     public GameModel(int numOfPlayers, boolean expertMode){
@@ -45,10 +47,11 @@ public class GameModel extends Observable {
         this.expertMode = expertMode;
 
         playersList = new ArrayList<>();
-        bag = Bag.getInstance();
+        bag = new Bag();
         cloudsList = new ArrayList<>();
         tableProfessorsList = new ArrayList<>();
         state = GameState.SETTING_STATE;
+        tableMoney = null;
     }
 
 
@@ -59,7 +62,6 @@ public class GameModel extends Observable {
     }
 
     public void start(){
-
         if(playersList.size()!=numOfPlayers){
             return;
         }
@@ -67,13 +69,22 @@ public class GameModel extends Observable {
         //initialization of the game
         initMotherNaturePos();
         islandsList=Island.generateIslandsList();
+        Island.initStudentIsland(islandsList,motherNaturePos,bag);
+
         for (Player p: playersList){
             p.getDashboard().generateTower(numOfPlayers,p.getTowerColor());
         }
         if(expertMode){
             charactersList = Character.extractCharacters();
+            tableMoney = 20;
             for (Player p: playersList){
-                p.setMoney(1);
+                p.modifyMoney(2,tableMoney);
+            }
+            CharacterParameters parameters = new CharacterParameters();
+            parameters.setBag(bag);
+
+            for(Character c : charactersList){
+                c.initCharacter(parameters);
             }
         }
 
@@ -156,4 +167,11 @@ public class GameModel extends Observable {
         return getCurrRound().getCurrTurn().getCurrPlayer();
     }
 
+    public Integer getTableMoney() {
+        return tableMoney;
+    }
+
+    public Bag getBag() {
+        return bag;
+    }
 }

@@ -22,9 +22,7 @@ public class Island {
     }
 
 
-    public static void initStudentIsland(List<Island> islandsList, int motherNaturePos){
-        Bag bag = Bag.getInstance();
-
+    public static void initStudentIsland(List<Island> islandsList, int motherNaturePos, Bag bag){
         int counter = 0;
         bag.initialBagFill();
         List<Student> l=bag.extractStudents(10);

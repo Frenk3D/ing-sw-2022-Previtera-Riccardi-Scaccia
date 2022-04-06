@@ -9,8 +9,9 @@ import java.util.List;
 
 public class Characters10and12 extends Character{
 
-    //constructor
+    private Bag bag;
 
+    //constructor
     public Characters10and12(int id, int initialCost) {
         this.id=id;
         this.initialCost=initialCost;
@@ -32,7 +33,6 @@ public class Characters10and12 extends Character{
     }
 
     private void fillBagFromHall12(PawnColor hallColor,List<Player> playersList){
-        Bag bag = Bag.getInstance();
         for(Player p: playersList) {
             for (int i = 0; i < 3; i++) {
                 try {
@@ -60,5 +60,10 @@ public class Characters10and12 extends Character{
                 fillBagFromHall12(params.getSelectedColor(),params.getPlayersList());
                 break;
         }
+    }
+
+    @Override
+    public void initCharacter(CharacterParameters params) {
+        bag = params.getBag();
     }
 }

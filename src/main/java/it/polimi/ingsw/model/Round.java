@@ -13,9 +13,8 @@ public class Round {
         this.playersOrder = playersOrder;
     }
     //methods
-    public void initRound(List<Player> playersList,List<Cloud> cloudsList) {
+    public void initRound(List<Player> playersList,List<Cloud> cloudsList, Bag bag) {
         int numOfPlayers = playersList.size();
-        Bag bag = Bag.getInstance();
 
         int studentsToExtract = 3;
         if (numOfPlayers == 3) studentsToExtract = 4;

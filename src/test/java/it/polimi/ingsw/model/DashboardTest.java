@@ -22,14 +22,18 @@ class DashboardTest {
     List<Student> entranceList;
     Tower tower;
     List<Tower> towerList;
+    Bag bag;
+    Integer tableMoney;
 
     @BeforeEach
     void setUp() {
+        tableMoney = 20;
+        bag = new Bag();
         dashboard = new Dashboard();
         s = new Student(PawnColor.RED);
-        dashboard.addStudentHall(s,player);
+        dashboard.addStudentHall(s,player,tableMoney);
         player = new Player("Pippo", 1, 1, towerColor);
-        player.setMoney(3);
+        player.modifyMoney(3,tableMoney);
         professor = new Professor(PawnColor.RED);
         entranceList = new ArrayList<>();
         tower = new Tower(TowerColor.WHITE);
@@ -53,14 +57,13 @@ class DashboardTest {
 
     @Test
     void placeStudentEntrance() {
-        Bag bag = Bag.getInstance();
-        bag.addAllStudents();
+        bag.addAllStudents(); //we use add all students because when we fill the dashboard the bag has already been used with initialBagFill()
         List<Student> tmpList = new ArrayList<>();
         for(int i=0;i<7;i++){
             tmpList.add(bag.extractStudents(7).get(i));
         }
        // dashboard.setEntranceList(entranceList);
-        dashboard.placeStudentEntrance(2);
+        dashboard.placeStudentEntrance(2,bag);
         assertEquals(tmpList.size(),dashboard.getEntranceList().size());
         assertNotEquals(tmpList,dashboard.getEntranceList()); //because the extracted students are random
     }
@@ -75,14 +78,12 @@ class DashboardTest {
 
         dashboard.generateTower(2,WHITE);
         assertEquals(towerList,dashboard.getTowersList());
-
-
     }
 
     @Test
     void addStudentHall() {
         hallList.add(s);
-        dashboard.addStudentHall(s,player);
+        dashboard.addStudentHall(s,player,tableMoney);
         assertEquals(hallList.get(0),dashboard.getHallStudentsListByColor(PawnColor.RED).get(0));
     }
 

@@ -13,10 +13,6 @@ public class Characters3and4and5 extends Character{
     public Characters3and4and5(int id, int initialCost) {
         this.id=id;
         this.initialCost=initialCost;
-
-        if(id==5){
-            initForbidCards5();
-        }
     }
 
 
@@ -34,12 +30,21 @@ public class Characters3and4and5 extends Character{
         forbidCards=4;
     }
 
-    private void moveForbidCard5(Island island){
+    private void moveForbidCard5(Island island) {
+        if(forbidCards <= 0){
+            System.out.println("Forbid cards finished!");
+            return;
+        }
+
         forbidCards--;
         island.setForbidCard(island.getForbidCard()+1);
     }
 
     public void addForbidCard5(){
+        if(forbidCards>=4){
+            System.out.println("Too many forbid cards");
+            return;
+        }
         forbidCards++;
     }
 
@@ -58,6 +63,13 @@ public class Characters3and4and5 extends Character{
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void initCharacter(CharacterParameters params) {
+        if(id==5){
+            initForbidCards5();
         }
     }
 }

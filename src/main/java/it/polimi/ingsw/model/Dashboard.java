@@ -58,7 +58,7 @@ public class Dashboard {
         return null;
     }
 
-    public void placeStudentEntrance(int numOfPlayers){ //init function
+    public void placeStudentEntrance(int numOfPlayers, Bag bag){ //init function
         List<Student> entranceList;
         entranceList = new ArrayList<>();
         int numOfStudents;
@@ -68,7 +68,6 @@ public class Dashboard {
         else{
             numOfStudents = 9;
         }
-        Bag bag = Bag.getInstance();
         entranceList = bag.extractStudents(numOfStudents);
         setEntranceList(entranceList);
     }
@@ -88,10 +87,10 @@ public class Dashboard {
         setTowersList(towers);
     }
 
-    public void addStudentHall(Student student, Player currPlayer){
+    public void addStudentHall(Student student, Player currPlayer, Integer tableMoney){
         getHallStudentsListByColor(student.getColor()).add(student);
-        if ((getHallStudentsListByColor(student.getColor()).size() % 3)==0 && currPlayer.getMoney()!=-1){
-            currPlayer.setMoney(currPlayer.getMoney()+1);
+        if ((getHallStudentsListByColor(student.getColor()).size() % 3)==0 && tableMoney != null){
+            currPlayer.modifyMoney(1,tableMoney);
         }
 
     }

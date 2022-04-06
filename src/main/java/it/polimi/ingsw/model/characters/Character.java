@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model.characters;
 
-import it.polimi.ingsw.model.Factory;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,6 +30,7 @@ public abstract class Character {
     }
 
     public abstract void applyEffect(CharacterParameters params);
+    public abstract void initCharacter(CharacterParameters params);
 
     public static List<Character> extractCharacters(){
         List<Character> returnList = new ArrayList<>();

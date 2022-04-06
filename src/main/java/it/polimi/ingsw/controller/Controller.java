@@ -21,7 +21,7 @@ public class Controller implements Observer {
     public void moveStudentDashboard(int entranceListIndex){
         Player currPlayer = game.getCurrPlayer();
         Student studentToMove = currPlayer.getDashboard().getEntranceList().get(entranceListIndex);
-        currPlayer.getDashboard().addStudentHall(studentToMove,currPlayer);
+        currPlayer.getDashboard().addStudentHall(studentToMove,currPlayer,game.getTableMoney());
         currPlayer.getDashboard().getEntranceList().remove(studentToMove);
     }
 
