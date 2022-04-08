@@ -207,4 +207,8 @@ public class GameModel extends Observable {
     public void setIslandsList(List<Island> islandsList) {
         this.islandsList = islandsList;
     }
+
+    public void setCloudsList(List<Cloud> cloudsList) {
+        this.cloudsList = cloudsList;
+    }
 }
