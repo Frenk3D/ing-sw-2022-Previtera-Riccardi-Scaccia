@@ -1,5 +1,4 @@
 package it.polimi.ingsw.model;
-//we do not use assume statements
 import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import org.junit.jupiter.api.BeforeEach;

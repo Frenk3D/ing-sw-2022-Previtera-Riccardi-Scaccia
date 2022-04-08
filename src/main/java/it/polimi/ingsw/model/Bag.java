@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.enumerations.PawnColor;
 //singleton is not good for multiple matches
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Bag {
@@ -57,5 +58,19 @@ public class Bag {
             studentsList.add(new Student(PawnColor.YELLOW));
         }
     }
+    //for test purposes
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Bag)) return false;
+        Bag bag = (Bag) o;
+        return getStudentsList().equals(bag.getStudentsList());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getStudentsList());
+    }
 }

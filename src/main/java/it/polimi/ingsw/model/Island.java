@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.enumerations.PawnColor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Island {
     //attributes
@@ -166,5 +167,18 @@ public class Island {
 
     public int getWeight() {
         return weight;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Island)) return false;
+        Island island = (Island) o;
+        return getForbidCard() == island.getForbidCard() && getWeight() == island.getWeight() && getTowersList().equals(island.getTowersList()) && getStudentsList().equals(island.getStudentsList());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getForbidCard(), getWeight(), getTowersList(), getStudentsList());
     }
 }
