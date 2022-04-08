@@ -16,6 +16,7 @@ public class Island {
     //Methods
     //constructor
     public Island(){
+        weight = 1;
         forbidCard = 0;
         towersList= new ArrayList<>();
         studentsList= new ArrayList<Student>();
@@ -24,7 +25,6 @@ public class Island {
 
     public static void initStudentIsland(List<Island> islandsList, int motherNaturePos, Bag bag){
         int counter = 0;
-        bag.initialBagFill();
         List<Student> l=bag.extractStudents(10);
         int emptyPos;
         if(motherNaturePos<6) emptyPos = motherNaturePos+6;

@@ -32,7 +32,10 @@ public class Bag {
     }
 }
     public List<Student> extractStudents (int num) {
-        if(studentsList.size()<num) return null;
+        if(studentsList.size()<num){
+            System.out.println("Not enough students in bag");
+            return null;
+        }
 
         List<Student> result = new ArrayList<>(); //..
         int remainingExtraction=num;

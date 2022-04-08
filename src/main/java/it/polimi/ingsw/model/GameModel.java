@@ -46,6 +46,7 @@ public class GameModel extends Observable {
         this.numOfPlayers = numOfPlayers;
         this.expertMode = expertMode;
 
+        currRound=new Round();
         playersList = new ArrayList<>();
         bag = new Bag();
         cloudsList = new ArrayList<>();
@@ -67,11 +68,15 @@ public class GameModel extends Observable {
         }
 
         //initialization of the game
+        bag.initialBagFill();
         initMotherNaturePos();
         islandsList=Island.generateIslandsList();
         Island.initStudentIsland(islandsList,motherNaturePos,bag);
+        cloudsList = Cloud.generateCloudsList(numOfPlayers);
 
+        bag.addAllStudents();
         for (Player p: playersList){
+            p.getDashboard().placeStudentEntrance(numOfPlayers,bag);
             p.getDashboard().generateTower(numOfPlayers,p.getTowerColor());
         }
         if(expertMode){
@@ -105,6 +110,9 @@ public class GameModel extends Observable {
         motherNaturePos = randomInt;
     }
 
+    public int getMotherNaturePos() {
+        return motherNaturePos;
+    }
 
     public void chooseStartingPlayer(){ //chooses the first Player at the beginning of the game
         int randomInt = (int)(Math.random() * (numOfPlayers + 1));
@@ -173,5 +181,9 @@ public class GameModel extends Observable {
 
     public Bag getBag() {
         return bag;
+    }
+
+    public List<Cloud> getCloudsList() {
+        return cloudsList;
     }
 }

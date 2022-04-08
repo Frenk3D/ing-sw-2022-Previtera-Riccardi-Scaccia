@@ -31,6 +31,7 @@ public class Turn {
         this.currPlayer = name;
     }
 
+
     public void updateProfessorsLists(List<Player> playersList, List<Professor> tableProfessorsList){
         PawnColor[] colors = {PawnColor.RED,PawnColor.GREEN,PawnColor.BLUE,PawnColor.YELLOW, PawnColor.PINK};
 

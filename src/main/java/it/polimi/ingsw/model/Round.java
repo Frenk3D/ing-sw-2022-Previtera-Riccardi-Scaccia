@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Round {
@@ -8,19 +9,17 @@ public class Round {
     private List<Player> playersOrder;
 
     //constructor
-    public Round(Turn currTurn, List<Player> playersOrder) {
-        this.currTurn = currTurn;
-        this.playersOrder = playersOrder;
+    public Round() {
+        currTurn=new Turn();
+        playersOrder=new ArrayList<>();
     }
     //methods
     public void initRound(List<Player> playersList,List<Cloud> cloudsList, Bag bag) {
         int numOfPlayers = playersList.size();
 
-        int studentsToExtract = 3;
-        if (numOfPlayers == 3) studentsToExtract = 4;
-
+        //fill the clouds
         for (Cloud c : cloudsList) {
-            c.setStudentsList(bag.extractStudents(studentsToExtract));
+            c.fillCloud(bag,numOfPlayers);
         }
 
 

@@ -32,5 +32,16 @@ public class Cloud {
         return cloudsList;
     }
 
+    public void fillCloud(Bag bag, int numOfPlayer){
+        int numOfStudents;
+        if(numOfPlayer==3){
+            numOfStudents=4;
+        }
+        else {
+            numOfStudents=3;
+        }
+        studentsList=bag.extractStudents(numOfStudents);
+    }
+
 
 }
