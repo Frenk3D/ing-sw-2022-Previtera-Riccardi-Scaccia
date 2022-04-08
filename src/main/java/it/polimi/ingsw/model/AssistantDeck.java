@@ -33,7 +33,6 @@ public class AssistantDeck {
         return assistantsList;
     }
 
-
     public Assistant getAssistantById(int id){
         for(Assistant assistant : assistantsList){
             if(assistant.getId()==id){
@@ -41,6 +40,16 @@ public class AssistantDeck {
             }
         }
         return null;
+    }
+
+    public void removeAssistantById(int id){
+        for(Assistant assistant : assistantsList){
+            if(assistant.getId()==id){
+                assistantsList.remove(assistant);
+                return;
+            }
+        }
+        return;
     }
     //only for test purposes
     public int getWizard(){

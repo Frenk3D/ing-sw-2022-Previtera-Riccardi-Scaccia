@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller; //well connected to Game, need to Observ, with strategy or with checks
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.enumerations.RoundState;
 import it.polimi.ingsw.model.enumerations.TurnState;
 import it.polimi.ingsw.network.message.Message;
@@ -9,10 +10,12 @@ import it.polimi.ingsw.observer.Observer;
 public class Controller implements Observer {
     //attributes
     private GameModel game;  //intellij says it should be final,but it actually changes so it's not
+    private InputVerifier verifier;
 
     //constructor
     public Controller(GameModel game){
         this.game=game;
+        verifier = new InputVerifier(game);
     }
 
     //methods
@@ -66,10 +69,18 @@ public class Controller implements Observer {
     }
 
     public void selectAssistant(int playerId,int assistantId){
-
+        game.getPlayerById(playerId).setSelectedAssistant(assistantId);
+        game.getPlayerById(playerId).getAssistantDeck().removeAssistantById(assistantId);
     }
-    public void useCharacter(int characterIndex){
 
+    public void useCharacter(int characterIndex){ // TODO: 08/04/2022
+        Character usedCharacter = game.getCharacterByIndex(characterIndex);
+        int characterCost = usedCharacter.getNumOfUse()+usedCharacter.getInitialCost();
+        if (game.getCurrPlayer().getMoney() >= characterCost){
+            game.getCurrPlayer().modifyMoney(-characterCost,game.getTableMoney());
+            game.getCurrRound().getCurrTurn().setUsedCharacter(game.getCharacterByIndex(characterIndex));
+            usedCharacter.setNumOfUse(usedCharacter.getNumOfUse()+1);
+        }
     }
 
     public int nextTurn(){

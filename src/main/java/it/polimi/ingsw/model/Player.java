@@ -75,8 +75,15 @@ public class Player {
             System.out.println("");
             return;
         }
-        numOfMoney = numOfMoney+num; //num can be negative to decrement
-        tableMoney.set(tableMoney.get()-num);
+
+        if (num>0) {
+            numOfMoney = numOfMoney + num;
+            tableMoney.set(tableMoney.get() - num);
+        }
+        else if (num <0) {
+            numOfMoney = numOfMoney + num; //this is for the use of the character
+            tableMoney.set(tableMoney.get() - (num -1));
+        }
     }
 
     //methods
