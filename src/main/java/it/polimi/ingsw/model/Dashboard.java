@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.enumerations.TowerColor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Dashboard {
     //attributes
@@ -87,7 +88,7 @@ public class Dashboard {
         setTowersList(towers);
     }
 
-    public void addStudentHall(Student student, Player currPlayer, Integer tableMoney){
+    public void addStudentHall(Student student, Player currPlayer, AtomicInteger tableMoney){
         getHallStudentsListByColor(student.getColor()).add(student);
         if ((getHallStudentsListByColor(student.getColor()).size() % 3)==0 && tableMoney != null){
             currPlayer.modifyMoney(1,tableMoney);

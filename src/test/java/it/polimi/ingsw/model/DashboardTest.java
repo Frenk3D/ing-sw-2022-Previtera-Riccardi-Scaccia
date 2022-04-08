@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static it.polimi.ingsw.model.enumerations.TowerColor.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,11 +23,11 @@ class DashboardTest {
     Tower tower;
     List<Tower> towerList;
     Bag bag;
-    Integer tableMoney;
+    AtomicInteger tableMoney;
 
     @BeforeEach
     void setUp() {
-        tableMoney = 20;
+        tableMoney = new AtomicInteger(20);
         bag = new Bag();
         dashboard = new Dashboard();
         s = new Student(PawnColor.RED);

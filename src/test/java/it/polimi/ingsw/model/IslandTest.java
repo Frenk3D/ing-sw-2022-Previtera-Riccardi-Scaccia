@@ -46,6 +46,7 @@ class IslandTest {
 
     @Test
     void generateIslandsList() {
+        bag.addAllStudents();
         islandsList = Island.generateIslandsList();
         tmpIslandsList = Island.generateIslandsList();
         assertEquals(islandsList.size(),12);

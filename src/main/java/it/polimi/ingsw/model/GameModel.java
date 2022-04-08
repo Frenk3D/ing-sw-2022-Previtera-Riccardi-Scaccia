@@ -21,6 +21,7 @@ import it.polimi.ingsw.observer.Observable;
 
 import java.util.ArrayList;
 import java.util.List; ////Intellij advises to remove Student ecc from <> when initializing List (professors don't), try to remove it in Bag
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class GameModel extends Observable {
@@ -39,7 +40,7 @@ public class GameModel extends Observable {
     private Round currRound;
     private GameState state;
     private List<Island> islandsList; //doesn't change even when you group islands, attrib in Island class
-    private Integer tableMoney;
+    private AtomicInteger tableMoney;
 
     //constructor
     public GameModel(int numOfPlayers, boolean expertMode){
@@ -81,7 +82,7 @@ public class GameModel extends Observable {
         }
         if(expertMode){
             charactersList = Character.extractCharacters();
-            tableMoney = 20;
+            tableMoney.set(20);
             for (Player p: playersList){
                 p.modifyMoney(2,tableMoney);
             }
@@ -175,7 +176,7 @@ public class GameModel extends Observable {
         return getCurrRound().getCurrTurn().getCurrPlayer();
     }
 
-    public Integer getTableMoney() {
+    public AtomicInteger getTableMoney() {
         return tableMoney;
     }
 
@@ -186,4 +187,12 @@ public class GameModel extends Observable {
     public List<Cloud> getCloudsList() {
         return cloudsList;
     }
+
+    //for test purposes
+
+    public GameState getGameState(){
+        return state;
+    }
+
+
 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Player {
     //attributes
@@ -65,23 +66,23 @@ public class Player {
         assistantDeck.getAssistantsList().remove(assistantDeck.getAssistantById(selAssistantId));
     }
 
-    public void modifyMoney(int num, Integer tableMoney){
+    public void modifyMoney(int num, AtomicInteger tableMoney){
         if(numOfMoney == null){ //initialize the variable at first call
             numOfMoney=0;
         }
 
-        if((tableMoney - num) < 0 || (numOfMoney + num) < 0){
+        if((tableMoney.get() - num) < 0 || (numOfMoney + num) < 0){
             System.out.println("");
             return;
         }
         numOfMoney = numOfMoney+num; //num can be negative to decrement
-        tableMoney = tableMoney - num;
+        tableMoney.set(tableMoney.get()-num);
     }
 
     //methods
     public boolean hasTower(){
         return hasTower;
-    }
+    } //to check which player of a givn team has the towers in his dashboard
 
 
     public void selectWizard(List<Integer> wizardsList, int type){
