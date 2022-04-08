@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class GameModel extends Observable {
     //attributes
 
-    private int currentPlayer;
+    private int firstThrowPlayer;
     private final int numOfPlayers; //numofplayers, playerslist and expertmode final, decided from the start
     private int motherNaturePos;
     private final boolean expertMode;
@@ -82,6 +82,7 @@ public class GameModel extends Observable {
         }
         if(expertMode){
             charactersList = Character.extractCharacters();
+            tableMoney = new AtomicInteger();
             tableMoney.set(20);
             for (Player p: playersList){
                 p.modifyMoney(2,tableMoney);
@@ -117,7 +118,7 @@ public class GameModel extends Observable {
 
     public void chooseStartingPlayer(){ //chooses the first Player at the beginning of the game
         int randomInt = (int)(Math.random() * (numOfPlayers + 1));
-        currentPlayer=randomInt;
+        firstThrowPlayer=randomInt;
     }
 
     public Player getPlayerById(int playerId){
@@ -156,6 +157,7 @@ public class GameModel extends Observable {
 
     public Player checkWin(){
         return null;
+        // TODO: 08/04/2022
     }
 
     public Characters3and4and5 getForbidCharacter(){
@@ -202,4 +204,7 @@ public class GameModel extends Observable {
     }
 
 
+    public void setIslandsList(List<Island> islandsList) {
+        this.islandsList = islandsList;
+    }
 }
