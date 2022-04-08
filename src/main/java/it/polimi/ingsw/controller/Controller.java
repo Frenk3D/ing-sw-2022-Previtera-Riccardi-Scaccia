@@ -51,6 +51,13 @@ public class Controller implements Observer {
     }
 
     public void takeFromCloud(int cloudIndex){ //they go in the entranceList
+        if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.CHOOSE_CLOUD_STATE){
+            if(game)
+            game.getCloudByIndex()
+        }
+        else {
+
+        }
 
     }
 

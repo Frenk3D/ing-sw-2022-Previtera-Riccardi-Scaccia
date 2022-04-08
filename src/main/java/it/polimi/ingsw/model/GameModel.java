@@ -140,9 +140,11 @@ public class GameModel extends Observable {
 
 
     public Cloud getCloudByIndex(int cloudIndex){
-
-                return cloudsList.get(cloudIndex);
-            }
+        if(cloudIndex > cloudsList.size()-1){
+            return null;
+        }
+        return cloudsList.get(cloudIndex);
+    }
 
     public Character getCharacterByIndex(int characterIndex){
 
