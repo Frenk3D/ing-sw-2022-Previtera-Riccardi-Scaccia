@@ -93,7 +93,7 @@ public class GameModel extends Observable {
 
 
     public void setMotherNaturePosition(int pos){
-            if(motherNaturePos!=pos) //mother nature has to move at least of 1 pos, but we have to manage illegal moves
+            if(motherNaturePos!=pos) //todo mother nature has to move at least of 1 pos, but we have to manage illegal moves
                 motherNaturePos=pos;
             else
                 System.out.println("Choose a correct move");
