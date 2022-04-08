@@ -52,11 +52,15 @@ public class Controller implements Observer {
 
     public void takeFromCloud(int cloudIndex){ //they go in the entranceList
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.CHOOSE_CLOUD_STATE){
-            if(game)
-            game.getCloudByIndex()
+            if(game.getCloudByIndex(cloudIndex).getStudents().size()>0){
+                for (Student s : game.getCloudByIndex(cloudIndex).getStudents()){
+                    game.getCurrPlayer().getDashboard().getEntranceList().add(s);
+                    game.getCloudByIndex(cloudIndex).getStudents().remove(s);
+                }
+            }
         }
         else {
-
+            System.out.println("forbidden move");
         }
 
     }

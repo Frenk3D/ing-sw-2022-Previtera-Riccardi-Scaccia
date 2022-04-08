@@ -147,9 +147,11 @@ public class GameModel extends Observable {
     }
 
     public Character getCharacterByIndex(int characterIndex){
-
-                return charactersList.get(characterIndex);
-            }
+        if(characterIndex > charactersList.size()-1){
+            return null;
+        }
+        return charactersList.get(characterIndex);
+    }
 
 
     public Player checkWin(){
