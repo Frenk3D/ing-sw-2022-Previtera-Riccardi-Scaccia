@@ -2,12 +2,14 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.enumerations.PawnColor;
+import it.polimi.ingsw.model.enumerations.TurnState;
 
 import java.util.List;
 
 public class Turn {
     //attributes
-    private int stage;
+    private TurnState stage;
+    private int movedStudentNumber;
     private Player currPlayer;
     private Character usedCharacter;
 
@@ -23,14 +25,23 @@ public class Turn {
         return usedCharacter;
     }
 
-    public void setStage(int stage) {
+    public void setStage(TurnState stage) {
         this.stage = stage;
+    }
+
+    public TurnState getStage() {
+        return stage;
     }
 
     public void setCurrPlayer(Player name) {
         this.currPlayer = name;
     }
 
+    public void initTurn(){
+        usedCharacter=null;
+        movedStudentNumber=0;
+        stage=TurnState.MOVE_STUDENT_STATE;
+    }
 
     public void updateProfessorsLists(List<Player> playersList, List<Professor> tableProfessorsList){
         PawnColor[] colors = {PawnColor.RED,PawnColor.GREEN,PawnColor.BLUE,PawnColor.YELLOW, PawnColor.PINK};
@@ -91,5 +102,22 @@ public class Turn {
             islandsList.remove(islandsList.size());
         }
     }
+
+    public boolean incrementMovedStudents(){
+        if(movedStudentNumber==3){
+            return false;
+        }
+        movedStudentNumber++;
+        return true;
+    }
+
+    public int getMovedStudentsNumber() {
+        return movedStudentNumber;
+    }
+
+    public void setUsedCharacter(Character usedCharacter) {
+        this.usedCharacter = usedCharacter;
+    }
+
 
 }

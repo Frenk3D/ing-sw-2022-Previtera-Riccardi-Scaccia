@@ -49,11 +49,13 @@ public class ProvaGit
             }
         }
 
-        game.getPlayerById(1).setSelectedAssistant(2);
-        game.getPlayerById(2).setSelectedAssistant(8);
+        game.getPlayerById(1).setSelectedAssistant(2); //pippo
+        game.getPlayerById(2).setSelectedAssistant(7); //topolino
 
         System.out.println("\n\nSTART NEW ROUND!");
+        System.out.println("round stage: "+game.getCurrRound().getStage());
         game.getCurrRound().initRound(game.getPlayersList(),game.getCloudsList(),game.getBag());
+        System.out.println("The turn is of "+game.getCurrPlayer().getName());
 
         for (int i=0; i<2; i++){
             Cloud c = game.getCloudByIndex(i);
@@ -62,5 +64,10 @@ public class ProvaGit
                 System.out.println("Studente "+student.getColor());
             }
         }
+
+
+
+        game.getCurrRound().nextTurn();
+        System.out.println("The turn is of "+game.getCurrPlayer().getName());
     }
 }

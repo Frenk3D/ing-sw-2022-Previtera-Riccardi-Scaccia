@@ -129,8 +129,11 @@ public class GameModel extends Observable {
     }
 
     public Island getIslandByIndex(int islandIndex){
-                return islandsList.get(islandIndex);
-            }
+        if(islandIndex > islandsList.size()-1){
+            return null;
+        }
+        return islandsList.get(islandIndex);
+    }
 
 
 
