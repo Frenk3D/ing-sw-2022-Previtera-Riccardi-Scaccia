@@ -89,6 +89,10 @@ public class Round {
         return stage;
     }
 
+    public int getNumOfAssistantThrows() {
+        return numOfAssistantThrows;
+    }
+
     public Player getPlanningPhasePlayer(List<Player> playersList){
         return playersList.get(planningPhasePlayer);
     }
@@ -99,8 +103,9 @@ public class Round {
         planningPhasePlayer = randomInt;
     }
     public void setNextPlayerPlanning(int numOfPlayers){
-        if(stage == RoundState.PLANNING_STATE) {
-            planningPhasePlayer = (planningPhasePlayer + 1) % numOfPlayers;
+        if(stage == RoundState.PLANNING_STATE && numOfAssistantThrows<numOfPlayers) {
+                planningPhasePlayer = (planningPhasePlayer + 1) % numOfPlayers;
+                numOfAssistantThrows++;
         }
     }
 }
