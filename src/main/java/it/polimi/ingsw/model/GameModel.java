@@ -21,6 +21,7 @@ import it.polimi.ingsw.observer.Observable;
 
 import java.util.ArrayList;
 import java.util.List; ////Intellij advises to remove Student ecc from <> when initializing List (professors don't), try to remove it in Bag
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -108,7 +109,7 @@ public class GameModel extends Observable {
 
 
     private void initMotherNaturePos(){
-        int randomInt = (int)(Math.random() * (13));
+        int randomInt = (int)(Math.random() * (12));
         motherNaturePos = randomInt;
     }
 
@@ -213,5 +214,9 @@ public class GameModel extends Observable {
     }
     public List<Character> getCharactersList(){
         return charactersList;
+    }
+
+    public boolean isExpertMode() {
+        return expertMode;
     }
 }

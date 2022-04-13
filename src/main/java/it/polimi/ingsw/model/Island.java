@@ -27,14 +27,15 @@ public class Island {
     public static void initStudentIsland(List<Island> islandsList, int motherNaturePos, Bag bag){
         int counter = 0;
         List<Student> l=bag.extractStudents(10);
+
         int emptyPos;
         if(motherNaturePos<6) emptyPos = motherNaturePos+6;
         else emptyPos = motherNaturePos-6;
 
         for (Island island: islandsList) {
             if(counter!=motherNaturePos && counter!=emptyPos) {
-                island.addStudent(l.get(0));
-                l.remove(0);
+                island.addStudent(l.remove(0));
+                //l.remove(0);
             }
             counter++;
         }
@@ -117,7 +118,7 @@ public class Island {
 
 
     public void updateIslandDomainExpert(List<Player> playersList, Characters3and4and5 forbidCharacter){
-        if(forbidCard > 0){
+        if(forbidCard > 0 && forbidCharacter!=null){
             forbidCard--;
             forbidCharacter.addForbidCard5();
             return;

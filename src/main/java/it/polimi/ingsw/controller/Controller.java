@@ -19,6 +19,7 @@ public class Controller implements Observer {
     }
 
     //methods
+    //ACTION PHASE 1
     public void moveStudentIsland(int entranceListIndex,int islandIndex){
 
         if(game.getCurrRound().getStage()== RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage()== TurnState.MOVE_STUDENT_STATE) {
@@ -32,6 +33,7 @@ public class Controller implements Observer {
         }
     }
 
+    //ACTION PHASE 1
     public void moveStudentDashboard(int entranceListIndex){
         if(game.getCurrRound().getStage()== RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage()== TurnState.MOVE_STUDENT_STATE){
             Player currPlayer = game.getCurrPlayer();
@@ -44,15 +46,24 @@ public class Controller implements Observer {
         }
     }
 
+    //ACTION PHASE 2
     public void moveMotherNature(int islandIndex){
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage()== TurnState.MOVE_MOTHER_NATURE_STATE){
             game.setMotherNaturePosition(islandIndex);
+
+            if(game.isExpertMode()){
+                game.getIslandByIndex(islandIndex).updateIslandDomainExpert(game.getPlayersList(),game.getForbidCharacter());
+            }
+            else {
+                game.getIslandByIndex(islandIndex).updateIslandDomain(game.getPlayersList());
+            }
         }
         else {
             System.out.println("forbidden move");
         }
     }
 
+    //ACTION PHASE 3
     public void takeFromCloud(int cloudIndex){ //they go in the entranceList
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.CHOOSE_CLOUD_STATE){
             if(game.getCloudByIndex(cloudIndex).getStudents().size()>0){
@@ -69,21 +80,35 @@ public class Controller implements Observer {
     }
 
     public void selectAssistant(int playerId,int assistantId){
-        if(game.getPlayerById(playerId) == game.getCurrRound().getPlanningPhasePlayer(game.getPlayersList())) {
-            game.getPlayerById(playerId).setSelectedAssistant(assistantId);
-            game.getPlayerById(playerId).getAssistantDeck().removeAssistantById(assistantId);
-            game.getCurrRound().setNextPlayerPlanning(game.getNumOfPlayers());
+        Round round = game.getCurrRound();
+        Player player = game.getPlayerById(playerId);
+
+        if(player == round.getPlanningPhasePlayer(game.getPlayersList())) {
+            player.setSelectedAssistant(assistantId);
+            player.getAssistantDeck().removeAssistantById(assistantId);
+            round.setNextPlayerPlanning(game.getNumOfPlayers());
+
+            if(round.getNumOfAssistantThrows() == game.getNumOfPlayers()){
+                round.initRound(game.getPlayersList(),game.getCloudsList(),game.getBag());
+            }
+        }
+
+        else {
+            System.out.println("Error it isn't your turn");
         }
 
     }
 
     public void useCharacter(int characterIndex){ // TODO: 08/04/2022
         Character usedCharacter = game.getCharacterByIndex(characterIndex);
-        int characterCost = usedCharacter.getNumOfUse()+usedCharacter.getInitialCost();
+        int characterCost = usedCharacter.getInitialCost();
+        if(usedCharacter.isUsed()){
+            characterCost++;
+        }
         if (game.getCurrPlayer().getMoney() >= characterCost){
-            game.getCurrPlayer().modifyMoney(-characterCost,game.getTableMoney());
+            game.getCurrPlayer().modifyMoney(-(characterCost-1),game.getTableMoney(),usedCharacter.isUsed());
             game.getCurrRound().getCurrTurn().setUsedCharacter(game.getCharacterByIndex(characterIndex));
-            usedCharacter.setNumOfUse(usedCharacter.getNumOfUse()+1);
+            usedCharacter.setUsed();
         }
     }
 

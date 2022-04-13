@@ -1,3 +1,4 @@
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 
@@ -7,8 +8,7 @@ import it.polimi.ingsw.model.enumerations.TowerColor;
  */
 public class ProvaGit
 {
-    public static void main( String[] args )
-    {
+    public static void main( String[] args ) throws InterruptedException {
         System.out.println( "Hello World!" );
 
         GameModel game;
@@ -49,6 +49,7 @@ public class ProvaGit
             }
         }
 
+        /*
         game.getPlayerById(1).setSelectedAssistant(2); //pippo
         game.getPlayerById(2).setSelectedAssistant(7); //topolino
 
@@ -56,6 +57,7 @@ public class ProvaGit
         System.out.println("round stage: "+game.getCurrRound().getStage());
         game.getCurrRound().initRound(game.getPlayersList(),game.getCloudsList(),game.getBag());
         System.out.println("The turn is of "+game.getCurrPlayer().getName());
+        */
 
         for (int i=0; i<2; i++){
             Cloud c = game.getCloudByIndex(i);
@@ -67,7 +69,29 @@ public class ProvaGit
 
 
 
-        game.getCurrRound().nextTurn();
-        System.out.println("The turn is of "+game.getCurrPlayer().getName());
-    }
+        //game.getCurrRound().nextTurn();
+        //System.out.println("The turn is of "+game.getCurrPlayer().getName());
+
+
+        Controller controller = new Controller(game);
+        System.out.println("init " + game.getCurrRound().getStage());
+        controller.selectAssistant(1,5);
+        System.out.println("butto assistente 1 "+ game.getCurrRound().getStage());
+        controller.selectAssistant(2,4);
+        System.out.println("butto assistente 2 "+ game.getCurrRound().getStage());
+
+        //Thread.sleep(1000);
+
+        //System.out.println("The turn is of "+ game.getCurrPlayer().getName());
+
+
+        for (int i=0; i<2; i++){
+            Cloud c = game.getCloudByIndex(i);
+            System.out.println("----------NUVOLA "+i+"---------- ");
+            for (Student student : c.getStudents()){
+                System.out.println("Studente "+student.getColor());
+            }
+        }
+
+        System.out.println("The turn is of " + game.getCurrPlayer().getName()); }
 }

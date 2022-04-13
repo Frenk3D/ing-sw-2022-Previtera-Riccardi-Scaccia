@@ -66,30 +66,48 @@ public class Player {
         assistantDeck.getAssistantsList().remove(assistantDeck.getAssistantById(selAssistantId));
     }
 
-    public void modifyMoney(int num, AtomicInteger tableMoney){
+    public void modifyMoney(int num, AtomicInteger tableMoney, boolean isUsed){
+        if((numOfMoney + num) < 0 || num > 0){
+            System.out.println("Out of money!");
+            return;
+        }
+
+        if (num <0 && isUsed == false) { //we decrease players money
+            numOfMoney = numOfMoney + num; //this is for the use of the character
+            tableMoney.set(tableMoney.get() - (num - 1)); //we put one money on the character card
+        }
+        else if(num <0 && isUsed){
+            numOfMoney = numOfMoney + num; //this is for the use of the character
+            tableMoney.set(tableMoney.get() - (num));
+        }
+    }
+
+    public void modifyMoney(int num, AtomicInteger tableMoney){ //this function works both with positive and negative numbers, for now we call only with positive numbers
         if(numOfMoney == null){ //initialize the variable at first call
             numOfMoney=0;
         }
 
         if((tableMoney.get() - num) < 0 || (numOfMoney + num) < 0){
-            System.out.println("");
+            System.out.println("Out of money!");
             return;
         }
 
-        if (num>0) {
+        if (num>0) { //we increase players money
             numOfMoney = numOfMoney + num;
             tableMoney.set(tableMoney.get() - num);
         }
-        else if (num <0) {
+
+        else if(num <0){
             numOfMoney = numOfMoney + num; //this is for the use of the character
-            tableMoney.set(tableMoney.get() - (num -1));
+            tableMoney.set(tableMoney.get() - (num));
         }
     }
+
 
     //methods
     public boolean hasTower(){
         return hasTower;
-    } //to check which player of a givn team has the towers in his dashboard
+    } //to check which player of a given team has the towers in his dashboard
 
 
     public void selectWizard(List<Integer> wizardsList, int type){

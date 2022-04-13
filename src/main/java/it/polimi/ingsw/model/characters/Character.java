@@ -6,14 +6,14 @@ import java.util.List;
 
 public abstract class Character {
 
-    int numOfUse;
+    boolean used;
     int id;
     int initialCost;
 
 
     //getter prototypes
-    public int getNumOfUse() {
-        return numOfUse;
+    public boolean isUsed() {
+        return used;
     }
 
     public int getId() {
@@ -25,8 +25,8 @@ public abstract class Character {
     }
 
     //setter prototypes
-    public void setNumOfUse(int numOfUse) {
-        this.numOfUse = numOfUse;
+    public void setUsed() {
+        used = true; //can't go again to false
     }
 
     public abstract void applyEffect(CharacterParameters params);
@@ -48,6 +48,3 @@ public abstract class Character {
         return returnList;
     }
 }
-
-
-//constructor protected?
