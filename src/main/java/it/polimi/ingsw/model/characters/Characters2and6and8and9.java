@@ -99,7 +99,7 @@ public class Characters2and6and8and9 extends Character {
         }
         return influence;
     } */ //old effect of second character
-    private void modifiedUpdateProfessorsLists(List<Player> playersList, Player cardPlayer){
+    private void modifiedUpdateProfessorsLists2(List<Player> playersList, Player cardPlayer){
         PawnColor[] colors = {PawnColor.RED,PawnColor.GREEN,PawnColor.BLUE,PawnColor.YELLOW, PawnColor.PINK};
 
         for (PawnColor currColor : colors){ //scan of all colors
@@ -339,7 +339,7 @@ public class Characters2and6and8and9 extends Character {
     public void applyEffect(CharacterParameters params) {
         switch (id){
             case 2:
-                modifiedUpdateProfessorsLists(params.getPlayersList(), params.getPlayer());
+                modifiedUpdateProfessorsLists2(params.getPlayersList(), params.getPlayer());
                 //OLD updateIslandDomain2(params.getPlayer(), params.getIsland(),params.getPlayersList(), params.getForbidCharacter());
                 break;
 
