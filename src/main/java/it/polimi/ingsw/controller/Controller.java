@@ -69,8 +69,12 @@ public class Controller implements Observer {
     }
 
     public void selectAssistant(int playerId,int assistantId){
-        game.getPlayerById(playerId).setSelectedAssistant(assistantId);
-        game.getPlayerById(playerId).getAssistantDeck().removeAssistantById(assistantId);
+        if(game.getPlayerById(playerId) == game.getCurrRound().getPlanningPhasePlayer(game.getPlayersList())) {
+            game.getPlayerById(playerId).setSelectedAssistant(assistantId);
+            game.getPlayerById(playerId).getAssistantDeck().removeAssistantById(assistantId);
+            game.getCurrRound().setNextPlayerPlanning(game.getNumOfPlayers());
+        }
+
     }
 
     public void useCharacter(int characterIndex){ // TODO: 08/04/2022

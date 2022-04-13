@@ -10,20 +10,27 @@ public class Round {
     private Turn currTurn;
     private List<Player> playersOrder;
     private RoundState stage;
+    private int planningPhasePlayer;
+    private int numOfAssistantThrows;
 
     //constructor
     public Round() {
         currTurn=new Turn();
         playersOrder=new ArrayList<>();
         resetRound();
+        planningPhasePlayer = 0;
+        numOfAssistantThrows = 0;
     }
 
-    public void resetRound(){
-        stage = RoundState.PLANNING_STATE;
-    }
 
     //methods
-    public void initRound(List<Player> playersList,List<Cloud> cloudsList, Bag bag) {
+    public void resetRound(){ //resets round to planning state
+
+        stage = RoundState.PLANNING_STATE;
+        numOfAssistantThrows = 0;
+    }
+
+    public void initRound(List<Player> playersList,List<Cloud> cloudsList, Bag bag) { //to be called after the planning state is finished
         int numOfPlayers = playersList.size();
 
         //fill the clouds
@@ -80,5 +87,20 @@ public class Round {
 
     public RoundState getStage() {
         return stage;
+    }
+
+    public Player getPlanningPhasePlayer(List<Player> playersList){
+        return playersList.get(planningPhasePlayer);
+    }
+
+    public void randomStartingPlayer(List<Player> playersList){ //chooses the first Player at the beginning of the game
+        int numOfPlayers = playersList.size();
+        int randomInt = (int)(Math.random() * (numOfPlayers));
+        planningPhasePlayer = randomInt;
+    }
+    public void setNextPlayerPlanning(int numOfPlayers){
+        if(stage == RoundState.PLANNING_STATE) {
+            planningPhasePlayer = (planningPhasePlayer + 1) % numOfPlayers;
+        }
     }
 }

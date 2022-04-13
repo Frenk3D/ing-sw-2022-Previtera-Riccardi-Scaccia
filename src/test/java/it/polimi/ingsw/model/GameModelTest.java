@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.characters.Factory;
+import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.enumerations.GameState;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import org.junit.jupiter.api.AfterEach;
@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,6 +21,7 @@ class GameModelTest {
     List<Island> islandsList;
     List<Cloud> cloudsList;
     List<Character> charactersList;
+    List<Character> tmpCharactersList;
 
     @BeforeEach
     void setUp() {
@@ -39,7 +39,8 @@ class GameModelTest {
         game2.start();
         islandsList = new ArrayList<>();
         cloudsList = new ArrayList<>();
-        charactersList= new ArrayList<>();
+        charactersList= new ArrayList<it.polimi.ingsw.model.characters.Character>();
+        tmpCharactersList = new ArrayList<>();
     }
 
     @AfterEach
@@ -80,7 +81,10 @@ class GameModelTest {
 
     @Test
     void getCharacterByIndex() {
-        // TODO: 08/04/2022
+         tmpCharactersList = game1.getCharactersList();
+         assertEquals(tmpCharactersList.get(1),game1.getCharacterByIndex(1));
+         assertNotEquals(null,game1.getCharacterByIndex(1));
+
     }
 
     @Test

@@ -67,8 +67,8 @@ public class GameModel extends Observable {
         if(playersList.size()!=numOfPlayers){
             return;
         }
-
         //initialization of the game
+        currRound.randomStartingPlayer(playersList);
         bag.initialBagFill();
         initMotherNaturePos();
         islandsList=Island.generateIslandsList();
@@ -116,10 +116,7 @@ public class GameModel extends Observable {
         return motherNaturePos;
     }
 
-    public void chooseStartingPlayer(){ //chooses the first Player at the beginning of the game
-        int randomInt = (int)(Math.random() * (numOfPlayers + 1));
-        firstThrowPlayer=randomInt;
-    }
+
 
     public Player getPlayerById(int playerId){
         for(Player p : playersList){
@@ -210,5 +207,11 @@ public class GameModel extends Observable {
 
     public void setCloudsList(List<Cloud> cloudsList) {
         this.cloudsList = cloudsList;
+    }
+    public void setCharactersList(List<Character> charactersList){
+        this.charactersList = charactersList;
+    }
+    public List<Character> getCharactersList(){
+        return charactersList;
     }
 }
