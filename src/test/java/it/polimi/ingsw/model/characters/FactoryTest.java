@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.characters;
 
 import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.characters.Characters2and6and8and9;

@@ -77,7 +77,7 @@ public class Controller implements Observer {
 
     }
 
-    public void useCharacter(int characterIndex){ // TODO: 08/04/2022
+    public void useCharacter(int characterIndex){ // TODO: 08/04/2022, check the updates of the game with the character
         Character usedCharacter = game.getCharacterByIndex(characterIndex);
         int characterCost = usedCharacter.getNumOfUse()+usedCharacter.getInitialCost();
         if (game.getCurrPlayer().getMoney() >= characterCost){
