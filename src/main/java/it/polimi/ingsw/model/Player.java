@@ -66,7 +66,7 @@ public class Player {
         assistantDeck.getAssistantsList().remove(assistantDeck.getAssistantById(selAssistantId));
     }
 
-    public void modifyMoney(int num, AtomicInteger tableMoney, boolean isUsed){
+    public void modifyMoney(int num, AtomicInteger tableMoney, boolean isUsed){ //we have this overload for the use of character
         if((numOfMoney + num) < 0 || num > 0){
             System.out.println("Out of money!");
             return;
