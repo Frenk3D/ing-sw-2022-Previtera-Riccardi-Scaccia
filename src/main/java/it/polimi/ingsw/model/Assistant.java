@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 public class Assistant {
     //attributes
-    private int value;
+    private final int value;
     private int motherNaturePosShift;
 
 

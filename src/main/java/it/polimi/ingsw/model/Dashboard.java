@@ -10,15 +10,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Dashboard {
     //attributes
-    private List<Student> redStudentsList;
-    private List<Student> greenStudentsList;
-    private List<Student> yellowStudentsList;
-    private List<Student> pinkStudentsList;
-    private List<Student> blueStudentsList;
+    private final List<Student> redStudentsList;
+    private final List<Student> greenStudentsList;
+    private final List<Student> yellowStudentsList;
+    private final List<Student> pinkStudentsList;
+    private final List<Student> blueStudentsList;
 
     private List<Student> entranceList;
     private List<Tower> towersList;
-    private List<Professor> professorsList;
+    private final List<Professor> professorsList;
 
 
     //Methods

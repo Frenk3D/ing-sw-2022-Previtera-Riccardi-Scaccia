@@ -43,7 +43,7 @@ class CloudTest {
         Cloud cloud2 = new Cloud();
         cloudList.add(cloud1);
         cloudList.add(cloud2);
-        assertEquals(cloudList.size(),cloud.generateCloudsList(2).size());
+        assertEquals(cloudList.size(), Cloud.generateCloudsList(2).size());
 
     }
 }

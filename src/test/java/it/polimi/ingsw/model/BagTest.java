@@ -62,10 +62,7 @@ class BagTest {
         if(counterBlue==2 && counterGreen ==2 && counterRed==2 && counterPink==2 && counterYellow==2){
             return true;
         }
-        else if(counterBlue ==24 && counterGreen==24 && counterRed==24 && counterPink==24 && counterYellow==24){
-            return true;
-        }
-        return false;
+        else return counterBlue == 24 && counterGreen == 24 && counterRed == 24 && counterPink == 24 && counterYellow == 24;
 
     }
 

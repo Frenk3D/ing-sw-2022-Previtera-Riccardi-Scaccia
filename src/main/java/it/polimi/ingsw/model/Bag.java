@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class Bag {
     //attributes
-    private List<Student> studentsList;
+    private final List<Student> studentsList;
 
     //Methods
     //constructor

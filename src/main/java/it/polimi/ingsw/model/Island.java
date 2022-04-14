@@ -11,7 +11,7 @@ public class Island {
     //attributes
     private int forbidCard;
     private int weight;
-    private List<Tower> towersList;
+    private final List<Tower> towersList;
     private List<Student> studentsList;
 
     //Methods

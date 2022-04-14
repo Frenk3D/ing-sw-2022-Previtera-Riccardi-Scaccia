@@ -9,12 +9,12 @@ public class Player {
     //attributes
     private final String name;
     private final int id;
-    private int team;
+    private final int team;
     private Integer numOfMoney;
-    private AssistantDeck assistantDeck;
+    private final AssistantDeck assistantDeck;
     private Assistant selectedAssistant;
-    private TowerColor playerTowerColor;
-    private Dashboard dashboard;
+    private final TowerColor playerTowerColor;
+    private final Dashboard dashboard;
     private boolean hasTower;
 
     //constructor

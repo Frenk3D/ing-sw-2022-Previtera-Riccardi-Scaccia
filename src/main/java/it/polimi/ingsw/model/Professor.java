@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class Professor {
     //attributes
-    private PawnColor color;
+    private final PawnColor color;
 
 
     //constructor
