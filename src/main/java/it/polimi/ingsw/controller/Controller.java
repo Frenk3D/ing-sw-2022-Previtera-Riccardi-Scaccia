@@ -9,8 +9,8 @@ import it.polimi.ingsw.observer.Observer;
 
 public class Controller implements Observer {
     //attributes
-    private final GameModel game;  //intellij says it should be final,but it actually changes so it's not
-    private final InputVerifier verifier;
+    private GameModel game;  //intellij says it should be final,but it actually changes so it's not
+    private InputVerifier verifier;
 
     //constructor
     public Controller(GameModel game){

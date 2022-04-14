@@ -34,11 +34,11 @@ public class GameModel extends Observable {
     private final boolean expertMode;
     private List<Cloud> cloudsList;
     private List<Integer> wizardList;
-    private final Bag bag;
+    private Bag bag;
     private final List<Player> playersList;
     private List<Character> charactersList;
-    private final List<Professor> tableProfessorsList;
-    private final Round currRound;
+    private List<Professor> tableProfessorsList;
+    private Round currRound;
     private GameState state;
     private List<Island> islandsList; //doesn't change even when you group islands, attrib in Island class
     private AtomicInteger tableMoney;

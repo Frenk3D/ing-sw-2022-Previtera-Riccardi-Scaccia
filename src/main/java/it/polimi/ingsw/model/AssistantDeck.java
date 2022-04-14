@@ -6,7 +6,7 @@ import java.util.List;
 public class AssistantDeck {
     //attributes
     private int wizard; //every wizard is the deck's representative, every wizard has the same deck and the attribute is set from Game for practical purposes
-    private final List<Assistant> assistantsList; //manage when removed...
+    private List<Assistant> assistantsList; //manage when removed...
 
 
     //Methods

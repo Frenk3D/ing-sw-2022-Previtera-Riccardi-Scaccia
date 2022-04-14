@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Round {
     //attributes
-    private final Turn currTurn;
-    private final List<Player> playersOrder;
+    private Turn currTurn;
+    private List<Player> playersOrder;
     private RoundState stage;
     private int planningPhasePlayer;
     private int numOfAssistantThrows;

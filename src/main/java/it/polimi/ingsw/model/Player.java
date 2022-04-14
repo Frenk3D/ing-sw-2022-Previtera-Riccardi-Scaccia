@@ -11,10 +11,10 @@ public class Player {
     private final int id;
     private final int team;
     private Integer numOfMoney;
-    private final AssistantDeck assistantDeck;
+    private AssistantDeck assistantDeck;
     private Assistant selectedAssistant;
     private final TowerColor playerTowerColor;
-    private final Dashboard dashboard;
+    private Dashboard dashboard;
     private boolean hasTower;
 
     //constructor
