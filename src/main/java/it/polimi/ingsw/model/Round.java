@@ -19,7 +19,6 @@ public class Round {
         currTurn=new Turn();
         playersOrder=new ArrayList<>();
         resetRound();
-        planningPhasePlayer = 0;
         numOfAssistantThrows = 0;
     }
 

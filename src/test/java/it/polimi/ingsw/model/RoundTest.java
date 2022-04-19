@@ -33,8 +33,8 @@ class RoundTest {
 
     @BeforeEach
     void setUp() {
-        p = new Player("Giggio",2,1,TowerColor.WHITE);
-        p1 = new Player("Scooby Doo",1,2,TowerColor.BLACK);
+        p = new Player("Giggio",1,1,TowerColor.WHITE);
+        p1 = new Player("Scooby Doo",2,2,TowerColor.BLACK);
         bag = new Bag();
         playersList = new ArrayList<>();
         cloudsList = new ArrayList<>();
@@ -73,9 +73,11 @@ class RoundTest {
     void initRound() {
         round.initRound(playersList,cloudsList,bag);
         assertEquals(3,cloudsList.get(0).getStudents().size());
-        //assertEquals(p1.getId(), round.getPlayersOrder().get(0).getId());
-        //assertEquals(p.getName(), round.getPlayersOrder().get(1).getName());
-        assertNotEquals(p1.getId(), round.getPlayersOrder().get(1).getId());
+        assertEquals(p1.getId(), round.getCurrTurn().getCurrPlayer().getId());
+        assertEquals(p.getId(), round.getPlayersOrder().get(0).getId()); //because init round has next turn inside and it suddenly removes the first players
+        round.nextTurn();
+        assertEquals(p.getName(), round.getCurrTurn().getCurrPlayer().getName());
+        assertNotEquals(p1.getId(), round.getCurrTurn().getCurrPlayer().getId());
         boolean thrown = false;
 
         try {
