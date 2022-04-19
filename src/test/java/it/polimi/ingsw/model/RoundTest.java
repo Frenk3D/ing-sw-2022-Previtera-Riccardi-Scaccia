@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.enumerations.RoundState;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+//import java.util.function.BooleanSupplier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,18 +25,35 @@ class RoundTest {
     List<Cloud> cloudsList;
     Bag bag;
 
+    Player p;
+
+    Player p1;
+
+    Cloud c;
+
     @BeforeEach
     void setUp() {
+        p = new Player("Giggio",2,1,TowerColor.WHITE);
+        p1 = new Player("Scooby Doo",1,2,TowerColor.BLACK);
+        bag = new Bag();
+        playersList = new ArrayList<>();
+        cloudsList = new ArrayList<>();
         round = new Round();
         turn = new Turn();
         tmpRound = new Round();
         playersOrder = new ArrayList<>();
+        p.setSelectedAssistant(2);
+        p1.setSelectedAssistant(1);
+        Cloud c = new Cloud();
+        bag.addAllStudents();
+        c.fillCloud(bag,2);
+        playersList.add(p);
+        playersList.add(p1);
+        cloudsList.add(c);
         stage = RoundState.PLANNING_STATE;
         planningPhasePlayer = 0;
         numOfAssistantThrows = 0;
-        playersList = new ArrayList<>();
-        cloudsList = new ArrayList<>();
-        bag = new Bag();
+
     }
 
     @Test
@@ -51,23 +69,24 @@ class RoundTest {
         assertEquals(RoundState.PLANNING_STATE,round.getStage());
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     void initRound() {
-        Player p = new Player("Giggio",2,1,TowerColor.WHITE);
-        Player p1 = new Player("Scooby Doo",1,2,TowerColor.BLACK);
-        p.setSelectedAssistant(1);
-        p1.setSelectedAssistant(2);
-        Cloud c = new Cloud();
-        bag.addAllStudents();
-        c.fillCloud(bag,4);
-        playersList.add(p);
-        cloudsList.add(c);
         round.initRound(playersList,cloudsList,bag);
-        assertEquals(4,cloudsList.get(0).getStudents().size());
-        assertEquals(p, round.getPlayersOrder().get(0));
-        assertEquals(p1, round.getPlayersOrder().get(1));
-        assertNotEquals(p, round.getPlayersOrder().get(1));
-        assertThrows(IndexOutOfBoundsException.class, (2) -> {round.getPlayersOrder().get()});
+        assertEquals(3,cloudsList.get(0).getStudents().size());
+        //assertEquals(p1.getId(), round.getPlayersOrder().get(0).getId());
+        //assertEquals(p.getName(), round.getPlayersOrder().get(1).getName());
+        assertNotEquals(p1.getId(), round.getPlayersOrder().get(1).getId());
+        boolean thrown = false;
+
+        try {
+            round.getPlayersOrder().get(2);
+
+        } catch (IndexOutOfBoundsException e) {
+            thrown = true;
+        }
+
+        assertEquals(true, thrown);
+
 
     }
 

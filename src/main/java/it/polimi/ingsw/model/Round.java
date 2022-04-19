@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.enumerations.RoundState;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 public class Round {
     //attributes
@@ -32,6 +33,7 @@ public class Round {
 
     public void initRound(List<Player> playersList,List<Cloud> cloudsList, Bag bag) { //to be called after the planning state is finished
         int numOfPlayers = playersList.size();
+        int i = 0;
 
         //fill the clouds
         for (Cloud c : cloudsList) {
@@ -42,18 +44,19 @@ public class Round {
         for(Player p : playersList) {
             Assistant thrownAssistant = p.getSelectedAssistant();
             int currAssistantValue = thrownAssistant.getValue();
-            int i = 0;
 
             if (playersOrder.isEmpty()) {
                 playersOrder.add(p);
             }
             else {
-                while (i < playersOrder.size() && currAssistantValue >= playersOrder.get(i).getSelectedAssistant().getValue()) {     //if a player has only a card with the same value he can throw it, or else ha can't
+                while (i < playersOrder.size() && currAssistantValue >= playersOrder.get(i).getSelectedAssistant().getValue()) {     //if a player has only a card with the same value he can throw it, or else he can't
                     i++;
                 }
                 playersOrder.add(i, p);
+                i=0;
             }
         }
+        //Collections.reverse(playersOrder); //because it is reversed
 
         nextTurn();
         stage = RoundState.ACTION_STATE;
