@@ -108,4 +108,17 @@ public class Round {
                 numOfAssistantThrows++;
         }
     }
+    //for test purposes
+
+    public void setStage(RoundState stage) {
+        this.stage = stage;
+    }
+
+    public void setNumOfAssistantThrows(int numOfAssistantThrows) {
+        this.numOfAssistantThrows = numOfAssistantThrows;
+    }
+
+    public List<Player> getPlayersOrder() {
+        return playersOrder;
+    }
 }

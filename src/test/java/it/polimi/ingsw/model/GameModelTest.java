@@ -55,17 +55,13 @@ class GameModelTest {
     void addPlayer() {
         assertEquals(p1,game1.getPlayerById(1));
         assertEquals(p4,game1.getPlayersList().get(3));
+        assertEquals(false,game1.addPlayer(p1));
     }
 
     @Test
     void start() {
         assertEquals(GameState.INGAME_STATE,game1.getGameState());
 
-    }
-
-    @Test
-    void chooseStartingPlayer() {
-        // TODO: 08/04/2022
     }
 
     @Test
@@ -94,5 +90,10 @@ class GameModelTest {
     @Test
     void checkWin() {
         // TODO: 08/04/2022
+    }
+    @Test
+    void setNumOfPlayers(){
+        game2.setNumOfPlayers(4);
+        assertEquals(game1.getNumOfPlayers(),game2.getNumOfPlayers() );
     }
 }
