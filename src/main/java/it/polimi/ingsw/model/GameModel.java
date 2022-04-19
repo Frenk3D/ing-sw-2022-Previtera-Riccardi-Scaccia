@@ -27,11 +27,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameModel extends Observable {
     //attributes
-
     private int firstThrowPlayer;
-    private final int numOfPlayers; //numofplayers, playerslist and expertmode final, decided from the start
+    private int numOfPlayers; //numofplayers, playerslist and expertmode final, decided from the start
     private int motherNaturePos;
-    private final boolean expertMode;
+    private boolean expertMode;
     private List<Cloud> cloudsList;
     private List<Integer> wizardList;
     private Bag bag;
@@ -43,10 +42,12 @@ public class GameModel extends Observable {
     private List<Island> islandsList; //doesn't change even when you group islands, attrib in Island class
     private AtomicInteger tableMoney;
 
+    public static final int SERVER_ID = 9999;
+
     //constructor
-    public GameModel(int numOfPlayers, boolean expertMode){
-        this.numOfPlayers = numOfPlayers;
-        this.expertMode = expertMode;
+    public GameModel(){
+        numOfPlayers = -1;
+        expertMode=false;
 
         currRound=new Round();
         playersList = new ArrayList<>();
@@ -57,11 +58,24 @@ public class GameModel extends Observable {
         tableMoney = null;
     }
 
-
-    public void addPlayer(Player player){
-        if(playersList.size()<numOfPlayers) {
-            playersList.add(player);
+    public boolean setNumOfPlayers(int chosenNumOfPlayers){
+        if (chosenNumOfPlayers > 0 && chosenNumOfPlayers <= 4) {
+            numOfPlayers = chosenNumOfPlayers;
+            return true;
         }
+        return false;
+    }
+
+    public boolean addPlayer(Player player){
+        if(numOfPlayers!=-1 && playersList.size()<numOfPlayers) {
+            playersList.add(player);
+            return true;
+        }
+        return false;
+    }
+
+    public void setExpertMode(boolean expertMode){
+        this.expertMode=expertMode;
     }
 
     public void start(){

@@ -25,8 +25,12 @@ class GameModelTest {
 
     @BeforeEach
     void setUp() {
-        game1 = new GameModel(4,true);
-        game2 = new GameModel(3,false);
+        game1 = new GameModel();
+        game1.setNumOfPlayers(4);
+        game1.setExpertMode(true);
+        game2 = new GameModel();
+        game2.setNumOfPlayers(3);
+        game2.setExpertMode(false);
         p1 = new Player("Jorginho",1,1, TowerColor.WHITE);
         p2 = new Player("Ronaldinho",2,1,TowerColor.WHITE);
         p3 = new Player("Messi",3,2,TowerColor.BLACK);

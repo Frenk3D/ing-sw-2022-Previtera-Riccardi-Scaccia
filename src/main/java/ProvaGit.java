@@ -12,7 +12,9 @@ public class ProvaGit
         System.out.println( "Hello World!" );
 
         GameModel game;
-        game = new GameModel(2,false);
+        game = new GameModel();
+        game.setNumOfPlayers(2);
+        game.setExpertMode(false);
         Player p1 = new Player("Pippo", 1, 1, TowerColor.BLACK);
         Player p2 = new Player("Topolino", 2, 2, TowerColor.WHITE);
         game.addPlayer(p1);
@@ -73,7 +75,7 @@ public class ProvaGit
         //System.out.println("The turn is of "+game.getCurrPlayer().getName());
 
 
-        Controller controller = new Controller(game);
+        Controller controller = new Controller();
         System.out.println("init " + game.getCurrRound().getStage());
         controller.selectAssistant(1,5);
         System.out.println("butto assistente 1 "+ game.getCurrRound().getStage());

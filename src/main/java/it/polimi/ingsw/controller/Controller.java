@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller; //well connected to Game, need to Observ, wi
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.characters.Character;
+import it.polimi.ingsw.model.enumerations.GameState;
 import it.polimi.ingsw.model.enumerations.RoundState;
 import it.polimi.ingsw.model.enumerations.TurnState;
 import it.polimi.ingsw.network.message.Message;
@@ -13,10 +14,36 @@ public class Controller implements Observer {
     private InputVerifier verifier;
 
     //constructor
-    public Controller(GameModel game){
-        this.game=game;
+    public Controller(){
+        game = new GameModel();
         verifier = new InputVerifier(game);
     }
+
+    public GameModel getGame(){
+        return game;
+    }
+
+    public void onMessageReceived(Message message){
+        switch (getGameState()){
+            case SETTING_STATE:
+                settingState();
+                break;
+            case INGAME_STATE:
+                inGameState();
+                break;
+            case FINISHED_STATE:
+                finishedState();
+                break;
+        }
+    }
+
+
+    private void settingState(){}
+
+    private void inGameState(){}
+
+    private void finishedState(){}
+
 
     //methods
     //ACTION PHASE 1
@@ -112,9 +139,13 @@ public class Controller implements Observer {
         }
     }
 
-    public int nextTurn(){
-        game.getCurrRound().getCurrTurn().getCurrPlayer();
-        return 0;
+    private GameState getGameState() {
+        return game.getGameState();
+    }
+
+
+    private boolean checkUser(Message message){
+        return true;
     }
 
     @Override

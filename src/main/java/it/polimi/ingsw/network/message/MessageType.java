@@ -1,0 +1,17 @@
+package it.polimi.ingsw.network.message;
+
+public enum MessageType {
+    PLAYER_NUMBER_REQUEST,
+    EXPERT_MODE_REQUEST,
+    ADD_PLAYER,
+    CHOSE_TEAM,
+    PICK_FIRST_PLAYER,
+    GAME_SEND,
+    MOVE_STUDENT_ISLAND,MOVE_STUDENT_DASHBOARD,
+    MOVE_MOTHER_NATURE,
+    TAKE_FROM_CLOUD,
+    SELECT_ASSISTANT,
+    USE_CHARACTER,
+    WIN,
+    LOSE
+}
