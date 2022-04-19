@@ -48,13 +48,12 @@ public class GameModel extends Observable {
     public GameModel(){
         numOfPlayers = -1;
         expertMode=false;
-
         currRound=new Round();
-        playersList = new ArrayList<>();
         bag = new Bag();
+        playersList = new ArrayList<>();
         cloudsList = new ArrayList<>();
         tableProfessorsList = new ArrayList<>();
-        state = GameState.SETTING_STATE;
+        state = GameState.LOGIN_STATE;
         tableMoney = null;
     }
 
@@ -78,9 +77,17 @@ public class GameModel extends Observable {
         this.expertMode=expertMode;
     }
 
-    public void start(){
+    public boolean init(){
         if(playersList.size()!=numOfPlayers){
-            return;
+            return false;
+        }
+        state=GameState.SETTING_STATE;
+        return true;
+    }
+
+    public boolean start(){
+        if(playersList.size()!=numOfPlayers){
+            return false;
         }
         //initialization of the game
         currRound.randomStartingPlayer(playersList);
@@ -111,11 +118,12 @@ public class GameModel extends Observable {
         }
 
         state = GameState.INGAME_STATE;
+        return true;
     }
 
 
     public void setMotherNaturePosition(int pos){
-            if(motherNaturePos!=pos) //todo mother nature has to move at least of 1 pos, but we have to manage illegal moves
+            if(motherNaturePos!=pos&& pos>0 && pos<12) //todo mother nature has to move at least of 1 pos, but we have to manage illegal moves
                 motherNaturePos=pos;
             else
                 System.out.println("Choose a correct move");

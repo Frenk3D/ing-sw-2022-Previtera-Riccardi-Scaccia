@@ -22,11 +22,15 @@ class PlayerTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player("Gigio",2,1, TowerColor.BLACK);
+        player = new Player("Gigio",2);
+        player.setPlayerTowerColor(TowerColor.BLACK);
+        player.setTeam(1);
         tableMoney = new AtomicInteger(20);
         finalMoney=0;
         towersList = new ArrayList<>();
-        tmpPlayer = new Player( "Gigio",2,1,TowerColor.BLACK);
+        tmpPlayer = new Player( "Gigio",2);
+        tmpPlayer.setPlayerTowerColor(TowerColor.BLACK);
+        tmpPlayer.setTeam(1);
         wizardsList = new ArrayList<>(4);
     }
 

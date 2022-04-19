@@ -10,13 +10,15 @@ public class ProvaGit
 {
     public static void main( String[] args ) throws InterruptedException {
         System.out.println( "Hello World!" );
+        Controller controller = new Controller();
+        GameModel game = controller.getGame();
 
-        GameModel game;
-        game = new GameModel();
         game.setNumOfPlayers(2);
         game.setExpertMode(false);
-        Player p1 = new Player("Pippo", 1, 1, TowerColor.BLACK);
-        Player p2 = new Player("Topolino", 2, 2, TowerColor.WHITE);
+        Player p1 = new Player("Pippo", 1);
+        Player p2 = new Player("Topolino", 2);
+        p1.setPlayerTowerColor(TowerColor.WHITE);
+        p2.setPlayerTowerColor(TowerColor.BLACK);
         game.addPlayer(p1);
         game.addPlayer(p2);
         game.start();
@@ -70,21 +72,11 @@ public class ProvaGit
         }
 
 
-
-        //game.getCurrRound().nextTurn();
-        //System.out.println("The turn is of "+game.getCurrPlayer().getName());
-
-
-        Controller controller = new Controller();
         System.out.println("init " + game.getCurrRound().getStage());
         controller.selectAssistant(1,5);
         System.out.println("butto assistente 1 "+ game.getCurrRound().getStage());
         controller.selectAssistant(2,4);
         System.out.println("butto assistente 2 "+ game.getCurrRound().getStage());
-
-        //Thread.sleep(1000);
-
-        //System.out.println("The turn is of "+ game.getCurrPlayer().getName());
 
 
         for (int i=0; i<2; i++){

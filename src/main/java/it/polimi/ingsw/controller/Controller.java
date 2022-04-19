@@ -11,12 +11,10 @@ import it.polimi.ingsw.observer.Observer;
 public class Controller implements Observer {
     //attributes
     private GameModel game;  //intellij says it should be final,but it actually changes so it's not
-    private InputVerifier verifier;
 
     //constructor
     public Controller(){
         game = new GameModel();
-        verifier = new InputVerifier(game);
     }
 
     public GameModel getGame(){
@@ -25,24 +23,86 @@ public class Controller implements Observer {
 
     public void onMessageReceived(Message message){
         switch (getGameState()){
+            case LOGIN_STATE:
+                loginState(message);
+                break;
             case SETTING_STATE:
-                settingState();
+                settingState(message);
                 break;
             case INGAME_STATE:
-                inGameState();
+                if(checkUser(message)){
+                    inGameState(message);
+                }
                 break;
             case FINISHED_STATE:
-                finishedState();
+                finishedState(message);
+                break;
+            default:
+                System.out.println("Errore");
+                break;
+        }
+    }
+
+    private void loginState(Message message) {
+        switch (message.getMessageType()){
+            case LOGIN_REQUEST:
+                break;
+            case ADD_PLAYER_REQUEST:
+                break;
+            case NEW_GAME_REQUEST:
+                break;
+            case DELETE_GAME_REQUEST:
+                break;
+            default:
+                System.out.println("Errore");
                 break;
         }
     }
 
 
-    private void settingState(){}
+    private void settingState(Message message){
+        switch (message.getMessageType()){
+            case CHOSE_TEAM:
+                break;
+            case CHOSE_TOWER:
+                break;
+            default:
+                System.out.println("Errore");
+                break;
+        }
+    }
 
-    private void inGameState(){}
+    private void inGameState(Message message){
+        switch (message.getMessageType()){
+            case SELECT_ASSISTANT:
+                break;
+            case MOVE_STUDENT_ISLAND:
+                break;
+            case MOVE_STUDENT_DASHBOARD:
+                break;
+            case MOVE_MOTHER_NATURE:
+                break;
+            case TAKE_FROM_CLOUD:
+                break;
+            case USE_CHARACTER:
+                break;
+            default:
+                System.out.println("Errore");
+                break;
+        }
+    }
 
-    private void finishedState(){}
+    private void finishedState(Message message){
+        switch (message.getMessageType()){
+            case WIN:
+                break;
+            case LOSE:
+                break;
+            default:
+                System.out.println("Errore");
+                break;
+        }
+    }
 
 
     //methods
@@ -145,7 +205,10 @@ public class Controller implements Observer {
 
 
     private boolean checkUser(Message message){
-        return true;
+        if(message.getSenderId()==game.getCurrPlayer().getId() || message.getSenderId()==game.getCurrRound().getPlanningPhasePlayer(game.getPlayersList()).getId()){
+            return true;
+        }
+        return false;
     }
 
     @Override

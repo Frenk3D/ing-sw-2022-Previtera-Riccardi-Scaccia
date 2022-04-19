@@ -33,8 +33,12 @@ class RoundTest {
 
     @BeforeEach
     void setUp() {
-        p = new Player("Giggio",1,1,TowerColor.WHITE);
-        p1 = new Player("Scooby Doo",2,2,TowerColor.BLACK);
+        p = new Player("Giggio",1);
+        p.setTeam(1);
+        p.setPlayerTowerColor(TowerColor.WHITE);
+        p1 = new Player("Scooby Doo",2);
+        p.setTeam(2);
+        p.setPlayerTowerColor(TowerColor.BLACK);
         bag = new Bag();
         playersList = new ArrayList<>();
         cloudsList = new ArrayList<>();

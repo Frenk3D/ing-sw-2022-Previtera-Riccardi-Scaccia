@@ -32,7 +32,9 @@ class DashboardTest {
         dashboard = new Dashboard();
         s = new Student(PawnColor.RED);
         dashboard.addStudentHall(s,player,tableMoney);
-        player = new Player("Pippo", 1, 1, towerColor);
+        player = new Player("Pippo", 1);
+        player.setPlayerTowerColor(towerColor);
+        player.setTeam(1);
         player.modifyMoney(3,tableMoney);
         professor = new Professor(PawnColor.RED);
         entranceList = new ArrayList<>();

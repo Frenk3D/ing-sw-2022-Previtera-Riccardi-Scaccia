@@ -9,24 +9,22 @@ public class Player {
     //attributes
     private final String name;
     private final int id;
-    private final int team;
+    private int team;
     private Integer numOfMoney;
     private AssistantDeck assistantDeck;
     private Assistant selectedAssistant;
-    private final TowerColor playerTowerColor;
+    private TowerColor playerTowerColor;
     private Dashboard dashboard;
     private boolean hasTower;
 
     //constructor
-    public Player(String name, int id, int team, TowerColor playerTowercolor){
+    public Player(String name, int id){
         numOfMoney=null; //if numOfMoney is null we are in normal mode
         this.name= name;
         assistantDeck = new AssistantDeck();
         dashboard = new Dashboard();
-        this.team = team;
         hasTower = true;
         this.id = id;
-        this.playerTowerColor = playerTowercolor;
     }
 
     //getter
@@ -60,6 +58,13 @@ public class Player {
         this.hasTower = tower;
     }
 
+    public void setTeam(int team) {
+        this.team = team;
+    }
+
+    public void setPlayerTowerColor(TowerColor playerTowerColor) {
+        this.playerTowerColor = playerTowerColor;
+    }
 
     public void setSelectedAssistant(int selAssistantId){
         selectedAssistant = assistantDeck.getAssistantById(selAssistantId);
@@ -124,6 +129,7 @@ public class Player {
         }
         return this; //player is alone
     }
+
 
 
 

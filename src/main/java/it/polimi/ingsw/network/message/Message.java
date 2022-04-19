@@ -2,14 +2,18 @@ package it.polimi.ingsw.network.message;
 //custom messages to observe
 public abstract class Message {
     private MessageType messageType;
-    private int playerId;
+    private int senderId;
 
-    public Message(MessageType messageType, int playerId){
+    private Message(MessageType messageType, int senderId){
         this.messageType=messageType;
-        this.playerId=playerId;
+        this.senderId=senderId;
     }
 
     public MessageType getMessageType() {
         return messageType;
+    }
+
+    public int getSenderId(){
+        return senderId;
     }
 }
