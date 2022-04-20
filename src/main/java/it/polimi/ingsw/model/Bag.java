@@ -61,7 +61,7 @@ public class Bag {
     //for test purposes
 
 
-    @Override
+  /*  @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Bag)) return false;
@@ -73,4 +73,6 @@ public class Bag {
     public int hashCode() {
         return Objects.hash(getStudentsList());
     }
+
+   */
 }

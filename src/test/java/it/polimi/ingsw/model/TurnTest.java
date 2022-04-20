@@ -1,0 +1,72 @@
+package it.polimi.ingsw.model;
+
+import it.polimi.ingsw.model.characters.Character;
+import it.polimi.ingsw.model.characters.Factory;
+import it.polimi.ingsw.model.enumerations.PawnColor;
+import it.polimi.ingsw.model.enumerations.TurnState;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class TurnTest {
+    Turn turn = new Turn();
+    Character c1 = Factory.newCharacter(3);
+    GameModel game1;
+    List<Professor> tmpProfessorList;
+
+
+    @BeforeEach
+    void setUp() {
+        turn.initTurn();
+        game1 = new GameModel();
+        game1.setNumOfPlayers(2);
+        game1.addPlayer(new Player("Giorgio",0));
+        game1.addPlayer(new Player("Gigio",1));
+
+    }
+
+    @Test
+    void getUsedCharacter() {
+        turn.setUsedCharacter(c1);
+        assertEquals(c1,turn.getUsedCharacter());
+    }
+
+    @Test
+    void setStage() {
+        turn.setStage(TurnState.CHOOSE_CLOUD_STATE);
+        assertEquals(TurnState.CHOOSE_CLOUD_STATE, turn.getStage());
+    }
+
+
+    @Test
+    void updateProfessorsLists() {
+        game1.start();
+        game1.getPlayersList().get(0).getDashboard().addStudentHall(new Student(PawnColor.RED),game1.getPlayersList().get(0),null);
+        game1.getPlayersList().get(1).getDashboard().addStudentHall(new Student(PawnColor.GREEN),game1.getPlayersList().get(0),null);
+        tmpProfessorList = new ArrayList<>(game1.getTableProfessorsList());
+        assertEquals(tmpProfessorList,game1.getTableProfessorsList());
+        turn.updateProfessorsLists(game1.getPlayersList(),game1.getTableProfessorsList());
+        assertNotEquals(tmpProfessorList,game1.getTableProfessorsList());
+        assertEquals(3, game1.getTableProfessorsList().size());
+
+    }
+
+
+    @Test
+    void updateIslandList() { // TODO: 20/04/2022  
+    }
+
+    @Test
+    void incrementMovedStudents() {
+    }
+
+    @Test
+    void getMovedStudentsNumber() {
+    }
+
+
+}

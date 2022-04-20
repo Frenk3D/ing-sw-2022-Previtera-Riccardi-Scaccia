@@ -31,6 +31,10 @@ class RoundTest {
 
     Cloud c;
 
+    Player tmpPlayer;
+
+
+
     @BeforeEach
     void setUp() {
         p = new Player("Giggio",1);
@@ -57,6 +61,8 @@ class RoundTest {
         stage = RoundState.PLANNING_STATE;
         planningPhasePlayer = 0;
         numOfAssistantThrows = 0;
+
+
 
     }
 
@@ -93,38 +99,18 @@ class RoundTest {
 
         assertEquals(true, thrown);
 
+        round.nextTurn();
+        assertEquals(RoundState.END_ROUND,round.getStage());
 
-    }
 
-    @Test
-    void nextTurn() {
-    }
-
-    @Test
-    void getNextPlayer() {
-    }
-
-    @Test
-    void getCurrTurn() {
-    }
-
-    @Test
-    void getStage() {
-    }
-
-    @Test
-    void getNumOfAssistantThrows() {
-    }
-
-    @Test
-    void getPlanningPhasePlayer() {
-    }
-
-    @Test
-    void randomStartingPlayer() {
     }
 
     @Test
     void setNextPlayerPlanning() {
+        round.resetRound();
+        round.randomStartingPlayer(playersList);
+        tmpPlayer = round.getPlanningPhasePlayer(playersList);
+        round.setNextPlayerPlanning(2);
+        assertNotEquals(tmpPlayer,round.getNextPlayer());
     }
 }

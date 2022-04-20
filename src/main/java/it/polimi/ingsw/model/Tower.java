@@ -29,10 +29,12 @@ public class Tower {
         return getColor() == tower.getColor();
     }
 
-    @Override
+   /* @Override
     public int hashCode() {
         return Objects.hash(getColor());
     }
+
+    */
 }
 
 

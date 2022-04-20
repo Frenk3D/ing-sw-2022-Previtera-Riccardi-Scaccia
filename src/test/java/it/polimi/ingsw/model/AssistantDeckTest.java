@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AssistantDeckTest {
+
+
     AssistantDeck assistantDeck;
 
     @BeforeEach
@@ -30,5 +32,8 @@ class AssistantDeckTest {
     @Test
     void getAssistantById() {
         assertEquals(3,assistantDeck.getAssistantById(3).getValue());
+    }
+    @Test
+    void removeAssistantById() {
     }
 }

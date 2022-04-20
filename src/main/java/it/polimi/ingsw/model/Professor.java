@@ -39,8 +39,10 @@ public class Professor {
         return getColor() == professor.getColor();
     }
 
-    @Override
+  /*  @Override
     public int hashCode() {
         return Objects.hash(getColor());
     }
+
+   */
 }

@@ -17,6 +17,7 @@ import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.characters.CharacterParameters;
 import it.polimi.ingsw.model.characters.Characters3and4and5;
 import it.polimi.ingsw.model.enumerations.GameState;
+import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.observer.Observable;
 
 import java.util.ArrayList;
@@ -96,6 +97,10 @@ public class GameModel extends Observable {
         islandsList=Island.generateIslandsList();
         Island.initStudentIsland(islandsList,motherNaturePos,bag);
         cloudsList = Cloud.generateCloudsList(numOfPlayers);
+        for(PawnColor c : PawnColor.values()){
+            Professor p = new Professor(c);
+            tableProfessorsList.add(p);
+        }
 
         bag.addAllStudents();
         for (Player p: playersList){
@@ -240,5 +245,9 @@ public class GameModel extends Observable {
 
     public boolean isExpertMode() {
         return expertMode;
+    }
+
+    public List<Professor> getTableProfessorsList() {
+        return tableProfessorsList;
     }
 }

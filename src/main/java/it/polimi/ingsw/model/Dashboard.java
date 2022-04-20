@@ -90,8 +90,7 @@ public class Dashboard {
 
     public void addStudentHall(Student student, Player currPlayer, AtomicInteger tableMoney){
         getHallStudentsListByColor(student.getColor()).add(student);
-        if ((getHallStudentsListByColor(student.getColor()).size() % 3)==0 && tableMoney != null){
-            currPlayer.modifyMoney(1,tableMoney);
+        if ((getHallStudentsListByColor(student.getColor()).size() % 3)==0 && tableMoney != null){ // if null it's not expert mode
         }
 
     }
@@ -125,7 +124,7 @@ public class Dashboard {
 
 
     //for test purposes
-    @Override
+  /*  @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Dashboard)) return false;
@@ -137,4 +136,6 @@ public class Dashboard {
     public int hashCode() {
         return Objects.hash(redStudentsList, greenStudentsList, yellowStudentsList, pinkStudentsList, blueStudentsList, getEntranceList(), getTowersList(), getProfessorsList());
     }
+
+   */
 }
