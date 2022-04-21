@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.characters.Character;
+import it.polimi.ingsw.model.characters.Factory;
 import it.polimi.ingsw.model.enumerations.GameState;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import org.junit.jupiter.api.AfterEach;
@@ -47,11 +48,17 @@ class GameModelTest {
         game1.addPlayer(p2);
         game1.addPlayer(p3);
         game1.addPlayer(p4);
+        game2.addPlayer(p1);
+        game2.addPlayer(p2);
+        game2.addPlayer(p3);
         game1.start();
         game2.start();
         islandsList = new ArrayList<>();
         cloudsList = new ArrayList<>();
         charactersList= new ArrayList<it.polimi.ingsw.model.characters.Character>();
+        charactersList.add(Factory.newCharacter(1));
+        charactersList.add(Factory.newCharacter(5));
+        game1.setCharactersList(charactersList);
         tmpCharactersList = new ArrayList<>();
     }
 
@@ -103,5 +110,17 @@ class GameModelTest {
     void setNumOfPlayers(){
         game2.setNumOfPlayers(4);
         assertEquals(game1.getNumOfPlayers(),game2.getNumOfPlayers() );
+    }
+
+    @Test
+    void aLotOfTests() {
+        assertEquals(5, game1.getForbidCharacter().getId());
+        assertEquals(true,game1.isExpertMode());
+        assertEquals(4, game1.getCloudsList().size());
+        assertNotEquals(93, game1.getBag().getStudentsList().size());
+        assertEquals(93, game2.getBag().getStudentsList().size());
+        assertEquals(null, game2.getCurrPlayer());
+        assertEquals(null, game2.getTableMoney());
+
     }
 }

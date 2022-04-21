@@ -9,10 +9,14 @@ class AssistantDeckTest {
 
 
     AssistantDeck assistantDeck;
+    Assistant a;
 
     @BeforeEach
     void setUp() {
         assistantDeck = new AssistantDeck();
+        /* a = new Assistant(1,2);
+        assistantDeck.getAssistantsList().add(a);
+        assistantDeck.getAssistantsList().add(new Assistant (3,3)); */
     }
 
     @Test
@@ -35,5 +39,9 @@ class AssistantDeckTest {
     }
     @Test
     void removeAssistantById() {
+        assistantDeck.removeAssistantById(1);
+        assertEquals(9, assistantDeck.getAssistantsList().size());
+        assistantDeck.removeAssistantById(1);
+        assertEquals(9, assistantDeck.getAssistantsList().size());
     }
 }

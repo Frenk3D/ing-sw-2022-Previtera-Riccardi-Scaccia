@@ -73,13 +73,13 @@ public class Player {
 
     public void modifyMoney(int num, AtomicInteger tableMoney, boolean isUsed){ //we have this overload for the use of character
         if((numOfMoney + num) < 0 || num > 0){
-            System.out.println("Out of money!");
+            System.out.println("there is a mistake!");
             return;
         }
 
         if (num <0 && isUsed == false) { //we decrease players money
             numOfMoney = numOfMoney + num; //this is for the use of the character
-            tableMoney.set(tableMoney.get() - (num - 1)); //we put one money on the character card
+            tableMoney.set(tableMoney.get() - (num + 1)); //we put one money on the character card
         }
         else if(num <0 && isUsed){
             numOfMoney = numOfMoney + num; //this is for the use of the character
@@ -93,7 +93,7 @@ public class Player {
         }
 
         if((tableMoney.get() - num) < 0 || (numOfMoney + num) < 0){
-            System.out.println("Out of money!");
+            System.out.println("Both Out of money!");
             return;
         }
 

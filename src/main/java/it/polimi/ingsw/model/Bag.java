@@ -41,6 +41,7 @@ public class Bag {
         List<Student> result = new ArrayList<>(); //..
         int remainingExtraction=num;
         while (remainingExtraction>0){
+            // for testing, to check, System.out.println(remainingExtraction);
             int randomInt = (int)(Math.random() * (studentsList.size()));
             result.add(studentsList.get(randomInt));
             studentsList.remove(randomInt);
