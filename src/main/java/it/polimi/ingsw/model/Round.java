@@ -55,7 +55,7 @@ public class Round {
             }
         }
 
-        planningPhasePlayer=playersList.indexOf(playersOrder.get(0));
+        planningPhasePlayer=playersList.indexOf(playersOrder.get(0)); //set the starting planning player for the next round
         stage = RoundState.ACTION_STATE;
         nextTurn();
     }

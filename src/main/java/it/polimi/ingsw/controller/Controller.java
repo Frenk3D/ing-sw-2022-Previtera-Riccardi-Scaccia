@@ -99,6 +99,7 @@ public class Controller implements Observer {
             Student studentToMove = currPlayer.getDashboard().getEntranceList().get(entranceListIndex);
             game.getIslandByIndex(islandIndex).addStudent(studentToMove);
             currPlayer.getDashboard().getEntranceList().remove(studentToMove);
+            game.getCurrRound().getCurrTurn().incrementMovedStudents();
         }
         else {
             System.out.println("forbidden move");
@@ -112,6 +113,8 @@ public class Controller implements Observer {
             Student studentToMove = currPlayer.getDashboard().getEntranceList().get(entranceListIndex);
             currPlayer.getDashboard().addStudentHall(studentToMove,currPlayer,game.getTableMoney());
             currPlayer.getDashboard().getEntranceList().remove(studentToMove);
+            game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(),game.getTableProfessorsList());
+            game.getCurrRound().getCurrTurn().incrementMovedStudents();
         }
         else {
             System.out.println("forbidden move");

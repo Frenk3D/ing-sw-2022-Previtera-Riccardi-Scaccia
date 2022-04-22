@@ -1,5 +1,6 @@
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.RoundState;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 
@@ -7,12 +8,12 @@ import it.polimi.ingsw.model.enumerations.TowerColor;
  * Hello world!
  * ok Fra, ok Nic, ok marco, sometimes gives problem because we force playerId, and check the random problems with random features
  */
-public class ProvaGit
-{
-    public static void main( String[] args ) throws InterruptedException {
-        System.out.println( "Hello World!" );
+public class ProvaGit {
+
+    public static void main( String[] args ){
         Controller controller = new Controller();
-        GameModel game = controller.getGame();
+        GameModel game;
+        game = controller.getGame();
 
         game.setNumOfPlayers(2);
         game.setExpertMode(false);
@@ -24,6 +25,38 @@ public class ProvaGit
         game.addPlayer(p2);
         game.start();
 
+
+        printIslands(game);
+        printClouds(game);
+        printDashboards(game);
+
+
+        controller.selectAssistant(1,5);
+        controller.selectAssistant(2,4);
+
+
+        if(game.getCurrRound().getStage()== RoundState.ACTION_STATE){
+            System.out.println("The turn is of " + game.getCurrPlayer().getName());
+        }
+        else return;
+
+        System.out.println("Started phase:"+ game.getCurrRound().getCurrTurn().getStage());
+        controller.moveStudentDashboard(1);
+        controller.moveStudentDashboard(4);
+        controller.moveStudentIsland(1,3);
+
+        printDashboards(game);
+        printIslands(game);
+
+        System.out.println("Started phase:"+ game.getCurrRound().getCurrTurn().getStage());
+        controller.moveMotherNature(7);
+
+        printDashboards(game);
+        printIslands(game);
+
+    }
+
+    private static void printIslands(GameModel game){
         for (int i=0; i<12;i++){
             Island island = game.getIslandByIndex(i);
             System.out.print("----------ISOLA "+i+"---------- ");
@@ -38,28 +71,23 @@ public class ProvaGit
                 System.out.println("Torre "+t.getColor());
             }
         }
+    }
 
-        for (int i=0; i<2; i++){
-            Cloud c = game.getCloudByIndex(i);
-            System.out.println("----------NUVOLA "+i+"---------- ");
-            for (Student student : c.getStudents()){
-                System.out.println("Studente "+student.getColor());
-            }
-        }
-
+    private static void printDashboards(GameModel game){
         for (Player p : game.getPlayersList()){
             System.out.println("\n-----------Player "+p.getName()+"----------");
+
             for(Student s : p.getDashboard().getEntranceList()){
                 System.out.println("Studente: "+s.getColor());
             }
+
+            for(PawnColor c: PawnColor.values()){
+                System.out.println("Colore "+c+ " "+p.getDashboard().getHallStudentsListByColor(c).size()+" Professore: "+p.getDashboard().getProfessorByColor(c));
+            }
         }
+    }
 
-
-
-        controller.selectAssistant(1,5);
-        controller.selectAssistant(2,4);
-
-
+    private static void printClouds(GameModel game){
         for (int i=0; i<2; i++){
             Cloud c = game.getCloudByIndex(i);
             System.out.println("----------NUVOLA "+i+"---------- ");
@@ -67,34 +95,5 @@ public class ProvaGit
                 System.out.println("Studente "+student.getColor());
             }
         }
-
-        if(game.getCurrRound().getStage()== RoundState.ACTION_STATE){
-            System.out.println("The turn is of " + game.getCurrPlayer().getName());
-        }
-
-        boolean res = game.getCurrRound().nextTurn();
-
-        if(game.getCurrRound().getStage()== RoundState.ACTION_STATE){
-            System.out.println("The turn is of " + game.getCurrPlayer().getName()+"; "+res);
-        }
-
-        res = game.getCurrRound().nextTurn();
-
-        if(game.getCurrRound().getStage()== RoundState.END_ROUND){
-            System.out.println("End of the round " + res);
-        }
-
-        System.out.println("Reset round");
-        game.getCurrRound().resetRound();
-        System.out.println(game.getCurrRound().getStage());
-        System.out.println("Butta la carta "+ game.getCurrRound().getPlanningPhasePlayer(game.getPlayersList()).getName());
-
-        controller.selectAssistant(2,9);
-        controller.selectAssistant(1,2);
-
-        if(game.getCurrRound().getStage()== RoundState.ACTION_STATE){
-            System.out.println("The turn is of " + game.getCurrPlayer().getName());
-        }
-        System.out.println("al prossimo turno butta prima la carta "+ game.getCurrRound().getPlanningPhasePlayer(game.getPlayersList()).getName());
     }
 }

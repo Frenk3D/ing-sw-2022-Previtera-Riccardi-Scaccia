@@ -110,10 +110,11 @@ public class Turn {
     }
 
     public boolean incrementMovedStudents(){
+        movedStudentNumber++;
         if(movedStudentNumber==3){
+            stage=TurnState.MOVE_MOTHER_NATURE_STATE;
             return false;
         }
-        movedStudentNumber++;
         return true;
     }
 
