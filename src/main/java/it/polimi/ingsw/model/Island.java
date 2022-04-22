@@ -98,6 +98,7 @@ public class Island {
                     oldDominatingPlayer = p;
                 }
 
+                System.out.println("influenza player "+p.getName()+": "+calculateInfluence(p,playersList));
                 if (calculateInfluence(p,playersList) > calculateInfluence(tmpPlayer,playersList) && p.hasTower()) {
                     tmpPlayer = p;
                     allParity=false;
@@ -106,6 +107,7 @@ public class Island {
                     allParity=false;
                 }
             }
+        //System.out.println("dominating player-------------- "+tmpPlayer.getName()+ " allpartiy="+allParity+" oldDom="+oldDominatingPlayer);
             if (allParity == false) {//if the var is false there is a change of domain, or else we do nothing
                 if (tmpPlayer != oldDominatingPlayer){ //if we have to change the tower
                     for (Tower t: towersList) {

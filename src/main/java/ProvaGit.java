@@ -21,39 +21,46 @@ public class ProvaGit {
         Player p2 = new Player("Topolino", 2);
         p1.setPlayerTowerColor(TowerColor.WHITE);
         p2.setPlayerTowerColor(TowerColor.BLACK);
+        p1.setTeam(1);
+        p2.setTeam(2);
         game.addPlayer(p1);
         game.addPlayer(p2);
         game.start();
 
 
         printIslands(game);
-        printClouds(game);
         printDashboards(game);
 
 
-        controller.selectAssistant(1,5);
+        controller.selectAssistant(1,2);
         controller.selectAssistant(2,4);
 
+        printClouds(game);
 
         if(game.getCurrRound().getStage()== RoundState.ACTION_STATE){
             System.out.println("The turn is of " + game.getCurrPlayer().getName());
         }
         else return;
 
-        System.out.println("Started phase:"+ game.getCurrRound().getCurrTurn().getStage());
+        System.out.println("------------------------Started phase:"+ game.getCurrRound().getCurrTurn().getStage()+"----------------------------------------------");
         controller.moveStudentDashboard(1);
         controller.moveStudentDashboard(4);
-        controller.moveStudentIsland(1,3);
+        controller.moveStudentIsland(1,7);
 
         printDashboards(game);
         printIslands(game);
 
-        System.out.println("Started phase:"+ game.getCurrRound().getCurrTurn().getStage());
+        System.out.println("--------------------------Started phase:"+ game.getCurrRound().getCurrTurn().getStage()+"---------------------------------------------");
         controller.moveMotherNature(7);
 
+        System.out.println("--------------------------Started phase:"+ game.getCurrRound().getCurrTurn().getStage()+"----------------------------------------------");
         printDashboards(game);
         printIslands(game);
 
+        controller.takeFromCloud(1);
+
+        printClouds(game);
+        printDashboards(game);
     }
 
     private static void printIslands(GameModel game){

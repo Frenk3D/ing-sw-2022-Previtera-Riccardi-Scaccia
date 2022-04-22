@@ -132,6 +132,7 @@ public class Controller implements Observer {
             else {
                 game.getIslandByIndex(islandIndex).updateIslandDomain(game.getPlayersList());
             }
+            game.getCurrRound().getCurrTurn().setStage(TurnState.CHOOSE_CLOUD_STATE);
         }
         else {
             System.out.println("forbidden move");
@@ -142,10 +143,11 @@ public class Controller implements Observer {
     public void takeFromCloud(int cloudIndex){ //they go in the entranceList
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.CHOOSE_CLOUD_STATE){
             if(game.getCloudByIndex(cloudIndex).getStudents().size()>0){
-                for (Student s : game.getCloudByIndex(cloudIndex).getStudents()){
-                    game.getCurrPlayer().getDashboard().getEntranceList().add(s);
-                    game.getCloudByIndex(cloudIndex).getStudents().remove(s);
-                }
+                game.getCurrPlayer().getDashboard().getEntranceList().addAll(game.getCloudByIndex(cloudIndex).getStudents());
+                game.getCloudByIndex(cloudIndex).getStudents().clear();
+            }
+            else {
+                System.out.println("Empty cloud");
             }
         }
         else {
