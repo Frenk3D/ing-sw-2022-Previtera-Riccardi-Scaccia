@@ -1,5 +1,6 @@
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.enumerations.RoundState;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 
 /** Deselezionare sempre .idea e pom.xml sia da push che da pull per evitare problemi!!!
@@ -53,30 +54,10 @@ public class ProvaGit
             }
         }
 
-        /*
-        game.getPlayerById(1).setSelectedAssistant(2); //pippo
-        game.getPlayerById(2).setSelectedAssistant(7); //topolino
-
-        System.out.println("\n\nSTART NEW ROUND!");
-        System.out.println("round stage: "+game.getCurrRound().getStage());
-        game.getCurrRound().initRound(game.getPlayersList(),game.getCloudsList(),game.getBag());
-        System.out.println("The turn is of "+game.getCurrPlayer().getName());
-        */
-
-        for (int i=0; i<2; i++){
-            Cloud c = game.getCloudByIndex(i);
-            System.out.println("----------NUVOLA "+i+"---------- ");
-            for (Student student : c.getStudents()){
-                System.out.println("Studente "+student.getColor());
-            }
-        }
 
 
-        System.out.println("init " + game.getCurrRound().getStage());
         controller.selectAssistant(1,5);
-        System.out.println("butto assistente 1 "+ game.getCurrRound().getStage());
         controller.selectAssistant(2,4);
-        System.out.println("butto assistente 2 "+ game.getCurrRound().getStage());
 
 
         for (int i=0; i<2; i++){
@@ -87,5 +68,33 @@ public class ProvaGit
             }
         }
 
-        System.out.println("The turn is of " + game.getCurrPlayer().getName()); }
+        if(game.getCurrRound().getStage()== RoundState.ACTION_STATE){
+            System.out.println("The turn is of " + game.getCurrPlayer().getName());
+        }
+
+        boolean res = game.getCurrRound().nextTurn();
+
+        if(game.getCurrRound().getStage()== RoundState.ACTION_STATE){
+            System.out.println("The turn is of " + game.getCurrPlayer().getName()+"; "+res);
+        }
+
+        res = game.getCurrRound().nextTurn();
+
+        if(game.getCurrRound().getStage()== RoundState.END_ROUND){
+            System.out.println("End of the round " + res);
+        }
+
+        System.out.println("Reset round");
+        game.getCurrRound().resetRound();
+        System.out.println(game.getCurrRound().getStage());
+        System.out.println("Butta la carta "+ game.getCurrRound().getPlanningPhasePlayer(game.getPlayersList()).getName());
+
+        controller.selectAssistant(2,9);
+        controller.selectAssistant(1,2);
+
+        if(game.getCurrRound().getStage()== RoundState.ACTION_STATE){
+            System.out.println("The turn is of " + game.getCurrPlayer().getName());
+        }
+        System.out.println("al prossimo turno butta prima la carta "+ game.getCurrRound().getPlanningPhasePlayer(game.getPlayersList()).getName());
+    }
 }

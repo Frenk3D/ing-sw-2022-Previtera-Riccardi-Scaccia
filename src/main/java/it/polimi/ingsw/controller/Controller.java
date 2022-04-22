@@ -34,9 +34,6 @@ public class Controller implements Observer {
                     inGameState(message);
                 }
                 break;
-            case FINISHED_STATE:
-                finishedState(message);
-                break;
             default:
                 System.out.println("Errore");
                 break;
@@ -85,18 +82,6 @@ public class Controller implements Observer {
             case TAKE_FROM_CLOUD:
                 break;
             case USE_CHARACTER:
-                break;
-            default:
-                System.out.println("Errore");
-                break;
-        }
-    }
-
-    private void finishedState(Message message){
-        switch (message.getMessageType()){
-            case WIN:
-                break;
-            case LOSE:
                 break;
             default:
                 System.out.println("Errore");
@@ -170,7 +155,7 @@ public class Controller implements Observer {
         Round round = game.getCurrRound();
         Player player = game.getPlayerById(playerId);
 
-        if(player == round.getPlanningPhasePlayer(game.getPlayersList())) {
+        if(player == round.getPlanningPhasePlayer(game.getPlayersList()) && player.getAssistantDeck().getAssistantById(assistantId)!=null) { //check if the playing player is right
             player.setSelectedAssistant(assistantId);
             player.getAssistantDeck().removeAssistantById(assistantId);
             round.setNextPlayerPlanning(game.getNumOfPlayers());
@@ -181,7 +166,7 @@ public class Controller implements Observer {
         }
 
         else {
-            System.out.println("Error it isn't your turn");
+            System.out.println("Error it isn't your turn or already used assistant");
         }
 
     }
@@ -203,9 +188,8 @@ public class Controller implements Observer {
         return game.getGameState();
     }
 
-
     private boolean checkUser(Message message){
-        if(message.getSenderId()==game.getCurrPlayer().getId() || message.getSenderId()==game.getCurrRound().getPlanningPhasePlayer(game.getPlayersList()).getId()){
+        if((game.getCurrRound().getStage()==RoundState.ACTION_STATE && message.getSenderId()==game.getCurrPlayer().getId()) || (game.getCurrRound().getStage()== RoundState.PLANNING_STATE && message.getSenderId()==game.getCurrRound().getPlanningPhasePlayer(game.getPlayersList()).getId())){
             return true;
         }
         return false;

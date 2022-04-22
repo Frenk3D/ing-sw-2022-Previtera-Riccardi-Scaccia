@@ -49,7 +49,6 @@ public class AssistantDeck {
                 return;
             }
         }
-        return;
     }
     //only for test purposes
     public int getWizard(){

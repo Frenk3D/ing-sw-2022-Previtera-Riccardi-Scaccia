@@ -11,7 +11,7 @@ public class Round {
     private Turn currTurn;
     private List<Player> playersOrder;
     private RoundState stage;
-    private int planningPhasePlayer;
+    private int planningPhasePlayer; //index in the list playersList of Game
     private int numOfAssistantThrows;
 
     //constructor
@@ -22,10 +22,9 @@ public class Round {
         numOfAssistantThrows = 0;
     }
 
-
     //methods
     public void resetRound(){ //resets round to planning state
-
+        currTurn.setCurrPlayer(null);
         stage = RoundState.PLANNING_STATE;
         numOfAssistantThrows = 0;
     }
@@ -55,13 +54,18 @@ public class Round {
                 i=0;
             }
         }
-        //Collections.reverse(playersOrder); //because it is reversed
 
-        nextTurn();
+        planningPhasePlayer=playersList.indexOf(playersOrder.get(0));
         stage = RoundState.ACTION_STATE;
+        nextTurn();
     }
 
     public boolean nextTurn(){
+        if(stage!=RoundState.ACTION_STATE){
+            System.out.println("Wrong stage");
+            return false;
+        }
+
         Player nextPlayer = getNextPlayer();
 
         if(nextPlayer!=null) {
@@ -76,7 +80,7 @@ public class Round {
         }
     }
 
-    public Player getNextPlayer(){
+    private Player getNextPlayer(){
         if(playersOrder.size()==0){
             return null;
         }
@@ -104,6 +108,7 @@ public class Round {
         int randomInt = (int)(Math.random() * (numOfPlayers));
         planningPhasePlayer = randomInt;
     }
+
     public void setNextPlayerPlanning(int numOfPlayers){
         if(stage == RoundState.PLANNING_STATE && numOfAssistantThrows<numOfPlayers) {
                 planningPhasePlayer = (planningPhasePlayer + 1) % numOfPlayers;
