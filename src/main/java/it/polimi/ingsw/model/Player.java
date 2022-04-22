@@ -56,7 +56,7 @@ public class Player {
     //setter
     public void setHasTower(boolean tower){
         this.hasTower = tower;
-    }
+    } //for 4 players game
 
     public void setTeam(int team) {
         this.team = team;

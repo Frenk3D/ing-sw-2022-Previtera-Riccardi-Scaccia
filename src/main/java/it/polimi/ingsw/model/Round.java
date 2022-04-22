@@ -80,7 +80,7 @@ public class Round {
         }
     }
 
-    private Player getNextPlayer(){
+    public Player getNextPlayer(){
         if(playersOrder.size()==0){
             return null;
         }
