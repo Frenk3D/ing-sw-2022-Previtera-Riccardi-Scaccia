@@ -24,7 +24,7 @@ class IslandTest {
     Student student;
     GameModel game1;
     Player p1,p2,p3,p4;
-    Character c3 = Factory.newCharacter(3);
+    Character c5 = Factory.newCharacter(5);
 
 
     @BeforeEach
@@ -114,7 +114,7 @@ class IslandTest {
         game1.getIslandByIndex(0).addStudent(new Student(PawnColor.RED));
         game1.getIslandByIndex(0).addStudent(new Student(PawnColor.GREEN));
         //game1.getIslandByIndex(0).updateIslandDomain(game1.getPlayersList());
-        game1.getIslandByIndex(0).updateIslandDomainExpert(game1.getPlayersList(), (Characters3and4and5) c3);
+        game1.getIslandByIndex(0).updateIslandDomainExpert(game1.getPlayersList(), (Characters3and4and5) c5);
         assertEquals(TowerColor.WHITE,game1.getIslandByIndex(0).getTowerColor());
 
         game1.getIslandByIndex(1).setWeight(3);

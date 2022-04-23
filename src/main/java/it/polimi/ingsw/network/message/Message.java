@@ -4,7 +4,7 @@ public abstract class Message {
     private MessageType messageType;
     private int senderId;
 
-    private Message(MessageType messageType, int senderId){
+    Message(MessageType messageType, int senderId){
         this.messageType=messageType;
         this.senderId=senderId;
     }

@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameModel extends Observable {
     //attributes
-    private int firstThrowPlayer;
+    private String lobbyName;
     private int numOfPlayers; //numofplayers, playerslist and expertmode final, decided from the start
     private int motherNaturePos;
     private boolean expertMode;
@@ -42,8 +42,6 @@ public class GameModel extends Observable {
     private GameState state;
     private List<Island> islandsList; //doesn't change even when you group islands, attrib in Island class
     private AtomicInteger tableMoney;
-
-    public static final int SERVER_ID = 9999;
 
     //constructor
     public GameModel(){

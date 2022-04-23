@@ -69,7 +69,7 @@ class RoundTest {
     @Test
     void resetRound() {
         round.setStage(RoundState.ACTION_STATE);
-        tmpRound.setStage(RoundState.END_ROUND);
+        tmpRound.setStage(RoundState.PLANNING_STATE);
         round.setNumOfAssistantThrows(2);
         tmpRound.setNumOfAssistantThrows(1);
         tmpRound.resetRound();
@@ -100,7 +100,7 @@ class RoundTest {
         assertEquals(true, thrown);
 
         round.nextTurn();
-        assertEquals(RoundState.END_ROUND,round.getStage());
+        assertEquals(RoundState.PLANNING_STATE,round.getStage());
 
 
     }

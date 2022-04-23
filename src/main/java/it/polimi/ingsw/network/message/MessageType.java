@@ -1,13 +1,16 @@
 package it.polimi.ingsw.network.message;
 
 public enum MessageType {
-    LOGIN_REQUEST, LOGIN_REPLY,
-    ADD_PLAYER_REQUEST, PLAYER_SEND,
-    NEW_GAME_REQUEST,
-    DELETE_GAME_REQUEST,
+    LOGIN_REQUEST,
+    ADD_PLAYER_REQUEST,
+    NEW_LOBBY_REQUEST, DELETE_LOBBY, //new lobby request creates a controller
+    LOBBY_REQUEST, LOBBY_REPLY, //request and get available lobby
+    CHOOSE_LOBBY,
+    PLAYER_SEND,
 
-    CHOSE_TEAM,
-    CHOSE_TOWER,TOWER_SEND,
+    CHOOSE_TEAM,
+    CHOOSE_TOWER,TOWER_SEND,
+    CHOOSE_WIZARD,WIZARD_SEND,
 
     GAME_SEND,
     MOVE_STUDENT_ISLAND,MOVE_STUDENT_DASHBOARD,
@@ -17,5 +20,9 @@ public enum MessageType {
     USE_CHARACTER,
 
     WIN,
-    LOSE
+    LOSE,
+
+    CHAT_TEXT, //for 4 players
+    OK_REPLY,
+    ERROR_REPLY
 }

@@ -3,6 +3,8 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.RoundState;
 import it.polimi.ingsw.model.enumerations.TowerColor;
+import it.polimi.ingsw.network.message.LoginRequestMessage;
+import it.polimi.ingsw.network.message.Message;
 
 /** Deselezionare sempre .idea e pom.xml sia da push che da pull per evitare problemi!!!
  * Hello world!
@@ -12,8 +14,7 @@ public class ProvaGit {
 
     public static void main( String[] args ){
         Controller controller = new Controller();
-        GameModel game;
-        game = controller.getGame();
+        GameModel game = controller.getGame();
 
         game.setNumOfPlayers(2);
         game.setExpertMode(false);
@@ -27,10 +28,8 @@ public class ProvaGit {
         game.addPlayer(p2);
         game.start();
 
-
         printIslands(game);
         printDashboards(game);
-
 
         controller.selectAssistant(1,2);
         controller.selectAssistant(2,4);

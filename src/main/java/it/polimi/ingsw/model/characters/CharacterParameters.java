@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.characters;
 import it.polimi.ingsw.model.Bag;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Professor;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class CharacterParameters {
     private List<Player> playersList;
     private List<Integer> studentsIndexList;
     private List<Integer> studentsIndexEntranceList;
+    private List<Professor> tableProfessorsList;
     private int studentIndex;
     private PawnColor selectedColor;
     private PawnColor selectedColor2;
@@ -26,6 +28,7 @@ public class CharacterParameters {
         selectedColor = null;
         studentsIndexList = null;
         studentsIndexEntranceList = null;
+        tableProfessorsList = null; //di default
         forbidCharacter = null;
         bag = null;
         studentIndex = -1;
@@ -108,4 +111,14 @@ public class CharacterParameters {
     public void setBag(Bag bag) {
         this.bag = bag;
     }
+
+    public List<Professor> getTableProfessorsList() {
+        return tableProfessorsList;
+    }
+
+    public void setTableProfessorsList(List<Professor> tableProfessorsList) {
+        this.tableProfessorsList = tableProfessorsList;
+    }
+
+
 }

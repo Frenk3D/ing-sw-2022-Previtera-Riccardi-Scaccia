@@ -9,9 +9,12 @@ public class Characters2and6and8and9 extends Character {
 
     //constructor
 
+    private PawnColor selectedColor9;
+
     public Characters2and6and8and9(int id, int initialCost) {
         this.id=id;
         this.initialCost=initialCost;
+        selectedColor9=null;
     }
 
     //methods
@@ -99,51 +102,57 @@ public class Characters2and6and8and9 extends Character {
         }
         return influence;
     } */ //old effect of second character
-    private void modifiedUpdateProfessorsLists2(List<Player> playersList, Player cardPlayer){
-        PawnColor[] colors = {PawnColor.RED,PawnColor.GREEN,PawnColor.BLUE,PawnColor.YELLOW, PawnColor.PINK};
+    private void modifiedUpdateProfessorsLists2(List<Player> playersList, Player cardPlayer, List<Professor> tableProfessorsList) {
+        PawnColor[] colors = {PawnColor.RED, PawnColor.GREEN, PawnColor.BLUE, PawnColor.YELLOW, PawnColor.PINK};
 
-        for (PawnColor currColor : colors){ //scan of all colors
-            Player tmpPlayer = playersList.get(0); //temp variable to store the player that has to recive the professor
+        for (PawnColor currColor : colors) { //scan of all colors
+            Player tmpPlayer = null; //temp variable to store the player that has to receive the professor
             Player currentProfessorPlayer = null; //temp variable to store the player that hold the professor
 
-            for(Player p : playersList){ //for each color we check every player dashboard
-                if(p.getDashboard().getProfessorByColor(currColor)!=null){ //when we find the player which hold the professor we store in the temp variable
-                    currentProfessorPlayer=p;
-                }
-                if(p.getDashboard().getHallStudentsListByColor(currColor).size() > tmpPlayer.getDashboard().getHallStudentsListByColor(currColor).size()){ //if we find a player that has more students than tmp player we update the variable
+            for (Player p : playersList) { //we have to check if someone have to receive the currColorProfessor
+                if (p.getDashboard().getHallStudentsListByColor(currColor).size() > 0) {
                     tmpPlayer = p;
-                }
-
-                else if(p.getDashboard().getHallStudentsListByColor(currColor).size() == tmpPlayer.getDashboard().getHallStudentsListByColor(currColor).size()){ //if the players have the same number of student the professor must remain to the old holder, except for the cardPlayer
-                    if(p.getDashboard().getProfessorByColor(currColor)!=null || p.equals(cardPlayer)){
-                        tmpPlayer = p;
-                    }
+                    break;
                 }
             }
-
-            if(tmpPlayer.getDashboard().getProfessorByColor(currColor)==null){ //if the player that should have the professor doesn't have it we must give it
-                Professor professorToMove=null;
-
-            /*    for(Professor tableProfessor : tableProfessorsList){ //check if the professor is on the table and remove it
-                    if(tableProfessor.getColor().equals(currColor)){
-                        professorToMove=tableProfessor;
-                        tableProfessorsList.remove(tableProfessor);
-                        break;
+            if (tmpPlayer != null) {
+                for (Player p : playersList) { //for each color we check every player dashboard
+                    if (p.getDashboard().getProfessorByColor(currColor) != null) { //when we find the player which hold the professor we store in the temp variable
+                        currentProfessorPlayer = p;
                     }
-                } */ //it is only for the beginning of the game, characters are used afterwards
-
-                if (professorToMove==null){ //the professor is in currentProfessorPlayer, else professor is on the table
-                    professorToMove = currentProfessorPlayer.getDashboard().getProfessorByColor(currColor);
-                    currentProfessorPlayer.getDashboard().getProfessorsList().remove(professorToMove);
+                    if (p.getDashboard().getHallStudentsListByColor(currColor).size() > tmpPlayer.getDashboard().getHallStudentsListByColor(currColor).size()) { //if we find a player that has more students than tmp player we update the variable
+                        tmpPlayer = p;
+                    } else if (p.getDashboard().getHallStudentsListByColor(currColor).size() == tmpPlayer.getDashboard().getHallStudentsListByColor(currColor).size()) { //if the players have the same number of student the professor must remain to the old holder, except for the cardPlayer
+                        if (p.getDashboard().getProfessorByColor(currColor) != null || p.equals(cardPlayer)) {
+                            tmpPlayer = p;
+                        }
+                    }
                 }
 
+                if (tmpPlayer.getDashboard().getProfessorByColor(currColor) == null) { //if the player that should have the professor doesn't have it we must give it
+                    Professor professorToMove = null;
 
-                tmpPlayer.getDashboard().getProfessorsList().add(professorToMove);
+                    for (Professor tableProfessor : tableProfessorsList) { //check if the professor is on the table and remove it
+                        if (tableProfessor.getColor().equals(currColor)) {
+                            professorToMove = tableProfessor;
+                            tableProfessorsList.remove(tableProfessor);
+                            break;
+                        }
+                    }  //it is not only for the beginning of the game, characters are used afterwards
+
+                    if (professorToMove == null) { //the professor is in currentProfessorPlayer, else professor is on the table
+                        professorToMove = currentProfessorPlayer.getDashboard().getProfessorByColor(currColor);
+                        currentProfessorPlayer.getDashboard().getProfessorsList().remove(professorToMove);
+                    }
+
+
+                    tmpPlayer.getDashboard().getProfessorsList().add(professorToMove);
+
+                }
 
             }
 
         }
-
     }
 
 
@@ -212,6 +221,7 @@ public class Characters2and6and8and9 extends Character {
         }
         return influence;
     }
+
     private void updateIslandDomain8(Player cardPlayer,Island island,List<Player> playersList, Characters3and4and5 forbidCharacter) {
         if (island.getForbidCard() > 0) {
             island.setForbidCard(island.getForbidCard() - 1);
@@ -351,24 +361,41 @@ public class Characters2and6and8and9 extends Character {
         return influence;
     }
 
+
+    public void updateIslandDomainCharacter(Player cardPlayer,Island island,List<Player> playersList, Characters3and4and5 forbidCharacter){
+        switch (id){
+            case 6:
+                updateIslandDomain6(island,playersList,forbidCharacter);
+                break;
+            case 8:
+                updateIslandDomain8(cardPlayer,island,playersList,forbidCharacter);
+                break;
+            case 9:
+                updateIslandDomain9(island,playersList,selectedColor9,forbidCharacter);
+                break;
+        }
+    }
+
+
     @Override
     public void applyEffect(CharacterParameters params) {
         switch (id){
             case 2:
-                modifiedUpdateProfessorsLists2(params.getPlayersList(), params.getPlayer());
+                modifiedUpdateProfessorsLists2(params.getPlayersList(), params.getPlayer(), params.getTableProfessorsList());
                 //OLD updateIslandDomain2(params.getPlayer(), params.getIsland(),params.getPlayersList(), params.getForbidCharacter());
                 break;
 
             case 6:
-                updateIslandDomain6(params.getIsland(),params.getPlayersList(), params.getForbidCharacter());
+                //updateIslandDomain6(params.getIsland(),params.getPlayersList(), params.getForbidCharacter());
                 break;
 
             case 8:
-                updateIslandDomain8(params.getPlayer(),params.getIsland(),params.getPlayersList(), params.getForbidCharacter());
+                //updateIslandDomain8(params.getPlayer(),params.getIsland(),params.getPlayersList(), params.getForbidCharacter());
                 break;
 
             case 9:
-                updateIslandDomain9(params.getIsland(),params.getPlayersList(),params.getSelectedColor(), params.getForbidCharacter());
+                selectedColor9=params.getSelectedColor();
+                //updateIslandDomain9(params.getIsland(),params.getPlayersList(),params.getSelectedColor(), params.getForbidCharacter());
                 break;
 
             default:

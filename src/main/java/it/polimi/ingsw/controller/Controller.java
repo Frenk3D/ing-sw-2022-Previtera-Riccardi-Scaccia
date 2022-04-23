@@ -2,9 +2,12 @@ package it.polimi.ingsw.controller; //well connected to Game, need to Observ, wi
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.characters.Character;
+import it.polimi.ingsw.model.characters.CharacterParameters;
+import it.polimi.ingsw.model.characters.Characters2and6and8and9;
 import it.polimi.ingsw.model.enumerations.GameState;
 import it.polimi.ingsw.model.enumerations.RoundState;
 import it.polimi.ingsw.model.enumerations.TurnState;
+import it.polimi.ingsw.network.message.LoginRequestMessage;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.observer.Observer;
 
@@ -43,12 +46,12 @@ public class Controller implements Observer {
     private void loginState(Message message) {
         switch (message.getMessageType()){
             case LOGIN_REQUEST:
+                LoginRequestMessage loginRequestMessage = (LoginRequestMessage) message;
+                int code = loginRequestMessage.getAppCode();
                 break;
             case ADD_PLAYER_REQUEST:
                 break;
-            case NEW_GAME_REQUEST:
-                break;
-            case DELETE_GAME_REQUEST:
+            case DELETE_LOBBY:
                 break;
             default:
                 System.out.println("Errore");
@@ -59,9 +62,11 @@ public class Controller implements Observer {
 
     private void settingState(Message message){
         switch (message.getMessageType()){
-            case CHOSE_TEAM:
+            case CHOOSE_TEAM:
                 break;
-            case CHOSE_TOWER:
+            case CHOOSE_TOWER:
+                break;
+            case CHOOSE_WIZARD:
                 break;
             default:
                 System.out.println("Errore");
@@ -127,8 +132,17 @@ public class Controller implements Observer {
             game.setMotherNaturePosition(islandIndex);
 
             if(game.isExpertMode()){
-                game.getIslandByIndex(islandIndex).updateIslandDomainExpert(game.getPlayersList(),game.getForbidCharacter());
+                int usedCharacterId = game.getCurrRound().getCurrTurn().getUsedCharacter().getId();
+
+                if(usedCharacterId==6||usedCharacterId==8||usedCharacterId==9) {
+                    Characters2and6and8and9 character = (Characters2and6and8and9) game.getCurrRound().getCurrTurn().getUsedCharacter();
+                    character.updateIslandDomainCharacter(game.getCurrPlayer(),game.getIslandByIndex(islandIndex),game.getPlayersList(),game.getForbidCharacter());
+                }
+                else {
+                    game.getIslandByIndex(islandIndex).updateIslandDomainExpert(game.getPlayersList(), game.getForbidCharacter());
+                }
             }
+
             else {
                 game.getIslandByIndex(islandIndex).updateIslandDomain(game.getPlayersList());
             }
@@ -145,6 +159,7 @@ public class Controller implements Observer {
             if(game.getCloudByIndex(cloudIndex).getStudents().size()>0){
                 game.getCurrPlayer().getDashboard().getEntranceList().addAll(game.getCloudByIndex(cloudIndex).getStudents());
                 game.getCloudByIndex(cloudIndex).getStudents().clear();
+                game.getCurrRound().nextTurn();
             }
             else {
                 System.out.println("Empty cloud");
@@ -176,7 +191,8 @@ public class Controller implements Observer {
 
     }
 
-    public void useCharacter(int characterIndex){ // TODO: 08/04/2022, check the updates of the game with the character
+
+    public void useCharacter(int characterIndex, CharacterParameters parameters){
         Character usedCharacter = game.getCharacterByIndex(characterIndex);
         int characterCost = usedCharacter.getInitialCost();
         if(usedCharacter.isUsed()){
@@ -186,6 +202,10 @@ public class Controller implements Observer {
             game.getCurrPlayer().modifyMoney(-(characterCost-1),game.getTableMoney(),usedCharacter.isUsed());
             game.getCurrRound().getCurrTurn().setUsedCharacter(game.getCharacterByIndex(characterIndex));
             usedCharacter.setUsed();
+            usedCharacter.applyEffect(parameters);
+        }
+        else {
+            System.out.println("Not enough money");
         }
     }
 

@@ -74,7 +74,7 @@ public class Round {
             return true;
         }
         else {
-            stage=RoundState.END_ROUND;
+            resetRound();
             System.out.println("The round is ended");
             return false;
         }
