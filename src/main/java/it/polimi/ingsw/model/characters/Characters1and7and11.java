@@ -50,16 +50,24 @@ public class Characters1and7and11 extends Character {
 
     private boolean moveStudent7(Player cardPlayer, List<Integer> studentsIndexList, List<Integer> studentsIndexEntranceList){
         try {
-            List<Student> tmpStudents = new ArrayList<>();
+            List<Student> tmpDashboardStudents = new ArrayList<>();
+            List<Student> tmpCardStudents = new ArrayList<>();
             for (Integer i : studentsIndexEntranceList) {
-                tmpStudents.add(cardPlayer.getDashboard().getEntranceList().get(i));
-                cardPlayer.getDashboard().getEntranceList().remove(i.intValue());
+                tmpDashboardStudents.add(cardPlayer.getDashboard().getEntranceList().get(i));
             }
 
             for (Integer i : studentsIndexList) {
-                cardPlayer.getDashboard().getEntranceList().add(cardStudentsList.get(i));
-                cardStudentsList.remove(i.intValue());
-                cardStudentsList.add(tmpStudents.get(i));
+                tmpCardStudents.add(cardStudentsList.get(i));
+            }
+
+            for (Student s : tmpDashboardStudents){
+                cardStudentsList.add(s);
+                cardPlayer.getDashboard().getEntranceList().remove(s);
+            }
+
+            for (Student s : tmpCardStudents) {
+                cardPlayer.getDashboard().getEntranceList().add(s);
+                cardStudentsList.remove(s);
             }
             return true;
         }

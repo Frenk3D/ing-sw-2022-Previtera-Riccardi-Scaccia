@@ -161,8 +161,6 @@ public class GameModel extends Observable {
     }
 
 
-
-
     public Cloud getCloudByIndex(int cloudIndex){
         if(cloudIndex >= cloudsList.size() || cloudIndex<0){
             return null;

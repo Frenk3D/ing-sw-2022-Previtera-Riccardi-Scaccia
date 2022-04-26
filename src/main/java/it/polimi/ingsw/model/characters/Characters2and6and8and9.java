@@ -394,7 +394,7 @@ public class Characters2and6and8and9 extends Character {
                 selectedColor9=params.getSelectedColor();
                 return true;
             default:
-                return true;
+                return false;
         }
 
 

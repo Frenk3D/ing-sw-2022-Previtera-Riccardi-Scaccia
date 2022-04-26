@@ -15,29 +15,47 @@ public class Characters3and4and5 extends Character{
         this.initialCost=initialCost;
     }
 
-
-    //methods
-    private void updateIslandDomain3(Island island, List<Player> playersList, Characters3and4and5 forbidCharacter){
-        island.updateIslandDomainExpert(playersList,forbidCharacter);
-    }
-
-    private void modifyMotherNaturePosShift4(Player cardPlayer){
-        int prevPosShift=cardPlayer.getSelectedAssistant().getMotherNaturePosShift();
-        cardPlayer.getSelectedAssistant().setMotherNaturePosShift(prevPosShift+2);
-    }
-
     private void initForbidCards5(){
         forbidCards=4;
     }
 
-    private void moveForbidCard5(Island island) {
+    //methods
+    private boolean updateIslandDomain3(Island island, List<Player> playersList, Characters3and4and5 forbidCharacter){
+        try {
+            island.updateIslandDomainExpert(playersList,forbidCharacter);
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
+
+    private boolean modifyMotherNaturePosShift4(Player cardPlayer){
+        try {
+            int prevPosShift=cardPlayer.getSelectedAssistant().getMotherNaturePosShift();
+            cardPlayer.getSelectedAssistant().setMotherNaturePosShift(prevPosShift+2);
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
+
+    private boolean moveForbidCard5(Island island) {
         if(forbidCards <= 0){
             System.out.println("Forbid cards finished!");
-            return;
+            return false;
         }
 
-        forbidCards--;
-        island.setForbidCard(island.getForbidCard()+1);
+        try {
+            forbidCards--;
+            island.setForbidCard(island.getForbidCard()+1);
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+
     }
 
     public void addForbidCard5(){
@@ -53,16 +71,13 @@ public class Characters3and4and5 extends Character{
 
         switch (id){
             case 3:
-                updateIslandDomain3(params.getIsland(),params.getPlayersList(), params.getForbidCharacter());
-                break;
+                return updateIslandDomain3(params.getIsland(),params.getPlayersList(), params.getForbidCharacter());
             case 4:
-                modifyMotherNaturePosShift4(params.getPlayer());
-                break;
+                return modifyMotherNaturePosShift4(params.getPlayer());
             case 5:
-                moveForbidCard5(params.getIsland());
-                break;
+                return moveForbidCard5(params.getIsland());
             default:
-                break;
+                return false;
         }
     }
 

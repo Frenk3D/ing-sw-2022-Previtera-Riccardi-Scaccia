@@ -227,6 +227,7 @@ public class Controller implements Observer {
             if (usedCharacter.isUsed()) { //increment character cost if already used
                 characterCost++;
             }
+
             if (game.getCurrPlayer().getMoney() >= characterCost) { //check if the player has enough money to pay the character
                 boolean result = usedCharacter.applyEffect(parameters);
                 if(!result) {
