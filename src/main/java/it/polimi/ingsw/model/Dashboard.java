@@ -91,6 +91,7 @@ public class Dashboard {
     public void addStudentHall(Student student, Player currPlayer, AtomicInteger tableMoney){
         getHallStudentsListByColor(student.getColor()).add(student);
         if ((getHallStudentsListByColor(student.getColor()).size() % 3)==0 && tableMoney != null){ // if null it's not expert mode
+            currPlayer.modifyMoney(1,tableMoney);
         }
 
     }
