@@ -29,7 +29,7 @@ public abstract class Character {
         used = true; //can't go again to false
     }
 
-    public abstract void applyEffect(CharacterParameters params);
+    public abstract boolean applyEffect(CharacterParameters params);
     public abstract void initCharacter(CharacterParameters params);
 
     public static List<Character> extractCharacters(){

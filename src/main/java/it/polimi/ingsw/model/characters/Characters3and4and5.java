@@ -49,7 +49,7 @@ public class Characters3and4and5 extends Character{
     }
 
     @Override
-    public void applyEffect(CharacterParameters params) {
+    public boolean applyEffect(CharacterParameters params) {
 
         switch (id){
             case 3:

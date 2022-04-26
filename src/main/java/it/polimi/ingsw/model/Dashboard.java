@@ -122,6 +122,13 @@ public class Dashboard {
         return getHallStudentsListByColor(color).size();
     }
 
+    public Student getEntranceStudentByIndex(int studentIndex){
+        if(studentIndex >= entranceList.size() || studentIndex<0){
+            return null;
+        }
+        return entranceList.get(studentIndex);
+    }
+
 
     //for test purposes
   /*  @Override

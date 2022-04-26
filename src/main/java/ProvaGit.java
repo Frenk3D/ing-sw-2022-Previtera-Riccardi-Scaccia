@@ -31,8 +31,8 @@ public class ProvaGit {
         printIslands(game);
         printDashboards(game);
 
-        controller.selectAssistant(1,2);
-        controller.selectAssistant(2,4);
+        controller.selectAssistant(2);
+        controller.selectAssistant(4);
 
         printClouds(game);
 
@@ -56,7 +56,7 @@ public class ProvaGit {
         printDashboards(game);
         printIslands(game);
 
-        controller.takeFromCloud(1);
+        controller.takeFromCloud(10);
 
         printClouds(game);
         printDashboards(game);

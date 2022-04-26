@@ -98,10 +98,14 @@ public class Controller implements Observer {
     //methods
     //ACTION PHASE 1
     public void moveStudentIsland(int entranceListIndex,int islandIndex){
-
         if(game.getCurrRound().getStage()== RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage()== TurnState.MOVE_STUDENT_STATE) {
             Player currPlayer = game.getCurrPlayer();
-            Student studentToMove = currPlayer.getDashboard().getEntranceList().get(entranceListIndex);
+            if(currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex)==null||game.getIslandByIndex(islandIndex)==null){
+                System.out.println("move student island: wrong parameters");
+                return;
+            }
+
+            Student studentToMove = currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex);
             game.getIslandByIndex(islandIndex).addStudent(studentToMove);
             currPlayer.getDashboard().getEntranceList().remove(studentToMove);
             game.getCurrRound().getCurrTurn().incrementMovedStudents();
@@ -113,13 +117,19 @@ public class Controller implements Observer {
 
     //ACTION PHASE 1
     public void moveStudentDashboard(int entranceListIndex){
-        if(game.getCurrRound().getStage()== RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage()== TurnState.MOVE_STUDENT_STATE){
+        if(game.getCurrRound().getStage()== RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.MOVE_STUDENT_STATE){
             Player currPlayer = game.getCurrPlayer();
-            Student studentToMove = currPlayer.getDashboard().getEntranceList().get(entranceListIndex);
+            if(currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex)==null){
+                System.out.println("move student dashboard: wrong parameters");
+                return;
+            }
+
+            Student studentToMove = currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex);
             currPlayer.getDashboard().addStudentHall(studentToMove,currPlayer,game.getTableMoney());
             currPlayer.getDashboard().getEntranceList().remove(studentToMove);
             game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(),game.getTableProfessorsList());
             game.getCurrRound().getCurrTurn().incrementMovedStudents();
+
         }
         else {
             System.out.println("forbidden move");
@@ -129,9 +139,14 @@ public class Controller implements Observer {
     //ACTION PHASE 2
     public void moveMotherNature(int islandIndex){
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage()== TurnState.MOVE_MOTHER_NATURE_STATE){
+            if(game.getIslandByIndex(islandIndex)==null){
+                System.out.println("move mother nature: wrong parameters");
+                return;
+            }
+
             game.setMotherNaturePosition(islandIndex);
 
-            if(game.isExpertMode()){
+            if(game.isExpertMode()){//we apply the character effect if it's used or we remove forbid card if present
                 int usedCharacterId = game.getCurrRound().getCurrTurn().getUsedCharacter().getId();
 
                 if(usedCharacterId==6||usedCharacterId==8||usedCharacterId==9) {
@@ -156,14 +171,14 @@ public class Controller implements Observer {
     //ACTION PHASE 3
     public void takeFromCloud(int cloudIndex){ //they go in the entranceList
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.CHOOSE_CLOUD_STATE){
-            if(game.getCloudByIndex(cloudIndex).getStudents().size()>0){
-                game.getCurrPlayer().getDashboard().getEntranceList().addAll(game.getCloudByIndex(cloudIndex).getStudents());
-                game.getCloudByIndex(cloudIndex).getStudents().clear();
-                game.getCurrRound().nextTurn();
+            if(game.getCloudByIndex(cloudIndex)==null || game.getCloudByIndex(cloudIndex).getStudents().isEmpty()){
+                System.out.println("take from cloud: wrong parameters");
+                return;
             }
-            else {
-                System.out.println("Empty cloud");
-            }
+
+            game.getCurrPlayer().getDashboard().getEntranceList().addAll(game.getCloudByIndex(cloudIndex).getStudents());
+            game.getCloudByIndex(cloudIndex).getStudents().clear();
+            game.getCurrRound().nextTurn();
         }
         else {
             System.out.println("forbidden move");
@@ -171,41 +186,57 @@ public class Controller implements Observer {
 
     }
 
-    public void selectAssistant(int playerId,int assistantId){
-        Round round = game.getCurrRound();
-        Player player = game.getPlayerById(playerId);
+    public void selectAssistant(int assistantId){
+        if(game.getCurrRound().getStage() == RoundState.PLANNING_STATE) {
+            Round round = game.getCurrRound();
+            Player player = round.getPlanningPhasePlayer(game.getPlayersList());
+            if(player.getAssistantDeck().getAssistantById(assistantId)==null){
+                System.out.println("select assistant: wrong parameters");
+                return;
+            }
 
-        if(player == round.getPlanningPhasePlayer(game.getPlayersList()) && player.getAssistantDeck().getAssistantById(assistantId)!=null) { //check if the playing player is right
             player.setSelectedAssistant(assistantId);
             player.getAssistantDeck().removeAssistantById(assistantId);
             round.setNextPlayerPlanning(game.getNumOfPlayers());
 
-            if(round.getNumOfAssistantThrows() == game.getNumOfPlayers()){
-                round.initRound(game.getPlayersList(),game.getCloudsList(),game.getBag());
+            if (round.getNumOfAssistantThrows() == game.getNumOfPlayers()) {
+                round.initRound(game.getPlayersList(), game.getCloudsList(), game.getBag());
             }
         }
-
         else {
-            System.out.println("Error it isn't your turn or already used assistant");
+            System.out.println("forbidden move");
         }
-
     }
 
 
     public void useCharacter(int characterIndex, CharacterParameters parameters){
-        Character usedCharacter = game.getCharacterByIndex(characterIndex);
-        int characterCost = usedCharacter.getInitialCost();
-        if(usedCharacter.isUsed()){
-            characterCost++;
-        }
-        if (game.getCurrPlayer().getMoney() >= characterCost){
-            game.getCurrPlayer().modifyMoney(-(characterCost-1),game.getTableMoney(),usedCharacter.isUsed());
-            game.getCurrRound().getCurrTurn().setUsedCharacter(game.getCharacterByIndex(characterIndex));
-            usedCharacter.setUsed();
-            usedCharacter.applyEffect(parameters);
+        if(game.getCurrRound().getStage() == RoundState.ACTION_STATE) {
+            Character usedCharacter = game.getCharacterByIndex(characterIndex);
+            if(usedCharacter==null){
+                System.out.println("use character: wrong parameters");
+                return;
+            }
+
+            int characterCost = usedCharacter.getInitialCost();
+            if (usedCharacter.isUsed()) { //increment character cost if already used
+                characterCost++;
+            }
+            if (game.getCurrPlayer().getMoney() >= characterCost) { //check if the player has enough money to pay the character
+                boolean result = usedCharacter.applyEffect(parameters);
+                if(!result) {
+                    System.out.println("use character: error in character use");
+                    return;
+                }
+                usedCharacter.setUsed();
+                game.getCurrPlayer().modifyMoney(-(characterCost - 1), game.getTableMoney(), usedCharacter.isUsed());
+                game.getCurrRound().getCurrTurn().setUsedCharacter(game.getCharacterByIndex(characterIndex));
+            }
+            else {
+                System.out.println("Not enough money");
+            }
         }
         else {
-            System.out.println("Not enough money");
+            System.out.println("forbidden move");
         }
     }
 
@@ -214,7 +245,7 @@ public class Controller implements Observer {
     }
 
     private boolean checkUser(Message message){
-        if((game.getCurrRound().getStage()==RoundState.ACTION_STATE && message.getSenderId()==game.getCurrPlayer().getId()) || (game.getCurrRound().getStage()== RoundState.PLANNING_STATE && message.getSenderId()==game.getCurrRound().getPlanningPhasePlayer(game.getPlayersList()).getId())){
+        if((game.getCurrRound().getStage()==RoundState.ACTION_STATE && message.getSenderId()==game.getCurrPlayer().getId()) || (game.getCurrRound().getStage() == RoundState.PLANNING_STATE && message.getSenderId()==game.getCurrRound().getPlanningPhasePlayer(game.getPlayersList()).getId())){
             return true;
         }
         return false;

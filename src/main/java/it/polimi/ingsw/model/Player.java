@@ -130,7 +130,4 @@ public class Player {
         return this; //player is alone
     }
 
-
-
-
 }

@@ -42,7 +42,7 @@ public class AssistantDeck {
         return null;
     }
 
-    public void removeAssistantById(int id){  //could be boolean?
+    public void removeAssistantById(int id){
         for(Assistant assistant : assistantsList){
             if(assistant.getId()==id){
                 assistantsList.remove(assistant);

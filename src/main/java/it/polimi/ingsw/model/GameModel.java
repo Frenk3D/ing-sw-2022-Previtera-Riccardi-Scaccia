@@ -154,7 +154,7 @@ public class GameModel extends Observable {
     }
 
     public Island getIslandByIndex(int islandIndex){
-        if(islandIndex > islandsList.size()-1){
+        if(islandIndex > islandsList.size() || islandIndex<0){
             return null;
         }
         return islandsList.get(islandIndex);
@@ -164,14 +164,14 @@ public class GameModel extends Observable {
 
 
     public Cloud getCloudByIndex(int cloudIndex){
-        if(cloudIndex > cloudsList.size()-1){
+        if(cloudIndex >= cloudsList.size() || cloudIndex<0){
             return null;
         }
         return cloudsList.get(cloudIndex);
     }
 
     public Character getCharacterByIndex(int characterIndex){
-        if(characterIndex > charactersList.size()-1){
+        if(characterIndex >= charactersList.size() || characterIndex<0){
             return null;
         }
         return charactersList.get(characterIndex);

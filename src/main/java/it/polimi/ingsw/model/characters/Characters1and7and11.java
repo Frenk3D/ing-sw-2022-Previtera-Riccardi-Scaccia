@@ -35,50 +35,59 @@ public class Characters1and7and11 extends Character {
         }
     }
 
-    private void moveStudent1(Island island, int studentIndex){
+    private boolean moveStudent1(Island island, int studentIndex){
         try {
             island.getStudentsList().add(cardStudentsList.get(studentIndex));
             cardStudentsList.remove(studentIndex);
+            return true;
         }
 
-        catch (IndexOutOfBoundsException e){
-            e.printStackTrace();
-        }
-    }
-
-    private void moveStudent7(Player cardPlayer, List<Integer> studentsIndexList, List<Integer> studentsIndexEntranceList){
-        for(Integer i : studentsIndexEntranceList){
-            cardStudentsList.add(cardPlayer.getDashboard().getEntranceList().get(i));
-            cardPlayer.getDashboard().getEntranceList().remove(i.intValue());
-        }
-
-        for (Integer i : studentsIndexList){
-            cardPlayer.getDashboard().getEntranceList().add(cardStudentsList.get(i));
-            cardStudentsList.remove(i.intValue());
+        catch (Exception e){
+            return false;
         }
     }
 
-    private void moveStudent11(Player cardPlayer, int studentIndex){
-        cardPlayer.getDashboard().getEntranceList().add(cardStudentsList.get(studentIndex));
-        cardStudentsList.remove(studentIndex);
-        cardStudentsList.add(bag.extractStudents(1).get(0));
+    private boolean moveStudent7(Player cardPlayer, List<Integer> studentsIndexList, List<Integer> studentsIndexEntranceList){
+        try {
+            for (Integer i : studentsIndexEntranceList) {
+                cardStudentsList.add(cardPlayer.getDashboard().getEntranceList().get(i));
+                cardPlayer.getDashboard().getEntranceList().remove(i.intValue());
+            }
+
+            for (Integer i : studentsIndexList) {
+                cardPlayer.getDashboard().getEntranceList().add(cardStudentsList.get(i));
+                cardStudentsList.remove(i.intValue());
+            }
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
+
+    private boolean moveStudent11(Player cardPlayer, int studentIndex){
+        try {
+            cardPlayer.getDashboard().getEntranceList().add(cardStudentsList.get(studentIndex));
+            cardStudentsList.remove(studentIndex);
+            cardStudentsList.add(bag.extractStudents(1).get(0));
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
     }
 
     @Override
-    public void applyEffect(CharacterParameters params) {
+    public boolean applyEffect(CharacterParameters params) {
         switch (id){
-
             case 1:
-                moveStudent1(params.getIsland(),params.getStudentIndex());
-                break;
+                return moveStudent1(params.getIsland(),params.getStudentIndex());
             case 7:
-                moveStudent7(params.getPlayer(),params.getStudentsIndexList(),params.getStudentsIndexEntranceList());
-                break;
+                return moveStudent7(params.getPlayer(),params.getStudentsIndexList(),params.getStudentsIndexEntranceList());
             case 11:
-                moveStudent11(params.getPlayer(),params.getStudentIndex());
-                break;
+                return moveStudent11(params.getPlayer(),params.getStudentIndex());
             default:
-                break;
+                return false;
         }
     }
 

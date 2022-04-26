@@ -51,7 +51,7 @@ public class Characters10and12 extends Character{
     }
 
     @Override
-    public void applyEffect(CharacterParameters params) {
+    public boolean applyEffect(CharacterParameters params) {
         switch (id){
             case 10:
                 swapStudents10(params.getPlayer(),params.getStudentsIndexList(),params.getSelectedColor(),params.getSelectedColor2());
