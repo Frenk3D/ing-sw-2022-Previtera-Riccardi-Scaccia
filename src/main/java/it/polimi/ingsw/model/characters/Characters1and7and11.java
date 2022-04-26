@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Characters1and7and11 extends Character {
@@ -47,14 +48,16 @@ public class Characters1and7and11 extends Character {
     }
 
     private void moveStudent7(Player cardPlayer, List<Integer> studentsIndexList, List<Integer> studentsIndexEntranceList){
+        List<Student> tmpStudents = new ArrayList<>();
         for(Integer i : studentsIndexEntranceList){
-            cardStudentsList.add(cardPlayer.getDashboard().getEntranceList().get(i));
+            tmpStudents.add(cardPlayer.getDashboard().getEntranceList().get(i));
             cardPlayer.getDashboard().getEntranceList().remove(i.intValue());
         }
 
         for (Integer i : studentsIndexList){
             cardPlayer.getDashboard().getEntranceList().add(cardStudentsList.get(i));
             cardStudentsList.remove(i.intValue());
+            cardStudentsList.add(tmpStudents.get(i));
         }
     }
 
@@ -88,4 +91,10 @@ public class Characters1and7and11 extends Character {
         initStudents();
     }
 
+    //for test purposes
+
+
+    public List<Student> getCardStudentsList() {
+        return cardStudentsList;
+    }
 }

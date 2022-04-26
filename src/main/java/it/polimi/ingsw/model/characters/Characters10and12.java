@@ -20,7 +20,7 @@ public class Characters10and12 extends Character{
 
     private void swapStudents10(Player cardPlayer, List<Integer> studentsIndexEntranceList, PawnColor hallStudentColor1, PawnColor hallStudentColor2){
         for(Integer i : studentsIndexEntranceList){
-            PawnColor selectedColor = cardPlayer.getDashboard().getEntranceList().get(i).getColor();
+            PawnColor selectedColor = cardPlayer.getDashboard().getEntranceList().get(i).getColor(); //the ref of the students are different, but they are the same colors
             cardPlayer.getDashboard().getHallStudentsListByColor(selectedColor).add(cardPlayer.getDashboard().getEntranceList().get(i));
             cardPlayer.getDashboard().getEntranceList().remove(i.intValue());
         }
