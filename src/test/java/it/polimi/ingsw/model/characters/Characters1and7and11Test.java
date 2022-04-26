@@ -14,6 +14,7 @@ class Characters1and7and11Test {
     int studentIndex;
     Island island;
     Bag bag;
+    Player p;
 
     @BeforeEach
     void setUp() {
@@ -23,11 +24,13 @@ class Characters1and7and11Test {
         characterParameters = new CharacterParameters();
         island = new Island();
         bag = new Bag();
+        p = new Player("CiccioPicuzzo",1);
         studentIndex=0;
         bag.addAllStudents();
         characterParameters.setBag(bag);
         characterParameters.setIsland(island);
         characterParameters.setStudentIndex(studentIndex);
+        characterParameters.setPlayer(p);
         c1.initCharacter(characterParameters);
         c7.initCharacter(characterParameters);
         c11.initCharacter(characterParameters);
@@ -39,11 +42,14 @@ class Characters1and7and11Test {
         c1.applyEffect(characterParameters);
         assertEquals(3,((Characters1and7and11) c1).getCardStudentsList());
         assertEquals(1,island.getStudentsList());
+        Student s = ((Characters1and7and11) c7).getCardStudentsList().get(0);
         c7.applyEffect(characterParameters);
-        Student s = ((Characters1and7and11) c1).getCardStudentsList().get(0);
-        assertEquals(3,((Characters1and7and11) c1).getCardStudentsList());
-        assertEquals(s,island.getStudentsList());
+        assertEquals(3,((Characters1and7and11) c7).getCardStudentsList().size());
+        assertEquals(s,characterParameters.getPlayer().getDashboard().getEntranceList().get(0));
+        s = ((Characters1and7and11) c7).getCardStudentsList().get(0);
         c11.applyEffect(characterParameters);
+        assertEquals(3,((Characters1and7and11) c7).getCardStudentsList().size());
+        assertNotEquals(s,((Characters1and7and11) c7).getCardStudentsList().get(0));
 
     }
 }

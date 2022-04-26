@@ -102,7 +102,7 @@ public class Characters2and6and8and9 extends Character {
         }
         return influence;
     } */ //old effect of second character
-    private boolean modifiedUpdateProfessorsLists2(List<Player> playersList, Player cardPlayer, List<Professor> tableProfessorsList) {
+    public boolean modifiedUpdateProfessorsLists2(List<Player> playersList, Player cardPlayer, List<Professor> tableProfessorsList) {
         try {
             for (PawnColor currColor : PawnColor.values()) { //scan of all colors
                 Player tmpPlayer = null; //temp variable to store the player that has to receive the professor

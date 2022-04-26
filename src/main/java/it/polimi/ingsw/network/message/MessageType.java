@@ -22,7 +22,7 @@ public enum MessageType {
     WIN,
     LOSE,
 
-    CHAT_TEXT, //for 4 players
+    // CHAT_TEXT, //for 4 players, a tutor says that we can say to use an external app to chatting
     OK_REPLY,
     ERROR_REPLY
 }

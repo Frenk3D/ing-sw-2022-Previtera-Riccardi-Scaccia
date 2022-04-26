@@ -127,7 +127,13 @@ public class Controller implements Observer {
             Student studentToMove = currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex);
             currPlayer.getDashboard().addStudentHall(studentToMove,currPlayer,game.getTableMoney());
             currPlayer.getDashboard().getEntranceList().remove(studentToMove);
-            game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(),game.getTableProfessorsList());
+            if(game.isExpertMode() && game.getCurrRound().getCurrTurn().getUsedCharacter().getId()==2){
+                ((Characters2and6and8and9)game.getCurrRound().getCurrTurn().getUsedCharacter()).modifiedUpdateProfessorsLists2(game.getPlayersList(), game.getCurrPlayer(), game.getTableProfessorsList());
+            }
+            else {
+                game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(),game.getTableProfessorsList());
+            }
+
             game.getCurrRound().getCurrTurn().incrementMovedStudents();
 
         }

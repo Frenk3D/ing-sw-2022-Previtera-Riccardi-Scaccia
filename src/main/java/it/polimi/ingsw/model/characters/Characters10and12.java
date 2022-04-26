@@ -19,8 +19,9 @@ public class Characters10and12 extends Character{
     //methods
 
     private void swapStudents10(Player cardPlayer, List<Integer> studentsIndexEntranceList, PawnColor hallStudentColor1, PawnColor hallStudentColor2){
+        //if we swap students of the same colors, the ref of the students swapped are not right, but the colors yes, it's ok
         for(Integer i : studentsIndexEntranceList){
-            PawnColor selectedColor = cardPlayer.getDashboard().getEntranceList().get(i).getColor(); //the ref of the students are different, but they are the same colors
+            PawnColor selectedColor = cardPlayer.getDashboard().getEntranceList().get(i).getColor();
             cardPlayer.getDashboard().getHallStudentsListByColor(selectedColor).add(cardPlayer.getDashboard().getEntranceList().get(i));
             cardPlayer.getDashboard().getEntranceList().remove(i.intValue());
         }
