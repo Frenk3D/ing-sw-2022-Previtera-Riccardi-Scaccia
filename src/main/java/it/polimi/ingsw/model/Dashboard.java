@@ -59,7 +59,7 @@ public class Dashboard {
         return null;
     }
 
-    public void placeStudentEntrance(int numOfPlayers, Bag bag){ //init function
+    public void placeStudentEntrance(int numOfPlayers, Bag bag){ //init function, we can't add to many students for the entrance's size
         List<Student> entranceList;
         entranceList = new ArrayList<>();
         int numOfStudents;
@@ -89,7 +89,11 @@ public class Dashboard {
     }
 
     public void addStudentHall(Student student, Player currPlayer, AtomicInteger tableMoney){
-        getHallStudentsListByColor(student.getColor()).add(student);
+        if (getHallStudentsListByColor(student.getColor()).size()==10){
+            System.out.println("The hall is full");
+            return;
+        }
+            getHallStudentsListByColor(student.getColor()).add(student);
         if ((getHallStudentsListByColor(student.getColor()).size() % 3)==0 && tableMoney != null){ // if null it's not expert mode
             currPlayer.modifyMoney(1,tableMoney);
         }
