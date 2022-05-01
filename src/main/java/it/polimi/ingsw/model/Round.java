@@ -1,12 +1,13 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enumerations.RoundState;
+import it.polimi.ingsw.observer.Observable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
-public class Round {
+public class Round extends Observable {
     //attributes
     private Turn currTurn;
     private List<Player> playersOrder;
@@ -19,7 +20,6 @@ public class Round {
         currTurn=new Turn();
         playersOrder=new ArrayList<>();
         resetRound();
-        numOfAssistantThrows = 0;
     }
 
     //methods

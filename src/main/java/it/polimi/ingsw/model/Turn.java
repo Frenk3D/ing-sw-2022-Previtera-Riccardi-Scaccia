@@ -44,9 +44,7 @@ public class Turn {
     }
 
     public void updateProfessorsLists(List<Player> playersList, List<Professor> tableProfessorsList){
-        PawnColor[] colors = {PawnColor.RED,PawnColor.GREEN,PawnColor.BLUE,PawnColor.YELLOW, PawnColor.PINK};
-
-        for (PawnColor currColor : colors){ //scan of all colors
+        for (PawnColor currColor : PawnColor.values()){ //scan of all colors
             Player tmpPlayer = null; //temp variable to store the player that has to receive the professor
             Player currentProfessorPlayer = null; //temp variable to store the player that hold the professor
 

@@ -27,12 +27,12 @@ public class ProvaGit {
         controller.addPlayer(p1);
         controller.addPlayer(p2);
 
-        game.init(); //login
+        game.init(); //begin setting state
 
         controller.chooseTowerColor(1,TowerColor.WHITE);
         controller.chooseTowerColor(2,TowerColor.BLACK);
 
-        game.start();
+        game.start(); //begin in_game state
 
         printIslands(game);
         printDashboards(game);
@@ -42,7 +42,7 @@ public class ProvaGit {
 
         printClouds(game);
 
-        if(game.getCurrRound().getStage()== RoundState.ACTION_STATE){
+        if(game.getCurrRound().getStage() == RoundState.ACTION_STATE){
             System.out.println("The turn is of " + game.getCurrPlayer().getName());
         }
         else return;

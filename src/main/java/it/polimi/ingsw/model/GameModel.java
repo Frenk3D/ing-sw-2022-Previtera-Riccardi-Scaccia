@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameModel extends Observable {
     //attributes
-    private int numOfPlayers; //numofplayers, playerslist and expertmode final, decided from the start
+    private int numOfPlayers;
     private int motherNaturePos;
     private boolean expertMode;
     private List<Cloud> cloudsList;
@@ -104,6 +104,7 @@ public class GameModel extends Observable {
         islandsList=Island.generateIslandsList();
         Island.initStudentIsland(islandsList,motherNaturePos,bag);
         cloudsList = Cloud.generateCloudsList(numOfPlayers);
+
         for(PawnColor c : PawnColor.values()){
             Professor p = new Professor(c);
             tableProfessorsList.add(p);
@@ -114,6 +115,7 @@ public class GameModel extends Observable {
             p.getDashboard().placeStudentEntrance(numOfPlayers,bag);
             p.getDashboard().generateTower(numOfPlayers,p.getTowerColor());
         }
+
         if(expertMode){
             charactersList = Character.extractCharacters();
             tableMoney = new AtomicInteger();

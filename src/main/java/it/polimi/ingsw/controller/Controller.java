@@ -5,8 +5,7 @@ import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.characters.CharacterParameters;
 import it.polimi.ingsw.model.characters.Characters2and6and8and9;
 import it.polimi.ingsw.model.enumerations.*;
-import it.polimi.ingsw.network.message.LoginRequestMessage;
-import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.observer.Observer;
 
 import java.util.List;
@@ -75,20 +74,37 @@ public class Controller implements Observer {
         }
     }
 
-    private void inGameState(Message message){
-        switch (message.getMessageType()){
+    private void inGameState(Message receivedMessage){
+        switch (receivedMessage.getMessageType()){
             case SELECT_ASSISTANT:
+                SelectAssistantMessage selectAssistantMessage = (SelectAssistantMessage)receivedMessage;
+                selectAssistant(selectAssistantMessage.getSelectedAssistant());
                 break;
+
             case MOVE_STUDENT_ISLAND:
+                MoveStudentIslandMessage moveStudentIslandMessage = (MoveStudentIslandMessage)receivedMessage;
+                moveStudentIsland(moveStudentIslandMessage.getEntranceListIndex(),moveStudentIslandMessage.getIslandIndex());
                 break;
+
             case MOVE_STUDENT_DASHBOARD:
+                MoveStudentDashboardMessage moveStudentDashboardMessage = (MoveStudentDashboardMessage) receivedMessage;
+                moveStudentDashboard(moveStudentDashboardMessage.getEntranceListIndex());
                 break;
+
             case MOVE_MOTHER_NATURE:
+                MoveMotherNatureMessage moveMotherNatureMessage = (MoveMotherNatureMessage) receivedMessage;
+                moveMotherNature(moveMotherNatureMessage.getIslandIndex());
                 break;
+
             case TAKE_FROM_CLOUD:
+                TakeFromCloudMessage takeFromCloudMessage = (TakeFromCloudMessage) receivedMessage;
+                takeFromCloud(takeFromCloudMessage.getCloudIndex());
                 break;
+
             case USE_CHARACTER:
+
                 break;
+
             default:
                 System.out.println("Errore");
                 break;
@@ -177,7 +193,7 @@ public class Controller implements Observer {
     //methods
     //ACTION PHASE 1
     public void moveStudentIsland(int entranceListIndex,int islandIndex){
-        if(game.getCurrRound().getStage()== RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage()== TurnState.MOVE_STUDENT_STATE) {
+        if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.MOVE_STUDENT_STATE) {
             Player currPlayer = game.getCurrPlayer();
             if(currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex)==null||game.getIslandByIndex(islandIndex)==null){
                 System.out.println("move student island: wrong parameters");
