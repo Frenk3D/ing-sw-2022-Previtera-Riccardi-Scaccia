@@ -104,8 +104,8 @@ public class Turn {
             }
         }
 
-        if(islandsList.get(0).mergeIsland(islandsList.get(islandsList.size())) == true){
-            islandsList.remove(islandsList.size());
+        if(islandsList.get(0).mergeIsland(islandsList.get(islandsList.size()-1)) == true){
+            islandsList.remove(islandsList.size()-1);
         }
     }
 

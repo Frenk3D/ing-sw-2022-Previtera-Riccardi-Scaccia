@@ -126,7 +126,7 @@ public class GameModel extends Observable {
 
 
     public void setMotherNaturePosition(int pos){
-            if(motherNaturePos!=pos&& pos>0 && pos<12) //todo mother nature has to move at least of 1 pos, but we have to manage illegal moves
+            if(motherNaturePos!=pos&& pos>0 && pos<12) //mother nature has to move at least of 1 pos, but we have to manage illegal back moves
                 motherNaturePos=pos;
             else
                 System.out.println("Choose a correct move");
@@ -224,6 +224,9 @@ public class GameModel extends Observable {
         return state;
     }
 
+    public List<Island> getIslandsList() {
+        return islandsList;
+    }
 
     public void setIslandsList(List<Island> islandsList) {
         this.islandsList = islandsList;

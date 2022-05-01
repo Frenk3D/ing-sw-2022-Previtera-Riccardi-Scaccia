@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.characters.Factory;
 import it.polimi.ingsw.model.enumerations.PawnColor;
+import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.TurnState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,8 @@ class TurnTest {
     Character c1 = Factory.newCharacter(3);
     GameModel game1;
     List<Professor> tmpProfessorList;
+    Tower t1;
+    Tower t2;
 
 
     @BeforeEach
@@ -26,6 +29,8 @@ class TurnTest {
         game1.setNumOfPlayers(2);
         game1.addPlayer(new Player("Giorgio",0));
         game1.addPlayer(new Player("Gigio",1));
+        t1 = new Tower(TowerColor.WHITE);
+        t2 = new Tower(TowerColor.WHITE);
 
     }
 
@@ -57,15 +62,26 @@ class TurnTest {
 
 
     @Test
-    void updateIslandList() { // TODO: 20/04/2022  
+    void updateIslandList() { // TODO: 20/04/2022
+        game1.init();
+        game1.start();
+        game1.getIslandByIndex(0).setTower(t1);
+        game1.getIslandByIndex(1).setTower(t2);
+        assertEquals(12,game1.getIslandsList().size());
+        game1.getIslandByIndex(0).mergeIsland(game1.getIslandByIndex(0+1));
+        game1.getCurrRound().getCurrTurn().updateIslandList(game1.getIslandsList());
+        assertEquals(11,game1.getIslandsList().size());
+
     }
 
     @Test
     void incrementMovedStudents() {
-    }
-
-    @Test
-    void getMovedStudentsNumber() {
+        int num = game1.getCurrRound().getCurrTurn().getMovedStudentsNumber();
+        game1.getCurrRound().getCurrTurn().incrementMovedStudents();
+        assertEquals(num + 1,game1.getCurrRound().getCurrTurn().getMovedStudentsNumber());
+        game1.getCurrRound().getCurrTurn().incrementMovedStudents();
+        game1.getCurrRound().getCurrTurn().incrementMovedStudents();
+        assertEquals(TurnState.MOVE_MOTHER_NATURE_STATE,game1.getCurrRound().getCurrTurn().getStage());
     }
 
 

@@ -121,11 +121,16 @@ public class Characters2and6and8and9 extends Character {
                         }
                         if (p.getDashboard().getHallStudentsListByColor(currColor).size() > tmpPlayer.getDashboard().getHallStudentsListByColor(currColor).size()) { //if we find a player that has more students than tmp player we update the variable
                             tmpPlayer = p;
-                        } else if (p.getDashboard().getHallStudentsListByColor(currColor).size() == tmpPlayer.getDashboard().getHallStudentsListByColor(currColor).size()) { //if the players have the same number of student the professor must remain to the old holder, except for the cardPlayer
-                            if (p.getDashboard().getProfessorByColor(currColor) != null || p.equals(cardPlayer)) {
+                        } else if (p.getDashboard().getHallStudentsListByColor(currColor).size() == tmpPlayer.getDashboard().getHallStudentsListByColor(currColor).size()) { //if the players have the same number of student the professor must remain to the old holder, except for the cardPlayer after the loop
+                            if (p.getDashboard().getProfessorByColor(currColor) != null) {
                                 tmpPlayer = p;
                             }
+
                         }
+                    }
+
+                    if (cardPlayer.getDashboard().getHallStudentsListByColor(currColor).size()==tmpPlayer.getDashboard().getHallStudentsListByColor(currColor).size()){
+                        tmpPlayer = cardPlayer;
                     }
 
                     if (tmpPlayer.getDashboard().getProfessorByColor(currColor) == null) { //if the player that should have the professor doesn't have it we must give it
