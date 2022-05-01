@@ -16,19 +16,18 @@ import java.util.List;
 public class ProvaGit {
 
     public static void main( String[] args ){
-        Controller controller = new Controller();
+        Controller controller = new Controller("mycontroller");
         GameModel game = controller.getGame();
 
-        game.setNumOfPlayers(2);
-        game.setExpertMode(false);
+        controller.configure(2,false);
 
-        Player p1 = new Player("Pippo", 1);
+        Player p1 = new Player("Pippo", 1); //the players will be stored in the server class
         Player p2 = new Player("Topolino", 2);
 
         controller.addPlayer(p1);
         controller.addPlayer(p2);
 
-        game.init();
+        game.init(); //login
 
         controller.chooseTowerColor(1,TowerColor.WHITE);
         controller.chooseTowerColor(2,TowerColor.BLACK);

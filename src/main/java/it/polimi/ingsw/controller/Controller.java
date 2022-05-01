@@ -14,17 +14,24 @@ import java.util.List;
 public class Controller implements Observer {
     //attributes
     private GameModel game;  //intellij says it should be final,but it actually changes so it's not
+    private String name;
 
     //constructor
-    public Controller(){
+    public Controller(String name){
         game = new GameModel();
+        this.name = name;
     }
 
     public GameModel getGame(){
         return game;
     }
 
-    public void onMessageReceived(Message message){
+    public String getName(){
+        return name;
+    }
+
+    @Override
+    public void update(Message message){ //the controller observes the view
         switch (getGameState()){
             case LOGIN_STATE:
                 loginState(message);
@@ -86,6 +93,15 @@ public class Controller implements Observer {
                 System.out.println("Errore");
                 break;
         }
+    }
+
+    public void configure(int numOfPlayers, boolean expertMode){
+        boolean result = game.setNumOfPlayers(numOfPlayers);
+        if(!result){
+            System.out.println("configure: wrong parameters");
+            return;
+        }
+        game.setExpertMode(expertMode);
     }
 
     //LOGIN STATE
@@ -319,10 +335,5 @@ public class Controller implements Observer {
             return true;
         }
         return false;
-    }
-
-    @Override
-    public void update(Message message) {
-
     }
 }

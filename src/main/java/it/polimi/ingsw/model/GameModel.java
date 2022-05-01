@@ -31,7 +31,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameModel extends Observable {
     //attributes
-    private String lobbyName;
     private int numOfPlayers; //numofplayers, playerslist and expertmode final, decided from the start
     private int motherNaturePos;
     private boolean expertMode;

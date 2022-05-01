@@ -10,7 +10,6 @@ public class AssistantDeck {
     private Wizard wizard; //every wizard is the deck's representative, every wizard has the same deck and the attribute is set from Game for practical purposes
     private List<Assistant> assistantsList; //manage when removed...
 
-
     //Methods
     //constructor
     public AssistantDeck(){
