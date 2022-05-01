@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.enumerations.Wizard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,8 +22,8 @@ class AssistantDeckTest {
 
     @Test
     void setWizard() {
-        assistantDeck.setWizard(3);
-        assertEquals(3,assistantDeck.getWizard());
+        assistantDeck.setWizard(Wizard.KING_WIZARD);
+        assertEquals(Wizard.KING_WIZARD,assistantDeck.getWizard());
     }
 
     @Test

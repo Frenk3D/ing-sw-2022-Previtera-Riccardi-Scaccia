@@ -4,12 +4,12 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.characters.CharacterParameters;
 import it.polimi.ingsw.model.characters.Characters2and6and8and9;
-import it.polimi.ingsw.model.enumerations.GameState;
-import it.polimi.ingsw.model.enumerations.RoundState;
-import it.polimi.ingsw.model.enumerations.TurnState;
+import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.LoginRequestMessage;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.observer.Observer;
+
+import java.util.List;
 
 public class Controller implements Observer {
     //attributes
@@ -45,13 +45,7 @@ public class Controller implements Observer {
 
     private void loginState(Message message) {
         switch (message.getMessageType()){
-            case LOGIN_REQUEST:
-                LoginRequestMessage loginRequestMessage = (LoginRequestMessage) message;
-                int code = loginRequestMessage.getAppCode();
-                break;
             case ADD_PLAYER_REQUEST:
-                break;
-            case DELETE_LOBBY:
                 break;
             default:
                 System.out.println("Errore");
@@ -64,7 +58,7 @@ public class Controller implements Observer {
         switch (message.getMessageType()){
             case CHOOSE_TEAM:
                 break;
-            case CHOOSE_TOWER:
+            case CHOOSE_TOWER_COLOR:
                 break;
             case CHOOSE_WIZARD:
                 break;
@@ -93,6 +87,75 @@ public class Controller implements Observer {
                 break;
         }
     }
+
+    //LOGIN STATE
+    public void addPlayer(Player player){
+        boolean result = game.addPlayer(player);
+        if (!result){
+            System.out.println("addPlayer: too many players");
+        }
+        if(game.getNumOfPlayers()!=4){
+            player.setTeam(player.getId());
+        }
+    }
+
+    //SETTING PHASE 1
+    public void chooseTeam(int playerId, int requestedPlayerId){
+        if(game.getNumOfPlayers()==4) {
+            Player requestingPlayer = game.getPlayerById(playerId);
+            Player requestedTeamPlayer = game.getPlayerById(requestedPlayerId);
+            if(requestingPlayer==null || requestedTeamPlayer==null){
+                System.out.println("chooseTeam: wrong parameters");
+            }
+            else if(requestingPlayer.getTeam()!=-1|| requestedTeamPlayer.getTeam()!=-1){
+                System.out.println("chooseTeam: you already have a team or requested player already has a team");
+            }
+            else {
+                requestingPlayer.setTeam(requestingPlayer.getId());
+                requestedTeamPlayer.setTeam(requestingPlayer.getId());
+                requestedTeamPlayer.setHasTower(false);
+            }
+        }
+        else {
+            System.out.println("chooseTeam: you are not in a 4 player game");
+        }
+    }
+
+    //SETTING PHASE 2
+    public void chooseTowerColor(int playerId, TowerColor selectedColor){
+        Player requestingPlayer = game.getPlayerById(playerId);
+        List<TowerColor> availableColors = game.getChooseTowerColorList();
+        if(requestingPlayer==null){
+            System.out.println("chooseTowerColor: wrong parameters");
+        }
+        else if(!requestingPlayer.hasTower()){
+            System.out.println("chooseTowerColor: player doesnt have tower");
+        }
+        else if(!availableColors.contains(selectedColor)){
+            System.out.println("chooseTowerColor: already choosen color");
+        }
+        else {
+            requestingPlayer.setPlayerTowerColor(selectedColor);
+            availableColors.remove(selectedColor);
+        }
+    }
+
+    public void chooseWizard(int playerId, Wizard selectedWizard){
+        Player requestingPlayer = game.getPlayerById(playerId);
+        List<Wizard> availableWizards = game.getWizardList();
+        if(requestingPlayer==null){
+            System.out.println("chooseWizard: wrong parameters");
+        }
+        else if(!availableWizards.contains(selectedWizard)){
+            System.out.println("chooseWizard: already choosen wizard");
+        }
+        else {
+            requestingPlayer.getAssistantDeck().setWizard(selectedWizard);
+            availableWizards.remove(selectedWizard);
+
+        }
+    }
+
 
 
     //methods

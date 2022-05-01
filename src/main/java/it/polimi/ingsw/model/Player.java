@@ -24,6 +24,7 @@ public class Player {
         assistantDeck = new AssistantDeck();
         dashboard = new Dashboard();
         hasTower = true;
+        team = -1;
         this.id = id;
     }
 
@@ -113,12 +114,6 @@ public class Player {
     public boolean hasTower(){
         return hasTower;
     } //to check which player of a given team has the towers in his dashboard
-
-
-    public void selectWizard(List<Integer> wizardsList, int type){
-        getAssistantDeck().setWizard(type);
-        wizardsList.remove((Integer) type);
-    }
 
 
     public Player getTeamPlayer(List<Player> playersList){

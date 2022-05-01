@@ -1,11 +1,13 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.enumerations.Wizard;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class AssistantDeck {
     //attributes
-    private int wizard; //every wizard is the deck's representative, every wizard has the same deck and the attribute is set from Game for practical purposes
+    private Wizard wizard; //every wizard is the deck's representative, every wizard has the same deck and the attribute is set from Game for practical purposes
     private List<Assistant> assistantsList; //manage when removed...
 
 
@@ -25,7 +27,7 @@ public class AssistantDeck {
         assistantsList.add(new Assistant(10,5));
     }
     //setter
-    public void setWizard (int type){
+    public void setWizard (Wizard type){
         wizard = type;
     }
 
@@ -51,7 +53,7 @@ public class AssistantDeck {
         }
     }
     //only for test purposes
-    public int getWizard(){
+    public Wizard getWizard(){
         return wizard;
     }
 

@@ -71,12 +71,6 @@ class PlayerTest {
         assertEquals(false, player.hasTower());
     }
 
-    @Test
-    void selectWizard() {
-        tmpPlayer.selectWizard(wizardsList,3);
-        player.selectWizard(wizardsList,3);
-        assertEquals(player.getAssistantDeck().getWizard(),tmpPlayer.getAssistantDeck().getWizard());
-    }
 
     @Test
     void getTeamPlayer() {

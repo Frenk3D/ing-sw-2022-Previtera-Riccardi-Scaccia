@@ -18,9 +18,12 @@ import it.polimi.ingsw.model.characters.CharacterParameters;
 import it.polimi.ingsw.model.characters.Characters3and4and5;
 import it.polimi.ingsw.model.enumerations.GameState;
 import it.polimi.ingsw.model.enumerations.PawnColor;
+import it.polimi.ingsw.model.enumerations.TowerColor;
+import it.polimi.ingsw.model.enumerations.Wizard;
 import it.polimi.ingsw.observer.Observable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List; ////Intellij advises to remove Student ecc from <> when initializing List (professors don't), try to remove it in Bag
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -33,7 +36,8 @@ public class GameModel extends Observable {
     private int motherNaturePos;
     private boolean expertMode;
     private List<Cloud> cloudsList;
-    private List<Integer> wizardList;
+    private List<Wizard> wizardList;
+    private List<TowerColor> chooseTowerColorList;
     private Bag bag;
     private final List<Player> playersList;
     private List<Character> charactersList;
@@ -49,6 +53,8 @@ public class GameModel extends Observable {
         expertMode=false;
         currRound=new Round();
         bag = new Bag();
+        wizardList = new ArrayList<>();
+        chooseTowerColorList = new ArrayList<>();
         playersList = new ArrayList<>();
         cloudsList = new ArrayList<>();
         tableProfessorsList = new ArrayList<>();
@@ -80,6 +86,10 @@ public class GameModel extends Observable {
         if(playersList.size()!=numOfPlayers){
             return false;
         }
+
+        Collections.addAll(wizardList, Wizard.values());
+        Collections.addAll(chooseTowerColorList, TowerColor.values());
+
         state=GameState.SETTING_STATE;
         return true;
     }
@@ -249,5 +259,13 @@ public class GameModel extends Observable {
 
     public List<Professor> getTableProfessorsList() {
         return tableProfessorsList;
+    }
+
+    public List<Wizard> getWizardList() {
+        return wizardList;
+    }
+
+    public List<TowerColor> getChooseTowerColorList() {
+        return chooseTowerColorList;
     }
 }

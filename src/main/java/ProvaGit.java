@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.network.message.LoginRequestMessage;
 import it.polimi.ingsw.network.message.Message;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /** Deselezionare sempre .idea e pom.xml sia da push che da pull per evitare problemi!!!
  * Hello world!
  * ok Fra, ok Nic, ok marco, sometimes gives problem because we force playerId, and check the random problems with random features
@@ -18,14 +21,18 @@ public class ProvaGit {
 
         game.setNumOfPlayers(2);
         game.setExpertMode(false);
+
         Player p1 = new Player("Pippo", 1);
         Player p2 = new Player("Topolino", 2);
-        p1.setPlayerTowerColor(TowerColor.WHITE);
-        p2.setPlayerTowerColor(TowerColor.BLACK);
-        p1.setTeam(1);
-        p2.setTeam(2);
-        game.addPlayer(p1);
-        game.addPlayer(p2);
+
+        controller.addPlayer(p1);
+        controller.addPlayer(p2);
+
+        game.init();
+
+        controller.chooseTowerColor(1,TowerColor.WHITE);
+        controller.chooseTowerColor(2,TowerColor.BLACK);
+
         game.start();
 
         printIslands(game);
@@ -56,7 +63,7 @@ public class ProvaGit {
         printDashboards(game);
         printIslands(game);
 
-        controller.takeFromCloud(10);
+        controller.takeFromCloud(1);
 
         printClouds(game);
         printDashboards(game);
