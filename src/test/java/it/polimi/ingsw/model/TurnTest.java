@@ -62,7 +62,7 @@ class TurnTest {
 
 
     @Test
-    void updateIslandList() { // TODO: 20/04/2022
+    void updateIslandList() { 
         game1.init();
         game1.start();
         game1.getIslandByIndex(0).addTower(t1);
