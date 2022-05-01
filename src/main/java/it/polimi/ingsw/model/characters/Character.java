@@ -47,4 +47,9 @@ public abstract class Character {
         returnList.add(Factory.newCharacter(idList.get(2)));
         return returnList;
     }
+
+    // only for tests purposes
+    public void setId(int id) {
+        this.id = id;
+    }
 }

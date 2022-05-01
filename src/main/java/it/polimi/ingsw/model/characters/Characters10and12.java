@@ -31,7 +31,7 @@ public class Characters10and12 extends Character{
             cardPlayer.getDashboard().getEntranceList().add(cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor1).remove(size1 - 1));
             if (studentsIndexEntranceList.size() == 2) {
                 int size2 = cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor2).size();
-                cardPlayer.getDashboard().getEntranceList().add(cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor2).remove(size2 - 1));
+                cardPlayer.getDashboard().getEntranceList().add(cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor2).remove(size2 - 1)); //we add students at the end of the list
             }
             return true;
         }
@@ -78,5 +78,10 @@ public class Characters10and12 extends Character{
     @Override
     public void initCharacter(CharacterParameters params) {
         bag = params.getBag();
+    }
+
+    //for tests purposes
+    public Bag getBag() {
+        return bag;
     }
 }

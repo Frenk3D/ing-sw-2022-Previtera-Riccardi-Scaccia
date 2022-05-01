@@ -66,7 +66,7 @@ public class ProvaGit {
         for (int i=0; i<12;i++){
             Island island = game.getIslandByIndex(i);
             System.out.print("----------ISOLA "+i+"---------- ");
-            System.out.println("Dimensione: " +island.getWeight()+" Forbid card: "+island.getForbidCard());
+            System.out.println("Dimensione: " +island.getWeight()+" Forbid card: "+island.getForbidCards());
             if(game.getMotherNaturePos()==i){
                 System.out.println("****MOTHER NATURE");
             }

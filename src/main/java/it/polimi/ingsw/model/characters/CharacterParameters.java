@@ -17,7 +17,7 @@ public class CharacterParameters {
     private List<Professor> tableProfessorsList;
     private int studentIndex;
     private PawnColor selectedColor;
-    private PawnColor selectedColor2;
+    private PawnColor selectedColor2; //only for the character 10
     private Characters3and4and5 forbidCharacter;
     private Bag bag;
 

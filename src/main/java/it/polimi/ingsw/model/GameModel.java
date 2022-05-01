@@ -117,6 +117,7 @@ public class GameModel extends Observable {
 
             for(Character c : charactersList){
                 c.initCharacter(parameters);
+                //the method getForbidCharacter does everything
             }
         }
 

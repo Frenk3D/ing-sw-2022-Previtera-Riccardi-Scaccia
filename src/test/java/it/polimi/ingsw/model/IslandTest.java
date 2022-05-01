@@ -126,8 +126,8 @@ class IslandTest {
 
     @Test
     void mergeIsland() {
-    island.setTower(new Tower(TowerColor.GRAY));
-    island2.setTower( new Tower(TowerColor.GRAY));
+    island.addTower(new Tower(TowerColor.GRAY));
+    island2.addTower( new Tower(TowerColor.GRAY));
     island.mergeIsland(island2);
     assertEquals(2, island.getWeight());
     assertEquals(2, island.getTowersList().size());

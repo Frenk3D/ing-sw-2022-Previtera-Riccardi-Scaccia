@@ -50,7 +50,7 @@ public class Characters2and6and8and9 extends Character {
                         island.getTowersList().add(movedTower);
                     }
                     catch (IndexOutOfBoundsException e){
-                        //win todo
+                        //win to do
                     }
                 }
             }
@@ -167,8 +167,8 @@ public class Characters2and6and8and9 extends Character {
 
 
     private void updateIslandDomain6(Island island,List<Player> playersList, Characters3and4and5 forbidCharacter) {
-        if (island.getForbidCard() > 0) {
-            island.setForbidCard(island.getForbidCard() - 1);
+        if (island.getForbidCards() > 0) {
+            island.setForbidCards(island.getForbidCards() - 1);
             forbidCharacter.addForbidCard5();
             return;
         }
@@ -193,9 +193,12 @@ public class Characters2and6and8and9 extends Character {
             }
             if (allParity == false) { //if the var is false there is a change of domain, or else we do nothing
                 if (tmpPlayer != oldDominatingPlayer) { //if we have to change the tower
-                    for (Tower t : island.getTowersList()) {
+                    for (Tower t: island.getTowersList()) {
                         oldDominatingPlayer.getDashboard().getTowersList().add(t);
-                        island.getTowersList().remove(t);
+                    }
+                    int towersListSize = island.getTowersList().size();
+                    for (int i =0; i<towersListSize; i++ ) {
+                        island.getTowersList().remove(0);
                     }
                     for (int i = 0; i < island.getWeight(); i++) {
                         try {
@@ -232,8 +235,8 @@ public class Characters2and6and8and9 extends Character {
     }
 
     private void updateIslandDomain8(Player cardPlayer,Island island,List<Player> playersList, Characters3and4and5 forbidCharacter) {
-        if (island.getForbidCard() > 0) {
-            island.setForbidCard(island.getForbidCard() - 1);
+        if (island.getForbidCards() > 0) {
+            island.setForbidCards(island.getForbidCards() - 1);
             forbidCharacter.addForbidCard5();
             return;
         }
@@ -259,9 +262,12 @@ public class Characters2and6and8and9 extends Character {
             }
             if (allParity == false) { //if the var is false there is a change of domain, or else we do nothing
                 if (tmpPlayer != oldDominatingPlayer) { //if we have to change the tower
-                    for (Tower t : island.getTowersList()) {
+                    for (Tower t: island.getTowersList()) {
                         oldDominatingPlayer.getDashboard().getTowersList().add(t);
-                        island.getTowersList().remove(t);
+                    }
+                    int towersListSize = island.getTowersList().size();
+                    for (int i =0; i<towersListSize; i++ ) {
+                        island.getTowersList().remove(0);
                     }
                     for (int i = 0; i < island.getWeight(); i++) {
                         try {
@@ -302,8 +308,8 @@ public class Characters2and6and8and9 extends Character {
     }
 
     private void updateIslandDomain9(Island island,List<Player> playersList,PawnColor selectedColor, Characters3and4and5 forbidCharacter) {
-        if (island.getForbidCard() > 0) {
-            island.setForbidCard(island.getForbidCard() - 1);
+        if (island.getForbidCards() > 0) {
+            island.setForbidCards(island.getForbidCards() - 1);
             forbidCharacter.addForbidCard5();
             return;
         }
@@ -328,9 +334,12 @@ public class Characters2and6and8and9 extends Character {
             }
             if (allParity == false) { //if the var is false there is a change of domain, or else we do nothing
                 if (tmpPlayer != oldDominatingPlayer) { //if we have to change the tower
-                    for (Tower t : island.getTowersList()) {
+                    for (Tower t: island.getTowersList()) {
                         oldDominatingPlayer.getDashboard().getTowersList().add(t);
-                        island.getTowersList().remove(t);
+                    }
+                    int towersListSize = island.getTowersList().size();
+                    for (int i =0; i<towersListSize; i++ ) {
+                        island.getTowersList().remove(0);
                     }
                     for (int i = 0; i < island.getWeight(); i++) {
                         try {

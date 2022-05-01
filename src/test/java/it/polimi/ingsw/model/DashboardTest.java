@@ -96,6 +96,11 @@ class DashboardTest {
         assertEquals(towerList,dashboard.getTowersList());
     }
 
+    @Test
+    void getEntranceStudentByIndex(){
+        assertEquals(null,dashboard.getEntranceStudentByIndex(99));
+    }
+
 }
 
     //other useless tests (getter and setters)

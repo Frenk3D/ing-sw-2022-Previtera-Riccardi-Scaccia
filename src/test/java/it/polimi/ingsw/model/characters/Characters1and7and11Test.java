@@ -51,15 +51,16 @@ class Characters1and7and11Test {
 
     @Test
     void applyEffect() {
+        //test for character 1
         c1.applyEffect(characterParameters);
         assertEquals(3,((Characters1and7and11) c1).getCardStudentsList().size());
         assertEquals(1,island.getStudentsList().size());
-
+        //test for character 7
         Student s = ((Characters1and7and11) c7).getCardStudentsList().get(0);
         c7.applyEffect(characterParameters);
         assertEquals(6,((Characters1and7and11) c7).getCardStudentsList().size());
         assertEquals(s.getColor(),characterParameters.getPlayer().getDashboard().getEntranceList().get(0).getColor());
-
+        //test for character 11
         Student s2 = ((Characters1and7and11) c11).getCardStudentsList().get(0);
         c11.applyEffect(characterParameters);
         assertEquals(4,((Characters1and7and11) c11).getCardStudentsList().size());

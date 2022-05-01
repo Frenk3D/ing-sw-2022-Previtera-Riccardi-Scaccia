@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class Island {
     //attributes
-    private int forbidCard;
+    private int forbidCards;
     private int weight;
     private List<Tower> towersList;
     private List<Student> studentsList;
@@ -19,7 +19,7 @@ public class Island {
     //constructor
     public Island(){
         weight = 1;
-        forbidCard = 0;
+        forbidCards = 0;
         towersList= new ArrayList<>();
         studentsList= new ArrayList<Student>();
     }
@@ -51,12 +51,12 @@ public class Island {
     }
 
 
-    public int getForbidCard() {
-        return forbidCard;
+    public int getForbidCards() {
+        return forbidCards;
     }
 
-    public void setForbidCard(int forbidCard) {
-        this.forbidCard = forbidCard;
+    public void setForbidCards(int forbidCards) {
+        this.forbidCards = forbidCards;
     }
 
     public List<Tower> getTowersList() {
@@ -112,8 +112,12 @@ public class Island {
                 if (tmpPlayer != oldDominatingPlayer){ //if we have to change the tower
                     for (Tower t: towersList) {
                         oldDominatingPlayer.getDashboard().getTowersList().add(t);
-                        towersList.remove(t);
                     }
+                    int towersListSize = towersList.size();
+                    for (int i =0; i<towersListSize; i++ ) {
+                        towersList.remove(0);
+                    }
+
                     for(int i = 0; i < weight; i++){
                         try{
                             Tower movedTower = tmpPlayer.getDashboard().getTowersList().remove(0);
@@ -131,8 +135,8 @@ public class Island {
 
 
     public void updateIslandDomainExpert(List<Player> playersList, Characters3and4and5 forbidCharacter){
-        if(forbidCard > 0 && forbidCharacter!=null){
-            forbidCard--;
+        if(forbidCards > 0 && forbidCharacter!=null){
+            forbidCards--;
             forbidCharacter.addForbidCard5();
             return;
         }
@@ -155,6 +159,8 @@ public class Island {
             }
         }
         if (getTowerColor()!=null && getTowerColor().equals(player.getTowerColor())){
+            System.out.println();
+            System.out.println(getTowerColor());
             influence = influence + weight;
         }
         return influence;
@@ -166,7 +172,7 @@ public class Island {
 
             towersList.addAll(nextIsland.getTowersList());
             studentsList.addAll(nextIsland.getStudentsList());
-            forbidCard = forbidCard + nextIsland.getForbidCard();
+            forbidCards = forbidCards + nextIsland.getForbidCards();
 
             return true;
         }
@@ -188,17 +194,19 @@ public class Island {
         if (this == o) return true;
         if (!(o instanceof Island)) return false;
         Island island = (Island) o;
-        return getForbidCard() == island.getForbidCard() && getWeight() == island.getWeight() && getTowersList().equals(island.getTowersList()) && getStudentsList().equals(island.getStudentsList());
+        return getForbidCards() == island.getForbidCards() && getWeight() == island.getWeight() && getTowersList().equals(island.getTowersList()) && getStudentsList().equals(island.getStudentsList());
     }
 
     /* @Override
     public int hashCode() {
         return Objects.hash(getForbidCard(), getWeight(), getTowersList(), getStudentsList());
-    } */
+    }
 
     public void setTower(Tower tower){
         towersList.add(tower);
     }
+
+     */
 }
 
 

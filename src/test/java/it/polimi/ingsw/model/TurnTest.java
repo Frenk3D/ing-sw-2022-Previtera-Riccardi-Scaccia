@@ -65,8 +65,8 @@ class TurnTest {
     void updateIslandList() { // TODO: 20/04/2022
         game1.init();
         game1.start();
-        game1.getIslandByIndex(0).setTower(t1);
-        game1.getIslandByIndex(1).setTower(t2);
+        game1.getIslandByIndex(0).addTower(t1);
+        game1.getIslandByIndex(1).addTower(t2);
         assertEquals(12,game1.getIslandsList().size());
         game1.getIslandByIndex(0).mergeIsland(game1.getIslandByIndex(0+1));
         game1.getCurrRound().getCurrTurn().updateIslandList(game1.getIslandsList());

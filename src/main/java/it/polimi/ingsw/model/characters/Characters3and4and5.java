@@ -49,7 +49,7 @@ public class Characters3and4and5 extends Character{
 
         try {
             forbidCards--;
-            island.setForbidCard(island.getForbidCard()+1);
+            island.setForbidCards(island.getForbidCards()+1);
             return true;
         }
         catch (Exception e){
@@ -77,7 +77,7 @@ public class Characters3and4and5 extends Character{
             case 5:
                 return moveForbidCard5(params.getIsland());
             default:
-                return false;
+                return false; //impossible because id is "final"
         }
     }
 
@@ -87,4 +87,16 @@ public class Characters3and4and5 extends Character{
             initForbidCards5();
         }
     }
+
+    //for test purposes
+
+
+    public int getForbidCards() {
+        return forbidCards;
+    }
+
+    public void setForbidCards(int forbidCards) {
+        this.forbidCards = forbidCards;
+    }
+
 }
