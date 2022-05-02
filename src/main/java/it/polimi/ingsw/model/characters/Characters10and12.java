@@ -25,8 +25,11 @@ public class Characters10and12 extends Character{
             for (Integer i : studentsIndexEntranceList) {
                 PawnColor selectedColor = cardPlayer.getDashboard().getEntranceList().get(i).getColor(); //the ref of the students are different, but they are the same colors
                 cardPlayer.getDashboard().getHallStudentsListByColor(selectedColor).add(cardPlayer.getDashboard().getEntranceList().get(i));
-                cardPlayer.getDashboard().getEntranceList().remove(i.intValue());
             }
+            for(int i=0; i<studentsIndexEntranceList.size(); i++) {
+                cardPlayer.getDashboard().getEntranceList().remove(studentsIndexEntranceList.get(0));
+            }
+
             int size1 = cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor1).size();
             cardPlayer.getDashboard().getEntranceList().add(cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor1).remove(size1 - 1));
             if (studentsIndexEntranceList.size() == 2) {
@@ -36,6 +39,7 @@ public class Characters10and12 extends Character{
             return true;
         }
         catch (Exception e){
+            System.out.println("Error in the swap");
             return false;
         }
     }

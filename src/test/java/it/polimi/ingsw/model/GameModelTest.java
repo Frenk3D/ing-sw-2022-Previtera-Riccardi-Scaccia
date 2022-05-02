@@ -118,7 +118,7 @@ class GameModelTest {
         assertEquals(true,game1.isExpertMode());
         assertEquals(4, game1.getCloudsList().size());
         assertNotEquals(93, game1.getBag().getStudentsList().size());
-        assertEquals(93, game2.getBag().getStudentsList().size());
+        assertEquals(81, game2.getBag().getStudentsList().size());
         assertEquals(null, game2.getCurrPlayer());
         assertEquals(null, game2.getTableMoney());
 
