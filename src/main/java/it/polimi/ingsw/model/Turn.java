@@ -14,6 +14,7 @@ public class Turn {
     private Character usedCharacter;
 
     public Turn() {
+        currPlayer = null;
     }
 
     //methods

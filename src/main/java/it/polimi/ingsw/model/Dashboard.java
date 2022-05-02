@@ -88,16 +88,16 @@ public class Dashboard {
         setTowersList(towers);
     }
 
-    public void addStudentHall(Student student, Player currPlayer, AtomicInteger tableMoney){
+    public boolean addStudentHall(Student student, Player currPlayer, AtomicInteger tableMoney){
         if (getHallStudentsListByColor(student.getColor()).size()==10){
             System.out.println("The hall is full");
-            return;
+            return false;
         }
-            getHallStudentsListByColor(student.getColor()).add(student);
+        getHallStudentsListByColor(student.getColor()).add(student);
         if ((getHallStudentsListByColor(student.getColor()).size() % 3)==0 && tableMoney != null){ // if null it's not expert mode
             currPlayer.modifyMoney(1,tableMoney);
         }
-
+        return true;
     }
 
     public void setTowersList(List<Tower> towersList) {

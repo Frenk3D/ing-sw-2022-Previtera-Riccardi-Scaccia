@@ -41,10 +41,10 @@ public class ProvaGit {
 
         printClouds(game);
 
+        System.out.println("------------------------Started phase:"+ game.getCurrRound().getStage()+"----------------------------------------------");
+
         controller.selectAssistant(2);
         controller.selectAssistant(4);
-
-        printClouds(game);
 
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE){
             System.out.println("The turn is of " + game.getCurrPlayer().getName());

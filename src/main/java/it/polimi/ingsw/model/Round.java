@@ -19,7 +19,8 @@ public class Round extends Observable {
     public Round() {
         currTurn=new Turn();
         playersOrder=new ArrayList<>();
-        resetRound();
+        numOfAssistantThrows = 0;
+        stage = RoundState.PLANNING_STATE;
     }
 
     //methods
@@ -105,14 +106,14 @@ public class Round extends Observable {
         planningPhasePlayer = randomInt;
     }
 
-    public void setNextPlayerPlanning(int numOfPlayers){
+    public void setNextPlayerPlanning(int numOfPlayers){ //set the next player that must throw the assistant card
         if(stage == RoundState.PLANNING_STATE && numOfAssistantThrows<numOfPlayers) {
                 planningPhasePlayer = (planningPhasePlayer + 1) % numOfPlayers;
                 numOfAssistantThrows++;
         }
     }
-    //for test purposes
 
+    //for test purposes
     public void setStage(RoundState stage) {
         this.stage = stage;
     }

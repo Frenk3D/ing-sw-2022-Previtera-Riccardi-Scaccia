@@ -17,12 +17,4 @@ public class ChooseTeamMessage extends Message{
     public int getRequestedPlayerId() {
         return requestedPlayerId;
     }
-
-    public void setPlayerId(int playerId) {
-        this.playerId = playerId;
-    }
-
-    public void setRequestedPlayerId(int requestedPlayerId) {
-        this.requestedPlayerId = requestedPlayerId;
-    }
 }

@@ -270,7 +270,12 @@ public class Controller implements Observer {
             }
 
             Student studentToMove = currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex);
-            currPlayer.getDashboard().addStudentHall(studentToMove,currPlayer,game.getTableMoney());
+            boolean result = currPlayer.getDashboard().addStudentHall(studentToMove,currPlayer,game.getTableMoney());
+            if(!result){
+                System.out.println("move student dashboard: too many students");
+                return;
+            }
+
             currPlayer.getDashboard().getEntranceList().remove(studentToMove);
             if(game.isExpertMode() && game.getCurrRound().getCurrTurn().getUsedCharacter().getId()==2){
                 ((Characters2and6and8and9)game.getCurrRound().getCurrTurn().getUsedCharacter()).modifiedUpdateProfessorsLists2(game.getPlayersList(), game.getCurrPlayer(), game.getTableProfessorsList());
@@ -278,10 +283,9 @@ public class Controller implements Observer {
             else {
                 game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(),game.getTableProfessorsList());
             }
-
             game.getCurrRound().getCurrTurn().incrementMovedStudents();
-
         }
+
         else {
             System.out.println("move student dashboard: forbidden move");
         }
@@ -338,7 +342,7 @@ public class Controller implements Observer {
             game.getCloudByIndex(cloudIndex).getStudents().clear();
 
             boolean result = game.getCurrRound().nextTurn();
-            if(!result){
+            if(!result){ //the round is ended and we fill the clouds again
                 game.getCurrRound().fillClouds(game.getCloudsList(),game.getBag(),game.getNumOfPlayers());
             }
 
