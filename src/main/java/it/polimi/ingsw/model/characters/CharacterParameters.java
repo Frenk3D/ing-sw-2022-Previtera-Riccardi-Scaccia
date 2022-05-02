@@ -6,9 +6,10 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Professor;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CharacterParameters {
+public class CharacterParameters implements Serializable {
     private Island island;
     private Player cardPlayer;
     private List<Player> playersList;
@@ -119,6 +120,4 @@ public class CharacterParameters {
     public void setTableProfessorsList(List<Professor> tableProfessorsList) {
         this.tableProfessorsList = tableProfessorsList;
     }
-
-
 }

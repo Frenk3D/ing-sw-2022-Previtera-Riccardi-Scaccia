@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.message;
 
 public class LoginRequestMessage extends Message{
-    int appCode;
+    private int appCode;
 
     public LoginRequestMessage(int senderId, int appCode){
         super(MessageType.LOGIN_REQUEST,senderId);

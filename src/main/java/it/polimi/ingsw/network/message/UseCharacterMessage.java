@@ -1,8 +1,18 @@
 package it.polimi.ingsw.network.message;
 
-public class UseCharacterMessage extends Message{
+import it.polimi.ingsw.model.GameModel;
+import it.polimi.ingsw.model.characters.CharacterParameters;
+import it.polimi.ingsw.model.characters.MessageCharacterParameters;
 
-    public UseCharacterMessage(int senderId){
+public class UseCharacterMessage extends Message{
+    MessageCharacterParameters parameters;
+
+    public UseCharacterMessage(int senderId, CharacterParameters parameters){
         super(MessageType.USE_CHARACTER,senderId);
+    }
+
+
+    public MessageCharacterParameters getCharacterParameters(){
+        return parameters;
     }
 }

@@ -1,8 +1,10 @@
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.characters.MessageCharacterParameters;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.RoundState;
 import it.polimi.ingsw.model.enumerations.TowerColor;
+import it.polimi.ingsw.model.enumerations.Wizard;
 import it.polimi.ingsw.network.message.LoginRequestMessage;
 import it.polimi.ingsw.network.message.Message;
 
@@ -19,6 +21,7 @@ public class ProvaGit {
         Controller controller = new Controller("mycontroller");
         GameModel game = controller.getGame();
 
+        
         controller.configure(2,false);
 
         Player p1 = new Player("Pippo", 1); //the players will be stored in the server class
@@ -27,12 +30,11 @@ public class ProvaGit {
         controller.addPlayer(p1);
         controller.addPlayer(p2);
 
-        game.init(); //begin setting state
-
         controller.chooseTowerColor(1,TowerColor.WHITE);
         controller.chooseTowerColor(2,TowerColor.BLACK);
 
-        game.start(); //begin in_game state
+        controller.chooseWizard(1, Wizard.OLD_WIZARD);
+        controller.chooseWizard(2,Wizard.GIRL_WIZARD);
 
         printIslands(game);
         printDashboards(game);

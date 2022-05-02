@@ -16,10 +16,7 @@ FINIRE E FARE DESCRIZIONE NOSTRO UML PER IL GRUPPO GC57 E FARE REVIEW UML PER IL
 import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.characters.CharacterParameters;
 import it.polimi.ingsw.model.characters.Characters3and4and5;
-import it.polimi.ingsw.model.enumerations.GameState;
-import it.polimi.ingsw.model.enumerations.PawnColor;
-import it.polimi.ingsw.model.enumerations.TowerColor;
-import it.polimi.ingsw.model.enumerations.Wizard;
+import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.observer.Observable;
 
 import java.util.ArrayList;
@@ -43,6 +40,7 @@ public class GameModel extends Observable {
     private List<Professor> tableProfessorsList;
     private Round currRound;
     private GameState state;
+    private SettingState settingState;
     private List<Island> islandsList; //doesn't change even when you group islands, attrib in Island class
     private AtomicInteger tableMoney;
 
@@ -58,6 +56,7 @@ public class GameModel extends Observable {
         cloudsList = new ArrayList<>();
         tableProfessorsList = new ArrayList<>();
         state = GameState.LOGIN_STATE;
+        settingState = SettingState.NOT_SETTING_STATE;
         tableMoney = null;
     }
 
@@ -90,6 +89,12 @@ public class GameModel extends Observable {
         Collections.addAll(chooseTowerColorList, TowerColor.values());
 
         state=GameState.SETTING_STATE;
+        if(numOfPlayers == 4){
+            settingState = SettingState.CHOOSE_TEAM_STATE;
+        }
+        else {
+            settingState = SettingState.CHOOSE_TOWER_COLOR_STATE;
+        }
         return true;
     }
 
@@ -131,7 +136,6 @@ public class GameModel extends Observable {
                 //the method getForbidCharacter does everything
             }
         }
-
         state = GameState.INGAME_STATE;
         return true;
     }
@@ -230,12 +234,39 @@ public class GameModel extends Observable {
         return cloudsList;
     }
 
-    //for test purposes
+
 
     public GameState getGameState(){
         return state;
     }
 
+    public boolean isExpertMode() {
+        return expertMode;
+    }
+
+    public List<Professor> getTableProfessorsList() {
+        return tableProfessorsList;
+    }
+
+    public List<Wizard> getWizardList() {
+        return wizardList;
+    }
+
+    public List<TowerColor> getChooseTowerColorList() {
+        return chooseTowerColorList;
+    }
+
+    public void setSettingState(SettingState settingState) {
+        this.settingState = settingState;
+    }
+
+    public SettingState getSettingState() {
+        return settingState;
+    }
+
+
+
+    //for test purposes
     public List<Island> getIslandsList() {
         return islandsList;
     }
@@ -254,19 +285,4 @@ public class GameModel extends Observable {
         return charactersList;
     }
 
-    public boolean isExpertMode() {
-        return expertMode;
-    }
-
-    public List<Professor> getTableProfessorsList() {
-        return tableProfessorsList;
-    }
-
-    public List<Wizard> getWizardList() {
-        return wizardList;
-    }
-
-    public List<TowerColor> getChooseTowerColorList() {
-        return chooseTowerColorList;
-    }
 }

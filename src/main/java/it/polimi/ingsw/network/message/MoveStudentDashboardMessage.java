@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.message;
 
 public class MoveStudentDashboardMessage extends Message{
-    int entranceListIndex;
+    private int entranceListIndex;
 
     public MoveStudentDashboardMessage(int senderId, int entranceListIndex){
         super(MessageType.MOVE_STUDENT_DASHBOARD,senderId);

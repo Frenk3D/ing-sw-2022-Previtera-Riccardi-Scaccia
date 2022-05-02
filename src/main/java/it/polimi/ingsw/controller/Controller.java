@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.characters.CharacterParameters;
 import it.polimi.ingsw.model.characters.Characters2and6and8and9;
+import it.polimi.ingsw.model.characters.MessageCharacterParameters;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.observer.Observer;
@@ -32,14 +33,11 @@ public class Controller implements Observer {
     @Override
     public void update(Message message){ //the controller observes the view
         switch (getGameState()){
-            case LOGIN_STATE:
-                loginState(message);
-                break;
             case SETTING_STATE:
                 settingState(message);
                 break;
             case INGAME_STATE:
-                if(checkUser(message)){
+                if(checkUser(message)){ //check if the user is the right sender
                     inGameState(message);
                 }
                 break;
@@ -49,25 +47,24 @@ public class Controller implements Observer {
         }
     }
 
-    private void loginState(Message message) {
-        switch (message.getMessageType()){
-            case ADD_PLAYER_REQUEST:
-                break;
-            default:
-                System.out.println("Errore");
-                break;
-        }
-    }
 
-
-    private void settingState(Message message){
-        switch (message.getMessageType()){
+    private void settingState(Message receivedMessage){
+        switch (receivedMessage.getMessageType()){
             case CHOOSE_TEAM:
+                ChooseTeamMessage chooseTeamMessage = (ChooseTeamMessage) receivedMessage;
+                chooseTeam(chooseTeamMessage.getPlayerId(), chooseTeamMessage.getRequestedPlayerId());
                 break;
+
             case CHOOSE_TOWER_COLOR:
+                ChooseTowerColorMessage chooseTowerColorMessage = (ChooseTowerColorMessage) receivedMessage;
+                chooseTowerColor(chooseTowerColorMessage.getPlayerId(),chooseTowerColorMessage.getSelectedColor());
                 break;
+
             case CHOOSE_WIZARD:
+                ChooseWizardMessage chooseWizardMessage = (ChooseWizardMessage) receivedMessage;
+                chooseWizard(chooseWizardMessage.getPlayerId(),chooseWizardMessage.getSelectedWizard());
                 break;
+
             default:
                 System.out.println("Errore");
                 break;
@@ -102,7 +99,23 @@ public class Controller implements Observer {
                 break;
 
             case USE_CHARACTER:
+                UseCharacterMessage useCharacterMessage = (UseCharacterMessage) receivedMessage;
+                MessageCharacterParameters messageParams = useCharacterMessage.getCharacterParameters();
 
+                CharacterParameters parameters = new CharacterParameters();
+                parameters.setPlayer(game.getCurrPlayer());
+                parameters.setPlayersList(game.getPlayersList());
+                parameters.setTableProfessorsList(game.getTableProfessorsList());
+                parameters.setForbidCharacter(game.getForbidCharacter());
+                parameters.setBag(game.getBag());
+                parameters.setIsland(game.getIslandByIndex(messageParams.getIslandIndex()));
+                parameters.setStudentsIndexList(messageParams.getStudentsIndexList());
+                parameters.setStudentsIndexEntranceList(messageParams.getStudentsIndexEntranceList());
+                parameters.setStudentIndex(messageParams.getStudentIndex());
+                parameters.setSelectedColor(messageParams.getSelectedColor());
+                parameters.setSelectedColor2(messageParams.getSelectedColor2());
+
+                useCharacter(messageParams.getCharacterIndex(),parameters);
                 break;
 
             default:
@@ -122,69 +135,107 @@ public class Controller implements Observer {
 
     //LOGIN STATE
     public void addPlayer(Player player){
-        boolean result = game.addPlayer(player);
-        if (!result){
-            System.out.println("addPlayer: too many players");
+        if(getGameState() == GameState.LOGIN_STATE || game.getNumOfPlayers() == 0) {
+            boolean result = game.addPlayer(player);
+            if (!result) {
+                System.out.println("addPlayer: too many players");
+            }
+            if (game.getNumOfPlayers() != 4) {
+                player.setTeam(player.getId());
+            }
+            if (game.getPlayersList().size() == game.getNumOfPlayers()){
+                game.init();
+                System.out.println("GAME INITALIZED!");
+            }
         }
-        if(game.getNumOfPlayers()!=4){
-            player.setTeam(player.getId());
+        else {
+            System.out.println("add player: not in login state or game not configured");
         }
     }
 
     //SETTING PHASE 1
     public void chooseTeam(int playerId, int requestedPlayerId){
-        if(game.getNumOfPlayers()==4) {
+        if(game.getNumOfPlayers() == 4 && game.getSettingState() == SettingState.CHOOSE_TEAM_STATE) {
             Player requestingPlayer = game.getPlayerById(playerId);
             Player requestedTeamPlayer = game.getPlayerById(requestedPlayerId);
             if(requestingPlayer==null || requestedTeamPlayer==null){
                 System.out.println("chooseTeam: wrong parameters");
             }
-            else if(requestingPlayer.getTeam()!=-1|| requestedTeamPlayer.getTeam()!=-1){
+            else if(requestingPlayer.getTeam() != -1 || requestedTeamPlayer.getTeam()!=-1){
                 System.out.println("chooseTeam: you already have a team or requested player already has a team");
             }
             else {
                 requestingPlayer.setTeam(requestingPlayer.getId());
                 requestedTeamPlayer.setTeam(requestingPlayer.getId());
                 requestedTeamPlayer.setHasTower(false);
+
+                for (Player p : game.getPlayersList()){ //check if all player choose team player
+                    if(p.getTeam()==-1){
+                        return;
+                    }
+                }
+                game.setSettingState(SettingState.CHOOSE_TOWER_COLOR_STATE);
+
             }
         }
         else {
-            System.out.println("chooseTeam: you are not in a 4 player game");
+            System.out.println("forbidden move");
         }
     }
 
     //SETTING PHASE 2
     public void chooseTowerColor(int playerId, TowerColor selectedColor){
-        Player requestingPlayer = game.getPlayerById(playerId);
-        List<TowerColor> availableColors = game.getChooseTowerColorList();
-        if(requestingPlayer==null){
-            System.out.println("chooseTowerColor: wrong parameters");
-        }
-        else if(!requestingPlayer.hasTower()){
-            System.out.println("chooseTowerColor: player doesnt have tower");
-        }
-        else if(!availableColors.contains(selectedColor)){
-            System.out.println("chooseTowerColor: already choosen color");
+        if(game.getSettingState()==SettingState.CHOOSE_TOWER_COLOR_STATE) {
+            Player requestingPlayer = game.getPlayerById(playerId);
+            List<TowerColor> availableColors = game.getChooseTowerColorList();
+            if (requestingPlayer == null) {
+                System.out.println("chooseTowerColor: wrong parameters");
+            } else if (!requestingPlayer.hasTower()) {
+                System.out.println("chooseTowerColor: player doesnt have tower");
+            } else if (!availableColors.contains(selectedColor)) {
+                System.out.println("chooseTowerColor: already choosen color");
+            } else {
+                requestingPlayer.setPlayerTowerColor(selectedColor);
+                availableColors.remove(selectedColor);
+
+                for (Player p : game.getPlayersList()){ //check if all player choose the color
+                    if(p.getTowerColor()==null){
+                        return;
+                    }
+                }
+                game.setSettingState(SettingState.CHOOSE_WIZARD_STATE);
+            }
         }
         else {
-            requestingPlayer.setPlayerTowerColor(selectedColor);
-            availableColors.remove(selectedColor);
+            System.out.println("Forbidden move");
         }
     }
 
+    //SETTING PHASE 3
     public void chooseWizard(int playerId, Wizard selectedWizard){
-        Player requestingPlayer = game.getPlayerById(playerId);
-        List<Wizard> availableWizards = game.getWizardList();
-        if(requestingPlayer==null){
-            System.out.println("chooseWizard: wrong parameters");
-        }
-        else if(!availableWizards.contains(selectedWizard)){
-            System.out.println("chooseWizard: already choosen wizard");
+        if(game.getSettingState()==SettingState.CHOOSE_WIZARD_STATE) {
+            Player requestingPlayer = game.getPlayerById(playerId);
+            List<Wizard> availableWizards = game.getWizardList();
+            if (requestingPlayer == null) {
+                System.out.println("chooseWizard: wrong parameters");
+            } else if (!availableWizards.contains(selectedWizard)) {
+                System.out.println("chooseWizard: already choosen wizard");
+            } else {
+                requestingPlayer.getAssistantDeck().setWizard(selectedWizard);
+                availableWizards.remove(selectedWizard);
+
+                for (Player p : game.getPlayersList()){
+                    if (p.getAssistantDeck().getWizard()==null){
+                        return;
+                    }
+                }
+                game.setSettingState(SettingState.NOT_SETTING_STATE);
+                game.start();
+                System.out.println("GAME STARTED!");
+            }
         }
         else {
-            requestingPlayer.getAssistantDeck().setWizard(selectedWizard);
-            availableWizards.remove(selectedWizard);
-
+            System.out.println("Forbidden move");
         }
     }
 
