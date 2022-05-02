@@ -179,7 +179,7 @@ public class Controller implements Observer {
             }
         }
         else {
-            System.out.println("forbidden move");
+            System.out.println("chooseTeam: forbidden move");
         }
     }
 
@@ -207,7 +207,7 @@ public class Controller implements Observer {
             }
         }
         else {
-            System.out.println("Forbidden move");
+            System.out.println("chooseTowerColor: Forbidden move");
         }
     }
 
@@ -235,7 +235,7 @@ public class Controller implements Observer {
             }
         }
         else {
-            System.out.println("Forbidden move");
+            System.out.println("chooseWizard: Forbidden move");
         }
     }
 
@@ -257,7 +257,7 @@ public class Controller implements Observer {
             game.getCurrRound().getCurrTurn().incrementMovedStudents();
         }
         else {
-            System.out.println("forbidden move");
+            System.out.println("move student island: forbidden move");
         }
     }
 
@@ -284,7 +284,7 @@ public class Controller implements Observer {
 
         }
         else {
-            System.out.println("forbidden move");
+            System.out.println("move student dashboard: forbidden move");
         }
     }
 
@@ -316,7 +316,7 @@ public class Controller implements Observer {
             game.getCurrRound().getCurrTurn().setStage(TurnState.CHOOSE_CLOUD_STATE);
         }
         else {
-            System.out.println("forbidden move");
+            System.out.println("move mother nature: forbidden move");
         }
     }
 
@@ -333,7 +333,7 @@ public class Controller implements Observer {
             game.getCurrRound().nextTurn();
         }
         else {
-            System.out.println("forbidden move");
+            System.out.println("take from cloud: forbidden move");
         }
 
     }
@@ -356,7 +356,7 @@ public class Controller implements Observer {
             }
         }
         else {
-            System.out.println("forbidden move");
+            System.out.println("select assistant: forbidden move");
         }
     }
 
@@ -385,7 +385,7 @@ public class Controller implements Observer {
                 game.getCurrRound().getCurrTurn().setUsedCharacter(game.getCharacterByIndex(characterIndex));
             }
             else {
-                System.out.println("Not enough money");
+                System.out.println("use character: Not enough money");
             }
         }
         else {
