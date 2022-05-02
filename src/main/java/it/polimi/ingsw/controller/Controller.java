@@ -199,7 +199,7 @@ public class Controller implements Observer {
                 availableColors.remove(selectedColor);
 
                 for (Player p : game.getPlayersList()){ //check if all player choose the color
-                    if(p.getTowerColor()==null){
+                    if(p.getTowerColor() == null && p.hasTower()){
                         return;
                     }
                 }
