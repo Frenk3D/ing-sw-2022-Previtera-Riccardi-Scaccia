@@ -29,14 +29,15 @@ public class Round extends Observable {
         numOfAssistantThrows = 0;
     }
 
-    public void initRound(List<Player> playersList,List<Cloud> cloudsList, Bag bag) { //to be called after the planning state is finished
-        int numOfPlayers = playersList.size();
-        int i = 0;
-
-        //fill the clouds
+    public void fillClouds(List<Cloud> cloudsList, Bag bag, int numOfPlayers){
         for (Cloud c : cloudsList) {
             c.fillCloud(bag,numOfPlayers);
         }
+    }
+
+
+    public void initRound(List<Player> playersList) { //called by the controller after the planning state is finished
+        int i = 0;
 
         //CREATE PLAYERS ORDER LIST FOR THE ROUND
         for(Player p : playersList) {
@@ -61,11 +62,6 @@ public class Round extends Observable {
     }
 
     public boolean nextTurn(){
-        if(stage!=RoundState.ACTION_STATE){
-            System.out.println("Wrong stage");
-            return false;
-        }
-
         Player nextPlayer = getNextPlayer();
 
         if(nextPlayer!=null) {

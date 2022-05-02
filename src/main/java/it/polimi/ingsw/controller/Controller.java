@@ -47,7 +47,6 @@ public class Controller implements Observer {
         }
     }
 
-
     private void settingState(Message receivedMessage){
         switch (receivedMessage.getMessageType()){
             case CHOOSE_TEAM:
@@ -291,6 +290,13 @@ public class Controller implements Observer {
     //ACTION PHASE 2
     public void moveMotherNature(int islandIndex){
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage()== TurnState.MOVE_MOTHER_NATURE_STATE){
+
+            int prevMotherNaturePos = game.getMotherNaturePos();
+            if(islandIndex - prevMotherNaturePos > game.getCurrPlayer().getSelectedAssistant().getValue() || islandIndex - prevMotherNaturePos < 0){
+                System.out.println("move mother nature: too far");
+                return;
+            }
+
             if(game.getIslandByIndex(islandIndex)==null){
                 System.out.println("move mother nature: wrong parameters");
                 return;
@@ -330,7 +336,12 @@ public class Controller implements Observer {
 
             game.getCurrPlayer().getDashboard().getEntranceList().addAll(game.getCloudByIndex(cloudIndex).getStudents());
             game.getCloudByIndex(cloudIndex).getStudents().clear();
-            game.getCurrRound().nextTurn();
+
+            boolean result = game.getCurrRound().nextTurn();
+            if(!result){
+                game.getCurrRound().fillClouds(game.getCloudsList(),game.getBag(),game.getNumOfPlayers());
+            }
+
         }
         else {
             System.out.println("take from cloud: forbidden move");
@@ -352,7 +363,7 @@ public class Controller implements Observer {
             round.setNextPlayerPlanning(game.getNumOfPlayers());
 
             if (round.getNumOfAssistantThrows() == game.getNumOfPlayers()) {
-                round.initRound(game.getPlayersList(), game.getCloudsList(), game.getBag());
+                round.initRound(game.getPlayersList());
             }
         }
         else {

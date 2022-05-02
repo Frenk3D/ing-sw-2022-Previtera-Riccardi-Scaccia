@@ -81,7 +81,7 @@ class RoundTest {
 
     @Test
     void initRound() {
-        round.initRound(playersList,cloudsList,bag);
+        round.initRound(playersList);
         assertEquals(3,cloudsList.get(0).getStudents().size());
         assertEquals(p1.getId(), round.getCurrTurn().getCurrPlayer().getId());
         assertEquals(p.getId(), round.getPlayersOrder().get(0).getId()); //because init round has next turn inside and it suddenly removes the first players

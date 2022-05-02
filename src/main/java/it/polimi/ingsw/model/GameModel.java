@@ -108,14 +108,16 @@ public class GameModel extends Observable {
         initMotherNaturePos();
         islandsList=Island.generateIslandsList();
         Island.initStudentIsland(islandsList,motherNaturePos,bag);
+
+        bag.addAllStudents();
         cloudsList = Cloud.generateCloudsList(numOfPlayers);
+        currRound.fillClouds(cloudsList,bag,numOfPlayers);
 
         for(PawnColor c : PawnColor.values()){
             Professor p = new Professor(c);
             tableProfessorsList.add(p);
         }
 
-        bag.addAllStudents();
         for (Player p: playersList){
             p.getDashboard().placeStudentEntrance(numOfPlayers,bag);
             p.getDashboard().generateTower(numOfPlayers,p.getTowerColor());
