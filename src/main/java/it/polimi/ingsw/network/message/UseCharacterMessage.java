@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.characters.CharacterParameters;
 import it.polimi.ingsw.model.characters.MessageCharacterParameters;
 
 public class UseCharacterMessage extends Message{
-    MessageCharacterParameters parameters;
+    private MessageCharacterParameters parameters;
 
     public UseCharacterMessage(int senderId, CharacterParameters parameters){
         super(MessageType.USE_CHARACTER,senderId);
