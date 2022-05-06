@@ -8,7 +8,7 @@ public class UseCharacterMessage extends Message{
     MessageCharacterParameters parameters;
 
     public UseCharacterMessage(int senderId, CharacterParameters parameters){
-        super(MessageType.USE_CHARACTER,senderId);
+        super(MessageType.USE_CHARACTER,senderId,false);
     }
 
 

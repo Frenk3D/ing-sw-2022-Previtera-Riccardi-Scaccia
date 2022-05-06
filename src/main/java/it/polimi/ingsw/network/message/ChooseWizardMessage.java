@@ -7,7 +7,7 @@ public class ChooseWizardMessage extends Message{
     Wizard selectedWizard;
 
     public ChooseWizardMessage(int senderId, int playerId, Wizard selectedWizard){
-        super(MessageType.CHOOSE_WIZARD,senderId);
+        super(MessageType.CHOOSE_WIZARD,senderId,false);
         this.playerId = playerId;
         this.selectedWizard = selectedWizard;
     }

@@ -17,6 +17,10 @@ import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.characters.CharacterParameters;
 import it.polimi.ingsw.model.characters.Characters3and4and5;
 import it.polimi.ingsw.model.enumerations.*;
+import it.polimi.ingsw.network.message.MessageType;
+import it.polimi.ingsw.network.message.StringMessage;
+import it.polimi.ingsw.network.message.SyncStateMessage;
+import it.polimi.ingsw.network.message.TableMessage;
 import it.polimi.ingsw.observer.Observable;
 
 import java.util.ArrayList;
@@ -43,6 +47,7 @@ public class GameModel extends Observable {
     private SettingState settingState;
     private List<Island> islandsList; //doesn't change even when you group islands, attrib in Island class
     private AtomicInteger tableMoney;
+    public static final int SERVERID = 9999;
 
     //constructor
     public GameModel(){
@@ -71,6 +76,7 @@ public class GameModel extends Observable {
     public boolean addPlayer(Player player){
         if(numOfPlayers!=-1 && playersList.size()<numOfPlayers) {
             playersList.add(player);
+            notifyObserver(new StringMessage(MessageType.PLAYER_JOIN,SERVERID,player.getName()));
             return true;
         }
         return false;
@@ -95,6 +101,8 @@ public class GameModel extends Observable {
         else {
             settingState = SettingState.CHOOSE_TOWER_COLOR_STATE;
         }
+
+        notifyObserver(new SyncStateMessage(SERVERID,state,settingState));
         return true;
     }
 
@@ -139,15 +147,18 @@ public class GameModel extends Observable {
             }
         }
         state = GameState.INGAME_STATE;
+        notifyObserver(new SyncStateMessage(SERVERID,state,currRound.getStage(),currRound.getCurrTurn().getStage(),currRound.getPlanningPhasePlayer(playersList).getId()));
         return true;
     }
 
 
     public void setMotherNaturePosition(int pos){
-            if(motherNaturePos!=pos&& pos>0 && pos<12) //mother nature has to move at least of 1 pos, but we have to manage illegal back moves
-                motherNaturePos=pos;
-            else
+            if(motherNaturePos!=pos&& pos>0 && pos<12) { //mother nature has to move at least of 1 pos, but we have to manage illegal back moves
+                motherNaturePos = pos;
+            }
+            else{
                 System.out.println("Choose a correct move");
+            }
     }
 
 
@@ -285,6 +296,10 @@ public class GameModel extends Observable {
     }
     public List<Character> getCharactersList(){
         return charactersList;
+    }
+
+    public void sendTable(){
+        notifyObserver(new TableMessage(SERVERID,islandsList,cloudsList,motherNaturePos));
     }
 
 }

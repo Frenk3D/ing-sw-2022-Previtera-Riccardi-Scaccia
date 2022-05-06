@@ -1,15 +1,9 @@
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.characters.MessageCharacterParameters;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.RoundState;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;
-import it.polimi.ingsw.network.message.LoginRequestMessage;
-import it.polimi.ingsw.network.message.Message;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /** Deselezionare sempre .idea e pom.xml sia da push che da pull per evitare problemi!!!
  * Hello world!

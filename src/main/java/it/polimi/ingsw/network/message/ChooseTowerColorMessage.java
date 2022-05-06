@@ -7,7 +7,7 @@ public class ChooseTowerColorMessage extends Message{
     TowerColor selectedColor;
 
     public ChooseTowerColorMessage(int senderId, int playerId, TowerColor selectedColor){
-        super(MessageType.CHOOSE_TOWER_COLOR,senderId);
+        super(MessageType.CHOOSE_TOWER_COLOR,senderId,false);
         this.playerId = playerId;
         this.selectedColor = selectedColor;
     }

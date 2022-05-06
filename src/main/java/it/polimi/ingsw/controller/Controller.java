@@ -42,7 +42,7 @@ public class Controller implements Observer {
                 }
                 break;
             default:
-                System.out.println("Errore");
+                System.out.println("Error");
                 break;
         }
     }
@@ -65,7 +65,7 @@ public class Controller implements Observer {
                 break;
 
             default:
-                System.out.println("Errore");
+                System.out.println("Error");
                 break;
         }
     }
@@ -118,7 +118,7 @@ public class Controller implements Observer {
                 break;
 
             default:
-                System.out.println("Errore");
+                System.out.println("Error");
                 break;
         }
     }
@@ -296,7 +296,11 @@ public class Controller implements Observer {
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage()== TurnState.MOVE_MOTHER_NATURE_STATE){
 
             int prevMotherNaturePos = game.getMotherNaturePos();
-            if(islandIndex - prevMotherNaturePos > game.getCurrPlayer().getSelectedAssistant().getValue() || islandIndex - prevMotherNaturePos < 0){
+            if(islandIndex - prevMotherNaturePos > game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift()){
+                System.out.println("move mother nature: too far");
+                return;
+            }
+            else if((islandIndex - prevMotherNaturePos < 0) && ((game.getIslandsList().size()-prevMotherNaturePos+islandIndex)<game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift())){
                 System.out.println("move mother nature: too far");
                 return;
             }
@@ -323,6 +327,7 @@ public class Controller implements Observer {
             else {
                 game.getIslandByIndex(islandIndex).updateIslandDomain(game.getPlayersList());
             }
+            game.getCurrRound().getCurrTurn().updateIslandList(game.getIslandsList());
             game.getCurrRound().getCurrTurn().setStage(TurnState.CHOOSE_CLOUD_STATE);
         }
         else {
@@ -391,6 +396,8 @@ public class Controller implements Observer {
 
             if (game.getCurrPlayer().getMoney() >= characterCost) { //check if the player has enough money to pay the character
                 boolean result = usedCharacter.applyEffect(parameters);
+                game.getCurrRound().getCurrTurn().updateIslandList(game.getIslandsList()); //we update islands because some characters calculate the influence
+
                 if(!result) {
                     System.out.println("use character: error in character use");
                     return;

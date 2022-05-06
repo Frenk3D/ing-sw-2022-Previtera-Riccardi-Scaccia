@@ -4,7 +4,7 @@ public class MoveStudentDashboardMessage extends Message{
     private int entranceListIndex;
 
     public MoveStudentDashboardMessage(int senderId, int entranceListIndex){
-        super(MessageType.MOVE_STUDENT_DASHBOARD,senderId);
+        super(MessageType.MOVE_STUDENT_DASHBOARD,senderId,false);
         this.entranceListIndex=entranceListIndex;
     }
 

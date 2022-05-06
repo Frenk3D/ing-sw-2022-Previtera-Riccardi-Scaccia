@@ -6,7 +6,7 @@ public class MoveStudentIslandMessage extends Message{
     private int islandIndex;
 
     public MoveStudentIslandMessage(int senderId, int entranceListIndex,int islandIndex) {
-        super(MessageType.MOVE_STUDENT_ISLAND, senderId);
+        super(MessageType.MOVE_STUDENT_ISLAND, senderId,false);
         this.entranceListIndex = entranceListIndex;
         this.islandIndex = islandIndex;
 
