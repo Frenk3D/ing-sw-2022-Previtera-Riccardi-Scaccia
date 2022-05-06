@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.characters.*;
 import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.enumerations.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -73,7 +74,7 @@ class ControllerTest {
         assertEquals(s,controller.getGame().getIslandByIndex(5).getStudentsList().get(1));
     }
 
-    @Test
+    @RepeatedTest(5)
     void moveStudentDashboard() {
         controller.getGame().getCurrRound().getCurrTurn().setCurrPlayer(p1);
         controller.getGame().getCurrRound().setStage(RoundState.ACTION_STATE);
@@ -85,13 +86,38 @@ class ControllerTest {
         controller.moveStudentDashboard(3);
         assertNotEquals(size,controller.getGame().getCurrPlayer().getDashboard().getProfessorsList().size());
         assertEquals(6,controller.getGame().getCurrPlayer().getDashboard().getEntranceList().size());
-        assertNotEquals(s,controller.getGame().getCurrPlayer().getDashboard().getEntranceList().get(3));
+        assertNotEquals(true,s == controller.getGame().getCurrPlayer().getDashboard().getEntranceList().get(3));
     }
 
     @Test
     void moveMotherNature() {
-
-
+        controller.getGame().getCurrRound().getCurrTurn().setCurrPlayer(p1);
+        controller.getGame().getCurrRound().setStage(RoundState.ACTION_STATE);
+        controller.getGame().getCurrRound().getCurrTurn().setStage(TurnState.MOVE_MOTHER_NATURE_STATE);
+        controller.getGame().getCurrRound().getCurrTurn().getCurrPlayer().setSelectedAssistant(2);
+        controller.getGame().setMotherNaturePosition(3);
+        controller.getGame().setExpertMode(false);
+        controller.getGame().getCurrRound().getCurrTurn().getCurrPlayer().getSelectedAssistant().setMotherNaturePosShift(2);
+        controller.moveMotherNature(5);
+        assertEquals(5,controller.getGame().getMotherNaturePos());
+        controller.getGame().setExpertMode(true);
+        controller.getGame().getCurrRound().getCurrTurn().setUsedCharacter(Factory.newCharacter(3));
+        controller.getGame().getCurrRound().getCurrTurn().setStage(TurnState.MOVE_MOTHER_NATURE_STATE);
+        controller.moveMotherNature(6);
+        assertEquals(6,controller.getGame().getMotherNaturePos());
+        controller.getGame().getCurrRound().getCurrTurn().setUsedCharacter(Factory.newCharacter(6));
+        controller.getGame().getCurrRound().getCurrTurn().setStage(TurnState.MOVE_MOTHER_NATURE_STATE);
+        controller.moveMotherNature(8);
+        assertEquals(8,controller.getGame().getMotherNaturePos());
+        controller.getGame().setMotherNaturePosition(11);
+        controller.getGame().getCurrRound().getCurrTurn().setStage(TurnState.MOVE_MOTHER_NATURE_STATE);
+        controller.moveMotherNature(1);
+        assertEquals(1,controller.getGame().getMotherNaturePos());
+        controller.moveMotherNature(3);
+        assertEquals(1,controller.getGame().getMotherNaturePos());
+        controller.getGame().getCurrRound().getCurrTurn().setStage(TurnState.MOVE_MOTHER_NATURE_STATE);
+        controller.moveMotherNature(8);
+        assertEquals(1,controller.getGame().getMotherNaturePos());
     }
 
     @Test
@@ -146,9 +172,20 @@ class ControllerTest {
         assertEquals(true, controller.getGame().getCurrRound().getCurrTurn().getUsedCharacter().isUsed());
         controller.useCharacter(5,params); //return
         assertEquals(1, controller.getGame().getCurrRound().getCurrTurn().getUsedCharacter().getId());
+    }
 
+    @Test
+    void settingState(){
 
+    }
 
+    @Test
+    void inGameState(){
+
+    }
+
+    @Test
+    void update(){
 
     }
 }
