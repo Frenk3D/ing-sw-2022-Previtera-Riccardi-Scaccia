@@ -3,14 +3,13 @@ package it.polimi.ingsw.model;
 many warnings on unused things because yet to be implemented or other else.
 ? :  operator ok but better if
 exceptions a bit from view, but also here
+passing simple parameters in the network, objects will be copied
 we use a lot of concatenated methods, asked, not a problem for Cugola, passing the var Game is not good
+client has a easier model
 
 CONSEGNE:
-UN PACKAGE PER CLIENT E UNO PER SERVER E QUI DENTRO PACKAGE MODEL-CONTROLLER E PACKAGE RETE(VIEW?),
-METTERE ECCEZIONI, FARE I TEST,
-PASSARE TIPI SEMPLICI AL POSTO DI OGGETTI IN TUTTI I METODI (INT, BOOLEAN E STRING OK, COME CON METODO playerThrowsAssistant DELLA CLASSE GAME), 
-        SE PASSO OGGETTI PASSO COPIA E NON PUNTATORE, POSSO AVERE PROBLEMI.
-FINIRE E FARE DESCRIZIONE NOSTRO UML PER IL GRUPPO GC57 E FARE REVIEW UML PER IL GRUPPO GC12 (INVIARE TUTTO PER EMAIL REFERENTE)
+UN PACKAGE PER CLIENT E UNO PER SERVER E QUI DENTRO PACKAGE MODEL-CONTROLLER E PACKAGE RETE(VIEW?), fare peer review
+
 */
 
 import it.polimi.ingsw.model.characters.Character;
