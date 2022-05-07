@@ -277,6 +277,10 @@ public class GameModel extends Observable {
         return settingState;
     }
 
+    public void sendTable(){
+        notifyObserver(new TableMessage(SERVERID,islandsList,cloudsList,motherNaturePos));
+    }
+
 
 
     //for test purposes
@@ -298,8 +302,7 @@ public class GameModel extends Observable {
         return charactersList;
     }
 
-    public void sendTable(){
-        notifyObserver(new TableMessage(SERVERID,islandsList,cloudsList,motherNaturePos));
+    public void setState(GameState state) {
+        this.state = state;
     }
-
 }

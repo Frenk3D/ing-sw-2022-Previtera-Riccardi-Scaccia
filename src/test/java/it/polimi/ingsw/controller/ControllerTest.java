@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.characters.*;
 import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.enumerations.*;
+import it.polimi.ingsw.network.message.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -15,12 +16,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ControllerTest {
     Controller controller;
+    CharacterParameters params;
     Player p1;
     Player p2;
     Player p3;
     Player p4;
     List<Professor> professorsList;
     Student s;
+    Message message;
 
 
     @BeforeEach
@@ -176,6 +179,7 @@ class ControllerTest {
 
     @Test
     void settingState(){
+        assertEquals("lobby1",(controller.getName()));
 
     }
 
@@ -186,6 +190,44 @@ class ControllerTest {
 
     @Test
     void update(){
+        controller.getGame().setState(GameState.SETTING_STATE);
+        message = new ChooseTowerColorMessage(controller.getGame().SERVERID,1,TowerColor.WHITE);
+        controller.update(message);
+        assertEquals(4, controller.getGame().getNumOfPlayers());
+
+        params = new CharacterParameters();
+        params.setIsland(new Island());
+        params.setStudentIndex(1);
+        Bag bag = new Bag();
+        bag.addAllStudents();
+        params.setBag(bag);
+        params.setPlayer(p1);
+        Character c = Factory.newCharacter(1);
+        c.initCharacter(params);
+        controller.getGame().getCurrRound().getCurrTurn().setCurrPlayer(p1);
+        controller.getGame().getCharactersList().removeAll(controller.getGame().getCharactersList());
+        controller.getGame().getCharactersList().add(c);
+        controller.getGame().setState(GameState.INGAME_STATE);
+        controller.getGame().getCurrRound().setStage(RoundState.ACTION_STATE);
+        Message message2 = new UseCharacterMessage(p1.getId(), params);
+        controller.update(message2);
+        Message message4 = new TakeFromCloudMessage(controller.getGame().SERVERID, 0);
+        controller.update(message4);
+        assertNotEquals(2, controller.getGame().getCharactersList().size());
+        Message message3 = new MoveStudentDashboardMessage(p1.getId(),0);
+        controller.update(message3);
+
+
+        controller.getGame().setState(GameState.FINISHED_STATE);
+        controller.update(message);
+        assertEquals("lobby1", controller.getName());
+
+
+
 
     }
+
+
+
+
 }
