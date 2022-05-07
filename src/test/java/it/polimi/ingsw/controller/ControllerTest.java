@@ -188,11 +188,15 @@ class ControllerTest {
 
     }
 
-    @Test
+    @RepeatedTest(5)
     void update(){
         controller.getGame().setState(GameState.SETTING_STATE);
         message = new ChooseTowerColorMessage(controller.getGame().SERVERID,1,TowerColor.WHITE);
         controller.update(message);
+        assertEquals(4, controller.getGame().getNumOfPlayers());
+
+        Message message6 = new ChooseTeamMessage(controller.getGame().SERVERID,1,3);
+        controller.update(message6);
         assertEquals(4, controller.getGame().getNumOfPlayers());
 
         params = new CharacterParameters();
@@ -202,6 +206,8 @@ class ControllerTest {
         bag.addAllStudents();
         params.setBag(bag);
         params.setPlayer(p1);
+        params.setIslandsList(controller.getGame().getIslandsList());
+        params.setCharactersList(controller.getGame().getCharactersList());
         Character c = Factory.newCharacter(1);
         c.initCharacter(params);
         controller.getGame().getCurrRound().getCurrTurn().setCurrPlayer(p1);
@@ -217,6 +223,8 @@ class ControllerTest {
         Message message3 = new MoveStudentDashboardMessage(p1.getId(),0);
         controller.update(message3);
 
+        Message message5 = new MoveStudentIslandMessage(p1.getId(),0,0);
+        controller.update(message5);
 
         controller.getGame().setState(GameState.FINISHED_STATE);
         controller.update(message);

@@ -107,6 +107,9 @@ public class Controller implements Observer {
                 parameters.setTableProfessorsList(game.getTableProfessorsList());
                 parameters.setForbidCharacter(game.getForbidCharacter());
                 parameters.setBag(game.getBag());
+                parameters.setIslandsList(game.getIslandsList());
+                parameters.setCharactersList(game.getCharactersList());
+                parameters.setUsedCharacter(game.getCurrRound().getCurrTurn().getUsedCharacter());
                 parameters.setIsland(game.getIslandByIndex(messageParams.getIslandIndex()));
                 parameters.setStudentsIndexList(messageParams.getStudentsIndexList());
                 parameters.setStudentsIndexEntranceList(messageParams.getStudentsIndexEntranceList());

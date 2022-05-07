@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.characters;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Character {
 
@@ -51,5 +52,18 @@ public abstract class Character {
     // only for tests purposes
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Character)) return false;
+        Character character = (Character) o;
+        return isUsed() == character.isUsed() && getId() == character.getId() && getInitialCost() == character.getInitialCost();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(isUsed(), getId(), getInitialCost());
     }
 }

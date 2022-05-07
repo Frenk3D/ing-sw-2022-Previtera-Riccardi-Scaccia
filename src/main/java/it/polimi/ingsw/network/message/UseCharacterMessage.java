@@ -15,8 +15,8 @@ public class UseCharacterMessage extends Message{
         this.parameters.setSelectedColor2(parameters.getSelectedColor2());
         this.parameters.setStudentsIndexList(parameters.getStudentsIndexList());
         this.parameters.setStudentsIndexEntranceList(parameters.getStudentsIndexEntranceList());
-        //this.parameters.setIslandIndex(parameters.getIslandIndex);
-        //this.parameters.setCharacterIndex(parameters.getCharacterIndex);
+        this.parameters.setIslandIndex(parameters.getIslandsList(), parameters.getIsland());
+        this.parameters.setCharacterIndex(parameters.getCharactersList(), parameters.getUsedCharacter());
     }
 
 
