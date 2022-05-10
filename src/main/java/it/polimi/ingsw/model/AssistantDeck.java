@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.client.ReducedAssistant;
+import it.polimi.ingsw.model.client.ReducedPlayer;
 import it.polimi.ingsw.model.enumerations.Wizard;
 
 import java.util.ArrayList;
@@ -51,10 +53,17 @@ public class AssistantDeck {
             }
         }
     }
-    //only for test purposes
+
+    public List<ReducedAssistant> getReducedAssistantsList(){
+        List<ReducedAssistant> reducedAssistants = new ArrayList<>();
+        for(Assistant a : assistantsList){
+            reducedAssistants.add(new ReducedAssistant(a));
+        }
+        return reducedAssistants;
+    }
+
     public Wizard getWizard(){
         return wizard;
     }
-
 
 }

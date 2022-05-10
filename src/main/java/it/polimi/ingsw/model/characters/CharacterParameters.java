@@ -16,16 +16,12 @@ public class CharacterParameters implements Serializable {
     private List<Integer> studentsIndexList;
     private List<Integer> studentsIndexEntranceList;
     private List<Professor> tableProfessorsList;
-    private List<Island> islandsList;
 
-    private List<Character> charactersList;
     private int studentIndex;
     private PawnColor selectedColor;
     private PawnColor selectedColor2; //only for the character 10
     private Characters3and4and5 forbidCharacter;
     private Bag bag;
-
-    private Character usedCharacter;
 
     public CharacterParameters() {
         island = null;
@@ -38,9 +34,6 @@ public class CharacterParameters implements Serializable {
         forbidCharacter = null;
         bag = null;
         studentIndex = -1;
-        islandsList = null;
-        charactersList = null;
-        usedCharacter = null;
 
     }
 
@@ -61,26 +54,6 @@ public class CharacterParameters implements Serializable {
     }
 
     public PawnColor getSelectedColor2() { return selectedColor2;}
-
-    public List<Island> getIslandsList() {
-        return islandsList;
-    }
-
-    public List<Character> getCharactersList() {
-        return charactersList;
-    }
-
-    public Character getUsedCharacter() {
-        return usedCharacter;
-    }
-
-    public void setCharactersList(List<Character> charactersList) {
-        this.charactersList = charactersList;
-    }
-
-    public void setUsedCharacter(Character usedCharacter) {
-        this.usedCharacter = usedCharacter;
-    }
 
     public void setIsland(Island island) {
         this.island = island;
@@ -150,8 +123,5 @@ public class CharacterParameters implements Serializable {
         this.tableProfessorsList = tableProfessorsList;
     }
 
-    public void setIslandsList(List<Island> islandsList) {
-        this.islandsList = islandsList;
-    }
 
 }

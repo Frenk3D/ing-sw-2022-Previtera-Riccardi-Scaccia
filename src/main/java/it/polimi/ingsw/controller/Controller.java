@@ -51,17 +51,17 @@ public class Controller implements Observer {
         switch (receivedMessage.getMessageType()){
             case CHOOSE_TEAM:
                 ChooseTeamMessage chooseTeamMessage = (ChooseTeamMessage) receivedMessage;
-                chooseTeam(chooseTeamMessage.getPlayerId(), chooseTeamMessage.getRequestedPlayerId());
+                chooseTeam(chooseTeamMessage.getSenderId(), chooseTeamMessage.getRequestedPlayerId());
                 break;
 
             case CHOOSE_TOWER_COLOR:
                 ChooseTowerColorMessage chooseTowerColorMessage = (ChooseTowerColorMessage) receivedMessage;
-                chooseTowerColor(chooseTowerColorMessage.getPlayerId(),chooseTowerColorMessage.getSelectedColor());
+                chooseTowerColor(chooseTowerColorMessage.getSenderId(),chooseTowerColorMessage.getSelectedColor());
                 break;
 
             case CHOOSE_WIZARD:
                 ChooseWizardMessage chooseWizardMessage = (ChooseWizardMessage) receivedMessage;
-                chooseWizard(chooseWizardMessage.getPlayerId(),chooseWizardMessage.getSelectedWizard());
+                chooseWizard(chooseWizardMessage.getSenderId(),chooseWizardMessage.getSelectedWizard());
                 break;
 
             default:
@@ -107,9 +107,6 @@ public class Controller implements Observer {
                 parameters.setTableProfessorsList(game.getTableProfessorsList());
                 parameters.setForbidCharacter(game.getForbidCharacter());
                 parameters.setBag(game.getBag());
-                parameters.setIslandsList(game.getIslandsList());
-                parameters.setCharactersList(game.getCharactersList());
-                parameters.setUsedCharacter(game.getCurrRound().getCurrTurn().getUsedCharacter());
                 parameters.setIsland(game.getIslandByIndex(messageParams.getIslandIndex()));
                 parameters.setStudentsIndexList(messageParams.getStudentsIndexList());
                 parameters.setStudentsIndexEntranceList(messageParams.getStudentsIndexEntranceList());
@@ -257,6 +254,7 @@ public class Controller implements Observer {
             game.getIslandByIndex(islandIndex).addStudent(studentToMove);
             currPlayer.getDashboard().getEntranceList().remove(studentToMove);
             game.getCurrRound().getCurrTurn().incrementMovedStudents();
+            game.sendTable();
         }
         else {
             System.out.println("move student island: forbidden move");
@@ -330,6 +328,7 @@ public class Controller implements Observer {
             else {
                 game.getIslandByIndex(islandIndex).updateIslandDomain(game.getPlayersList());
             }
+            game.sendTable();
             game.getCurrRound().getCurrTurn().updateIslandList(game.getIslandsList());
             game.getCurrRound().getCurrTurn().setStage(TurnState.CHOOSE_CLOUD_STATE);
         }
@@ -353,6 +352,7 @@ public class Controller implements Observer {
             if(!result){ //the round is ended and we fill the clouds again
                 game.getCurrRound().fillClouds(game.getCloudsList(),game.getBag(),game.getNumOfPlayers());
             }
+            game.sendTable();
 
         }
         else {

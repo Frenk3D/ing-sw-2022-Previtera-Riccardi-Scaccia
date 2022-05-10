@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ControllerTest {
     Controller controller;
-    CharacterParameters params;
+    MessageCharacterParameters params;
     Player p1;
     Player p2;
     Player p3;
@@ -66,7 +66,7 @@ class ControllerTest {
         assertEquals(p1,controller.getGame().getPlayerById(1));
     }
 
-    @Test
+    @RepeatedTest(5)
     void moveStudentIsland() {
         controller.getGame().getCurrRound().getCurrTurn().setCurrPlayer(p1);
         controller.getGame().getCurrRound().setStage(RoundState.ACTION_STATE);
@@ -74,7 +74,12 @@ class ControllerTest {
         Student s = controller.getGame().getCurrPlayer().getDashboard().getEntranceStudentByIndex(3);
         controller.moveStudentIsland(3,5);
         assertEquals(6, controller.getGame().getCurrPlayer().getDashboard().getEntranceList().size());
-        assertEquals(s,controller.getGame().getIslandByIndex(5).getStudentsList().get(1));
+        if(controller.getGame().getMotherNaturePos()==5||controller.getGame().getMotherNaturePos()==11) {
+            assertEquals(s, controller.getGame().getIslandByIndex(5).getStudentsList().get(0));
+        }
+        else {
+            assertEquals(s, controller.getGame().getIslandByIndex(5).getStudentsList().get(1));
+        }
     }
 
     @RepeatedTest(5)
@@ -191,25 +196,25 @@ class ControllerTest {
     @RepeatedTest(5)
     void update(){
         controller.getGame().setState(GameState.SETTING_STATE);
-        message = new ChooseTowerColorMessage(controller.getGame().SERVERID,1,TowerColor.WHITE);
+        message = new ChooseTowerColorMessage(1,TowerColor.WHITE);
         controller.update(message);
         assertEquals(4, controller.getGame().getNumOfPlayers());
 
-        Message message6 = new ChooseTeamMessage(controller.getGame().SERVERID,1,3);
+        Message message6 = new ChooseTeamMessage(1,3);
         controller.update(message6);
         assertEquals(4, controller.getGame().getNumOfPlayers());
 
-        params = new CharacterParameters();
-        params.setIsland(new Island());
+        params = new MessageCharacterParameters();
         params.setStudentIndex(1);
+        List <Character> characterList = new ArrayList<>();
+        Character c = Factory.newCharacter(1);
+        CharacterParameters initParameters = new CharacterParameters();
         Bag bag = new Bag();
         bag.addAllStudents();
-        params.setBag(bag);
-        params.setPlayer(p1);
-        params.setIslandsList(controller.getGame().getIslandsList());
-        params.setCharactersList(controller.getGame().getCharactersList());
-        Character c = Factory.newCharacter(1);
-        c.initCharacter(params);
+        initParameters.setBag(bag);
+        c.initCharacter(initParameters);
+        characterList.add(c);
+        controller.getGame().setCharactersList(characterList);
         controller.getGame().getCurrRound().getCurrTurn().setCurrPlayer(p1);
         controller.getGame().getCharactersList().removeAll(controller.getGame().getCharactersList());
         controller.getGame().getCharactersList().add(c);
@@ -217,7 +222,9 @@ class ControllerTest {
         controller.getGame().getCurrRound().setStage(RoundState.ACTION_STATE);
         Message message2 = new UseCharacterMessage(p1.getId(), params);
         controller.update(message2);
-        Message message4 = new TakeFromCloudMessage(controller.getGame().SERVERID, 0);
+
+
+        Message message4 = new TakeFromCloudMessage(1, 0);
         controller.update(message4);
         assertNotEquals(2, controller.getGame().getCharactersList().size());
         Message message3 = new MoveStudentDashboardMessage(p1.getId(),0);

@@ -15,6 +15,10 @@ UN PACKAGE PER CLIENT E UNO PER SERVER E QUI DENTRO PACKAGE MODEL-CONTROLLER E P
 import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.characters.CharacterParameters;
 import it.polimi.ingsw.model.characters.Characters3and4and5;
+import it.polimi.ingsw.model.client.ReducedCharacter;
+import it.polimi.ingsw.model.client.ReducedCloud;
+import it.polimi.ingsw.model.client.ReducedIsland;
+import it.polimi.ingsw.model.client.ReducedPlayer;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.network.message.StringMessage;
@@ -246,8 +250,6 @@ public class GameModel extends Observable {
         return cloudsList;
     }
 
-
-
     public GameState getGameState(){
         return state;
     }
@@ -277,7 +279,39 @@ public class GameModel extends Observable {
     }
 
     public void sendTable(){
-        notifyObserver(new TableMessage(SERVERID,islandsList,cloudsList,motherNaturePos));
+        notifyObserver(new TableMessage(SERVERID,getReducedIslandsList(),getReducedCloudsList(),motherNaturePos));
+    }
+
+    public List<ReducedIsland> getReducedIslandsList(){
+        List<ReducedIsland> reducedIslands = new ArrayList<>();
+        for(Island i : islandsList){
+            reducedIslands.add(new ReducedIsland(i));
+        }
+        return reducedIslands;
+    }
+
+    public List<ReducedCloud> getReducedCloudsList(){
+        List<ReducedCloud> reducedClouds = new ArrayList<>();
+        for(Cloud c : cloudsList){
+            reducedClouds.add(new ReducedCloud(c));
+        }
+        return reducedClouds;
+    }
+
+    public List<ReducedCharacter> getReducedCharacterList(){
+        List<ReducedCharacter> reducedCharacters = new ArrayList<>();
+        for(Character c : charactersList){
+            reducedCharacters.add(new ReducedCharacter(c));
+        }
+        return reducedCharacters;
+    }
+
+    public List<ReducedPlayer> getReducedPlayersList(){
+        List<ReducedPlayer> reducedPlayers = new ArrayList<>();
+        for(Player p : playersList){
+            reducedPlayers.add(new ReducedPlayer(p));
+        }
+        return reducedPlayers;
     }
 
 

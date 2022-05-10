@@ -43,26 +43,12 @@ public class MessageCharacterParameters {
         return selectedColor2;
     }
 
-    public void setCharacterIndex(List<Character> charactersList, Character character) {
-        int i = 0;
-        for (Character c : charactersList){
-            if (c.equals(character)){
-                islandIndex=i;
-                return;
-            }
-            i++;
-        }
+    public void setCharacterIndex(int characterIndex) {
+        this.characterIndex = characterIndex;
     }
 
-    public void setIslandIndex(List<Island> islandsList, Island island) {
-        int i = 0;
-        for (Island isl : islandsList){
-            if (isl.equals(island)){
-                islandIndex=i;
-                return;
-            }
-            i++;
-        }
+    public void setIslandIndex(int islandIndex) {
+        this.islandIndex = islandIndex;
     }
 
     public void setStudentsIndexList(List<Integer> studentsIndexList) {

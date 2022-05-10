@@ -8,34 +8,69 @@ import it.polimi.ingsw.model.Player;
 import java.util.List;
 
 public class ClientGameModel {
-    private List<Island> clientIslandList;
-    private List<Assistant> clientAssistantList;
-    private List<Cloud> clientCloudList;
-    private List<Player> playersList;
-    private int clientTableMoney;
+    private List<ReducedIsland> islandList;
+    private List<ReducedAssistant> assistantList;
+    private List<ReducedCloud> cloudList;
+    private List<ReducedPlayer> playersList;
+    private List<ReducedCharacter> charactersList;
+    private int tableMoney;
     private int myPlayerId;
 
-    public List<Island> getClientIslandList() {
-        return clientIslandList;
+    public void setIslandList(List<ReducedIsland> islandList) {
+        this.islandList = islandList;
     }
 
-    public List<Assistant> getClientAssistantList() {
-        return clientAssistantList;
+    public void setAssistantList(List<ReducedAssistant> assistantList) {
+        this.assistantList = assistantList;
     }
 
-    public List<Cloud> getClientCloudList() {
-        return clientCloudList;
+    public void setCloudList(List<ReducedCloud> cloudList) {
+        this.cloudList = cloudList;
     }
 
-    public List<Player> getPlayersList() {
+    public void setPlayersList(List<ReducedPlayer> playersList) {
+        this.playersList = playersList;
+    }
+
+    public void setTableMoney(int tableMoney) {
+        this.tableMoney = tableMoney;
+    }
+
+    public void setMyPlayerId(int myPlayerId) {
+        this.myPlayerId = myPlayerId;
+    }
+
+    public void setCharactersList(List<ReducedCharacter> charactersList) {
+        this.charactersList = charactersList;
+    }
+
+    public List<ReducedIsland> getIslandList() {
+        return islandList;
+    }
+
+    public List<ReducedAssistant> getAssistantList() {
+        return assistantList;
+    }
+
+    public List<ReducedCloud> getCloudList() {
+        return cloudList;
+    }
+
+    public List<ReducedPlayer> getPlayersList() {
         return playersList;
     }
 
-    public int getClientTableMoney() {
-        return clientTableMoney;
+    public int getTableMoney() {
+        return tableMoney;
     }
 
     public int getMyPlayerId() {
         return myPlayerId;
     }
+
+    public List<ReducedCharacter> getCharactersList() {
+        return charactersList;
+    }
 }
+
+
