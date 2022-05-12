@@ -13,6 +13,7 @@ public class Bag {
 
     //Methods
     //constructor
+     /** Constructor Bag creates a new Bag instance. */
     public Bag(){
         studentsList = new ArrayList<>(); //removed argument from <> as Intellij suggests
     }
@@ -32,6 +33,14 @@ public class Bag {
         studentsList.add(new Student(PawnColor.YELLOW));
     }
 }
+    /**
+   * Method extractStudents is called when someone have to extract students from the bag.
+   * A check on the number of the students in the bag returns null if there aren't enough
+   *
+   * @param num of the students to extract
+   * @throws /
+   * @return the students extracted (type List).
+   */
     public List<Student> extractStudents (int num) {
         if(studentsList.size()<num){
             System.out.println("Not enough students in bag");
