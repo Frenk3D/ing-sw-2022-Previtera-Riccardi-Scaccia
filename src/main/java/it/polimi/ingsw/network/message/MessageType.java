@@ -1,17 +1,17 @@
 package it.polimi.ingsw.network.message;
 
 public enum MessageType {
+    //-----------------INIT MESSAGES--------------------------
+    LOGIN_REQUEST, LOGIN_REPLY, //string message, string message
+    NEW_LOBBY_REQUEST, DELETE_LOBBY, //string message, string message || ---NEW GAME---
+    LOBBY_REQUEST, AVAILABLE_LOBBIES, //generic message, lobby message || request and get available lobby ---JOIN GAME---
+    CHOOSE_LOBBY, PLAYER_JOIN, //string message, string message
+    DISCONNECTION, //generic message
 
-    //-----------------INITMESSAGES--------------------------
-    LOGIN_REQUEST, LOGIN_REPLY,
-    NEW_LOBBY_REQUEST, DELETE_LOBBY, //new lobby request creates a controller ---NEW GAME---
-    LOBBY_REQUEST, LOBBY_REPLY, //request and get available lobby ---JOIN GAME---
-    CHOOSE_LOBBY, PLAYER_JOIN,
-
-    //----------------INGAMEMESSAGES--------------------------
-    CHOOSE_TEAM, TEAM_SEND, //classes initMessageRequest e initMessageReply
-    CHOOSE_TOWER_COLOR,TOWER_SEND,
-    CHOOSE_WIZARD,WIZARD_SEND,
+    //----------------INGAME MESSAGES--------------------------
+    CHOOSE_TEAM, AVAILABLE_TEAM_SEND, // syncInitMessage
+    CHOOSE_TOWER_COLOR, AVAILABLE_TOWER_SEND, // syncInitMessage
+    CHOOSE_WIZARD, AVAILABLE_WIZARD_SEND, // syncInitMessage
 
     INIT_SEND, TABLE, THROWN_ASSISTANT,DASHBOARD, CHARACTER_TABLE, ASSISTANTS_SEND,
     SYNC_STATE,
@@ -20,10 +20,8 @@ public enum MessageType {
     TAKE_FROM_CLOUD,
     SELECT_ASSISTANT,
     USE_CHARACTER,
-    WIN, LOSE,
+    WIN, LOSE, //generic message
 
-    OK_REPLY, ERROR_REPLY
+    OK_REPLY, ERROR_REPLY, //generic message
 
-
-    // CHAT_TEXT, //for 4 players, a tutor says that we can say to use an external app to chatting
 }

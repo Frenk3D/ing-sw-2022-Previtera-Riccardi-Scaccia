@@ -79,7 +79,6 @@ public class GameModel extends Observable {
     public boolean addPlayer(Player player){
         if(numOfPlayers!=-1 && playersList.size()<numOfPlayers) {
             playersList.add(player);
-            notifyObserver(new StringMessage(MessageType.PLAYER_JOIN,SERVERID,player.getName()));
             return true;
         }
         return false;
