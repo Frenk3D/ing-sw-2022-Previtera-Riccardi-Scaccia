@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;
 
 /** Deselezionare sempre .idea e pom.xml sia da push che da pull per evitare problemi!!!
- * Hello world!
+ * It is a main only to test something
  * ok Fra, ok Nic, ok marco, sometimes gives problem because we force playerId, and check the random problems with random features
  */
 public class ProvaGit {
