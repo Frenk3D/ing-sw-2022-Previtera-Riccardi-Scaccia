@@ -15,6 +15,8 @@ public class ClientGameModel {
     private List<ReducedCharacter> charactersList;
     private int tableMoney;
     private int myPlayerId;
+    private boolean expertMode;
+    private int numOfPlayers;
 
     public void setIslandList(List<ReducedIsland> islandList) {
         this.islandList = islandList;
@@ -30,6 +32,7 @@ public class ClientGameModel {
 
     public void setPlayersList(List<ReducedPlayer> playersList) {
         this.playersList = playersList;
+        numOfPlayers = playersList.size();
     }
 
     public void setTableMoney(int tableMoney) {
@@ -42,6 +45,10 @@ public class ClientGameModel {
 
     public void setCharactersList(List<ReducedCharacter> charactersList) {
         this.charactersList = charactersList;
+    }
+
+    public void setExpertMode(boolean expertMode) {
+        this.expertMode = expertMode;
     }
 
     public List<ReducedIsland> getIslandList() {
@@ -70,6 +77,10 @@ public class ClientGameModel {
 
     public List<ReducedCharacter> getCharactersList() {
         return charactersList;
+    }
+
+    public boolean isExpertMode() {
+        return expertMode;
     }
 }
 

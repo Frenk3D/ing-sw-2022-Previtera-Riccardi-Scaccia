@@ -170,10 +170,12 @@ public class Controller implements Observer {
 
                 for (Player p : game.getPlayersList()){ //check if all player choose team player
                     if(p.getTeam()==-1){
+                        game.sendAvailableTeamPlayers(); //send to all clients the remaining people to choose
                         return;
                     }
                 }
-                game.setSettingState(SettingState.CHOOSE_TOWER_COLOR_STATE);
+                game.setSettingState(SettingState.CHOOSE_TOWER_COLOR_STATE); //set and sends the current setting state
+                game.sendAvailableTowerColors();
 
             }
         }
@@ -199,10 +201,12 @@ public class Controller implements Observer {
 
                 for (Player p : game.getPlayersList()){ //check if all player choose the color
                     if(p.getTowerColor() == null && p.hasTower()){
+                        game.sendAvailableTowerColors();
                         return;
                     }
                 }
                 game.setSettingState(SettingState.CHOOSE_WIZARD_STATE);
+                game.sendAvailableWizards();
             }
         }
         else {
@@ -225,6 +229,7 @@ public class Controller implements Observer {
 
                 for (Player p : game.getPlayersList()){
                     if (p.getAssistantDeck().getWizard()==null){
+                        game.sendAvailableWizards();
                         return;
                     }
                 }
@@ -253,8 +258,10 @@ public class Controller implements Observer {
             Student studentToMove = currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex);
             game.getIslandByIndex(islandIndex).addStudent(studentToMove);
             currPlayer.getDashboard().getEntranceList().remove(studentToMove);
-            game.getCurrRound().getCurrTurn().incrementMovedStudents();
             game.sendTable();
+            if(!game.getCurrRound().getCurrTurn().incrementMovedStudents()){
+                game.sendInGameState();
+            }
         }
         else {
             System.out.println("move student island: forbidden move");
@@ -284,7 +291,15 @@ public class Controller implements Observer {
             else {
                 game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(),game.getTableProfessorsList());
             }
-            game.getCurrRound().getCurrTurn().incrementMovedStudents();
+            game.sendDashboard(); //update the dashboard in clients
+
+            if(game.isExpertMode()){//update the money in players if expert mode
+                game.sendCharacterTable();
+            }
+
+            if(!game.getCurrRound().getCurrTurn().incrementMovedStudents()){
+                game.sendInGameState(); //update the state in clients when we change phase
+            }
         }
 
         else {
@@ -313,24 +328,27 @@ public class Controller implements Observer {
 
             game.setMotherNaturePosition(islandIndex);
 
-            if(game.isExpertMode()){//we apply the character effect if it's used or we remove forbid card if present
+            if(game.isExpertMode()){ //we apply the character effect if it's used or we remove forbid card if present
                 int usedCharacterId = game.getCurrRound().getCurrTurn().getUsedCharacter().getId();
 
                 if(usedCharacterId==6||usedCharacterId==8||usedCharacterId==9) {
                     Characters2and6and8and9 character = (Characters2and6and8and9) game.getCurrRound().getCurrTurn().getUsedCharacter();
                     character.updateIslandDomainCharacter(game.getCurrPlayer(),game.getIslandByIndex(islandIndex),game.getPlayersList(),game.getForbidCharacter());
                 }
-                else {
+                else { //simply remove forbid card if no character was used in this turn
                     game.getIslandByIndex(islandIndex).updateIslandDomainExpert(game.getPlayersList(), game.getForbidCharacter());
                 }
+                game.sendCharacterTable();
             }
-
             else {
                 game.getIslandByIndex(islandIndex).updateIslandDomain(game.getPlayersList());
             }
-            game.sendTable();
+
             game.getCurrRound().getCurrTurn().updateIslandList(game.getIslandsList());
             game.getCurrRound().getCurrTurn().setStage(TurnState.CHOOSE_CLOUD_STATE);
+            game.sendTable();
+            game.sendInGameState();
+
         }
         else {
             System.out.println("move mother nature: forbidden move");
@@ -353,7 +371,7 @@ public class Controller implements Observer {
                 game.getCurrRound().fillClouds(game.getCloudsList(),game.getBag(),game.getNumOfPlayers());
             }
             game.sendTable();
-
+            game.sendInGameState();
         }
         else {
             System.out.println("take from cloud: forbidden move");
@@ -372,11 +390,15 @@ public class Controller implements Observer {
 
             player.setSelectedAssistant(assistantId);
             player.getAssistantDeck().removeAssistantById(assistantId);
+
+            game.sendSelectedAssistant(); //send selected assistant before setting the next player of planning phase
+
             round.setNextPlayerPlanning(game.getNumOfPlayers());
 
             if (round.getNumOfAssistantThrows() == game.getNumOfPlayers()) {
                 round.initRound(game.getPlayersList());
             }
+            game.sendInGameState();
         }
         else {
             System.out.println("select assistant: forbidden move");

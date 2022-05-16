@@ -12,9 +12,10 @@ public class AllGameMessage extends Message{
     private int motherNaturePos;
     private int tableMoney;
     private List<ReducedCharacter> charactersList;
+    private boolean expertMode;
 
 
-    public AllGameMessage(int senderId, List<ReducedPlayer> playersList, List<ReducedIsland> islandsList, List<ReducedCloud> cloudsList, List<ReducedAssistant> assistantsList, int motherNaturePos, int tableMoney, List<ReducedCharacter> charactersList){
+    public AllGameMessage(int senderId, List<ReducedPlayer> playersList, boolean expertMode, List<ReducedIsland> islandsList, List<ReducedCloud> cloudsList, List<ReducedAssistant> assistantsList, int motherNaturePos, int tableMoney, List<ReducedCharacter> charactersList){
         super(MessageType.INIT_SEND,senderId,false);
         this.playersList = playersList;
         this.islandsList = islandsList;
@@ -23,6 +24,7 @@ public class AllGameMessage extends Message{
         this.motherNaturePos = motherNaturePos;
         this.tableMoney = tableMoney;
         this.charactersList = charactersList;
+        this.expertMode = expertMode;
     }
 
     public List<ReducedPlayer> getPlayersList() {
@@ -51,5 +53,9 @@ public class AllGameMessage extends Message{
 
     public List<ReducedCharacter> getCharactersList() {
         return charactersList;
+    }
+
+    public boolean isExpertMode() {
+        return expertMode;
     }
 }

@@ -67,7 +67,7 @@ public class Round extends Observable {
 
         if(nextPlayer!=null) {
             currTurn.setCurrPlayer(nextPlayer);
-            currTurn.initTurn();
+            currTurn.initTurn(); //re-initialise the turn for the player setting the state in MOVE_STUDENT_STATE
             return true;
         }
         else {

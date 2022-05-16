@@ -19,7 +19,7 @@ public class SyncStateMessage extends Message{
         this.roundState = roundState;
         this.currPlayerId = currPlayerId;
         this.gameState = gameState;
-        this.settingState = settingState;
+        this.settingState = SettingState.NOT_SETTING_STATE;
     }
 
     //setting state

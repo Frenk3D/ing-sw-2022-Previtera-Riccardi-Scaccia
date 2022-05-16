@@ -15,21 +15,12 @@ UN PACKAGE PER CLIENT E UNO PER SERVER E QUI DENTRO PACKAGE MODEL-CONTROLLER E P
 import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.characters.CharacterParameters;
 import it.polimi.ingsw.model.characters.Characters3and4and5;
-import it.polimi.ingsw.model.client.ReducedCharacter;
-import it.polimi.ingsw.model.client.ReducedCloud;
-import it.polimi.ingsw.model.client.ReducedIsland;
-import it.polimi.ingsw.model.client.ReducedPlayer;
+import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.*;
-import it.polimi.ingsw.network.message.MessageType;
-import it.polimi.ingsw.network.message.StringMessage;
-import it.polimi.ingsw.network.message.SyncStateMessage;
-import it.polimi.ingsw.network.message.TableMessage;
+import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.observer.Observable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List; ////Intellij advises to remove Student ecc from <> when initializing List (professors don't), try to remove it in Bag
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -68,26 +59,6 @@ public class GameModel extends Observable {
         tableMoney = null;
     }
 
-    public boolean setNumOfPlayers(int chosenNumOfPlayers){
-        if (chosenNumOfPlayers > 0 && chosenNumOfPlayers <= 4) {
-            numOfPlayers = chosenNumOfPlayers;
-            return true;
-        }
-        return false;
-    }
-
-    public boolean addPlayer(Player player){
-        if(numOfPlayers!=-1 && playersList.size()<numOfPlayers) {
-            playersList.add(player);
-            return true;
-        }
-        return false;
-    }
-
-    public void setExpertMode(boolean expertMode){
-        this.expertMode=expertMode;
-    }
-
     public boolean init(){
         if(playersList.size()!=numOfPlayers){
             return false;
@@ -99,12 +70,15 @@ public class GameModel extends Observable {
         state=GameState.SETTING_STATE;
         if(numOfPlayers == 4){
             settingState = SettingState.CHOOSE_TEAM_STATE;
+            sendAvailableTeamPlayers();
+            sendSettingState();
+
         }
         else {
             settingState = SettingState.CHOOSE_TOWER_COLOR_STATE;
+            sendAvailableTowerColors();
+            sendSettingState();
         }
-
-        notifyObserver(new SyncStateMessage(SERVERID,state,settingState));
         return true;
     }
 
@@ -149,8 +123,30 @@ public class GameModel extends Observable {
             }
         }
         state = GameState.INGAME_STATE;
-        notifyObserver(new SyncStateMessage(SERVERID,state,currRound.getStage(),currRound.getCurrTurn().getStage(),currRound.getPlanningPhasePlayer(playersList).getId()));
+        sendInitGame();
+        sendInGameState();
         return true;
+    }
+
+
+    public boolean setNumOfPlayers(int chosenNumOfPlayers){
+        if (chosenNumOfPlayers > 0 && chosenNumOfPlayers <= 4) {
+            numOfPlayers = chosenNumOfPlayers;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addPlayer(Player player){
+        if(numOfPlayers!=-1 && playersList.size()<numOfPlayers) {
+            playersList.add(player);
+            return true;
+        }
+        return false;
+    }
+
+    public void setExpertMode(boolean expertMode){
+        this.expertMode=expertMode;
     }
 
 
@@ -173,8 +169,6 @@ public class GameModel extends Observable {
         return motherNaturePos;
     }
 
-
-
     public Player getPlayerById(int playerId){
         for(Player p : playersList){
             if(p.getId() == playerId){
@@ -190,7 +184,6 @@ public class GameModel extends Observable {
         }
         return islandsList.get(islandIndex);
     }
-
 
     public Cloud getCloudByIndex(int cloudIndex){
         if(cloudIndex >= cloudsList.size() || cloudIndex<0){
@@ -271,16 +264,73 @@ public class GameModel extends Observable {
 
     public void setSettingState(SettingState settingState) {
         this.settingState = settingState;
+        if(settingState != SettingState.NOT_SETTING_STATE){
+            sendSettingState();
+        }
     }
 
     public SettingState getSettingState() {
         return settingState;
     }
 
+    public List<Island> getIslandsList() {
+        return islandsList;
+    }
+
+    //-------------------------------------------------------------------MESSAGES MANAGEMENT---------------------------------------------------------------
     public void sendTable(){
         notifyObserver(new TableMessage(SERVERID,getReducedIslandsList(),getReducedCloudsList(),motherNaturePos));
     }
 
+    public void sendAvailableTeamPlayers(){
+        notifyObserver(new SyncInitMessage(MessageType.AVAILABLE_TEAM_SEND, SERVERID, getPlayersWithoutTeamMap(), null, null));
+    }
+
+    public void sendAvailableTowerColors(){
+        notifyObserver(new SyncInitMessage(MessageType.AVAILABLE_TOWER_SEND, SERVERID, null, chooseTowerColorList, null));
+    }
+
+    public void sendAvailableWizards(){
+        notifyObserver(new SyncInitMessage(MessageType.AVAILABLE_WIZARD_SEND, SERVERID, null, null, wizardList));
+    }
+
+    public void sendSettingState(){
+        notifyObserver(new SyncStateMessage(SERVERID,state,settingState));
+    }
+
+    public void sendInGameState(){
+        if(currRound.getStage() == RoundState.PLANNING_STATE){
+            notifyObserver(new SyncStateMessage(SERVERID,state,currRound.getStage(),currRound.getCurrTurn().getStage(),currRound.getPlanningPhasePlayer(playersList).getId()));
+        }
+        else {
+            notifyObserver(new SyncStateMessage(SERVERID,state,currRound.getStage(),currRound.getCurrTurn().getStage(),getCurrPlayer().getId()));
+        }
+
+    }
+
+    public void sendInitGame(){
+        if(expertMode){
+            notifyObserver(new AllGameMessage(SERVERID,getReducedPlayersList(), expertMode, getReducedIslandsList(),getReducedCloudsList(),playersList.get(0).getAssistantDeck().getReducedAssistantsList(), motherNaturePos, tableMoney.get(), getReducedCharacterList()));
+        }
+        else {
+            notifyObserver(new AllGameMessage(SERVERID,getReducedPlayersList(), expertMode, getReducedIslandsList(),getReducedCloudsList(),playersList.get(0).getAssistantDeck().getReducedAssistantsList(), motherNaturePos, -1, null));
+        }
+    }
+
+    public void sendSelectedAssistant(){
+        Player currPlayer = currRound.getPlanningPhasePlayer(playersList);
+        notifyObserver(new ThrownAssistantMessage(SERVERID,new ReducedAssistant(currPlayer.getSelectedAssistant()),currPlayer.getId()));
+    }
+
+    public void sendDashboard(){
+        notifyObserver(new DashboardMessage(SERVERID, new ReducedDashboard(getCurrPlayer().getDashboard()),getCurrPlayer().getId()));
+    }
+
+    public void sendCharacterTable(){
+        notifyObserver(new CharacterTableMessage(SERVERID,tableMoney.get(),getReducedCharacterList(),getNumOfMoneyMap()));
+    }
+
+    //----------------------------------------------------------------REDUCED LIST GENERATORS-------------------------------------------------------------------------
     public List<ReducedIsland> getReducedIslandsList(){
         List<ReducedIsland> reducedIslands = new ArrayList<>();
         for(Island i : islandsList){
@@ -313,17 +363,28 @@ public class GameModel extends Observable {
         return reducedPlayers;
     }
 
-
-
-    //for test purposes
-    public List<Island> getIslandsList() {
-        return islandsList;
+    public Map<String, Integer> getPlayersWithoutTeamMap(){
+        Map<String, Integer> result = new HashMap<>();
+        for (Player p : playersList){ //check if all player choose team player
+            if(p.getTeam()==-1){
+                result.put(p.getName(),p.getId());
+            }
+        }
+        return result;
     }
 
+    public Map<Integer,Integer> getNumOfMoneyMap(){
+        Map<Integer, Integer> result = new HashMap<>();
+        for (Player p : playersList){
+            result.put(p.getId(), p.getMoney());
+        }
+        return result;
+    }
+
+    //-------------------------------------------------------------------for test purposes-----------------------------------------------------------------------------
     public void setIslandsList(List<Island> islandsList) {
         this.islandsList = islandsList;
     }
-
     public void setCloudsList(List<Cloud> cloudsList) {
         this.cloudsList = cloudsList;
     }
@@ -333,7 +394,6 @@ public class GameModel extends Observable {
     public List<Character> getCharactersList(){
         return charactersList;
     }
-
     public void setState(GameState state) {
         this.state = state;
     }

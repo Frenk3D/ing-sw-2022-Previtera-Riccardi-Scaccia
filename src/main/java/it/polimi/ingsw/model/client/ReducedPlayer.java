@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.client;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enumerations.TowerColor;
+import it.polimi.ingsw.model.enumerations.Wizard;
 
 public class ReducedPlayer {
     private String name;
@@ -11,6 +12,7 @@ public class ReducedPlayer {
     private TowerColor playerTowerColor;
     private ReducedDashboard dashboard;
     private int numOfMoney;
+    private Wizard wizard;
 
     public ReducedPlayer(Player player){
         name = player.getName();
@@ -19,6 +21,7 @@ public class ReducedPlayer {
         playerTowerColor = player.getTowerColor();
         dashboard = new ReducedDashboard(player.getDashboard());
         numOfMoney = player.getMoney();
+        wizard = player.getAssistantDeck().getWizard();
     }
 
     public String getName() {
@@ -45,11 +48,7 @@ public class ReducedPlayer {
         return numOfMoney;
     }
 
-    public void setSelectedAssistant(ReducedAssistant selectedAssistant) {
-        this.selectedAssistant = selectedAssistant;
-    }
-
-    public void setDashboard(ReducedDashboard dashboard) {
-        this.dashboard = dashboard;
+    public Wizard getWizard() {
+        return wizard;
     }
 }
