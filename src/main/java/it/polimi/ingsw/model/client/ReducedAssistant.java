@@ -7,6 +7,7 @@ public class ReducedAssistant {
     private int motherNaturePosShift;
 
     public ReducedAssistant(Assistant assistant){
+        if(assistant == null) return;
         id = assistant.getValue();
         motherNaturePosShift = assistant.getMotherNaturePosShift();
     }

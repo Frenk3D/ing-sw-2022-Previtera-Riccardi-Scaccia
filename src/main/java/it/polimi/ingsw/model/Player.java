@@ -48,6 +48,9 @@ public class Player {
         return playerTowerColor;
     }
     public int getMoney() {
+        if (numOfMoney==null){
+            return -1;
+        }
         return numOfMoney;
     }
     public int getId() {
