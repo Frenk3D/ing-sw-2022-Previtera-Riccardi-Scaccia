@@ -14,20 +14,35 @@ import java.util.List;
 public class Controller implements Observer {
     //attributes
     private GameModel game;  //intellij says it should be final,but it actually changes so it's not
-    private String name;
 
     //constructor
-    public Controller(String name){
+    public Controller(){
         game = new GameModel();
-        this.name = name;
     }
 
     public GameModel getGame(){
         return game;
     }
 
-    public String getName(){
-        return name;
+    public int getNumOfPlayer(){
+        return game.getNumOfPlayers();
+    }
+
+    public int getActualNumOfPlayers(){
+        return game.getPlayersList().size();
+    }
+
+    public boolean getExpertMode(){
+        return game.isExpertMode();
+    }
+
+    public boolean isOpen(){
+        if(game.getGameState()==GameState.LOGIN_STATE){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     @Override

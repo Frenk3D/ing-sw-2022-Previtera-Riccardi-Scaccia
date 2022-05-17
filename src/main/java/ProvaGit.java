@@ -12,7 +12,7 @@ import it.polimi.ingsw.model.enumerations.Wizard;
 public class ProvaGit {
 
     public static void main( String[] args ){
-        Controller controller = new Controller("mycontroller");
+        Controller controller = new Controller();
         GameModel game = controller.getGame();
 
         

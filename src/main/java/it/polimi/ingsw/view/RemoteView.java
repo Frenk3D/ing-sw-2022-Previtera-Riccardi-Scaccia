@@ -18,7 +18,7 @@ public class RemoteView extends Observable implements Observer {
 
     }
 
-    public void receive(Message message){
+    public void sendToController(Message message){
 
     }
 

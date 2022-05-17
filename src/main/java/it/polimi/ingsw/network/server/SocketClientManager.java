@@ -20,9 +20,12 @@ public class SocketClientManager implements Runnable{
     private final Object inputLock;
     private final Object outputLock;
 
-    public SocketClientManager(){
+    public SocketClientManager(Server server, Socket socket){
         this.inputLock = new Object();
         this.outputLock = new Object();
+        this.connected = true;
+        this.server = server;
+        this.socket = socket;
 
         try {
             this.output = new ObjectOutputStream(socket.getOutputStream());
@@ -38,7 +41,7 @@ public class SocketClientManager implements Runnable{
         try {
             handleClientConnection();
         } catch (IOException e) {
-            onDisconnect();
+            disconnect();
         }
     }
 
@@ -48,35 +51,57 @@ public class SocketClientManager implements Runnable{
             while (!Thread.currentThread().isInterrupted()) {
                 synchronized (inputLock) {
                     Message message = (Message) input.readObject();
-
-                    if (message != null && message.isInitMessage()) {
-                        server.onInitMessageReceived(message,this);
-                    }
-                    else {
-                        remoteView.receive(message);
-                    }
+                    manageReception(message);
                 }
             }
         } catch (ClassCastException | ClassNotFoundException e) {
+            System.out.println("SocketClientManager: error in reception");
         }
         socket.close();
     }
 
 
-    private void manageReception(){
-
+    private void manageReception(Message message){
+        if (message != null) {
+            if(message.isInitMessage()) {
+                server.onInitMessageReceived(message, this);
+            }
+            else if(!message.isInitMessage() && remoteView!=null){
+                remoteView.sendToController(message);
+            }
+        }
     }
 
     public void sendMessage(Message message){
-
+        try {
+            synchronized (outputLock) {
+                output.writeObject(message);
+                output.reset();
+            }
+        } catch (IOException e) {
+            disconnect();
+        }
     }
 
     public boolean isConnected() {
         return connected;
     }
 
-    public void onDisconnect(){
+    public void disconnect(){
+        if (connected) {
+            try {
+                if (!socket.isClosed()) {
+                    socket.close();
+                }
+            } catch (IOException e) {
+                System.out.println("Errore disconnect");
+                e.printStackTrace();
+            }
+            connected = false;
+            Thread.currentThread().interrupt();
 
+            server.onDisconnect(this);
+        }
     }
 
     public void setRemoteView(RemoteView remoteView) {

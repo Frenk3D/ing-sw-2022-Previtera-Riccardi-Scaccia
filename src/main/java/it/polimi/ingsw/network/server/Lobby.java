@@ -6,7 +6,7 @@ public class Lobby {
     private boolean expertMode;
     private String name;
 
-    public Lobby(int numOfPlayers,int actualNumOfPlayers,boolean expertMode,String name){
+    public Lobby(int numOfPlayers,int actualNumOfPlayers,boolean expertMode, String name){
         this.numOfPlayers = numOfPlayers;
         this.actualNumOfPlayers = actualNumOfPlayers;
         this.expertMode = expertMode;

@@ -28,7 +28,7 @@ class ControllerTest {
 
     @BeforeEach
     void setUp() {
-        controller = new Controller("lobby1");
+        controller = new Controller();
         professorsList = new ArrayList<>();
         p1 = new Player("Jorginho",1);
         p2 = new Player("Ronaldinho",2);
@@ -182,11 +182,6 @@ class ControllerTest {
         assertEquals(1, controller.getGame().getCurrRound().getCurrTurn().getUsedCharacter().getId());
     }
 
-    @Test
-    void settingState(){
-        assertEquals("lobby1",(controller.getName()));
-
-    }
 
     @Test
     void inGameState(){
@@ -235,11 +230,6 @@ class ControllerTest {
 
         controller.getGame().setState(GameState.FINISHED_STATE);
         controller.update(message);
-        assertEquals("lobby1", controller.getName());
-
-
-
-
     }
 
 
