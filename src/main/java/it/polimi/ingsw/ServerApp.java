@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.server;
+package it.polimi.ingsw;
 
 /** Deselect always .idea and another .iml files with pull/push to avoid problems!!! (ok with .gitignore), JavaDoc used somewhere in Bag, Client, ServerApp
  *

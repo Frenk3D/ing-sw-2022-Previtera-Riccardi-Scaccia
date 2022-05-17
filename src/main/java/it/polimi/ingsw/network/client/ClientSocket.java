@@ -1,5 +1,4 @@
 package it.polimi.ingsw.network.client;
-import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.client.*;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -12,13 +11,13 @@ import java.util.Scanner;
  * @see Runnable
  */
 
-public class Client{
+public class ClientSocket {
     private String ip;
     private int port;
     private Socket socket;
 
 
-    public Client(String ip,int port){
+    public ClientSocket(String ip, int port){
         this.ip = ip;
         this.port = port;
     }

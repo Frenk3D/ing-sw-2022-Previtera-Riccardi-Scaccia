@@ -1,9 +1,11 @@
-package it.polimi.ingsw.network.client;
+package it.polimi.ingsw;
 
 
 /* import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
 import javafx.application.Application; */
+
+import it.polimi.ingsw.network.client.ClientSocket;
 
 import java.io.IOException;
 
@@ -19,9 +21,9 @@ public class ClientApp {
 
     public static void main(String[] args){
 
-            Client client = new Client("127.0.0.1", 12345);
+            ClientSocket clientSocket = new ClientSocket("127.0.0.1", 12345);
             try{
-                client.run();
+                clientSocket.run();
             }catch (IOException e){
                 System.err.println(e.getMessage());
             }
