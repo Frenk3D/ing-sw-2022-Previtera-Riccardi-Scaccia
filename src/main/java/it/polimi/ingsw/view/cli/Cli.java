@@ -2,6 +2,9 @@ package it.polimi.ingsw.view.cli;
 
 
 
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.enumerations.TowerColor;
+import it.polimi.ingsw.model.enumerations.Wizard;
 import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.View;
@@ -10,7 +13,7 @@ import java.io.PrintStream;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
-
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
@@ -66,9 +69,6 @@ public class Cli extends ViewObservable implements View {
         out.flush();
     }
 
-    /**
-     * Asks the user to choose a Nickname.
-     */
     @Override
     public void askPlayerInfo() {
 
@@ -90,110 +90,115 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void askRequestedLobby() {
+    public void askRequestedLobby(List<Lobby> lobbiesList) {
 
     }
 
     @Override
-    public void askTeam() {
+    public void askTeam(List<Player> playersList) {
 
     }
 
     @Override
-    public void showAvailableTeams() {
+    public void showAvailableTeams(Map<String, Integer> players) {
 
     }
 
     @Override
-    public void showTable() {
+    public void askTowerColor() {
 
     }
 
     @Override
-    public void showThrownAssistant() {
+    public void showAvailableTowerColors(List<TowerColor> availableTowerColors) {
 
     }
 
     @Override
-    public void showDashboards() {
+    public void askWizard() {
 
     }
 
     @Override
-    public void showCharacterTable() {
+    public void showAvailableWizards(List<Wizard> availableWizards) {
 
     }
 
     @Override
-    public void askAssistantsList() {
+    public void showTable(List<Island> islandsList, List<Cloud> cloudsList, int motherNaturePos) {
 
     }
 
     @Override
-    public void showAssistantsList() {
+    public void showThrownAssistant(Assistant thrownAssistant, int playerId) {
 
     }
 
     @Override
-    public void askStudentToMoveIsland() {
+    public void showDashboard(Dashboard dashboard, int playerId) {
 
     }
 
     @Override
-    public void askStudentToMoveDashboard() {
+    public void showCharacterTable(List<Character> charactersList, AtomicInteger tableMoney, Map<Player, AtomicInteger> numOfMoneyMap) {
 
     }
 
     @Override
-    public void askMotherNatureMove() {
+    public void showAssistantsList(List<Assistant> assistantsList) {
 
     }
 
     @Override
-    public void askCloudExtraction() {
+    public void showThrownAssistant(Assistant selectedAssistant) {
 
     }
 
     @Override
-    public void askSelectedAssistant() {
+    public void askStudentToMoveIsland(List<Island> entranceStudentsList, List<Island> islandsList) {
 
     }
 
     @Override
-    public void askUsedCharacter() {
+    public void askStudentToMoveDashboard(List<Student> entranceStudentsList) {
 
     }
 
-    /**
-     * Shows a disconnection message.
-     *
-     * @param text                 a generic info text message.
-     */
+    @Override
+    public void askMotherNatureMove(List<Island> islandsList) {
+
+    }
+
+    @Override
+    public void askCloudExtraction(List<Cloud> cloudsList) {
+
+    }
+
+    @Override
+    public void askSelectedAssistant(List<Assistant> assistantsList) {
+
+    }
+
+    @Override
+    public void askUsedCharacter(List<Character> charactersList) {
+
+    }
+
     @Override
     public void showDisconnectionMessage(String text) {
 
     }
 
-    /**
-     * Shows an error message.
-     *
-     * @param error the error message to be shown.
-     */
     @Override
     public void showErrorAndExit(String error) {
 
     }
 
     @Override
-    public void showMatchInfo() {
+    public void showMatchInfo(List<Player> playersList, List<Island> islandsList, List<Cloud> cloudsList, List<Assistant> assistantsList, int motherNaturePos, AtomicInteger tableMoney, List<Character> charactersList, boolean expertMode) {
 
     }
 
-    /**
-     * Shows a win message.
-     *
-     * @param winner the nickname of the winner.
-     */
     @Override
     public void showWinMessage(String winner) {
 

@@ -15,10 +15,13 @@ public enum ColorCli {
 
     // Bold
     YELLOW_BOLD("\033[1;33m"), // YELLOW
-    RED_BOLD(),
-    GREEN_BOLD(),
-    PINK_BOLD(),
-    BLUE_BOLD(),
+    RED_BOLD("\033[1;31m"),
+    GREEN_BOLD("\033[1;32m"),
+    PINK_BOLD("\033[35;1m"),
+    BLUE_BOLD("\033[1;34m"),
+    BLACK_BOLD("\033[1;30m"),
+    WHITE_BOLD("\033[37;1m"),
+    GRAY_BOLD("\033[30;1m");  //bright black
 
 
     private final String code;
