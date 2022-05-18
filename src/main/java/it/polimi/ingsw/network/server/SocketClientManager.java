@@ -76,6 +76,7 @@ public class SocketClientManager implements Runnable{
         try {
             synchronized (outputLock) {
                 output.writeObject(message);
+                output.flush();
                 output.reset();
             }
         } catch (IOException e) {
