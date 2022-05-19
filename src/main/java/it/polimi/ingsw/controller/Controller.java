@@ -153,6 +153,7 @@ public class Controller implements Observer {
             boolean result = game.addPlayer(player);
             if (!result) {
                 System.out.println("addPlayer: too many players");
+                return;
             }
             if (game.getNumOfPlayers() != 4) {
                 player.setTeam(player.getId());

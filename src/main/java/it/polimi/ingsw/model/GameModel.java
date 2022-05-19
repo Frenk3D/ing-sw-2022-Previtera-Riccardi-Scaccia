@@ -23,6 +23,8 @@ import it.polimi.ingsw.observer.Observable;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static it.polimi.ingsw.network.server.Server.SERVERID;
+
 
 public class GameModel extends Observable {
     //attributes
@@ -41,7 +43,6 @@ public class GameModel extends Observable {
     private SettingState settingState;
     private List<Island> islandsList; //doesn't change even when you group islands, attrib in Island class
     private AtomicInteger tableMoney;
-    public static final int SERVERID = 9999;
 
     //constructor
     public GameModel(){

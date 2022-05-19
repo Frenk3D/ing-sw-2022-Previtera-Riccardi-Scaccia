@@ -10,10 +10,6 @@ import it.polimi.ingsw.network.server.*;
 
 import java.io.IOException;
 
-/**
- * Hello world!
- *
- */
 public class ServerApp
 {
     public static void main( String[] args )
@@ -21,6 +17,8 @@ public class ServerApp
         Server server;
         try {
             server = new Server(3333);
+            server.createTestController();
+            System.out.println("Started server");
         } catch (Exception e) {
             System.err.println("Impossible to initialize the server: " + e.getMessage() + "!");
         }

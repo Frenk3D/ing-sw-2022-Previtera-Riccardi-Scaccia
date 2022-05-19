@@ -3,27 +3,35 @@ package it.polimi.ingsw.network.server;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.network.message.LobbyMessage;
-import it.polimi.ingsw.network.message.Message;
-import it.polimi.ingsw.network.message.NewLobbyMessage;
-import it.polimi.ingsw.network.message.StringMessage;
+import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.view.RemoteView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Server{
-    private Map<Integer, RemoteView> remoteViewMap;
-    private Map<Integer,SocketClientManager> socketClientManagerMap;
-    private Map<SocketClientManager, Player> allPlayersMap;
-    private Map<Player, Controller> playerControllerMap;
-    private Map<String,Controller> controllersMap;
+    private Map<Integer, RemoteView> remoteViewMap; //player id - remote view
+    private Map<Integer, SocketClientManager> socketMap; //player id - socket
+    private Map<Integer, Controller> playerControllerMap; //player id - associated controller
+    private Map<String,Controller> controllersMap; //controller name - controller
+    private List<Player> allPlayersList;
+    private List<Player> waitingRoom;
     private int playersIdCounter = 0;
+    public static final int SERVERID = 9999;
 
     public Server(int port){
-        new SocketServerManager(this,port);
+        remoteViewMap = new HashMap<>();
+        socketMap = new HashMap<>();
+        playerControllerMap = new HashMap<>();
+        controllersMap = new HashMap<>();
+        allPlayersList = new ArrayList<>();
+        waitingRoom = new ArrayList<>();
 
+        SocketServerManager serverManager = new SocketServerManager(this,port);
+        Thread thread = new Thread(serverManager, "server");
+        thread.start();
     }
 
     public void onInitMessageReceived(Message message, SocketClientManager socketClientManager){
@@ -47,8 +55,25 @@ public class Server{
 
     }
 
-    public void createPlayer(String name, SocketClientManager socket){
+    public void createPlayer(String name, SocketClientManager socketManager){
+        if(checkName(name)) {
+            playersIdCounter++;
+            Player player = new Player(name, playersIdCounter);
+            allPlayersList.add(player);
+            waitingRoom.add(player);
+            socketMap.put(playersIdCounter,socketManager);
+            RemoteView remoteView = new RemoteView(socketManager);
+            remoteViewMap.put(playersIdCounter,remoteView);
 
+            socketManager.sendMessage(new StringMessage(MessageType.LOGIN_REPLY, SERVERID, playersIdCounter + ""));
+            System.out.println("Server: Added new player " + name + " id: " + playersIdCounter);
+        }
+    }
+
+    public void createTestController(){
+        Controller controller = new Controller();
+        controller.configure(2,false);
+        controllersMap.put("test",controller);
     }
 
     public void newLobby(int senderId, Lobby lobby){
@@ -60,6 +85,21 @@ public class Server{
     }
 
     public void addToLobby(int senderId, String lobbyName){
+        Player player = getPlayerById(senderId);
+        Controller controller = getLobbyByName(lobbyName);
+        if(player == null || controller == null){
+            System.out.println("Server: parameter error");
+            return;
+        }
+
+        if(controller.isOpen()){
+            controller.addPlayer(player);
+            playerControllerMap.put(senderId,controller);
+            waitingRoom.remove(player);
+            RemoteView remoteView = getRemoteViewByPlayerId(senderId);
+            controller.getGame().addObserver(remoteView);
+            remoteView.addObserver(controller);
+        }
 
     }
 
@@ -67,9 +107,22 @@ public class Server{
 
     }
 
-    public Player getPlayerById(){
-
+    public Player getPlayerById(int id){
+        for (Player p : allPlayersList){
+            if(p.getId()==id){
+                return p;
+            }
+        }
         return null;
+    }
+
+    public boolean checkName(String name){
+        for (Player p : allPlayersList){
+            if(p.getName().equals(name)){
+                return false;
+            }
+        }
+        return true;
     }
 
     public void onDisconnect(SocketClientManager client){
@@ -77,6 +130,11 @@ public class Server{
     }
 
     public void sendAvailableLobbies(int senderId){
+        SocketClientManager destSocket = socketMap.get(senderId);
+        if(destSocket == null) {
+            System.out.println("Server: send lobby error wrong id");
+        }
+
         List<Lobby> availableLobbiesList = new ArrayList<>();
         for (String s : controllersMap.keySet()){
             Controller c = controllersMap.get(s);
@@ -84,8 +142,8 @@ public class Server{
             availableLobbiesList.add(new Lobby(c.getNumOfPlayer(),c.getActualNumOfPlayers(),c.getExpertMode(),s));
             }
         }
-        LobbyMessage lobbyMessage = new LobbyMessage(GameModel.SERVERID,availableLobbiesList);
-        socketClientManagerMap.get(senderId).sendMessage(lobbyMessage);
+        LobbyMessage lobbyMessage = new LobbyMessage(SERVERID,availableLobbiesList);
+        destSocket.sendMessage(lobbyMessage);
     }
 
     public RemoteView getRemoteViewByPlayerId(int id){
