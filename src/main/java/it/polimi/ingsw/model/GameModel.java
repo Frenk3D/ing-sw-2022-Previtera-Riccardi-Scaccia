@@ -6,9 +6,7 @@ exceptions a bit from view, but also here
 passing simple parameters in the network, objects will be copied
 we use a lot of concatenated methods, asked, not a problem for Cugola, passing the var Game is not good
 client has a easier model
-
-CONSEGNE:
-UN PACKAGE PER CLIENT E UNO PER SERVER E QUI DENTRO PACKAGE MODEL-CONTROLLER E PACKAGE RETE(VIEW?), fare peer review
+Comment with block doesn't work with javadoc
 
 */
 
