@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.message.Message;
-import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.view.RemoteView;
 
 import java.io.IOException;
@@ -55,6 +54,7 @@ public class SocketClientManager implements Runnable{
                 }
             }
         } catch (ClassCastException | ClassNotFoundException e) {
+            e.printStackTrace();
             System.out.println("SocketClientManager: error in reception");
         }
         socket.close();
@@ -80,6 +80,7 @@ public class SocketClientManager implements Runnable{
                 output.reset();
             }
         } catch (IOException e) {
+            e.printStackTrace();
             disconnect();
         }
     }
@@ -93,9 +94,10 @@ public class SocketClientManager implements Runnable{
             try {
                 if (!socket.isClosed()) {
                     socket.close();
+                    System.out.println("Client disconnected");
                 }
             } catch (IOException e) {
-                System.out.println("Errore disconnect");
+                System.out.println("Error disconnect");
                 e.printStackTrace();
             }
             connected = false;

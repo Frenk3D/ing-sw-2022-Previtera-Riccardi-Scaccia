@@ -13,9 +13,11 @@ import java.util.Map;
 
 public class Server{
     private Map<Integer, RemoteView> remoteViewMap; //player id - remote view
-    private Map<Integer, SocketClientManager> socketMap; //player id - socket
+    private Map<Integer, SocketClientManager> idSocketMap; //player id - socket
+    private Map<SocketClientManager, Integer> socketIdMap; //socket - player id
     private Map<Integer, Controller> playerControllerMap; //player id - associated controller
     private Map<String,Controller> controllersMap; //controller name - controller
+
     private List<Player> allPlayersList;
     private List<Player> waitingRoom;
     private int playersIdCounter = 0;
@@ -23,9 +25,11 @@ public class Server{
 
     public Server(int port){
         remoteViewMap = new HashMap<>();
-        socketMap = new HashMap<>();
+        idSocketMap = new HashMap<>();
+        socketIdMap = new HashMap<>();
         playerControllerMap = new HashMap<>();
         controllersMap = new HashMap<>();
+
         allPlayersList = new ArrayList<>();
         waitingRoom = new ArrayList<>();
 
@@ -35,6 +39,7 @@ public class Server{
     }
 
     public void onInitMessageReceived(Message message, SocketClientManager socketClientManager){
+        System.out.println(message.getMessageType()+ " received from client "+ message.getSenderId());
         switch (message.getMessageType()){
             case LOGIN_REQUEST:
                 StringMessage stringMessage = (StringMessage) message;
@@ -61,7 +66,8 @@ public class Server{
             Player player = new Player(name, playersIdCounter);
             allPlayersList.add(player);
             waitingRoom.add(player);
-            socketMap.put(playersIdCounter,socketManager);
+            idSocketMap.put(playersIdCounter,socketManager);
+            socketIdMap.put(socketManager,playersIdCounter);
             RemoteView remoteView = new RemoteView(socketManager);
             remoteViewMap.put(playersIdCounter,remoteView);
 
@@ -93,18 +99,24 @@ public class Server{
         }
 
         if(controller.isOpen()){
-            controller.addPlayer(player);
             playerControllerMap.put(senderId,controller);
             waitingRoom.remove(player);
             RemoteView remoteView = getRemoteViewByPlayerId(senderId);
             controller.getGame().addObserver(remoteView);
             remoteView.addObserver(controller);
+            controller.addPlayer(player);
+            System.out.println("Server: added player "+ senderId+ " to lobby "+ lobbyName);
         }
 
     }
 
-    public void onDisconnect(SocketServerManager client){
-
+    public void onDisconnect(SocketClientManager client){
+        int playerId = socketIdMap.get(client);
+        socketIdMap.remove(client);
+        idSocketMap.remove(playerId);
+        remoteViewMap.remove(playerId);
+        removePlayer(playerId);
+        System.out.println("Removed player "+playerId);
     }
 
     public Player getPlayerById(int id){
@@ -116,6 +128,12 @@ public class Server{
         return null;
     }
 
+    public void removePlayer(int id){
+        Player p = getPlayerById(id);
+        allPlayersList.remove(p);
+        waitingRoom.remove(p);
+    }
+
     public boolean checkName(String name){
         for (Player p : allPlayersList){
             if(p.getName().equals(name)){
@@ -125,14 +143,12 @@ public class Server{
         return true;
     }
 
-    public void onDisconnect(SocketClientManager client){
-
-    }
 
     public void sendAvailableLobbies(int senderId){
-        SocketClientManager destSocket = socketMap.get(senderId);
+        SocketClientManager destSocket = idSocketMap.get(senderId);
         if(destSocket == null) {
-            System.out.println("Server: send lobby error wrong id");
+            System.out.println("Server: send lobby error wrong id "+ senderId);
+            return;
         }
 
         List<Lobby> availableLobbiesList = new ArrayList<>();
@@ -152,6 +168,10 @@ public class Server{
 
     public Controller getLobbyByName(String lobby){
         return controllersMap.get(lobby);
+    }
+
+    public void broadcastToLobby(String lobbyName){
+        Controller controller = controllersMap.get(lobbyName);
     }
 
 }

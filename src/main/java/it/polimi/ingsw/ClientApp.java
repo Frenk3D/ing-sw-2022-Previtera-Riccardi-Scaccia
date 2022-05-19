@@ -21,12 +21,20 @@ public class ClientApp {
 
     public static void main(String[] args){
 
-            ClientSocket clientSocket = new ClientSocket("127.0.0.1", 12345);
+        TestClient client = new TestClient("127.0.0.1", 3333);
+        try{
+            client.run();
+        }catch (IOException e){
+            System.err.println(e.getMessage());
+        }
+
+
+            /*ClientSocket clientSocket = new ClientSocket("127.0.0.1", 12345);
             try{
                 clientSocket.run();
             }catch (IOException e){
                 System.err.println(e.getMessage());
-            }
+            }*/
 
 
 

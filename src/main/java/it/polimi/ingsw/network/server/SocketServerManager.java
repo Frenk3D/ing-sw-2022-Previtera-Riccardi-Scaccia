@@ -29,11 +29,10 @@ public class SocketServerManager implements Runnable{
             try {
                 Socket client = serverSocket.accept();
 
-                client.setSoTimeout(5000);
-
                 SocketClientManager clientManager = new SocketClientManager(server, client);
                 Thread thread = new Thread(clientManager, "ss_manager" + client.getInetAddress());
                 thread.start();
+                System.out.println("New client created "+client.getInetAddress());
             } catch (IOException e) {
                 System.out.println("Connection dropped");
             }

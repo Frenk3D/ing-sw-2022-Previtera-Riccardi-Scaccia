@@ -13,13 +13,14 @@ public class RemoteView extends Observable implements Observer {
         this.clientManager=clientManager;
     }
 
+    //receive model updates and send to client
     @Override
     public void update(Message message) {
-
+        clientManager.sendMessage(message);
     }
 
     public void sendToController(Message message){
-
+        notifyObserver(message);
     }
 
 }

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.server;
 
-public class Lobby {
+import java.io.Serializable;
+
+public class Lobby implements Serializable {
     private int numOfPlayers;
     private int actualNumOfPlayers;
     private boolean expertMode;
@@ -27,5 +29,10 @@ public class Lobby {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Name: "+name+" NumOfPlayers: "+numOfPlayers+" Actual NumOfPlayers: "+actualNumOfPlayers+" Expert Mode: "+expertMode;
     }
 }

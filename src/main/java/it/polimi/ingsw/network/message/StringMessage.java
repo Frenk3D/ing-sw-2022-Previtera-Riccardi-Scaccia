@@ -5,6 +5,7 @@ public class StringMessage extends Message{
 
     public StringMessage(MessageType type, int senderId, String string){
         super(type,senderId,true);
+        this.string = string;
     }
 
     public String getString() {

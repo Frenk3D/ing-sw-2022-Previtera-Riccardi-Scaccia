@@ -141,6 +141,7 @@ public class GameModel extends Observable {
     public boolean addPlayer(Player player){
         if(numOfPlayers!=-1 && playersList.size()<numOfPlayers) {
             playersList.add(player);
+            sendPlayerJoin();
             return true;
         }
         return false;
@@ -279,6 +280,10 @@ public class GameModel extends Observable {
     }
 
     //-------------------------------------------------------------------MESSAGES MANAGEMENT---------------------------------------------------------------
+    public void sendPlayerJoin(){
+        notifyObserver(new StringMessage(MessageType.PLAYER_JOIN,SERVERID,playersList.get(playersList.size()-1).getName()));
+    }
+
     public void sendTable(){
         notifyObserver(new TableMessage(SERVERID,getReducedIslandsList(),getReducedCloudsList(),motherNaturePos));
     }
