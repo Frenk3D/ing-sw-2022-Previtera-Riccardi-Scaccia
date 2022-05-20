@@ -2,7 +2,9 @@ package it.polimi.ingsw.model.client;
 
 import it.polimi.ingsw.model.Assistant;
 
-public class ReducedAssistant {
+import java.io.Serializable;
+
+public class ReducedAssistant implements Serializable {
     private int id;
     private int motherNaturePosShift;
 

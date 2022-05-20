@@ -1,5 +1,8 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.model.client.ReducedIsland;
+import it.polimi.ingsw.model.enumerations.TowerColor;
+import it.polimi.ingsw.model.enumerations.Wizard;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.Lobby;
 
@@ -47,16 +50,47 @@ public class TestClient {
                             case LOGIN_REPLY:
                                 StringMessage loginMessage = (StringMessage)inputMessage;
                                 clientId = Integer.parseInt(loginMessage.getString());
+                                System.out.println("Login successful, id: "+clientId);
                                 break;
                             case AVAILABLE_LOBBIES:
                                 LobbyMessage lobbyMessage = (LobbyMessage) inputMessage;
                                 for (Lobby lobby : lobbyMessage.getLobbiesList()){
                                     System.out.println(lobby);
                                 }
+                                break;
+                            case PLAYER_JOIN:
+                                StringMessage joinMessage = (StringMessage)inputMessage;
+                                System.out.println("Si è aggiunto "+joinMessage.getString());
+                                break;
+                            case AVAILABLE_TEAM_SEND:
+                                break;
+                            case AVAILABLE_TOWER_SEND:
+                                System.out.println("Scegli un colore delle torri");
+                                SyncInitMessage towerMessage = (SyncInitMessage) inputMessage;
+                                for (TowerColor t : towerMessage.getAvailableTowerColors()){
+                                    System.out.println(t);
+                                }
+                                break;
+                            case AVAILABLE_WIZARD_SEND:
+                                System.out.println("Scegli un wizard");
+                                SyncInitMessage wizardMessage = (SyncInitMessage) inputMessage;
+                                for (Wizard w : wizardMessage.getAvailableWizards()){
+                                    System.out.println(w);
+                                }
+                                break;
+
+                            case INIT_SEND:
+                                AllGameMessage allGameMessage = (AllGameMessage) inputMessage;
+                                for (ReducedIsland i : allGameMessage.getIslandsList()){
+                                    System.out.println(i);
+                                }
+                                break;
+
                         }
 
                     }
                 } catch (Exception e){
+                    e.printStackTrace();
                     setActive(false);
                 }
             }
@@ -70,23 +104,55 @@ public class TestClient {
             @Override
             public void run() {
                 try {
-                    StringMessage loginMessage = new StringMessage(MessageType.LOGIN_REQUEST,9999,"Marco"+ Math.random());
-                    output.writeObject(loginMessage);
-                    output.flush();
-                    output.reset();
-                    System.out.println("Login message sent!");
+                    Scanner scanIn = new Scanner(System.in);
+                    while (clientId == 0) {
+                        System.out.print("Enter name: ");
+                        String input = scanIn.nextLine();
+                        StringMessage loginMessage = new StringMessage(MessageType.LOGIN_REQUEST, 9999, input);
+                        output.writeObject(loginMessage);
+                        output.flush();
+                        output.reset();
+                        Thread.sleep(500);
+                    }
+                    while (isActive()){
+                        String command = scanIn.nextLine();
+                        switch (command) {
+                            case "lobbylist":
+                                GenericMessage printLobbies = new GenericMessage(MessageType.LOBBY_REQUEST, clientId, true);
+                                output.writeObject(printLobbies);
+                                output.flush();
+                                output.reset();
+                                break;
+                            case "enterlobby":
+                                System.out.print("Enter lobby name: ");
+                                String lobbyName = scanIn.nextLine();
+                                StringMessage enterLobbyRequest = new StringMessage(MessageType.CHOOSE_LOBBY, clientId, lobbyName);
+                                output.writeObject(enterLobbyRequest);
+                                output.flush();
+                                output.reset();
+                                break;
 
-                    Thread.sleep(500);
-                    GenericMessage printLobbies = new GenericMessage(MessageType.LOBBY_REQUEST, clientId, true);
-                    output.writeObject(printLobbies);
-                    output.flush();
-                    output.reset();
+                            case "choosetower":
+                                System.out.print("Enter tower color: ");
+                                int towerNum = scanIn.nextInt();
+                                ChooseTowerColorMessage chooseTowerColorMessage = new ChooseTowerColorMessage(clientId, TowerColor.getTowerColor(towerNum));
+                                output.writeObject(chooseTowerColorMessage);
+                                output.flush();
+                                output.reset();
+                                break;
 
-                    Thread.sleep(500);
-                    StringMessage enterLobbyRequest = new StringMessage(MessageType.CHOOSE_LOBBY,clientId,"test");
-                    output.writeObject(enterLobbyRequest);
-                    output.flush();
-                    output.reset();
+                            case "choosewizard":
+                                System.out.print("Enter wizard: ");
+                                int wizardNum = scanIn.nextInt();
+                                ChooseWizardMessage chooseWizardMessage = new ChooseWizardMessage(clientId, Wizard.getWizard(wizardNum));
+                                output.writeObject(chooseWizardMessage);
+                                output.flush();
+                                output.reset();
+                                break;
+
+                        }
+                    }
+
 
                 }catch(Exception e){
                     e.printStackTrace();

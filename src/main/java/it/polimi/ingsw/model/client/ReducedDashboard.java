@@ -6,12 +6,13 @@ import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ReducedDashboard {
+public class ReducedDashboard implements Serializable {
 
     private Map<PawnColor,Integer> studentsHall;
     private List<PawnColor> entranceList;

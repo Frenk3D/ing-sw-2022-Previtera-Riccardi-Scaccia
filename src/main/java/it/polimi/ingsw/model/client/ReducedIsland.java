@@ -6,10 +6,11 @@ import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReducedIsland {
+public class ReducedIsland implements Serializable {
     private int forbidCards;
     private int weight;
     private TowerColor towerColor;
@@ -40,5 +41,20 @@ public class ReducedIsland {
 
     public List<PawnColor> getStudentsList() {
         return studentsList;
+    }
+
+    @Override
+    public String toString() {
+        String result = "";
+        result+="----------ISOLA----------\n";
+        result+="Dimensione: " +weight+" Forbid card: "+forbidCards+"\n";
+
+        for(PawnColor s : studentsList){
+            result+="Studente: "+s+"\n";
+        }
+        if (towerColor!=null){
+            result+="Torre "+towerColor+" numero: "+weight+"\n";
+        }
+        return result;
     }
 }

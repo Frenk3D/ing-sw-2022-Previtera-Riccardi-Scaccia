@@ -69,6 +69,7 @@ public class Server{
             idSocketMap.put(playersIdCounter,socketManager);
             socketIdMap.put(socketManager,playersIdCounter);
             RemoteView remoteView = new RemoteView(socketManager);
+            socketManager.setRemoteView(remoteView);
             remoteViewMap.put(playersIdCounter,remoteView);
 
             socketManager.sendMessage(new StringMessage(MessageType.LOGIN_REPLY, SERVERID, playersIdCounter + ""));
@@ -80,6 +81,10 @@ public class Server{
         Controller controller = new Controller();
         controller.configure(2,false);
         controllersMap.put("test",controller);
+
+        Controller controller1 = new Controller();
+        controller1.configure(2,false);
+        controllersMap.put("mytest",controller1);
     }
 
     public void newLobby(int senderId, Lobby lobby){
@@ -105,7 +110,7 @@ public class Server{
             controller.getGame().addObserver(remoteView);
             remoteView.addObserver(controller);
             controller.addPlayer(player);
-            System.out.println("Server: added player "+ senderId+ " to lobby "+ lobbyName);
+            System.out.println("Server: added player "+senderId+" to lobby "+ lobbyName);
         }
 
     }
@@ -116,6 +121,12 @@ public class Server{
         idSocketMap.remove(playerId);
         remoteViewMap.remove(playerId);
         removePlayer(playerId);
+        Controller controller = playerControllerMap.get(playerId);
+
+        if(controller!=null){
+
+        }
+
         System.out.println("Removed player "+playerId);
     }
 

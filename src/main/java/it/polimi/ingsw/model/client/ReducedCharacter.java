@@ -2,7 +2,9 @@ package it.polimi.ingsw.model.client;
 
 import it.polimi.ingsw.model.characters.Character;
 
-public class ReducedCharacter {
+import java.io.Serializable;
+
+public class ReducedCharacter implements Serializable {
     boolean used;
     int id;
     int initialCost;

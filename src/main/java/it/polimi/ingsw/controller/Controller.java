@@ -47,6 +47,7 @@ public class Controller implements Observer {
 
     @Override
     public void update(Message message){ //the controller observes the view
+        System.out.println("received "+ message.getMessageType()+" from player "+message.getSenderId());
         switch (getGameState()){
             case SETTING_STATE:
                 settingState(message);
@@ -211,7 +212,10 @@ public class Controller implements Observer {
                 System.out.println("chooseTowerColor: player doesnt have tower");
             } else if (!availableColors.contains(selectedColor)) {
                 System.out.println("chooseTowerColor: already choosen color");
-            } else {
+            } else if(requestingPlayer.getTowerColor() != null){
+                System.out.println("chooseTowerColor: you already choosen color");
+            }
+            else {
                 requestingPlayer.setPlayerTowerColor(selectedColor);
                 availableColors.remove(selectedColor);
 
@@ -239,7 +243,10 @@ public class Controller implements Observer {
                 System.out.println("chooseWizard: wrong parameters");
             } else if (!availableWizards.contains(selectedWizard)) {
                 System.out.println("chooseWizard: already choosen wizard");
-            } else {
+            } else if(requestingPlayer.getAssistantDeck().getWizard()!=null){
+                System.out.println("chooseWizard: you already choosen wizard");
+            }
+            else {
                 requestingPlayer.getAssistantDeck().setWizard(selectedWizard);
                 availableWizards.remove(selectedWizard);
 

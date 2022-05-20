@@ -4,10 +4,11 @@ import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReducedCloud {
+public class ReducedCloud implements Serializable {
     private List<PawnColor> studentsList;
 
     public ReducedCloud(Cloud cloud){

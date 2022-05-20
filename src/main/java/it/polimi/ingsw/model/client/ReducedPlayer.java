@@ -5,7 +5,9 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;
 
-public class ReducedPlayer {
+import java.io.Serializable;
+
+public class ReducedPlayer implements Serializable {
     private String name;
     private int id;
     private ReducedAssistant selectedAssistant;
