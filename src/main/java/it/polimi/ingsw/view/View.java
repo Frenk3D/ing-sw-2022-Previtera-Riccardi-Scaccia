@@ -5,7 +5,14 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;
+import it.polimi.ingsw.network.client.ClientSocket;
+import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.server.Lobby;
+import it.polimi.ingsw.network.server.SocketClientManager;
+import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.observer.Observer;
+import it.polimi.ingsw.observer.ViewObservable;
+import it.polimi.ingsw.observer.ViewObserver;
 
 import java.util.List;
 import java.util.Map;
@@ -16,55 +23,60 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Defines a generic view to be implemented by each view type (e.g. CLI, GUI, ...).
  */
-public interface View {
+public abstract class View extends ViewObservable implements Observer {
+    private ClientSocket clientSocket;
+
+    public View(ClientSocket clientSocket){
+        this.clientSocket=clientSocket;
+    }
     /**
      * Asks the user to write a Nickname.
      */
-    void askPlayerInfo();
+    public abstract void askPlayerInfo();
 
-    void askServerConfig();
+    public abstract void askServerConfig();
 
-    void askNewOrJoinGame();
+    public abstract void askNewOrJoinGame();
 
-    void showAvailableLobbies(List<Lobby> lobbiesList);
+    public abstract void showAvailableLobbies(List<Lobby> lobbiesList);
 
-    void askRequestedLobby(List<Lobby> lobbiesList);
+    public abstract void askRequestedLobby(List<Lobby> lobbiesList);
 
-    void askTeam(List<Player> playersList);
+    public abstract void askTeam(List<Player> playersList);
 
-    void showAvailableTeams(Map<String,Integer> players);
+    public abstract void showAvailableTeams(Map<String,Integer> players);
 
-    void askTowerColor();
+    public abstract void askTowerColor();
 
-    void showAvailableTowerColors(List<TowerColor> availableTowerColors);
+    public abstract void showAvailableTowerColors(List<TowerColor> availableTowerColors);
 
-    void askWizard();
+    public abstract void askWizard();
 
-    void showAvailableWizards(List<Wizard> availableWizards);
+    public abstract void showAvailableWizards(List<Wizard> availableWizards);
 
-    void showTable(List<Island> islandsList, List<Cloud> cloudsList, int motherNaturePos);
+    public abstract void showTable(List<Island> islandsList, List<Cloud> cloudsList, int motherNaturePos);
 
-    void showThrownAssistant(Assistant thrownAssistant,int playerId);
+    public abstract void showThrownAssistant(Assistant thrownAssistant,int playerId);
 
-    void showDashboard(Dashboard dashboard,int playerId);
+    public abstract void showDashboard(Dashboard dashboard,int playerId);
 
-    void showCharacterTable(List<Character> charactersList, AtomicInteger tableMoney, Map<Player,AtomicInteger> numOfMoneyMap);
+    public abstract void showCharacterTable(List<Character> charactersList, AtomicInteger tableMoney, Map<Player,AtomicInteger> numOfMoneyMap);
 
-    void showAssistantsList(List<Assistant> assistantsList);
+    public abstract void showAssistantsList(List<Assistant> assistantsList);
 
-    void showThrownAssistant(Assistant selectedAssistant);
+    public abstract void showThrownAssistant(Assistant selectedAssistant);
 
-    void askStudentToMoveIsland(List<Island> entranceStudentsList,List<Island> islandsList);
+    public abstract void askStudentToMoveIsland(List<Island> entranceStudentsList,List<Island> islandsList);
 
-    void askStudentToMoveDashboard(List<Student> entranceStudentsList);
+    public abstract void askStudentToMoveDashboard(List<Student> entranceStudentsList);
 
-    void askMotherNatureMove(List<Island> islandsList);
+    public abstract void askMotherNatureMove(List<Island> islandsList);
 
-    void askCloudExtraction(List<Cloud> cloudsList);
+    public abstract void askCloudExtraction(List<Cloud> cloudsList);
 
-    void askSelectedAssistant(List<Assistant> assistantsList);
+    public abstract void askSelectedAssistant(List<Assistant> assistantsList);
 
-    void askUsedCharacter(List<Character> charactersList);
+    public abstract void askUsedCharacter(List<Character> charactersList);
 
 
     /**
@@ -72,23 +84,28 @@ public interface View {
      *
      * @param text                 a generic info text message.
      */
-    void showDisconnectionMessage(String text);
+    public abstract void showDisconnectionMessage(String text);
 
     /**
      * Shows an error message.
      *
      * @param error the error message to be shown.
      */
-    void showErrorAndExit(String error);
+    public abstract void showErrorAndExit(String error);
 
 
-    void showMatchInfo(List<Player> playersList, List<Island> islandsList, List<Cloud> cloudsList, List<Assistant> assistantsList, int motherNaturePos, AtomicInteger tableMoney, List<Character> charactersList, boolean expertMode);
+    public abstract void showMatchInfo(List<Player> playersList, List<Island> islandsList, List<Cloud> cloudsList, List<Assistant> assistantsList, int motherNaturePos, AtomicInteger tableMoney, List<Character> charactersList, boolean expertMode);
 
     /**
      * Shows a win message.
      *
      * @param winner the nickname of the winner.
      */
-    void showWinMessage(String winner);
+    public abstract void showWinMessage(String winner);
 
+
+    @Override
+    public void update(Message message) {
+
+    }
 }

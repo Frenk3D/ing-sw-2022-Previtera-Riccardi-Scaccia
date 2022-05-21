@@ -181,7 +181,7 @@ public class Controller implements Observer {
                 System.out.println("chooseTeam: you already have a team or requested player already has a team");
             }
             else {
-                requestingPlayer.setTeam(requestingPlayer.getId());
+                requestingPlayer.setTeam(requestingPlayer.getId());  //the teamId is the teamLeaderId
                 requestedTeamPlayer.setTeam(requestingPlayer.getId());
                 requestedTeamPlayer.setHasTower(false);
 
@@ -209,17 +209,17 @@ public class Controller implements Observer {
             if (requestingPlayer == null) {
                 System.out.println("chooseTowerColor: wrong parameters");
             } else if (!requestingPlayer.hasTower()) {
-                System.out.println("chooseTowerColor: player doesnt have tower");
+                System.out.println("chooseTowerColor: player doesn't have tower");
             } else if (!availableColors.contains(selectedColor)) {
-                System.out.println("chooseTowerColor: already choosen color");
+                System.out.println("chooseTowerColor: already chosen color");
             } else if(requestingPlayer.getTowerColor() != null){
-                System.out.println("chooseTowerColor: you already choosen color");
+                System.out.println("chooseTowerColor: you already chosen color");
             }
             else {
                 requestingPlayer.setPlayerTowerColor(selectedColor);
                 availableColors.remove(selectedColor);
 
-                for (Player p : game.getPlayersList()){ //check if all player choose the color
+                for (Player p : game.getPlayersList()){ //check if all players chose the color
                     if(p.getTowerColor() == null && p.hasTower()){
                         game.sendAvailableTowerColors();
                         return;

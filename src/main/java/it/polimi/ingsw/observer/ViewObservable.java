@@ -2,21 +2,22 @@ package it.polimi.ingsw.observer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 
 /**
  * Custom observable class that can be observed by implementing the {@link ViewObserver} interface and registering as listener.
  */
-public abstract class ViewObservable {
+public class ViewObservable {
 
-    protected final List<ViewObserver> observers = new ArrayList<>();
+    protected final List<Observer> observers = new ArrayList<>();
 
     /**
      * Adds an observer.
      *
      * @param obs the observer to be added.
      */
-    public void addObserver(ViewObserver obs) {
+    public void addObserver(Observer obs) {
         observers.add(obs);
     }
 
@@ -25,7 +26,7 @@ public abstract class ViewObservable {
      *
      * @param observerList the list of observers to be added.
      */
-    public void addAllObservers(List<ViewObserver> observerList) {
+    public void addAllObservers(List<Observer> observerList) {
         observers.addAll(observerList);
     }
 
@@ -34,7 +35,7 @@ public abstract class ViewObservable {
      *
      * @param obs the observer to be removed.
      */
-    public void removeObserver(ViewObserver obs) {
+    public void removeObserver(Observer obs) {
         observers.remove(obs);
     }
 
@@ -43,7 +44,7 @@ public abstract class ViewObservable {
      *
      * @param observerList the list of observers to be removed.
      */
-    public void removeAllObservers(List<ViewObserver> observerList) {
+    public void removeAllObservers(List<Observer> observerList) {
         observers.removeAll(observerList);
     }
 
@@ -52,9 +53,16 @@ public abstract class ViewObservable {
      *
      * @param lambda the lambda to be called on the observers.
      */
-//    protected void notifyObserver(Consumer<ViewObserver> lambda) {
-//        for (ViewObserver observer : observers) {
-//            lambda.accept(observer);
-//        }
-//    }
-}
+
+    protected void notifyObserver(Consumer<Observer> lambda) {
+        for (Observer observer : observers) {
+            lambda.accept(observer);
+        }
+    }
+    /*protected void notifyObserver(Consumer<ViewObserver> lambda) {
+        for (ViewObserver observer : observers) {
+            lambda.accept(observer);
+        }
+    }*/
+    }
+

@@ -3,9 +3,12 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.enumerations.*;
+import it.polimi.ingsw.network.client.ClientSocket;
 import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.network.server.Lobby;
+import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.observer.ViewObservable;
+import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.scene.*;
 
@@ -18,10 +21,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * This class implements all methods of View. Is used for the Graphic User Interface.
  */
-public class Gui extends ViewObservable implements View {
+public class Gui extends View {
 
     private static final String STR_ERROR = "ERROR";
     private static final String MENU_SCENE_FXML = "menu_scene.fxml";
+
+    public Gui(ClientSocket clientSocket) {
+        super(clientSocket);
+    }
 
     @Override
     public void askPlayerInfo() {
@@ -158,7 +165,13 @@ public class Gui extends ViewObservable implements View {
 
     }
 
-    /* DO DELETE
+    @Override
+    public void addObserver(Observer obs) {
+        super.addObserver(obs);
+    }
+
+
+/* DO DELETE
    @Override
     public void askNickname() {
         Platform.runLater(() -> SceneController.changeRootPane(observers, "login_scene.fxml"));
@@ -327,6 +340,25 @@ public class Gui extends ViewObservable implements View {
             SceneController.showWin(winner);
             SceneController.changeRootPane(observers, MENU_SCENE_FXML);
         });
+    }
+     @Override
+    public void onUpdateServerInfo(Map<String, String> serverInfo) {
+
+    }
+
+    @Override
+    public void onUpdateNickname(String nickname) {
+
+    }
+
+    @Override
+    public void onUpdatePlayersNumber(int playersNumber) {
+
+    }
+
+    @Override
+    public void onDisconnection() {
+
     }
 
 

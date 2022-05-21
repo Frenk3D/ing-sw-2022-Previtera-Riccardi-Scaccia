@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 
+import it.polimi.ingsw.model.client.ClientGameModel;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.client.*;
 import it.polimi.ingsw.network.message.*;
@@ -19,165 +20,30 @@ import java.util.concurrent.Executors;
  * It is an interpreter between the network and a generic view (which in this case can be CLI or GUI).
  * It receives the messages, wraps/unwraps and pass them to the network/view.
  */
-public class ClientController implements ViewObserver, Observer {
+public class ClientController implements Observer {
 
-    private final View view;
-
+    private ClientGameModel clientGameModel;
     private ClientSocket client;
     private String nickname;
+    private ClientState clientState;
+    private int teamPlayerId;  //if there are no teams it is the clientId, or it's the leaderId
+    private boolean teamLeader; //he is who requested the teamPlayer and who will choose the tower color
 
     private final ExecutorService taskQueue;
 
-    public static final int UNDO_TIME = 5000;
+    //public static final int UNDO_TIME = 5000;
 
     /**
      * Constructs Client Controller.
      *
-     * @param view the view to be controlled.
+     *
      */
-    public ClientController(View view) {
-        this.view = view;
+    public ClientController() {
+        //this.view = view;
         taskQueue = Executors.newSingleThreadExecutor();
+        teamLeader=false;
+        clientState = ClientState.PRE_LOBBY;
     }
-
-    /**
-     * Create a new Socket Connection to the server with the updated info.
-     * An error view is shown if connection cannot be established.
-     *
-     * @param serverInfo a map of server address and server port.
-     */
-    @Override
-    public void onUpdateServerInfo(Map<String, String> serverInfo) {
-        try {
-            client = new ClientSocket(serverInfo.get("address"), Integer.parseInt(serverInfo.get("port")));
-            client.addObserver(this);
-            client.readMessage(); // Starts an asynchronous reading from the server.
-            taskQueue.execute(view::askPlayerInfo);
-        } catch (IOException e) {
-            taskQueue.execute(() -> view.askServerConfig());
-        }
-    }
-
-    /**
-     * Sends a message to the server with the updated nickname.
-     * The nickname is also stored locally for later usages.
-     *
-     * @param nickname the nickname to be sent.
-     */
-    @Override
-    public void onUpdateNickname(String nickname) {
-        this.nickname = nickname;
-        client.sendMessage(new LoginRequest(this.nickname));
-    }
-
-    /**
-     * Sends a message to the server with the player number chosen by the user.
-     *
-     * @param playersNumber the number of players.
-     */
-    @Override
-    public void onUpdatePlayersNumber(int playersNumber) {
-        client.sendMessage(new PlayerNumberReply(this.nickname, playersNumber));
-    }
-
-    /**
-     * Sends a message to the server with the workers color chosen by the user.
-     *
-     * @param color the color of the workers.
-     */
-    @Override
-    public void onUpdateWorkersColor(Color color) {
-        client.sendMessage(new ColorsMessage(this.nickname, List.of(color)));
-    }
-
-    /**
-     * Sends a message to the server with the gods chosen by the user.
-     *
-     * @param gods the list of gods chosen by the user.
-     */
-    @Override
-    public void onUpdateGod(List<ReducedGod> gods) {
-        client.sendMessage(new GodListMessage(this.nickname, gods, 0));
-    }
-
-    /**
-     * Sends a message to the server with the position of the worker to be moved chosen by the user.
-     *
-     * @param position the position of the worker to be moved.
-     */
-    @Override
-    public void onUpdatePickMovingWorker(Position position) {
-        client.sendMessage(new PositionMessage(this.nickname, MessageType.PICK_MOVING_WORKER, List.of(position)));
-    }
-
-    /**
-     * Sends a message to the server with the initial position of the workers chosen by the user.
-     *
-     * @param positions the list of the initial position of the workers.
-     */
-    @Override
-    public void onUpdateInitWorkerPosition(List<Position> positions) {
-        client.sendMessage(new PositionMessage(this.nickname, MessageType.INIT_WORKERSPOSITIONS, positions));
-    }
-
-    /**
-     * Sends a message to the server with the new position of the moving worker chosen by the user.
-     *
-     * @param destination the new position of the moving worker.
-     */
-    @Override
-    public void onUpdateMove(Position destination) {
-        client.sendMessage(new PositionMessage(this.nickname, MessageType.MOVE, List.of(destination)));
-    }
-
-    /**
-     * Sends a message to the server with the position of the block to be built chosen by the user.
-     *
-     * @param position the position of the block to be built.
-     */
-    @Override
-    public void onUpdateBuild(Position position) {
-        client.sendMessage(new PositionMessage(this.nickname, MessageType.BUILD, List.of(position)));
-    }
-
-    /**
-     * Sends a message to the server with the choice of the user about his god effect.
-     *
-     * @param response the choice of the user about his god effect.
-     */
-    @Override
-    public void onUpdateEnableEffect(boolean response) {
-        client.sendMessage(new PrepareEffectMessage(this.nickname, response));
-    }
-
-    /**
-     * Sends a message to the server with the choice of the user about his god effect.
-     *
-     * @param dest the choice of the user about his god effect.
-     */
-    @Override
-    public void onUpdateApplyEffect(Position dest) {
-        client.sendMessage(new PositionMessage(this.nickname, MessageType.APPLY_EFFECT, List.of(dest)));
-    }
-
-    /**
-     * Sends a message to the server with the nickname of the first player chosen by the user.
-     *
-     * @param nickname the nickname of the first player.
-     */
-    @Override
-    public void onUpdateFirstPlayer(String nickname) {
-        client.sendMessage(new MatchInfoMessage(this.nickname, MessageType.PICK_FIRST_PLAYER, null, null, null, nickname));
-    }
-
-    /**
-     * Disconnects the client from the network.
-     */
-    @Override
-    public void onDisconnection() {
-        client.disconnect();
-    }
-
     /**
      * Takes action based on the message type received from the server.
      *
@@ -187,17 +53,19 @@ public class ClientController implements ViewObserver, Observer {
     public void update(Message message) {
 
         switch (message.getMessageType()) {
-            case BOARD:
-                BoardMessage boardMessage = (BoardMessage) message;
-                taskQueue.execute(() -> view.showBoard(boardMessage.getBoard()));
+            case LOGIN_REPLY: //from now we have to use client.sendMessage() instead of notify, after init_send we use notify
+                LoginReply loginReply = (LoginReply) message;
+                client.setClientId(Integer.parseInt(((StringMessage)message).getString())); //we need this in the ClientSocket class
+                //client.sendMessage();
+            break;
+            case AVAILABLE_LOBBIES:
+                LobbyMessage lobbyMessage = (LobbyMessage) message;
+                taskQueue.execute(() -> view.showLobby(lobbyMessage.getNicknameList(), lobbyMessage.getMaxPlayers()));
                 break;
-            case BUILD:
-                taskQueue.execute(() -> view.askBuild(((PositionMessage) message).getPositionList()));
-                break;
-            case INIT_COLORS:
+            case PLAYER_JOIN:
                 taskQueue.execute(() -> view.askInitWorkerColor(((ColorsMessage) message).getColorList()));
                 break;
-            case GENERIC_MESSAGE:
+            case OK_REPLY: //used also like a simple string message
                 taskQueue.execute(() -> view.showGenericMessage(((GenericMessage) message).getMessage()));
                 break;
             case DISCONNECTION:
@@ -205,19 +73,18 @@ public class ClientController implements ViewObserver, Observer {
                 client.disconnect();
                 view.showDisconnectionMessage(dm.getNicknameDisconnected(), dm.getMessageStr());
                 break;
-            case ERROR:
+            case ERROR_REPLY:
                 ErrorMessage em = (ErrorMessage) message;
                 view.showErrorAndExit(em.getError());
                 break;
-            case GODLIST:
-                GodListMessage godListMessage = (GodListMessage) message;
-                taskQueue.execute(() -> view.askGod(godListMessage.getGodList(), godListMessage.getRequest()));
-                break;
-            case LOGIN_REPLY:
-                LoginReply loginReply = (LoginReply) message;
-                taskQueue.execute(() -> view.showLoginResult(loginReply.isNicknameAccepted(), loginReply.isConnectionSuccessful(), this.nickname));
-                break;
-            case MATCH_INFO:
+
+
+            case INIT_SEND: //from now we can use notifyObserver of the clientGameModel
+                clientGameModel = new ClientGameModel((AllGameMessage)message);
+                clientGameModel.setMyPlayerId(client.getClientId());
+                //clientGameModel.send...
+
+
                 MatchInfoMessage matchInfoMessage = (MatchInfoMessage) message;
                 taskQueue.execute(() -> view.showMatchInfo(
                         matchInfoMessage.getActivePlayers(),
@@ -226,44 +93,49 @@ public class ClientController implements ViewObserver, Observer {
                         matchInfoMessage.getActivePlayerNickname()
                 ));
                 break;
-            case MOVE:
+
+            case AVAILABLE_TEAM_SEND:
                 taskQueue.execute(() -> view.askMove(((PositionMessage) message).getPositionList()));
+                //we have to give leaderId to the teamPlayer and set the leader as true if we receive avaible_team_send as reply
                 break;
-            case PICK_MOVING_WORKER:
+            case AVAILABLE_TOWER_SEND:
                 taskQueue.execute(() -> view.askMovingWorker(((PositionMessage) message).getPositionList()));
                 break;
-            case PICK_FIRST_PLAYER:
+            case AVAILABLE_WIZARD_SEND:
                 MatchInfoMessage playersMessage = (MatchInfoMessage) message;
                 taskQueue.execute(() -> view.askFirstPlayer(playersMessage.getActivePlayers(), playersMessage.getActiveGods()));
                 break;
-            case PLAYERNUMBER_REQUEST:
-                taskQueue.execute(view::askPlayersNumber);
+            case SYNC_STATE:
+
                 break;
-            case INIT_WORKERSPOSITIONS:
+            case TABLE:
+                BoardMessage boardMessage = (BoardMessage) message;
+                taskQueue.execute(() -> view.showBoard(boardMessage.getBoard()));
+                break;
+            case THROWN_ASSISTANT:
                 taskQueue.execute(() -> view.askInitWorkersPositions(((PositionMessage) message).getPositionList()));
                 break;
-            case ENABLE_EFFECT:
+            case DASHBOARD:
                 taskQueue.execute(() -> view.askEnableEffect(((PrepareEffectMessage) message).isEnableEffect()));
                 break;
-            case MOVE_FX:
+            case CHARACTER_TABLE:
                 taskQueue.execute(() -> view.askMoveFx(((PositionMessage) message).getPositionList()));
                 break;
-            case BUILD_FX:
+            case ASSISTANTS_SEND:
                 taskQueue.execute(() -> view.askBuildFx(((PositionMessage) message).getPositionList()));
                 break;
-            case WIN_FX:
+            case WIN:
                 WinMessage winMessage = (WinMessage) message;
                 client.disconnect();
                 taskQueue.execute(() -> view.showWinMessage(winMessage.getWinnerNickname()));
                 break;
-            case LOBBY:
-                LobbyMessage lobbyMessage = (LobbyMessage) message;
-                taskQueue.execute(() -> view.showLobby(lobbyMessage.getNicknameList(), lobbyMessage.getMaxPlayers()));
-                break;
+
             default: // Should never reach this condition
                 break;
         }
     }
+
+
 
     /**
      * Validates the given IPv4 address by using a regex.
@@ -293,5 +165,144 @@ public class ClientController implements ViewObserver, Observer {
             return false;
         }
     }
+
+
+//    /**
+//     * Create a new Socket Connection to the server with the updated info.
+//     * An error view is shown if connection cannot be established.
+//     *
+//     * @param serverInfo a map of server address and server port.
+//     */
+//    @Override
+//    public void onUpdateServerInfo(Map<String, String> serverInfo) {
+//        try {
+//            client = new ClientSocket(serverInfo.get("address"), Integer.parseInt(serverInfo.get("port")));
+//            client.addObserver(this);
+//            client.readMessage(); // Starts an asynchronous reading from the server.
+//            taskQueue.execute(view::askPlayerInfo);
+//        } catch (IOException e) {
+//            taskQueue.execute(() -> view.askServerConfig());
+//        }
+//    }
+//
+//    /**
+//     * Sends a message to the server with the updated nickname.
+//     * The nickname is also stored locally for later usages.
+//     *
+//     * @param nickname the nickname to be sent.
+//     */
+//    @Override
+//    public void onUpdateNickname(String nickname) {
+//        this.nickname = nickname;
+//        client.sendMessage(new StringMessage(MessageType.LOGIN_REQUEST,client.getClientId(),this.nickname));
+//    }
+//
+//    /**
+//     * Sends a message to the server with the player number chosen by the user.
+//     *
+//     * @param playersNumber the number of players.
+//     */
+//    @Override
+//    public void onUpdatePlayersNumber(int playersNumber) {
+//        client.sendMessage(new PlayerNumberReply(this.nickname, playersNumber));
+//    }
+//
+//    /**
+//     * Sends a message to the server with the workers color chosen by the user.
+//     *
+//     * @param color the color of the workers.
+//     */
+//    @Override
+//    public void onUpdateWorkersColor(Color color) {
+//        client.sendMessage(new ColorsMessage(this.nickname, List.of(color)));
+//    }
+//
+//    /**
+//     * Sends a message to the server with the gods chosen by the user.
+//     *
+//     * @param gods the list of gods chosen by the user.
+//     */
+//    @Override
+//    public void onUpdateGod(List<ReducedGod> gods) {
+//        client.sendMessage(new GodListMessage(this.nickname, gods, 0));
+//    }
+//
+//    /**
+//     * Sends a message to the server with the position of the worker to be moved chosen by the user.
+//     *
+//     * @param position the position of the worker to be moved.
+//     */
+//    @Override
+//    public void onUpdatePickMovingWorker(Position position) {
+//        client.sendMessage(new PositionMessage(this.nickname, MessageType.PICK_MOVING_WORKER, List.of(position)));
+//    }
+//
+//    /**
+//     * Sends a message to the server with the initial position of the workers chosen by the user.
+//     *
+//     * @param positions the list of the initial position of the workers.
+//     */
+//    @Override
+//    public void onUpdateInitWorkerPosition(List<Position> positions) {
+//        client.sendMessage(new PositionMessage(this.nickname, MessageType.INIT_WORKERSPOSITIONS, positions));
+//    }
+//
+//    /**
+//     * Sends a message to the server with the new position of the moving worker chosen by the user.
+//     *
+//     * @param destination the new position of the moving worker.
+//     */
+//    @Override
+//    public void onUpdateMove(Position destination) {
+//        client.sendMessage(new PositionMessage(this.nickname, MessageType.MOVE, List.of(destination)));
+//    }
+//
+//    /**
+//     * Sends a message to the server with the position of the block to be built chosen by the user.
+//     *
+//     * @param position the position of the block to be built.
+//     */
+//    @Override
+//    public void onUpdateBuild(Position position) {
+//        client.sendMessage(new PositionMessage(this.nickname, MessageType.BUILD, List.of(position)));
+//    }
+//
+//    /**
+//     * Sends a message to the server with the choice of the user about his god effect.
+//     *
+//     * @param response the choice of the user about his god effect.
+//     */
+//    @Override
+//    public void onUpdateEnableEffect(boolean response) {
+//        client.sendMessage(new PrepareEffectMessage(this.nickname, response));
+//    }
+//
+//    /**
+//     * Sends a message to the server with the choice of the user about his god effect.
+//     *
+//     * @param dest the choice of the user about his god effect.
+//     */
+//    @Override
+//    public void onUpdateApplyEffect(Position dest) {
+//        client.sendMessage(new PositionMessage(this.nickname, MessageType.APPLY_EFFECT, List.of(dest)));
+//    }
+//
+//    /**
+//     * Sends a message to the server with the nickname of the first player chosen by the user.
+//     *
+//     * @param nickname the nickname of the first player.
+//     */
+//    @Override
+//    public void onUpdateFirstPlayer(String nickname) {
+//        client.sendMessage(new MatchInfoMessage(this.nickname, MessageType.PICK_FIRST_PLAYER, null, null, null, nickname));
+//    }
+//
+//    /**
+//     * Disconnects the client from the network.
+//     */
+//    @Override
+//    public void onDisconnection() {
+//        client.disconnect();
+//    }
 
 }

@@ -6,8 +6,10 @@ import it.polimi.ingsw.controller.ClientController;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;
+import it.polimi.ingsw.network.client.ClientSocket;
 import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.observer.ViewObservable;
+import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.View;
 
 import java.io.PrintStream;
@@ -20,7 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * This class offers a User Interface to the user via terminal. It is an implementation of the {@link View}.
  */
-public class Cli extends ViewObservable implements View {
+public class Cli extends View {
 
     private final PrintStream out;
     private Thread inputThread;
@@ -33,8 +35,10 @@ public class Cli extends ViewObservable implements View {
     /**
      * Default constructor.
      */
-    public Cli() {
-        out = System.out;
+    public Cli(ClientSocket clientSocket) {
+        super(clientSocket);
+        out = System.out
+        ;
     }
 
 
@@ -278,4 +282,6 @@ public class Cli extends ViewObservable implements View {
     public void showWinMessage(String winner) {
 
     }
+
+
 }

@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.enumerations.*;
 import java.util.List;
 import java.util.Map;
 
+// * For now not used
 /**
  * Custom observer interface for views. It supports different types of notification.
  */
