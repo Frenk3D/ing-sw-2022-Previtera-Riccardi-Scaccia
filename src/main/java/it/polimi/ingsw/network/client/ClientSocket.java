@@ -1,25 +1,46 @@
 package it.polimi.ingsw.network.client;
 import it.polimi.ingsw.model.client.*;
+import it.polimi.ingsw.network.message.GenericMessage;
+import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.network.message.MessageType;
+import it.polimi.ingsw.network.message.StringMessage;
+import it.polimi.ingsw.observer.Observable;
+
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  *
  * @see Runnable
  */
 
-public class ClientSocket {
+public class ClientSocket extends Observable {
     private String ip;
     private int port;
     private Socket socket;
+    private final ObjectOutputStream outputStm;
+    private final ObjectInputStream inputStm;
+    private final ExecutorService readExecutionQueue;
+    private int clientId;
 
 
-    public ClientSocket(String ip, int port){
+    public ClientSocket(String ip, int port) throws IOException{
         this.ip = ip;
         this.port = port;
+        this.socket = new Socket();
+        this.socket.connect(new InetSocketAddress(ip, port));
+        this.outputStm = new ObjectOutputStream(socket.getOutputStream());
+        this.inputStm = new ObjectInputStream(socket.getInputStream());
+        this.readExecutionQueue = Executors.newSingleThreadExecutor();
+        clientId = 8888;
     }
 
     private boolean active = true;
@@ -32,50 +53,49 @@ public class ClientSocket {
         this.active = active;
     }
 
-    public Thread asyncReadFromSocket(final ObjectInputStream socketIn){
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
+
+
+    public void readMessage() {
+        readExecutionQueue.execute(() -> {
+
+            while (!readExecutionQueue.isShutdown()) {
+                Message message;
                 try {
-                    while (isActive()) {
-                        Object inputObject = socketIn.readObject();
-                        if(inputObject instanceof String){
-                            System.out.println((String)inputObject);
-                        } else if (inputObject instanceof ClientGameModel){
-                            //((ClientGameModel)inputObject).print();
-                        } else {
-                            throw new IllegalArgumentException();
-                        }
-                    }
-                } catch (Exception e){
-                    setActive(false);
+                    message = (Message) inputStm.readObject();
+                    System.out.println("Received: " + message);
+                } catch (IOException | ClassNotFoundException e) {
+                    message = new StringMessage(MessageType.ERROR_REPLY, clientId, "Connection lost with the server" );
+                    disconnect();
+                    readExecutionQueue.shutdownNow();
                 }
+                notifyObserver(message);
             }
         });
-        t.start();
-        return t;
     }
 
-    public Thread asyncWriteToSocket(final Scanner stdin, final PrintWriter socketOut){
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    while (isActive()) {
-                        String inputLine = stdin.nextLine();
-                        socketOut.println(inputLine);
-                        socketOut.flush();
-                    }
-                }catch(Exception e){
-                    setActive(false);
-                }
+
+    public void sendMessage(Message message) {
+        try {
+            outputStm.writeObject(message);
+            outputStm.reset();
+        } catch (IOException e) {
+            disconnect();
+            notifyObserver(new StringMessage(MessageType.ERROR_REPLY,clientId, "Could not send message."));
+        }
+    }
+
+    public void disconnect() {
+        try {
+            if (!socket.isClosed()) {
+                readExecutionQueue.shutdownNow();
+                socket.close();
             }
-        });
-        t.start();
-        return t;
+        } catch (IOException e) {
+            notifyObserver(new StringMessage(MessageType.ERROR_REPLY, clientId,"Could not disconnect."));
+        }
     }
 
-    public void run() throws IOException {
+    /*public void run() throws IOException {
         Socket socket = new Socket(ip, port);
         System.out.println("Connection established");
         ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
@@ -94,7 +114,7 @@ public class ClientSocket {
             socketIn.close();
             socketOut.close();
             socket.close();
-        }
+        }*/
     }
 
-}
+

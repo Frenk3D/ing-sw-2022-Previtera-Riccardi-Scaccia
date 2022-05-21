@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.cli;
 
 
 
+import it.polimi.ingsw.controller.ClientController;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;
@@ -60,6 +61,78 @@ public class Cli extends ViewObservable implements View {
     }
 
 
+    public void init() {
+        out.println("" +
+                "d8888b.888Y88b\n" +
+                "d88P \n" +
+                "Y88b.                                 \n" +
+                "Y888b.Y8888P.\n" +
+                "Y888b.Y8888P. \n" +
+                "d88P.  \n" +
+                "Y88b  \n" +
+                "d8888b.888Y88b\n");
+
+        out.println("Welcome to magic world of Eriantys!");
+
+        try {
+            askServerInfo();
+        } catch (ExecutionException e) {
+            out.println(STR_INPUT_CANCELED);
+        }
+    }
+
+    /**
+     * Asks the server address and port to the user.
+     *
+     * @throws ExecutionException if the input stream thread is interrupted.
+     */
+    public void askServerInfo() throws ExecutionException {
+        //serverInfo is a map with ip and port, they are String, but we parse the port into an Integer
+        Map<String, String> serverInfo = new HashMap<>();
+        String defaultAddress = "localhost";
+        String defaultPort = "16847";
+        boolean validInput;
+
+        out.println("Please specify the following settings. The default value is shown between brackets.");
+
+        do {
+            out.print("Enter the server address [" + defaultAddress + "]: ");
+
+            String address = readLine();
+
+            if (address.equals("")) {
+                serverInfo.put("address", defaultAddress);
+                validInput = true;
+            } else if (ClientController.isValidIpAddress(address)) {
+                serverInfo.put("address", address);
+                validInput = true;
+            } else {
+                out.println("Invalid address!");
+                clearCli();
+                validInput = false;
+            }
+        } while (!validInput);
+
+        do {
+            out.print("Enter the server port [" + defaultPort + "]: ");
+            String port = readLine();
+
+            if (port.equals("")) {
+                serverInfo.put("port", defaultPort);
+                validInput = true;
+            } else {
+                if (ClientController.isValidPort(port)) {
+                    serverInfo.put("port", port);
+                    validInput = true;
+                } else {
+                    out.println("Invalid port!");
+                    validInput = false;
+                }
+            }
+        } while (!validInput);
+
+        notifyObserver(obs -> obs.onUpdateServerInfo(serverInfo));
+    }
 
     /**
      * Clears the CLI terminal.
@@ -71,6 +144,8 @@ public class Cli extends ViewObservable implements View {
 
     @Override
     public void askPlayerInfo() {
+        out.print("Enter your nickname");
+
 
     }
 

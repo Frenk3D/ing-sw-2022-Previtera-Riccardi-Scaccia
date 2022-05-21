@@ -18,6 +18,7 @@ public class ClientGameModel {
     private boolean expertMode;
     private int numOfPlayers;
 
+
     public void setIslandList(List<ReducedIsland> islandList) {
         this.islandList = islandList;
     }

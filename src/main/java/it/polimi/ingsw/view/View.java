@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-//if a client has to send/write something is an ask  (from the controller, params are the things where i have to choose) or it's a show method (like the sync message or else automatic, params are the things to show)
+//VIEW FOR CLIENT if a client has to send/write something is an ask  (from the controller, params are the things where i have to choose) or it's a show method (like the sync message or else automatic, params are the things to show)
 
 /**
  * Defines a generic view to be implemented by each view type (e.g. CLI, GUI, ...).
