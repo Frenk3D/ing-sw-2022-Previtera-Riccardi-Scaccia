@@ -1,38 +1,39 @@
 package it.polimi.ingsw.observer;
 
-import java.util.Map;
+//view (CLI OR GUI) is the model observer and the model is the model observable
 
-//view is the model observer and the model is the model observable
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
- * Custom observer interface for views. It supports different types of notification. From view to clientController and from clientModel to View (CLI OR GUI)
+ * Custom observer interface for views. It supports different types of notification. )
  */
 public interface ModelObserver {
 
+    void onServerInfoRequest() ;
     /**
-     * Create a new connection to the server with the updated info.
+     * Notify to the view the login request and asks for a nickname
      *
-     * @param serverInfo a map of server address and server port.
      */
-    void onUpdateServerInfo(Map<String, String> serverInfo);
+    void onLoginRequest();
 
-    /**
-     * Sends a message to the server with the updated nickname.
-     *
-     * @param nickname the nickname to be sent.
-     */
-    void onUpdateNickname(String nickname);
-
-    /**
-     * Sends a message to the server with the player number chosen by the user.
-     *
-     * @param playersNumber the number of players.
-     */
-    void onUpdatePlayersNumber(int playersNumber);
-
-    /**
-     * Handles a disconnection wanted by the user.
-     */
-    void onDisconnection();
+//    /**
+//     * Notify the observer of the NewLobbyRequest
+//     *
+//     */
+//    void onNewLobbyRequest();
+//
+//    /**
+//     * Sends a message to the server with the player number chosen by the user.
+//     *
+//     * @param playersNumber the number of players.
+//     */
+//    void onUpdatePlayersNumber(int playersNumber);
+//
+//    /**
+//     * Handles a disconnection wanted by the user.
+//     */
+//    void onDisconnection();
+//
 
 }

@@ -71,7 +71,7 @@ public class ClientSocket  {
                     disconnect();
                     readExecutionQueue.shutdownNow();
                 }
-                notifyObserver(message);
+                clientController.onMessageReceived(message);
             }
         });
     }
@@ -83,7 +83,7 @@ public class ClientSocket  {
             outputStm.reset();
         } catch (IOException e) {
             disconnect();
-            notifyObserver(new StringMessage(MessageType.ERROR_REPLY,clientId, "Could not send message."));
+            clientController.onMessageReceived(new StringMessage(MessageType.ERROR_REPLY,clientId, "Could not send message."));
         }
     }
 
@@ -94,7 +94,7 @@ public class ClientSocket  {
                 socket.close();
             }
         } catch (IOException e) {
-            notifyObserver(new StringMessage(MessageType.ERROR_REPLY, clientId,"Could not disconnect."));
+            clientController.onMessageReceived(new StringMessage(MessageType.ERROR_REPLY,clientId, "Could not disconnect."));
         }
     }
 

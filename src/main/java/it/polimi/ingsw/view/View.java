@@ -24,76 +24,78 @@ public abstract class View extends ViewObservable implements ModelObserver {
     /**
      * Asks the user to write a Nickname.
      */
-    public abstract void askPlayerInfo();
+    @Override
+    public abstract void onLoginRequest ();
 
-    public abstract void askServerConfig() throws ExecutionException;
+    @Override
+    public abstract void onServerInfoRequest();
 
-    public abstract void askNewOrJoinGame();
-
-    public abstract void showAvailableLobbies(List<Lobby> lobbiesList);
-
-    public abstract void askRequestedLobby(List<Lobby> lobbiesList);
-
-    public abstract void askTeam(List<Player> playersList);
-
-    public abstract void showAvailableTeams(Map<String,Integer> players);
-
-    public abstract void askTowerColor();
-
-    public abstract void showAvailableTowerColors(List<TowerColor> availableTowerColors);
-
-    public abstract void askWizard();
-
-    public abstract void showAvailableWizards(List<Wizard> availableWizards);
-
-    public abstract void showTable(List<Island> islandsList, List<Cloud> cloudsList, int motherNaturePos);
-
-    public abstract void showThrownAssistant(Assistant thrownAssistant,int playerId);
-
-    public abstract void showDashboard(Dashboard dashboard,int playerId);
-
-    public abstract void showCharacterTable(List<Character> charactersList, AtomicInteger tableMoney, Map<Player,AtomicInteger> numOfMoneyMap);
-
-    public abstract void showAssistantsList(List<Assistant> assistantsList);
-
-    public abstract void showThrownAssistant(Assistant selectedAssistant);
-
-    public abstract void askStudentToMoveIsland(List<Island> entranceStudentsList,List<Island> islandsList);
-
-    public abstract void askStudentToMoveDashboard(List<Student> entranceStudentsList);
-
-    public abstract void askMotherNatureMove(List<Island> islandsList);
-
-    public abstract void askCloudExtraction(List<Cloud> cloudsList);
-
-    public abstract void askSelectedAssistant(List<Assistant> assistantsList);
-
-    public abstract void askUsedCharacter(List<Character> charactersList);
-
-
-    /**
-     * Shows a disconnection message.
-     *
-     * @param text                 a generic info text message.
-     */
-    public abstract void showDisconnectionMessage(String text);
-
-    /**
-     * Shows an error message.
-     *
-     * @param error the error message to be shown.
-     */
-    public abstract void showErrorAndExit(String error);
-
-
-    public abstract void showMatchInfo(List<Player> playersList, List<Island> islandsList, List<Cloud> cloudsList, List<Assistant> assistantsList, int motherNaturePos, AtomicInteger tableMoney, List<Character> charactersList, boolean expertMode);
-
-    /**
-     * Shows a win message.
-     *
-     * @param winner the nickname of the winner.
-     */
-    public abstract void showWinMessage(String winner);
-
+//    public abstract void askNewOrJoinGame();
+//
+//    public abstract void showAvailableLobbies(List<Lobby> lobbiesList);
+//
+//    public abstract void askRequestedLobby(List<Lobby> lobbiesList);
+//
+//    public abstract void askTeam(List<Player> playersList);
+//
+//    public abstract void showAvailableTeams(Map<String,Integer> players);
+//
+//    public abstract void askTowerColor();
+//
+//    public abstract void showAvailableTowerColors(List<TowerColor> availableTowerColors);
+//
+//    public abstract void askWizard();
+//
+//    public abstract void showAvailableWizards(List<Wizard> availableWizards);
+//
+//    public abstract void showTable(List<Island> islandsList, List<Cloud> cloudsList, int motherNaturePos);
+//
+//    public abstract void showThrownAssistant(Assistant thrownAssistant,int playerId);
+//
+//    public abstract void showDashboard(Dashboard dashboard,int playerId);
+//
+//    public abstract void showCharacterTable(List<Character> charactersList, AtomicInteger tableMoney, Map<Player,AtomicInteger> numOfMoneyMap);
+//
+//    public abstract void showAssistantsList(List<Assistant> assistantsList);
+//
+//    public abstract void showThrownAssistant(Assistant selectedAssistant);
+//
+//    public abstract void askStudentToMoveIsland(List<Island> entranceStudentsList,List<Island> islandsList);
+//
+//    public abstract void askStudentToMoveDashboard(List<Student> entranceStudentsList);
+//
+//    public abstract void askMotherNatureMove(List<Island> islandsList);
+//
+//    public abstract void askCloudExtraction(List<Cloud> cloudsList);
+//
+//    public abstract void askSelectedAssistant(List<Assistant> assistantsList);
+//
+//    public abstract void askUsedCharacter(List<Character> charactersList);
+//
+//
+//    /**
+//     * Shows a disconnection message.
+//     *
+//     * @param text                 a generic info text message.
+//     */
+//    public abstract void showDisconnectionMessage(String text);
+//
+//    /**
+//     * Shows an error message.
+//     *
+//     * @param error the error message to be shown.
+//     */
+//    public abstract void showErrorAndExit(String error);
+//
+//
+//    public abstract void showMatchInfo(List<Player> playersList, List<Island> islandsList, List<Cloud> cloudsList, List<Assistant> assistantsList, int motherNaturePos, AtomicInteger tableMoney, List<Character> charactersList, boolean expertMode);
+//
+//    /**
+//     * Shows a win message.
+//     *
+//     * @param winner the nickname of the winner.
+//     */
+//    public abstract void showWinMessage(String winner);
+//
 
 }

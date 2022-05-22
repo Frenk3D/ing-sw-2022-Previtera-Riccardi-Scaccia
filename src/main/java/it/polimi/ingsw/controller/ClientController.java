@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -40,7 +41,6 @@ public class ClientController implements ViewObserver {
      *
      */
     public ClientController() {
-        //this.view = view;
         taskQueue = Executors.newSingleThreadExecutor();
         teamLeader=false;
         clientState = ClientState.PRE_LOBBY;
@@ -58,86 +58,84 @@ public class ClientController implements ViewObserver {
     public void onMessageReceived(Message message) {
 
         switch (message.getMessageType()) {
-
-
             case LOGIN_REPLY: //we can use notifyObserver of the clientGameModel because we have it, empty
                 StringMessage loginReply = (StringMessage) message;
                 client.setClientId(Integer.parseInt(loginReply.getString())); //we need this in the ClientSocket class
                 clientGameModel.setMyPlayerId(client.getClientId());
-                taskQueue.execute(() -> clientGameModel.sendNewLobbyRequest(loginReply));
-            break;
-            case AVAILABLE_LOBBIES:
-                LobbyMessage lobbyMessage = (LobbyMessage) message;
-                taskQueue.execute(() -> client.sendMessage(lobbyMessage));
-                break;
-            case PLAYER_JOIN:
-                StringMessage playerJoinMessage = (StringMessage) message;
-                taskQueue.execute(() -> client.sendMessage(playerJoinMessage));
-                break;
-            case OK_REPLY: //used also like a simple string message
-                GenericMessage okReply = (GenericMessage) message;
-                taskQueue.execute(() -> client.sendMessage(okReply));
-                break;
-            case DISCONNECTION:
-                StringMessage dm = (StringMessage) message;
-                client.sendMessage(dm);
-                client.disconnect();
-                break;
-            case ERROR_REPLY:
-                ErrorMessage em = (ErrorMessage) message;
-                view.showErrorAndExit(em.getError());
-                break;
-
-
-            case INIT_SEND:
-                clientGameModel.initClientGameModel((AllGameMessage) message);
-
-
-
-                MatchInfoMessage matchInfoMessage = (MatchInfoMessage) message;
-                taskQueue.execute(() -> view.showMatchInfo(
-                        matchInfoMessage.getActivePlayers(),
-                        matchInfoMessage.getActiveGods(),
-                        matchInfoMessage.getActiveColors(),
-                        matchInfoMessage.getActivePlayerNickname()
-                ));
-                break;
-
-            case AVAILABLE_TEAM_SEND:
-                taskQueue.execute(() -> view.askMove(((PositionMessage) message).getPositionList()));
-                //we have to give leaderId to the teamPlayer and set the leader as true if we receive avaible_team_send as reply
-                break;
-            case AVAILABLE_TOWER_SEND:
-                taskQueue.execute(() -> view.askMovingWorker(((PositionMessage) message).getPositionList()));
-                break;
-            case AVAILABLE_WIZARD_SEND:
-                MatchInfoMessage playersMessage = (MatchInfoMessage) message;
-                taskQueue.execute(() -> view.askFirstPlayer(playersMessage.getActivePlayers(), playersMessage.getActiveGods()));
-                break;
-            case SYNC_STATE:
-
-                break;
-            case TABLE:
-                BoardMessage boardMessage = (BoardMessage) message;
-                taskQueue.execute(() -> view.showBoard(boardMessage.getBoard()));
-                break;
-            case THROWN_ASSISTANT:
-                taskQueue.execute(() -> view.askInitWorkersPositions(((PositionMessage) message).getPositionList()));
-                break;
-            case DASHBOARD:
-                taskQueue.execute(() -> view.askEnableEffect(((PrepareEffectMessage) message).isEnableEffect()));
-                break;
-            case CHARACTER_TABLE:
-                taskQueue.execute(() -> view.askMoveFx(((PositionMessage) message).getPositionList()));
-                break;
-            case ASSISTANTS_SEND:
-                taskQueue.execute(() -> view.askBuildFx(((PositionMessage) message).getPositionList()));
-                break;
-            case WIN:
-                WinMessage winMessage = (WinMessage) message;
-                client.disconnect();
-                taskQueue.execute(() -> view.showWinMessage(winMessage.getWinnerNickname()));
-                break;
+//                taskQueue.execute(() -> clientGameModel.sendNewLobbyRequest();
+//            break;
+//            case AVAILABLE_LOBBIES:
+//                LobbyMessage lobbyMessage = (LobbyMessage) message;
+//                taskQueue.execute(() -> client.sendMessage(lobbyMessage));
+//                break;
+//            case PLAYER_JOIN:
+//                StringMessage playerJoinMessage = (StringMessage) message;
+//                taskQueue.execute(() -> client.sendMessage(playerJoinMessage));
+//                break;
+//            case OK_REPLY: //used also like a simple string message
+//                GenericMessage okReply = (GenericMessage) message;
+//                taskQueue.execute(() -> client.sendMessage(okReply));
+//                break;
+//            case DISCONNECTION:
+//                StringMessage dm = (StringMessage) message;
+//                client.sendMessage(dm);
+//                client.disconnect();
+//                break;
+//            case ERROR_REPLY:
+//                ErrorMessage em = (ErrorMessage) message;
+//                view.showErrorAndExit(em.getError());
+//                break;
+//
+//
+//            case INIT_SEND:
+//                clientGameModel.initClientGameModel((AllGameMessage) message);
+//
+//
+//
+//                MatchInfoMessage matchInfoMessage = (MatchInfoMessage) message;
+//                taskQueue.execute(() -> view.showMatchInfo(
+//                        matchInfoMessage.getActivePlayers(),
+//                        matchInfoMessage.getActiveGods(),
+//                        matchInfoMessage.getActiveColors(),
+//                        matchInfoMessage.getActivePlayerNickname()
+//                ));
+//                break;
+//
+//            case AVAILABLE_TEAM_SEND:
+//                taskQueue.execute(() -> view.askMove(((PositionMessage) message).getPositionList()));
+//                //we have to give leaderId to the teamPlayer and set the leader as true if we receive avaible_team_send as reply
+//                break;
+//            case AVAILABLE_TOWER_SEND:
+//                taskQueue.execute(() -> view.askMovingWorker(((PositionMessage) message).getPositionList()));
+//                break;
+//            case AVAILABLE_WIZARD_SEND:
+//                MatchInfoMessage playersMessage = (MatchInfoMessage) message;
+//                taskQueue.execute(() -> view.askFirstPlayer(playersMessage.getActivePlayers(), playersMessage.getActiveGods()));
+//                break;
+//            case SYNC_STATE:
+//
+//                break;
+//            case TABLE:
+//                BoardMessage boardMessage = (BoardMessage) message;
+//                taskQueue.execute(() -> view.showBoard(boardMessage.getBoard()));
+//                break;
+//            case THROWN_ASSISTANT:
+//                taskQueue.execute(() -> view.askInitWorkersPositions(((PositionMessage) message).getPositionList()));
+//                break;
+//            case DASHBOARD:
+//                taskQueue.execute(() -> view.askEnableEffect(((PrepareEffectMessage) message).isEnableEffect()));
+//                break;
+//            case CHARACTER_TABLE:
+//                taskQueue.execute(() -> view.askMoveFx(((PositionMessage) message).getPositionList()));
+//                break;
+//            case ASSISTANTS_SEND:
+//                taskQueue.execute(() -> view.askBuildFx(((PositionMessage) message).getPositionList()));
+//                break;
+//            case WIN:
+//                WinMessage winMessage = (WinMessage) message;
+//                client.disconnect();
+//                taskQueue.execute(() -> view.showWinMessage(winMessage.getWinnerNickname()));
+//                break;
 
             default: // Should never reach this condition
                 break;
@@ -145,7 +143,7 @@ public class ClientController implements ViewObserver {
     }
 
 
-
+    //NOW THERE ARE UTILS METHOD FOR THE SOCKET
     /**
      * Validates the given IPv4 address by using a regex.
      *
@@ -181,8 +179,11 @@ public class ClientController implements ViewObserver {
      //     *
      //     * @param serverInfo a map of server address and server port.
      //     */
+
+
+    //from now there are the override of the ViewObserver interface
     @Override
-    public void onUpdateServerInfo(Map<String, String> serverInfo) {
+    public void onUpdateServerInfo(Map<String, String> serverInfo)  {
         try {
             client = new ClientSocket(serverInfo.get("address"), Integer.parseInt(serverInfo.get("port")), this);
             //client.addObserver(this);
@@ -193,7 +194,15 @@ public class ClientController implements ViewObserver {
             taskQueue.execute(() -> clientGameModel.sendServerInfoRequest());
         }
     }
+    @Override
+    public void onLoginRequest(String input){
+        StringMessage loginRequest = new StringMessage(MessageType.LOGIN_REQUEST, client.getClientId(), input);
+        client.sendMessage(loginRequest);
+    }
 
+
+
+    //TO DELETE
 //    /**
 //     * Create a new Socket Connection to the server with the updated info.
 //     * An error view is shown if connection cannot be established.
@@ -332,4 +341,8 @@ public class ClientController implements ViewObserver {
 //        client.disconnect();
 //    }
 
+
+    public ClientGameModel getClientGameModel() {
+        return clientGameModel;
+    }
 }
