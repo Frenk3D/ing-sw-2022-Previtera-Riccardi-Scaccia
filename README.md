@@ -12,12 +12,12 @@ F.P. game Eriantys
 |:-----------------|:--------------------------------------------------:|
 | Basic rules      | 🟢 |
 | Complete rules   | 🟢 |
-| Socket           | 🔴 |
+| Socket           | 🟡 |
 | GUI              | 🔴 |
-| CLI              | 🔴 |
+| CLI              | 🟡 |
 | 4 players game   | 🟡 |
 | 12 characters    | 🟡 |
-| Multiple games   | 🔴 |
+| Multiple games   | 🟡 |
 
 
 🔴 waiting...
