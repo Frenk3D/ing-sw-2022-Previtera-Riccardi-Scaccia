@@ -23,4 +23,5 @@ public class RemoteView extends Observable implements Observer {
         notifyObserver(message);
     }
 
+
 }

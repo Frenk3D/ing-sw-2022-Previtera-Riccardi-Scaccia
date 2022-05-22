@@ -1,19 +1,14 @@
 package it.polimi.ingsw.model.client;
 
-import it.polimi.ingsw.model.Assistant;
-import it.polimi.ingsw.model.Cloud;
-import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.enumerations.RoundState;
+
+import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.*;
-import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.observer.Observer;
-import it.polimi.ingsw.observer.ViewObservable;
+import it.polimi.ingsw.observer.*;
 import java.util.List;
 
 import static it.polimi.ingsw.network.server.Server.SERVERID;
 
-public class ClientGameModel extends Observable {
+public class ClientGameModel extends ModelObservable {
     private List<ReducedIsland> islandList;
     private List<ReducedAssistant> assistantList;
     private List<ReducedCloud> cloudList;
@@ -24,8 +19,9 @@ public class ClientGameModel extends Observable {
     private boolean expertMode;
     private int numOfPlayers;
 
+    //we use the default constructor just to use the view in ClientController
 
-    public ClientGameModel(AllGameMessage allGameMessage){
+    public void initClientGameModel(AllGameMessage allGameMessage){
         islandList= allGameMessage.getIslandsList();
         assistantList = allGameMessage.getAssistantsList();
         cloudList = allGameMessage.getCloudsList();
@@ -102,6 +98,17 @@ public class ClientGameModel extends Observable {
     }
 
 
+
+
+
+    public void sendLoginRequest(){
+        notifyObserver(obs -> obs.onUpdateServerInfo(serverInfo));
+
+    }
+    public void sendNewLobbyRequest(){
+        notifyObserver(obs -> obs.onUpdateServerInfo(serverInfo));
+
+    }
     public void sendPlayerJoin(){
         notifyObserver(new StringMessage(MessageType.PLAYER_JOIN,SERVERID,playersList.get(playersList.size()-1).getName()));
     }

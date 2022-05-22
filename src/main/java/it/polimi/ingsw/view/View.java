@@ -3,19 +3,15 @@ package it.polimi.ingsw.view;
 
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.enumerations.TowerColor;
-import it.polimi.ingsw.model.enumerations.Wizard;
-import it.polimi.ingsw.network.client.ClientSocket;
-import it.polimi.ingsw.network.message.Message;
-import it.polimi.ingsw.network.server.Lobby;
-import it.polimi.ingsw.network.server.SocketClientManager;
-import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.observer.Observer;
-import it.polimi.ingsw.observer.ViewObservable;
-import it.polimi.ingsw.observer.ViewObserver;
+import it.polimi.ingsw.model.enumerations.*;
+import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.network.server.*;
+import it.polimi.ingsw.observer.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 //VIEW FOR CLIENT if a client has to send/write something is an ask  (from the controller, params are the things where i have to choose) or it's a show method (like the sync message or else automatic, params are the things to show)
@@ -23,18 +19,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Defines a generic view to be implemented by each view type (e.g. CLI, GUI, ...).
  */
-public abstract class View extends ViewObservable implements Observer {
-    private ClientSocket clientSocket;
+public abstract class View extends ViewObservable implements ModelObserver {
 
-    public View(ClientSocket clientSocket){
-        this.clientSocket=clientSocket;
-    }
     /**
      * Asks the user to write a Nickname.
      */
     public abstract void askPlayerInfo();
 
-    public abstract void askServerConfig();
+    public abstract void askServerConfig() throws ExecutionException;
 
     public abstract void askNewOrJoinGame();
 
@@ -104,8 +96,4 @@ public abstract class View extends ViewObservable implements Observer {
     public abstract void showWinMessage(String winner);
 
 
-    @Override
-    public void update(Message message) {
-
-    }
 }

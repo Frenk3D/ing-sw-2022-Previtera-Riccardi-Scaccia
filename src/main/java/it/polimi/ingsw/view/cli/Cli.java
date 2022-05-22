@@ -7,10 +7,12 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;
 import it.polimi.ingsw.network.client.ClientSocket;
+import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.observer.Observer;
 
 import java.io.PrintStream;
 import java.util.*;
@@ -35,13 +37,27 @@ public class Cli extends View {
     /**
      * Default constructor.
      */
-    public Cli(ClientSocket clientSocket) {
-        super(clientSocket);
+    public Cli() {
         out = System.out
         ;
     }
 
+    @Override
+    public void update(Message message) {
+        switch (message.getMessageType()) {
+            case SERVER_INFO: //it is asked only if the user inserted wrong server info
+                try {
+                    askServerConfig();
+                } catch (ExecutionException e) {
+                    System.out.println("User input canceled.");
+                }
+            case LOGIN_REQUEST:
+                askPlayerInfo();
 
+        }
+    }
+
+    //we have to sync?
     /**
      * Reads a line from the standard input.
      *
@@ -79,7 +95,7 @@ public class Cli extends View {
         out.println("Welcome to magic world of Eriantys!");
 
         try {
-            askServerInfo();
+            askServerConfig();
         } catch (ExecutionException e) {
             out.println(STR_INPUT_CANCELED);
         }
@@ -90,7 +106,8 @@ public class Cli extends View {
      *
      * @throws ExecutionException if the input stream thread is interrupted.
      */
-    public void askServerInfo() throws ExecutionException {
+    @Override
+    public void askServerConfig() throws ExecutionException {
         //serverInfo is a map with ip and port, they are String, but we parse the port into an Integer
         Map<String, String> serverInfo = new HashMap<>();
         String defaultAddress = "localhost";
@@ -136,6 +153,8 @@ public class Cli extends View {
         } while (!validInput);
 
         notifyObserver(obs -> obs.onUpdateServerInfo(serverInfo));
+       // ServerInfoMessage serverInfoMessage = new ServerInfoMessage(MessageType.SERVER_INFO,8888 ,serverInfo);
+        // notifyObserver(serverInfoMessage);
     }
 
     /**
@@ -148,15 +167,15 @@ public class Cli extends View {
 
     @Override
     public void askPlayerInfo() {
-        out.print("Enter your nickname");
-
-
-    }
-
-    @Override
-    public void askServerConfig() {
+        Scanner scanIn = new Scanner(System.in);
+        out.print("Enter name: ");
+        String input = scanIn.nextLine();
+        StringMessage loginRequest = new StringMessage(MessageType.LOGIN_REQUEST, 8888, input);
+        notifyObserver(loginRequest);
 
     }
+
+
 
     @Override
     public void askNewOrJoinGame() {

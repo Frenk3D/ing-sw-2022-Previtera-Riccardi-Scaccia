@@ -1,4 +1,5 @@
 package it.polimi.ingsw.network.client;
+import it.polimi.ingsw.controller.ClientController;
 import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.network.message.GenericMessage;
 import it.polimi.ingsw.network.message.Message;
@@ -22,7 +23,7 @@ import java.util.concurrent.Executors;
  * @see Runnable
  */
 
-public class ClientSocket extends Observable {
+public class ClientSocket  {
     private String ip;
     private int port;
     private Socket socket;
@@ -30,9 +31,10 @@ public class ClientSocket extends Observable {
     private final ObjectInputStream inputStm;
     private final ExecutorService readExecutionQueue;
     private int clientId;
+    private ClientController clientController;
 
 
-    public ClientSocket(String ip, int port) throws IOException{
+    public ClientSocket(String ip, int port, ClientController clientController) throws IOException{
         this.ip = ip;
         this.port = port;
         this.socket = new Socket();
@@ -41,6 +43,7 @@ public class ClientSocket extends Observable {
         this.inputStm = new ObjectInputStream(socket.getInputStream());
         this.readExecutionQueue = Executors.newSingleThreadExecutor();
         clientId = 8888;
+        this.clientController = clientController;
     }
 
     private boolean active = true;

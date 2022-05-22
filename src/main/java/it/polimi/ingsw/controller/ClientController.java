@@ -12,6 +12,7 @@ import it.polimi.ingsw.view.View;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -20,7 +21,7 @@ import java.util.concurrent.Executors;
  * It is an interpreter between the network and a generic view (which in this case can be CLI or GUI).
  * It receives the messages, wraps/unwraps and pass them to the network/view.
  */
-public class ClientController implements Observer {
+public class ClientController implements ViewObserver {
 
     private ClientGameModel clientGameModel;
     private ClientSocket client;
@@ -43,35 +44,44 @@ public class ClientController implements Observer {
         taskQueue = Executors.newSingleThreadExecutor();
         teamLeader=false;
         clientState = ClientState.PRE_LOBBY;
+        clientGameModel = new ClientGameModel();
+
+
+
     }
     /**
      * Takes action based on the message type received from the server.
      *
      * @param message the message received from the server.
      */
-    @Override
-    public void update(Message message) {
+     //this is the command (like an update) from the clientSocket
+    public void onMessageReceived(Message message) {
 
         switch (message.getMessageType()) {
-            case LOGIN_REPLY: //from now we have to use client.sendMessage() instead of notify, after init_send we use notify
-                LoginReply loginReply = (LoginReply) message;
-                client.setClientId(Integer.parseInt(((StringMessage)message).getString())); //we need this in the ClientSocket class
-                //client.sendMessage();
+
+
+            case LOGIN_REPLY: //we can use notifyObserver of the clientGameModel because we have it, empty
+                StringMessage loginReply = (StringMessage) message;
+                client.setClientId(Integer.parseInt(loginReply.getString())); //we need this in the ClientSocket class
+                clientGameModel.setMyPlayerId(client.getClientId());
+                taskQueue.execute(() -> clientGameModel.sendNewLobbyRequest(loginReply));
             break;
             case AVAILABLE_LOBBIES:
                 LobbyMessage lobbyMessage = (LobbyMessage) message;
-                taskQueue.execute(() -> view.showLobby(lobbyMessage.getNicknameList(), lobbyMessage.getMaxPlayers()));
+                taskQueue.execute(() -> client.sendMessage(lobbyMessage));
                 break;
             case PLAYER_JOIN:
-                taskQueue.execute(() -> view.askInitWorkerColor(((ColorsMessage) message).getColorList()));
+                StringMessage playerJoinMessage = (StringMessage) message;
+                taskQueue.execute(() -> client.sendMessage(playerJoinMessage));
                 break;
             case OK_REPLY: //used also like a simple string message
-                taskQueue.execute(() -> view.showGenericMessage(((GenericMessage) message).getMessage()));
+                GenericMessage okReply = (GenericMessage) message;
+                taskQueue.execute(() -> client.sendMessage(okReply));
                 break;
             case DISCONNECTION:
-                DisconnectionMessage dm = (DisconnectionMessage) message;
+                StringMessage dm = (StringMessage) message;
+                client.sendMessage(dm);
                 client.disconnect();
-                view.showDisconnectionMessage(dm.getNicknameDisconnected(), dm.getMessageStr());
                 break;
             case ERROR_REPLY:
                 ErrorMessage em = (ErrorMessage) message;
@@ -79,10 +89,9 @@ public class ClientController implements Observer {
                 break;
 
 
-            case INIT_SEND: //from now we can use notifyObserver of the clientGameModel
-                clientGameModel = new ClientGameModel((AllGameMessage)message);
-                clientGameModel.setMyPlayerId(client.getClientId());
-                //clientGameModel.send...
+            case INIT_SEND:
+                clientGameModel.initClientGameModel((AllGameMessage) message);
+
 
 
                 MatchInfoMessage matchInfoMessage = (MatchInfoMessage) message;
@@ -166,6 +175,24 @@ public class ClientController implements Observer {
         }
     }
 
+    /**
+     //     * Create a new Socket Connection to the server with the updated info.
+     //     * An error view is shown if connection cannot be established.
+     //     *
+     //     * @param serverInfo a map of server address and server port.
+     //     */
+    @Override
+    public void onUpdateServerInfo(Map<String, String> serverInfo) {
+        try {
+            client = new ClientSocket(serverInfo.get("address"), Integer.parseInt(serverInfo.get("port")), this);
+            //client.addObserver(this);
+            client.readMessage(); // Starts an asynchronous reading from the server.
+            taskQueue.execute(clientGameModel::sendLoginRequest);
+
+        } catch (IOException e) {
+            taskQueue.execute(() -> clientGameModel.sendServerInfoRequest());
+        }
+    }
 
 //    /**
 //     * Create a new Socket Connection to the server with the updated info.

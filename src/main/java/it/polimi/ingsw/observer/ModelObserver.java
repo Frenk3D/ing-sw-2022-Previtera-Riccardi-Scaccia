@@ -1,16 +1,13 @@
 package it.polimi.ingsw.observer;
 
-import it.polimi.ingsw.model.client.*;
-import it.polimi.ingsw.model.enumerations.*;
-
-import java.util.List;
 import java.util.Map;
 
-//controller is the view observer and the view is the view observable
+//view is the model observer and the model is the model observable
+
 /**
  * Custom observer interface for views. It supports different types of notification. From view to clientController and from clientModel to View (CLI OR GUI)
  */
-public interface ViewObserver {
+public interface ModelObserver {
 
     /**
      * Create a new connection to the server with the updated info.
