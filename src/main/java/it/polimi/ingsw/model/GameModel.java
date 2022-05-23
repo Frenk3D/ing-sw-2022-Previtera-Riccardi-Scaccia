@@ -279,7 +279,11 @@ public class GameModel extends Observable {
 
     //-------------------------------------------------------------------MESSAGES MANAGEMENT---------------------------------------------------------------
     public void sendPlayerJoin(){
-        notifyObserver(new StringMessage(MessageType.PLAYER_JOIN,SERVERID,playersList.get(playersList.size()-1).getName()));
+        List<String> result = new ArrayList<>();
+        for(Player p : playersList){
+            result.add(p.getName());
+        }
+        notifyObserver(new PlayerJoinMessage(SERVERID,result));
     }
 
     public void sendTable(){

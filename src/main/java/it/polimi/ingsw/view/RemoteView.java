@@ -23,4 +23,8 @@ public class RemoteView extends Observable implements Observer {
         notifyObserver(message);
     }
 
+    public void sendToClient(Message message){
+        clientManager.sendMessage(message);
+    }
+
 }

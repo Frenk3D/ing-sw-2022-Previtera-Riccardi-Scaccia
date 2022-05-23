@@ -5,19 +5,29 @@ import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.characters.CharacterParameters;
 import it.polimi.ingsw.model.characters.Characters2and6and8and9;
 import it.polimi.ingsw.model.characters.MessageCharacterParameters;
+import it.polimi.ingsw.model.client.ReducedAssistant;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.observer.Observer;
+import it.polimi.ingsw.view.RemoteView;
 
 import java.util.List;
+
+import static it.polimi.ingsw.network.server.Server.SERVERID;
 
 public class Controller implements Observer {
     //attributes
     private GameModel game;  //intellij says it should be final,but it actually changes so it's not
+    private Server server;
 
     //constructor
     public Controller(){
         game = new GameModel();
+    }
+
+    public void setServer(Server server){
+        this.server = server;
     }
 
     public GameModel getGame(){
@@ -56,9 +66,13 @@ public class Controller implements Observer {
                 if(checkUser(message)){ //check if the user is the right sender
                     inGameState(message);
                 }
+                else {
+                    sendError(message.getSenderId(), "It is not your turn");
+                }
                 break;
             default:
                 System.out.println("Error");
+                sendError(message.getSenderId(), "The game is not active");
                 break;
         }
     }
@@ -82,6 +96,7 @@ public class Controller implements Observer {
 
             default:
                 System.out.println("Error");
+                sendError(receivedMessage.getSenderId(), "Forbidden command");
                 break;
         }
     }
@@ -135,6 +150,7 @@ public class Controller implements Observer {
 
             default:
                 System.out.println("Error");
+                sendError(receivedMessage.getSenderId(), "Forbidden command");
                 break;
         }
     }
@@ -174,16 +190,21 @@ public class Controller implements Observer {
         if(game.getNumOfPlayers() == 4 && game.getSettingState() == SettingState.CHOOSE_TEAM_STATE) {
             Player requestingPlayer = game.getPlayerById(playerId);
             Player requestedTeamPlayer = game.getPlayerById(requestedPlayerId);
+
             if(requestingPlayer==null || requestedTeamPlayer==null){
                 System.out.println("chooseTeam: wrong parameters");
+                sendError(playerId, "Wrong parameters");
             }
             else if(requestingPlayer.getTeam() != -1 || requestedTeamPlayer.getTeam()!=-1){
                 System.out.println("chooseTeam: you already have a team or requested player already has a team");
+                sendError(playerId, "You already have a team or requested player already has a team");
             }
             else {
                 requestingPlayer.setTeam(requestingPlayer.getId());
                 requestedTeamPlayer.setTeam(requestingPlayer.getId());
                 requestedTeamPlayer.setHasTower(false);
+                sendOk(playerId);
+                sendOk(requestedPlayerId);
 
                 for (Player p : game.getPlayersList()){ //check if all player choose team player
                     if(p.getTeam()==-1){
@@ -198,6 +219,7 @@ public class Controller implements Observer {
         }
         else {
             System.out.println("chooseTeam: forbidden move");
+            sendError(playerId, "Forbidden command");
         }
     }
 
@@ -209,15 +231,19 @@ public class Controller implements Observer {
             if (requestingPlayer == null) {
                 System.out.println("chooseTowerColor: wrong parameters");
             } else if (!requestingPlayer.hasTower()) {
-                System.out.println("chooseTowerColor: player doesnt have tower");
+                System.out.println("chooseTowerColor: player doesn't have tower");
+                sendError(playerId, "You aren't the tower holder");
             } else if (!availableColors.contains(selectedColor)) {
-                System.out.println("chooseTowerColor: already choosen color");
+                System.out.println("chooseTowerColor: already chosen color");
+                sendError(playerId, "Already chosen color");
             } else if(requestingPlayer.getTowerColor() != null){
-                System.out.println("chooseTowerColor: you already choosen color");
+                System.out.println("chooseTowerColor: you already choose color");
+                sendError(playerId, "You already choose color");
             }
             else {
                 requestingPlayer.setPlayerTowerColor(selectedColor);
                 availableColors.remove(selectedColor);
+                sendOk(playerId);
 
                 for (Player p : game.getPlayersList()){ //check if all player choose the color
                     if(p.getTowerColor() == null && p.hasTower()){
@@ -231,6 +257,7 @@ public class Controller implements Observer {
         }
         else {
             System.out.println("chooseTowerColor: Forbidden move");
+            sendError(playerId, "Forbidden command");
         }
     }
 
@@ -242,13 +269,16 @@ public class Controller implements Observer {
             if (requestingPlayer == null) {
                 System.out.println("chooseWizard: wrong parameters");
             } else if (!availableWizards.contains(selectedWizard)) {
-                System.out.println("chooseWizard: already choosen wizard");
+                System.out.println("chooseWizard: already chosen wizard");
+                sendError(playerId, "Already chosen wizard");
             } else if(requestingPlayer.getAssistantDeck().getWizard()!=null){
-                System.out.println("chooseWizard: you already choosen wizard");
+                System.out.println("chooseWizard: you already choose wizard");
+                sendError(playerId, "You already choose wizard");
             }
             else {
                 requestingPlayer.getAssistantDeck().setWizard(selectedWizard);
                 availableWizards.remove(selectedWizard);
+                sendOk(playerId);
 
                 for (Player p : game.getPlayersList()){
                     if (p.getAssistantDeck().getWizard()==null){
@@ -263,6 +293,7 @@ public class Controller implements Observer {
         }
         else {
             System.out.println("chooseWizard: Forbidden move");
+            sendError(playerId, "Forbidden command");
         }
     }
 
@@ -275,6 +306,7 @@ public class Controller implements Observer {
             Player currPlayer = game.getCurrPlayer();
             if(currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex)==null||game.getIslandByIndex(islandIndex)==null){
                 System.out.println("move student island: wrong parameters");
+                sendError(game.getCurrPlayer().getId(), "Wrong parameters");
                 return;
             }
 
@@ -288,6 +320,7 @@ public class Controller implements Observer {
         }
         else {
             System.out.println("move student island: forbidden move");
+            sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
     }
 
@@ -297,6 +330,7 @@ public class Controller implements Observer {
             Player currPlayer = game.getCurrPlayer();
             if(currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex)==null){
                 System.out.println("move student dashboard: wrong parameters");
+                sendError(game.getCurrPlayer().getId(), "Wrong parameters");
                 return;
             }
 
@@ -304,6 +338,7 @@ public class Controller implements Observer {
             boolean result = currPlayer.getDashboard().addStudentHall(studentToMove,currPlayer,game.getTableMoney());
             if(!result){
                 System.out.println("move student dashboard: too many students");
+                sendError(game.getCurrPlayer().getId(), "Too many students");
                 return;
             }
 
@@ -314,12 +349,12 @@ public class Controller implements Observer {
             else {
                 game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(),game.getTableProfessorsList());
             }
-            game.sendDashboard(); //update the dashboard in clients
 
+
+            game.sendDashboard(); //update the dashboard in clients
             if(game.isExpertMode()){//update the money in players if expert mode
                 game.sendCharacterTable();
             }
-
             if(!game.getCurrRound().getCurrTurn().incrementMovedStudents()){
                 game.sendInGameState(); //update the state in clients when we change phase
             }
@@ -327,6 +362,7 @@ public class Controller implements Observer {
 
         else {
             System.out.println("move student dashboard: forbidden move");
+            sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
     }
 
@@ -335,17 +371,20 @@ public class Controller implements Observer {
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage()== TurnState.MOVE_MOTHER_NATURE_STATE){
 
             int prevMotherNaturePos = game.getMotherNaturePos();
-            if(islandIndex - prevMotherNaturePos > game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift()){
+
+            if(game.getIslandByIndex(islandIndex)==null){
+                System.out.println("move mother nature: wrong parameters");
+                sendError(game.getCurrPlayer().getId(), "Wrong parameters");
+                return;
+            }
+            else if(islandIndex - prevMotherNaturePos > game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift()){
                 System.out.println("move mother nature: too far");
+                sendError(game.getCurrPlayer().getId(), "Mother nature moved too far");
                 return;
             }
             else if((islandIndex - prevMotherNaturePos < 0) && ((game.getIslandsList().size()-prevMotherNaturePos+islandIndex)<game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift())){
                 System.out.println("move mother nature: too far");
-                return;
-            }
-
-            if(game.getIslandByIndex(islandIndex)==null){
-                System.out.println("move mother nature: wrong parameters");
+                sendError(game.getCurrPlayer().getId(), "Mother nature moved too far");
                 return;
             }
 
@@ -375,6 +414,7 @@ public class Controller implements Observer {
         }
         else {
             System.out.println("move mother nature: forbidden move");
+            sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
     }
 
@@ -383,6 +423,7 @@ public class Controller implements Observer {
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.CHOOSE_CLOUD_STATE){
             if(game.getCloudByIndex(cloudIndex)==null || game.getCloudByIndex(cloudIndex).getStudents().isEmpty()){
                 System.out.println("take from cloud: wrong parameters");
+                sendError(game.getCurrPlayer().getId(), "Wrong parameters");
                 return;
             }
 
@@ -398,6 +439,7 @@ public class Controller implements Observer {
         }
         else {
             System.out.println("take from cloud: forbidden move");
+            sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
 
     }
@@ -408,13 +450,15 @@ public class Controller implements Observer {
             Player player = round.getPlanningPhasePlayer(game.getPlayersList());
             if(player.getAssistantDeck().getAssistantById(assistantId)==null){
                 System.out.println("select assistant: wrong parameters");
+                sendError(player.getId(), "Assistant not available");
                 return;
             }
 
             player.setSelectedAssistant(assistantId);
             player.getAssistantDeck().removeAssistantById(assistantId);
 
-            game.sendSelectedAssistant(); //send selected assistant before setting the next player of planning phase
+            sendAssistantsToClient(player.getId(), player.getAssistantDeck().getReducedAssistantsList()); //send the remaining assistants only to the current player
+            game.sendSelectedAssistant(); //send selected assistant to all players before setting the next player of planning phase
 
             round.setNextPlayerPlanning(game.getNumOfPlayers());
 
@@ -425,6 +469,7 @@ public class Controller implements Observer {
         }
         else {
             System.out.println("select assistant: forbidden move");
+            sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
     }
 
@@ -434,13 +479,16 @@ public class Controller implements Observer {
             Character usedCharacter = game.getCharacterByIndex(characterIndex);
             if(usedCharacter==null){
                 System.out.println("use character: wrong parameters");
+                sendError(game.getCurrPlayer().getId(), "Wrong parameters");
                 return;
             }
 
+            //calculate true character cost
             int characterCost = usedCharacter.getInitialCost();
             if (usedCharacter.isUsed()) { //increment character cost if already used
                 characterCost++;
             }
+
 
             if (game.getCurrPlayer().getMoney() >= characterCost) { //check if the player has enough money to pay the character
                 boolean result = usedCharacter.applyEffect(parameters);
@@ -448,6 +496,7 @@ public class Controller implements Observer {
 
                 if(!result) {
                     System.out.println("use character: error in character use");
+                    sendError(game.getCurrPlayer().getId(), "Error in character use, no money was taken");
                     return;
                 }
                 usedCharacter.setUsed();
@@ -456,10 +505,12 @@ public class Controller implements Observer {
             }
             else {
                 System.out.println("use character: Not enough money");
+                sendError(game.getCurrPlayer().getId(), "Not enough money");
             }
         }
         else {
             System.out.println("forbidden move");
+            sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
     }
 
@@ -472,5 +523,26 @@ public class Controller implements Observer {
             return true;
         }
         return false;
+    }
+
+    private void sendError(int playerId, String message){
+        if(server != null) {
+            RemoteView remoteView = server.getRemoteViewByPlayerId(playerId);
+            remoteView.sendToClient(new StringMessage(MessageType.ERROR_REPLY, SERVERID, false, message));
+        }
+    }
+
+    private void sendOk(int playerId){
+        if(server != null) {
+            RemoteView remoteView = server.getRemoteViewByPlayerId(playerId);
+            remoteView.sendToClient(new GenericMessage(MessageType.OK_REPLY, SERVERID,false));
+        }
+    }
+
+    private void sendAssistantsToClient(int playerId, List<ReducedAssistant> assistantList){
+        if(server != null) {
+            RemoteView remoteView = server.getRemoteViewByPlayerId(playerId);
+            remoteView.sendToClient(new AssistantsSendMessage( SERVERID,assistantList));
+        }
     }
 }

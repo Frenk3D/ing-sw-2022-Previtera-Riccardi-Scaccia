@@ -1,12 +1,16 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.network.message.MessageType;
+import it.polimi.ingsw.network.message.StringMessage;
 import it.polimi.ingsw.view.RemoteView;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+
+import static it.polimi.ingsw.network.server.Server.SERVERID;
 
 public class SocketClientManager implements Runnable{
     private Socket socket;
@@ -62,13 +66,16 @@ public class SocketClientManager implements Runnable{
 
 
     private void manageReception(Message message){
-        if (message != null) {
+        if (message != null && server.checkIdSocket(message,this)) {
             if(message.isInitMessage()) {
                 server.onInitMessageReceived(message, this);
             }
             else if(!message.isInitMessage() && remoteView!=null){
                 remoteView.sendToController(message);
             }
+        }
+        else{
+            sendMessage(new StringMessage(MessageType.ERROR_REPLY, SERVERID, true, "The player id is not valid"));
         }
     }
 
@@ -94,16 +101,15 @@ public class SocketClientManager implements Runnable{
             try {
                 if (!socket.isClosed()) {
                     socket.close();
-                    System.out.println("Client disconnected");
+                    System.out.println("Socket: Client disconnected");
                 }
             } catch (IOException e) {
                 System.out.println("Error disconnect");
                 e.printStackTrace();
             }
             connected = false;
-            Thread.currentThread().interrupt();
-
             server.onDisconnect(this);
+            Thread.currentThread().interrupt();
         }
     }
 

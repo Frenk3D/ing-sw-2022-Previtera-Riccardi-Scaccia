@@ -59,8 +59,11 @@ public class TestClient {
                                 }
                                 break;
                             case PLAYER_JOIN:
-                                StringMessage joinMessage = (StringMessage)inputMessage;
-                                System.out.println("Si è aggiunto "+joinMessage.getString());
+                                PlayerJoinMessage joinMessage = (PlayerJoinMessage) inputMessage;
+                                System.out.println("Giocatori nella lobby:");
+                                for (String name : joinMessage.getPlayersList()){
+                                    System.out.println(name);
+                                }
                                 break;
                             case AVAILABLE_TEAM_SEND:
                                 break;
@@ -85,6 +88,10 @@ public class TestClient {
                                     System.out.println(i);
                                 }
                                 break;
+                            case ERROR_REPLY:
+                                StringMessage errorMessage = (StringMessage) inputMessage;
+                                System.out.println("Errore server: "+ errorMessage.getString());
+                                break;
 
                         }
 
@@ -108,7 +115,7 @@ public class TestClient {
                     while (clientId == 0) {
                         System.out.print("Enter name: ");
                         String input = scanIn.nextLine();
-                        StringMessage loginMessage = new StringMessage(MessageType.LOGIN_REQUEST, 9999, input);
+                        StringMessage loginMessage = new StringMessage(MessageType.LOGIN_REQUEST, 1111, true,input);
                         output.writeObject(loginMessage);
                         output.flush();
                         output.reset();
@@ -123,10 +130,25 @@ public class TestClient {
                                 output.flush();
                                 output.reset();
                                 break;
+
+                            case "newlobby":
+                                System.out.print("Enter lobby name: ");
+                                String newLobbyName = scanIn.nextLine();
+                                System.out.print("Enter lobby players: ");
+                                int lobbynum = scanIn.nextInt();
+                                System.out.print("Enter lobby mode: ");
+                                boolean mode = scanIn.nextBoolean();
+                                Lobby newLobby = new Lobby(lobbynum,0,mode,newLobbyName);
+                                NewLobbyMessage newLobbyMessage = new NewLobbyMessage(clientId, newLobby);
+                                output.writeObject(newLobbyMessage);
+                                output.flush();
+                                output.reset();
+                                break;
+
                             case "enterlobby":
                                 System.out.print("Enter lobby name: ");
                                 String lobbyName = scanIn.nextLine();
-                                StringMessage enterLobbyRequest = new StringMessage(MessageType.CHOOSE_LOBBY, clientId, lobbyName);
+                                StringMessage enterLobbyRequest = new StringMessage(MessageType.CHOOSE_LOBBY, clientId, true, lobbyName);
                                 output.writeObject(enterLobbyRequest);
                                 output.flush();
                                 output.reset();
@@ -166,7 +188,7 @@ public class TestClient {
 
     public void run() throws IOException {
         Socket socket = new Socket();
-        socket.connect(new InetSocketAddress(ip,port),20000);
+        socket.connect(new InetSocketAddress(ip,port),0);
         System.out.println("Connection established");
 
         ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
