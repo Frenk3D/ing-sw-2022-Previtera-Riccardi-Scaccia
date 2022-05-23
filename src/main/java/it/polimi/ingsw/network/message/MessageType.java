@@ -2,7 +2,7 @@ package it.polimi.ingsw.network.message;
 
 public enum MessageType {
     //-----------------INIT MESSAGES--------------------------
-    SERVER_INFO, //a message to communicate the server information, ServerInfoMessage
+    //SERVER_INFO, //a message to communicate the server information, ServerInfoMessage
     LOGIN_REQUEST, LOGIN_REPLY, //string message, string message
     NEW_LOBBY_REQUEST, //new lobby message, string message || ---NEW GAME---
     LOBBY_REQUEST, AVAILABLE_LOBBIES, //generic message, lobby message || request and get available lobby ---JOIN GAME---
