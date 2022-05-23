@@ -26,13 +26,14 @@ public class Gui extends View {
     private static final String STR_ERROR = "ERROR";
     private static final String MENU_SCENE_FXML = "menu_scene.fxml";
 
+
+
     @Override
-    public void onLoginRequest() {
+    public void onAskServerInfo() {
 
     }
-
     @Override
-    public void onServerInfoRequest() {
+    public void onSendLoginRequest() {
 
     }
 

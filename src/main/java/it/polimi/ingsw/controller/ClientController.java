@@ -183,7 +183,7 @@ public class ClientController implements ViewObserver {
 
     //from now there are the override of the ViewObserver interface
     @Override
-    public void onUpdateServerInfo(Map<String, String> serverInfo)  {
+    public void onAskServerInfo(Map<String, String> serverInfo)  {
         try {
             client = new ClientSocket(serverInfo.get("address"), Integer.parseInt(serverInfo.get("port")), this);
             //client.addObserver(this);
@@ -195,7 +195,7 @@ public class ClientController implements ViewObserver {
         }
     }
     @Override
-    public void onLoginRequest(String input){
+    public void onSendLoginRequest(String input){
         StringMessage loginRequest = new StringMessage(MessageType.LOGIN_REQUEST, client.getClientId(), input);
         client.sendMessage(loginRequest);
     }

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-//controller is the view observer and the view is the view observable
+//controller is the view observer and the view is the view observable (it has same prototypes of ModelObserver but has also parameters)
 /**
  * Custom observer interface for views. It supports different types of notification. From view to clientController and from clientModel to View (CLI OR GUI)
  */
@@ -18,14 +18,14 @@ public interface ViewObserver {
      *
      * @param serverInfo a map of server address and server port.
      */
-    void onUpdateServerInfo(Map<String, String> serverInfo) ;
+    void onAskServerInfo(Map<String, String> serverInfo) ;
 
     /**
      * Sends a message to the server with the updated nickname.
      *
      * @param nickname the nickname to be sent.
      */
-    void onLoginRequest(String nickname);
+    void onSendLoginRequest(String nickname);
 
 //    /**
 //     * Sends a message to the server with the player number chosen by the user.

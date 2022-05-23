@@ -25,10 +25,10 @@ public abstract class View extends ViewObservable implements ModelObserver {
      * Asks the user to write a Nickname.
      */
     @Override
-    public abstract void onLoginRequest ();
+    public abstract void onSendLoginRequest ();
 
     @Override
-    public abstract void onServerInfoRequest();
+    public abstract void onAskServerInfo();
 
 //    public abstract void askNewOrJoinGame();
 //

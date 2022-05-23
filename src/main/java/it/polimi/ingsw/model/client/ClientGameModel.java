@@ -103,12 +103,12 @@ public class ClientGameModel extends ModelObservable {
 
     //NOW THERE ARE METHODS THAT CONTROLLER CALLS WHEN HE RECEIVE A MESSAGE FROM THE SOCKET
     public void sendLoginRequest(){
-        notifyObserver(obs -> obs.onLoginRequest());
+        notifyObserver(obs -> obs.onSendLoginRequest());
 
     }
 
     public void sendServerInfoRequest()   {
-        notifyObserver(obs -> obs.onServerInfoRequest());
+        notifyObserver(obs -> obs.onAskServerInfo());
     }
 
 //    public void sendNewLobbyRequest(){

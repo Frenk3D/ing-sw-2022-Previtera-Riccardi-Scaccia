@@ -54,7 +54,7 @@ public class Cli extends View {
         out.println("Welcome to magic world of Eriantys!");
 
 
-        onServerInfoRequest();
+        onAskServerInfo();
 
     }
 
@@ -106,7 +106,7 @@ public class Cli extends View {
      * @throws ExecutionException if the input stream thread is interrupted.
      */
     @Override
-    public void onServerInfoRequest(){
+    public void onAskServerInfo(){
         try {
             //serverInfo is a map with ip and port, they are String, but we parse the port into an Integer
             Map<String, String> serverInfo = new HashMap<>();
@@ -152,7 +152,7 @@ public class Cli extends View {
                 }
             } while (!validInput);
 
-            notifyObserver(obs -> obs.onUpdateServerInfo(serverInfo));
+            notifyObserver(obs -> obs.onAskServerInfo(serverInfo));
             // ServerInfoMessage serverInfoMessage = new ServerInfoMessage(MessageType.SERVER_INFO,8888 ,serverInfo);
             // notifyObserver(serverInfoMessage);
 
@@ -162,12 +162,12 @@ public class Cli extends View {
         }
     }
     @Override
-    public void onLoginRequest() {
+    public void onSendLoginRequest() {
         Scanner scanIn = new Scanner(System.in);
         out.print("Enter name: ");
         String input = scanIn.nextLine();
         //StringMessage loginRequest = new StringMessage(MessageType.LOGIN_REQUEST, 8888, input);
-        notifyObserver(obs -> obs.onLoginRequest(input));
+        notifyObserver(obs -> obs.onSendLoginRequest(input));
 
     }
 

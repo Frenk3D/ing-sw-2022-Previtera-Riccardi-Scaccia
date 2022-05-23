@@ -1,6 +1,7 @@
 package it.polimi.ingsw.observer;
 
 //view (CLI OR GUI) is the model observer and the model is the model observable
+/*(it has same prototypes of ViewObserver but not parameters)*/
 
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -10,12 +11,12 @@ import java.util.concurrent.ExecutionException;
  */
 public interface ModelObserver {
 
-    void onServerInfoRequest() ;
+    void onAskServerInfo() ;
     /**
      * Notify to the view the login request and asks for a nickname
      *
      */
-    void onLoginRequest();
+    void onSendLoginRequest();
 
 //    /**
 //     * Notify the observer of the NewLobbyRequest

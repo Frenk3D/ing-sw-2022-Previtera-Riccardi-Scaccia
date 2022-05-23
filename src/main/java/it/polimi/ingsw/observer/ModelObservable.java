@@ -3,12 +3,12 @@ package it.polimi.ingsw.observer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-//model implements it and view is the ModelObserver
+//model implements it and view is the ModelObserver (it has same prototypes of ViewObservable)
 
 /**
  * Custom observable class that can be observed by implementing the {@link ModelObserver} interface and registering as listener.
  */
-public abstract class ModelObservable {
+public class ModelObservable {
 
     protected final List<ModelObserver> observers = new ArrayList<>();
 
