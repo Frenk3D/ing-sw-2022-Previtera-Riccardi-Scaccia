@@ -3,13 +3,29 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.enumerations.*;
+import it.polimi.ingsw.network.client.ClientSocket;
 import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.network.server.Lobby;
+import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.observer.ViewObservable;
+import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.gui.scene.*;
 
-//import javafx.application.Platform;
+
+/*For javaFX? use SceneBuilder?
+import javafx.application.*;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import it.polimi.ingsw.view.gui.scene.*;
+*/
+
+/* For java Swing? implements listener ? and extends...
+import javax.swing.*;
 
 import java.util.List;
 import java.util.Map;
@@ -18,147 +34,165 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * This class implements all methods of View. Is used for the Graphic User Interface.
  */
-public class Gui extends ViewObservable implements View {
+public class Gui extends View {
 
     private static final String STR_ERROR = "ERROR";
     private static final String MENU_SCENE_FXML = "menu_scene.fxml";
 
+
+
     @Override
-    public void askPlayerInfo() {
+    public void onAskServerInfo() {
+
+    }
+    @Override
+    public void onSendLoginRequest() {
 
     }
 
-    @Override
-    public void askServerConfig() {
 
-    }
+    //    @Override
+//    public void askPlayerInfo() {
+//
+//    }
+//
+//    @Override
+//    public void askServerConfig() {
+//
+//    }
+//
+//    @Override
+//    public void askNewOrJoinGame() {
+//
+//    }
+//
+//    @Override
+//    public void showAvailableLobbies(List<Lobby> lobbiesList) {
+//
+//    }
+//
+//    @Override
+//    public void askRequestedLobby(List<Lobby> lobbiesList) {
+//
+//    }
+//
+//    @Override
+//    public void askTeam(List<Player> playersList) {
+//
+//    }
+//
+//    @Override
+//    public void showAvailableTeams(Map<String, Integer> players) {
+//
+//    }
+//
+//    @Override
+//    public void askTowerColor() {
+//
+//    }
+//
+//    @Override
+//    public void showAvailableTowerColors(List<TowerColor> availableTowerColors) {
+//
+//    }
+//
+//    @Override
+//    public void askWizard() {
+//
+//    }
+//
+//    @Override
+//    public void showAvailableWizards(List<Wizard> availableWizards) {
+//
+//    }
+//
+//    @Override
+//    public void showTable(List<Island> islandsList, List<Cloud> cloudsList, int motherNaturePos) {
+//
+//    }
+//
+//    @Override
+//    public void showThrownAssistant(Assistant thrownAssistant, int playerId) {
+//
+//    }
+//
+//    @Override
+//    public void showDashboard(Dashboard dashboard, int playerId) {
+//
+//    }
+//
+//    @Override
+//    public void showCharacterTable(List<Character> charactersList, AtomicInteger tableMoney, Map<Player, AtomicInteger> numOfMoneyMap) {
+//
+//    }
+//
+//    @Override
+//    public void showAssistantsList(List<Assistant> assistantsList) {
+//
+//    }
+//
+//    @Override
+//    public void showThrownAssistant(Assistant selectedAssistant) {
+//
+//    }
+//
+//    @Override
+//    public void askStudentToMoveIsland(List<Island> entranceStudentsList, List<Island> islandsList) {
+//
+//    }
+//
+//    @Override
+//    public void askStudentToMoveDashboard(List<Student> entranceStudentsList) {
+//
+//    }
+//
+//    @Override
+//    public void askMotherNatureMove(List<Island> islandsList) {
+//
+//    }
+//
+//    @Override
+//    public void askCloudExtraction(List<Cloud> cloudsList) {
+//
+//    }
+//
+//    @Override
+//    public void askSelectedAssistant(List<Assistant> assistantsList) {
+//
+//    }
+//
+//    @Override
+//    public void askUsedCharacter(List<Character> charactersList) {
+//
+//    }
+//
+//    @Override
+//    public void showDisconnectionMessage(String text) {
+//
+//    }
+//
+//    @Override
+//    public void showErrorAndExit(String error) {
+//
+//    }
+//
+//    @Override
+//    public void showMatchInfo(List<Player> playersList, List<Island> islandsList, List<Cloud> cloudsList, List<Assistant> assistantsList, int motherNaturePos, AtomicInteger tableMoney, List<Character> charactersList, boolean expertMode) {
+//
+//    }
+//
+//    @Override
+//    public void showWinMessage(String winner) {
+//
+//    }
+//
+//    @Override
+//    public void addObserver(Observer obs) {
+//        super.addObserver(obs);
+//    }
 
-    @Override
-    public void askNewOrJoinGame() {
 
-    }
-
-    @Override
-    public void showAvailableLobbies(List<Lobby> lobbiesList) {
-
-    }
-
-    @Override
-    public void askRequestedLobby(List<Lobby> lobbiesList) {
-
-    }
-
-    @Override
-    public void askTeam(List<Player> playersList) {
-
-    }
-
-    @Override
-    public void showAvailableTeams(Map<String, Integer> players) {
-
-    }
-
-    @Override
-    public void askTowerColor() {
-
-    }
-
-    @Override
-    public void showAvailableTowerColors(List<TowerColor> availableTowerColors) {
-
-    }
-
-    @Override
-    public void askWizard() {
-
-    }
-
-    @Override
-    public void showAvailableWizards(List<Wizard> availableWizards) {
-
-    }
-
-    @Override
-    public void showTable(List<Island> islandsList, List<Cloud> cloudsList, int motherNaturePos) {
-
-    }
-
-    @Override
-    public void showThrownAssistant(Assistant thrownAssistant, int playerId) {
-
-    }
-
-    @Override
-    public void showDashboard(Dashboard dashboard, int playerId) {
-
-    }
-
-    @Override
-    public void showCharacterTable(List<Character> charactersList, AtomicInteger tableMoney, Map<Player, AtomicInteger> numOfMoneyMap) {
-
-    }
-
-    @Override
-    public void showAssistantsList(List<Assistant> assistantsList) {
-
-    }
-
-    @Override
-    public void showThrownAssistant(Assistant selectedAssistant) {
-
-    }
-
-    @Override
-    public void askStudentToMoveIsland(List<Island> entranceStudentsList, List<Island> islandsList) {
-
-    }
-
-    @Override
-    public void askStudentToMoveDashboard(List<Student> entranceStudentsList) {
-
-    }
-
-    @Override
-    public void askMotherNatureMove(List<Island> islandsList) {
-
-    }
-
-    @Override
-    public void askCloudExtraction(List<Cloud> cloudsList) {
-
-    }
-
-    @Override
-    public void askSelectedAssistant(List<Assistant> assistantsList) {
-
-    }
-
-    @Override
-    public void askUsedCharacter(List<Character> charactersList) {
-
-    }
-
-    @Override
-    public void showDisconnectionMessage(String text) {
-
-    }
-
-    @Override
-    public void showErrorAndExit(String error) {
-
-    }
-
-    @Override
-    public void showMatchInfo(List<Player> playersList, List<Island> islandsList, List<Cloud> cloudsList, List<Assistant> assistantsList, int motherNaturePos, AtomicInteger tableMoney, List<Character> charactersList, boolean expertMode) {
-
-    }
-
-    @Override
-    public void showWinMessage(String winner) {
-
-    }
-
-    /* DO DELETE
+/* DO DELETE
    @Override
     public void askNickname() {
         Platform.runLater(() -> SceneController.changeRootPane(observers, "login_scene.fxml"));
@@ -327,6 +361,25 @@ public class Gui extends ViewObservable implements View {
             SceneController.showWin(winner);
             SceneController.changeRootPane(observers, MENU_SCENE_FXML);
         });
+    }
+     @Override
+    public void onUpdateServerInfo(Map<String, String> serverInfo) {
+
+    }
+
+    @Override
+    public void onUpdateNickname(String nickname) {
+
+    }
+
+    @Override
+    public void onUpdatePlayersNumber(int playersNumber) {
+
+    }
+
+    @Override
+    public void onDisconnection() {
+
     }
 
 

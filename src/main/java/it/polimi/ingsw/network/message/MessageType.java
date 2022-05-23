@@ -2,14 +2,16 @@ package it.polimi.ingsw.network.message;
 
 public enum MessageType {
     //-----------------INIT MESSAGES--------------------------
+    SERVER_INFO, //a message to communicate the server information, ServerInfoMessage
     LOGIN_REQUEST, LOGIN_REPLY, //string message, string message
     NEW_LOBBY_REQUEST, //new lobby message, string message || ---NEW GAME---
     LOBBY_REQUEST, AVAILABLE_LOBBIES, //generic message, lobby message || request and get available lobby ---JOIN GAME---
     CHOOSE_LOBBY, PLAYER_JOIN, //string message, string message
     DISCONNECTION, //generic message
 
-    //----------------INGAME MESSAGES--------------------------
+    //----------------IN-GAME MESSAGES--------------------------
     CHOOSE_TEAM, AVAILABLE_TEAM_SEND, // syncInitMessage
+    CHOSEN, //StringMessage, it is for who is already chosen, and he mustn't choose a teamPlayer, neither TowerColor
     CHOOSE_TOWER_COLOR, AVAILABLE_TOWER_SEND, // syncInitMessage
     CHOOSE_WIZARD, AVAILABLE_WIZARD_SEND, // syncInitMessage
 

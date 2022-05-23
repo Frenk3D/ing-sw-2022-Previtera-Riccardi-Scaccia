@@ -1,13 +1,16 @@
 package it.polimi.ingsw;
 
 
-/* import it.polimi.ingsw.client.cli.CLI;
-import it.polimi.ingsw.client.gui.GUI;
-import javafx.application.Application; */
+import it.polimi.ingsw.view.cli.Cli;
+import it.polimi.ingsw.view.gui.Gui;
+//import javafx.application.Application;
 
+import it.polimi.ingsw.controller.ClientController;
 import it.polimi.ingsw.network.client.ClientSocket;
+import it.polimi.ingsw.view.cli.Cli;
 
 import java.io.IOException;
+import java.util.logging.Level;
 
 /**
  * The class used to start the game client-side.
@@ -20,13 +23,41 @@ public class ClientApp {
     private static final String HELP_ARGUMENT = "-help";
 
     public static void main(String[] args){
-
+//THIS IS ONLY FOR THE TESTCLIENT
         TestClient client = new TestClient("127.0.0.1", 3333);
         try{
             client.run();
         }catch (IOException e){
             System.err.println(e.getMessage());
         }
+
+//        //THIS IS THE REAL CLIENTAPP
+//        boolean cliParam = false; // default value
+//
+//        for (String arg : args) {
+//            if (arg.equals("--cli") || arg.equals("-c")) {
+//                cliParam = true;
+//                break;
+//            }
+//        }
+//
+//        if (cliParam) {
+//            Cli view = new Cli();
+//            ClientController clientController = new ClientController();
+//            clientController.getClientGameModel.addObserver(view);
+//            view.addObserver(clientController);
+//            view.init();
+//        } else {
+//           // Application.launch(JavaFXGui.class);
+//        }
+
+
+
+
+
+
+
+
 
 
             /*ClientSocket clientSocket = new ClientSocket("127.0.0.1", 12345);

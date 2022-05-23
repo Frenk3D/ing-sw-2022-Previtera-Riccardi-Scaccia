@@ -1,5 +1,5 @@
 package it.polimi.ingsw.observer;
-//we do not use the basic observers etc... because they are deprecated
+//we do not use the basic observers etc... because they are deprecated, we use it for the Server
 import it.polimi.ingsw.network.message.Message;
 
 import java.util.ArrayList;
