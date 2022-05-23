@@ -10,9 +10,22 @@ import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.gui.scene.*;
 
-//import javafx.application.Platform;
+
+/*For javaFX? use SceneBuilder?
+import javafx.application.*;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import it.polimi.ingsw.view.gui.scene.*;
+*/
+
+/* For java Swing? implements listener ? and extends...
+import javax.swing.*;
 
 import java.util.List;
 import java.util.Map;
