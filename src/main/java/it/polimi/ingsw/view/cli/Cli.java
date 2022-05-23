@@ -19,6 +19,10 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
+//for CLI representation
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 
 /**
  * This class offers a User Interface to the user via terminal. It is an implementation of the {@link View}.
