@@ -67,7 +67,7 @@ public class ClientSocket  {
                     message = (Message) inputStm.readObject();
                     System.out.println("Received: " + message);
                 } catch (IOException | ClassNotFoundException e) {
-                    message = new StringMessage(MessageType.ERROR_REPLY, clientId, "Connection lost with the server" );
+                    message = new StringMessage(MessageType.ERROR_REPLY, clientId, true,"Connection lost with the server" );
                     disconnect();
                     readExecutionQueue.shutdownNow();
                 }
@@ -83,7 +83,7 @@ public class ClientSocket  {
             outputStm.reset();
         } catch (IOException e) {
             disconnect();
-            clientController.onMessageReceived(new StringMessage(MessageType.ERROR_REPLY,clientId, "Could not send message."));
+            clientController.onMessageReceived(new StringMessage(MessageType.ERROR_REPLY,clientId, true,"Could not send message."));
         }
     }
 
@@ -94,7 +94,7 @@ public class ClientSocket  {
                 socket.close();
             }
         } catch (IOException e) {
-            clientController.onMessageReceived(new StringMessage(MessageType.ERROR_REPLY,clientId, "Could not disconnect."));
+            clientController.onMessageReceived(new StringMessage(MessageType.ERROR_REPLY,clientId, true,"Could not disconnect."));
         }
     }
 

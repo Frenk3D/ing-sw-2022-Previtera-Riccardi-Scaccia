@@ -196,7 +196,7 @@ public class ClientController implements ViewObserver {
     }
     @Override
     public void onSendLoginRequest(String input){
-        StringMessage loginRequest = new StringMessage(MessageType.LOGIN_REQUEST, client.getClientId(), input);
+        StringMessage loginRequest = new StringMessage(MessageType.LOGIN_REQUEST, client.getClientId(), true,input);
         client.sendMessage(loginRequest);
     }
 
