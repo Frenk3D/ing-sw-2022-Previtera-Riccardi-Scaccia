@@ -32,9 +32,12 @@ public class Cli extends View {
     private final PrintStream out;
     private Thread inputThread;
 
+    private static final String STR_INPUT_FAILED = "User input failed.";
+
     private static final String STR_ROW = "Row: ";
     private static final String STR_COLUMN = "Column: ";
     private static final String STR_POSITION = "Position ";
+
 
     /**
      * Default constructor.
@@ -167,26 +170,40 @@ public class Cli extends View {
     }
     @Override
     public void onSendLoginRequest() {
-        Scanner scanIn = new Scanner(System.in);
         out.print("Enter name: ");
-        String input = scanIn.nextLine();
+        try {
+            String scanIn = readLine();
+            notifyObserver(obs -> obs.onSendLoginRequest(scanIn));
+        } catch (ExecutionException e) {
+            out.println(STR_INPUT_FAILED);
+        }
         //StringMessage loginRequest = new StringMessage(MessageType.LOGIN_REQUEST, 8888, input);
-        notifyObserver(obs -> obs.onSendLoginRequest(input));
 
     }
 
     @Override
     public void onAskCreateOrJoin(){
-        Scanner scanIn = new Scanner(System.in);
+        //Scanner scanIn = new Scanner(System.in);
         out.print("Type 'c' to create a new lobby and join it,or type 'j' to join an existing lobby");
-        String input = scanIn.nextLine();
-
-        notifyObserver(obs -> obs.onAskCreateOrJoin(input));
-
+        String input = null;
+        try {
+            input = readLine();
+        } catch (ExecutionException e) {
+            out.println(STR_INPUT_FAILED);
+        }
+        if(input.equals("c")){
+            sendNewLobbyRequest();      //or I can write everything here
+        }
+        else if(input.equals("j")){
+            sendLobbiesRequest();
+        }
+        else{
+            onShow("Incorrect input,try again!");
+            onAskCreateOrJoin();        }
     }
 
-    @Override
-    public void onSendNewLobbyRequest(){
+
+    public void sendNewLobbyRequest(){
         Scanner scanIn = new Scanner(System.in);
         out.print("Enter Lobby name: ");
         String nameInput = scanIn.nextLine();
@@ -199,8 +216,8 @@ public class Cli extends View {
         notifyObserver(obs -> obs.onSendNewLobbyRequest(nameInput,numOfPlayers,expertMode));
     }
 
-    @Override
-    public void  onSendLobbiesRequest(){
+
+    public void  sendLobbiesRequest(){
         notifyObserver(obs -> obs.onSendLobbiesRequest());
     }
 //    @Override

@@ -114,13 +114,13 @@ public class ClientGameModel extends ModelObservable {
     public void askCreateOrJoin(){
         notifyObserver(obs -> obs.onAskCreateOrJoin());
     }
-   public void sendNewLobbyRequest(){
+   /*public void sendNewLobbyRequest(){
         notifyObserver(obs -> obs.onSendNewLobbyRequest());
 
     }
     public void sendLobbiesRequest(){
         notifyObserver(obs -> obs.onSendLobbiesRequest());
-    }
+    }*/
 
 //    public void sendPlayerJoin(){
 //        notifyObserver(new StringMessage(MessageType.PLAYER_JOIN,SERVERID,playersList.get(playersList.size()-1).getName()));

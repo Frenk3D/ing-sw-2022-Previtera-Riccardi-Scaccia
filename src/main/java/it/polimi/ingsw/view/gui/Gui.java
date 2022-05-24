@@ -55,13 +55,13 @@ public class Gui extends View {
 
     }
 
-    @Override
-    public void onSendNewLobbyRequest(){
+
+    public void sendNewLobbyRequest(){
 
     }
 
-    @Override
-    public void onSendLobbiesRequest(){
+
+    public void sendLobbiesRequest(){
 
     }
 

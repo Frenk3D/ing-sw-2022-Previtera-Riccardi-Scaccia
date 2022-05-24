@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-//controller is the view observer and the view is the view observable (it has same prototypes of ModelObserver but has also parameters)
+//controller is the view observer and the view is the view observable
+/*(it has fewer prototypes of ModelObserver but with more parameters to say to the controller witch message send)*/
+
 /**
  * Custom observer interface for views. It supports different types of notification. From view to clientController and from clientModel to View (CLI OR GUI)
  */
@@ -27,7 +29,7 @@ public interface ViewObserver {
      */
     void onSendLoginRequest(String nickname);
 
-    void onAskCreateOrJoin(String input);
+//    void onAskCreateOrJoin(String input);
 
     void onSendNewLobbyRequest(String input,int numOfPlayers,boolean expertMode);
 

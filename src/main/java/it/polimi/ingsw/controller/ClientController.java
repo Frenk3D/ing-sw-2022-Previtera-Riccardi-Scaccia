@@ -203,7 +203,7 @@ public class ClientController implements ViewObserver {
         taskQueue.execute(() -> client.sendMessage(loginRequest));
     }
 
-    @Override
+    /*@Override
     public void onAskCreateOrJoin(String input){ //also in view we could do this check...
         if(input.equals("c")){
             taskQueue.execute(() -> clientGameModel.sendNewLobbyRequest());
@@ -215,7 +215,7 @@ public class ClientController implements ViewObserver {
             taskQueue.execute(() -> clientGameModel.show("Incorrect input,try again!"));
             taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
         }
-    }
+    }*/
 
     @Override
     public void onSendNewLobbyRequest(String input,int numOfPlayers,boolean expertMode){
