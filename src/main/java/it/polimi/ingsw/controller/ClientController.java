@@ -80,7 +80,8 @@ public class ClientController implements ViewObserver {
             case DISCONNECTION:  //when someone else disconnected
                // StringMessage dm = (StringMessage) message;
                // client.sendMessage(dm);
-                System.out.println("A client disconnected");
+                taskQueue.execute(() -> clientGameModel.show("A client disconnected"));
+                //System.out.println("A client disconnected");
                 taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
                 break;
 //            case ERROR_REPLY:
@@ -199,20 +200,20 @@ public class ClientController implements ViewObserver {
     @Override
     public void onSendLoginRequest(String input){
         StringMessage loginRequest = new StringMessage(MessageType.LOGIN_REQUEST, client.getClientId(), true,input);
-        client.sendMessage(loginRequest);
+        taskQueue.execute(() -> client.sendMessage(loginRequest));
     }
 
     @Override
-    public void onAskCreateOrJoin(String input){
+    public void onAskCreateOrJoin(String input){ //also in view we could do this check...
         if(input.equals("c")){
-            clientGameModel.sendNewLobbyRequest();
+            taskQueue.execute(() -> clientGameModel.sendNewLobbyRequest());
         }
         else if(input.equals("j")){
-            clientGameModel.sendLobbiesRequest();
+            taskQueue.execute(() -> clientGameModel.sendLobbiesRequest());
         }
         else{
-            System.out.println("Incorrect input,try again!");
-            clientGameModel.askCreateOrJoin();
+            taskQueue.execute(() -> clientGameModel.show("Incorrect input,try again!"));
+            taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
         }
     }
 
@@ -361,17 +362,19 @@ public class ClientController implements ViewObserver {
 //        client.sendMessage(new MatchInfoMessage(this.nickname, MessageType.PICK_FIRST_PLAYER, null, null, null, nickname));
 //    }
 //
-   /**
-     * Disconnects the client from the network.
-     */
-    @Override
-    public void onAskDisconnection() {
-        client.disconnect();
-    }
 
 
-    public void onSocketDisconnect(){
-        //At this moment the is offline, we must print something on the view and close the program
+//   /**
+//     * Disconnects the client from the network.
+//     */
+//    @Override
+//    public void onAskDisconnection() {
+//        client.disconnect();
+//     }
+
+
+    public void onSocketDisconnect(){   //this happens only when there is a mine critical problem
+        /*taskQueue.execute(() -> )*/ clientGameModel.show((Object) "Disconnecting...");
     }
 
     public ClientGameModel getClientGameModel() {

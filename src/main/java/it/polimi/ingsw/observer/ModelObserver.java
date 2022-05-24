@@ -41,7 +41,8 @@ public interface ModelObserver {
 //    /**
 //     * Handles a disconnection wanted by the user.
 //     */
-//    void onDisconnection();
+//    void onAskDisconnection();
 //
 
+    void onShow(Object toShow);
 }

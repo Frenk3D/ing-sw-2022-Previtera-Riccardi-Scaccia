@@ -33,7 +33,6 @@ public interface ViewObserver {
 
     void onSendLobbiesRequest();
 
-    void onAskDisconnection();
 
 //    /**
 //     * Sends a message to the server with the player number chosen by the user.
@@ -45,6 +44,6 @@ public interface ViewObserver {
 //    /**
 //     * Handles a disconnection wanted by the user.
 //     */
-//    void onDisconnection();
+//    void onAskDisconnection(); from the view we can choose to close the game ?
 
 }

@@ -84,7 +84,7 @@ public class ClientSocket  {
         }
     }
 
-    //it is when THIS client disconnect, or when he receives a message of disconnection
+    //it is when THIS client disconnect, or there are others critical problems...
     public void disconnect() {
         readExecutionQueue.shutdownNow();
         try {

@@ -180,6 +180,7 @@ public class Cli extends View {
         Scanner scanIn = new Scanner(System.in);
         out.print("Type 'c' to create a new lobby and join it,or type 'j' to join an existing lobby");
         String input = scanIn.nextLine();
+
         notifyObserver(obs -> obs.onAskCreateOrJoin(input));
 
     }
@@ -323,4 +324,13 @@ public class Cli extends View {
 //    }
 
 
+    /**
+     * @param toShow
+     */
+    @Override
+    public void onShow(Object toShow) { //we can print in different way in base of the type
+    if (toShow instanceof String){   //not typeOf...
+        System.out.println(toShow);
+        }
+    }
 }

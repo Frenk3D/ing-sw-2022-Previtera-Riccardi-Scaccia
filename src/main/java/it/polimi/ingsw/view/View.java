@@ -108,4 +108,10 @@ public abstract class View extends ViewObservable implements ModelObserver {
 //    public abstract void showWinMessage(String winner);
 //
 
+
+    /**
+     * @param toShow
+     */
+    @Override
+    public abstract void onShow(Object toShow) ;  //generic to show everything in base to the type...
 }

@@ -178,6 +178,9 @@ public class ClientGameModel extends ModelObservable {
 //        notifyObserver(new CharacterTableMessage(SERVERID,tableMoney.get(),getReducedCharacterList(),getNumOfMoneyMap()));
 //    }
 
+    public void show(Object toShow){  //it is a generic function to print or show some info on view, Object can be everything also null
+        notifyObserver(obs -> obs.onShow(toShow));
+    }
 }
 
 

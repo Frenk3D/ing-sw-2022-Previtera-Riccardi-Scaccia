@@ -400,4 +400,11 @@ public class Gui extends View {
     }
 */
 
+    /**
+     * @param toShow
+     */
+    @Override
+    public void onShow(Object toShow) {
+
+    }
 }
