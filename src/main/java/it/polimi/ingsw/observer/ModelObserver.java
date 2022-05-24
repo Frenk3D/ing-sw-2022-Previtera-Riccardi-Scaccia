@@ -18,6 +18,13 @@ public interface ModelObserver {
      */
     void onSendLoginRequest();
 
+    void onAskCreateOrJoin();
+
+    void onSendNewLobbyRequest();
+
+    void onSendLobbiesRequest();
+
+
 //    /**
 //     * Notify the observer of the NewLobbyRequest
 //     *

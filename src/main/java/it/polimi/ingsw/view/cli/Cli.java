@@ -175,11 +175,33 @@ public class Cli extends View {
 
     }
 
-//    @Override
-//    public void askNewOrJoinGame() {
-//
-//    }
-//
+    @Override
+    public void onAskCreateOrJoin(){
+        Scanner scanIn = new Scanner(System.in);
+        out.print("Type 'c' to create a new lobby and join it,or type 'j' to join an existing lobby");
+        String input = scanIn.nextLine();
+        notifyObserver(obs -> obs.onAskCreateOrJoin(input));
+
+    }
+
+    @Override
+    public void onSendNewLobbyRequest(){
+        Scanner scanIn = new Scanner(System.in);
+        out.print("Enter Lobby name: ");
+        String nameInput = scanIn.nextLine();
+        out.print("Enter Number of players allowed: ");
+        String numberInput = scanIn.nextLine();
+        int numOfPlayers = Integer.parseInt(numberInput);
+        out.print("Enter 'true' for expert mode,or type anything else for normal mode");
+        String trueInput = scanIn.nextLine();
+        boolean expertMode = Boolean.parseBoolean(trueInput);
+        notifyObserver(obs -> obs.onSendNewLobbyRequest(nameInput,numOfPlayers,expertMode));
+    }
+
+    @Override
+    public void  onSendLobbiesRequest(){
+        notifyObserver(obs -> obs.onSendLobbiesRequest());
+    }
 //    @Override
 //    public void showAvailableLobbies(List<Lobby> lobbiesList) {
 //

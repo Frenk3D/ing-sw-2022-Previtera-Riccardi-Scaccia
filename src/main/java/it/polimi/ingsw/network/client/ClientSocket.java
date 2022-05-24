@@ -87,6 +87,7 @@ public class ClientSocket  {
         }
     }
 
+    //it is when THIS client disconnect, or when he receives a message of disconnection
     public void disconnect() {
         try {
             if (!socket.isClosed()) {
@@ -94,10 +95,13 @@ public class ClientSocket  {
                 socket.close();
             }
         } catch (IOException e) {
-            clientController.onMessageReceived(new StringMessage(MessageType.ERROR_REPLY,clientId, true,"Could not disconnect."));
+            //we call it like a loop
+            System.out.println("Could not disconnect, retrying...");
+            clientController.onDisconnection();
         }
     }
 
+    //TO DELETE
     /*public void run() throws IOException {
         Socket socket = new Socket(ip, port);
         System.out.println("Connection established");

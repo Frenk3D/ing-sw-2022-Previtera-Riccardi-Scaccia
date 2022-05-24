@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.client.ClientGameModel;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.client.*;
 import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.View;
@@ -62,8 +63,8 @@ public class ClientController implements ViewObserver {
                 StringMessage loginReply = (StringMessage) message;
                 client.setClientId(Integer.parseInt(loginReply.getString())); //we need this in the ClientSocket class
                 clientGameModel.setMyPlayerId(client.getClientId());
-//                taskQueue.execute(() -> clientGameModel.sendNewLobbyRequest();
-//            break;
+                taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
+                break;
 //            case AVAILABLE_LOBBIES:
 //                LobbyMessage lobbyMessage = (LobbyMessage) message;
 //                taskQueue.execute(() -> client.sendMessage(lobbyMessage));
@@ -76,11 +77,12 @@ public class ClientController implements ViewObserver {
 //                GenericMessage okReply = (GenericMessage) message;
 //                taskQueue.execute(() -> client.sendMessage(okReply));
 //                break;
-//            case DISCONNECTION:
-//                StringMessage dm = (StringMessage) message;
-//                client.sendMessage(dm);
-//                client.disconnect();
-//                break;
+            case DISCONNECTION:  //when someone else disconnected
+               // StringMessage dm = (StringMessage) message;
+               // client.sendMessage(dm);
+                System.out.println("A client disconnected");
+                client.disconnect();
+                break;
 //            case ERROR_REPLY:
 //                ErrorMessage em = (ErrorMessage) message;
 //                view.showErrorAndExit(em.getError());
@@ -200,6 +202,32 @@ public class ClientController implements ViewObserver {
         client.sendMessage(loginRequest);
     }
 
+    @Override
+    public void onAskCreateOrJoin(String input){
+        if(input.equals("c")){
+            clientGameModel.sendNewLobbyRequest();
+        }
+        else if(input.equals("j")){
+            clientGameModel.sendLobbiesRequest();
+        }
+        else{
+            System.out.println("Incorrect input,try again!");
+            clientGameModel.askCreateOrJoin();
+        }
+    }
+
+    @Override
+    public void onSendNewLobbyRequest(String input,int numOfPlayers,boolean expertMode){
+        Lobby lobby = new Lobby(numOfPlayers,0,expertMode,input);
+        NewLobbyMessage message = new NewLobbyMessage(client.getClientId(),lobby);
+        client.sendMessage(message);
+    }
+
+    @Override
+    public void onSendLobbiesRequest(){
+        GenericMessage message = new GenericMessage(MessageType.LOBBY_REQUEST,client.getClientId(),true);
+        client.sendMessage(message);
+    }
 
 
     //TO DELETE
@@ -333,13 +361,13 @@ public class ClientController implements ViewObserver {
 //        client.sendMessage(new MatchInfoMessage(this.nickname, MessageType.PICK_FIRST_PLAYER, null, null, null, nickname));
 //    }
 //
-//    /**
-//     * Disconnects the client from the network.
-//     */
-//    @Override
-//    public void onDisconnection() {
-//        client.disconnect();
-//    }
+   /**
+     * Disconnects the client from the network.
+     */
+    @Override
+    public void onDisconnection() {
+        client.disconnect();
+    }
 
 
     public ClientGameModel getClientGameModel() {

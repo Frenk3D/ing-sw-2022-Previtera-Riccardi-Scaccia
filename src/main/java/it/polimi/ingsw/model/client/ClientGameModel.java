@@ -102,19 +102,26 @@ public class ClientGameModel extends ModelObservable {
 
 
     //NOW THERE ARE METHODS THAT CONTROLLER CALLS WHEN HE RECEIVE A MESSAGE FROM THE SOCKET
+    public void sendServerInfoRequest()   {
+        notifyObserver(obs -> obs.onAskServerInfo());
+    }
+
     public void sendLoginRequest(){
         notifyObserver(obs -> obs.onSendLoginRequest());
 
     }
 
-    public void sendServerInfoRequest()   {
-        notifyObserver(obs -> obs.onAskServerInfo());
+    public void askCreateOrJoin(){
+        notifyObserver(obs -> obs.onAskCreateOrJoin());
+    }
+   public void sendNewLobbyRequest(){
+        notifyObserver(obs -> obs.onSendNewLobbyRequest());
+
+    }
+    public void sendLobbiesRequest(){
+        notifyObserver(obs -> obs.onSendLobbiesRequest());
     }
 
-//    public void sendNewLobbyRequest(){
-//        notifyObserver(obs -> obs.onNewLobbyRequest());
-//
-//    }
 //    public void sendPlayerJoin(){
 //        notifyObserver(new StringMessage(MessageType.PLAYER_JOIN,SERVERID,playersList.get(playersList.size()-1).getName()));
 //    }

@@ -27,6 +27,14 @@ public interface ViewObserver {
      */
     void onSendLoginRequest(String nickname);
 
+    void onAskCreateOrJoin(String input);
+
+    void onSendNewLobbyRequest(String input,int numOfPlayers,boolean expertMode);
+
+    void onSendLobbiesRequest();
+
+    void onDisconnection();
+
 //    /**
 //     * Sends a message to the server with the player number chosen by the user.
 //     *

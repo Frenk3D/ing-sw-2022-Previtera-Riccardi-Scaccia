@@ -50,6 +50,20 @@ public class Gui extends View {
 
     }
 
+    @Override
+    public void onAskCreateOrJoin() {
+
+    }
+
+    @Override
+    public void onSendNewLobbyRequest(){
+
+    }
+
+    @Override
+    public void onSendLobbiesRequest(){
+
+    }
 
     //    @Override
 //    public void askPlayerInfo() {
