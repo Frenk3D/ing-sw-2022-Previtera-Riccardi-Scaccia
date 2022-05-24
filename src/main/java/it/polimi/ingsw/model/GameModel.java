@@ -334,6 +334,12 @@ public class GameModel extends Observable {
         notifyObserver(new DashboardMessage(SERVERID, new ReducedDashboard(getCurrPlayer().getDashboard()),getCurrPlayer().getId()));
     }
 
+    public void sendAllDashboards(){
+        for (Player p : playersList){
+            notifyObserver(new DashboardMessage(SERVERID, new ReducedDashboard(p.getDashboard()),p.getId()));
+        }
+    }
+
     public void sendCharacterTable(){
         notifyObserver(new CharacterTableMessage(SERVERID,tableMoney.get(),getReducedCharacterList(),getNumOfMoneyMap()));
     }
