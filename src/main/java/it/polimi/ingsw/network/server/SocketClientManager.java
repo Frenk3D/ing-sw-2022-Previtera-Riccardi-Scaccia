@@ -8,6 +8,7 @@ import it.polimi.ingsw.view.RemoteView;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 import static it.polimi.ingsw.network.server.Server.SERVERID;
@@ -57,11 +58,11 @@ public class SocketClientManager implements Runnable{
                     manageReception(message);
                 }
             }
-        } catch (ClassCastException | ClassNotFoundException e) {
+        } catch (ClassCastException | ClassNotFoundException | NullPointerException e) {
+            System.out.println("SocketClientManager: error in reception, closing socket");
             e.printStackTrace();
-            System.out.println("SocketClientManager: error in reception");
         }
-        socket.close();
+        disconnect();
     }
 
 

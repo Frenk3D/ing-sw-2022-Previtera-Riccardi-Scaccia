@@ -33,7 +33,7 @@ public interface ViewObserver {
 
     void onSendLobbiesRequest();
 
-    void onDisconnection();
+    void onAskDisconnection();
 
 //    /**
 //     * Sends a message to the server with the player number chosen by the user.

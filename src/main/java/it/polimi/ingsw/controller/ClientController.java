@@ -81,7 +81,7 @@ public class ClientController implements ViewObserver {
                // StringMessage dm = (StringMessage) message;
                // client.sendMessage(dm);
                 System.out.println("A client disconnected");
-                client.disconnect();
+                taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
                 break;
 //            case ERROR_REPLY:
 //                ErrorMessage em = (ErrorMessage) message;
@@ -365,10 +365,14 @@ public class ClientController implements ViewObserver {
      * Disconnects the client from the network.
      */
     @Override
-    public void onDisconnection() {
+    public void onAskDisconnection() {
         client.disconnect();
     }
 
+
+    public void onSocketDisconnect(){
+        //At this moment the is offline, we must print something on the view and close the program
+    }
 
     public ClientGameModel getClientGameModel() {
         return clientGameModel;

@@ -66,12 +66,10 @@ public class ClientSocket  {
                 try {
                     message = (Message) inputStm.readObject();
                     System.out.println("Received: " + message);
+                    clientController.onMessageReceived(message);
                 } catch (IOException | ClassNotFoundException e) {
-                    message = new StringMessage(MessageType.ERROR_REPLY, clientId, true,"Connection lost with the server" );
                     disconnect();
-                    readExecutionQueue.shutdownNow();
                 }
-                clientController.onMessageReceived(message);
             }
         });
     }
@@ -83,22 +81,21 @@ public class ClientSocket  {
             outputStm.reset();
         } catch (IOException e) {
             disconnect();
-            clientController.onMessageReceived(new StringMessage(MessageType.ERROR_REPLY,clientId, true,"Could not send message."));
         }
     }
 
     //it is when THIS client disconnect, or when he receives a message of disconnection
     public void disconnect() {
+        readExecutionQueue.shutdownNow();
         try {
             if (!socket.isClosed()) {
-                readExecutionQueue.shutdownNow();
                 socket.close();
             }
         } catch (IOException e) {
-            //we call it like a loop
-            System.out.println("Could not disconnect, retrying...");
-            clientController.onDisconnection();
+            System.out.println("Could not disconnect");
+            e.printStackTrace();
         }
+        clientController.onSocketDisconnect();
     }
 
     //TO DELETE
