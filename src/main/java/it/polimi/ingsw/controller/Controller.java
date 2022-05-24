@@ -214,7 +214,6 @@ public class Controller implements Observer {
                 }
                 game.setSettingState(SettingState.CHOOSE_TOWER_COLOR_STATE); //set and sends the current setting state
                 game.sendAvailableTowerColors();
-
             }
         }
         else {
@@ -400,7 +399,7 @@ public class Controller implements Observer {
                 else { //simply remove forbid card if no character was used in this turn
                     game.getIslandByIndex(islandIndex).updateIslandDomainExpert(game.getPlayersList(), game.getForbidCharacter());
                 }
-                game.sendCharacterTable();
+                game.sendCharacterTable(); //update the number of forbid cards on the character
             }
             else {
                 game.getIslandByIndex(islandIndex).updateIslandDomain(game.getPlayersList());
@@ -488,8 +487,6 @@ public class Controller implements Observer {
             if (usedCharacter.isUsed()) { //increment character cost if already used
                 characterCost++;
             }
-
-
             if (game.getCurrPlayer().getMoney() >= characterCost) { //check if the player has enough money to pay the character
                 boolean result = usedCharacter.applyEffect(parameters);
                 game.getCurrRound().getCurrTurn().updateIslandList(game.getIslandsList()); //we update islands because some characters calculate the influence
@@ -502,6 +499,9 @@ public class Controller implements Observer {
                 usedCharacter.setUsed();
                 game.getCurrPlayer().modifyMoney(-(characterCost - 1), game.getTableMoney(), usedCharacter.isUsed());
                 game.getCurrRound().getCurrTurn().setUsedCharacter(game.getCharacterByIndex(characterIndex));
+                game.sendCharacterTable(); //update the characters on the table
+                game.sendTable();//update the table
+                game.sendAllDashboards(); //update the dashboards of all users
             }
             else {
                 System.out.println("use character: Not enough money");
