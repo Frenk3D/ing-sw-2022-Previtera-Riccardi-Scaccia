@@ -35,6 +35,7 @@ public interface ViewObserver {
 
     void onSendLobbiesRequest();
 
+    void onSendChooseLobby(String chosenLobby);
 
 //    /**
 //     * Sends a message to the server with the player number chosen by the user.

@@ -33,6 +33,9 @@ public abstract class View extends ViewObservable implements ModelObserver {
     @Override
     public abstract void onAskCreateOrJoin();
 
+    @Override
+    public abstract void onSendChooseLobby(List<Lobby> lobbyList);
+
     /*@Override
     public abstract void onSendNewLobbyRequest();
 

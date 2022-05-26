@@ -3,6 +3,9 @@ package it.polimi.ingsw.observer;
 //view (CLI OR GUI) is the model observer and the model is the model observable
 /*(it has more prototypes of ViewObserver but with fewer parameters)*/
 
+import it.polimi.ingsw.network.server.Lobby;
+
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -19,6 +22,8 @@ public interface ModelObserver {
     void onSendLoginRequest();
 
     void onAskCreateOrJoin();
+
+    void onSendChooseLobby(List<Lobby> lobbyList);
 
    /* void onSendNewLobbyRequest();
 

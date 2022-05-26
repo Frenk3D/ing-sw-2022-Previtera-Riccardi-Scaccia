@@ -15,6 +15,7 @@ import it.polimi.ingsw.view.View;
 
 import java.io.PrintStream;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -170,7 +171,7 @@ public class Cli extends View {
     }
     @Override
     public void onSendLoginRequest() {
-        out.print("Enter name: ");
+        out.println("Enter name: ");
         try {
             String scanIn = readLine();
             notifyObserver(obs -> obs.onSendLoginRequest(scanIn));
@@ -184,12 +185,13 @@ public class Cli extends View {
     @Override
     public void onAskCreateOrJoin(){
         //Scanner scanIn = new Scanner(System.in);
-        out.print("Type 'c' to create a new lobby and join it,or type 'j' to join an existing lobby");
+        out.println("Type 'c' to create a new lobby and join it,or type 'j' to join an existing lobby");
         String input = null;
         try {
             input = readLine();
         } catch (ExecutionException e) {
             out.println(STR_INPUT_FAILED);
+            onAskCreateOrJoin();
         }
         if(input.equals("c")){
             sendNewLobbyRequest();      //or I can write everything here
@@ -204,22 +206,70 @@ public class Cli extends View {
 
 
     public void sendNewLobbyRequest(){
-        Scanner scanIn = new Scanner(System.in);
-        out.print("Enter Lobby name: ");
-        String nameInput = scanIn.nextLine();
-        out.print("Enter Number of players allowed: ");
-        String numberInput = scanIn.nextLine();
+        out.println("Enter Lobby name: ");
+        String nameInput = null;
+        try {
+            nameInput = readLine();
+        } catch (ExecutionException e) {
+            out.println(STR_INPUT_FAILED);
+            sendNewLobbyRequest();
+        }
+        out.println("Enter Number of players allowed: ");
+        String numberInput = null;
+        try {
+            numberInput = readLine();
+        } catch (ExecutionException e) {
+            out.println(STR_INPUT_FAILED);
+            sendNewLobbyRequest();
+        }
         int numOfPlayers = Integer.parseInt(numberInput);
-        out.print("Enter 'true' for expert mode,or type anything else for normal mode");
-        String trueInput = scanIn.nextLine();
+        out.println("Enter 'true' for expert mode,or type anything else for normal mode");
+        String trueInput = null;
+        try {
+            trueInput = readLine();
+        } catch (ExecutionException e) {
+            out.println(STR_INPUT_FAILED);
+            sendNewLobbyRequest();
+        }
         boolean expertMode = Boolean.parseBoolean(trueInput);
-        notifyObserver(obs -> obs.onSendNewLobbyRequest(nameInput,numOfPlayers,expertMode));
+        String finalNameInput = nameInput;
+        notifyObserver(obs -> obs.onSendNewLobbyRequest(finalNameInput,numOfPlayers,expertMode));
     }
 
 
     public void  sendLobbiesRequest(){
         notifyObserver(obs -> obs.onSendLobbiesRequest());
     }
+
+    @Override
+    public void onSendChooseLobby(List<Lobby> lobbylist){
+        out.println("Write a lobby name to access: ");
+        int counter = 0;
+        for(Lobby lobby : lobbylist){
+            out.println("#" + counter + " Lobby name: " + lobby.getName());
+            out.println("Number of players: " + lobby.getActualNumOfPlayers() + "/" + lobby.getNumOfPlayers());
+            out.println("Mode: " + ( lobby.isExpertMode()? "Expert\n" : "Normal\n"));
+        }
+        String input = null;
+        try {
+            input = readLine();
+        } catch (ExecutionException e) {
+            out.println(STR_INPUT_FAILED);
+            onSendChooseLobby(lobbylist);
+        }
+        for(Lobby lobby : lobbylist){
+            if(input.equals(lobby.getName())){
+                String finalInput = input;
+                notifyObserver(obs -> obs.onSendChooseLobby(finalInput));
+                return;
+            }
+        }
+        out.println("This lobby doesn't exist! ");
+        onSendChooseLobby(lobbylist);
+
+    }
+
+
 //    @Override
 //    public void showAvailableLobbies(List<Lobby> lobbiesList) {
 //
@@ -350,4 +400,5 @@ public class Cli extends View {
         System.out.println(toShow);
         }
     }
+
 }

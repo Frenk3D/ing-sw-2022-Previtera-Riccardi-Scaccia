@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model.client;
 
 
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.observer.*;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -114,6 +116,10 @@ public class ClientGameModel extends ModelObservable {
     public void askCreateOrJoin(){
         notifyObserver(obs -> obs.onAskCreateOrJoin());
     }
+
+    public void sendChooseLobby(List<Lobby> lobbylist){
+        notifyObserver(obs -> obs.onSendChooseLobby(lobbylist));
+    }
    /*public void sendNewLobbyRequest(){
         notifyObserver(obs -> obs.onSendNewLobbyRequest());
 
@@ -180,6 +186,14 @@ public class ClientGameModel extends ModelObservable {
 
     public void show(Object toShow){  //it is a generic function to print or show some info on view, Object can be everything also null
         notifyObserver(obs -> obs.onShow(toShow));
+    }
+
+    public void showPlayerJoin(List<String> playersList){
+        System.out.println("The players in the lobby are:");
+        for(String player: playersList){
+            System.out.print("Player:");
+            notifyObserver(obs -> obs.onShow(player));
+        }
     }
 }
 

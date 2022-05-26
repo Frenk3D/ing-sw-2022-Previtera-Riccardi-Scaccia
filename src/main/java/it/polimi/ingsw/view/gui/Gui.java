@@ -11,6 +11,8 @@ import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.View;
 
+import java.util.List;
+
 
 /*For javaFX? use SceneBuilder?
 import javafx.application.*;
@@ -56,12 +58,17 @@ public class Gui extends View {
     }
 
 
-    public void sendNewLobbyRequest(){
+   /* public void sendNewLobbyRequest(){
 
     }
 
 
     public void sendLobbiesRequest(){
+
+    }*/
+
+    @Override
+    public void onSendChooseLobby(List<Lobby> lobbylist){
 
     }
 

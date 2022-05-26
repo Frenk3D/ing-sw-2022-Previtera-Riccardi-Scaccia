@@ -43,7 +43,7 @@ public class ClientController implements ViewObserver {
      */
     public ClientController() {
         taskQueue = Executors.newSingleThreadExecutor();
-        teamLeader=false;
+        teamLeader=true;
         clientState = ClientState.PRE_LOBBY;
         clientGameModel = new ClientGameModel();
 
@@ -65,14 +65,14 @@ public class ClientController implements ViewObserver {
                 clientGameModel.setMyPlayerId(client.getClientId());
                 taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
                 break;
-//            case AVAILABLE_LOBBIES:
-//                LobbyMessage lobbyMessage = (LobbyMessage) message;
-//                taskQueue.execute(() -> client.sendMessage(lobbyMessage));
-//                break;
-//            case PLAYER_JOIN:
-//                StringMessage playerJoinMessage = (StringMessage) message;
-//                taskQueue.execute(() -> client.sendMessage(playerJoinMessage));
-//                break;
+            case AVAILABLE_LOBBIES:
+                LobbyMessage lobbyMessage = (LobbyMessage) message;
+                taskQueue.execute(() -> clientGameModel.sendChooseLobby(lobbyMessage.getLobbiesList()));
+                break;
+            case PLAYER_JOIN:
+                PlayerJoinMessage playerJoinMessage = (PlayerJoinMessage) message;
+                taskQueue.execute(() -> clientGameModel.showPlayerJoin(playerJoinMessage.getPlayersList()));
+                break;
 //            case OK_REPLY: //used also like a simple string message
 //                GenericMessage okReply = (GenericMessage) message;
 //                taskQueue.execute(() -> client.sendMessage(okReply));
@@ -90,19 +90,21 @@ public class ClientController implements ViewObserver {
 //                break;
 //
 //
-//            case INIT_SEND:
-//                clientGameModel.initClientGameModel((AllGameMessage) message);
-//
-//
-//
-//                MatchInfoMessage matchInfoMessage = (MatchInfoMessage) message;
-//                taskQueue.execute(() -> view.showMatchInfo(
-//                        matchInfoMessage.getActivePlayers(),
-//                        matchInfoMessage.getActiveGods(),
-//                        matchInfoMessage.getActiveColors(),
-//                        matchInfoMessage.getActivePlayerNickname()
-//                ));
-//                break;
+                case INIT_SEND:
+                    AllGameMessage allGameMessage = (AllGameMessage) message;
+                    taskQueue.execute(() -> clientGameModel.initClientGameModel(allGameMessage));
+                  /*  if(clientGameModel.getPlayersList().size() == 4 && teamLeader){
+                        taskQueue.execute(() -> clientGameModel.sendChooseTeam());
+                    }
+                    else if(clientGameModel.getPlayersList().size() == 4 && !teamLeader){
+                        taskQueue.execute(() -> clientGameModel.sendChooseWizard());
+                    }
+                    else{
+                        taskQueue.execute(() -> clientGameModel.sendChooseTowerColor());
+                    }
+
+                   */
+                    break;
 //
 //            case AVAILABLE_TEAM_SEND:
 //                taskQueue.execute(() -> view.askMove(((PositionMessage) message).getPositionList()));
@@ -203,6 +205,8 @@ public class ClientController implements ViewObserver {
         taskQueue.execute(() -> client.sendMessage(loginRequest));
     }
 
+
+
     /*@Override
     public void onAskCreateOrJoin(String input){ //also in view we could do this check...
         if(input.equals("c")){
@@ -230,7 +234,11 @@ public class ClientController implements ViewObserver {
         client.sendMessage(message);
     }
 
-
+    @Override
+    public void onSendChooseLobby(String chosenLobby){
+        StringMessage message =  new StringMessage(MessageType.CHOOSE_LOBBY,client.getClientId(),true, chosenLobby);
+        client.sendMessage(message);
+    }
     //TO DELETE
 //    /**
 //     * Create a new Socket Connection to the server with the updated info.
