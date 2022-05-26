@@ -226,7 +226,7 @@ public class ClientController implements ViewObserver {
 
     @Override
     public void onSendLobbiesRequest(){
-        GenericMessage message = new GenericMessage(MessageType.LOBBY_REQUEST,client.getClientId(),true);
+        GenericMessage message = new GenericMessage(MessageType.LOBBIES_REQUEST,client.getClientId(),true);
         client.sendMessage(message);
     }
 

@@ -125,7 +125,7 @@ public class TestClient {
                         String command = scanIn.nextLine();
                         switch (command) {
                             case "lobbylist":
-                                GenericMessage printLobbies = new GenericMessage(MessageType.LOBBY_REQUEST, clientId, true);
+                                GenericMessage printLobbies = new GenericMessage(MessageType.LOBBIES_REQUEST, clientId, true);
                                 output.writeObject(printLobbies);
                                 output.flush();
                                 output.reset();

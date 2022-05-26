@@ -204,7 +204,7 @@ public class Controller implements Observer {
                 requestedTeamPlayer.setTeam(requestingPlayer.getId());
                 requestedTeamPlayer.setHasTower(false);
                 sendOk(playerId);
-                sendOk(requestedPlayerId);
+                sendOk(requestedPlayerId); //we send ok to requested player to inform that he doesn't have to choose a team player
 
                 for (Player p : game.getPlayersList()){ //check if all player choose team player
                     if(p.getTeam()==-1){
@@ -502,6 +502,7 @@ public class Controller implements Observer {
                 game.sendCharacterTable(); //update the characters on the table
                 game.sendTable();//update the table
                 game.sendAllDashboards(); //update the dashboards of all users
+                game.sendInGameState(); //orders the update of the views
             }
             else {
                 System.out.println("use character: Not enough money");
@@ -516,6 +517,27 @@ public class Controller implements Observer {
 
     private GameState getGameState() {
         return game.getGameState();
+    }
+
+    public boolean checkWin(){
+        for (Player p : game.getPlayersList()){
+            if(p.getAssistantDeck().getAssistantsList().isEmpty()){
+                return true;
+            }
+        }
+
+        if(game.getCurrPlayer().getDashboard().getTowersList().isEmpty()){ //the player finished the towers
+            return true;
+        }
+        else if (game.getIslandsList().size()<=3){//there are only three islands on the table
+            return true;
+        }
+        else if(game.getBag().isEmpty()){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     private boolean checkUser(Message message){

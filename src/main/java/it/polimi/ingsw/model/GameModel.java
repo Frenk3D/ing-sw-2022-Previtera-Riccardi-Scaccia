@@ -123,7 +123,7 @@ public class GameModel extends Observable {
         }
         state = GameState.INGAME_STATE;
         sendInitGame();
-        sendInGameState();
+        sendInGameState(); //give information about current state and prints the game
         return true;
     }
 
@@ -197,12 +197,6 @@ public class GameModel extends Observable {
             return null;
         }
         return charactersList.get(characterIndex);
-    }
-
-
-    public Player checkWin(){
-        return null;
-        // TODO: 08/04/2022
     }
 
     public Characters3and4and5 getForbidCharacter(){

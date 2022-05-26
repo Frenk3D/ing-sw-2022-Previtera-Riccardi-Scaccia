@@ -59,6 +59,10 @@ public class Bag {
         return result;
     }
 
+    public boolean isEmpty(){
+        return studentsList.isEmpty();
+    }
+
     public void addAllStudents() { //fills the bag with remaining students
         for(int i=0;i<24;i++){
             studentsList.add(new Student(PawnColor.BLUE));

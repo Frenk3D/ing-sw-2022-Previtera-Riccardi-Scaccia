@@ -50,7 +50,7 @@ public class Server{
                 NewLobbyMessage newLobbyMessage = (NewLobbyMessage) message;
                 newLobby(newLobbyMessage.getSenderId(), newLobbyMessage.getLobby());
                 break;
-            case LOBBY_REQUEST:
+            case LOBBIES_REQUEST:
                 sendAvailableLobbies(message.getSenderId());
                 break;
             case CHOOSE_LOBBY:
