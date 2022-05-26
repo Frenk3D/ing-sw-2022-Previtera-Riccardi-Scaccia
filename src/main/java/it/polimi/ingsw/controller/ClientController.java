@@ -43,7 +43,7 @@ public class ClientController implements ViewObserver {
      */
     public ClientController() {
         taskQueue = Executors.newSingleThreadExecutor();
-        teamLeader=true;
+        teamLeader=null;
         clientState = ClientState.PRE_LOBBY;
         clientGameModel = new ClientGameModel();
 
@@ -93,7 +93,7 @@ public class ClientController implements ViewObserver {
                 case INIT_SEND:
                     AllGameMessage allGameMessage = (AllGameMessage) message;
                     taskQueue.execute(() -> clientGameModel.initClientGameModel(allGameMessage));
-                  /*  if(clientGameModel.getPlayersList().size() == 4 && teamLeader){
+                  /*  if(clientGameModel.getPlayersList().size() == 4 && teamLeader==null){
                         taskQueue.execute(() -> clientGameModel.sendChooseTeam());
                     }
                     else if(clientGameModel.getPlayersList().size() == 4 && !teamLeader){
