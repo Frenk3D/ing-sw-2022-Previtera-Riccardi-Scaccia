@@ -6,7 +6,10 @@ import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.observer.*;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import static it.polimi.ingsw.network.server.Server.SERVERID;
@@ -117,9 +120,8 @@ public class ClientGameModel extends ModelObservable {
         notifyObserver(obs -> obs.onAskCreateOrJoin());
     }
 
-    public void sendChooseLobby(List<Lobby> lobbylist){
-        notifyObserver(obs -> obs.onSendChooseLobby(lobbylist));
-    }
+
+
    /*public void sendNewLobbyRequest(){
         notifyObserver(obs -> obs.onSendNewLobbyRequest());
 
@@ -127,6 +129,14 @@ public class ClientGameModel extends ModelObservable {
     public void sendLobbiesRequest(){
         notifyObserver(obs -> obs.onSendLobbiesRequest());
     }*/
+
+   public void sendChooseLobby(List<Lobby> lobbylist){
+       notifyObserver(obs -> obs.onSendChooseLobby(lobbylist));
+   }
+
+   public void sendChooseTeam(Map<String,Integer> availablePlayers){
+       //notifyObserver(obs -> obs.onSendChooseTeam(availablePlayers));
+   }
 
 //    public void sendPlayerJoin(){
 //        notifyObserver(new StringMessage(MessageType.PLAYER_JOIN,SERVERID,playersList.get(playersList.size()-1).getName()));

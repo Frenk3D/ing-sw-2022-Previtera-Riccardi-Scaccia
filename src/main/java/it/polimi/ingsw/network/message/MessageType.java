@@ -24,5 +24,6 @@ public enum MessageType {
     WIN,
 
     OK_REPLY, ERROR_REPLY, //generic message
+    //OK_REPLY used to notify sync state for the specific client
 
 }

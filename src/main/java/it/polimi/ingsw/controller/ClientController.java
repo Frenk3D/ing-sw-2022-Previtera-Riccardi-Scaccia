@@ -2,6 +2,8 @@ package it.polimi.ingsw.controller;
 
 
 import it.polimi.ingsw.model.client.ClientGameModel;
+import it.polimi.ingsw.model.client.ReducedDashboard;
+import it.polimi.ingsw.model.client.ReducedPlayer;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.client.*;
 import it.polimi.ingsw.network.message.*;
@@ -11,6 +13,7 @@ import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -44,8 +47,9 @@ public class ClientController implements ViewObserver {
     public ClientController() {
         taskQueue = Executors.newSingleThreadExecutor();
         teamLeader=true;
-        clientState = ClientState.PRE_LOBBY;
+        clientState = ClientState.APPLICATION_START;
         clientGameModel = new ClientGameModel();
+        nickname = null;
 
 
 
@@ -60,26 +64,36 @@ public class ClientController implements ViewObserver {
 
         switch (message.getMessageType()) {
             case LOGIN_REPLY: //we can use notifyObserver of the clientGameModel because we have it, empty
+                clientState = ClientState.LOGIN_ACCEPTED;
                 StringMessage loginReply = (StringMessage) message;
                 client.setClientId(Integer.parseInt(loginReply.getString())); //we need this in the ClientSocket class
                 clientGameModel.setMyPlayerId(client.getClientId());
                 taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
                 break;
             case AVAILABLE_LOBBIES:
+                clientState = ClientState.PRE_LOBBY;
                 LobbyMessage lobbyMessage = (LobbyMessage) message;
                 taskQueue.execute(() -> clientGameModel.sendChooseLobby(lobbyMessage.getLobbiesList()));
                 break;
             case PLAYER_JOIN:
+                clientState = ClientState.WAITING_IN_LOBBY;
                 PlayerJoinMessage playerJoinMessage = (PlayerJoinMessage) message;
                 taskQueue.execute(() -> clientGameModel.showPlayerJoin(playerJoinMessage.getPlayersList()));
                 break;
-//            case OK_REPLY: //used also like a simple string message
-//                GenericMessage okReply = (GenericMessage) message;
-//                taskQueue.execute(() -> client.sendMessage(okReply));
-//                break;
+            case OK_REPLY: //used also like a state sync message
+                GenericMessage okReply = (GenericMessage) message;
+                if(clientState == ClientState.WAITING_IN_LOBBY) { //chosen in a team,team player id will be set with init send
+                    teamLeader = false;
+                    clientState = ClientState.CHOOSING_WIZARD;
+                }
+                break;
+
+
+
             case DISCONNECTION:  //when someone else disconnected
                // StringMessage dm = (StringMessage) message;
                // client.sendMessage(dm);
+                clientState = ClientState.APPLICATION_START;
                 taskQueue.execute(() -> clientGameModel.show("A client disconnected"));
                 //System.out.println("A client disconnected");
                 taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
@@ -91,22 +105,36 @@ public class ClientController implements ViewObserver {
 //
 //
                 case INIT_SEND:
+                    clientState = ClientState.GAME_START;
                     AllGameMessage allGameMessage = (AllGameMessage) message;
                     taskQueue.execute(() -> clientGameModel.initClientGameModel(allGameMessage));
-                  /*  if(clientGameModel.getPlayersList().size() == 4 && teamLeader){
-                        taskQueue.execute(() -> clientGameModel.sendChooseTeam());
+                    Map<String, Integer> availablePlayers = new HashMap<>();
+                    for(ReducedPlayer p : clientGameModel.getPlayersList()){
+                        if(p.getId() != client.getClientId())
+                            availablePlayers.put(p.getName(),p.getId());
+                        else {
+                            nickname = p.getName();
+                        }
                     }
-                    else if(clientGameModel.getPlayersList().size() == 4 && !teamLeader){
+                    if(clientGameModel.getPlayersList().size() == 4 && teamLeader){
+                        clientState = ClientState.CHOOSING_TEAM;
+                        taskQueue.execute(() -> clientGameModel.sendChooseTeam(availablePlayers));
+                    }
+                    /*else if(clientGameModel.getPlayersList().size() == 4 && !teamLeader){
+                        clientState = ClientState.CHOOSING_WIZARD;
                         taskQueue.execute(() -> clientGameModel.sendChooseWizard());
                     }
                     else{
+                        clientState = ClientState.CHOOSING_TOWER_COLOR;
                         taskQueue.execute(() -> clientGameModel.sendChooseTowerColor());
-                    }
+                    }*/
 
-                   */
+
                     break;
 //
 //            case AVAILABLE_TEAM_SEND:
+            //message.getMap
+            //map.remove(nickname)
 //                taskQueue.execute(() -> view.askMove(((PositionMessage) message).getPositionList()));
 //                //we have to give leaderId to the teamPlayer and set the leader as true if we receive avaible_team_send as reply
 //                break;
