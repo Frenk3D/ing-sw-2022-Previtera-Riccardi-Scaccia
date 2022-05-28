@@ -13,10 +13,7 @@ import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -108,6 +105,7 @@ public class ClientController implements ViewObserver {
                     clientState = ClientState.GAME_START;
                     AllGameMessage allGameMessage = (AllGameMessage) message;
                     taskQueue.execute(() -> clientGameModel.initClientGameModel(allGameMessage));
+
                     Map<String, Integer> availablePlayers = new HashMap<>();
                     for(ReducedPlayer p : clientGameModel.getPlayersList()){
                         if(p.getId() != client.getClientId())
@@ -116,18 +114,29 @@ public class ClientController implements ViewObserver {
                             nickname = p.getName();
                         }
                     }
+
+                    List<Wizard> availableWizards = new ArrayList<>();
+                    for (Wizard w: Wizard.values()){
+                        availableWizards.add(w);
+                    }
+
+                    List<TowerColor> availableTowerColors = new ArrayList<>();
+                    for (TowerColor tw: TowerColor.values()){
+                        availableTowerColors.add(tw);
+                    }
+
                     if(clientGameModel.getPlayersList().size() == 4 && teamLeader){
                         clientState = ClientState.CHOOSING_TEAM;
                         taskQueue.execute(() -> clientGameModel.sendChooseTeam(availablePlayers));
                     }
-                    /*else if(clientGameModel.getPlayersList().size() == 4 && !teamLeader){
+                    else if(clientGameModel.getPlayersList().size() == 4 && !teamLeader){
                         clientState = ClientState.CHOOSING_WIZARD;
-                        taskQueue.execute(() -> clientGameModel.sendChooseWizard());
+                        taskQueue.execute(() -> clientGameModel.sendChooseWizard(availableWizards));
                     }
                     else{
                         clientState = ClientState.CHOOSING_TOWER_COLOR;
-                        taskQueue.execute(() -> clientGameModel.sendChooseTowerColor());
-                    }*/
+                        taskQueue.execute(() -> clientGameModel.sendChooseTowerColor(availableTowerColors));
+                    }
 
 
                     break;

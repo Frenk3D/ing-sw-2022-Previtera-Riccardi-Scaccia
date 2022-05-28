@@ -138,6 +138,14 @@ public class ClientGameModel extends ModelObservable {
        //notifyObserver(obs -> obs.onSendChooseTeam(availablePlayers));
    }
 
+   public void sendChooseWizard(List<Wizard> availableWizards){
+       //notifyObserver(obs -> obs.onSendChooseWizard(availableWizards));
+   }
+
+    public void sendChooseTowerColor(List<TowerColor> availableTowerColors){
+        //notifyObserver(obs -> obs.onSendChooseTowerColor(availableTowerColors));
+    }
+
 //    public void sendPlayerJoin(){
 //        notifyObserver(new StringMessage(MessageType.PLAYER_JOIN,SERVERID,playersList.get(playersList.size()-1).getName()));
 //    }
