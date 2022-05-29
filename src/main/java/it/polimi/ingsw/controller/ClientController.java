@@ -83,7 +83,14 @@ public class ClientController implements ViewObserver {
             case AVAILABLE_TEAM_SEND:
                 SyncInitMessage teamMessage = (SyncInitMessage) message;
                 Map<String,Integer> availableTeamPlayers =  teamMessage.getAvailableTeamPlayers();
-                if (availableTeamPlayers.containsKey(nickname)){
+                clientGameModel.setAvailableTeamPlayers(availableTeamPlayers);
+
+                for(Map.Entry<String,Integer> entry : availableTeamPlayers.entrySet()){  //saving my nickname, the first available team send will have every nickname
+                    if(entry.getValue() == client.getClientId())
+                        nickname = entry.getKey();
+                }
+
+                if (availableTeamPlayers.containsKey(nickname)){  //it means that I still have to choose
                     clientState = ClientState.CHOOSING_TEAM;
                     availableTeamPlayers.remove(nickname);
                     taskQueue.execute(() -> clientGameModel.sendChooseTeam(availableTeamPlayers));
@@ -93,16 +100,21 @@ public class ClientController implements ViewObserver {
             case AVAILABLE_TOWER_SEND:
                 SyncInitMessage towerMessage = (SyncInitMessage) message;
                 List<TowerColor> availableTowerColors = towerMessage.getAvailableTowerColors();
-                if (availableTeamPlayers.containsKey(nickname)){
-                    clientState = ClientState.CHOOSING_TEAM;
-                    availableTeamPlayers.remove(nickname);
-                    taskQueue.execute(() -> clientGameModel.sendChooseTeam(availableTeamPlayers));
+                clientGameModel.setAvailableTowerColors(availableTowerColors);
+                if (clientState == ClientState.CHOOSING_TOWER_COLOR){
+                    taskQueue.execute(() -> clientGameModel.sendChooseTowerColor(availableTowerColors));
                 }
                 break;
             case AVAILABLE_WIZARD_SEND:
-                MatchInfoMessage playersMessage = (MatchInfoMessage) message;
-                taskQueue.execute(() -> view.askFirstPlayer(playersMessage.getActivePlayers(), playersMessage.getActiveGods()));
+                SyncInitMessage wizardMessage = (SyncInitMessage) message;
+                List<Wizard> availableWizards = wizardMessage.getAvailableWizards();
+                clientGameModel.setAvailableWizards(availableWizards);
+
+                if (clientState == ClientState.CHOOSING_WIZARD){
+                    taskQueue.execute(() -> clientGameModel.sendChooseWizard(availableWizards));
+                }
                 break;
+
 
 
                 case INIT_SEND:
@@ -110,38 +122,10 @@ public class ClientController implements ViewObserver {
                     AllGameMessage allGameMessage = (AllGameMessage) message;
                     taskQueue.execute(() -> clientGameModel.initClientGameModel(allGameMessage));
 
-                    Map<String, Integer> availablePlayers = new HashMap<>();
-                    for(ReducedPlayer p : clientGameModel.getPlayersList()){
-                        if(p.getId() != client.getClientId())
-                            availablePlayers.put(p.getName(),p.getId());
-                        else {
+                    for(ReducedPlayer p : clientGameModel.getPlayersList()){   //for security
+                        if(p.getId() == client.getClientId())
                             nickname = p.getName();
                         }
-                    }
-
-                    List<Wizard> availableWizards = new ArrayList<>();
-                    for (Wizard w: Wizard.values()){
-                        availableWizards.add(w);
-                    }
-
-                    List<TowerColor> availableTowerColors = new ArrayList<>();
-                    for (TowerColor tw: TowerColor.values()){
-                        availableTowerColors.add(tw);
-                    }
-
-                    if(clientGameModel.getPlayersList().size() == 4 && teamLeader){
-                        clientState = ClientState.CHOOSING_TEAM;
-                        taskQueue.execute(() -> clientGameModel.sendChooseTeam(availablePlayers));
-                    }
-                    else if(clientGameModel.getPlayersList().size() == 4 && !teamLeader){
-                        clientState = ClientState.CHOOSING_WIZARD;
-                        taskQueue.execute(() -> clientGameModel.sendChooseWizard(availableWizards));
-                    }
-                    else{
-                        clientState = ClientState.CHOOSING_TOWER_COLOR;
-                        taskQueue.execute(() -> clientGameModel.sendChooseTowerColor(availableTowerColors));
-                    }
-
 
                     break;
 
@@ -180,16 +164,16 @@ public class ClientController implements ViewObserver {
                         clientState = ClientState.CHOOSING_WIZARD;
                         break;
 
-                    case CHOOSED_TEAM:
+                    case CHOSEN_TEAM:
                         teamLeader = true; //for security, I set it true
                         teamId = client.getClientId(); //for security I set it, the team Id is mine
                         clientState = ClientState.CHOOSING_TOWER_COLOR; //and now i will wait for available ... send
                         break;
 
-                    case CHOOSED_TOWER_COLOR:
+                    case CHOSEN_TOWER_COLOR:
                         clientState = ClientState.CHOOSING_WIZARD; //and now i will wait for available ... send
                         break;
-                    case CHOOSED_WIZARD:
+                    case CHOSEN_WIZARD:
                         clientState = ClientState.GAME_START;
                         break;
                     default:
@@ -202,28 +186,38 @@ public class ClientController implements ViewObserver {
                 break;
 
 
-            case ERROR_REPLY:
+            case ERROR_REPLY: //It will show the error and reset the previous state
                 StringMessage errorReply = (StringMessage) message;
+                taskQueue.execute(() -> clientGameModel.show(errorReply.getString()));
                 switch(clientState) {
 
-                    case
-                    case CHOOSING_TEAM:
-                        teamLeader = false; //and with init send I will receive my teamPlayer
+                    case LOGIN_REQUESTED:
+                        clientState = ClientState.REQUESTING_LOGIN;
+                        taskQueue.execute(() -> clientGameModel.sendLoginRequest());
+                        break;
+
+                    case CHOSEN_LOBBY:
+                        clientState = ClientState.PRE_LOBBY;
+                        taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
+
+                    case CHOSEN_TEAM:
+                        clientState = ClientState.CHOOSING_TEAM;
+                        taskQueue.execute(() -> clientGameModel.sendChooseTeam(clientGameModel.getAvailableTeamPlayers()));
+
+                        break;
+
+                    case CHOSEN_TOWER_COLOR:
+                        clientState = ClientState.CHOOSING_TOWER_COLOR;
+                        taskQueue.execute(() -> clientGameModel.sendChooseTowerColor(clientGameModel.getAvailableTowerColors()));
+
+
+                        break;
+                    case CHOSEN_WIZARD:
                         clientState = ClientState.CHOOSING_WIZARD;
+                        taskQueue.execute(() -> clientGameModel.sendChooseWizard(clientGameModel.getAvailableWizards()));
+
                         break;
 
-                    case CHOOSED_TEAM:
-                        teamLeader = true; //for security, I set it true
-                        teamId = client.getClientId(); //for security I set it, the team Id is mine
-                        clientState = ClientState.CHOOSING_TOWER_COLOR; //and now i will wait for available ... send
-                        break;
-
-                    case CHOOSED_TOWER_COLOR:
-                        clientState = ClientState.CHOOSING_WIZARD; //and now i will wait for available ... send
-                        break;
-                    case CHOOSED_WIZARD:
-                        clientState = ClientState.GAME_START;
-                        break;
                     default:
                         break;
                 }
@@ -327,13 +321,14 @@ public class ClientController implements ViewObserver {
         Lobby lobby = new Lobby(numOfPlayers,0,expertMode,input);
         NewLobbyMessage message = new NewLobbyMessage(client.getClientId(),lobby);
         client.sendMessage(message);
-        clientState = ClientState.CHOOSED_LOBBY;
+        clientState = ClientState.CHOSEN_LOBBY;
     }
 
     @Override
     public void onSendLobbiesRequest(){
         GenericMessage message = new GenericMessage(MessageType.LOBBIES_REQUEST,client.getClientId(),true);
         client.sendMessage(message);
+        clientState = ClientState.PRE_LOBBY;
 
     }
 
@@ -341,28 +336,28 @@ public class ClientController implements ViewObserver {
     public void onSendChooseLobby(String chosenLobby){
         StringMessage message =  new StringMessage(MessageType.CHOOSE_LOBBY,client.getClientId(),true, chosenLobby);
         client.sendMessage(message);
-        clientState = ClientState.CHOOSED_LOBBY;
+        clientState = ClientState.CHOSEN_LOBBY;
     }
 
     @Override
     public void onSendChooseTeam(int chosenTeamPlayerId) {
         ChooseTeamMessage message = new ChooseTeamMessage(client.getClientId(),chosenTeamPlayerId);
         client.sendMessage(message);
-        clientState = ClientState.CHOOSED_TEAM;
+        clientState = ClientState.CHOSEN_TEAM;
     }
 
     @Override
     public void onSendChooseTowerColor(TowerColor color) {
         ChooseTowerColorMessage message = new ChooseTowerColorMessage(client.getClientId(),color);
         client.sendMessage(message);
-        clientState = ClientState.CHOOSED_TOWER_COLOR;
+        clientState = ClientState.CHOSEN_TOWER_COLOR;
     }
 
     @Override
     public void onSendChooseWizard(Wizard wizard) {
         ChooseWizardMessage message = new ChooseWizardMessage(client.getClientId(),wizard);
         client.sendMessage(message);
-        clientState = ClientState.CHOOSED_WIZARD;
+        clientState = ClientState.CHOSEN_WIZARD;
     }
 
     //TO DELETE

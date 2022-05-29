@@ -15,6 +15,10 @@ import java.util.concurrent.ExecutionException;
 import static it.polimi.ingsw.network.server.Server.SERVERID;
 
 public class ClientGameModel extends ModelObservable {
+    private Map<String,Integer> availableTeamPlayers;
+    private List<TowerColor> availableTowerColors;
+    private List<Wizard> availableWizards;
+
     private List<ReducedIsland> islandList;
     private List<ReducedAssistant> assistantList;
     private List<ReducedCloud> cloudList;
@@ -103,8 +107,37 @@ public class ClientGameModel extends ModelObservable {
         return expertMode;
     }
 
+    public Map<String, Integer> getAvailableTeamPlayers() {
+        return availableTeamPlayers;
+    }
 
+    public void setAvailableTeamPlayers(Map<String, Integer> availableTeamPlayers) {
+        this.availableTeamPlayers = availableTeamPlayers;
+    }
 
+    public List<TowerColor> getAvailableTowerColors() {
+        return availableTowerColors;
+    }
+
+    public void setAvailableTowerColors(List<TowerColor> availableTowerColors) {
+        this.availableTowerColors = availableTowerColors;
+    }
+
+    public List<Wizard> getAvailableWizards() {
+        return availableWizards;
+    }
+
+    public void setAvailableWizards(List<Wizard> availableWizards) {
+        this.availableWizards = availableWizards;
+    }
+
+    public int getNumOfPlayers() {
+        return numOfPlayers;
+    }
+
+    public void setNumOfPlayers(int numOfPlayers) {
+        this.numOfPlayers = numOfPlayers;
+    }
 
     //NOW THERE ARE METHODS THAT CONTROLLER CALLS WHEN HE RECEIVE A MESSAGE FROM THE SOCKET
     public void sendServerInfoRequest()   {
