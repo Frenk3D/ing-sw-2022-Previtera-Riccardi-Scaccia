@@ -23,7 +23,8 @@ public class ClientApp {
     private static final String HELP_ARGUMENT = "-help";
 
     public static void main(String[] args){
-//THIS IS ONLY FOR THE TESTCLIENT
+        //THIS IS ONLY FOR THE TESTCLIENT
+        /*
         TestClient client = new TestClient("127.0.0.1", 3333);
         try{
             client.run();
@@ -31,31 +32,33 @@ public class ClientApp {
             System.err.println(e.getMessage());
         }
 
-//        //THIS IS THE REAL CLIENTAPP
-//        boolean cliParam = false; // default value
-//
-//        for (String arg : args) {
-//            if (arg.equals("--cli") || arg.equals("-c")) {
-//                cliParam = true;
-//                break;
-//            }
-//        }
-//
-//        if (cliParam) {
-//            Cli view = new Cli();
-//            ClientController clientController = new ClientController();
-//            clientController.getClientGameModel.addObserver(view);
-//            view.addObserver(clientController);
-//            view.init();
-//        } else {
-//           // Application.launch(JavaFXGui.class);
-//        }
+
+         */
+        //THIS IS THE REAL CLIENTAPP
+        boolean cliParam = false; // default value
+
+        for (String arg : args) {
+            if (arg.equals("--cli") || arg.equals("-c")) {
+                cliParam = true;
+                break;
+            }
+        }
+
+        if (cliParam) {
+            Cli view = new Cli();
+            ClientController clientController = new ClientController();
+            clientController.getClientGameModel().addObserver(view);
+            view.addObserver(clientController);
+            view.init();
+        } else {
+           // Application.launch(JavaFXGui.class);
+        }
 
 
 
 
 
-
+//------------------------------------------------------------------------------------------------------------
 
 
 

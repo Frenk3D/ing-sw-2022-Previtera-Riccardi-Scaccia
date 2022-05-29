@@ -190,7 +190,6 @@ public class ClientController implements ViewObserver {
                 StringMessage errorReply = (StringMessage) message;
                 taskQueue.execute(() -> clientGameModel.show(errorReply.getString()));
                 switch(clientState) {
-
                     case LOGIN_REQUESTED:
                         clientState = ClientState.REQUESTING_LOGIN;
                         taskQueue.execute(() -> clientGameModel.sendLoginRequest());
@@ -199,29 +198,26 @@ public class ClientController implements ViewObserver {
                     case CHOSEN_LOBBY:
                         clientState = ClientState.PRE_LOBBY;
                         taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
+                        break;
 
                     case CHOSEN_TEAM:
                         clientState = ClientState.CHOOSING_TEAM;
                         taskQueue.execute(() -> clientGameModel.sendChooseTeam(clientGameModel.getAvailableTeamPlayers()));
-
                         break;
 
                     case CHOSEN_TOWER_COLOR:
                         clientState = ClientState.CHOOSING_TOWER_COLOR;
                         taskQueue.execute(() -> clientGameModel.sendChooseTowerColor(clientGameModel.getAvailableTowerColors()));
-
-
                         break;
+
                     case CHOSEN_WIZARD:
                         clientState = ClientState.CHOOSING_WIZARD;
                         taskQueue.execute(() -> clientGameModel.sendChooseWizard(clientGameModel.getAvailableWizards()));
-
                         break;
 
                     default:
                         break;
                 }
-
                 break;
 
 

@@ -4,6 +4,12 @@ import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.RoundState;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;
+import it.polimi.ingsw.view.cli.Cli;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.concurrent.ExecutionException;
 
 /** Deselezionare sempre .idea e pom.xml sia da push che da pull per evitare problemi!!!
  * It is a main only to test something
@@ -11,8 +17,9 @@ import it.polimi.ingsw.model.enumerations.Wizard;
  */
 public class ProvaGit {
 
-    public static void main( String[] args ){
-        Controller controller = new Controller();
+    public static void main( String[] args ) throws IOException {
+
+        /*Controller controller = new Controller();
         GameModel game = controller.getGame();
 
         
@@ -64,6 +71,8 @@ public class ProvaGit {
 
         printClouds(game);
         printDashboards(game);
+
+         */
     }
 
     private static void printIslands(GameModel game){

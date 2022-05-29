@@ -69,14 +69,14 @@ public class GameModel extends Observable {
         state=GameState.SETTING_STATE;
         if(numOfPlayers == 4){
             settingState = SettingState.CHOOSE_TEAM_STATE;
-            sendAvailableTeamPlayers();
             sendSettingState();
+            sendAvailableTeamPlayers();
 
         }
         else {
             settingState = SettingState.CHOOSE_TOWER_COLOR_STATE;
-            sendAvailableTowerColors();
             sendSettingState();
+            sendAvailableTowerColors();
         }
         return true;
     }

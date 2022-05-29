@@ -31,6 +31,7 @@ import java.awt.image.BufferedImage;
 public class Cli extends View {
 
     private final PrintStream out;
+    private final Scanner input;
     private Thread inputThread;
 
     private static final String STR_INPUT_FAILED = "User input failed.";
@@ -45,6 +46,7 @@ public class Cli extends View {
      */
     public Cli() {
         out = System.out;
+        input = new Scanner(System.in);
     }
 
 
@@ -68,32 +70,24 @@ public class Cli extends View {
 
 
 
-    //we have to sync?
     /**
      * Reads a line from the standard input.
      *
      * @return the string read from the input.
-     * @throws ExecutionException if the input stream thread is interrupted.
      */
-    public String readLine() throws ExecutionException {
-        FutureTask<String> futureTask = new FutureTask<>(new InputReadTask());
-        inputThread = new Thread(futureTask);
-        inputThread.start();
-
-        String input = null;
+    public String readLine(){
+        String cmd = null;
 
         try {
-            input = futureTask.get();
-        } catch (InterruptedException e) {
-            futureTask.cancel(true);
+            input.reset();
+            cmd = input.nextLine();
+        }
+        catch (NoSuchElementException | IllegalStateException e){
+            out.println(STR_INPUT_FAILED);
             Thread.currentThread().interrupt();
         }
-        return input;
+        return cmd;
     }
-
-
-
-
 
 
     /**
@@ -106,8 +100,6 @@ public class Cli extends View {
 
 
 
-
-
     /**
      * Asks the server address and port to the user.
      *
@@ -115,7 +107,6 @@ public class Cli extends View {
      */
     @Override
     public void onAskServerInfo(){
-        try {
             //serverInfo is a map with ip and port, they are String, but we parse the port into an Integer
             Map<String, String> serverInfo = new HashMap<>();
             String defaultAddress = "localhost";
@@ -163,23 +154,13 @@ public class Cli extends View {
             notifyObserver(obs -> obs.onAskServerInfo(serverInfo));
             // ServerInfoMessage serverInfoMessage = new ServerInfoMessage(MessageType.SERVER_INFO,8888 ,serverInfo);
             // notifyObserver(serverInfoMessage);
-
-
-        } catch (ExecutionException e) {
-            System.out.println("User input canceled.");
-        }
     }
     @Override
     public void onSendLoginRequest() {
         out.println("Enter name: ");
-        try {
-            String scanIn = readLine();
-            notifyObserver(obs -> obs.onSendLoginRequest(scanIn));
-        } catch (ExecutionException e) {
-            out.println(STR_INPUT_FAILED);
-        }
+        String scanIn = readLine();
+        notifyObserver(obs -> obs.onSendLoginRequest(scanIn));
         //StringMessage loginRequest = new StringMessage(MessageType.LOGIN_REQUEST, 8888, input);
-
     }
 
     @Override
@@ -187,12 +168,7 @@ public class Cli extends View {
         //Scanner scanIn = new Scanner(System.in);
         out.println("Type 'c' to create a new lobby and join it,or type 'j' to join an existing lobby");
         String input = null;
-        try {
-            input = readLine();
-        } catch (ExecutionException e) {
-            out.println(STR_INPUT_FAILED);
-            onAskCreateOrJoin();
-        }
+        input = readLine();
         if(input.equals("c")){
             sendNewLobbyRequest();      //or I can write everything here
         }
@@ -208,29 +184,19 @@ public class Cli extends View {
     public void sendNewLobbyRequest(){
         out.println("Enter Lobby name: ");
         String nameInput = null;
-        try {
-            nameInput = readLine();
-        } catch (ExecutionException e) {
-            out.println(STR_INPUT_FAILED);
-            sendNewLobbyRequest();
-        }
+        nameInput = readLine();
+
         out.println("Enter Number of players allowed: ");
         String numberInput = null;
-        try {
-            numberInput = readLine();
-        } catch (ExecutionException e) {
-            out.println(STR_INPUT_FAILED);
-            sendNewLobbyRequest();
-        }
+
+        numberInput = readLine();
+
         int numOfPlayers = Integer.parseInt(numberInput);
         out.println("Enter 'true' for expert mode,or type anything else for normal mode");
         String trueInput = null;
-        try {
-            trueInput = readLine();
-        } catch (ExecutionException e) {
-            out.println(STR_INPUT_FAILED);
-            sendNewLobbyRequest();
-        }
+
+        trueInput = readLine();
+
         boolean expertMode = Boolean.parseBoolean(trueInput);
         String finalNameInput = nameInput;
         notifyObserver(obs -> obs.onSendNewLobbyRequest(finalNameInput,numOfPlayers,expertMode));
@@ -244,19 +210,17 @@ public class Cli extends View {
     @Override
     public void onSendChooseLobby(List<Lobby> lobbylist){
         out.println("Write a lobby name to access: ");
-        int counter = 0;
+        int counter = 1;
         for(Lobby lobby : lobbylist){
             out.println("#" + counter + " Lobby name: " + lobby.getName());
             out.println("Number of players: " + lobby.getActualNumOfPlayers() + "/" + lobby.getNumOfPlayers());
             out.println("Mode: " + ( lobby.isExpertMode()? "Expert\n" : "Normal\n"));
+            counter ++;
         }
         String input = null;
-        try {
-            input = readLine();
-        } catch (ExecutionException e) {
-            out.println(STR_INPUT_FAILED);
-            onSendChooseLobby(lobbylist);
-        }
+
+        input = readLine();
+
         for(Lobby lobby : lobbylist){
             if(input.equals(lobby.getName())){
                 String finalInput = input;
@@ -276,12 +240,9 @@ public class Cli extends View {
             out.println( "Name: " + entry.getKey() + ", Id: " + entry.getValue());
         }
         String input = null;
-        try {
-            input = readLine();
-        } catch (ExecutionException e) {
-            out.println(STR_INPUT_FAILED);
-            onSendChooseTeam(availablePlayers);
-        }
+
+        input = readLine();
+
         for(Map.Entry<String,Integer> entry : availablePlayers.entrySet()){
             if(input.equals(entry.getValue())){
                 int finalInput = Integer.parseInt(input);
@@ -301,12 +262,9 @@ public class Cli extends View {
             out.println( "Color: " + c );
         }
         String input = null;
-        try {
-            input = readLine();
-        } catch (ExecutionException e) {
-            out.println(STR_INPUT_FAILED);
-            onSendChooseTowerColor(availableTowerColors);
-        }
+
+        input = readLine();
+
         for(TowerColor c : availableTowerColors){
             if(input.equals(c.toString())){
                 notifyObserver(obs -> obs.onSendChooseTowerColor(c));
@@ -315,7 +273,6 @@ public class Cli extends View {
         }
         out.println("This color isn't available! ");
         onSendChooseTowerColor(availableTowerColors);
-
 
     }
 
@@ -326,12 +283,8 @@ public class Cli extends View {
             out.println( "Wizard: " + wizard);
         }
         String input = null;
-        try {
-            input = readLine();
-        } catch (ExecutionException e) {
-            out.println(STR_INPUT_FAILED);
-            onSendChooseWizard(availableWizards);
-        }
+        input = readLine();
+
         for(Wizard wizard : availableWizards){
             if(input.equals(wizard.toString())){
                 notifyObserver(obs -> obs.onSendChooseWizard(wizard));

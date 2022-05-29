@@ -172,11 +172,15 @@ public class TestClient {
                                 output.reset();
                                 break;
 
+                            default:
+                                break;
+
                         }
                     }
 
 
                 }catch(Exception e){
+                    System.out.println("Errore scrittura");
                     e.printStackTrace();
                     setActive(false);
                 }
