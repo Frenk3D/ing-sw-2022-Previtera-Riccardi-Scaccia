@@ -269,6 +269,79 @@ public class Cli extends View {
 
     }
 
+    @Override
+    public void onSendChooseTeam(Map<String,Integer> availablePlayers){
+        out.println("Choose a team player from the available ids: ");
+        for(Map.Entry<String,Integer> entry : availablePlayers.entrySet()){
+            out.println( "Name: " + entry.getKey() + ", Id: " + entry.getValue());
+        }
+        String input = null;
+        try {
+            input = readLine();
+        } catch (ExecutionException e) {
+            out.println(STR_INPUT_FAILED);
+            onSendChooseTeam(availablePlayers);
+        }
+        for(Map.Entry<String,Integer> entry : availablePlayers.entrySet()){
+            if(input.equals(entry.getValue())){
+                int finalInput = Integer.parseInt(input);
+                notifyObserver(obs -> obs.onSendChooseTeam(finalInput));
+                return;
+            }
+        }
+        out.println("This player doesn't exist! ");
+        onSendChooseTeam(availablePlayers);
+
+    }
+
+    @Override
+    public void onSendChooseTowerColor(List<TowerColor> availableTowerColors){
+        out.println("Choose a Tower Color from the available colors: ");
+        for(TowerColor c : availableTowerColors){
+            out.println( "Color: " + c );
+        }
+        String input = null;
+        try {
+            input = readLine();
+        } catch (ExecutionException e) {
+            out.println(STR_INPUT_FAILED);
+            onSendChooseTowerColor(availableTowerColors);
+        }
+        for(TowerColor c : availableTowerColors){
+            if(input.equals(c.toString())){
+                notifyObserver(obs -> obs.onSendChooseTowerColor(c));
+                return;
+            }
+        }
+        out.println("This color isn't available! ");
+        onSendChooseTowerColor(availableTowerColors);
+
+
+    }
+
+    @Override
+    public void onSendChooseWizard(List<Wizard> availableWizards){
+        out.println("Choose a Wizard from the available wizards: ");
+        for(Wizard wizard : availableWizards){
+            out.println( "Wizard: " + wizard);
+        }
+        String input = null;
+        try {
+            input = readLine();
+        } catch (ExecutionException e) {
+            out.println(STR_INPUT_FAILED);
+            onSendChooseWizard(availableWizards);
+        }
+        for(Wizard wizard : availableWizards){
+            if(input.equals(wizard.toString())){
+                notifyObserver(obs -> obs.onSendChooseWizard(wizard));
+                return;
+            }
+        }
+        out.println("This wizard isn't available! ");
+        onSendChooseWizard(availableWizards);
+    }
+
 
 //    @Override
 //    public void showAvailableLobbies(List<Lobby> lobbiesList) {

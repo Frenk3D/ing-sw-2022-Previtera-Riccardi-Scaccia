@@ -12,6 +12,7 @@ import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.View;
 
 import java.util.List;
+import java.util.Map;
 
 
 /*For javaFX? use SceneBuilder?
@@ -69,6 +70,21 @@ public class Gui extends View {
 
     @Override
     public void onSendChooseLobby(List<Lobby> lobbylist){
+
+    }
+
+    @Override
+    public void onSendChooseTeam(Map<String,Integer> availablePlayers){
+
+    }
+
+    @Override
+    public void onSendChooseTowerColor(List<TowerColor> availableTowerColors){
+
+    }
+
+    @Override
+    public void onSendChooseWizard(List<Wizard> availableWizards){
 
     }
 

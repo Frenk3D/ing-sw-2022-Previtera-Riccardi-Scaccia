@@ -41,6 +41,14 @@ public abstract class View extends ViewObservable implements ModelObserver {
 
     @Override
     public abstract void onSendLobbiesRequest();*/
+    @Override
+    public abstract void onSendChooseTeam(Map<String,Integer> availablePlayers);
+
+    @Override
+    public abstract void onSendChooseTowerColor(List<TowerColor> availableTowerColors);
+
+    @Override
+    public abstract void onSendChooseWizard(List<Wizard> availableWizards);
 
 
 

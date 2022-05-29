@@ -135,15 +135,15 @@ public class ClientGameModel extends ModelObservable {
    }
 
    public void sendChooseTeam(Map<String,Integer> availablePlayers){
-       //notifyObserver(obs -> obs.onSendChooseTeam(availablePlayers));
+       notifyObserver(obs -> obs.onSendChooseTeam(availablePlayers));
    }
 
    public void sendChooseWizard(List<Wizard> availableWizards){
-       //notifyObserver(obs -> obs.onSendChooseWizard(availableWizards));
+       notifyObserver(obs -> obs.onSendChooseWizard(availableWizards));
    }
 
     public void sendChooseTowerColor(List<TowerColor> availableTowerColors){
-        //notifyObserver(obs -> obs.onSendChooseTowerColor(availableTowerColors));
+       notifyObserver(obs -> obs.onSendChooseTowerColor(availableTowerColors));
     }
 
 //    public void sendPlayerJoin(){
@@ -202,6 +202,8 @@ public class ClientGameModel extends ModelObservable {
 //        notifyObserver(new CharacterTableMessage(SERVERID,tableMoney.get(),getReducedCharacterList(),getNumOfMoneyMap()));
 //    }
 
+
+    //only show methods
     public void show(Object toShow){  //it is a generic function to print or show some info on view, Object can be everything also null
         notifyObserver(obs -> obs.onShow(toShow));
     }

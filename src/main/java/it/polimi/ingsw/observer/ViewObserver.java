@@ -37,6 +37,12 @@ public interface ViewObserver {
 
     void onSendChooseLobby(String chosenLobby);
 
+    void onSendChooseTeam(int chosenTeamPlayerId);
+
+    void onSendChooseTowerColor(TowerColor color);
+
+    void onSendChooseWizard(Wizard wizard);
+
 //    /**
 //     * Sends a message to the server with the player number chosen by the user.
 //     *

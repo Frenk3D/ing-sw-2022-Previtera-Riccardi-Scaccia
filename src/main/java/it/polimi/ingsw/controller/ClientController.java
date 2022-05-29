@@ -29,8 +29,9 @@ public class ClientController implements ViewObserver {
     private ClientSocket client;
     private String nickname;
     private ClientState clientState;
-    private int teamPlayerId;  //if there are no teams it is the clientId, or it's the leaderId
+    private int teamId;  //if there are no teams it is the clientId, or it's the leaderId
     private boolean teamLeader; //he is who requested the teamPlayer and who will choose the tower color
+    //my player id is in clientGameModel and in client
 
     private final ExecutorService taskQueue;
 
@@ -65,6 +66,7 @@ public class ClientController implements ViewObserver {
                 StringMessage loginReply = (StringMessage) message;
                 client.setClientId(Integer.parseInt(loginReply.getString())); //we need this in the ClientSocket class
                 clientGameModel.setMyPlayerId(client.getClientId());
+                teamId=client.getClientId(); //for now, I'm my team player
                 taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
                 break;
             case AVAILABLE_LOBBIES:
@@ -77,30 +79,32 @@ public class ClientController implements ViewObserver {
                 PlayerJoinMessage playerJoinMessage = (PlayerJoinMessage) message;
                 taskQueue.execute(() -> clientGameModel.showPlayerJoin(playerJoinMessage.getPlayersList()));
                 break;
-            case OK_REPLY: //used also like a state sync message
-                GenericMessage okReply = (GenericMessage) message;
-                if(clientState == ClientState.WAITING_IN_LOBBY) { //chosen in a team,team player id will be set with init send
-                    teamLeader = false;
-                    clientState = ClientState.CHOOSING_WIZARD;
+
+            case AVAILABLE_TEAM_SEND:
+                SyncInitMessage teamMessage = (SyncInitMessage) message;
+                Map<String,Integer> availableTeamPlayers =  teamMessage.getAvailableTeamPlayers();
+                if (availableTeamPlayers.containsKey(nickname)){
+                    clientState = ClientState.CHOOSING_TEAM;
+                    availableTeamPlayers.remove(nickname);
+                    taskQueue.execute(() -> clientGameModel.sendChooseTeam(availableTeamPlayers));
+                }
+
+                break;
+            case AVAILABLE_TOWER_SEND:
+                SyncInitMessage towerMessage = (SyncInitMessage) message;
+                List<TowerColor> availableTowerColors = towerMessage.getAvailableTowerColors();
+                if (availableTeamPlayers.containsKey(nickname)){
+                    clientState = ClientState.CHOOSING_TEAM;
+                    availableTeamPlayers.remove(nickname);
+                    taskQueue.execute(() -> clientGameModel.sendChooseTeam(availableTeamPlayers));
                 }
                 break;
-
-
-
-            case DISCONNECTION:  //when someone else disconnected
-               // StringMessage dm = (StringMessage) message;
-               // client.sendMessage(dm);
-                clientState = ClientState.APPLICATION_START;
-                taskQueue.execute(() -> clientGameModel.show("A client disconnected"));
-                //System.out.println("A client disconnected");
-                taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
+            case AVAILABLE_WIZARD_SEND:
+                MatchInfoMessage playersMessage = (MatchInfoMessage) message;
+                taskQueue.execute(() -> view.askFirstPlayer(playersMessage.getActivePlayers(), playersMessage.getActiveGods()));
                 break;
-//            case ERROR_REPLY:
-//                ErrorMessage em = (ErrorMessage) message;
-//                view.showErrorAndExit(em.getError());
-//                break;
-//
-//
+
+
                 case INIT_SEND:
                     clientState = ClientState.GAME_START;
                     AllGameMessage allGameMessage = (AllGameMessage) message;
@@ -140,20 +144,8 @@ public class ClientController implements ViewObserver {
 
 
                     break;
-//
-//            case AVAILABLE_TEAM_SEND:
-            //message.getMap
-            //map.remove(nickname)
-//                taskQueue.execute(() -> view.askMove(((PositionMessage) message).getPositionList()));
-//                //we have to give leaderId to the teamPlayer and set the leader as true if we receive avaible_team_send as reply
-//                break;
-//            case AVAILABLE_TOWER_SEND:
-//                taskQueue.execute(() -> view.askMovingWorker(((PositionMessage) message).getPositionList()));
-//                break;
-//            case AVAILABLE_WIZARD_SEND:
-//                MatchInfoMessage playersMessage = (MatchInfoMessage) message;
-//                taskQueue.execute(() -> view.askFirstPlayer(playersMessage.getActivePlayers(), playersMessage.getActiveGods()));
-//                break;
+
+
 //            case SYNC_STATE:
 //
 //                break;
@@ -178,6 +170,75 @@ public class ClientController implements ViewObserver {
 //                client.disconnect();
 //                taskQueue.execute(() -> view.showWinMessage(winMessage.getWinnerNickname()));
 //                break;
+
+
+            case OK_REPLY: //used also like a state sync message
+                GenericMessage okReply = (GenericMessage) message;
+                switch(clientState){
+                    case CHOOSING_TEAM:
+                        teamLeader = false; //and with init send I will receive my teamPlayer
+                        clientState = ClientState.CHOOSING_WIZARD;
+                        break;
+
+                    case CHOOSED_TEAM:
+                        teamLeader = true; //for security, I set it true
+                        teamId = client.getClientId(); //for security I set it, the team Id is mine
+                        clientState = ClientState.CHOOSING_TOWER_COLOR; //and now i will wait for available ... send
+                        break;
+
+                    case CHOOSED_TOWER_COLOR:
+                        clientState = ClientState.CHOOSING_WIZARD; //and now i will wait for available ... send
+                        break;
+                    case CHOOSED_WIZARD:
+                        clientState = ClientState.GAME_START;
+                        break;
+                    default:
+                        break;
+
+                }
+
+
+
+                break;
+
+
+            case ERROR_REPLY:
+                StringMessage errorReply = (StringMessage) message;
+                switch(clientState) {
+
+                    case
+                    case CHOOSING_TEAM:
+                        teamLeader = false; //and with init send I will receive my teamPlayer
+                        clientState = ClientState.CHOOSING_WIZARD;
+                        break;
+
+                    case CHOOSED_TEAM:
+                        teamLeader = true; //for security, I set it true
+                        teamId = client.getClientId(); //for security I set it, the team Id is mine
+                        clientState = ClientState.CHOOSING_TOWER_COLOR; //and now i will wait for available ... send
+                        break;
+
+                    case CHOOSED_TOWER_COLOR:
+                        clientState = ClientState.CHOOSING_WIZARD; //and now i will wait for available ... send
+                        break;
+                    case CHOOSED_WIZARD:
+                        clientState = ClientState.GAME_START;
+                        break;
+                    default:
+                        break;
+                }
+
+                break;
+
+
+            case DISCONNECTION:  //when someone else disconnected
+                // StringMessage dm = (StringMessage) message;
+                // client.sendMessage(dm);
+                clientState = ClientState.APPLICATION_START;
+                taskQueue.execute(() -> clientGameModel.show("A client disconnected"));
+                //System.out.println("A client disconnected");
+                taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
+                break;
 
             default: // Should never reach this condition
                 break;
@@ -231,15 +292,18 @@ public class ClientController implements ViewObserver {
             //client.addObserver(this);
             client.readMessage(); // Starts an asynchronous reading from the server.
             taskQueue.execute(clientGameModel::sendLoginRequest);
+            clientState = ClientState.LOGIN_REQUESTED;
 
         } catch (IOException e) {
             taskQueue.execute(() -> clientGameModel.sendServerInfoRequest());
+            clientState = ClientState.REQUESTING_LOGIN;
         }
     }
     @Override
     public void onSendLoginRequest(String input){
         StringMessage loginRequest = new StringMessage(MessageType.LOGIN_REQUEST, client.getClientId(), true,input);
         taskQueue.execute(() -> client.sendMessage(loginRequest));
+        clientState = ClientState.LOGIN_REQUESTED;
     }
 
 
@@ -263,19 +327,44 @@ public class ClientController implements ViewObserver {
         Lobby lobby = new Lobby(numOfPlayers,0,expertMode,input);
         NewLobbyMessage message = new NewLobbyMessage(client.getClientId(),lobby);
         client.sendMessage(message);
+        clientState = ClientState.CHOOSED_LOBBY;
     }
 
     @Override
     public void onSendLobbiesRequest(){
         GenericMessage message = new GenericMessage(MessageType.LOBBIES_REQUEST,client.getClientId(),true);
         client.sendMessage(message);
+
     }
 
     @Override
     public void onSendChooseLobby(String chosenLobby){
         StringMessage message =  new StringMessage(MessageType.CHOOSE_LOBBY,client.getClientId(),true, chosenLobby);
         client.sendMessage(message);
+        clientState = ClientState.CHOOSED_LOBBY;
     }
+
+    @Override
+    public void onSendChooseTeam(int chosenTeamPlayerId) {
+        ChooseTeamMessage message = new ChooseTeamMessage(client.getClientId(),chosenTeamPlayerId);
+        client.sendMessage(message);
+        clientState = ClientState.CHOOSED_TEAM;
+    }
+
+    @Override
+    public void onSendChooseTowerColor(TowerColor color) {
+        ChooseTowerColorMessage message = new ChooseTowerColorMessage(client.getClientId(),color);
+        client.sendMessage(message);
+        clientState = ClientState.CHOOSED_TOWER_COLOR;
+    }
+
+    @Override
+    public void onSendChooseWizard(Wizard wizard) {
+        ChooseWizardMessage message = new ChooseWizardMessage(client.getClientId(),wizard);
+        client.sendMessage(message);
+        clientState = ClientState.CHOOSED_WIZARD;
+    }
+
     //TO DELETE
 //    /**
 //     * Create a new Socket Connection to the server with the updated info.
@@ -420,6 +509,7 @@ public class ClientController implements ViewObserver {
 
     public void onSocketDisconnect(){   //this happens only when there is a mine critical problem
         /*taskQueue.execute(() -> )*/ clientGameModel.show((Object) "Disconnecting...");
+        clientState = ClientState.GAME_FINISHED;
     }
 
     public ClientGameModel getClientGameModel() {
