@@ -8,8 +8,8 @@ import it.polimi.ingsw.model.enumerations.TurnState;
 public class SyncStateMessage extends Message{
     private GameState gameState;
     private SettingState settingState;
-    private TurnState turnState;
     private RoundState roundState;
+    private TurnState turnState;
     private int currPlayerId;
 
     //in game state

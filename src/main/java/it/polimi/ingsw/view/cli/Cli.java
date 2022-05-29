@@ -53,13 +53,13 @@ public class Cli extends View {
     public void init() { //it is called by the ClientApp
         out.println("" +
                 "d8888b.888Y88b\n" +
-                "d88P \n" +
-                "Y88b.                                 \n" +
+                "d88P. \n" +
+                "Y88b                                 \n" +
                 "Y888b.Y8888P.\n" +
                 "Y888b.Y8888P. \n" +
                 "d88P.  \n" +
                 "Y88b  \n" +
-                "d8888b.888Y88b\n");
+                "d8888b.888Y88b'\n");
 
         out.println("Welcome to magic world of Eriantys!");
 
@@ -93,7 +93,7 @@ public class Cli extends View {
     /**
      * Clears the CLI terminal.
      */
-    public void clearCli() {
+    public void clearCli() { //only on intellij doesn't work
         out.print(ColorCli.CLEAR);
         out.flush();
     }
@@ -110,7 +110,7 @@ public class Cli extends View {
             //serverInfo is a map with ip and port, they are String, but we parse the port into an Integer
             Map<String, String> serverInfo = new HashMap<>();
             String defaultAddress = "localhost";
-            String defaultPort = "16847";
+            String defaultPort = "3333";
             boolean validInput;
 
             out.println("Please specify the following settings. The default value is shown between brackets.");
@@ -177,27 +177,37 @@ public class Cli extends View {
         }
         else{
             onShow("Incorrect input,try again!");
-            onAskCreateOrJoin();        }
+            onAskCreateOrJoin();
+        }
     }
 
 
     public void sendNewLobbyRequest(){
-        out.println("Enter Lobby name: ");
+        out.println("Enter Lobby name: (we prefer to avoid bad words)");
         String nameInput = null;
         nameInput = readLine();
 
-        out.println("Enter Number of players allowed: ");
+        out.println("Enter Number of players allowed: (from 2 to 4)");
         String numberInput = null;
-
         numberInput = readLine();
-
         int numOfPlayers = Integer.parseInt(numberInput);
-        out.println("Enter 'true' for expert mode,or type anything else for normal mode");
-        String trueInput = null;
+        if(numOfPlayers<2 || numOfPlayers>4){
+            out.println("Invalid num of players, retry to create a lobby");
+            sendNewLobbyRequest();
+            return;
+        }
 
+        out.println("Enter 'true' for expert mode,or false for normal mode (check the caps lock)");
+        String trueInput = null;
         trueInput = readLine();
+        if(!trueInput.equals("true") && !trueInput.equals("false") ){
+            out.println("Invalid mode selected, retry to create a lobby");
+            sendNewLobbyRequest();
+            return;
+        }
 
         boolean expertMode = Boolean.parseBoolean(trueInput);
+
         String finalNameInput = nameInput;
         notifyObserver(obs -> obs.onSendNewLobbyRequest(finalNameInput,numOfPlayers,expertMode));
     }
@@ -209,7 +219,7 @@ public class Cli extends View {
 
     @Override
     public void onSendChooseLobby(List<Lobby> lobbylist){
-        out.println("Write a lobby name to access: ");
+        out.println("Write a lobby name to access: \n");
         int counter = 1;
         for(Lobby lobby : lobbylist){
             out.println("#" + counter + " Lobby name: " + lobby.getName());
@@ -230,12 +240,14 @@ public class Cli extends View {
         }
         out.println("This lobby doesn't exist! ");
         onSendChooseLobby(lobbylist);
+        return;
 
     }
 
     @Override
     public void onSendChooseTeam(Map<String,Integer> availablePlayers){
-        out.println("Choose a team player from the available ids: ");
+        clearCli();
+        out.println("Choose a team player from the available ids:");
         for(Map.Entry<String,Integer> entry : availablePlayers.entrySet()){
             out.println( "Name: " + entry.getKey() + ", Id: " + entry.getValue());
         }
@@ -252,11 +264,12 @@ public class Cli extends View {
         }
         out.println("This player doesn't exist! ");
         onSendChooseTeam(availablePlayers);
+        return;
 
     }
 
     @Override
-    public void onSendChooseTowerColor(List<TowerColor> availableTowerColors){
+    public void onSendChooseTowerColor(List<TowerColor> availableTowerColors){ //ONLY IN THREE PLAYERS GAME WE HAVE ALSO GRAY COLOR
         out.println("Choose a Tower Color from the available colors: ");
         for(TowerColor c : availableTowerColors){
             out.println( "Color: " + c );
@@ -273,6 +286,7 @@ public class Cli extends View {
         }
         out.println("This color isn't available! ");
         onSendChooseTowerColor(availableTowerColors);
+        return;
 
     }
 
@@ -293,6 +307,7 @@ public class Cli extends View {
         }
         out.println("This wizard isn't available! ");
         onSendChooseWizard(availableWizards);
+        return;
     }
 
 

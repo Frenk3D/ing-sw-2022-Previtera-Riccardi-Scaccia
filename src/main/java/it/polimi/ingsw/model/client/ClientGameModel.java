@@ -139,6 +139,15 @@ public class ClientGameModel extends ModelObservable {
         this.numOfPlayers = numOfPlayers;
     }
 
+    public ReducedPlayer findPlayerById(int id){
+        for(ReducedPlayer rp : playersList) {
+            if (rp.getId() == id) {
+                return rp;
+            }
+        }
+        return null;
+    }
+
     //NOW THERE ARE METHODS THAT CONTROLLER CALLS WHEN HE RECEIVE A MESSAGE FROM THE SOCKET
     public void sendServerInfoRequest()   {
         notifyObserver(obs -> obs.onAskServerInfo());
@@ -242,11 +251,12 @@ public class ClientGameModel extends ModelObservable {
     }
 
     public void showPlayerJoin(List<String> playersList){
-        System.out.println("The players in the lobby are:");
+        notifyObserver(obs -> obs.onShow("The players in the lobby are:"));
         for(String player: playersList){
-            System.out.print("Player:");
-            notifyObserver(obs -> obs.onShow(player));
+            notifyObserver(obs -> obs.onShow("Player: " + player));
         }
+        notifyObserver(obs -> obs.onShow("Waiting for other players..."));
+
     }
 }
 

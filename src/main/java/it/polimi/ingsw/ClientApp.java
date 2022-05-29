@@ -19,7 +19,7 @@ import java.util.logging.Level;
 // It is used for both the {@link CLI} and the {@link GUI}
 public class ClientApp {
 
-    private static final String CLI_ARGUMENT = "-cli";
+    private static final String CLI_ARGUMENT = "--cli";
     private static final String HELP_ARGUMENT = "-help";
 
     public static void main(String[] args){
