@@ -2,19 +2,14 @@ package it.polimi.ingsw.controller;
 
 
 import it.polimi.ingsw.model.client.ClientGameModel;
-import it.polimi.ingsw.model.client.ReducedDashboard;
-import it.polimi.ingsw.model.client.ReducedPlayer;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.client.*;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.Lobby;
-import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.observer.ViewObserver;
-import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -70,7 +65,7 @@ public class ClientController implements ViewObserver {
                 taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
                 break;
             case AVAILABLE_LOBBIES:
-                clientState = ClientState.PRE_LOBBY;
+                clientState = ClientState.CHOOSING_LOBBY;
                 LobbyMessage lobbyMessage = (LobbyMessage) message;
                 taskQueue.execute(() -> clientGameModel.sendChooseLobby(lobbyMessage.getLobbiesList()));
                 break;
@@ -225,21 +220,19 @@ public class ClientController implements ViewObserver {
     public void onAskServerInfo(Map<String, String> serverInfo)  {
         try {
             client = new ClientSocket(serverInfo.get("address"), Integer.parseInt(serverInfo.get("port")), this);
-            //client.addObserver(this);
+            clientState = ClientState.REQUESTING_LOGIN;
             client.readMessage(); // Starts an asynchronous reading from the server.
             taskQueue.execute(clientGameModel::sendLoginRequest);
-            clientState = ClientState.LOGIN_REQUESTED;
-
         } catch (IOException e) {
-            taskQueue.execute(() -> clientGameModel.sendServerInfoRequest());
-            clientState = ClientState.REQUESTING_LOGIN;
+            clientGameModel.sendServerInfoRequest();
+            clientState = ClientState.APPLICATION_START;
         }
     }
     @Override
     public void onSendLoginRequest(String input){
         StringMessage loginRequest = new StringMessage(MessageType.LOGIN_REQUEST, client.getClientId(), true,input);
         taskQueue.execute(() -> client.sendMessage(loginRequest));
-        clientState = ClientState.LOGIN_REQUESTED;
+        clientState = ClientState.LOGIN_ACCEPTED;
     }
 
 
@@ -270,7 +263,7 @@ public class ClientController implements ViewObserver {
     public void onSendLobbiesRequest(){
         GenericMessage message = new GenericMessage(MessageType.LOBBIES_REQUEST,client.getClientId(),true);
         client.sendMessage(message);
-        clientState = ClientState.PRE_LOBBY;
+        clientState = ClientState.CHOOSING_LOBBY;
 
     }
 
@@ -302,146 +295,6 @@ public class ClientController implements ViewObserver {
         clientState = ClientState.CHOSEN_WIZARD;
     }
 
-    //TO DELETE
-//    /**
-//     * Create a new Socket Connection to the server with the updated info.
-//     * An error view is shown if connection cannot be established.
-//     *
-//     * @param serverInfo a map of server address and server port.
-//     */
-//    @Override
-//    public void onUpdateServerInfo(Map<String, String> serverInfo) {
-//        try {
-//            client = new ClientSocket(serverInfo.get("address"), Integer.parseInt(serverInfo.get("port")));
-//            client.addObserver(this);
-//            client.readMessage(); // Starts an asynchronous reading from the server.
-//            taskQueue.execute(view::askPlayerInfo);
-//        } catch (IOException e) {
-//            taskQueue.execute(() -> view.askServerConfig());
-//        }
-//    }
-//
-//    /**
-//     * Sends a message to the server with the updated nickname.
-//     * The nickname is also stored locally for later usages.
-//     *
-//     * @param nickname the nickname to be sent.
-//     */
-//    @Override
-//    public void onUpdateNickname(String nickname) {
-//        this.nickname = nickname;
-//        client.sendMessage(new StringMessage(MessageType.LOGIN_REQUEST,client.getClientId(),this.nickname));
-//    }
-//
-//    /**
-//     * Sends a message to the server with the player number chosen by the user.
-//     *
-//     * @param playersNumber the number of players.
-//     */
-//    @Override
-//    public void onUpdatePlayersNumber(int playersNumber) {
-//        client.sendMessage(new PlayerNumberReply(this.nickname, playersNumber));
-//    }
-//
-//    /**
-//     * Sends a message to the server with the workers color chosen by the user.
-//     *
-//     * @param color the color of the workers.
-//     */
-//    @Override
-//    public void onUpdateWorkersColor(Color color) {
-//        client.sendMessage(new ColorsMessage(this.nickname, List.of(color)));
-//    }
-//
-//    /**
-//     * Sends a message to the server with the gods chosen by the user.
-//     *
-//     * @param gods the list of gods chosen by the user.
-//     */
-//    @Override
-//    public void onUpdateGod(List<ReducedGod> gods) {
-//        client.sendMessage(new GodListMessage(this.nickname, gods, 0));
-//    }
-//
-//    /**
-//     * Sends a message to the server with the position of the worker to be moved chosen by the user.
-//     *
-//     * @param position the position of the worker to be moved.
-//     */
-//    @Override
-//    public void onUpdatePickMovingWorker(Position position) {
-//        client.sendMessage(new PositionMessage(this.nickname, MessageType.PICK_MOVING_WORKER, List.of(position)));
-//    }
-//
-//    /**
-//     * Sends a message to the server with the initial position of the workers chosen by the user.
-//     *
-//     * @param positions the list of the initial position of the workers.
-//     */
-//    @Override
-//    public void onUpdateInitWorkerPosition(List<Position> positions) {
-//        client.sendMessage(new PositionMessage(this.nickname, MessageType.INIT_WORKERSPOSITIONS, positions));
-//    }
-//
-//    /**
-//     * Sends a message to the server with the new position of the moving worker chosen by the user.
-//     *
-//     * @param destination the new position of the moving worker.
-//     */
-//    @Override
-//    public void onUpdateMove(Position destination) {
-//        client.sendMessage(new PositionMessage(this.nickname, MessageType.MOVE, List.of(destination)));
-//    }
-//
-//    /**
-//     * Sends a message to the server with the position of the block to be built chosen by the user.
-//     *
-//     * @param position the position of the block to be built.
-//     */
-//    @Override
-//    public void onUpdateBuild(Position position) {
-//        client.sendMessage(new PositionMessage(this.nickname, MessageType.BUILD, List.of(position)));
-//    }
-//
-//    /**
-//     * Sends a message to the server with the choice of the user about his god effect.
-//     *
-//     * @param response the choice of the user about his god effect.
-//     */
-//    @Override
-//    public void onUpdateEnableEffect(boolean response) {
-//        client.sendMessage(new PrepareEffectMessage(this.nickname, response));
-//    }
-//
-//    /**
-//     * Sends a message to the server with the choice of the user about his god effect.
-//     *
-//     * @param dest the choice of the user about his god effect.
-//     */
-//    @Override
-//    public void onUpdateApplyEffect(Position dest) {
-//        client.sendMessage(new PositionMessage(this.nickname, MessageType.APPLY_EFFECT, List.of(dest)));
-//    }
-//
-//    /**
-//     * Sends a message to the server with the nickname of the first player chosen by the user.
-//     *
-//     * @param nickname the nickname of the first player.
-//     */
-//    @Override
-//    public void onUpdateFirstPlayer(String nickname) {
-//        client.sendMessage(new MatchInfoMessage(this.nickname, MessageType.PICK_FIRST_PLAYER, null, null, null, nickname));
-//    }
-//
-
-
-//   /**
-//     * Disconnects the client from the network.
-//     */
-//    @Override
-//    public void onAskDisconnection() {
-//        client.disconnect();
-//     }
 
 
     public void onSocketDisconnect(){   //this happens only when there is a mine critical problem
@@ -477,7 +330,7 @@ public class ClientController implements ViewObserver {
 
     private void manageErrorReplyMessage(){
         switch(clientState) {
-            case LOGIN_REQUESTED:
+            case LOGIN_ACCEPTED:
                 clientState = ClientState.REQUESTING_LOGIN;
                 //ExecutorService.shutdownNow();
                 //taskQueue.execute(() -> clientGameModel.sendLoginRequest());
@@ -485,7 +338,7 @@ public class ClientController implements ViewObserver {
                 break;
 
             case CHOSEN_LOBBY:
-                clientState = ClientState.PRE_LOBBY;
+                clientState = ClientState.CHOOSING_LOBBY;
                 //ExecutorService.shutdownNow();
                 //taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
                 clientGameModel.askCreateOrJoin();;
@@ -590,5 +443,9 @@ public class ClientController implements ViewObserver {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public ClientState getClientState() {
+        return clientState;
     }
 }

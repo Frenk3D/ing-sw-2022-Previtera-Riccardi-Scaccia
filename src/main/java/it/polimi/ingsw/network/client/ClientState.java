@@ -3,11 +3,12 @@ package it.polimi.ingsw.network.client;
 public enum ClientState {  //Specifies every state for the single client
     APPLICATION_START, //WHEN CLIENT APP STARTS AND THE VIEW ASKS FOR SERVER INFO... OR THE CONTROLLER
     REQUESTING_LOGIN,
-    LOGIN_REQUESTED,
     LOGIN_ACCEPTED,
-    PRE_LOBBY,
+    CHOOSING_JOIN_CREATE,
+    CREATING_LOBBY,
+    CHOOSING_LOBBY, //we choose to join a lobby and we are choosing the lobby
     CHOSEN_LOBBY,
-    WAITING_IN_LOBBY, //while I'm waiting I will receive available... and I understand that I entered in a game.
+    WAITING_IN_LOBBY, //while I'm waiting I will receive available... and I understand that I entered a game.
     CHOOSING_TEAM,  // I'M CHOOSING (before sending message)
     CHOSEN_TEAM,   // I CHOSE AND IF I RECEIVE ERROR I RETRY AGAIN WITH CHOOSING TEAM
     CHOOSING_TOWER_COLOR,

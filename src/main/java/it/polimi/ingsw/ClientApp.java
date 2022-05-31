@@ -45,8 +45,12 @@ public class ClientApp {
         }
 
         if (cliParam) {
-            Cli view = new Cli();
+
             ClientController clientController = new ClientController();
+
+            Cli view = new Cli(clientController.getClientState());
+
+
             clientController.getClientGameModel().addObserver(view);
             view.addObserver(clientController);
             view.init();

@@ -52,7 +52,7 @@ public class ViewObservable {
      *
      * @param lambda the lambda to be called on the observers.
      */
-    protected void notifyObserver(Consumer<ViewObserver> lambda) {
+    public void notifyObserver(Consumer<ViewObserver> lambda) {
         for (ViewObserver observer : observers) {
             lambda.accept(observer);
         }

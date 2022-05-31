@@ -30,23 +30,22 @@ import java.awt.image.BufferedImage;
  */
 public class Cli extends View {
 
+    Thread keyboardManagerThread;
     private final PrintStream out;
-    private final Scanner input;
-    private Thread inputThread;
-
-    private static final String STR_INPUT_FAILED = "User input failed.";
-
     private static final String STR_ROW = "Row: ";
     private static final String STR_COLUMN = "Column: ";
     private static final String STR_POSITION = "Position ";
-
+    private ClientState state;
 
     /**
      * Default constructor.
      */
-    public Cli() {
+    public Cli(ClientState state) {
         out = System.out;
-        input = new Scanner(System.in);
+        this.state = state;
+
+        KeyboardManager keyboardManager = new KeyboardManager(state,this);
+        keyboardManagerThread = new Thread(keyboardManager, "keyboardManager");
     }
 
 
@@ -75,19 +74,6 @@ public class Cli extends View {
      *
      * @return the string read from the input.
      */
-    public String readLine(){
-        String cmd = null;
-
-        try {
-            input.reset();
-            cmd = input.nextLine();
-        }
-        catch (NoSuchElementException | IllegalStateException e){
-            out.println(STR_INPUT_FAILED);
-            Thread.currentThread().interrupt();
-        }
-        return cmd;
-    }
 
 
     /**
@@ -112,13 +98,14 @@ public class Cli extends View {
             String defaultAddress = "localhost";
             String defaultPort = "3333";
             boolean validInput;
+            Scanner scanner = new Scanner(System.in);
 
             out.println("Please specify the following settings. The default value is shown between brackets.");
 
             do {
                 out.print("Enter the server address [" + defaultAddress + "]: ");
 
-                String address = readLine();
+                String address = scanner.nextLine();
 
                 if (address.equals("")) {
                     serverInfo.put("address", defaultAddress);
@@ -135,7 +122,7 @@ public class Cli extends View {
 
             do {
                 out.print("Enter the server port [" + defaultPort + "]: ");
-                String port = readLine();
+                String port = scanner.nextLine();
 
                 if (port.equals("")) {
                     serverInfo.put("port", defaultPort);
@@ -152,69 +139,25 @@ public class Cli extends View {
             } while (!validInput);
 
             notifyObserver(obs -> obs.onAskServerInfo(serverInfo));
-            // ServerInfoMessage serverInfoMessage = new ServerInfoMessage(MessageType.SERVER_INFO,8888 ,serverInfo);
-            // notifyObserver(serverInfoMessage);
+            //scanner.close();
     }
     @Override
     public void onSendLoginRequest() {
+        if(!keyboardManagerThread.isAlive()){
+            keyboardManagerThread.start();
+        }
+
         out.println("Enter name: ");
-        String scanIn = readLine();
-        notifyObserver(obs -> obs.onSendLoginRequest(scanIn));
-        //StringMessage loginRequest = new StringMessage(MessageType.LOGIN_REQUEST, 8888, input);
     }
 
     @Override
     public void onAskCreateOrJoin(){
-        //Scanner scanIn = new Scanner(System.in);
         out.println("Type 'c' to create a new lobby and join it,or type 'j' to join an existing lobby");
-        String input = null;
-        input = readLine();
-        if(input.equals("c")){
-            sendNewLobbyRequest();      //or I can write everything here
-        }
-        else if(input.equals("j")){
-            sendLobbiesRequest();
-        }
-        else{
-            onShow("Incorrect input,try again!");
-            onAskCreateOrJoin();
-        }
     }
 
 
     public void sendNewLobbyRequest(){
         out.println("Enter Lobby name: (we prefer to avoid bad words)");
-        String nameInput = null;
-        nameInput = readLine();
-
-        out.println("Enter Number of players allowed: (from 2 to 4)");
-        String numberInput = null;
-        numberInput = readLine();
-        int numOfPlayers = Integer.parseInt(numberInput);
-        if(numOfPlayers<2 || numOfPlayers>4){
-            out.println("Invalid num of players, retry to create a lobby");
-            sendNewLobbyRequest();
-            return;
-        }
-
-        out.println("Enter 'true' for expert mode,or false for normal mode (check the caps lock)");
-        String trueInput = null;
-        trueInput = readLine();
-        if(!trueInput.equals("true") && !trueInput.equals("false") ){
-            out.println("Invalid mode selected, retry to create a lobby");
-            sendNewLobbyRequest();
-            return;
-        }
-
-        boolean expertMode = Boolean.parseBoolean(trueInput);
-
-        String finalNameInput = nameInput;
-        notifyObserver(obs -> obs.onSendNewLobbyRequest(finalNameInput,numOfPlayers,expertMode));
-    }
-
-
-    public void  sendLobbiesRequest(){
-        notifyObserver(obs -> obs.onSendLobbiesRequest());
     }
 
     @Override
@@ -227,21 +170,6 @@ public class Cli extends View {
             out.println("Mode: " + ( lobby.isExpertMode()? "Expert\n" : "Normal\n"));
             counter ++;
         }
-        String input = null;
-
-        input = readLine();
-
-        for(Lobby lobby : lobbylist){
-            if(input.equals(lobby.getName())){
-                String finalInput = input;
-                notifyObserver(obs -> obs.onSendChooseLobby(finalInput));
-                return;
-            }
-        }
-        out.println("This lobby doesn't exist! ");
-        onSendChooseLobby(lobbylist);
-        return;
-
     }
 
     @Override
@@ -253,7 +181,7 @@ public class Cli extends View {
         }
         String input = null;
 
-        input = readLine();
+        //input = readLine();
 
         for(Map.Entry<String,Integer> entry : availablePlayers.entrySet()){
             if(input.equals(entry.getValue())){
@@ -276,7 +204,7 @@ public class Cli extends View {
         }
         String input = null;
 
-        input = readLine();
+        //input = readLine();
 
         for(TowerColor c : availableTowerColors){
             if(input.equals(c.toString())){
@@ -297,7 +225,7 @@ public class Cli extends View {
             out.println( "Wizard: " + wizard);
         }
         String input = null;
-        input = readLine();
+        //input = readLine();
 
         for(Wizard wizard : availableWizards){
             if(input.equals(wizard.toString())){
