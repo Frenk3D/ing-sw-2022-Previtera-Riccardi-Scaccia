@@ -48,7 +48,7 @@ public class ClientApp {
 
             ClientController clientController = new ClientController();
 
-            Cli view = new Cli(clientController.getClientState());
+            Cli view = new Cli(clientController);
 
 
             clientController.getClientGameModel().addObserver(view);

@@ -28,7 +28,7 @@ public class ClientController implements ViewObserver {
     private boolean teamLeader; //he is who requested the teamPlayer and who will choose the tower color
     //my player id is in clientGameModel and in client
 
-    private final ExecutorService taskQueue;
+   // private final ExecutorService taskQueue; we use thread for the view
 
     //public static final int UNDO_TIME = 5000;
 
@@ -38,7 +38,7 @@ public class ClientController implements ViewObserver {
      *
      */
     public ClientController() {
-        taskQueue = Executors.newSingleThreadExecutor();
+        //taskQueue = Executors.newSingleThreadExecutor();
         teamLeader=true;
         clientState = ClientState.APPLICATION_START;
         clientGameModel = new ClientGameModel();
@@ -57,22 +57,22 @@ public class ClientController implements ViewObserver {
 
         switch (message.getMessageType()) {
             case LOGIN_REPLY: //we can use notifyObserver of the clientGameModel because we have it, empty
-                clientState = ClientState.LOGIN_ACCEPTED;
+                clientState = ClientState.CHOOSING_JOIN_CREATE;
                 StringMessage loginReply = (StringMessage) message;
                 client.setClientId(Integer.parseInt(loginReply.getString())); //we need this in the ClientSocket class
                 clientGameModel.setMyPlayerId(client.getClientId());
                 teamId=client.getClientId(); //for now, I'm my team player
-                taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
+                clientGameModel.askCreateOrJoin();
                 break;
             case AVAILABLE_LOBBIES:
                 clientState = ClientState.CHOOSING_LOBBY;
                 LobbyMessage lobbyMessage = (LobbyMessage) message;
-                taskQueue.execute(() -> clientGameModel.sendChooseLobby(lobbyMessage.getLobbiesList()));
+                clientGameModel.sendChooseLobby(lobbyMessage.getLobbiesList());
                 break;
             case PLAYER_JOIN:
                 clientState = ClientState.WAITING_IN_LOBBY;
                 PlayerJoinMessage playerJoinMessage = (PlayerJoinMessage) message;
-                taskQueue.execute(() -> clientGameModel.showPlayerJoin(playerJoinMessage.getPlayersList()));
+                clientGameModel.showPlayerJoin(playerJoinMessage.getPlayersList());
                 break;
 
             case AVAILABLE_TEAM_SEND:
@@ -82,14 +82,14 @@ public class ClientController implements ViewObserver {
 
                 for(Map.Entry<String,Integer> entry : availableTeamPlayers.entrySet()){  //saving my nickname, the first available team send will have every nickname
                     if(entry.getValue() == client.getClientId())
-                    taskQueue.execute(() -> setNickname(entry.getKey()));
+                    setNickname(entry.getKey());
 
                 }
 
                 if (availableTeamPlayers.containsKey(nickname)){  //it means that I still have to choose
                     clientState = ClientState.CHOOSING_TEAM;
                     availableTeamPlayers.remove(nickname);
-                    taskQueue.execute(() -> clientGameModel.sendChooseTeam(availableTeamPlayers));
+                    clientGameModel.sendChooseTeam(availableTeamPlayers);
                 }
 
                 break;
@@ -98,7 +98,7 @@ public class ClientController implements ViewObserver {
                 List<TowerColor> availableTowerColors = towerMessage.getAvailableTowerColors();
                 clientGameModel.setAvailableTowerColors(availableTowerColors);
                 if (clientState == ClientState.CHOOSING_TOWER_COLOR){
-                    taskQueue.execute(() -> clientGameModel.sendChooseTowerColor(availableTowerColors));
+                    clientGameModel.sendChooseTowerColor(availableTowerColors);
                 }
                 break;
             case AVAILABLE_WIZARD_SEND:
@@ -107,7 +107,7 @@ public class ClientController implements ViewObserver {
                 clientGameModel.setAvailableWizards(availableWizards);
 
                 if (clientState == ClientState.CHOOSING_WIZARD){
-                    taskQueue.execute(() -> clientGameModel.sendChooseWizard(availableWizards));
+                    clientGameModel.sendChooseWizard(availableWizards);
                 }
                 break;
 
@@ -117,7 +117,7 @@ public class ClientController implements ViewObserver {
                 clientState = ClientState.GAME_START;
                 AllGameMessage allGameMessage = (AllGameMessage) message;
                 clientGameModel.initClientGameModel(allGameMessage);
-                taskQueue.execute(() -> setNickname(clientGameModel.findPlayerById(client.getClientId()).getName()));
+                setNickname(clientGameModel.findPlayerById(client.getClientId()).getName());
                 break;
 
 
@@ -222,7 +222,8 @@ public class ClientController implements ViewObserver {
             client = new ClientSocket(serverInfo.get("address"), Integer.parseInt(serverInfo.get("port")), this);
             clientState = ClientState.REQUESTING_LOGIN;
             client.readMessage(); // Starts an asynchronous reading from the server.
-            taskQueue.execute(clientGameModel::sendLoginRequest);
+            //taskQueue.execute(clientGameModel::sendLoginRequest);
+            clientGameModel.sendLoginRequest();
         } catch (IOException e) {
             clientGameModel.sendServerInfoRequest();
             clientState = ClientState.APPLICATION_START;
@@ -231,7 +232,7 @@ public class ClientController implements ViewObserver {
     @Override
     public void onSendLoginRequest(String input){
         StringMessage loginRequest = new StringMessage(MessageType.LOGIN_REQUEST, client.getClientId(), true,input);
-        taskQueue.execute(() -> client.sendMessage(loginRequest));
+        client.sendMessage(loginRequest);
         clientState = ClientState.LOGIN_ACCEPTED;
     }
 
@@ -447,5 +448,9 @@ public class ClientController implements ViewObserver {
 
     public ClientState getClientState() {
         return clientState;
+    }
+
+    public void setClientState(ClientState clientState) {
+        this.clientState = clientState;
     }
 }

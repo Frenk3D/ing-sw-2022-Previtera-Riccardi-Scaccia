@@ -30,21 +30,21 @@ import java.awt.image.BufferedImage;
  */
 public class Cli extends View {
 
-    Thread keyboardManagerThread;
+    private Thread keyboardManagerThread;
     private final PrintStream out;
     private static final String STR_ROW = "Row: ";
     private static final String STR_COLUMN = "Column: ";
     private static final String STR_POSITION = "Position ";
-    private ClientState state;
+    private KeyboardManager keyboardManager;
 
     /**
      * Default constructor.
      */
-    public Cli(ClientState state) {
+    public Cli(ClientController controller) {
         out = System.out;
-        this.state = state;
+        //this.state = state;
 
-        KeyboardManager keyboardManager = new KeyboardManager(state,this);
+        keyboardManager = new KeyboardManager(controller,this);
         keyboardManagerThread = new Thread(keyboardManager, "keyboardManager");
     }
 
@@ -139,7 +139,7 @@ public class Cli extends View {
             } while (!validInput);
 
             notifyObserver(obs -> obs.onAskServerInfo(serverInfo));
-            //scanner.close();
+            scanner.reset();
     }
     @Override
     public void onSendLoginRequest() {
@@ -158,6 +158,9 @@ public class Cli extends View {
 
     public void sendNewLobbyRequest(){
         out.println("Enter Lobby name: (we prefer to avoid bad words)");
+        out.println("After a space enter number of players allowed: (from 2 to 4)");
+        out.println("After another space enter 'true' for expert mode, or false for normal mode (check the caps-lock");
+
     }
 
     @Override
@@ -170,6 +173,8 @@ public class Cli extends View {
             out.println("Mode: " + ( lobby.isExpertMode()? "Expert\n" : "Normal\n"));
             counter ++;
         }
+        keyboardManager.setLobbylist(lobbylist);
+        return;
     }
 
     @Override
@@ -179,19 +184,10 @@ public class Cli extends View {
         for(Map.Entry<String,Integer> entry : availablePlayers.entrySet()){
             out.println( "Name: " + entry.getKey() + ", Id: " + entry.getValue());
         }
-        String input = null;
-
+        //String input = null;
         //input = readLine();
+        keyboardManager.setAvailablePlayers(availablePlayers);
 
-        for(Map.Entry<String,Integer> entry : availablePlayers.entrySet()){
-            if(input.equals(entry.getValue())){
-                int finalInput = Integer.parseInt(input);
-                notifyObserver(obs -> obs.onSendChooseTeam(finalInput));
-                return;
-            }
-        }
-        out.println("This player doesn't exist! ");
-        onSendChooseTeam(availablePlayers);
         return;
 
     }
@@ -202,18 +198,11 @@ public class Cli extends View {
         for(TowerColor c : availableTowerColors){
             out.println( "Color: " + c );
         }
-        String input = null;
 
+        //String input = null;
         //input = readLine();
+        keyboardManager.setAvailableTowerColors(availableTowerColors);
 
-        for(TowerColor c : availableTowerColors){
-            if(input.equals(c.toString())){
-                notifyObserver(obs -> obs.onSendChooseTowerColor(c));
-                return;
-            }
-        }
-        out.println("This color isn't available! ");
-        onSendChooseTowerColor(availableTowerColors);
         return;
 
     }
@@ -224,17 +213,10 @@ public class Cli extends View {
         for(Wizard wizard : availableWizards){
             out.println( "Wizard: " + wizard);
         }
-        String input = null;
+        //String input = null;
         //input = readLine();
 
-        for(Wizard wizard : availableWizards){
-            if(input.equals(wizard.toString())){
-                notifyObserver(obs -> obs.onSendChooseWizard(wizard));
-                return;
-            }
-        }
-        out.println("This wizard isn't available! ");
-        onSendChooseWizard(availableWizards);
+        keyboardManager.setAvailableWizards(availableWizards);
         return;
     }
 
