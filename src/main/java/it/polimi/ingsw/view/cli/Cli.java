@@ -147,7 +147,7 @@ public class Cli extends View {
             keyboardManagerThread.start();
         }
 
-        out.println("Enter name: ");
+        out.print("Enter name: ");
     }
 
     @Override
@@ -198,11 +198,7 @@ public class Cli extends View {
         for(TowerColor c : availableTowerColors){
             out.println( "Color: " + c );
         }
-
-        //String input = null;
-        //input = readLine();
         keyboardManager.setAvailableTowerColors(availableTowerColors);
-
         return;
 
     }
@@ -213,9 +209,6 @@ public class Cli extends View {
         for(Wizard wizard : availableWizards){
             out.println( "Wizard: " + wizard);
         }
-        //String input = null;
-        //input = readLine();
-
         keyboardManager.setAvailableWizards(availableWizards);
         return;
     }

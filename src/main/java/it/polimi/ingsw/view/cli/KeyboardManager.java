@@ -40,6 +40,7 @@ public class KeyboardManager implements Runnable{
                 case REQUESTING_LOGIN:
                     cli.notifyObserver(obs -> obs.onSendLoginRequest(userInput));
                     break;
+
                 case CHOOSING_JOIN_CREATE:
                     if(userInput.equals("c")){
                         controller.setClientState(ClientState.CREATING_LOBBY);
@@ -55,70 +56,101 @@ public class KeyboardManager implements Runnable{
                         break;
                     }
                     break;
+
                 case CREATING_LOBBY:
                     try {
                         String params[] = userInput.split(" ");
 
-                    int numOfPlayers = Integer.parseInt(params[1]);
+                        int numOfPlayers = Integer.parseInt(params[1]);
 
-                    if(numOfPlayers<2 || numOfPlayers>4){
-                        System.out.println("Invalid num of players, retry to create a lobby");
-                        cli.sendNewLobbyRequest();
-                        break;
+                        if(numOfPlayers<2 || numOfPlayers>4){
+                            System.out.println("Invalid num of players, retry to create a lobby");
+                            cli.sendNewLobbyRequest();
+                            break;
+                        }
+
+                        if(!params[2].equals("true") && !params[2].equals("false") ){
+                            System.out.println("Invalid mode selected, retry to create a lobby");
+                            cli.sendNewLobbyRequest();
+                            break;
+                        }
+                        boolean expertMode = Boolean.parseBoolean(params[2]);
+                        cli.notifyObserver(obs -> obs.onSendNewLobbyRequest(params[0],numOfPlayers,expertMode));
                     }
-
-                    if(!params[2].equals("true") && !params[2].equals("false") ){
-                        System.out.println("Invalid mode selected, retry to create a lobby");
-                        cli.sendNewLobbyRequest();
-                        break;
-                    }
-
-                    boolean expertMode = Boolean.parseBoolean(params[2]);
-                    cli.notifyObserver(obs -> obs.onSendNewLobbyRequest(params[0],numOfPlayers,expertMode)); }
                     catch (Exception e){
                         System.out.println("Input failed, retry");
                     }
                     break;
+
                 case CHOOSING_LOBBY:
+                    Lobby chosenLobby = null;
                     for(Lobby lobby : lobbylist){
                         if(userInput.equals(lobby.getName())){
-                            cli.notifyObserver(obs -> obs.onSendChooseLobby(userInput));
+                            chosenLobby = lobby;
                             break;
                         }
                     }
-                    System.out.println("This lobby doesn't exist! Choose again!");
 
+                    if(chosenLobby != null){
+                        cli.notifyObserver(obs -> obs.onSendChooseLobby(userInput));
+                    }
+                    else {
+                        System.out.println("This lobby doesn't exist! Choose again!");
+                    }
                     break;
+
                 case CHOOSING_TEAM:
-                    for(Map.Entry<String,Integer> entry : availablePlayers.entrySet()){
-                        if(userInput.equals(entry.getValue())){
-                            int finalInput = Integer.parseInt(userInput);
-                            cli.notifyObserver(obs -> obs.onSendChooseTeam(finalInput));
+                    int chosenPlayer = -1;
+
+                    for(String entry : availablePlayers.keySet()){
+                        if(userInput.equals(entry)){
+                            chosenPlayer = Integer.parseInt(userInput);
                             break;
                         }
                     }
-                    System.out.println("This player doesn't exist!, choose again");
-                    //cli.onSendChooseTeam(availablePlayers);
+
+                    if(chosenPlayer != -1){
+                        int finalInput = chosenPlayer;
+                        cli.notifyObserver(obs -> obs.onSendChooseTeam(finalInput));
+                    }
+                    else {
+                        System.out.println("This player doesn't exist!, choose again");
+                    }
                     break;
+
                 case CHOOSING_TOWER_COLOR:
+                    TowerColor chosenTowerColor = null;
                     for(TowerColor c : availableTowerColors){
                         if(userInput.equals(c.toString())){
-                            cli.notifyObserver(obs -> obs.onSendChooseTowerColor(c));
+                            chosenTowerColor = c;
                             break;
                         }
                     }
-                    System.out.println("This color isn't available!, choose again ");
-                    //onSendChooseTowerColor(availableTowerColors);
+
+                    if(chosenTowerColor != null){
+                        TowerColor finalTowerColor = chosenTowerColor;
+                        cli.notifyObserver(obs -> obs.onSendChooseTowerColor(finalTowerColor));
+                    }
+                    else {
+                        System.out.println("This color isn't available!, choose again ");
+                    }
                     break;
+
                 case CHOOSING_WIZARD:
+                    Wizard chosenWizard = null;
                     for(Wizard wizard : availableWizards){
                         if(userInput.equals(wizard.toString())){
-                            cli.notifyObserver(obs -> obs.onSendChooseWizard(wizard));
+                            chosenWizard = wizard;
                             break;
                         }
                     }
-                    System.out.println("This wizard isn't available!, try to choose again ");
-                    //onSendChooseWizard(availableWizards);
+                    if(chosenWizard != null){
+                        Wizard finalChosenWizard = chosenWizard;
+                        cli.notifyObserver(obs -> obs.onSendChooseWizard(finalChosenWizard));
+                    }
+                    else {
+                        System.out.println("This wizard isn't available!, try to choose again ");
+                    }
                     break;
             }
 
