@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.ClientController;
+import it.polimi.ingsw.model.client.ReducedCharacter;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;
 import it.polimi.ingsw.network.client.ClientState;
@@ -10,18 +11,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import static it.polimi.ingsw.network.client.ClientState.CHOOSING_LOBBY;
-
 public class KeyboardManager implements Runnable{
     private ClientController controller; //only to check the state
     private Cli cli;
     private String userInput;
     private static final String STR_INPUT_FAILED = "User input failed.";
 
-    private List<Lobby> lobbylist = null;
+    private List<Lobby> lobbiesList = null;
     private Map<String, Integer> availablePlayers= null;
     private List<TowerColor> availableTowerColors = null;
     private List<Wizard> availableWizards = null;
+    private List<ReducedCharacter> charactersList = null;
 
     public KeyboardManager(ClientController controller, Cli cli){
         this.controller = controller;
@@ -31,11 +31,12 @@ public class KeyboardManager implements Runnable{
 
     @Override
     public void run() {
+        Scanner scanInput = new Scanner(System.in);
         while (!Thread.currentThread().isInterrupted()) {  //everytime active to receive input
-            Scanner scanInput = new Scanner(System.in);
+            scanInput.reset();
             userInput = scanInput.nextLine();
-            System.out.println("login: "+ userInput+" state: "+controller.getClientState());
-
+            System.out.println("login: "+ userInput+" state: "+controller.getClientState()); //only for debug
+            //outside switch we can use character everytime, checking the charactersList and choosing the index
             switch (controller.getClientState()){
                 case REQUESTING_LOGIN:
                     cli.notifyObserver(obs -> obs.onSendLoginRequest(userInput));
@@ -84,7 +85,7 @@ public class KeyboardManager implements Runnable{
 
                 case CHOOSING_LOBBY:
                     Lobby chosenLobby = null;
-                    for(Lobby lobby : lobbylist){
+                    for(Lobby lobby : lobbiesList){
                         if(userInput.equals(lobby.getName())){
                             chosenLobby = lobby;
                             break;
@@ -157,8 +158,10 @@ public class KeyboardManager implements Runnable{
         }
     }
 
-    public void setLobbylist(List<Lobby> lobbylist) {
-        this.lobbylist = lobbylist;
+
+
+    public void setLobbiesList(List<Lobby> lobbiesList) {
+        this.lobbiesList = lobbiesList;
     }
 
     public void setAvailablePlayers(Map<String, Integer> availablePlayers) {
@@ -172,6 +175,10 @@ public class KeyboardManager implements Runnable{
 
     public void setAvailableWizards(List<Wizard> availableWizards) {
         this.availableWizards = availableWizards;
+    }
+
+    public void setCharactersList(List<ReducedCharacter> charactersList) {
+        this.charactersList = charactersList;
     }
 }
 

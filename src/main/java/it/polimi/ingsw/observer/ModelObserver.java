@@ -3,6 +3,7 @@ package it.polimi.ingsw.observer;
 //view (CLI OR GUI) is the model observer and the model is the model observable
 /*(it has more prototypes of ViewObserver but with fewer parameters)*/
 
+import it.polimi.ingsw.model.client.ReducedCharacter;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;
 import it.polimi.ingsw.network.server.Lobby;
@@ -37,6 +38,7 @@ public interface ModelObserver {
 
     void onSendChooseWizard(List<Wizard> availableWizards);
 
+
 //    /**
 //     * Notify the observer of the NewLobbyRequest
 //     *
@@ -57,4 +59,7 @@ public interface ModelObserver {
 //
 
     void onShow(Object toShow);
+
+    void updateCharactersList(List<ReducedCharacter> charactersList);
+
 }

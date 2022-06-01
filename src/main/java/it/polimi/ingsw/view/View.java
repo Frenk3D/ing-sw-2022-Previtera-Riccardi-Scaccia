@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.client.ReducedCharacter;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.*;
@@ -125,4 +126,7 @@ public abstract class View extends ViewObservable implements ModelObserver {
      */
     @Override
     public abstract void onShow(Object toShow) ;  //generic to show everything in base to the type...
+
+    @Override
+    public abstract void updateCharactersList(List<ReducedCharacter> charactersList) ;
 }

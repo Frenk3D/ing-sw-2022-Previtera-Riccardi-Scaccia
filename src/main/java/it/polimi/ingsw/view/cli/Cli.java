@@ -3,13 +3,10 @@ package it.polimi.ingsw.view.cli;
 
 
 import it.polimi.ingsw.controller.ClientController;
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.client.ReducedCharacter;
 import it.polimi.ingsw.model.enumerations.*;
 
-import it.polimi.ingsw.network.client.*;
-import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.*;
-import it.polimi.ingsw.observer.*;
 import it.polimi.ingsw.view.View;
 
 
@@ -17,12 +14,8 @@ import java.io.PrintStream;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.atomic.AtomicInteger;
 
 //for CLI representation
-import java.awt.*;
-import java.awt.image.BufferedImage;
 
 
 /**
@@ -104,10 +97,9 @@ public class Cli extends View {
 
             do {
                 out.print("Enter the server address [" + defaultAddress + "]: ");
-
                 String address = scanner.nextLine();
-
-                if (address.equals("")) {
+                scanner.reset();
+                if (address.equals("") || address.equals(" ") || address.equals("\n")) {
                     serverInfo.put("address", defaultAddress);
                     validInput = true;
                 } else if (ClientController.isValidIpAddress(address)) {
@@ -123,8 +115,9 @@ public class Cli extends View {
             do {
                 out.print("Enter the server port [" + defaultPort + "]: ");
                 String port = scanner.nextLine();
+                scanner.reset();
 
-                if (port.equals("")) {
+                if (port.equals("") || port.equals(" ") || port.equals("\n")) {
                     serverInfo.put("port", defaultPort);
                     validInput = true;
                 } else {
@@ -159,7 +152,7 @@ public class Cli extends View {
     public void sendNewLobbyRequest(){
         out.println("Enter Lobby name: (we prefer to avoid bad words)");
         out.println("After a space enter number of players allowed: (from 2 to 4)");
-        out.println("After another space enter 'true' for expert mode, or false for normal mode (check the caps-lock");
+        out.println("After another space enter 'true' for expert mode, or false for normal mode (check the caps-lock)");
 
     }
 
@@ -173,7 +166,7 @@ public class Cli extends View {
             out.println("Mode: " + ( lobby.isExpertMode()? "Expert\n" : "Normal\n"));
             counter ++;
         }
-        keyboardManager.setLobbylist(lobbylist);
+        keyboardManager.setLobbiesList(lobbylist);
         return;
     }
 
@@ -345,4 +338,8 @@ public class Cli extends View {
         }
     }
 
+    @Override
+    public void updateCharactersList(List<ReducedCharacter> charactersList) {
+        keyboardManager.setCharactersList(charactersList);
+    }
 }

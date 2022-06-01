@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.client.ReducedCharacter;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.client.ClientSocket;
 import it.polimi.ingsw.network.message.MessageType;
@@ -428,6 +429,11 @@ public class Gui extends View {
      */
     @Override
     public void onShow(Object toShow) {
+
+    }
+
+    @Override
+    public void updateCharactersList(List<ReducedCharacter> charactersList) {
 
     }
 }

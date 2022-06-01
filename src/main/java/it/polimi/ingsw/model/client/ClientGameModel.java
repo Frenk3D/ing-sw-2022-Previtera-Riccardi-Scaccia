@@ -37,6 +37,7 @@ public class ClientGameModel extends ModelObservable {
         cloudList = allGameMessage.getCloudsList();
         playersList = allGameMessage.getPlayersList();
         charactersList = allGameMessage.getCharactersList();
+        notifyObserver(obs -> obs.updateCharactersList(charactersList));
         tableMoney = allGameMessage.getTableMoney();
         expertMode = allGameMessage.isExpertMode();
         numOfPlayers = allGameMessage.getPlayersList().size();
