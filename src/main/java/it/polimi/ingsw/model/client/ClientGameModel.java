@@ -24,6 +24,7 @@ public class ClientGameModel extends ModelObservable {
     private List<ReducedCloud> cloudList;
     private List<ReducedPlayer> playersList;
     private List<ReducedCharacter> charactersList;
+    private int motherNaturePos;
     private int tableMoney;
     private int myPlayerId;
     private boolean expertMode;
@@ -41,6 +42,7 @@ public class ClientGameModel extends ModelObservable {
         tableMoney = allGameMessage.getTableMoney();
         expertMode = allGameMessage.isExpertMode();
         numOfPlayers = allGameMessage.getPlayersList().size();
+        motherNaturePos = allGameMessage.getMotherNaturePos();
     }
 
     public void setIslandList(List<ReducedIsland> islandList) {

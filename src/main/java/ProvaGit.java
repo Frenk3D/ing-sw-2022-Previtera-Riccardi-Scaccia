@@ -1,10 +1,12 @@
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.client.ClientGameModel;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.RoundState;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;
 import it.polimi.ingsw.view.cli.Cli;
+import it.polimi.ingsw.view.cli.GamePrinter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,11 +20,27 @@ import java.util.concurrent.ExecutionException;
 public class ProvaGit {
 
     public static void main( String[] args ) throws IOException {
+        runPrintTest();
+    }
 
-        /*Controller controller = new Controller();
+    private static void runPrintTest(){
+        ClientGameModel gameModel = generateClientGameModel();
+        GamePrinter printer = new GamePrinter();
+        printer.print(gameModel);
+    }
+
+    private static ClientGameModel generateClientGameModel(){
+        ClientGameModel clientGameModel = new ClientGameModel();
+
+
+        return clientGameModel;
+    }
+
+    private static void runControllerTest(){
+        Controller controller = new Controller();
         GameModel game = controller.getGame();
 
-        
+
         controller.configure(2,false);
 
         Player p1 = new Player("Pippo", 1); //the players will be stored in the server class
@@ -71,8 +89,6 @@ public class ProvaGit {
 
         printClouds(game);
         printDashboards(game);
-
-         */
     }
 
     private static void printIslands(GameModel game){
@@ -115,4 +131,6 @@ public class ProvaGit {
             }
         }
     }
+
+
 }

@@ -10,15 +10,21 @@ public enum ColorCli {
 
     // Regular Colors. Normal color, no bold, background color etc., for the islands etc...
     RED("\033[0;31m"),      // RED
-    GREEN("\033[38;5;28m"),    // GREEN  "\u001B[32m"
+    GREEN("\033[0;32m"),    // GREEN  "\u001B[32m"
     BLUE("\033[0;34m"),     // BLUE
 
     // Bold for pawns and towers
     YELLOW_BOLD("\033[1;33m"), // YELLOW
     RED_BOLD("\033[1;31m"),
     GREEN_BOLD("\033[1;32m"),
-    PINK_BOLD("\033[35;1m"),
+    PINK_BOLD("\033[0;35m"),
     BLUE_BOLD("\033[1;34m"),
+
+    YELLOW_BG("\033[43m"),
+    RED_BG("\033[41m"),
+    GREEN_BG("\033[42m"),
+    PINK_BG("\033[45m"),
+    BLUE_BG("\033[44m"),
     
     BLACK_BOLD("\033[1;30m"),
     WHITE_BOLD("\033[37;1m"),
@@ -26,6 +32,8 @@ public enum ColorCli {
 
 
     private final String code;
+    private static final String UPPER_INSIDE_LVL_2 = "┌───────────────────┐";
+    private static final String LOWER_INSIDE_LVL_2 = "└───────────────────┘";
 
     ColorCli(String code) {
         this.code = code;

@@ -300,8 +300,9 @@ public class ClientController implements ViewObserver {
 
 
     public void onSocketDisconnect(){   //this happens only when there is a mine critical problem
-        /*taskQueue.execute(() -> )*/ clientGameModel.show((Object) "Disconnecting...");
+        /*taskQueue.execute(() -> )*/ clientGameModel.show((Object) "\nConnection lost, disconnecting...");
         clientState = ClientState.GAME_FINISHED;
+        System.exit(0);
     }
 
     //UTILS METHODS
