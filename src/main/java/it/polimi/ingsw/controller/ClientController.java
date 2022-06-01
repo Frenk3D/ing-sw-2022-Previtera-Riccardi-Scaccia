@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.client.*;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.observer.ViewObserver;
+import it.polimi.ingsw.view.cli.Cli;
 
 import java.io.IOException;
 import java.util.*;
@@ -97,7 +98,7 @@ public class ClientController implements ViewObserver {
                 SyncInitMessage towerMessage = (SyncInitMessage) message;
                 List<TowerColor> availableTowerColors = towerMessage.getAvailableTowerColors();
                 clientGameModel.setAvailableTowerColors(availableTowerColors);
-                if (clientState == ClientState.CHOOSING_TOWER_COLOR){
+                if (teamLeader && (clientState == ClientState.CHOOSING_TOWER_COLOR)){
                     clientGameModel.sendChooseTowerColor(availableTowerColors);
                 }
                 break;
@@ -308,20 +309,20 @@ public class ClientController implements ViewObserver {
         switch(clientState){
             case CHOOSING_TEAM:
                 teamLeader = false; //and with init send I will receive my teamPlayer
-                clientState = ClientState.CHOOSING_WIZARD;
+                clientState = ClientState.CHOSEN_TEAM;
                 break;
 
             case CHOSEN_TEAM:
                 teamLeader = true; //for security, I set it true
                 teamId = client.getClientId(); //for security I set it, the team Id is mine
-                clientState = ClientState.CHOOSING_TOWER_COLOR; //and now i will wait for available ... send
+                //clientState = ClientState.CHOOSING_TOWER_COLOR; //and now i will wait for available ... send
                 break;
 
             case CHOSEN_TOWER_COLOR:
-                clientState = ClientState.CHOOSING_WIZARD; //and now i will wait for available ... send
+                //clientState = ClientState.CHOOSING_WIZARD; //and now i will wait for available ... send
                 break;
             case CHOSEN_WIZARD:
-                clientState = ClientState.GAME_START;
+                //clientState = ClientState.GAME_START;
                 break;
             default:
                 break;
@@ -333,37 +334,27 @@ public class ClientController implements ViewObserver {
         switch(clientState) {
             case LOGIN_ACCEPTED:
                 clientState = ClientState.REQUESTING_LOGIN;
-                //ExecutorService.shutdownNow();
-                //taskQueue.execute(() -> clientGameModel.sendLoginRequest());
                 clientGameModel.sendLoginRequest();;
                 break;
 
             case CHOSEN_LOBBY:
                 clientState = ClientState.CHOOSING_LOBBY;
-                //ExecutorService.shutdownNow();
-                //taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
                 clientGameModel.askCreateOrJoin();;
                 break;
 
             case CHOSEN_TEAM:
                 clientState = ClientState.CHOOSING_TEAM;
-                //ExecutorService.shutdownNow();
-                //taskQueue.execute(() -> clientGameModel.sendChooseTeam(clientGameModel.getAvailableTeamPlayers()));
                 clientGameModel.sendChooseTeam(clientGameModel.getAvailableTeamPlayers());
 
                 break;
 
             case CHOSEN_TOWER_COLOR:
                 clientState = ClientState.CHOOSING_TOWER_COLOR;
-                //ExecutorService.shutdownNow();
-                //taskQueue.execute(() -> clientGameModel.sendChooseTowerColor(clientGameModel.getAvailableTowerColors()));
                 clientGameModel.sendChooseTowerColor(clientGameModel.getAvailableTowerColors());
                 break;
 
             case CHOSEN_WIZARD:
                 clientState = ClientState.CHOOSING_WIZARD;
-                //ExecutorService.shutdownNow();
-                //taskQueue.execute(() -> clientGameModel.sendChooseWizard(clientGameModel.getAvailableWizards()));
                 clientGameModel.sendChooseWizard(clientGameModel.getAvailableWizards());
                 break;
 
@@ -399,11 +390,11 @@ public class ClientController implements ViewObserver {
         else if(gameState == GameState.INGAME_STATE && roundState == RoundState.PLANNING_STATE){
             if(currPlayerId == client.getClientId()){
                 //clientState = ClientState.THROWING_ASSISTANT;
-                //taskQueue.execute(() -> clientGameModel.sendThrowAssistant());
+                //clientGameModel.sendThrowAssistant();
             }
             else {
                 String playerName = clientGameModel.findPlayerById(currPlayerId).getName();
-                //taskQueue.execute(() -> clientGameModel.show(playerName + " is throwing an assistant..." ));
+                //clientGameModel.show(playerName + " is throwing an assistant..." ));
                 clientGameModel.show(playerName + " is throwing an assistant..." );
             }
         }
@@ -412,23 +403,22 @@ public class ClientController implements ViewObserver {
                 switch(turnState){
                     case MOVE_STUDENT_STATE:
                         //clientState = ClientState.MOVING_STUDENT;
-                        //taskQueue.execute(() -> clientGameModel.sendMoveStudent());  //server will resend me syncStateMessage until I finished to move student
+                        //clientGameModel.sendMoveStudent();  //server will resend me syncStateMessage until I finished to move student
                         break;
                     case MOVE_MOTHER_NATURE_STATE:
                         //clientState = ClientState.MOVING_MOTHER_NATURE;
-                        //taskQueue.execute(() -> clientGameModel.sendMoveMotherNature());
+                        //clientGameModel.sendMoveMotherNature();
                         break;
                     case CHOOSE_CLOUD_STATE:
                         //clientState = ClientState.CHOOSING_CLOUD;
-                        //taskQueue.execute(() -> clientGameModel.sendChooseCloud());
+                        //clientGameModel.sendChooseCloud();
                         break;
                 }
             }
             else{
                 if (turnState == TurnState.MOVE_STUDENT_STATE){
                     String playerName = clientGameModel.findPlayerById(currPlayerId).getName();
-                    //ExecutorService.shutdownNow();
-                    //taskQueue.execute(() -> clientGameModel.show(playerName + " is playing..." ));
+                    //clientGameModel.show(playerName + " is playing..." );
                     clientGameModel.show(playerName + " is playing..." );
 
                 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.client.ClientGameModel;
 import it.polimi.ingsw.model.client.ReducedCharacter;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.*;
@@ -129,4 +130,7 @@ public abstract class View extends ViewObservable implements ModelObserver {
 
     @Override
     public abstract void updateCharactersList(List<ReducedCharacter> charactersList) ;
+
+    @Override
+    public abstract void onShowGame(ClientGameModel clientGameModel);
 }

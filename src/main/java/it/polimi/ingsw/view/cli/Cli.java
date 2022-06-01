@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.cli;
 
 
 import it.polimi.ingsw.controller.ClientController;
+import it.polimi.ingsw.model.client.ClientGameModel;
 import it.polimi.ingsw.model.client.ReducedCharacter;
 import it.polimi.ingsw.model.enumerations.*;
 
@@ -29,6 +30,7 @@ public class Cli extends View {
     private static final String STR_COLUMN = "Column: ";
     private static final String STR_POSITION = "Position ";
     private KeyboardManager keyboardManager;
+    private GamePrinter gamePrinter;
 
     /**
      * Default constructor.
@@ -39,6 +41,7 @@ public class Cli extends View {
 
         keyboardManager = new KeyboardManager(controller,this);
         keyboardManagerThread = new Thread(keyboardManager, "keyboardManager");
+        gamePrinter = new GamePrinter();
     }
 
 
@@ -342,4 +345,10 @@ public class Cli extends View {
     public void updateCharactersList(List<ReducedCharacter> charactersList) {
         keyboardManager.setCharactersList(charactersList);
     }
+
+    @Override
+    public void onShowGame(ClientGameModel clientGameModel){
+
+    }
+
 }
