@@ -6,7 +6,7 @@ public enum ClientState {  //Specifies every state for the single client
     LOGIN_ACCEPTED,
     CHOOSING_JOIN_CREATE,
     CREATING_LOBBY,
-    CHOOSING_LOBBY, //we choose to join a lobby and we are choosing the lobby
+    CHOOSING_LOBBY, //we choose to join a lobby and we are choosing the lobby,
     CHOSEN_LOBBY,
     WAITING_IN_LOBBY, //while I'm waiting I will receive available... and I understand that I entered a game.
     CHOOSING_TEAM,  // I'M CHOOSING (before sending message)
@@ -18,8 +18,14 @@ public enum ClientState {  //Specifies every state for the single client
     GAME_START, //after preparation the game is starting
     THROWING_ASSISTANT,
     SELECTED_ASSISTANT,
+    CHOOSING_WHERE_TO_MOVE_STUDENT,
+    MOVING_A_STUDENT_DASHBOARD,
+    MOVING_A_STUDENT_ISLAND,
+    MOVED_STUDENT,
     WAITING_FOR_YOUR_TURN,
 
     //WAITING_FOR_RESPONSE,
     GAME_FINISHED;
+
+    //NEVER CHECKED STATE...?
 }

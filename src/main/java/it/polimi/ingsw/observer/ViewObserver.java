@@ -47,13 +47,6 @@ public interface ViewObserver {
 
 
 //    /**
-//     * Sends a message to the server with the player number chosen by the user.
-//     *
-//     * @param playersNumber the number of players.
-//     */
-//    void onUpdatePlayersNumber(int playersNumber);
-//
-//    /**
 //     * Handles a disconnection wanted by the user.
 //     */
 //    void onAskDisconnection(); from the view we can choose to close the game ?

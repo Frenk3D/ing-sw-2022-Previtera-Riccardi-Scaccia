@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
-import com.sun.security.ntlm.Client;
 import it.polimi.ingsw.controller.ClientController;
-import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.client.ClientState;
@@ -111,21 +109,26 @@ public class KeyboardManager implements Runnable{
                         break;
 
                     case CHOOSING_TEAM:
-                        int chosenPlayer = -1;
+                        try {
+                            int chosenPlayer = -1;
+                            for (String entry : availablePlayers.keySet()) {
+                                if (userInput.equals(entry)) {
+                                    chosenPlayer = Integer.parseInt(userInput);
+                                    break;
+                                }
+                            }
 
-                        for (String entry : availablePlayers.keySet()) {
-                            if (userInput.equals(entry)) {
-                                chosenPlayer = Integer.parseInt(userInput);
-                                break;
+                            if (chosenPlayer != -1) {
+                                int finalInput = chosenPlayer;
+                                cli.notifyObserver(obs -> obs.onSendChooseTeam(finalInput));
+                            } else {
+                                System.out.println("This player doesn't exist!, choose again");
                             }
                         }
-
-                        if (chosenPlayer != -1) {
-                            int finalInput = chosenPlayer;
-                            cli.notifyObserver(obs -> obs.onSendChooseTeam(finalInput));
-                        } else {
-                            System.out.println("This player doesn't exist!, choose again");
+                        catch (Exception e) {
+                            System.out.println("Input failed, retry");
                         }
+
                         break;
 
                     case CHOOSING_TOWER_COLOR:
@@ -162,20 +165,63 @@ public class KeyboardManager implements Runnable{
                         break;
 
                     case THROWING_ASSISTANT:
-                        int selectedAssistantId = -1;
-                        int parsedInput = Integer.parseInt(userInput); //why don't need try catch because if the input is incorrect,nothing is returned
-                        for(ReducedAssistant a : clientGameModel.getAssistantList()){
-                            if(parsedInput == a.getId()){
-                                selectedAssistantId = parsedInput;
+                       try {
+                           int selectedAssistantId = -1;
+                           int parsedInput = Integer.parseInt(userInput); //why don't need try catch because if the input is incorrect,nothing is returned
+                           for (ReducedAssistant a : clientGameModel.getAssistantList()) {
+                               if (parsedInput == a.getId()) {
+                                   selectedAssistantId = parsedInput;
+                               }
+                           }
+                           if (selectedAssistantId == -1)
+                               System.out.println("The selected assistant isn't available,try again!");
+                           else {
+                               int finalSelectedAssistantId = selectedAssistantId;
+                               cli.notifyObserver(obs -> obs.onSendSelectAssistant(finalSelectedAssistantId));
+                           }
+                       }
+                        catch (Exception e) {
+                               System.out.println("Input failed, retry");
+                           }
+                        break;
+                    case CHOOSING_WHERE_TO_MOVE_STUDENT:
+                        if (userInput.equals("d")) {
+                            controller.setClientState(ClientState.MOVING_A_STUDENT_DASHBOARD);
+                            cli.sendMoveStudentDashboard();
+
+                        } else if (userInput.equals("i")) {
+                            controller.setClientState(ClientState.MOVING_A_STUDENT_ISLAND);
+                            cli.sendMoveStudentIsland();
+                        } else {
+                            System.out.println("Incorrect input,try again!");
+                            cli.onAskWhereToMoveStudent();
+                            break;
+                        }
+                    case MOVING_A_STUDENT_DASHBOARD:
+
+                        break;
+                    case MOVING_A_STUDENT_ISLAND:
+                        try {
+                            int selectedIslandIndex = -1; //-1 is an error
+                            int parsedInputIsl = Integer.parseInt(userInput); //we need try-catch because if the input is incorrect, there is an exception
+                            if (clientGameModel.getIslandList().size() >= parsedInputIsl) {
+                                selectedIslandIndex = parsedInputIsl - 1;
+                            }
+
+                            if (selectedIslandIndex == -1)
+                                System.out.println("The selected assistant isn't available,try again!");
+                            else {
+                                int finalSelectedIslandIndex = selectedIslandIndex;
+                                cli.notifyObserver(obs -> obs.onSendSelectAssistant(finalSelectedIslandIndex));
                             }
                         }
-                        if(selectedAssistantId == -1)
-                            System.out.println("The selected assistant isn't available,try again!");
-                        else{
-                            int finalSelectedAssistantId = selectedAssistantId;
-                            cli.notifyObserver(obs -> obs.onSendSelectAssistant(finalSelectedAssistantId));
+                        catch (Exception e) {
+                            System.out.println("Input failed, retry");
                         }
+
                         break;
+
+
 
                     default:
                         System.out.println("Error in the application"); //it should never happen

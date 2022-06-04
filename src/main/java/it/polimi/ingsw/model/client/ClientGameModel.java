@@ -202,58 +202,11 @@ public class ClientGameModel extends ModelObservable {
        notifyObserver(obs -> obs.onSendSelectAssistant(assistantList));
     }
 
-//    public void sendPlayerJoin(){
-//        notifyObserver(new StringMessage(MessageType.PLAYER_JOIN,SERVERID,playersList.get(playersList.size()-1).getName()));
-//    }
-//
-//    public void sendTable(){
-//        notifyObserver(new TableMessage(SERVERID,getReducedIslandsList(),getReducedCloudsList(),motherNaturePos));
-//    }
-//
-//    public void sendAvailableTeamPlayers(){
-//        notifyObserver(new SyncInitMessage(MessageType.AVAILABLE_TEAM_SEND, SERVERID, getPlayersWithoutTeamMap(), null, null));
-//    }
-//
-//    public void sendAvailableTowerColors(){
-//        notifyObserver(new SyncInitMessage(MessageType.AVAILABLE_TOWER_SEND, SERVERID, null, chooseTowerColorList, null));
-//    }
-//
-//    public void sendAvailableWizards(){
-//        notifyObserver(new SyncInitMessage(MessageType.AVAILABLE_WIZARD_SEND, SERVERID, null, null, wizardList));
-//    }
-//
-//    public void sendSettingState(){
-//        notifyObserver(new SyncStateMessage(SERVERID,state,settingState));
-//    }
-//
-//    public void sendInGameState(){
-//        if(currRound.getStage() == RoundState.PLANNING_STATE){
-//            notifyObserver(new SyncStateMessage(SERVERID,state,currRound.getStage(),currRound.getCurrTurn().getStage(),currRound.getPlanningPhasePlayer(playersList).getId()));
-//        }
-//        else {
-//            notifyObserver(new SyncStateMessage(SERVERID,state,currRound.getStage(),currRound.getCurrTurn().getStage(),getCurrPlayer().getId()));
-//        }
-//
-//    }
-//
-//    public void sendInitGame(){
-//        if(expertMode){
-//            notifyObserver(new AllGameMessage(SERVERID,getReducedPlayersList(), expertMode, getReducedIslandsList(),getReducedCloudsList(),playersList.get(0).getAssistantDeck().getReducedAssistantsList(), motherNaturePos, tableMoney.get(), getReducedCharacterList()));
-//        }
-//        else {
-//            notifyObserver(new AllGameMessage(SERVERID,getReducedPlayersList(), expertMode, getReducedIslandsList(),getReducedCloudsList(),playersList.get(0).getAssistantDeck().getReducedAssistantsList(), motherNaturePos, -1, null));
-//        }
-//    }
-//
-//    public void sendSelectedAssistant(){
-//        Player currPlayer = currRound.getPlanningPhasePlayer(playersList);
-//        notifyObserver(new ThrownAssistantMessage(SERVERID,new ReducedAssistant(currPlayer.getSelectedAssistant()),currPlayer.getId()));
-//    }
-//
-//    public void sendDashboard(){
-//        notifyObserver(new DashboardMessage(SERVERID, new ReducedDashboard(getCurrPlayer().getDashboard()),getCurrPlayer().getId()));
-//    }
-//
+    public void askWhereToMoveStudent(){
+       notifyObserver(obs -> obs.onAskWhereToMoveStudent());
+    }
+
+//    OLD:
 //    public void sendCharacterTable(){
 //        notifyObserver(new CharacterTableMessage(SERVERID,tableMoney.get(),getReducedCharacterList(),getNumOfMoneyMap()));
 //    }

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.client.ClientGameModel;
 import it.polimi.ingsw.model.client.ReducedPlayer;
 import it.polimi.ingsw.model.enumerations.*;
@@ -13,8 +12,7 @@ import it.polimi.ingsw.view.cli.Cli;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
 
 /**
  * This class is part of the client side.
@@ -363,7 +361,7 @@ public class ClientController implements ViewObserver {
                 break;
 
             case CHOSEN_LOBBY:
-                clientState = ClientState.CHOOSING_LOBBY;
+                clientState = ClientState.CHOOSING_JOIN_CREATE;
                 clientGameModel.askCreateOrJoin();;
                 break;
 
@@ -435,8 +433,8 @@ public class ClientController implements ViewObserver {
             if(currPlayerId == client.getClientId()){
                 switch(turnState){
                     case MOVE_STUDENT_STATE:
-                        //clientState = ClientState.MOVING_STUDENT;
-                        //clientGameModel.sendMoveStudent();  //server will resend me syncStateMessage until I finished to move student
+                        clientState = ClientState.CHOOSING_WHERE_TO_MOVE_STUDENT;
+                        clientGameModel.askWhereToMoveStudent();  //server will resend me syncStateMessage until I finished moving all the students
                         break;
                     case MOVE_MOTHER_NATURE_STATE:
                         //clientState = ClientState.MOVING_MOTHER_NATURE;

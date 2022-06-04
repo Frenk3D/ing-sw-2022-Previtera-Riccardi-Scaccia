@@ -22,6 +22,10 @@ public interface ModelObserver {
      */
     void onSendLoginRequest();
 
+    /**
+     * Notify the view to ask for create or join lobby
+     *
+     */
     void onAskCreateOrJoin();
 
     void onSendChooseLobby(List<Lobby> lobbyList);
@@ -38,20 +42,11 @@ public interface ModelObserver {
 
     void onSendSelectAssistant(List<ReducedAssistant> assistantList);
 
+    void onAskWhereToMoveStudent();
 
-//    /**
-//     * Notify the observer of the NewLobbyRequest
-//     *
-//     */
-//    void onNewLobbyRequest();
-//
-//    /**
-//     * Sends a message to the server with the player number chosen by the user.
-//     *
-//     * @param playersNumber the number of players.
-//     */
-//    void onUpdatePlayersNumber(int playersNumber);
-//
+
+
+
 //    /**
 //     * Handles a disconnection wanted by the user.
 //     */
