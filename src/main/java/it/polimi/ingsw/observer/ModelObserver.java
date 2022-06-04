@@ -3,15 +3,12 @@ package it.polimi.ingsw.observer;
 //view (CLI OR GUI) is the model observer and the model is the model observable
 /*(it has more prototypes of ViewObserver but with fewer parameters)*/
 
-import it.polimi.ingsw.model.client.ClientGameModel;
-import it.polimi.ingsw.model.client.ReducedCharacter;
-import it.polimi.ingsw.model.enumerations.TowerColor;
-import it.polimi.ingsw.model.enumerations.Wizard;
+import it.polimi.ingsw.model.client.*;
+import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.server.Lobby;
-
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
+//import java.util.concurrent.ExecutionException;
 
 /**
  * Custom observer interface for views. It supports different types of notification. )
@@ -39,6 +36,8 @@ public interface ModelObserver {
 
     void onSendChooseWizard(List<Wizard> availableWizards);
 
+    void onSendSelectAssistant(List<ReducedAssistant> assistantList);
+
 
 //    /**
 //     * Notify the observer of the NewLobbyRequest
@@ -61,7 +60,7 @@ public interface ModelObserver {
 
     void onShow(Object toShow);
 
-    void updateCharactersList(List<ReducedCharacter> charactersList);
+    void updateClientGameModel(ClientGameModel clientGameModel);
 
     void onShowGame(ClientGameModel clientGameModel);
 

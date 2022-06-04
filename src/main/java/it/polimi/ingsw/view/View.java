@@ -2,11 +2,9 @@ package it.polimi.ingsw.view;
 
 
 
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.client.ClientGameModel;
-import it.polimi.ingsw.model.client.ReducedCharacter;
+import com.sun.security.ntlm.Client;
+import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.*;
-import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.*;
 import it.polimi.ingsw.observer.*;
 
@@ -51,6 +49,9 @@ public abstract class View extends ViewObservable implements ModelObserver {
 
     @Override
     public abstract void onSendChooseWizard(List<Wizard> availableWizards);
+
+    @Override
+    public abstract void onSendSelectAssistant(List<ReducedAssistant> assistantList);
 
 
 
@@ -129,7 +130,7 @@ public abstract class View extends ViewObservable implements ModelObserver {
     public abstract void onShow(Object toShow) ;  //generic to show everything in base to the type...
 
     @Override
-    public abstract void updateCharactersList(List<ReducedCharacter> charactersList) ;
+    public abstract void updateClientGameModel(ClientGameModel clientGameModel) ;
 
     @Override
     public abstract void onShowGame(ClientGameModel clientGameModel);

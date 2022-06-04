@@ -16,6 +16,9 @@ public enum ClientState {  //Specifies every state for the single client
     CHOOSING_WIZARD,
     CHOSEN_WIZARD,
     GAME_START, //after preparation the game is starting
+    THROWING_ASSISTANT,
+    SELECTED_ASSISTANT,
+    WAITING_FOR_YOUR_TURN,
 
     //WAITING_FOR_RESPONSE,
     GAME_FINISHED;

@@ -43,6 +43,9 @@ public interface ViewObserver {
 
     void onSendChooseWizard(Wizard wizard);
 
+    void onSendSelectAssistant(int selectedAssistantId);
+
+
 //    /**
 //     * Sends a message to the server with the player number chosen by the user.
 //     *

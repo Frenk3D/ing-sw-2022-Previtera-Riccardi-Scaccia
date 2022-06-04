@@ -53,4 +53,16 @@ public class ReducedPlayer implements Serializable {
     public Wizard getWizard() {
         return wizard;
     }
+
+    public void setNumOfMoney(int numOfMoney) {
+        this.numOfMoney = numOfMoney;
+    }
+
+    public void setSelectedAssistant(ReducedAssistant selectedAssistant) {
+        this.selectedAssistant = selectedAssistant;
+    }
+
+    public void setDashboard(ReducedDashboard dashboard) {
+        this.dashboard = dashboard;
+    }
 }

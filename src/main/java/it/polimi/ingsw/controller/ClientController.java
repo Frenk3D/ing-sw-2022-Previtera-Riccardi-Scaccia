@@ -1,7 +1,9 @@
 package it.polimi.ingsw.controller;
 
 
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.client.ClientGameModel;
+import it.polimi.ingsw.model.client.ReducedPlayer;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.client.*;
 import it.polimi.ingsw.network.message.*;
@@ -127,27 +129,44 @@ public class ClientController implements ViewObserver {
                 manageSyncStateMessage(syncStateMessage);
                 break;
 
-//            case TABLE:
-//                BoardMessage boardMessage = (BoardMessage) message;
-//                taskQueue.execute(() -> view.showBoard(boardMessage.getBoard()));
-//                break;
-//            case THROWN_ASSISTANT:
-//                taskQueue.execute(() -> view.askInitWorkersPositions(((PositionMessage) message).getPositionList()));
-//                break;
-//            case DASHBOARD:
-//                taskQueue.execute(() -> view.askEnableEffect(((PrepareEffectMessage) message).isEnableEffect()));
-//                break;
-//            case CHARACTER_TABLE:
-//                taskQueue.execute(() -> view.askMoveFx(((PositionMessage) message).getPositionList()));
-//                break;
-//            case ASSISTANTS_SEND:
-//                taskQueue.execute(() -> view.askBuildFx(((PositionMessage) message).getPositionList()));
-//                break;
-//            case WIN:
-//                WinMessage winMessage = (WinMessage) message;
-//                client.disconnect();
-//                taskQueue.execute(() -> view.showWinMessage(winMessage.getWinnerNickname()));
-//                break;
+            case TABLE:
+               TableMessage tableMessage = (TableMessage) message;
+               clientGameModel.setIslandList(tableMessage.getIslandList());
+               clientGameModel.setCloudList(tableMessage.getCloudList());
+               clientGameModel.setMotherNaturePos(tableMessage.getMotherNaturePos());
+                break;
+            case THROWN_ASSISTANT:
+                ThrownAssistantMessage thrownAssistantMessage = (ThrownAssistantMessage) message;
+                ReducedPlayer thrownAssistantPlayer = clientGameModel.findPlayerById(thrownAssistantMessage.getPlayerId());
+                thrownAssistantPlayer.setSelectedAssistant(thrownAssistantMessage.getAssistant());
+                break;
+            case DASHBOARD:
+                DashboardMessage dashboardMessage = (DashboardMessage) message;
+                ReducedPlayer dashboardPlayer = clientGameModel.findPlayerById(dashboardMessage.getPlayerId());
+                dashboardPlayer.setDashboard(dashboardMessage.getDashboard());
+                break;
+            case CHARACTER_TABLE:
+                CharacterTableMessage characterTableMessage = (CharacterTableMessage) message;
+                clientGameModel.setCharactersList(characterTableMessage.getCharactersList());
+                clientGameModel.setTableMoney(characterTableMessage.getTableMoney());
+                for(Map.Entry<Integer,Integer> entry : characterTableMessage.getNumOfMoneyMap().entrySet()) {
+                    ReducedPlayer moneyPlayer = clientGameModel.findPlayerById(entry.getKey());
+                    moneyPlayer.setNumOfMoney(entry.getValue());
+                }
+                break;
+            case ASSISTANTS_SEND:
+                AssistantsSendMessage assistantsSendMessage = (AssistantsSendMessage) message;
+                clientGameModel.setAssistantList(assistantsSendMessage.getAssistantsList());
+                break;
+            case WIN: //we decided that we can restart a new game after finished one
+                StringMessage stringMessage = (StringMessage) message;
+                clientState = ClientState.GAME_FINISHED;
+                clientGameModel.show("The winner is: " + stringMessage.getString());
+
+                clientGameModel.show("Restarting...");
+                clientState = ClientState.APPLICATION_START;
+                clientGameModel.askCreateOrJoin();
+                break;
 
 
             case OK_REPLY: //used also like a state sync message
@@ -297,7 +316,12 @@ public class ClientController implements ViewObserver {
         clientState = ClientState.CHOSEN_WIZARD;
     }
 
-
+    @Override
+    public void onSendSelectAssistant(int selectedAssistantId) {
+        SelectAssistantMessage selectAssistantMessage = new SelectAssistantMessage(client.getClientId(),selectedAssistantId);
+        client.sendMessage(selectAssistantMessage);
+        clientState = ClientState.SELECTED_ASSISTANT;
+    }
 
     public void onSocketDisconnect(){   //this happens only when there is a mine critical problem
         /*taskQueue.execute(() -> )*/ clientGameModel.show((Object) "\nConnection lost, disconnecting...");
@@ -359,6 +383,10 @@ public class ClientController implements ViewObserver {
                 clientGameModel.sendChooseWizard(clientGameModel.getAvailableWizards());
                 break;
 
+            case SELECTED_ASSISTANT:
+                clientState = ClientState.THROWING_ASSISTANT;
+                clientGameModel.sendSelectAssistant();
+
             default:
                 break;
         }
@@ -373,33 +401,37 @@ public class ClientController implements ViewObserver {
         int currPlayerId = syncStateMessage.getCurrPlayerId();
 
 
-        if(gameState== GameState.SETTING_STATE){
-            switch (settingState){
+        if(gameState== GameState.SETTING_STATE) {
+            switch (settingState) {
                 case CHOOSE_TEAM_STATE:
                     clientState = ClientState.CHOOSING_TEAM;
                     break;
                 case CHOOSE_TOWER_COLOR_STATE:
-                        clientState = ClientState.CHOOSING_TOWER_COLOR;
-                        break;
+                    clientState = ClientState.CHOOSING_TOWER_COLOR;
+                    break;
                 case CHOOSE_WIZARD_STATE:
                     clientState = ClientState.CHOOSING_WIZARD;
                 default:
                     break;
-        }
+            }
         }
 
         else if(gameState == GameState.INGAME_STATE && roundState == RoundState.PLANNING_STATE){
             if(currPlayerId == client.getClientId()){
-                //clientState = ClientState.THROWING_ASSISTANT;
-                //clientGameModel.sendThrowAssistant();
+                clientState = ClientState.THROWING_ASSISTANT;
+                clientGameModel.showGame();
+                clientGameModel.sendSelectAssistant();
             }
             else {
+                clientState = ClientState.WAITING_FOR_YOUR_TURN;
                 String playerName = clientGameModel.findPlayerById(currPlayerId).getName();
-                //clientGameModel.show(playerName + " is throwing an assistant..." ));
+                clientGameModel.showGame();
                 clientGameModel.show(playerName + " is throwing an assistant..." );
+
             }
         }
         else if (gameState == GameState.INGAME_STATE && roundState == RoundState.ACTION_STATE){
+            clientGameModel.showGame();
             if(currPlayerId == client.getClientId()){
                 switch(turnState){
                     case MOVE_STUDENT_STATE:
@@ -417,6 +449,7 @@ public class ClientController implements ViewObserver {
                 }
             }
             else{
+                clientState = ClientState.WAITING_FOR_YOUR_TURN;
                 if (turnState == TurnState.MOVE_STUDENT_STATE){
                     String playerName = clientGameModel.findPlayerById(currPlayerId).getName();
                     //clientGameModel.show(playerName + " is playing..." );

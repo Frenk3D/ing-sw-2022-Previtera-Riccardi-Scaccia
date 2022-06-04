@@ -3,10 +3,8 @@ package it.polimi.ingsw.view.cli;
 
 
 import it.polimi.ingsw.controller.ClientController;
-import it.polimi.ingsw.model.client.ClientGameModel;
-import it.polimi.ingsw.model.client.ReducedCharacter;
+import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.*;
-
 import it.polimi.ingsw.network.server.*;
 import it.polimi.ingsw.view.View;
 
@@ -14,7 +12,6 @@ import it.polimi.ingsw.view.View;
 import java.io.PrintStream;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 //for CLI representation
 
@@ -85,7 +82,6 @@ public class Cli extends View {
     /**
      * Asks the server address and port to the user.
      *
-     * @throws ExecutionException if the input stream thread is interrupted.
      */
     @Override
     public void onAskServerInfo(){
@@ -209,8 +205,14 @@ public class Cli extends View {
         return;
     }
 
+    @Override
+    public void onSendSelectAssistant(List<ReducedAssistant> assistantList) {
+        //keyboardManager.
+        out.println("Choose an Assistant index from the list: ");
+        return;
+    }
 
-//    @Override
+    //    @Override
 //    public void showAvailableLobbies(List<Lobby> lobbiesList) {
 //
 //    }
@@ -342,13 +344,14 @@ public class Cli extends View {
     }
 
     @Override
-    public void updateCharactersList(List<ReducedCharacter> charactersList) {
-        keyboardManager.setCharactersList(charactersList);
+    public void updateClientGameModel(ClientGameModel clientGameModel) {
+        keyboardManager.setClientGameModel(clientGameModel);
     }
 
     @Override
     public void onShowGame(ClientGameModel clientGameModel){
-
+        clearCli();
+        gamePrinter.print(clientGameModel);
     }
 
 }

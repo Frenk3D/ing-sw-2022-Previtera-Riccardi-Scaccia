@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.client;
 
 
+import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.*;
@@ -38,11 +39,12 @@ public class ClientGameModel extends ModelObservable {
         cloudList = allGameMessage.getCloudsList();
         playersList = allGameMessage.getPlayersList();
         charactersList = allGameMessage.getCharactersList();
-        notifyObserver(obs -> obs.updateCharactersList(charactersList));
+        notifyObserver(obs -> obs.updateClientGameModel(this));
         tableMoney = allGameMessage.getTableMoney();
         expertMode = allGameMessage.isExpertMode();
         numOfPlayers = allGameMessage.getPlayersList().size();
         motherNaturePos = allGameMessage.getMotherNaturePos();
+
     }
 
     public void setIslandList(List<ReducedIsland> islandList) {
@@ -77,6 +79,11 @@ public class ClientGameModel extends ModelObservable {
     public void setExpertMode(boolean expertMode) {
         this.expertMode = expertMode;
     }
+
+    public void setMotherNaturePos(int motherNaturePos){
+        this.motherNaturePos = motherNaturePos;
+    }
+
 
     public List<ReducedIsland> getIslandList() {
         return islandList;
@@ -183,12 +190,16 @@ public class ClientGameModel extends ModelObservable {
        notifyObserver(obs -> obs.onSendChooseTeam(availablePlayers));
    }
 
-   public void sendChooseWizard(List<Wizard> availableWizards){
-       notifyObserver(obs -> obs.onSendChooseWizard(availableWizards));
-   }
-
     public void sendChooseTowerColor(List<TowerColor> availableTowerColors){
        notifyObserver(obs -> obs.onSendChooseTowerColor(availableTowerColors));
+    }
+
+    public void sendChooseWizard(List<Wizard> availableWizards){
+        notifyObserver(obs -> obs.onSendChooseWizard(availableWizards));
+    }
+
+    public void sendSelectAssistant(){
+       notifyObserver(obs -> obs.onSendSelectAssistant(assistantList));
     }
 
 //    public void sendPlayerJoin(){
@@ -261,6 +272,10 @@ public class ClientGameModel extends ModelObservable {
         notifyObserver(obs -> obs.onShow("Waiting for other players..."));
 
     }
+    public void showGame(){  //it is a generic function to print or show some info on view, Object can be everything also null
+        notifyObserver(obs -> obs.onShowGame(this));
+    }
+
 }
 
 

@@ -1,18 +1,10 @@
 package it.polimi.ingsw.view.gui;
 
 
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.client.ClientGameModel;
-import it.polimi.ingsw.model.client.ReducedCharacter;
+import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.*;
-import it.polimi.ingsw.network.client.ClientSocket;
-import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.network.server.Lobby;
-import it.polimi.ingsw.observer.Observer;
-import it.polimi.ingsw.observer.ViewObservable;
-import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.View;
-
 import java.util.List;
 import java.util.Map;
 
@@ -89,6 +81,11 @@ public class Gui extends View {
     public void onSendChooseWizard(List<Wizard> availableWizards){
 
     }
+
+    @Override
+    public void onSendSelectAssistant(List<ReducedAssistant> assistantList){
+
+    };
 
     //    @Override
 //    public void askPlayerInfo() {
@@ -434,7 +431,7 @@ public class Gui extends View {
     }
 
     @Override
-    public void updateCharactersList(List<ReducedCharacter> charactersList) {
+    public void updateClientGameModel(ClientGameModel clientGameModel) {
 
     }
 
