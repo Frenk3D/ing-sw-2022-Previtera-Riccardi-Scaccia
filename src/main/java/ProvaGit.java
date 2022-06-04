@@ -1,6 +1,8 @@
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.client.ClientGameModel;
+import it.polimi.ingsw.model.characters.Character;
+import it.polimi.ingsw.model.characters.Factory;
+import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.RoundState;
 import it.polimi.ingsw.model.enumerations.TowerColor;
@@ -11,7 +13,10 @@ import it.polimi.ingsw.view.cli.GamePrinter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /** Deselezionare sempre .idea e pom.xml sia da push che da pull per evitare problemi!!!
  * It is a main only to test something
@@ -32,7 +37,91 @@ public class ProvaGit {
     private static ClientGameModel generateClientGameModel(){
         ClientGameModel clientGameModel = new ClientGameModel();
 
+        clientGameModel.setExpertMode(true);
+        Island island = new Island();
+        List<Student> studentsList= island.getStudentsList();
+        studentsList.add(new Student(PawnColor.RED));
+        studentsList.add(new Student(PawnColor.RED));
+        studentsList.add(new Student(PawnColor.BLUE));
+        studentsList.add(new Student(PawnColor.GREEN));
+        //studentsList.add(new Student(PawnColor.PINK));
+        studentsList.add(new Student(PawnColor.YELLOW));
+        island.setWeight(1);
+        island.getTowersList().add(new Tower(TowerColor.BLACK));
+        //island.setForbidCards(4);
 
+        List<ReducedIsland> islands = new ArrayList<>();
+
+        for(int i = 0; i<12;i++){
+            ReducedIsland reducedIsland = new ReducedIsland(island);
+            islands.add(reducedIsland);
+        }
+        clientGameModel.setIslandList(islands);
+
+
+        Cloud cloud = new Cloud();
+        List<Student> studentList = cloud.getStudents();
+        studentList.add(new Student(PawnColor.RED));
+        studentList.add(new Student(PawnColor.BLUE));
+        studentList.add(new Student(PawnColor.YELLOW));
+
+        List<ReducedCloud> clouds = new ArrayList<>();
+        for(int i = 0; i<3;i++){
+            ReducedCloud reducedCloud = new ReducedCloud(cloud);
+            clouds.add(reducedCloud);
+        }
+        clientGameModel.setCloudList(clouds);
+
+
+        Player p1 = new Player("Marco", 2);
+        p1.setPlayerTowerColor(TowerColor.WHITE);
+        p1.getAssistantDeck().setWizard(Wizard.ASIATIC_WIZARD);
+        p1.setSelectedAssistant(5);
+        p1.modifyMoney(6,new AtomicInteger(10));
+
+        Dashboard dashboard = p1.getDashboard();
+        List<Student> redList = dashboard.getHallStudentsListByColor(PawnColor.RED);
+        List<Student> greenList = dashboard.getHallStudentsListByColor(PawnColor.GREEN);
+        List<Student> blueList = dashboard.getHallStudentsListByColor(PawnColor.BLUE);
+
+        redList.add(new Student(PawnColor.RED));
+        redList.add(new Student(PawnColor.RED));
+        greenList.add(new Student(PawnColor.GREEN));
+        blueList.add(new Student(PawnColor.BLUE));
+
+        List<Student> entranceList = dashboard.getEntranceList();
+        entranceList.add(new Student(PawnColor.RED));
+        entranceList.add(new Student(PawnColor.YELLOW));
+        entranceList.add(new Student(PawnColor.GREEN));
+        entranceList.add(new Student(PawnColor.BLUE));
+        entranceList.add(new Student(PawnColor.YELLOW));
+
+        List<Professor> professorList = dashboard.getProfessorsList();
+        professorList.add(new Professor(PawnColor.BLUE));
+        professorList.add(new Professor(PawnColor.RED));
+
+        List<Tower> towerList = dashboard.getTowersList();
+        towerList.add(new Tower(TowerColor.BLACK));
+        towerList.add(new Tower(TowerColor.BLACK));
+
+        List<ReducedPlayer> players = new ArrayList<>();
+        for (int i=0;i<2;i++){
+            ReducedPlayer reducedPlayer = new ReducedPlayer(p1);
+            players.add(reducedPlayer);
+        }
+        clientGameModel.setPlayersList(players);
+
+        clientGameModel.setAssistantList(p1.getAssistantDeck().getReducedAssistantsList());
+
+        Character character = Factory.newCharacter(3);
+        character.setUsed();
+
+        List<ReducedCharacter> characters = new ArrayList<>();
+        for (int i=0;i<3;i++){
+            ReducedCharacter reducedCharacter = new ReducedCharacter(character);
+            characters.add(reducedCharacter);
+        }
+        clientGameModel.setCharactersList(characters);
         return clientGameModel;
     }
 

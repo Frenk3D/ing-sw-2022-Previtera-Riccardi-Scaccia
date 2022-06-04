@@ -1,17 +1,19 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.client.ClientGameModel;
-import it.polimi.ingsw.model.client.ReducedCloud;
-import it.polimi.ingsw.model.client.ReducedDashboard;
-import it.polimi.ingsw.model.client.ReducedIsland;
+import it.polimi.ingsw.model.characters.Character;
+import it.polimi.ingsw.model.characters.Factory;
+import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.TowerColor;
+import it.polimi.ingsw.model.enumerations.Wizard;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,95 +21,77 @@ public class GamePrinter {
     private ClientGameModel clientGameModel;
     private final int[][] islandPositions = {{5,12},{31,6},{57,2},{83,2},{109,2},{135,6},{161,12},{135,18},{109,22},{83,22},{57,22},{31,18}};
     private final int[][] cloudPositions = {{80,12},{95,12},{87,17}};
-    private final int[][] dashboardPositions = {{50,33},{100,33},{5,33},{150,33}};
+    private final int[][] dashboardPositions = {{49,33},{95,33},{3,33},{141,33}};
     private final int[][] dashboardEntrancePositions = {{2,1},{6,1},{2,2},{6,2},{2,3},{6,3},{2,4},{6,4},{2,5},{6,5}};
-    private final int[][] thrownAssistantPositions = {{50,33},{100,33},{5,33},{150,33}};
 
     public void print(ClientGameModel clientGameModel){ //this class is called by the Cli
+        /*
+        try {
+            new ProcessBuilder("cmd","/c","chcp 65001").inheritIO().start().waitFor();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
+
         //String[] canvas = generateCanvas(130,20," ");
-        String[] canvas = generateSquare(189,50);
+        String[] canvas = generateSquare(189,49);
 
-        /*String[] matrix1 = generateSquare(15,4);
-        writeAtPos(matrix1,4,2,ColorCli.RED_BOLD+"HEY!"+ColorCli.RESET);
-        printMatrix(matrix1);
-
-        String[] matrix2 = generateSquare(29,6);
-        writeAtPos(matrix2,3,1,ColorCli.RED_BOLD+"ciao questa è una prova"+ColorCli.RESET);
-        writeAtPos(matrix2,3,3,"sembra funzionare tutto!");
-
-        String[] matrix3 = generateSquare(50,4);
-        writeAtPos(matrix3,2,1,ColorCli.BLUE+"Sono diventato pazzo "+ColorCli.PINK_BOLD+"con questi colori!!"+ColorCli.RESET);
-
-        mergeMatrix(canvas, 4,5, matrix1);
-        mergeMatrix(canvas, 30, 7, matrix2);
-        mergeMatrix(canvas, 70,7, matrix3);
-
-        printMatrix(canvas);*/
-
-        Island island = new Island();
-        List<Student> studentsList= island.getStudentsList();
-        studentsList.add(new Student(PawnColor.RED));
-        studentsList.add(new Student(PawnColor.RED));
-        studentsList.add(new Student(PawnColor.BLUE));
-        studentsList.add(new Student(PawnColor.GREEN));
-        //studentsList.add(new Student(PawnColor.PINK));
-        studentsList.add(new Student(PawnColor.YELLOW));
-        island.setWeight(2);
-        island.getTowersList().add(new Tower(TowerColor.BLACK));
-        //island.setForbidCards(4);
-
-
-        ReducedIsland reducedIsland = new ReducedIsland(island);
-        boolean mn;
-        int i;
-        for (i = 0; i<12;i++){
-            if(i == 1) {mn =true;}
-            else {mn=false;}
-            String[] generatedIsland = generateIsland(reducedIsland,i+1,mn);
-            mergeMatrix(canvas,islandPositions[i][0],islandPositions[i][1],generatedIsland);
+        boolean motherNatureHere = false;
+        int index = 0;
+        for (ReducedIsland island : clientGameModel.getIslandList()){
+            if(clientGameModel.getMotherNaturePos() == index) {
+                motherNatureHere =true;
+            }
+            else {
+                motherNatureHere=false;
+            }
+            String[] generatedIsland = generateIsland(island,index+1,motherNatureHere);
+            mergeMatrix(canvas,islandPositions[index][0],islandPositions[index][1],generatedIsland);
+            index += island.getWeight();
         }
 
-        Cloud cloud = new Cloud();
-        List<Student> studentList = cloud.getStudents();
-        studentList.add(new Student(PawnColor.RED));
-        studentList.add(new Student(PawnColor.BLUE));
-        studentList.add(new Student(PawnColor.YELLOW));
-
-        for (i = 0; i<3;i++){
-            String[] generatedCloud = generateCloud(new ReducedCloud(cloud),i+1);
-            mergeMatrix(canvas,cloudPositions[i][0],cloudPositions[i][1],generatedCloud);
+        index = 0;
+        for (ReducedCloud cloud : clientGameModel.getCloudList()){
+            String[] generatedCloud = generateCloud(cloud,index+1);
+            mergeMatrix(canvas,cloudPositions[index][0],cloudPositions[index][1],generatedCloud);
+            index++;
         }
 
-        Dashboard dashboard = new Dashboard();
-        List<Student> redList = dashboard.getHallStudentsListByColor(PawnColor.RED);
-        List<Student> greenList = dashboard.getHallStudentsListByColor(PawnColor.GREEN);
-        List<Student> blueList = dashboard.getHallStudentsListByColor(PawnColor.BLUE);
-
-        redList.add(new Student(PawnColor.RED));
-        redList.add(new Student(PawnColor.RED));
-        greenList.add(new Student(PawnColor.GREEN));
-        blueList.add(new Student(PawnColor.BLUE));
-
-        List<Student> entranceList = dashboard.getEntranceList();
-        entranceList.add(new Student(PawnColor.RED));
-        entranceList.add(new Student(PawnColor.YELLOW));
-        entranceList.add(new Student(PawnColor.GREEN));
-        entranceList.add(new Student(PawnColor.BLUE));
-        entranceList.add(new Student(PawnColor.YELLOW));
-
-        List<Professor> professorList = dashboard.getProfessorsList();
-        professorList.add(new Professor(PawnColor.BLUE));
-        professorList.add(new Professor(PawnColor.RED));
-
-        List<Tower> towerList = dashboard.getTowersList();
-        towerList.add(new Tower(TowerColor.BLACK));
-        towerList.add(new Tower(TowerColor.BLACK));
-
-        for (i = 0; i<4;i++){
-            String[] generatedDashboard = generateDashboard(new ReducedDashboard(dashboard),"Marco",TowerColor.BLACK);
-            mergeMatrix(canvas,dashboardPositions[i][0],dashboardPositions[i][1],generatedDashboard);
+        index = 0;
+        for (ReducedPlayer player : clientGameModel.getPlayersList()){
+            String[] generatedDashboard = generateDashboard(player);
+            mergeMatrix(canvas,dashboardPositions[index][0],dashboardPositions[index][1],generatedDashboard);
+            index++;
         }
 
+        writeAtPos(canvas, 10,41, "My assistants");
+        for (int i = 41; i<47; i++){
+            writeAtPos(canvas, 7, i, "|");
+        }
+
+        int assistantPos = 10;
+        for (ReducedAssistant myAssistant : clientGameModel.getAssistantList()){
+            String[] generatedAssistant = generateAssistant(myAssistant);
+            mergeMatrix(canvas,assistantPos,42,generatedAssistant);
+            assistantPos += 10;
+        }
+
+        if(clientGameModel.isExpertMode()) {
+            writeAtPos(canvas, 150, 41, "Characters - Table money: " + 30);
+            for (int i = 41; i < 47; i++) {
+                writeAtPos(canvas, 147, i, "|");
+            }
+
+            int characterPos = 150;
+            for (ReducedCharacter character : clientGameModel.getCharactersList()) {
+                String[] generatedCharacter = generateCharacter(character);
+                mergeMatrix(canvas, characterPos, 42, generatedCharacter);
+                characterPos += 10;
+            }
+
+        }
         printMatrix(canvas);
     }
 
@@ -158,9 +142,21 @@ public class GamePrinter {
         return result;
     }
 
-    private String[] generateDashboard(ReducedDashboard dashboard, String playerName, TowerColor towerColor){
-        String[] result = generateSquare(35,7);
-        writeAtPos(result,2,0," "+ playerName+ " ");
+    private String[] generateDashboard(ReducedPlayer player){
+        ReducedDashboard dashboard = player.getDashboard();
+        String playerName = player.getName();
+        TowerColor towerColor = player.getPlayerTowerColor();
+        ReducedAssistant assistant = player.getSelectedAssistant();
+
+        String[] result = generateSquare(45,7);
+
+        if (player.getNumOfMoney() != -1){
+            writeAtPos(result,2,0," "+ playerName+ " ("+player.getWizard().toString()+") Money: " + player.getNumOfMoney()+" ");
+        }
+        else {
+            writeAtPos(result,2,0," "+ playerName+ " ("+player.getWizard().toString()+") ");
+
+        }
 
         int pos = 0;
         int i;
@@ -194,6 +190,23 @@ public class GamePrinter {
         writeAtPos(result, 27, 3, getColor(towerColor) + towerColor.toString() + ColorCli.RESET);
         writeAtPos(result, 29, 4, getColor(towerColor) + dashboard.getTowerNumber() + ColorCli.RESET);
 
+
+        //third separator
+        for (i = 1; i<6; i++){
+            writeAtPos(result, 34, i, "|");
+        }
+
+        writeAtPos(result, 37, 2, "Card:");
+
+        if (assistant.getId()!=0){
+            writeAtPos(result, 37, 3, ColorCli.BLUE_BOLD+"ID: "+ assistant.getId() + ColorCli.RESET);
+            writeAtPos(result, 36, 4, "POS: +"+assistant.getMotherNaturePosShift());
+        }
+
+        else {
+            writeAtPos(result, 38, 4, "...");
+        }
+
         return result;
     }
 
@@ -208,6 +221,29 @@ public class GamePrinter {
         }
         return result;
     }
+
+    private String[] generateAssistant(ReducedAssistant assistant){
+        String[] result = generateSquare(8,5);
+        writeAtPos(result, 1, 1, ColorCli.BLUE_BOLD+""+ assistant.getId() +"" + ColorCli.RESET);
+        writeAtPos(result, 2, 2, "POS:");
+        writeAtPos(result, 3, 3, "+"+assistant.getMotherNaturePosShift());
+        return result;
+    }
+
+    private String[] generateCharacter(ReducedCharacter character){
+        String[] result = generateSquare(9,5);
+        writeAtPos(result, 1, 1, ColorCli.GREEN_BOLD+""+ character.getId() +"" + ColorCli.RESET);
+        writeAtPos(result, 2, 2, "COST:");
+        writeAtPos(result, 4, 3, character.getInitialCost()+"");
+
+        if(character.isUsed()){
+            writeAtPos(result, 6, 1, ColorCli.YELLOW_BOLD+"█" + ColorCli.RESET);
+        }
+
+        return result;
+    }
+
+    //------------------------------------------------------------------------------------------------------
 
     private void mergeMatrix(String[] matrixToAdd, int x, int y, String[] matrix2){
         for (String s : matrix2){

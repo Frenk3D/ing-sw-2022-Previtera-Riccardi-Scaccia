@@ -84,6 +84,9 @@ public class ClientGameModel extends ModelObservable {
         this.motherNaturePos = motherNaturePos;
     }
 
+    public int getMotherNaturePos() {
+        return motherNaturePos;
+    }
 
     public List<ReducedIsland> getIslandList() {
         return islandList;
