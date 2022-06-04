@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view;
 
 
-
-import com.sun.security.ntlm.Client;
 import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.server.*;

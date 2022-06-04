@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
-import com.sun.security.ntlm.Client;
+
 import it.polimi.ingsw.controller.ClientController;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.client.*;
