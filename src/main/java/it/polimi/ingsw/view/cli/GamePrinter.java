@@ -1,24 +1,16 @@
 package it.polimi.ingsw.view.cli;
 
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.characters.Character;
-import it.polimi.ingsw.model.characters.Factory;
+
 import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.TowerColor;
-import it.polimi.ingsw.model.enumerations.Wizard;
-
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GamePrinter {
-    private ClientGameModel clientGameModel;
+
     private final int[][] islandPositions = {{5,12},{31,6},{57,2},{83,2},{109,2},{135,6},{161,12},{135,18},{109,22},{83,22},{57,22},{31,18}};
     private final int[][] cloudPositions = {{80,12},{95,12},{87,17}};
     private final int[][] dashboardPositions = {{49,33},{95,33},{3,33},{141,33}};
@@ -90,7 +82,6 @@ public class GamePrinter {
                 mergeMatrix(canvas, characterPos, 42, generatedCharacter);
                 characterPos += 10;
             }
-
         }
         printMatrix(canvas);
     }

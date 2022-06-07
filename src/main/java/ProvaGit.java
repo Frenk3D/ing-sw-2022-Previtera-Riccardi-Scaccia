@@ -26,6 +26,7 @@ public class ProvaGit {
 
     public static void main( String[] args ) throws IOException {
         runPrintTest();
+        //runControllerTest();
     }
 
     private static void runPrintTest(){
@@ -66,7 +67,7 @@ public class ProvaGit {
         studentList.add(new Student(PawnColor.YELLOW));
 
         List<ReducedCloud> clouds = new ArrayList<>();
-        for(int i = 0; i<3;i++){
+        for(int i = 0; i<2;i++){
             ReducedCloud reducedCloud = new ReducedCloud(cloud);
             clouds.add(reducedCloud);
         }
@@ -195,6 +196,16 @@ public class ProvaGit {
                 System.out.println("Torre "+t.getColor());
             }
         }
+
+        ClientGameModel clientGameModel = generateClientGameModel();
+        List<ReducedIsland> islands = new ArrayList<>();
+        for(Island i : game.getIslandsList()){
+            islands.add(new ReducedIsland(i));
+        }
+        clientGameModel.setIslandList(islands);
+        clientGameModel.setMotherNaturePos(game.getMotherNaturePos());
+        GamePrinter printer = new GamePrinter();
+        printer.print(clientGameModel);
     }
 
     private static void printDashboards(GameModel game){

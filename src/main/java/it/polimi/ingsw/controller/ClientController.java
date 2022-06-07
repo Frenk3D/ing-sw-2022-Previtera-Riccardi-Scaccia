@@ -425,6 +425,8 @@ public class ClientController implements ViewObserver {
             case SELECTED_ASSISTANT:
                 clientState = ClientState.THROWING_ASSISTANT;
                 clientGameModel.sendSelectAssistant();
+                break;
+
             case MOVED_STUDENT: //moved in dashboard or island you have to retry!
                 clientState = ClientState.CHOOSING_WHERE_TO_MOVE_STUDENT;
                 clientGameModel.askWhereToMoveStudent();
@@ -434,6 +436,7 @@ public class ClientController implements ViewObserver {
                 clientState = ClientState.MOVING_MOTHER_NATURE;
                 clientGameModel.sendMoveMotherNature();
                 break;
+
             case CHOSEN_CLOUD:
                 clientState = ClientState.CHOOSING_CLOUD;
                 clientGameModel.sendChooseCloud();

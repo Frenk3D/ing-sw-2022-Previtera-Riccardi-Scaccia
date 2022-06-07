@@ -195,8 +195,8 @@ public class KeyboardManager implements Runnable{
                         } else {
                             System.out.println("Incorrect input,try again!");
                             cli.onAskWhereToMoveStudent();
-                            break;
                         }
+                        break;
                     case MOVING_A_STUDENT_DASHBOARD:
                         try {
                             int selectedStudentIndex = -1; //-1 is an error

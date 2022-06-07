@@ -312,10 +312,11 @@ public class Controller implements Observer {
             Student studentToMove = currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex);
             game.getIslandByIndex(islandIndex).addStudent(studentToMove);
             currPlayer.getDashboard().getEntranceList().remove(studentToMove);
+            game.getCurrRound().getCurrTurn().incrementMovedStudents();
+
             game.sendTable();
-            if(!game.getCurrRound().getCurrTurn().incrementMovedStudents()){
-                game.sendInGameState();
-            }
+            game.sendDashboard();
+            game.sendInGameState();
         }
         else {
             System.out.println("move student island: forbidden move");
@@ -349,14 +350,12 @@ public class Controller implements Observer {
                 game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(),game.getTableProfessorsList());
             }
 
-
+            game.getCurrRound().getCurrTurn().incrementMovedStudents();
             game.sendDashboard(); //update the dashboard in clients
             if(game.isExpertMode()){//update the money in players if expert mode
                 game.sendCharacterTable();
             }
-            if(!game.getCurrRound().getCurrTurn().incrementMovedStudents()){
-                game.sendInGameState(); //update the state in clients when we change phase
-            }
+            game.sendInGameState();
         }
 
         else {
@@ -428,6 +427,7 @@ public class Controller implements Observer {
 
             game.getCurrPlayer().getDashboard().getEntranceList().addAll(game.getCloudByIndex(cloudIndex).getStudents());
             game.getCloudByIndex(cloudIndex).getStudents().clear();
+            game.sendDashboard();
 
             boolean result = game.getCurrRound().nextTurn();
             if(!result){ //the round is ended and we fill the clouds again
