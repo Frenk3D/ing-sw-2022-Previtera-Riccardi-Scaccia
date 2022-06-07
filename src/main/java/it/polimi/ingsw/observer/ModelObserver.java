@@ -1,6 +1,6 @@
 package it.polimi.ingsw.observer;
 
-//view (CLI OR GUI) is the model observer and the model is the model observable
+//view (CLI OR GUI) is the model observer and the model is the model observable, all methods are public
 /*(it has more prototypes of ViewObserver but with fewer parameters)*/
 
 import it.polimi.ingsw.model.client.*;
@@ -43,6 +43,11 @@ public interface ModelObserver {
     void onSendSelectAssistant(List<ReducedAssistant> assistantList);
 
     void onAskWhereToMoveStudent();
+
+    void onSendMoveMotherNature(List<ReducedIsland> islandList, ReducedAssistant selectedAssistant);
+
+    void onSendChooseCloud(List<ReducedCloud> cloudList);
+
 
 
 

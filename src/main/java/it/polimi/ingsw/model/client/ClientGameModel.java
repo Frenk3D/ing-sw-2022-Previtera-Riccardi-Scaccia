@@ -209,6 +209,12 @@ public class ClientGameModel extends ModelObservable {
        notifyObserver(obs -> obs.onAskWhereToMoveStudent());
     }
 
+    public void sendMoveMotherNature(){
+       ReducedAssistant selectedAssistant = findPlayerById(myPlayerId).getSelectedAssistant();
+       notifyObserver(obs -> obs.onSendMoveMotherNature(islandList, selectedAssistant));};
+
+   public void sendChooseCloud(){notifyObserver(obs -> obs.onSendChooseCloud(cloudList));};
+
 //    OLD:
 //    public void sendCharacterTable(){
 //        notifyObserver(new CharacterTableMessage(SERVERID,tableMoney.get(),getReducedCharacterList(),getNumOfMoneyMap()));

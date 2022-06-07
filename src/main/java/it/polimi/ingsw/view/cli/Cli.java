@@ -13,11 +13,12 @@ import java.io.PrintStream;
 import java.util.*;
 import java.util.List;
 
-//for CLI representation
+//for CLI representation, we don't need some parameters because we have the instance of clientGameModel in keyboardManager and we have the GamePrinter, but the interface for GUI need?
 
 
 /**
  * This class offers a User Interface to the user via terminal. It is an implementation of the {@link View}.
+ *
  */
 public class Cli extends View {
 
@@ -217,12 +218,32 @@ public class Cli extends View {
     }
 
     public void sendMoveStudentDashboard(){
-        out.println("Select an");
+        out.println("Select a student (index) from your entrance list: (pay attention to the color)");
     }
 
-    public void sendMoveStudentIsland(){
+    public void sendMoveStudentIsland(){out.println("Select a student index from your entrance list and a island index where to put: ");
+        out.println("Use a space to split the chosen index");
+    }
+
+    /**
+     * @param islandList 
+     * @param selectedAssistant
+     */
+    @Override
+    public void onSendMoveMotherNature(List<ReducedIsland> islandList, ReducedAssistant selectedAssistant) {
+        out.println("Choose the island index where to move mother nature, pay attention of the admitted moves");
 
     }
+
+    /**
+     * @param cloudList 
+     */
+    @Override
+    public void onSendChooseCloud(List<ReducedCloud> cloudList) {
+        out.println("Choose the cloud index where do you want to pick the students, choose a valid cloud(not empty)");
+
+    }
+
     /**
      * @param toShow
      */

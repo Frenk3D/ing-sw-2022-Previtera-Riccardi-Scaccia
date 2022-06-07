@@ -92,6 +92,27 @@ public class Gui extends View {
 
     }
 
+    public void sendMoveStudentIsland(){}
+
+    public void sendMoveStudentDashboard(){}
+
+    /**
+     * @param islandList 
+     * @param selectedAssistant
+     */
+    @Override
+    public void onSendMoveMotherNature(List<ReducedIsland> islandList, ReducedAssistant selectedAssistant) {
+
+    }
+
+    /**
+     * @param cloudList 
+     */
+    @Override
+    public void onSendChooseCloud(List<ReducedCloud> cloudList) {
+
+    }
+    
     /* DO DELETE
    @Override
     public void askNickname() {

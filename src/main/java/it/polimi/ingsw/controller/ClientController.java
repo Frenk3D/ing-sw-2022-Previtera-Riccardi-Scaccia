@@ -39,7 +39,6 @@ public class ClientController implements ViewObserver {
      *
      */
     public ClientController() {
-        //taskQueue = Executors.newSingleThreadExecutor();
         teamLeader=true;
         clientState = ClientState.APPLICATION_START;
         clientGameModel = new ClientGameModel();
@@ -314,11 +313,53 @@ public class ClientController implements ViewObserver {
         clientState = ClientState.CHOSEN_WIZARD;
     }
 
+
     @Override
     public void onSendSelectAssistant(int selectedAssistantId) {
         SelectAssistantMessage selectAssistantMessage = new SelectAssistantMessage(client.getClientId(),selectedAssistantId);
         client.sendMessage(selectAssistantMessage);
         clientState = ClientState.SELECTED_ASSISTANT;
+    }
+
+    /**
+     * @param selectedStudentIndex
+     * @param selectedIslandIndex
+     */
+    @Override
+    public void onSendMoveAStudentIsland(int selectedStudentIndex, int selectedIslandIndex) {
+        MoveStudentIslandMessage message = new MoveStudentIslandMessage(client.getClientId(), selectedStudentIndex, selectedIslandIndex);
+        client.sendMessage(message);
+        clientState = ClientState.MOVED_STUDENT;
+    }
+
+    /**
+     * @param selectedStudentIndex
+     */
+    @Override
+    public void onSendMoveAStudentDashboard(int selectedStudentIndex) {
+        MoveStudentDashboardMessage message = new MoveStudentDashboardMessage(client.getClientId(), selectedStudentIndex);
+        client.sendMessage(message);
+        clientState = ClientState.MOVED_STUDENT;
+    }
+
+    /**
+     * @param selectedIslandIndex
+     */
+    @Override
+    public void onSendMoveMotherNature(int selectedIslandIndex) {
+        MoveMotherNatureMessage message = new MoveMotherNatureMessage(client.getClientId(), selectedIslandIndex);
+        client.sendMessage(message);
+        clientState = ClientState.MOVED_MOTHER_NATURE;
+    }
+
+    /**
+     * @param selectedCloudIndex
+     */
+    @Override
+    public void onSendChooseCloud(int selectedCloudIndex) {
+        TakeFromCloudMessage message = new TakeFromCloudMessage(client.getClientId(), selectedCloudIndex);
+        client.sendMessage(message);
+        clientState = ClientState.CHOSEN_CLOUD;
     }
 
     public void onSocketDisconnect(){   //this happens only when there is a mine critical problem
@@ -328,7 +369,7 @@ public class ClientController implements ViewObserver {
     }
 
     //UTILS METHODS
-    private void manageOkReplyMessage(){
+    private void manageOkReplyMessage(){ //if we don't receive error we suppose that everything is ok
         switch(clientState){
             case CHOOSING_TEAM:
                 teamLeader = false; //and with init send I will receive my teamPlayer
@@ -338,11 +379,11 @@ public class ClientController implements ViewObserver {
             case CHOSEN_TEAM:
                 teamLeader = true; //for security, I set it true
                 teamId = client.getClientId(); //for security I set it, the team Id is mine
-                //clientState = ClientState.CHOOSING_TOWER_COLOR; //and now i will wait for available ... send
+                //clientState = ClientState.CHOOSING_TOWER_COLOR; //and now I will wait for available ... send
                 break;
 
             case CHOSEN_TOWER_COLOR:
-                //clientState = ClientState.CHOOSING_WIZARD; //and now i will wait for available ... send
+                //clientState = ClientState.CHOOSING_WIZARD; //and now I will wait for available ... send
                 break;
             case CHOSEN_WIZARD:
                 //clientState = ClientState.GAME_START;
@@ -384,6 +425,21 @@ public class ClientController implements ViewObserver {
             case SELECTED_ASSISTANT:
                 clientState = ClientState.THROWING_ASSISTANT;
                 clientGameModel.sendSelectAssistant();
+            case MOVED_STUDENT: //moved in dashboard or island you have to retry!
+                clientState = ClientState.CHOOSING_WHERE_TO_MOVE_STUDENT;
+                clientGameModel.askWhereToMoveStudent();
+                break;
+
+            case MOVED_MOTHER_NATURE:
+                clientState = ClientState.MOVING_MOTHER_NATURE;
+                clientGameModel.sendMoveMotherNature();
+                break;
+            case CHOSEN_CLOUD:
+                clientState = ClientState.CHOOSING_CLOUD;
+                clientGameModel.sendChooseCloud();
+                break;
+            case USED_CHARACTER: //nothing, only the print of the string is ok
+                break;
 
             default:
                 break;
@@ -437,12 +493,12 @@ public class ClientController implements ViewObserver {
                         clientGameModel.askWhereToMoveStudent();  //server will resend me syncStateMessage until I finished moving all the students
                         break;
                     case MOVE_MOTHER_NATURE_STATE:
-                        //clientState = ClientState.MOVING_MOTHER_NATURE;
-                        //clientGameModel.sendMoveMotherNature();
+                        clientState = ClientState.MOVING_MOTHER_NATURE;
+                        clientGameModel.sendMoveMotherNature();
                         break;
                     case CHOOSE_CLOUD_STATE:
-                        //clientState = ClientState.CHOOSING_CLOUD;
-                        //clientGameModel.sendChooseCloud();
+                        clientState = ClientState.CHOOSING_CLOUD;
+                        clientGameModel.sendChooseCloud();
                         break;
                 }
             }
@@ -450,7 +506,6 @@ public class ClientController implements ViewObserver {
                 clientState = ClientState.WAITING_FOR_YOUR_TURN;
                 if (turnState == TurnState.MOVE_STUDENT_STATE){
                     String playerName = clientGameModel.findPlayerById(currPlayerId).getName();
-                    //clientGameModel.show(playerName + " is playing..." );
                     clientGameModel.show(playerName + " is playing..." );
 
                 }

@@ -567,4 +567,11 @@ public class Controller implements Observer {
             remoteView.sendToClient(new AssistantsSendMessage( SERVERID,assistantList));
         }
     }
+
+
+    //ONLY TO TEST METHOD
+
+    public Server getServer() {
+        return server;
+    }
 }

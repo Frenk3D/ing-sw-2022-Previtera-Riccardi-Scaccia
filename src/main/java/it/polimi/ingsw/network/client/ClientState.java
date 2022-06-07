@@ -22,6 +22,12 @@ public enum ClientState {  //Specifies every state for the single client
     MOVING_A_STUDENT_DASHBOARD,
     MOVING_A_STUDENT_ISLAND,
     MOVED_STUDENT,
+    MOVING_MOTHER_NATURE,
+    MOVED_MOTHER_NATURE,
+    CHOOSING_CLOUD,
+    CHOSEN_CLOUD,
+
+    USED_CHARACTER,
     WAITING_FOR_YOUR_TURN,
 
     //WAITING_FOR_RESPONSE,

@@ -41,8 +41,8 @@ public class KeyboardManager implements Runnable{
                 }
                 else{
                     System.out.println("Choose a character with his parameters");
-                    //manage the characters now with the parameters
-                    //outside switch we can use character everytime, checking the charactersList and choosing the index
+                    //manage the characters now with the parameters, we have also a client state?
+                    //outside switch we can use character everytime, checking the charactersList and choosing the index, after send a message
                 }
             }
 
@@ -198,21 +198,81 @@ public class KeyboardManager implements Runnable{
                             break;
                         }
                     case MOVING_A_STUDENT_DASHBOARD:
+                        try {
+                            int selectedStudentIndex = -1; //-1 is an error
+                            int parsedInputStud = Integer.parseInt(userInput); //we need try-catch because if the input is incorrect, there is an exception
+                            if (clientGameModel.findPlayerById(clientGameModel.getMyPlayerId()).getDashboard().getEntranceList().size() >= parsedInputStud) {
+                                selectedStudentIndex = parsedInputStud - 1;
+                            }
 
+                            if (selectedStudentIndex == -1)
+                                System.out.println("The selected student isn't available,try again!");
+                            else {
+                                int finalSelectedStudentIndex = selectedStudentIndex;
+                                cli.notifyObserver(obs -> obs.onSendMoveAStudentDashboard(finalSelectedStudentIndex));
+                            }
+                        }
+                        catch (Exception e) {
+                            System.out.println("Input failed, retry");
+                        }
                         break;
                     case MOVING_A_STUDENT_ISLAND:
                         try {
+                            String paramsstud[] = userInput.split(" ");
+                            int selectedStudentIslIndex = -1; //-1 is an error
+                            int parsedInputStudIsl = Integer.parseInt(paramsstud[0]);
+
+                            if (clientGameModel.findPlayerById(clientGameModel.getMyPlayerId()).getDashboard().getEntranceList().size() >= parsedInputStudIsl) {
+                                selectedStudentIslIndex = parsedInputStudIsl - 1;
+                            }
+
                             int selectedIslandIndex = -1; //-1 is an error
-                            int parsedInputIsl = Integer.parseInt(userInput); //we need try-catch because if the input is incorrect, there is an exception
+                            int parsedInputIsl = Integer.parseInt(paramsstud[1]); //we need try-catch because if the input is incorrect, there is an exception
                             if (clientGameModel.getIslandList().size() >= parsedInputIsl) {
                                 selectedIslandIndex = parsedInputIsl - 1;
                             }
+                            if (selectedStudentIslIndex == -1)
+                                System.out.println("The selected student isn't available,try again!");
 
                             if (selectedIslandIndex == -1)
-                                System.out.println("The selected assistant isn't available,try again!");
-                            else {
+                                System.out.println("The selected island isn't available,try again!");
+                            else if (selectedIslandIndex != -1 && selectedStudentIslIndex != -1){
                                 int finalSelectedIslandIndex = selectedIslandIndex;
-                                cli.notifyObserver(obs -> obs.onSendSelectAssistant(finalSelectedIslandIndex));
+                                int finalSelectedStudentIslIndex = selectedStudentIslIndex;
+                                cli.notifyObserver(obs -> obs.onSendMoveAStudentIsland(finalSelectedStudentIslIndex,finalSelectedIslandIndex));
+                            }
+
+                        } catch (Exception e) {
+                            System.out.println("Input failed, retry");
+                        }
+
+                        break;
+
+                    case MOVING_MOTHER_NATURE:
+                        try {
+                            int selectedMNPos = -1; //-1 is an error
+                            int parsedInputMN = Integer.parseInt(userInput); //we need try-catch because if the input is incorrect, there is an exception
+
+                            if (clientGameModel.getIslandList().size() >= parsedInputMN) {
+                                selectedMNPos = parsedInputMN - 1;                            }
+
+                            ReducedAssistant assistant = clientGameModel.findPlayerById(clientGameModel.getMyPlayerId()).getSelectedAssistant();
+                             if(selectedMNPos - clientGameModel.getMotherNaturePos() > assistant.getMotherNaturePosShift()){
+
+                                selectedMNPos = -1;
+
+                            }
+                             if((selectedMNPos - clientGameModel.getMotherNaturePos() < 0) && ((clientGameModel.getIslandList().size()-clientGameModel.getMotherNaturePos()+selectedMNPos)<assistant.getMotherNaturePosShift())){
+                                selectedMNPos = -1;
+
+                            }
+
+
+                            if (selectedMNPos == -1)
+                                System.out.println("You can't do this move,try again!");
+                            else {
+                                int finalSelectedMNPos = selectedMNPos;
+                                cli.notifyObserver(obs -> obs.onSendMoveMotherNature(finalSelectedMNPos));
                             }
                         }
                         catch (Exception e) {
@@ -220,7 +280,28 @@ public class KeyboardManager implements Runnable{
                         }
 
                         break;
+                    case CHOOSING_CLOUD:
+                        try {
+                            int selectedCloudIndex = -1; //-1 is an error
+                            int parsedInputCloud = Integer.parseInt(userInput); //we need try-catch because if the input is incorrect, there is an exception
+                            if (clientGameModel.getCloudList().size() >= parsedInputCloud) {
+                                selectedCloudIndex = parsedInputCloud - 1;
+                            }
+                            if(clientGameModel.getCloudList().get(selectedCloudIndex).getStudentsList().isEmpty()){
+                                selectedCloudIndex = -1;
+                            }
 
+                            if (selectedCloudIndex == -1)
+                                System.out.println("The selected cloud isn't available,try again!");
+                            else {
+                                int finalSelectedCloudIndex = selectedCloudIndex;
+                                cli.notifyObserver(obs -> obs.onSendChooseCloud(finalSelectedCloudIndex));
+                            }
+                        }
+                        catch (Exception e) {
+                            System.out.println("Input failed, retry");
+                        }
+                        break;
 
 
                     default:

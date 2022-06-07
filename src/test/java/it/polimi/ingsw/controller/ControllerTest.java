@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.characters.*;
 import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.network.server.Server;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -232,7 +233,16 @@ class ControllerTest {
         controller.update(message);
     }
 
-
-
-
+    @Test
+    void NewTests() {
+        controller.getGame().setState(GameState.LOGIN_STATE);
+        assertEquals(true, controller.isOpen());
+        assertEquals(controller.getActualNumOfPlayers(), controller.getNumOfPlayer());
+        assertEquals(controller.getExpertMode(), controller.getGame().isExpertMode());
+        controller.setServer(new Server(0));
+        Server s = new Server(2);
+        assertNotEquals(s,controller.getServer());
+        controller.getGame().getCurrRound().getCurrTurn().setCurrPlayer(p1);
+        assertFalse(controller.checkWin());
+    }
 }

@@ -45,6 +45,14 @@ public interface ViewObserver {
 
     void onSendSelectAssistant(int selectedAssistantId);
 
+    void onSendMoveAStudentIsland(int selectedStudentIndex, int selectedIslandIndex);
+
+    void onSendMoveAStudentDashboard(int selectedStudentIndex);
+
+    void onSendMoveMotherNature(int selectedIslandIndex);
+
+    void onSendChooseCloud(int selectedCloudIndex);
+
 
 //    /**
 //     * Handles a disconnection wanted by the user.

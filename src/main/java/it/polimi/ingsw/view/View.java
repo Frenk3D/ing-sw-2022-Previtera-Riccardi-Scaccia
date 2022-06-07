@@ -55,9 +55,20 @@ public abstract class View extends ViewObservable implements ModelObserver {
     @Override
     public abstract void onAskWhereToMoveStudent() ;
 
+    /**
+     * @param islandList
+     * @param selectedAssistant
+     */
+    @Override
+    public abstract void onSendMoveMotherNature(List<ReducedIsland> islandList, ReducedAssistant selectedAssistant) ;
 
+    /**
+     * @param cloudList
+     */
+    @Override
+    public abstract void onSendChooseCloud(List<ReducedCloud> cloudList) ;
 
-/**
+    /**
       * Shows  message.
       *
       * @param toShow It depends on the message: it's the nickname of the winner in case of win, it's the error string in case of error,
