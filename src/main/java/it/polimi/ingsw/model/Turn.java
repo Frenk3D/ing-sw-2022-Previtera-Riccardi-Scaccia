@@ -44,7 +44,7 @@ public class Turn {
         stage=TurnState.MOVE_STUDENT_STATE;
     }
 
-    public void updateProfessorsLists(List<Player> playersList, List<Professor> tableProfessorsList){
+    public int updateProfessorsLists(List<Player> playersList, List<Professor> tableProfessorsList){
         for (PawnColor currColor : PawnColor.values()){ //scan of all colors
             Player tmpPlayer = null; //temp variable to store the player that has to receive the professor
             Player currentProfessorPlayer = null; //temp variable to store the player that hold the professor
@@ -57,10 +57,10 @@ public class Turn {
             }
             if (tmpPlayer!=null) {
                 for (Player p : playersList) { //for each color we check every player dashboard
-                    if (p.getDashboard().getProfessorByColor(currColor) != null) { //when we find the player which hold the professor we store in the temp variable
+                    if (p.getDashboard().getProfessorByColor(currColor) != null) { //when we find the player which already hold the professor we store in the temp variable
                         currentProfessorPlayer = p;
                     }
-
+                    //search the player with more students of that color
                     if (p.getDashboard().getHallStudentsListByColor(currColor).size() > tmpPlayer.getDashboard().getHallStudentsListByColor(currColor).size()) { //if we find a player that has more students than tmp player we update the variable
                         tmpPlayer = p;
                     } else if (p.getDashboard().getHallStudentsListByColor(currColor).size() == tmpPlayer.getDashboard().getHallStudentsListByColor(currColor).size()) { //if the players have the same number of student the professor must remain to the old holder
@@ -73,7 +73,7 @@ public class Turn {
                 if (tmpPlayer.getDashboard().getProfessorByColor(currColor) == null && tmpPlayer != null) { //if the player that should have the professor doesn t have it we must give it
                     Professor professorToMove = null;
 
-                    for (Professor tableProfessor : tableProfessorsList) { //check if the professor is on the table and remove it
+                    for (Professor tableProfessor : tableProfessorsList) { //check if the professor is on the table and remove it if it is found
                         if (tableProfessor.getColor().equals(currColor)) {
                             professorToMove = tableProfessor;
                             tableProfessorsList.remove(tableProfessor);
@@ -88,12 +88,12 @@ public class Turn {
 
 
                     tmpPlayer.getDashboard().getProfessorsList().add(professorToMove);
-
+                    return tmpPlayer.getId();
                 }
             }
 
         }
-
+        return -1;
     }
 
     public int updateIslandList(List<Island> islandsList){

@@ -375,9 +375,6 @@ public class ClientController implements ViewObserver {
     @Override
     public void onSendChooseCloud(int selectedCloudIndex) {
         TakeFromCloudMessage message = new TakeFromCloudMessage(client.getClientId(), selectedCloudIndex);
-        for(ReducedPlayer p : clientGameModel.getPlayersList()){
-            p.setSelectedAssistant(null);
-        }
         client.sendMessage(message);
         clientState = ClientState.CHOSEN_CLOUD;
 
@@ -495,6 +492,12 @@ public class ClientController implements ViewObserver {
         }
 
         else if(gameState == GameState.INGAME_STATE && roundState == RoundState.PLANNING_STATE){
+            if(clientGameModel.getRoundState()!=RoundState.PLANNING_STATE){
+                for(ReducedPlayer p : clientGameModel.getPlayersList()){
+                    p.setSelectedAssistant(null);
+                }
+                clientGameModel.setRoundState(roundState);
+            }
 
             if(currPlayerId == client.getClientId()){
                 clientState = ClientState.THROWING_ASSISTANT;
@@ -510,6 +513,7 @@ public class ClientController implements ViewObserver {
             }
         }
         else if (gameState == GameState.INGAME_STATE && roundState == RoundState.ACTION_STATE){
+            clientGameModel.setRoundState(roundState);
             clientGameModel.showGame();
             if(currPlayerId == client.getClientId()){
                 switch(turnState){

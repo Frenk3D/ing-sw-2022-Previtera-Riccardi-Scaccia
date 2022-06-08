@@ -166,7 +166,7 @@ public class Controller implements Observer {
     }
 
     //LOGIN STATE
-    public void addPlayer(Player player){
+    public synchronized void addPlayer(Player player){
         if(getGameState() == GameState.LOGIN_STATE || game.getNumOfPlayers() == 0) {
             boolean result = game.addPlayer(player);
             if (!result) {
@@ -187,7 +187,7 @@ public class Controller implements Observer {
     }
 
     //SETTING PHASE 1
-    public void chooseTeam(int playerId, int requestedPlayerId){
+    public synchronized void chooseTeam(int playerId, int requestedPlayerId){
         if(game.getNumOfPlayers() == 4 && game.getSettingState() == SettingState.CHOOSE_TEAM_STATE) {
             Player requestingPlayer = game.getPlayerById(playerId);
             Player requestedTeamPlayer = game.getPlayerById(requestedPlayerId);
@@ -224,7 +224,7 @@ public class Controller implements Observer {
     }
 
     //SETTING PHASE 2
-    public void chooseTowerColor(int playerId, TowerColor selectedColor){
+    public synchronized void chooseTowerColor(int playerId, TowerColor selectedColor){
         if(game.getSettingState()==SettingState.CHOOSE_TOWER_COLOR_STATE) {
             Player requestingPlayer = game.getPlayerById(playerId);
             List<TowerColor> availableColors = game.getChooseTowerColorList();
@@ -262,7 +262,7 @@ public class Controller implements Observer {
     }
 
     //SETTING PHASE 3
-    public void chooseWizard(int playerId, Wizard selectedWizard){
+    public synchronized void chooseWizard(int playerId, Wizard selectedWizard){
         if(game.getSettingState()==SettingState.CHOOSE_WIZARD_STATE) {
             Player requestingPlayer = game.getPlayerById(playerId);
             List<Wizard> availableWizards = game.getWizardList();
@@ -344,11 +344,15 @@ public class Controller implements Observer {
             }
 
             currPlayer.getDashboard().getEntranceList().remove(studentToMove);
+
             if(game.isExpertMode() && game.getCurrRound().getCurrTurn().getUsedCharacter().getId()==2){
                 ((Characters2and6and8and9)game.getCurrRound().getCurrTurn().getUsedCharacter()).modifiedUpdateProfessorsLists2(game.getPlayersList(), game.getCurrPlayer(), game.getTableProfessorsList());
             }
             else {
-                game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(),game.getTableProfessorsList());
+                int updatedPlayer = game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(),game.getTableProfessorsList());
+                if(updatedPlayer!=-1){
+                    game.sendDashboard(updatedPlayer); //send the updated dashboard of other player
+                }
             }
 
             game.getCurrRound().getCurrTurn().incrementMovedStudents(game.getNumOfPlayers());

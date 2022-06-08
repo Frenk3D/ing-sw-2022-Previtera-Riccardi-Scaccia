@@ -159,7 +159,7 @@ public class GameModel extends Observable {
 
 
     public void setMotherNaturePosition(int pos){
-            if(motherNaturePos!=pos&& pos>0 && pos<12) { //mother nature has to move at least of 1 pos, but we have to manage illegal back moves
+            if(motherNaturePos!=pos&& pos>=0 && pos<12) { //mother nature has to move at least of 1 pos, but we have to manage illegal back moves
                 motherNaturePos = pos;
             }
             else{
@@ -334,6 +334,10 @@ public class GameModel extends Observable {
 
     public void sendDashboard(){
         notifyObserver(new DashboardMessage(SERVERID, new ReducedDashboard(getCurrPlayer().getDashboard()),getCurrPlayer().getId()));
+    }
+
+    public void sendDashboard(int playerId){
+        notifyObserver(new DashboardMessage(SERVERID, new ReducedDashboard(getPlayerById(playerId).getDashboard()),playerId));
     }
 
     public void sendAllDashboards(){

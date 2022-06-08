@@ -191,7 +191,7 @@ public class GamePrinter {
 
         writeAtPos(result, 37, 2, "Card:");
 
-        if (assistant.getId()!=0){
+        if (assistant != null && assistant.getId()!=0){
             writeAtPos(result, 37, 3, ColorCli.BLUE_BOLD+"ID: "+ assistant.getId() + ColorCli.RESET);
             writeAtPos(result, 36, 4, "POS: +"+assistant.getMotherNaturePosShift());
         }

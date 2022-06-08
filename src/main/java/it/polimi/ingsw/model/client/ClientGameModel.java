@@ -30,6 +30,7 @@ public class ClientGameModel extends ModelObservable {
     private int myPlayerId;
     private boolean expertMode;
     private int numOfPlayers;
+    private RoundState roundState;
 
     //we use the default constructor just to use the view in ClientController
 
@@ -238,6 +239,13 @@ public class ClientGameModel extends ModelObservable {
         notifyObserver(obs -> obs.onShowGame(this));
     }
 
+    public RoundState getRoundState() {
+        return roundState;
+    }
+
+    public void setRoundState(RoundState roundState) {
+        this.roundState = roundState;
+    }
 }
 
 
