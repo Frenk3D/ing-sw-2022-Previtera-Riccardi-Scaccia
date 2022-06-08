@@ -96,21 +96,29 @@ public class Turn {
 
     }
 
-    public void updateIslandList(List<Island> islandsList){
-        for (int i = 0; i<islandsList.size()-1; i++){
-            if(islandsList.get(i).mergeIsland(islandsList.get(i+1)) == true){
-                islandsList.remove(i+1);
+    public int updateIslandList(List<Island> islandsList){
+        int updatedMotherNature = -1;
+        for (int i = 0; i<islandsList.size(); i++){
+            if(i==islandsList.size()-1){ //we are at the last island of the list
+                if(islandsList.get(i).mergeIsland(islandsList.get(0)) == true){
+                    islandsList.remove(0);
+                    updatedMotherNature = i;
+                }
+            }
+            else { //we are in the middle of the list
+                if(islandsList.get(i).mergeIsland(islandsList.get(i+1)) == true){
+                    islandsList.remove(i+1);
+                    updatedMotherNature = i;
+                }
             }
         }
 
-        if(islandsList.get(0).mergeIsland(islandsList.get(islandsList.size()-1)) == true){
-            islandsList.remove(islandsList.size()-1);
-        }
+        return updatedMotherNature;
     }
 
-    public boolean incrementMovedStudents(){
+    public boolean incrementMovedStudents(int numOfPlayers){
         movedStudentNumber++;
-        if(movedStudentNumber==3){
+        if((movedStudentNumber==3 && numOfPlayers != 3) || (movedStudentNumber==4 && numOfPlayers == 3)){
             stage=TurnState.MOVE_MOTHER_NATURE_STATE;
             return false;
         }

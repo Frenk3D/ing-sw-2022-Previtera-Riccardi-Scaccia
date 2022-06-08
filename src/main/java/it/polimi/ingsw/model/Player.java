@@ -44,6 +44,11 @@ public class Player {
     public Assistant getSelectedAssistant(){
         return selectedAssistant;
     }
+
+    public void setSelectedAssistant(Assistant selectedAssistant) {
+        this.selectedAssistant = selectedAssistant;
+    }
+
     public TowerColor getTowerColor(){
         return playerTowerColor;
     }

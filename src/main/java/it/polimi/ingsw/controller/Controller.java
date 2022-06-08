@@ -12,6 +12,7 @@ import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.view.RemoteView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.network.server.Server.SERVERID;
@@ -312,7 +313,7 @@ public class Controller implements Observer {
             Student studentToMove = currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex);
             game.getIslandByIndex(islandIndex).addStudent(studentToMove);
             currPlayer.getDashboard().getEntranceList().remove(studentToMove);
-            game.getCurrRound().getCurrTurn().incrementMovedStudents();
+            game.getCurrRound().getCurrTurn().incrementMovedStudents(game.getNumOfPlayers());
 
             game.sendTable();
             game.sendDashboard();
@@ -350,7 +351,7 @@ public class Controller implements Observer {
                 game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(),game.getTableProfessorsList());
             }
 
-            game.getCurrRound().getCurrTurn().incrementMovedStudents();
+            game.getCurrRound().getCurrTurn().incrementMovedStudents(game.getNumOfPlayers());
             game.sendDashboard(); //update the dashboard in clients
             if(game.isExpertMode()){//update the money in players if expert mode
                 game.sendCharacterTable();
@@ -404,7 +405,10 @@ public class Controller implements Observer {
                 game.getIslandByIndex(islandIndex).updateIslandDomain(game.getPlayersList());
             }
 
-            game.getCurrRound().getCurrTurn().updateIslandList(game.getIslandsList());
+            int newMotherNaturePos = game.getCurrRound().getCurrTurn().updateIslandList(game.getIslandsList());
+            if(newMotherNaturePos != -1){
+                game.setMotherNaturePosition(newMotherNaturePos);
+            }
             game.getCurrRound().getCurrTurn().setStage(TurnState.CHOOSE_CLOUD_STATE);
             game.sendTable();
             game.sendInGameState();
@@ -431,6 +435,9 @@ public class Controller implements Observer {
 
             boolean result = game.getCurrRound().nextTurn();
             if(!result){ //the round is ended and we fill the clouds again
+                for (Player p : game.getPlayersList()){
+                    p.setSelectedAssistant(null);
+                }
                 game.getCurrRound().fillClouds(game.getCloudsList(),game.getBag(),game.getNumOfPlayers());
             }
             game.sendTable();
@@ -449,6 +456,21 @@ public class Controller implements Observer {
             Player player = round.getPlanningPhasePlayer(game.getPlayersList());
             if(player.getAssistantDeck().getAssistantById(assistantId)==null){
                 System.out.println("select assistant: wrong parameters");
+                sendError(player.getId(), "Assistant not available");
+                return;
+            }
+
+            List<Integer> thrownAssistants = new ArrayList<>();
+            List<Integer> myAssistants = new ArrayList<>();
+            for (Player p : game.getPlayersList()){
+                thrownAssistants.add(p.getSelectedAssistant().getId());
+            }
+            for (Assistant a : player.getAssistantDeck().getAssistantsList()){
+                myAssistants.add(a.getId());
+            }
+
+            if(thrownAssistants.contains(assistantId) && !thrownAssistants.containsAll(myAssistants)){ //my assistant was already thrown, and it is false that all my assistants were already thrown
+                System.out.println("select assistant: same id of other players");
                 sendError(player.getId(), "Assistant not available");
                 return;
             }

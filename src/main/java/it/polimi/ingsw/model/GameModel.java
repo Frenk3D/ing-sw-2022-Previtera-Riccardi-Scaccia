@@ -64,7 +64,15 @@ public class GameModel extends Observable {
         }
 
         Collections.addAll(wizardList, Wizard.values());
-        Collections.addAll(chooseTowerColorList, TowerColor.values());
+
+        if(numOfPlayers == 3){
+            Collections.addAll(chooseTowerColorList, TowerColor.values());
+        }
+        else {
+            chooseTowerColorList.add(TowerColor.BLACK);
+            chooseTowerColorList.add(TowerColor.WHITE);
+        }
+
 
         state=GameState.SETTING_STATE;
         if(numOfPlayers == 4){

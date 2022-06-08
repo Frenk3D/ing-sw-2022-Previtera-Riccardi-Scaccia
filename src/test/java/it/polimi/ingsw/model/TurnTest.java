@@ -77,10 +77,10 @@ class TurnTest {
     @Test
     void incrementMovedStudents() {
         int num = game1.getCurrRound().getCurrTurn().getMovedStudentsNumber();
-        game1.getCurrRound().getCurrTurn().incrementMovedStudents();
+        game1.getCurrRound().getCurrTurn().incrementMovedStudents(2);
         assertEquals(num + 1,game1.getCurrRound().getCurrTurn().getMovedStudentsNumber());
-        game1.getCurrRound().getCurrTurn().incrementMovedStudents();
-        game1.getCurrRound().getCurrTurn().incrementMovedStudents();
+        game1.getCurrRound().getCurrTurn().incrementMovedStudents(2);
+        game1.getCurrRound().getCurrTurn().incrementMovedStudents(2);
         assertEquals(TurnState.MOVE_MOTHER_NATURE_STATE,game1.getCurrRound().getCurrTurn().getStage());
     }
 
