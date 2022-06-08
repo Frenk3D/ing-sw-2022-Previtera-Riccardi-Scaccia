@@ -166,7 +166,7 @@ public class Island {
         return influence;
     }
 
-    public boolean mergeIsland(Island nextIsland){
+    public boolean mergeIsland(Island nextIsland){ //is to call more times
         if (getTowerColor()!=null && nextIsland.getTowerColor()!=null && getTowerColor() == nextIsland.getTowerColor()){
             weight = weight + nextIsland.weight;
 

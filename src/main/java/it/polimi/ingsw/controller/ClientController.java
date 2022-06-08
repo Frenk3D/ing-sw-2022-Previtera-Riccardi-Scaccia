@@ -535,8 +535,17 @@ public class ClientController implements ViewObserver {
                 clientState = ClientState.WAITING_FOR_YOUR_TURN;
                 if (turnState == TurnState.MOVE_STUDENT_STATE){
                     String playerName = clientGameModel.findPlayerById(currPlayerId).getName();
-                    clientGameModel.show(playerName + " is playing..." );
+                    clientGameModel.show(playerName + " is moving a student..." );
 
+                }
+                else if (turnState == TurnState.MOVE_MOTHER_NATURE_STATE){
+                    String playerName = clientGameModel.findPlayerById(currPlayerId).getName();
+                    clientGameModel.show(playerName + " is moving mother nature..." );
+
+                }
+                else if (turnState == TurnState.CHOOSE_CLOUD_STATE){
+                    String playerName = clientGameModel.findPlayerById(currPlayerId).getName();
+                    clientGameModel.show(playerName + " is choosing a cloud..." );
                 }
 
             }
