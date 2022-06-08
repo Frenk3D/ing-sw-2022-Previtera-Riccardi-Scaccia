@@ -74,6 +74,7 @@ public class Cli extends View {
      * Clears the CLI terminal.
      */
     public void clearCli() { //only on intellij doesn't work
+        out.print(ColorCli.RESET);
         out.print(ColorCli.CLEAR);
         out.flush();
     }
@@ -158,6 +159,7 @@ public class Cli extends View {
 
     @Override
     public void onSendChooseLobby(List<Lobby> lobbylist){
+        clearCli();
         out.println("Write a lobby name to access: \n");
         int counter = 1;
         for(Lobby lobby : lobbylist){
@@ -187,6 +189,7 @@ public class Cli extends View {
 
     @Override
     public void onSendChooseTowerColor(List<TowerColor> availableTowerColors){ //ONLY IN THREE PLAYERS GAME WE HAVE ALSO GRAY COLOR
+        clearCli();
         out.println("Choose a Tower Color from the available colors: ");
         for(TowerColor c : availableTowerColors){
             out.println( "Color: " + c );
@@ -198,6 +201,7 @@ public class Cli extends View {
 
     @Override
     public void onSendChooseWizard(List<Wizard> availableWizards){
+        clearCli();
         out.println("Choose a Wizard from the available wizards: ");
         for(Wizard wizard : availableWizards){
             out.println( "Wizard: " + wizard);
@@ -208,6 +212,7 @@ public class Cli extends View {
 
     @Override
     public void onSendSelectAssistant(List<ReducedAssistant> assistantList) {
+        clearCli();
         out.println("Choose an Assistant id from the list: ");
         return;
     }

@@ -177,8 +177,10 @@ public class KeyboardManager implements Runnable{
 
                            List<Integer> thrownAssistants = new ArrayList<>();
                            List<Integer> myAssistants = new ArrayList<>();
-                           for (ReducedPlayer p : clientGameModel.getPlayersList()){
-                               thrownAssistants.add(p.getSelectedAssistant().getId());
+                           for (ReducedPlayer p : clientGameModel.getPlayersList()) {
+                               if (p.getSelectedAssistant() != null) {
+                                   thrownAssistants.add(p.getSelectedAssistant().getId());
+                               }
                            }
                            for (ReducedAssistant a : clientGameModel.getAssistantList()){
                                myAssistants.add(a.getId());
