@@ -32,18 +32,18 @@ public class GamePrinter {
 
         boolean motherNatureHere = false;
         int index = -1;
-        int printIndex = 1;
+        int indexList = 0;
         for (ReducedIsland island : clientGameModel.getIslandList()){
-            if(clientGameModel.getMotherNaturePos() == index) {
+            if(clientGameModel.getMotherNaturePos() == indexList) {
                 motherNatureHere =true;
             }
             else {
                 motherNatureHere=false;
             }
             index += island.getWeight();
-            String[] generatedIsland = generateIsland(island,printIndex,motherNatureHere);
+            String[] generatedIsland = generateIsland(island,indexList + 1,motherNatureHere);
             mergeMatrix(canvas,islandPositions[index][0],islandPositions[index][1],generatedIsland);
-            printIndex ++;
+            indexList++;
         }
 
         index = 0;
