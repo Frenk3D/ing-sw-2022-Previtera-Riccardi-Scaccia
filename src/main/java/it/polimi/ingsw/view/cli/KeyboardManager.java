@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.client.ClientState;
 import it.polimi.ingsw.network.server.Lobby;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -173,6 +174,20 @@ public class KeyboardManager implements Runnable{
                                    selectedAssistantId = parsedInput;
                                }
                            }
+
+                           List<Integer> thrownAssistants = new ArrayList<>();
+                           List<Integer> myAssistants = new ArrayList<>();
+                           for (ReducedPlayer p : clientGameModel.getPlayersList()){
+                               thrownAssistants.add(p.getSelectedAssistant().getId());
+                           }
+                           for (ReducedAssistant a : clientGameModel.getAssistantList()){
+                               myAssistants.add(a.getId());
+                           }
+
+                           if(thrownAssistants.contains(selectedAssistantId) && !thrownAssistants.containsAll(myAssistants)) { //my assistant was thrown and
+                               selectedAssistantId = -1;
+                           }
+
                            if (selectedAssistantId == -1)
                                System.out.println("The selected assistant isn't available,try again!");
                            else {

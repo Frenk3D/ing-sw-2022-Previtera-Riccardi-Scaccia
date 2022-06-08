@@ -11,6 +11,8 @@ import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.cli.Cli;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 import java.util.*;
 
 
@@ -112,7 +114,6 @@ public class ClientController implements ViewObserver {
                 break;
 
 
-
             case INIT_SEND:
                 clientState = ClientState.GAME_START;
                 AllGameMessage allGameMessage = (AllGameMessage) message;
@@ -208,7 +209,23 @@ public class ClientController implements ViewObserver {
                 "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
                 "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
                 "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
-        return ip.matches(regex);
+
+        if (ip.matches(regex)) {
+            return true;
+        } else {
+            try {
+                new URI(ip);
+                return true;
+            }
+
+            // If there was an Exception
+            // while creating URL object
+            catch (Exception e) {
+                return false;
+            }
+
+        }
+
     }
 
     /**
