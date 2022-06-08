@@ -35,6 +35,7 @@ public class KeyboardManager implements Runnable{
         while (!Thread.currentThread().isInterrupted()) {  //everytime active to receive input
             scanInput.reset();
             userInput = scanInput.nextLine(); //whenever the player presses enter this line gets executed
+            //scanInput.next();
             System.out.println("login: " + userInput + " state: " + controller.getClientState()); //only for debug
             if (userInput.equals("use_character") && controller.getClientState() != ClientState.WAITING_FOR_YOUR_TURN) {
                 if(clientGameModel.getCharactersList().isEmpty() || clientGameModel.getCharactersList()==null){
