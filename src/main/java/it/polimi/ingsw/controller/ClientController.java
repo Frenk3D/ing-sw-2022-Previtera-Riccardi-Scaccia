@@ -162,7 +162,7 @@ public class ClientController implements ViewObserver {
                 clientGameModel.show("The winner is: " + stringMessage.getString());
 
                 clientGameModel.show("Restarting...");
-                clientState = ClientState.APPLICATION_START;
+                clientState = ClientState.CHOOSING_JOIN_CREATE;
                 clientGameModel.askCreateOrJoin();
                 break;
 
@@ -183,7 +183,7 @@ public class ClientController implements ViewObserver {
             case DISCONNECTION:  //when someone else disconnected
                 // StringMessage dm = (StringMessage) message;
                 // client.sendMessage(dm);
-                clientState = ClientState.APPLICATION_START;
+                clientState = ClientState.CHOOSING_JOIN_CREATE;
                 //taskQueue.execute(() -> clientGameModel.show("A client disconnected"));
                 clientGameModel.show("A client disconnected");
                 //System.out.println("A client disconnected");
@@ -259,8 +259,8 @@ public class ClientController implements ViewObserver {
             //taskQueue.execute(clientGameModel::sendLoginRequest);
             clientGameModel.sendLoginRequest();
         } catch (IOException e) {
-            clientGameModel.sendServerInfoRequest();
             clientState = ClientState.APPLICATION_START;
+            clientGameModel.sendServerInfoRequest();
         }
     }
     @Override
@@ -375,8 +375,12 @@ public class ClientController implements ViewObserver {
     @Override
     public void onSendChooseCloud(int selectedCloudIndex) {
         TakeFromCloudMessage message = new TakeFromCloudMessage(client.getClientId(), selectedCloudIndex);
+        for(ReducedPlayer p : clientGameModel.getPlayersList()){
+            p.setSelectedAssistant(null);
+        }
         client.sendMessage(message);
         clientState = ClientState.CHOSEN_CLOUD;
+
     }
 
     public void onSocketDisconnect(){   //this happens only when there is a mine critical problem
@@ -491,6 +495,7 @@ public class ClientController implements ViewObserver {
         }
 
         else if(gameState == GameState.INGAME_STATE && roundState == RoundState.PLANNING_STATE){
+
             if(currPlayerId == client.getClientId()){
                 clientState = ClientState.THROWING_ASSISTANT;
                 clientGameModel.showGame();

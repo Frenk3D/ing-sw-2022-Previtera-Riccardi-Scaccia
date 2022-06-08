@@ -212,7 +212,6 @@ public class Cli extends View {
 
     @Override
     public void onSendSelectAssistant(List<ReducedAssistant> assistantList) {
-        clearCli();
         out.println("Choose an Assistant id from the list: ");
         return;
     }
