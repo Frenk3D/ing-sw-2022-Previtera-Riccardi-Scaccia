@@ -70,7 +70,7 @@ public class Turn {
                     }
                 }
 
-                if (tmpPlayer.getDashboard().getProfessorByColor(currColor) == null && tmpPlayer != null) { //if the player that should have the professor doesn t have it we must give it
+                if (tmpPlayer.getDashboard().getProfessorByColor(currColor) == null) { //if the player that should have the professor doesn t have it we must give it
                     Professor professorToMove = null;
 
                     for (Professor tableProfessor : tableProfessorsList) { //check if the professor is on the table and remove it if it is found
@@ -84,11 +84,12 @@ public class Turn {
                     if (professorToMove == null) { //the professor is in currentProfessorPlayer, else professor is on the table
                         professorToMove = currentProfessorPlayer.getDashboard().getProfessorByColor(currColor);
                         currentProfessorPlayer.getDashboard().getProfessorsList().remove(professorToMove);
+                        tmpPlayer.getDashboard().getProfessorsList().add(professorToMove);
+                        return currentProfessorPlayer.getId();
                     }
 
 
                     tmpPlayer.getDashboard().getProfessorsList().add(professorToMove);
-                    return tmpPlayer.getId();
                 }
             }
 
