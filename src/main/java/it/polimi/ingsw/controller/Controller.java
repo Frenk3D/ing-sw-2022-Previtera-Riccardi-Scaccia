@@ -463,7 +463,9 @@ public class Controller implements Observer {
             List<Integer> thrownAssistants = new ArrayList<>();
             List<Integer> myAssistants = new ArrayList<>();
             for (Player p : game.getPlayersList()){
-                thrownAssistants.add(p.getSelectedAssistant().getId());
+                if(p.getSelectedAssistant()!=null) {
+                    thrownAssistants.add(p.getSelectedAssistant().getId());
+                }
             }
             for (Assistant a : player.getAssistantDeck().getAssistantsList()){
                 myAssistants.add(a.getId());
