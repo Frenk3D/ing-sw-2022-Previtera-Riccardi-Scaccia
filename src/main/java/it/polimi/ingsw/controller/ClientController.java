@@ -31,10 +31,6 @@ public class ClientController implements ViewObserver {
     private boolean teamLeader; //he is who requested the teamPlayer and who will choose the tower color
     //my player id is in clientGameModel and in client
 
-   // private final ExecutorService taskQueue; we use thread for the view
-
-    //public static final int UNDO_TIME = 5000;
-
     /**
      * Constructs Client Controller.
      *
@@ -113,7 +109,6 @@ public class ClientController implements ViewObserver {
                 }
                 break;
 
-
             case INIT_SEND:
                 clientState = ClientState.GAME_START;
                 AllGameMessage allGameMessage = (AllGameMessage) message;
@@ -181,13 +176,9 @@ public class ClientController implements ViewObserver {
 
 
             case DISCONNECTION:  //when someone else disconnected
-                // StringMessage dm = (StringMessage) message;
-                // client.sendMessage(dm);
+                StringMessage disconnectionMessage = (StringMessage) message;
                 clientState = ClientState.CHOOSING_JOIN_CREATE;
-                //taskQueue.execute(() -> clientGameModel.show("A client disconnected"));
-                clientGameModel.show("A client disconnected");
-                //System.out.println("A client disconnected");
-                //taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
+                clientGameModel.show(disconnectionMessage.getString() +" disconnected... returning to home\n");
                 clientGameModel.askCreateOrJoin();
                 break;
 
@@ -217,7 +208,6 @@ public class ClientController implements ViewObserver {
                 new URI(ip);
                 return true;
             }
-
             // If there was an Exception
             // while creating URL object
             catch (Exception e) {
@@ -256,7 +246,6 @@ public class ClientController implements ViewObserver {
             client = new ClientSocket(serverInfo.get("address"), Integer.parseInt(serverInfo.get("port")), this);
             clientState = ClientState.REQUESTING_LOGIN;
             client.readMessage(); // Starts an asynchronous reading from the server.
-            //taskQueue.execute(clientGameModel::sendLoginRequest);
             clientGameModel.sendLoginRequest();
         } catch (IOException e) {
             clientState = ClientState.APPLICATION_START;
@@ -389,7 +378,7 @@ public class ClientController implements ViewObserver {
     }
 
     public void onSocketDisconnect(){   //this happens only when there is a mine critical problem
-        /*taskQueue.execute(() -> )*/ clientGameModel.show("\nConnection lost, disconnecting...");
+        clientGameModel.show("\nConnection lost, disconnecting...");
         clientState = ClientState.GAME_FINISHED;
         System.exit(0);
     }

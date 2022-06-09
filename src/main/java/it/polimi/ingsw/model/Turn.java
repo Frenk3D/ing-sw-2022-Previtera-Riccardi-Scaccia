@@ -99,53 +99,33 @@ public class Turn {
 
     public int updateIslandList(List<Island> islandsList){
         int updatedMotherNature = -1;
-        for (int i = 0; i<islandsList.size(); i++){
-            if(i==islandsList.size()-1){ //we are at the last island of the list
-                if(islandsList.get(i).mergeIsland(islandsList.get(0)) == true){
-                    islandsList.remove(0);
-                    updatedMotherNature = i;
-
-                }
-            }
-            else { //we are in the middle of the list
-                if(islandsList.get(i).mergeIsland(islandsList.get(i+1)) == true){
-                    islandsList.remove(i+1);
-                    updatedMotherNature = i;
-
-                }
-            }
-        }
-
-        return updatedMotherNature;
-
-    }
-
-    /*
-    public int updateIslandList(List<Island> islandsList){
-        int updatedMotherNature = -1;
         boolean merged = false;
         for (int i = 0; i<islandsList.size(); i++){
             if(i==islandsList.size()-1){ //we are at the last island of the list
-                if(islandsList.get(i).mergeIsland(islandsList.get(0)) == true){
+                if(islandsList.get(i).mergeIsland(islandsList.get(0))){
                     islandsList.remove(0);
                     updatedMotherNature = i;
                     merged = true;
+                    break;
                 }
             }
             else { //we are in the middle of the list
-                if(islandsList.get(i).mergeIsland(islandsList.get(i+1)) == true){
+                if(islandsList.get(i).mergeIsland(islandsList.get(i+1))){
                     islandsList.remove(i+1);
                     updatedMotherNature = i;
                     merged = true;
+                    break;
                 }
             }
         }
-        if (merged==false){
-            return updatedMotherNature;}
+        if (!merged){
+            return updatedMotherNature;
+        }
         else {updateIslandList(islandsList); //when it will be false (after almost one true) the recursion will return -1, but it will be not assigned and it will return the real updateMotherNaturePos to the controller
-            return updatedMotherNature;}
+            return updatedMotherNature;
+        }
 
-    } */
+    }
 
 
 

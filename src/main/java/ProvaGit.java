@@ -76,7 +76,7 @@ public class ProvaGit {
 
         Player p1 = new Player("Marco", 2);
         p1.setPlayerTowerColor(TowerColor.WHITE);
-        p1.getAssistantDeck().setWizard(Wizard.ASIATIC_WIZARD);
+        p1.getAssistantDeck().setWizard(Wizard.ASIATIC);
         p1.setSelectedAssistant(5);
         p1.modifyMoney(6,new AtomicInteger(10));
 
@@ -142,8 +142,8 @@ public class ProvaGit {
         controller.chooseTowerColor(1,TowerColor.WHITE);
         controller.chooseTowerColor(2,TowerColor.BLACK);
 
-        controller.chooseWizard(1, Wizard.OLD_WIZARD);
-        controller.chooseWizard(2,Wizard.GIRL_WIZARD);
+        controller.chooseWizard(1, Wizard.SAGE);
+        controller.chooseWizard(2,Wizard.WITCH);
 
         printIslands(game);
         printDashboards(game);

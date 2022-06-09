@@ -22,8 +22,8 @@ class AssistantDeckTest {
 
     @Test
     void setWizard() {
-        assistantDeck.setWizard(Wizard.KING_WIZARD);
-        assertEquals(Wizard.KING_WIZARD,assistantDeck.getWizard());
+        assistantDeck.setWizard(Wizard.KING);
+        assertEquals(Wizard.KING,assistantDeck.getWizard());
     }
 
     @Test

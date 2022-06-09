@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.enumerations;
 
 public enum Wizard {
-    OLD_WIZARD(0),
-    KING_WIZARD(1),
-    GIRL_WIZARD(2),
-    ASIATIC_WIZARD(3);
+    SAGE(0),
+    KING(1),
+    WITCH(2),
+    ASIATIC(3);
 
     int wizardIndex;
 

@@ -2,6 +2,8 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.enumerations.TowerColor;
+import it.polimi.ingsw.model.enumerations.Wizard;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.view.RemoteView;
 
@@ -149,6 +151,7 @@ public class Server{
                 LobbyMessage lobbyMessage = new LobbyMessage(SERVERID, getAvailableLobbiesList());
                 destSocket.sendMessage(lobbyMessage);
             }
+            pumpControllerCommands(controller);
 
         }
     }
@@ -288,7 +291,26 @@ public class Server{
 
         Controller controller1 = new Controller();
         controller1.setServer(this);
-        controller1.configure(2,false);
+        controller1.configure(3,false);
         controllersMap.put("mytest",controller1);
+    }
+
+    private void pumpControllerCommands(Controller controller){
+        if(controllersMap.get("test")!= null && controllersMap.get("test").equals(controller)&&!controller.isOpen() && playersIdCounter == 2){
+            System.out.println("pumping controller");
+            controller.chooseTowerColor(1, TowerColor.BLACK);
+            controller.chooseTowerColor(2,TowerColor.WHITE);
+            controller.chooseWizard(1, Wizard.ASIATIC);
+            controller.chooseWizard(2,Wizard.KING);
+        }
+        else if(controllersMap.get("mytest")!= null && controllersMap.get("mytest").equals(controller)&&!controller.isOpen() && playersIdCounter == 3){
+            System.out.println("pumping controller");
+            controller.chooseTowerColor(1, TowerColor.BLACK);
+            controller.chooseTowerColor(2,TowerColor.WHITE);
+            controller.chooseTowerColor(3,TowerColor.GRAY);
+            controller.chooseWizard(1, Wizard.ASIATIC);
+            controller.chooseWizard(2,Wizard.KING);
+            controller.chooseWizard(3,Wizard.WITCH);
+        }
     }
 }

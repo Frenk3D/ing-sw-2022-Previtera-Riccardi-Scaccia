@@ -44,10 +44,10 @@ class ControllerTest {
         controller.chooseTeam(3,4);
         controller.chooseTowerColor(1,TowerColor.BLACK);
         controller.chooseTowerColor(3,TowerColor.WHITE);
-        controller.chooseWizard(1, Wizard.OLD_WIZARD);
-        controller.chooseWizard(2, Wizard.GIRL_WIZARD);
-        controller.chooseWizard(3, Wizard.KING_WIZARD);
-        controller.chooseWizard(4, Wizard.ASIATIC_WIZARD);
+        controller.chooseWizard(1, Wizard.SAGE);
+        controller.chooseWizard(2, Wizard.WITCH);
+        controller.chooseWizard(3, Wizard.KING);
+        controller.chooseWizard(4, Wizard.ASIATIC);
         s = new Student(PawnColor.RED);
         //AT THIS MOMENT CONTROLLER STARTS THE GAME
 
