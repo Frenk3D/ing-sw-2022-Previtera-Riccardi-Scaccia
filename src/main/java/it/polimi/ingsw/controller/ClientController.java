@@ -270,22 +270,6 @@ public class ClientController implements ViewObserver {
         clientState = ClientState.LOGIN_ACCEPTED;
     }
 
-
-
-    /*@Override
-    public void onAskCreateOrJoin(String input){ //also in view we could do this check...
-        if(input.equals("c")){
-            taskQueue.execute(() -> clientGameModel.sendNewLobbyRequest());
-        }
-        else if(input.equals("j")){
-            taskQueue.execute(() -> clientGameModel.sendLobbiesRequest());
-        }
-        else{
-            taskQueue.execute(() -> clientGameModel.show("Incorrect input,try again!"));
-            taskQueue.execute(() -> clientGameModel.askCreateOrJoin());
-        }
-    }*/
-
     @Override
     public void onSendNewLobbyRequest(String input,int numOfPlayers,boolean expertMode){
         Lobby lobby = new Lobby(numOfPlayers,0,expertMode,input);
@@ -333,9 +317,14 @@ public class ClientController implements ViewObserver {
 
     @Override
     public void onSendSelectAssistant(int selectedAssistantId) {
-        SelectAssistantMessage selectAssistantMessage = new SelectAssistantMessage(client.getClientId(),selectedAssistantId);
-        client.sendMessage(selectAssistantMessage);
-        clientState = ClientState.SELECTED_ASSISTANT;
+        if(ClientInputVerifier.verifyAssistant(clientGameModel,selectedAssistantId)) {
+            SelectAssistantMessage selectAssistantMessage = new SelectAssistantMessage(client.getClientId(), selectedAssistantId);
+            client.sendMessage(selectAssistantMessage);
+            clientState = ClientState.SELECTED_ASSISTANT;
+        }
+        else {
+            clientGameModel.show("The selected assistant isn't available,try again!");
+        }
     }
 
     /**
@@ -344,9 +333,14 @@ public class ClientController implements ViewObserver {
      */
     @Override
     public void onSendMoveAStudentIsland(int selectedStudentIndex, int selectedIslandIndex) {
-        MoveStudentIslandMessage message = new MoveStudentIslandMessage(client.getClientId(), selectedStudentIndex, selectedIslandIndex);
-        client.sendMessage(message);
-        clientState = ClientState.MOVED_STUDENT;
+        if(ClientInputVerifier.verifyStudentIsland(clientGameModel,selectedStudentIndex,selectedIslandIndex)) {
+            MoveStudentIslandMessage message = new MoveStudentIslandMessage(client.getClientId(), selectedStudentIndex, selectedIslandIndex);
+            client.sendMessage(message);
+            clientState = ClientState.MOVED_STUDENT;
+        }
+        else {
+            clientGameModel.show("The selected student or island aren't available,try again!");
+        }
     }
 
     /**
@@ -354,9 +348,14 @@ public class ClientController implements ViewObserver {
      */
     @Override
     public void onSendMoveAStudentDashboard(int selectedStudentIndex) {
-        MoveStudentDashboardMessage message = new MoveStudentDashboardMessage(client.getClientId(), selectedStudentIndex);
-        client.sendMessage(message);
-        clientState = ClientState.MOVED_STUDENT;
+        if(ClientInputVerifier.verifyStudentDashboard(clientGameModel,selectedStudentIndex)) {
+            MoveStudentDashboardMessage message = new MoveStudentDashboardMessage(client.getClientId(), selectedStudentIndex);
+            client.sendMessage(message);
+            clientState = ClientState.MOVED_STUDENT;
+        }
+        else {
+            clientGameModel.show("The selected student isn't available,try again!");
+        }
     }
 
     /**
@@ -364,9 +363,14 @@ public class ClientController implements ViewObserver {
      */
     @Override
     public void onSendMoveMotherNature(int selectedIslandIndex) {
-        MoveMotherNatureMessage message = new MoveMotherNatureMessage(client.getClientId(), selectedIslandIndex);
-        client.sendMessage(message);
-        clientState = ClientState.MOVED_MOTHER_NATURE;
+        if(ClientInputVerifier.verifyMotherNaturePos(clientGameModel,selectedIslandIndex)) {
+            MoveMotherNatureMessage message = new MoveMotherNatureMessage(client.getClientId(), selectedIslandIndex);
+            client.sendMessage(message);
+            clientState = ClientState.MOVED_MOTHER_NATURE;
+        }
+        else {
+            clientGameModel.show("You can't do this move,try again!");
+        }
     }
 
     /**
@@ -374,14 +378,18 @@ public class ClientController implements ViewObserver {
      */
     @Override
     public void onSendChooseCloud(int selectedCloudIndex) {
-        TakeFromCloudMessage message = new TakeFromCloudMessage(client.getClientId(), selectedCloudIndex);
-        client.sendMessage(message);
-        clientState = ClientState.CHOSEN_CLOUD;
-
+        if(ClientInputVerifier.verifyCloud(clientGameModel,selectedCloudIndex)) {
+            TakeFromCloudMessage message = new TakeFromCloudMessage(client.getClientId(), selectedCloudIndex);
+            client.sendMessage(message);
+            clientState = ClientState.CHOSEN_CLOUD;
+        }
+        else {
+            clientGameModel.show("The selected cloud isn't available,try again!");
+        }
     }
 
     public void onSocketDisconnect(){   //this happens only when there is a mine critical problem
-        /*taskQueue.execute(() -> )*/ clientGameModel.show((Object) "\nConnection lost, disconnecting...");
+        /*taskQueue.execute(() -> )*/ clientGameModel.show("\nConnection lost, disconnecting...");
         clientState = ClientState.GAME_FINISHED;
         System.exit(0);
     }
@@ -408,7 +416,6 @@ public class ClientController implements ViewObserver {
                 break;
             default:
                 break;
-
         }
     }
 
@@ -427,7 +434,6 @@ public class ClientController implements ViewObserver {
             case CHOSEN_TEAM:
                 clientState = ClientState.CHOOSING_TEAM;
                 clientGameModel.sendChooseTeam(clientGameModel.getAvailableTeamPlayers());
-
                 break;
 
             case CHOSEN_TOWER_COLOR:
@@ -465,7 +471,6 @@ public class ClientController implements ViewObserver {
             default:
                 break;
         }
-
     }
 
     private  void manageSyncStateMessage(SyncStateMessage syncStateMessage){

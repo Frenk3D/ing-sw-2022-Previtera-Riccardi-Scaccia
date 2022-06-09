@@ -54,7 +54,7 @@ public class Cli extends View {
 
         out.println(welcome);
 
-        out.println("Welcome to magic world of Eriantys!");
+        out.println("\nWelcome to magic world of Eriantys!\n");
 
 
         onAskServerInfo();

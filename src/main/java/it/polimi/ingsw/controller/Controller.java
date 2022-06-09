@@ -380,12 +380,12 @@ public class Controller implements Observer {
                 sendError(game.getCurrPlayer().getId(), "Wrong parameters");
                 return;
             }
-            else if(islandIndex - prevMotherNaturePos > game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift()){
+            else if((islandIndex - prevMotherNaturePos > 0) && (islandIndex - prevMotherNaturePos > game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift())){
                 System.out.println("move mother nature: too far");
                 sendError(game.getCurrPlayer().getId(), "Mother nature moved too far");
                 return;
             }
-            else if((islandIndex - prevMotherNaturePos < 0) && ((game.getIslandsList().size()-prevMotherNaturePos+islandIndex)<game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift())){
+            else if((islandIndex - prevMotherNaturePos < 0) && ((game.getIslandsList().size()-prevMotherNaturePos+islandIndex) > game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift())){
                 System.out.println("move mother nature: too far");
                 sendError(game.getCurrPlayer().getId(), "Mother nature moved too far");
                 return;
