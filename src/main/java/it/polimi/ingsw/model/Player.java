@@ -133,4 +133,14 @@ public class Player {
         return this; //player is alone
     }
 
+    public void reset(){
+        playerTowerColor = null;
+        selectedAssistant = null;
+        numOfMoney=null;
+        assistantDeck = new AssistantDeck();
+        dashboard = new Dashboard();
+        hasTower = true;
+        team = -1;
+    }
+
 }

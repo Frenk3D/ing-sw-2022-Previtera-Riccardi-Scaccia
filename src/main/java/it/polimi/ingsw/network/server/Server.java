@@ -210,6 +210,7 @@ public class Server{
             remoteView.removeObserver(controller);
             controller.getGame().removeObserver(remoteView);
             playerControllerMap.remove(id);
+            getPlayerById(id).reset();
             System.out.println("Removed player "+ id);
         }
 

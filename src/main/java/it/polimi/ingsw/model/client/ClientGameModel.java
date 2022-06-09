@@ -246,6 +246,23 @@ public class ClientGameModel extends ModelObservable {
     public void setRoundState(RoundState roundState) {
         this.roundState = roundState;
     }
+
+    public void reset(){
+        availableTeamPlayers = null;
+        availableTowerColors = null;
+        availableWizards = null;
+
+        islandList = null;
+        assistantList = null;
+        cloudList = null;
+        playersList = null;
+        charactersList = null;
+        motherNaturePos = -1;
+        tableMoney = 0;
+        expertMode = false;
+        numOfPlayers = 0;
+        roundState = null;
+    }
 }
 
 
