@@ -375,7 +375,7 @@ public class Controller implements Observer {
 
             int prevMotherNaturePos = game.getMotherNaturePos();
 
-            if(game.getIslandByIndex(islandIndex)==null){
+            if(game.getIslandByIndex(islandIndex)==null || islandIndex == prevMotherNaturePos){
                 System.out.println("move mother nature: wrong parameters");
                 sendError(game.getCurrPlayer().getId(), "Wrong parameters");
                 return;

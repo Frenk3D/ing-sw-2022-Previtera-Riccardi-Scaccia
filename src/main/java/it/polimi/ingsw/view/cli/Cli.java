@@ -54,7 +54,7 @@ public class Cli extends View {
 
         out.println(welcome);
 
-        out.println("\nWelcome to magic world of Eriantys!\n");
+        out.println("\nWelcome to the magic world of Eriantys!\n");
 
 
         onAskServerInfo();
@@ -146,7 +146,7 @@ public class Cli extends View {
 
     @Override
     public void onAskCreateOrJoin(){
-        out.println("Type 'c' to create a new lobby and join it,or type 'j' to join an existing lobby");
+        out.println("Type 'c' to create a new lobby and join it, or type 'j' to join an existing lobby");
     }
 
 

@@ -114,6 +114,12 @@ public class ClientController implements ViewObserver {
                 AllGameMessage allGameMessage = (AllGameMessage) message;
                 clientGameModel.initClientGameModel(allGameMessage);
                 setNickname(clientGameModel.findPlayerById(client.getClientId()).getName());
+                teamId = clientGameModel.findPlayerById(client.getClientId()).getTeam();
+
+                if(teamLeader==false){
+                    String leaderName = clientGameModel.findPlayerById(teamId).getName();
+                    clientGameModel.show("Your team leader is: " + leaderName);
+                }
                 break;
 
 
@@ -255,52 +261,51 @@ public class ClientController implements ViewObserver {
     @Override
     public void onSendLoginRequest(String input){
         StringMessage loginRequest = new StringMessage(MessageType.LOGIN_REQUEST, client.getClientId(), true,input);
-        client.sendMessage(loginRequest);
         clientState = ClientState.LOGIN_ACCEPTED;
+        client.sendMessage(loginRequest);
     }
 
     @Override
     public void onSendNewLobbyRequest(String input,int numOfPlayers,boolean expertMode){
         Lobby lobby = new Lobby(numOfPlayers,0,expertMode,input);
         NewLobbyMessage message = new NewLobbyMessage(client.getClientId(),lobby);
-        client.sendMessage(message);
         clientState = ClientState.CHOSEN_LOBBY;
+        client.sendMessage(message);
     }
 
     @Override
     public void onSendLobbiesRequest(){
         GenericMessage message = new GenericMessage(MessageType.LOBBIES_REQUEST,client.getClientId(),true);
-        client.sendMessage(message);
         clientState = ClientState.CHOOSING_LOBBY;
-
+        client.sendMessage(message);
     }
 
     @Override
     public void onSendChooseLobby(String chosenLobby){
         StringMessage message =  new StringMessage(MessageType.CHOOSE_LOBBY,client.getClientId(),true, chosenLobby);
-        client.sendMessage(message);
         clientState = ClientState.CHOSEN_LOBBY;
+        client.sendMessage(message);
     }
 
     @Override
     public void onSendChooseTeam(int chosenTeamPlayerId) {
         ChooseTeamMessage message = new ChooseTeamMessage(client.getClientId(),chosenTeamPlayerId);
-        client.sendMessage(message);
         clientState = ClientState.CHOSEN_TEAM;
+        client.sendMessage(message);
     }
 
     @Override
     public void onSendChooseTowerColor(TowerColor color) {
         ChooseTowerColorMessage message = new ChooseTowerColorMessage(client.getClientId(),color);
-        client.sendMessage(message);
         clientState = ClientState.CHOSEN_TOWER_COLOR;
+        client.sendMessage(message);
     }
 
     @Override
     public void onSendChooseWizard(Wizard wizard) {
         ChooseWizardMessage message = new ChooseWizardMessage(client.getClientId(),wizard);
-        client.sendMessage(message);
         clientState = ClientState.CHOSEN_WIZARD;
+        client.sendMessage(message);
     }
 
 
@@ -308,8 +313,8 @@ public class ClientController implements ViewObserver {
     public void onSendSelectAssistant(int selectedAssistantId) {
         if(ClientInputVerifier.verifyAssistant(clientGameModel,selectedAssistantId)) {
             SelectAssistantMessage selectAssistantMessage = new SelectAssistantMessage(client.getClientId(), selectedAssistantId);
-            client.sendMessage(selectAssistantMessage);
             clientState = ClientState.SELECTED_ASSISTANT;
+            client.sendMessage(selectAssistantMessage);
         }
         else {
             clientGameModel.show("The selected assistant isn't available,try again!");
@@ -324,8 +329,8 @@ public class ClientController implements ViewObserver {
     public void onSendMoveAStudentIsland(int selectedStudentIndex, int selectedIslandIndex) {
         if(ClientInputVerifier.verifyStudentIsland(clientGameModel,selectedStudentIndex,selectedIslandIndex)) {
             MoveStudentIslandMessage message = new MoveStudentIslandMessage(client.getClientId(), selectedStudentIndex, selectedIslandIndex);
-            client.sendMessage(message);
             clientState = ClientState.MOVED_STUDENT;
+            client.sendMessage(message);
         }
         else {
             clientGameModel.show("The selected student or island aren't available,try again!");
@@ -339,8 +344,8 @@ public class ClientController implements ViewObserver {
     public void onSendMoveAStudentDashboard(int selectedStudentIndex) {
         if(ClientInputVerifier.verifyStudentDashboard(clientGameModel,selectedStudentIndex)) {
             MoveStudentDashboardMessage message = new MoveStudentDashboardMessage(client.getClientId(), selectedStudentIndex);
-            client.sendMessage(message);
             clientState = ClientState.MOVED_STUDENT;
+            client.sendMessage(message);
         }
         else {
             clientGameModel.show("The selected student isn't available,try again!");
@@ -354,8 +359,8 @@ public class ClientController implements ViewObserver {
     public void onSendMoveMotherNature(int selectedIslandIndex) {
         if(ClientInputVerifier.verifyMotherNaturePos(clientGameModel,selectedIslandIndex)) {
             MoveMotherNatureMessage message = new MoveMotherNatureMessage(client.getClientId(), selectedIslandIndex);
-            client.sendMessage(message);
             clientState = ClientState.MOVED_MOTHER_NATURE;
+            client.sendMessage(message);
         }
         else {
             clientGameModel.show("You can't do this move,try again!");
@@ -369,8 +374,8 @@ public class ClientController implements ViewObserver {
     public void onSendChooseCloud(int selectedCloudIndex) {
         if(ClientInputVerifier.verifyCloud(clientGameModel,selectedCloudIndex)) {
             TakeFromCloudMessage message = new TakeFromCloudMessage(client.getClientId(), selectedCloudIndex);
-            client.sendMessage(message);
             clientState = ClientState.CHOSEN_CLOUD;
+            client.sendMessage(message);
         }
         else {
             clientGameModel.show("The selected cloud isn't available,try again!");
@@ -388,11 +393,13 @@ public class ClientController implements ViewObserver {
         switch(clientState){
             case CHOOSING_TEAM:
                 teamLeader = false; //and with init send I will receive my teamPlayer
+                clientGameModel.show("Chosen, now you are not the leader, you can't choose tower color");
                 clientState = ClientState.CHOSEN_TEAM;
                 break;
 
             case CHOSEN_TEAM:
                 teamLeader = true; //for security, I set it true
+                clientGameModel.show("Ok, you are the leader of the team, you can choose tower color"); //they can choose if communicate outside the game
                 teamId = client.getClientId(); //for security I set it, the team Id is mine
                 //clientState = ClientState.CHOOSING_TOWER_COLOR; //and now I will wait for available ... send
                 break;
@@ -412,12 +419,12 @@ public class ClientController implements ViewObserver {
         switch(clientState) {
             case LOGIN_ACCEPTED:
                 clientState = ClientState.REQUESTING_LOGIN;
-                clientGameModel.sendLoginRequest();;
+                clientGameModel.sendLoginRequest();
                 break;
 
             case CHOSEN_LOBBY:
                 clientState = ClientState.CHOOSING_JOIN_CREATE;
-                clientGameModel.askCreateOrJoin();;
+                clientGameModel.askCreateOrJoin();
                 break;
 
             case CHOSEN_TEAM:

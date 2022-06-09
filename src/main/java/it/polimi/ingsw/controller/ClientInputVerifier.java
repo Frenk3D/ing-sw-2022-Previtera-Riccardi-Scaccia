@@ -56,7 +56,7 @@ public class ClientInputVerifier {
 
     public static boolean verifyMotherNaturePos(ClientGameModel clientGameModel, int selectedPos){
         ReducedAssistant assistant = clientGameModel.findPlayerById(clientGameModel.getMyPlayerId()).getSelectedAssistant();
-        if(selectedPos<0){
+        if(selectedPos<0 || selectedPos == clientGameModel.getMotherNaturePos()){
             return false;
         }
         else if (clientGameModel.getIslandList().size() <= selectedPos) {

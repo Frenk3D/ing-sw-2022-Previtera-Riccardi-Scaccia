@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class ReducedPlayer implements Serializable {
     private String name;
     private int id;
+    private int team;
     private ReducedAssistant selectedAssistant;
     private TowerColor playerTowerColor;
     private ReducedDashboard dashboard;
@@ -18,6 +19,7 @@ public class ReducedPlayer implements Serializable {
 
     public ReducedPlayer(Player player){
         name = player.getName();
+        team = player.getTeam();
         id = player.getId();
         selectedAssistant = new ReducedAssistant(player.getSelectedAssistant());
         playerTowerColor = player.getTowerColor();
@@ -54,6 +56,10 @@ public class ReducedPlayer implements Serializable {
         return wizard;
     }
 
+    public int getTeam() {
+        return team;
+    }
+
     public void setNumOfMoney(int numOfMoney) {
         this.numOfMoney = numOfMoney;
     }
@@ -66,3 +72,4 @@ public class ReducedPlayer implements Serializable {
         this.dashboard = dashboard;
     }
 }
+
