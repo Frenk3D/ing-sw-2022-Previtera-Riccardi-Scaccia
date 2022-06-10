@@ -8,6 +8,8 @@ import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.controller.ClientController;
 import it.polimi.ingsw.network.client.ClientSocket;
 import it.polimi.ingsw.view.cli.Cli;
+import it.polimi.ingsw.view.gui.JavaFXGui;
+import javafx.application.Application;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -55,7 +57,7 @@ public class ClientApp {
             view.addObserver(clientController);
             view.init();
         } else {
-           // Application.launch(JavaFXGui.class);
+            Application.launch(JavaFXGui.class);
         }
 
 

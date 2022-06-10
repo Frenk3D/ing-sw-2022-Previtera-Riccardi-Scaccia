@@ -1,20 +1,20 @@
-//package it.polimi.ingsw.view.gui.scene;
-//
-//import it.polimi.ingsw.observer.ViewObservable;
-//import it.polimi.ingsw.observer.ViewObserver;
-//import it.polimi.ingsw.view.gui.SceneController;
-//import javafx.event.Event;
-//import javafx.fxml.FXML;
-//import javafx.scene.control.Button;
-//import javafx.scene.control.Label;
-//import javafx.scene.input.MouseEvent;
-//
-//import java.util.List;
+package it.polimi.ingsw.view.gui.scene;
+
+import it.polimi.ingsw.observer.ViewObservable;
+import it.polimi.ingsw.observer.ViewObserver;
+import it.polimi.ingsw.view.gui.SceneController;
+import javafx.event.Event;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+
+import java.util.List;
 //
 ///**
 // * This class implements the scene where players wait for other players to join the game.
 // */
-//public class LobbySceneController extends ViewObservable implements GenericSceneController {
+public class LobbySceneController extends ViewObservable implements GenericSceneController {
 //
 //    private List<String> nicknames;
 //    private int maxPlayers;
@@ -69,5 +69,5 @@
 //    public void updateValues() {
 //        playersLbl.setText(String.join(", ", this.nicknames));
 //        numbersLbl.setText(this.nicknames.size() + "/" + this.maxPlayers);
-//    }
-//}
+//   }
+}

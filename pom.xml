@@ -14,8 +14,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>18</maven.compiler.source>
+    <maven.compiler.target>18</maven.compiler.target>
     <sonar.coverage.exclusions>**/client/**/*,**/ClientController.java,**/constants/*,**/server/**/*,**/it.polimi.ingsw.TestClient.java,**/it.polimi.ingsw.ServerApp.java,**/it.polimi.ingsw.ClientApp.java,**/Server.java,**/Client.java,**/ProvaGit.java,**/view/**/*,**/network/**/*,**/network/message/**/*,**/observer/**/*</sonar.coverage.exclusions>
   </properties>
 
@@ -37,6 +37,38 @@
           <version>RELEASE</version>
           <scope>compile</scope>
       </dependency>
+      <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-controls</artifactId>
+          <version>18</version>
+      </dependency>
+      <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-fxml</artifactId>
+          <version>18</version>
+      </dependency>
+      <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-graphics</artifactId>
+          <version>18</version>
+          <classifier>win</classifier>
+      </dependency>
+      <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-graphics</artifactId>
+          <version>18</version>
+          <classifier>linux</classifier>
+      </dependency>
+      <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-graphics</artifactId>
+          <version>18</version>
+          <classifier>mac</classifier>
+      </dependency>
+
+
+
+
   </dependencies>
 
   <build>
@@ -70,6 +102,60 @@
           <goal>report</goal>
         </goals>
       </execution>
+        <execution>
+            <id>${project.artifactId}-server</id>
+            <phase>package</phase>
+            <goals>
+                <goal>shade</goal>
+            </goals>
+            <configuration>
+                <finalName>${project.artifactId}-server</finalName>
+                <transformers>
+                    <transformer
+                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                        <mainClass>it.polimi.ingsw.ServerApp</mainClass>
+                    </transformer>
+                </transformers>
+                <artifactSet>
+                    <excludes>
+                        <exclude>org.openjfx:*</exclude>
+                    </excludes>
+                </artifactSet>
+                <filters>
+                    <filter>
+                        <artifact>:</artifact>
+                        <excludes>
+                            <exclude>module-info.class</exclude>
+                        </excludes>
+                    </filter>
+                </filters>
+            </configuration>
+        </execution>
+
+        <execution>
+            <id>${project.artifactId}-client</id>
+            <phase>package</phase>
+            <goals>
+                <goal>shade</goal>
+            </goals>
+            <configuration>
+                <finalName>${project.artifactId}-client</finalName>
+                <transformers>
+                    <transformer
+                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                        <mainClass>it.polimi.ingsw.ClientApp</mainClass>
+                    </transformer>
+                </transformers>
+                <filters>
+                    <filter>
+                        <artifact>:</artifact>
+                        <excludes>
+                            <exclude>module-info.class</exclude>
+                        </excludes>
+                    </filter>
+                </filters>
+            </configuration>
+        </execution>
     </executions>
 </plugin>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
@@ -118,8 +204,8 @@
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
               <configuration>
-                  <source>8</source>
-                  <target>8</target>
+                  <source>9</source>
+                  <target>9</target>
               </configuration>
           </plugin>
       </plugins>
