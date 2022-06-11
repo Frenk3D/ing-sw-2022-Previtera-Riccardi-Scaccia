@@ -2,9 +2,10 @@ package it.polimi.ingsw.model.characters;
 
 import it.polimi.ingsw.model.enumerations.PawnColor;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class MessageCharacterParameters {
+public class MessageCharacterParameters implements Serializable {
     private int characterId;
 
     private int islandIndex;

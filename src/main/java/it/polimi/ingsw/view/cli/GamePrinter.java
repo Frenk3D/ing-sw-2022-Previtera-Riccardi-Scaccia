@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class GamePrinter {
 
     private final int[][] islandPositions = {{5,12},{31,6},{57,2},{83,2},{109,2},{135,6},{161,12},{135,18},{109,22},{83,22},{57,22},{31,18}};
-    private final int[][] cloudPositions = {{77,12},{95,12},{87,17}};
+    private final int[][] cloudPositions = {{77,12},{95,12},{77,17},{95,17}};
     private final int[][] dashboardPositions = {{49,33},{95,33},{3,33},{141,33}};
     private final int[][] dashboardEntrancePositions = {{2,1},{6,1},{2,2},{6,2},{2,3},{6,3},{2,4},{6,4},{2,5},{6,5}};
 
@@ -73,7 +73,9 @@ public class GamePrinter {
         }
 
         if(clientGameModel.isExpertMode()) {
-            writeAtPos(canvas, 150, 41, "Characters - Table money: " + 30);
+            writeAtPos(canvas, 144,47, "Write use_character [id] to use a character");
+
+            writeAtPos(canvas, 150, 41, "Characters - Table money: " + clientGameModel.getTableMoney());
             for (int i = 41; i < 47; i++) {
                 writeAtPos(canvas, 147, i, "|");
             }
@@ -205,7 +207,7 @@ public class GamePrinter {
 
     private String[] generateCloud(ReducedCloud cloud,int id){
         String[] result = generateSquare(16,5);
-        writeAtPos(result,3,1,"Cloud "+id);
+        writeAtPos(result,4,1,"Cloud "+id);
         int startPos = 3;
 
         for (PawnColor p : cloud.getStudentsList()) {

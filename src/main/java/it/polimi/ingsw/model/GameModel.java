@@ -198,11 +198,20 @@ public class GameModel extends Observable {
         return cloudsList.get(cloudIndex);
     }
 
-    public Character getCharacterByIndex(int characterIndex){
-        if(characterIndex >= charactersList.size() || characterIndex<0){
+    public Character getCharacterByIndex(int characterIndex) {
+        if (characterIndex >= charactersList.size() || characterIndex < 0) {
             return null;
         }
         return charactersList.get(characterIndex);
+    }
+
+    public Character getCharacterById(int characterId){
+        for (Character c : charactersList){
+            if (c.getId() == characterId){
+                return c;
+            }
+        }
+        return null;
     }
 
     public Characters3and4and5 getForbidCharacter(){

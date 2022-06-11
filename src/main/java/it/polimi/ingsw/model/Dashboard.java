@@ -24,9 +24,9 @@ public class Dashboard {
     //Methods
     //constructor
     public Dashboard(){
-        entranceList = new ArrayList<Student>(); //intellij suggests to remove Student from <>
-        towersList = new ArrayList<Tower>();
-        professorsList= new ArrayList<Professor>();
+        entranceList = new ArrayList<>(); //intellij suggests to remove Student from <>
+        towersList = new ArrayList<>();
+        professorsList= new ArrayList<>();
         redStudentsList = new ArrayList<>();
         greenStudentsList = new ArrayList<>();
         yellowStudentsList = new ArrayList<>();

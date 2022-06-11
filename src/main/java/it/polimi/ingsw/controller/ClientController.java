@@ -415,7 +415,7 @@ public class ClientController implements ViewObserver {
         }
 
         else{
-            clientGameModel.show("The character chosen is not available");
+            clientGameModel.show("The chosen character is not available");
         }
     }
 

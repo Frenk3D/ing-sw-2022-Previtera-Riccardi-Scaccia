@@ -35,6 +35,7 @@ public class Controller implements Observer {
         return game;
     }
 
+    //----------------functions for lobby display on server----------------------
     public int getNumOfPlayer(){
         return game.getNumOfPlayers();
     }
@@ -393,7 +394,7 @@ public class Controller implements Observer {
 
             game.setMotherNaturePosition(islandIndex);
 
-            if(game.isExpertMode()){ //we apply the character effect if it's used or we remove forbid card if present
+            if(game.isExpertMode() && game.getCurrRound().getCurrTurn().getUsedCharacter()!=null){ //we apply the character effect if it's used or we remove forbid card if present
                 int usedCharacterId = game.getCurrRound().getCurrTurn().getUsedCharacter().getId();
 
                 if(usedCharacterId==6||usedCharacterId==8||usedCharacterId==9) {
@@ -501,9 +502,9 @@ public class Controller implements Observer {
     }
 
 
-    public void useCharacter(int characterIndex, CharacterParameters parameters){
+    public void useCharacter(int characterId, CharacterParameters parameters){
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE) {
-            Character usedCharacter = game.getCharacterByIndex(characterIndex);
+            Character usedCharacter = game.getCharacterById(characterId);
             if(usedCharacter==null){
                 System.out.println("use character: wrong parameters");
                 sendError(game.getCurrPlayer().getId(), "Wrong parameters");
@@ -524,9 +525,9 @@ public class Controller implements Observer {
                     sendError(game.getCurrPlayer().getId(), "Error in character use, no money was taken");
                     return;
                 }
+                game.getCurrPlayer().modifyMoney(-(characterCost), game.getTableMoney(), usedCharacter.isUsed());
                 usedCharacter.setUsed();
-                game.getCurrPlayer().modifyMoney(-(characterCost - 1), game.getTableMoney(), usedCharacter.isUsed());
-                game.getCurrRound().getCurrTurn().setUsedCharacter(game.getCharacterByIndex(characterIndex));
+                game.getCurrRound().getCurrTurn().setUsedCharacter(game.getCharacterById(characterId));
                 game.sendCharacterTable(); //update the characters on the table
                 game.sendTable();//update the table
                 game.sendAllDashboards(); //update the dashboards of all users
