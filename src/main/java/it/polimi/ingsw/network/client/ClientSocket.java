@@ -48,13 +48,13 @@ public class ClientSocket  {
 
     private boolean active = true;
 
-    public synchronized boolean isActive(){
+   /* public synchronized boolean isActive(){
         return active;
     }
 
     public synchronized void setActive(boolean active){
         this.active = active;
-    }
+    } */
 
 
 

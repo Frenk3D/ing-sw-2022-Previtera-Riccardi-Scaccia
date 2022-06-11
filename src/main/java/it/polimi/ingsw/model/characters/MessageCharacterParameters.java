@@ -1,12 +1,11 @@
 package it.polimi.ingsw.model.characters;
 
-import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 
 import java.util.List;
 
 public class MessageCharacterParameters {
-    private int characterIndex;
+    private int characterId;
 
     private int islandIndex;
     private List<Integer> studentsIndexList;
@@ -15,8 +14,8 @@ public class MessageCharacterParameters {
     private PawnColor selectedColor;
     private PawnColor selectedColor2;
 
-    public int getCharacterIndex() {
-        return characterIndex;
+    public int getCharacterId() {
+        return characterId;
     }
 
     public int getIslandIndex() {
@@ -43,8 +42,8 @@ public class MessageCharacterParameters {
         return selectedColor2;
     }
 
-    public void setCharacterIndex(int characterIndex) {
-        this.characterIndex = characterIndex;
+    public void setCharacterId(int characterId) {
+        this.characterId = characterId;
     }
 
     public void setIslandIndex(int islandIndex) {

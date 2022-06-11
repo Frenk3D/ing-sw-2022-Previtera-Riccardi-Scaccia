@@ -27,6 +27,7 @@ public enum ClientState {  //Specifies every state for the single client
     CHOOSING_CLOUD,
     CHOSEN_CLOUD,
 
+    USING_CHARACTER,
     USED_CHARACTER,
     WAITING_FOR_YOUR_TURN,
 

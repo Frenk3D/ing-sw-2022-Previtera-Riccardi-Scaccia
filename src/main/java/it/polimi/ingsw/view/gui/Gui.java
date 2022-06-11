@@ -111,7 +111,15 @@ public class Gui extends View {
     public void onSendChooseCloud(List<ReducedCloud> cloudList) {
 
     }
-    
+
+    /**
+     * @param characterId
+     */
+    @Override
+    public void onAskCharacterParameters(int characterId) {
+
+    }
+
     /* DO DELETE
    @Override
     public void askNickname() {

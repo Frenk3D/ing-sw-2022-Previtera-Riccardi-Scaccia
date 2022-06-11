@@ -48,6 +48,7 @@ public interface ModelObserver {
 
     void onSendChooseCloud(List<ReducedCloud> cloudList);
 
+    void onAskCharacterParameters(int characterId);
 
 
 

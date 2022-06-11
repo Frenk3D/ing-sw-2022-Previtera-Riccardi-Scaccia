@@ -1,10 +1,14 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.ClientController;
+import it.polimi.ingsw.controller.ClientInputVerifier;
+import it.polimi.ingsw.model.characters.MessageCharacterParameters;
 import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.client.ClientState;
 import it.polimi.ingsw.network.server.Lobby;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -20,6 +24,7 @@ public class KeyboardManager implements Runnable{
     private List<TowerColor> availableTowerColors = null;
     private List<Wizard> availableWizards = null;
     private ClientGameModel clientGameModel = null;  //from now on we take the lists from here
+    private int usedCharacter = -1;
 
     public KeyboardManager(ClientController controller, Cli cli){
         this.controller = controller;
@@ -35,14 +40,20 @@ public class KeyboardManager implements Runnable{
             scanInput.reset();
             //scanInput.next();
             System.out.println("login: " + userInput + " state: " + controller.getClientState()); //only for debug
-            if (userInput.equals("use_character") && controller.getClientState() != ClientState.WAITING_FOR_YOUR_TURN) {
-                if(clientGameModel.getCharactersList().isEmpty() || clientGameModel.getCharactersList()==null){
-                    System.out.println("Characters not available");
+            String[] splittedInput = userInput.split(" ");
+            if (splittedInput.length==2 && splittedInput[0].equals("use_character") && controller.getClientState() != ClientState.WAITING_FOR_YOUR_TURN && controller.getClientState() != ClientState.USING_CHARACTER   && clientGameModel.getRoundState() == RoundState.ACTION_STATE ) {
+                try {
+                    if (clientGameModel.getCharactersList().isEmpty() || clientGameModel.getCharactersList() == null) {
+                        System.out.println("Characters not available");
+                    } else {
+                        int characterId = Integer.parseInt(splittedInput[1]);
+                        cli.notifyObserver(obs -> obs.onAskCharacter(characterId));
+                        //manage the characters now with the parameters
+                        //outside the switch we can use character everytime, checking the charactersList and choosing the id, after send a message
+                    }
                 }
-                else{
-                    System.out.println("Choose a character with his parameters");
-                    //manage the characters now with the parameters, we have also a client state?
-                    //outside switch we can use character everytime, checking the charactersList and choosing the index, after send a message
+                catch(Exception e){
+                    System.out.println("User input failed");
                 }
             }
             else if(controller.getClientState() != ClientState.WAITING_FOR_YOUR_TURN){
@@ -234,6 +245,9 @@ public class KeyboardManager implements Runnable{
                         }
                         break;
 
+                    case USING_CHARACTER:
+                        manageCharacterParameters(userInput);
+                        break;
                     default:
                         System.out.println("Error in the application"); //it should never happen
                         break;
@@ -264,6 +278,158 @@ public class KeyboardManager implements Runnable{
 
     public void setClientGameModel(ClientGameModel clientGameModel) {
         this.clientGameModel = clientGameModel;
+    }
+
+    public void setUsedCharacter(int usedCharacter) {
+        this.usedCharacter = usedCharacter;
+    }
+
+    private void manageCharacterParameters(String userInput){
+        try {
+            String[] splitted = userInput.split(" ");
+            List<Integer> parsedSplitted = new ArrayList<>();
+            if(usedCharacter!= 9 && usedCharacter!=10 && usedCharacter !=12) {
+                for (int i = 0; i < splitted.length; i++) {
+                    parsedSplitted.add(Integer.parseInt(splitted[i]) - 1);
+                }
+            }
+            MessageCharacterParameters params = new MessageCharacterParameters();
+            params.setCharacterId(usedCharacter);
+            switch (usedCharacter) {
+                case 1:
+                    if (parsedSplitted.size() == 2){
+                        params.setStudentIndex(parsedSplitted.get(0));
+                        params.setIslandIndex(parsedSplitted.get(1));
+                    }
+                    else{
+                        System.out.println("Params not correct, try again");
+                        return;
+                    }
+                        break;
+                case 3:
+                    if(parsedSplitted.size() == 1){
+                        params.setIslandIndex(parsedSplitted.get(0));
+                    }
+                    else{
+                        System.out.println("Params not correct, try again");
+                        return;
+                    }
+                    break;
+                case 5:
+                    if(parsedSplitted.size() == 1){
+                        params.setIslandIndex(parsedSplitted.get(0));
+                    }
+                    else{
+                        System.out.println("Params not correct, try again");
+                        return;
+                    }
+                    break;
+                case 7:
+                    if(parsedSplitted.size() <=6 && parsedSplitted.size()%2 == 0){
+                        int listsize = parsedSplitted.size()/2;
+                        List<Integer> studentsList = new ArrayList<>();
+                        List<Integer> studentsEntranceList = new ArrayList<>();
+                        for(int i = 0; i<listsize ; i++){
+                            studentsList.add(parsedSplitted.get(i));
+                        }
+                        for(int i = listsize ; i< parsedSplitted.size() ; i++){
+                            studentsEntranceList.add(parsedSplitted.get(i));
+                        }
+                        params.setStudentsIndexList(studentsList);
+                        params.setStudentsIndexEntranceList(studentsEntranceList);
+                    }
+                    else{
+                        System.out.println("Params not correct, try again");
+                        return;
+                    }
+                    break;
+                case 9:
+                    if(splitted.length == 1){
+                        PawnColor selectedColor = null;
+                        splitted[0] = splitted[0].toUpperCase(); //we transform in upper case
+                        for (PawnColor c : PawnColor.values()) {
+                            if (splitted[0].equals(c.toString())) {
+                                selectedColor = c;
+                                break;
+                            }
+                        }
+                        if(selectedColor!= null){
+                        params.setSelectedColor(selectedColor);}
+                        else{System.out.println("Params not correct, try again");
+                        return;}
+                    }
+                    break;
+                case 10:
+                    if(splitted.length <=4 && splitted.length%2 == 0){
+                        int listsize2 = splitted.length/2;
+                        PawnColor selectedColor1;
+                        PawnColor selectedColor2 = null;
+                        List<Integer> studentsEntranceList2 = new ArrayList<>();
+
+
+                        selectedColor1 = parsePawnColor(splitted[0]);
+                        if(selectedColor1==null) {
+                            System.out.println("Params not correct, try again");
+                            return;}
+
+                        if(listsize2 ==2){
+                            selectedColor2=parsePawnColor(splitted[1]);
+                            if(selectedColor2==null) {
+                                System.out.println("Params not correct, try again");
+                                return;}
+                        }
+
+                        for(int i = listsize2 ; i< splitted.length ; i++){
+                            int parsed = Integer.parseInt(splitted[i]);
+                            studentsEntranceList2.add(parsed);
+                        }
+
+                        params.setSelectedColor(selectedColor1);
+                        params.setSelectedColor2(selectedColor2);
+                        params.setStudentsIndexEntranceList(studentsEntranceList2);
+                    }
+                    else{
+                        System.out.println("Params not correct, try again");
+                        return;
+                    }
+
+                    break;
+                case 11:
+                    if(parsedSplitted.size() == 1){
+                        params.setStudentIndex(parsedSplitted.get(0));
+                    }
+                    else{
+                        System.out.println("Params not correct, try again");
+                        return;
+                    }
+                    break;
+                case 12:
+                    if(splitted.length == 1){
+                        PawnColor selectedColor = parsePawnColor(splitted[0]);
+                        if(selectedColor!= null){
+                            params.setSelectedColor(selectedColor);}
+                        else{System.out.println("Params not correct, try again");
+                            return;}
+                    }
+                    break;
+                default: //it will never happen
+                    System.out.println("Error in the application");
+                    return;
+            }
+            cli.notifyObserver(obs -> obs.onSendUseCharacter(params));
+        }
+        catch (Exception e){
+        System.out.println("User input failed, try again");}
+    }
+
+    private PawnColor parsePawnColor(String toParse){
+        toParse = toParse.toUpperCase(); //we transform in upper case
+        for (PawnColor c : PawnColor.values()) {
+            if (toParse.equals(c.toString())) {
+                return c;
+            }
+        }
+        return null;
     }
 }
 

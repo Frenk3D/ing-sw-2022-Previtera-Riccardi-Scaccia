@@ -68,6 +68,9 @@ public abstract class View extends ViewObservable implements ModelObserver {
     @Override
     public abstract void onSendChooseCloud(List<ReducedCloud> cloudList) ;
 
+    @Override
+    public abstract void onAskCharacterParameters(int characterId);
+
     /**
       * Shows  message.
       *

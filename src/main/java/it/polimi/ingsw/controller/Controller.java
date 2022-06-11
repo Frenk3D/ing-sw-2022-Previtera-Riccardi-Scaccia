@@ -146,7 +146,7 @@ public class Controller implements Observer {
                 parameters.setSelectedColor(messageParams.getSelectedColor());
                 parameters.setSelectedColor2(messageParams.getSelectedColor2());
 
-                useCharacter(messageParams.getCharacterIndex(),parameters);
+                useCharacter(messageParams.getCharacterId(),parameters);
                 break;
 
             default:
@@ -345,7 +345,7 @@ public class Controller implements Observer {
 
             currPlayer.getDashboard().getEntranceList().remove(studentToMove);
 
-            if(game.isExpertMode() && game.getCurrRound().getCurrTurn().getUsedCharacter().getId()==2){
+            if(game.isExpertMode() && game.getCurrRound().getCurrTurn().getUsedCharacter()!= null && game.getCurrRound().getCurrTurn().getUsedCharacter().getId()==2){
                 ((Characters2and6and8and9)game.getCurrRound().getCurrTurn().getUsedCharacter()).modifiedUpdateProfessorsLists2(game.getPlayersList(), game.getCurrPlayer(), game.getTableProfessorsList());
             }
             else {

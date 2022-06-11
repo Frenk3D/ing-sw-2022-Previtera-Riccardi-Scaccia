@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller;
 
 
+import it.polimi.ingsw.model.characters.CharacterParameters;
+import it.polimi.ingsw.model.characters.MessageCharacterParameters;
 import it.polimi.ingsw.model.client.ClientGameModel;
 import it.polimi.ingsw.model.client.ReducedPlayer;
 import it.polimi.ingsw.model.enumerations.*;
@@ -30,6 +32,7 @@ public class ClientController implements ViewObserver {
     private int teamId;  //if there are no teams it is the clientId, or it's the leaderId
     private boolean teamLeader; //he is who requested the teamPlayer and who will choose the tower color
     //my player id is in clientGameModel and in client
+    private ClientState prevClientState;
 
     /**
      * Constructs Client Controller.
@@ -41,7 +44,6 @@ public class ClientController implements ViewObserver {
         clientState = ClientState.APPLICATION_START;
         clientGameModel = new ClientGameModel();
         nickname = null;
-
 
 
     }
@@ -59,7 +61,7 @@ public class ClientController implements ViewObserver {
                 StringMessage loginReply = (StringMessage) message;
                 client.setClientId(Integer.parseInt(loginReply.getString())); //we need this in the ClientSocket class
                 clientGameModel.setMyPlayerId(client.getClientId());
-                teamId=client.getClientId(); //for now, I'm my team player
+                teamId = client.getClientId(); //for now, I'm my team player
                 clientGameModel.askCreateOrJoin();
                 break;
             case AVAILABLE_LOBBIES:
@@ -75,16 +77,16 @@ public class ClientController implements ViewObserver {
 
             case AVAILABLE_TEAM_SEND:
                 SyncInitMessage teamMessage = (SyncInitMessage) message;
-                Map<String,Integer> availableTeamPlayers =  teamMessage.getAvailableTeamPlayers();
+                Map<String, Integer> availableTeamPlayers = teamMessage.getAvailableTeamPlayers();
                 clientGameModel.setAvailableTeamPlayers(availableTeamPlayers);
 
-                for(Map.Entry<String,Integer> entry : availableTeamPlayers.entrySet()){  //saving my nickname, the first available team send will have every nickname
-                    if(entry.getValue() == client.getClientId())
-                    setNickname(entry.getKey());
+                for (Map.Entry<String, Integer> entry : availableTeamPlayers.entrySet()) {  //saving my nickname, the first available team send will have every nickname
+                    if (entry.getValue() == client.getClientId())
+                        setNickname(entry.getKey());
 
                 }
 
-                if (availableTeamPlayers.containsKey(nickname)){  //it means that I still have to choose
+                if (availableTeamPlayers.containsKey(nickname)) {  //it means that I still have to choose
                     clientState = ClientState.CHOOSING_TEAM;
                     availableTeamPlayers.remove(nickname);
                     clientGameModel.sendChooseTeam(availableTeamPlayers);
@@ -95,7 +97,7 @@ public class ClientController implements ViewObserver {
                 SyncInitMessage towerMessage = (SyncInitMessage) message;
                 List<TowerColor> availableTowerColors = towerMessage.getAvailableTowerColors();
                 clientGameModel.setAvailableTowerColors(availableTowerColors);
-                if (teamLeader && (clientState == ClientState.CHOOSING_TOWER_COLOR)){
+                if (teamLeader && (clientState == ClientState.CHOOSING_TOWER_COLOR)) {
                     clientGameModel.sendChooseTowerColor(availableTowerColors);
                 }
                 break;
@@ -104,7 +106,7 @@ public class ClientController implements ViewObserver {
                 List<Wizard> availableWizards = wizardMessage.getAvailableWizards();
                 clientGameModel.setAvailableWizards(availableWizards);
 
-                if (clientState == ClientState.CHOOSING_WIZARD){
+                if (clientState == ClientState.CHOOSING_WIZARD) {
                     clientGameModel.sendChooseWizard(availableWizards);
                 }
                 break;
@@ -116,7 +118,7 @@ public class ClientController implements ViewObserver {
                 setNickname(clientGameModel.findPlayerById(client.getClientId()).getName());
                 teamId = clientGameModel.findPlayerById(client.getClientId()).getTeam();
 
-                if(teamLeader==false){
+                if (teamLeader == false) {
                     String leaderName = clientGameModel.findPlayerById(teamId).getName();
                     clientGameModel.show("Your team leader is: " + leaderName);
                 }
@@ -129,10 +131,10 @@ public class ClientController implements ViewObserver {
                 break;
 
             case TABLE:
-               TableMessage tableMessage = (TableMessage) message;
-               clientGameModel.setIslandList(tableMessage.getIslandList());
-               clientGameModel.setCloudList(tableMessage.getCloudList());
-               clientGameModel.setMotherNaturePos(tableMessage.getMotherNaturePos());
+                TableMessage tableMessage = (TableMessage) message;
+                clientGameModel.setIslandList(tableMessage.getIslandList());
+                clientGameModel.setCloudList(tableMessage.getCloudList());
+                clientGameModel.setMotherNaturePos(tableMessage.getMotherNaturePos());
                 break;
             case THROWN_ASSISTANT:
                 ThrownAssistantMessage thrownAssistantMessage = (ThrownAssistantMessage) message;
@@ -148,7 +150,7 @@ public class ClientController implements ViewObserver {
                 CharacterTableMessage characterTableMessage = (CharacterTableMessage) message;
                 clientGameModel.setCharactersList(characterTableMessage.getCharactersList());
                 clientGameModel.setTableMoney(characterTableMessage.getTableMoney());
-                for(Map.Entry<Integer,Integer> entry : characterTableMessage.getNumOfMoneyMap().entrySet()) {
+                for (Map.Entry<Integer, Integer> entry : characterTableMessage.getNumOfMoneyMap().entrySet()) {
                     ReducedPlayer moneyPlayer = clientGameModel.findPlayerById(entry.getKey());
                     moneyPlayer.setNumOfMoney(entry.getValue());
                 }
@@ -157,6 +159,9 @@ public class ClientController implements ViewObserver {
                 AssistantsSendMessage assistantsSendMessage = (AssistantsSendMessage) message;
                 clientGameModel.setAssistantList(assistantsSendMessage.getAssistantsList());
                 break;
+
+                //case THROWN_CHARACTER: String nameP = clientGame.findPlayerById(message.getPlayerId()) clientGameModel.show(nameP + "thrown character: " + message.getCharId()) ...
+
             case WIN: //we decided that we can restart a new game after finished one
                 StringMessage stringMessage = (StringMessage) message;
                 clientState = ClientState.GAME_FINISHED;
@@ -373,7 +378,9 @@ public class ClientController implements ViewObserver {
         }
     }
 
+
     /**
+     *
      * @param selectedCloudIndex
      */
     @Override
@@ -386,6 +393,40 @@ public class ClientController implements ViewObserver {
         else {
             clientGameModel.show("The selected cloud isn't available,try again!");
         }
+    }
+
+    /**
+     * @param characterId
+     */
+    @Override
+    public void onAskCharacter(int characterId) {
+        if(ClientInputVerifier.verifyCharacter(clientGameModel, characterId)){
+            prevClientState = clientState;
+            if(characterId == 1 || characterId== 3 || characterId == 5 || characterId == 7 || characterId == 9 || characterId == 10 || characterId== 11 || characterId ==12){
+                clientState = ClientState.USING_CHARACTER;
+                clientGameModel.askCharacterParameters(characterId);}
+            else{
+                MessageCharacterParameters params = new MessageCharacterParameters();
+                params.setCharacterId(characterId);
+                UseCharacterMessage message = new UseCharacterMessage(client.getClientId(), params);
+                clientState = ClientState.USED_CHARACTER;
+                client.sendMessage(message);
+            }
+        }
+
+        else{
+            clientGameModel.show("The character chosen is not available");
+        }
+    }
+
+    /**
+     * @param params
+     */
+    @Override
+    public void onSendUseCharacter(MessageCharacterParameters params) {
+        UseCharacterMessage message = new UseCharacterMessage(client.getClientId(), params);
+        clientState = ClientState.USED_CHARACTER;
+        client.sendMessage(message);
     }
 
     public void onSocketDisconnect(){   //this happens only when there is a mine critical problem
@@ -467,7 +508,9 @@ public class ClientController implements ViewObserver {
                 clientState = ClientState.CHOOSING_CLOUD;
                 clientGameModel.sendChooseCloud();
                 break;
-            case USED_CHARACTER: //nothing, only the print of the string is ok
+            case USED_CHARACTER:
+                clientState= prevClientState;
+                //only the print of the string is ok and reset to the prev clientState
                 break;
 
             default:
@@ -525,7 +568,7 @@ public class ClientController implements ViewObserver {
             if(currPlayerId == client.getClientId()){
                 switch(turnState){
                     case MOVE_STUDENT_STATE:
-                        clientState = ClientState.CHOOSING_WHERE_TO_MOVE_STUDENT;
+                        clientState = ClientState.CHOOSING_WHERE_TO_MOVE_STUDENT; //in case of used character we have to choose again where to move
                         clientGameModel.askWhereToMoveStudent();  //server will resend me syncStateMessage until I finished moving all the students
                         break;
                     case MOVE_MOTHER_NATURE_STATE:

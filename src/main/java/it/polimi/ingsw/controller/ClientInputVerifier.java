@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.client.ClientGameModel;
 import it.polimi.ingsw.model.client.ReducedAssistant;
+import it.polimi.ingsw.model.client.ReducedCharacter;
 import it.polimi.ingsw.model.client.ReducedPlayer;
 
 import java.util.ArrayList;
@@ -82,5 +83,29 @@ public class ClientInputVerifier {
             return false;
         }
         return true;
+    }
+
+    public static boolean verifyCharacter(ClientGameModel clientGameModel, int selectedCharacter){
+        ReducedCharacter reducedCharacter = null;
+        int cost = -1;
+        for(ReducedCharacter rc : clientGameModel.getCharactersList()){
+            if(rc.getId() == selectedCharacter){
+                reducedCharacter = rc;
+                break;
+            }
+        }
+        if(reducedCharacter == null){return false;}
+        else {
+            if(reducedCharacter.isUsed()){
+               cost = reducedCharacter.getInitialCost() +1;
+            }
+            else{
+                cost = reducedCharacter.getInitialCost();
+            }
+            if(clientGameModel.findPlayerById(clientGameModel.getMyPlayerId()).getNumOfMoney() >= cost){
+                return true;
+            }
+            else{return false;}
+        }
     }
 }

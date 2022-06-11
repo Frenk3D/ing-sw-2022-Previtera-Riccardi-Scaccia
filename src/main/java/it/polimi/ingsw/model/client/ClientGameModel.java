@@ -216,6 +216,10 @@ public class ClientGameModel extends ModelObservable {
 
    public void sendChooseCloud(){notifyObserver(obs -> obs.onSendChooseCloud(cloudList));};
 
+   public void askCharacterParameters(int characterId){
+       notifyObserver(obs -> obs.onAskCharacterParameters(characterId));
+   }
+
 //    OLD:
 //    public void sendCharacterTable(){
 //        notifyObserver(new CharacterTableMessage(SERVERID,tableMoney.get(),getReducedCharacterList(),getNumOfMoneyMap()));
@@ -235,6 +239,7 @@ public class ClientGameModel extends ModelObservable {
         notifyObserver(obs -> obs.onShow("Waiting for other players..."));
 
     }
+
     public void showGame(){  //it is a generic function to print or show some info on view, Object can be everything also null
         notifyObserver(obs -> obs.onShowGame(this));
     }
@@ -251,7 +256,6 @@ public class ClientGameModel extends ModelObservable {
         availableTeamPlayers = null;
         availableTowerColors = null;
         availableWizards = null;
-
         islandList = null;
         assistantList = null;
         cloudList = null;

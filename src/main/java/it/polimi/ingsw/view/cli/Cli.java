@@ -249,6 +249,44 @@ public class Cli extends View {
     }
 
     /**
+     * @param characterId
+     */
+    @Override
+    public void onAskCharacterParameters(int characterId) {
+        switch(characterId){
+            case 1:
+                out.println("Choose a student index from the card and an island index where to put the student");
+                break;
+            case 3:
+                out.println("Choose an island index where to calculate the influence");
+                break;
+            case 5:
+                out.println("Choose an island index where to put a forbid card");
+                break;
+            case 7:
+                out.println("Choose up to three students from the card and after the students to be replaced in the entrance"); //check the parity
+                break;
+            case 9:
+                out.println("Choose a Pawn Color that will be not included in the calculation of the influence");
+                break;
+            case 10:
+                out.println("Choose up to two studentsColor from the hall and after the students to be replaced in the entrance");
+                break;
+            case 11:
+                out.println("Choose a student from the card to put in the hall");
+                break;
+            case 12:
+                out.println("Choose a Pawn Color of the students to put in the bag");
+                break;
+            default: //it will never happen
+                out.println("Error in the application");
+                break;
+        }
+        keyboardManager.setUsedCharacter(characterId);
+
+    }
+
+    /**
      * @param toShow
      */
     @Override
@@ -268,5 +306,6 @@ public class Cli extends View {
         clearCli();
         gamePrinter.print(clientGameModel);
     }
+
 
 }

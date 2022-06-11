@@ -1,5 +1,6 @@
 package it.polimi.ingsw.observer;
 
+import it.polimi.ingsw.model.characters.MessageCharacterParameters;
 import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.*;
 
@@ -52,6 +53,10 @@ public interface ViewObserver {
     void onSendMoveMotherNature(int selectedIslandIndex);
 
     void onSendChooseCloud(int selectedCloudIndex);
+
+    void onAskCharacter(int characterId);
+
+    void onSendUseCharacter(MessageCharacterParameters params);
 
 
 //    /**
