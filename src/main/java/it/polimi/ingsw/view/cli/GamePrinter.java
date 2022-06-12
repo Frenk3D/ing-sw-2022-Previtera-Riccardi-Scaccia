@@ -180,11 +180,11 @@ public class GamePrinter {
         for (i = 1; i<6; i++){
             writeAtPos(result, 24, i, "|");
         }
-
-        writeAtPos(result, 26, 2, "Towers:");
-        writeAtPos(result, 27, 3, getColor(towerColor) + towerColor.toString() + ColorCli.RESET);
-        writeAtPos(result, 29, 4, getColor(towerColor) + dashboard.getTowerNumber() + ColorCli.RESET);
-
+        if(towerColor!=null) {
+            writeAtPos(result, 26, 2, "Towers:");
+            writeAtPos(result, 27, 3, getColor(towerColor) + towerColor.toString() + ColorCli.RESET);
+            writeAtPos(result, 29, 4, getColor(towerColor) + dashboard.getTowerNumber() + ColorCli.RESET);
+        }
 
         //third separator
         for (i = 1; i<6; i++){
@@ -359,16 +359,18 @@ public class GamePrinter {
 
     private String getColor(TowerColor t){
         String color = "";
-        switch (t){
-            case WHITE:
-                color = ColorCli.WHITE_BOLD.toString();
-                break;
-            case BLACK:
-                color = ColorCli.BLACK_BOLD.toString();
-                break;
-            case GRAY:
-                color = ColorCli.GRAY_BOLD.toString();
-                break;
+        if(t!=null) {
+            switch (t) {
+                case WHITE:
+                    color = ColorCli.WHITE_BOLD.toString();
+                    break;
+                case BLACK:
+                    color = ColorCli.BLACK_BOLD.toString();
+                    break;
+                case GRAY:
+                    color = ColorCli.GRAY_BOLD.toString();
+                    break;
+            }
         }
         return color;
     }

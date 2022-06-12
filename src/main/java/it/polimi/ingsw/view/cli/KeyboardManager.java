@@ -142,14 +142,20 @@ public class KeyboardManager implements Runnable{
                     case CHOOSING_TOWER_COLOR:
                         TowerColor chosenTowerColor = null;
                         userInput = userInput.toUpperCase(); //we transform in upper case
+                        if(availableTowerColors!=null){
                         for (TowerColor c : availableTowerColors) {
                             if (userInput.equals(c.toString())) {
                                 chosenTowerColor = c;
                                 break;
                             }
                         }
+                        }
+                        else{
+                            System.out.println("You can't choose tower color");
+                            break;
+                        }
 
-                        if (chosenTowerColor != null) {
+                        if (chosenTowerColor != null && availableTowerColors!=null) {
                             TowerColor finalTowerColor = chosenTowerColor;
                             cli.notifyObserver(obs -> obs.onSendChooseTowerColor(finalTowerColor));
                         } else {
