@@ -25,16 +25,20 @@ public class LoginSceneController extends ViewObservable implements GenericScene
     private TextField serverPortField;
     @FXML
     private Button connectBtn;
-    @FXML
-    private Button joinBtn;
-    @FXML
-    private Button createBtn;
+//    @FXML
+//    private Button joinBtn;
+//    @FXML
+//    private Button createBtn;
 
     private final PseudoClass ERROR_PSEUDO_CLASS = PseudoClass.getPseudoClass("error");
 
     @FXML
     public void initialize() {
         connectBtn.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onConnectBtnClick);
+//        joinBtn.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onJoinOrCreateBtnClick);
+//        createBtn.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onJoinOrCreateBtnClick);
+//        joinBtn.setDisable(true);
+//        createBtn.setDisable(true);
     }
 
 //    }
@@ -44,6 +48,7 @@ public class LoginSceneController extends ViewObservable implements GenericScene
      *
      * @param event the mouse click event.
      */
+    @FXML
     private void onConnectBtnClick(Event event){
         String address = serverAddressField.getText();
         String port = serverPortField.getText();
@@ -56,18 +61,27 @@ public class LoginSceneController extends ViewObservable implements GenericScene
 
         if (isValidIpAddress && isValidPort) {
             connectBtn.setDisable(true);
+            serverAddressField.setDisable(true);
+            serverPortField.setDisable(true);
+//            joinBtn.setDisable(false);
+//            createBtn.setDisable(false);
+
 
             Map<String, String> serverInfo = Map.of("address", address, "port", port);
             new Thread(() -> notifyObserver(obs -> obs.onAskServerInfo(serverInfo))).start();
+
         }
+        SceneController.changeRootPane(observers,event,"AskOrCreateScene.fxml");
     }
 
-//    private void onJoinBtnClick(Event event) {
+//    private void onJoinOrCreateBtnClick(Event event) {
 //        joinBtn.setDisable(true);
-//
-//        String nickname = nicknameField.getText();
-//
-//        new Thread(() -> notifyObserver(obs -> obs.onUpdateNickname(nickname))).start();
+//        createBtn.setDisable(true);
+
+
+       // String nickname = nicknameField.getText();
+
+       // new Thread(() -> notifyObserver(obs -> obs.onUpdateNickname(nickname))).start();
 //        }
 //
 //    /**

@@ -181,6 +181,7 @@ public class KeyboardManager implements Runnable{
                         break;
 
                     case THROWING_ASSISTANT:
+                        usedCharacter = -1;
                         try {
                             int selectedAssistantId = Integer.parseInt(userInput); //why don't need try catch because if the input is incorrect,nothing is returned
                             cli.notifyObserver(obs -> obs.onSendSelectAssistant(selectedAssistantId));
@@ -233,7 +234,7 @@ public class KeyboardManager implements Runnable{
                         try {
                             int parsedInputMN = Integer.parseInt(userInput); //we need try-catch because if the input is incorrect, there is an exception
                             int selectedMNPos = parsedInputMN-1;
-                            cli.notifyObserver(obs -> obs.onSendMoveMotherNature(selectedMNPos));
+                            cli.notifyObserver(obs -> obs.onSendMoveMotherNature(selectedMNPos,usedCharacter));
                         }
                         catch (Exception e) {
                             System.out.println("Input failed, retry");

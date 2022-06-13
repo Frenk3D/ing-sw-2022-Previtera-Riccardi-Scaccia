@@ -50,7 +50,7 @@ public interface ViewObserver {
 
     void onSendMoveAStudentDashboard(int selectedStudentIndex);
 
-    void onSendMoveMotherNature(int selectedIslandIndex);
+    void onSendMoveMotherNature(int selectedIslandIndex,int usedCharacter);
 
     void onSendChooseCloud(int selectedCloudIndex);
 

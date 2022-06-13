@@ -55,19 +55,30 @@ public class ClientInputVerifier {
         return true;
     }
 
-    public static boolean verifyMotherNaturePos(ClientGameModel clientGameModel, int selectedPos){
+    public static boolean verifyMotherNaturePos(ClientGameModel clientGameModel, int selectedPos,int usedCharacter){
         ReducedAssistant assistant = clientGameModel.findPlayerById(clientGameModel.getMyPlayerId()).getSelectedAssistant();
-        if(selectedPos<0 || selectedPos == clientGameModel.getMotherNaturePos()){
-            return false;
+        if(usedCharacter != 4) {
+            if (selectedPos < 0 || selectedPos == clientGameModel.getMotherNaturePos()) {
+                return false;
+            } else if (clientGameModel.getIslandList().size() <= selectedPos) {
+                return false;
+            } else if ((selectedPos - clientGameModel.getMotherNaturePos() > 0) && (selectedPos - clientGameModel.getMotherNaturePos() > assistant.getMotherNaturePosShift())) {
+                return false;
+            } else if ((selectedPos - clientGameModel.getMotherNaturePos() < 0) && ((clientGameModel.getIslandList().size() - clientGameModel.getMotherNaturePos() + selectedPos) > assistant.getMotherNaturePosShift())) {
+                return false;
+            }
         }
-        else if (clientGameModel.getIslandList().size() <= selectedPos) {
-            return false;
-        }
-        else if((selectedPos - clientGameModel.getMotherNaturePos() > 0) && (selectedPos - clientGameModel.getMotherNaturePos() > assistant.getMotherNaturePosShift())){
-            return false;
-        }
-        else if((selectedPos - clientGameModel.getMotherNaturePos() < 0) && ((clientGameModel.getIslandList().size()-clientGameModel.getMotherNaturePos()+selectedPos) > assistant.getMotherNaturePosShift())){
-            return false;
+        else{
+            if (selectedPos < 0 || selectedPos == clientGameModel.getMotherNaturePos()) {
+                return false;
+            } else if (clientGameModel.getIslandList().size() <= selectedPos) {
+                return false;
+            } else if ((selectedPos - clientGameModel.getMotherNaturePos() > 0) && (selectedPos - clientGameModel.getMotherNaturePos() > assistant.getMotherNaturePosShift() + 2)) {
+                return false;
+            } else if ((selectedPos - clientGameModel.getMotherNaturePos() < 0) && ((clientGameModel.getIslandList().size() - clientGameModel.getMotherNaturePos() + selectedPos) > assistant.getMotherNaturePosShift() + 2)) {
+                return false;
+            }
+
         }
         return true;
     }

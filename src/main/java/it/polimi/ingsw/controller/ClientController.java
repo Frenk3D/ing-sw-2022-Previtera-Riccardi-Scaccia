@@ -362,8 +362,8 @@ public class ClientController implements ViewObserver {
      * @param selectedIslandIndex
      */
     @Override
-    public void onSendMoveMotherNature(int selectedIslandIndex) {
-        if(ClientInputVerifier.verifyMotherNaturePos(clientGameModel,selectedIslandIndex)) {
+    public void onSendMoveMotherNature(int selectedIslandIndex,int usedCharacter) {
+        if(ClientInputVerifier.verifyMotherNaturePos(clientGameModel,selectedIslandIndex,usedCharacter)) {
             MoveMotherNatureMessage message = new MoveMotherNatureMessage(client.getClientId(), selectedIslandIndex);
             clientState = ClientState.MOVED_MOTHER_NATURE;
             client.sendMessage(message);
