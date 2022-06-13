@@ -40,30 +40,12 @@
       <dependency>
           <groupId>org.openjfx</groupId>
           <artifactId>javafx-controls</artifactId>
-          <version>18</version>
+          <version>18-ea+6</version>
       </dependency>
       <dependency>
           <groupId>org.openjfx</groupId>
           <artifactId>javafx-fxml</artifactId>
-          <version>18</version>
-      </dependency>
-      <dependency>
-          <groupId>org.openjfx</groupId>
-          <artifactId>javafx-graphics</artifactId>
-          <version>18</version>
-          <classifier>win</classifier>
-      </dependency>
-      <dependency>
-          <groupId>org.openjfx</groupId>
-          <artifactId>javafx-graphics</artifactId>
-          <version>18</version>
-          <classifier>linux</classifier>
-      </dependency>
-      <dependency>
-          <groupId>org.openjfx</groupId>
-          <artifactId>javafx-graphics</artifactId>
-          <version>18</version>
-          <classifier>mac</classifier>
+          <version>18-ea+6</version>
       </dependency>
 
 
@@ -102,60 +84,6 @@
           <goal>report</goal>
         </goals>
       </execution>
-        <execution>
-            <id>${project.artifactId}-server</id>
-            <phase>package</phase>
-            <goals>
-                <goal>shade</goal>
-            </goals>
-            <configuration>
-                <finalName>${project.artifactId}-server</finalName>
-                <transformers>
-                    <transformer
-                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                        <mainClass>it.polimi.ingsw.ServerApp</mainClass>
-                    </transformer>
-                </transformers>
-                <artifactSet>
-                    <excludes>
-                        <exclude>org.openjfx:*</exclude>
-                    </excludes>
-                </artifactSet>
-                <filters>
-                    <filter>
-                        <artifact>:</artifact>
-                        <excludes>
-                            <exclude>module-info.class</exclude>
-                        </excludes>
-                    </filter>
-                </filters>
-            </configuration>
-        </execution>
-
-        <execution>
-            <id>${project.artifactId}-client</id>
-            <phase>package</phase>
-            <goals>
-                <goal>shade</goal>
-            </goals>
-            <configuration>
-                <finalName>${project.artifactId}-client</finalName>
-                <transformers>
-                    <transformer
-                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                        <mainClass>it.polimi.ingsw.ClientApp</mainClass>
-                    </transformer>
-                </transformers>
-                <filters>
-                    <filter>
-                        <artifact>:</artifact>
-                        <excludes>
-                            <exclude>module-info.class</exclude>
-                        </excludes>
-                    </filter>
-                </filters>
-            </configuration>
-        </execution>
     </executions>
 </plugin>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
@@ -207,6 +135,11 @@
                   <source>9</source>
                   <target>9</target>
               </configuration>
+          </plugin>
+          <plugin>
+              <groupId>org.openjfx</groupId>
+              <artifactId>javafx-maven-plugin</artifactId>
+              <version>0.0.8</version>
           </plugin>
       </plugins>
   </build>
