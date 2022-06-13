@@ -205,7 +205,7 @@ public class Characters2and6and8and9 extends Character {
                             Tower movedTower = tmpPlayer.getDashboard().getTowersList().remove(0);
                             island.getTowersList().add(movedTower);
                         } catch (IndexOutOfBoundsException e) {
-                            //win todo
+                            //win I can't add other towers, the controller will catch this todo
                         }
                     }
                 }
@@ -274,7 +274,7 @@ public class Characters2and6and8and9 extends Character {
                             Tower movedTower = tmpPlayer.getDashboard().getTowersList().remove(0);
                             island.getTowersList().add(movedTower);
                         } catch (IndexOutOfBoundsException e) {
-                            //win todo
+                            //win I can't add other towers, the controller will catch this todo
                         }
                     }
                 }
@@ -346,7 +346,7 @@ public class Characters2and6and8and9 extends Character {
                             Tower movedTower = tmpPlayer.getDashboard().getTowersList().remove(0);
                             island.getTowersList().add(movedTower);
                         } catch (IndexOutOfBoundsException e) {
-                            //win todo
+                            //win I can't add other towers, the controller will catch this todo
                         }
                     }
                 }

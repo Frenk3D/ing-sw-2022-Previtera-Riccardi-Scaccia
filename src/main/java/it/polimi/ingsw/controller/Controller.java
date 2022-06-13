@@ -596,8 +596,28 @@ public class Controller implements Observer {
         return false;
     }
 
-    private int getWinner(){
-        return 0;
+    private int getWinner() {
+        int winnerId = -1;
+        Player tmpPlayer = null ;
+        for(int i = 0; i<game.getPlayersList().size(); i++){
+            if(game.getPlayersList().get(i).hasTower()==true){ //it is impossible that tmpPlayer is not set here
+                tmpPlayer = game.getPlayersList().get(i); //tmpPlayer is the current winner player,
+                break;
+            }
+        }
+        for (Player p : game.getPlayersList()) {
+            if (p.hasTower()) {
+                if (p.getDashboard().getTowersList().size() < tmpPlayer.getDashboard().getTowersList().size()) {
+                    tmpPlayer = p;
+                }
+                else if(p.getDashboard().getTowersList().size() == tmpPlayer.getDashboard().getTowersList().size()){
+                    if(p.getDashboard().getProfessorsList().size()> tmpPlayer.getDashboard().getProfessorsList().size()){ //if also professors are the same number it will win the first checked by the loop (pseudo-randomly)
+                        tmpPlayer = p;
+                    }
+                }
+            }
+        }
+        return tmpPlayer.getId();
     }
 
     private boolean checkUser(Message message){

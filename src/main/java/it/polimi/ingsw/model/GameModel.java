@@ -362,7 +362,16 @@ public class GameModel extends Observable {
     }
 
     public void sendWin(int winnerId){
-        notifyObserver(new StringMessage(MessageType.WIN,SERVERID,false,getPlayerById(winnerId).getName()));
+        StringBuilder names = new StringBuilder();
+        if(numOfPlayers==4){
+            for (Player p : playersList){
+                if (p.getTeam()==winnerId){
+                    names.append(" " + p.getName());
+                }
+            }
+            notifyObserver(new StringMessage(MessageType.WIN,SERVERID,false, names.toString()));
+        }
+        else {notifyObserver(new StringMessage(MessageType.WIN,SERVERID,false,getPlayerById(winnerId).getName()));}
     }
 
     //----------------------------------------------------------------REDUCED LIST GENERATORS-------------------------------------------------------------------------

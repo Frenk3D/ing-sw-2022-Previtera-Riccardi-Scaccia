@@ -104,7 +104,6 @@ class GameModelTest {
 
     @Test
     void checkWin() {
-        // TODO: 08/04/2022
     }
     @Test
     void setNumOfPlayers(){

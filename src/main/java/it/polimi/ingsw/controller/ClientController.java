@@ -166,7 +166,10 @@ public class ClientController implements ViewObserver {
             case WIN: //we decided that we can restart a new game after finished one
                 StringMessage stringMessage = (StringMessage) message;
                 clientState = ClientState.GAME_FINISHED;
-                clientGameModel.show("The winner is: " + stringMessage.getString());
+                if(clientGameModel.getNumOfPlayers() ==4){
+                    clientGameModel.show("The winners are: " + stringMessage.getString());
+                }
+                else{clientGameModel.show("The winner is: " + stringMessage.getString());}
 
                 clientGameModel.show("Restarting...");
                 clientState = ClientState.CHOOSING_JOIN_CREATE;
@@ -449,7 +452,7 @@ public class ClientController implements ViewObserver {
             case CHOSEN_TEAM:
                 teamLeader = true; //for security, I set it true
                 clientGameModel.show("Ok, you are the leader of the team, you can choose tower color"); //they can choose if communicate outside the game
-                teamId = client.getClientId(); //for security I set it, the team Id is mine
+                teamId = client.getClientId(); //for security, I set it, the team Id is mine
                 //clientState = ClientState.CHOOSING_TOWER_COLOR; //and now I will wait for available ... send
                 break;
 
