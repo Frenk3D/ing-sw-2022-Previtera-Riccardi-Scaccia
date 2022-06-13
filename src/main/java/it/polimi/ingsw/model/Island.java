@@ -89,7 +89,13 @@ public class Island {
 
     public void updateIslandDomain(List<Player> playersList) {
         Player oldDominatingPlayer = null;
-        Player tmpPlayer = playersList.get(0); //tmpPlayer is the current dominating player, and allParity blocks if there is none that has to receive domain
+        Player tmpPlayer = null ;
+        for(int i = 0; i<playersList.size(); i++){
+            if(playersList.get(i).hasTower()==true){ //it is impossible that tmpPlayer is not set here
+                tmpPlayer = playersList.get(i); //tmpPlayer is the current dominating player, and allParity blocks if there is none that has to receive domain
+            break;
+            }
+        }
         boolean allParity = true;
 
 
@@ -110,8 +116,10 @@ public class Island {
         //System.out.println("dominating player-------------- "+tmpPlayer.getName()+ " allpartiy="+allParity+" oldDom="+oldDominatingPlayer);
             if (allParity == false) {//if the var is false there is a change of domain, or else we do nothing
                 if (tmpPlayer != oldDominatingPlayer){ //if we have to change the tower
+                    if (oldDominatingPlayer!=null){
                     for (Tower t: towersList) {
                         oldDominatingPlayer.getDashboard().getTowersList().add(t);
+                    }
                     }
                     int towersListSize = towersList.size();
                     for (int i =0; i<towersListSize; i++ ) {
