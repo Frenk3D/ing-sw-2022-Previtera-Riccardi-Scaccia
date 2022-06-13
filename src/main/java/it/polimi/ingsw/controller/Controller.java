@@ -414,9 +414,25 @@ public class Controller implements Observer {
             if(newMotherNaturePos != -1){
                 game.setMotherNaturePosition(newMotherNaturePos);
             }
-            game.getCurrRound().getCurrTurn().setStage(TurnState.CHOOSE_CLOUD_STATE);
+
+
+            game.sendAllDashboards();
             game.sendTable();
-            game.sendInGameState();
+            game.getCurrRound().getCurrTurn().setStage(TurnState.CHOOSE_CLOUD_STATE);
+
+            if(game.getCurrRound().isLastRound() && !game.getCurrRound().nextTurn()){ //if it is the last round because students in the bag finished we jump to next turn, if turn is the last we find the winner
+                game.sendWin(getWinner());
+                server.deleteLobby(this);
+                return;
+            }
+            else if(checkWin(false)){
+                game.sendWin(getWinner());
+                server.deleteLobby(this);
+                return;
+            }
+            else {
+                game.sendInGameState();
+            }
 
         }
         else {
@@ -440,6 +456,12 @@ public class Controller implements Observer {
 
             boolean result = game.getCurrRound().nextTurn();
             if(!result){ //the round is ended and we fill the clouds again
+                if (checkWin(true)) {
+                    game.sendWin(getWinner());
+                    server.deleteLobby(this);
+                    return;
+                }
+
                 for (Player p : game.getPlayersList()){
                     p.setSelectedAssistant(null);
                 }
@@ -532,6 +554,13 @@ public class Controller implements Observer {
                 game.sendTable();//update the table
                 game.sendAllDashboards(); //update the dashboards of all users
                 game.sendInGameState(); //orders the update of the views
+                game.sendThrownCharacter(characterId);
+
+                if(checkWin(false)){
+                    game.sendWin(getWinner());
+                    server.deleteLobby(this);
+                    return;
+                }
             }
             else {
                 System.out.println("use character: Not enough money");
@@ -548,25 +577,27 @@ public class Controller implements Observer {
         return game.getGameState();
     }
 
-    public boolean checkWin(){
-        for (Player p : game.getPlayersList()){
-            if(p.getAssistantDeck().getAssistantsList().isEmpty()){
+    public boolean checkWin(boolean finishedRound){
+        if(finishedRound){
+            for (Player p : game.getPlayersList()){ //one player finished assistants
+                if(p.getAssistantDeck().getAssistantsList().isEmpty()){
+                    return true;
+                }
+            }
+        }
+        else{
+            if(game.getCurrPlayer().getDashboard().getTowersList().isEmpty()){ //the player finished the towers
+                return true;
+            }
+            else if (game.getIslandsList().size()<=3){//there are only three islands on the table
                 return true;
             }
         }
+        return false;
+    }
 
-        if(game.getCurrPlayer().getDashboard().getTowersList().isEmpty()){ //the player finished the towers
-            return true;
-        }
-        else if (game.getIslandsList().size()<=3){//there are only three islands on the table
-            return true;
-        }
-        else if(game.getBag().isEmpty()){
-            return true;
-        }
-        else {
-            return false;
-        }
+    private int getWinner(){
+        return 0;
     }
 
     private boolean checkUser(Message message){

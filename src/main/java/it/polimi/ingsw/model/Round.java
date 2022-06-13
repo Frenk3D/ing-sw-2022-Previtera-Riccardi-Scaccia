@@ -14,6 +14,7 @@ public class Round extends Observable {
     private RoundState stage;
     private int planningPhasePlayer; //index in the list playersList of Game
     private int numOfAssistantThrows;
+    private boolean lastRound = false;
 
     //constructor
     public Round() {
@@ -31,6 +32,17 @@ public class Round extends Observable {
     }
 
     public void fillClouds(List<Cloud> cloudsList, Bag bag, int numOfPlayers){
+        int requiredStudents = 12;
+        if(numOfPlayers == 2){
+            requiredStudents = 6;
+        }
+        if (bag.getRemainingStudents()<requiredStudents){
+            lastRound=true;
+            return;
+        }
+        else if(bag.getRemainingStudents()==requiredStudents){
+            lastRound=true;
+        }
         for (Cloud c : cloudsList) {
             c.fillCloud(bag,numOfPlayers);
         }
@@ -124,5 +136,13 @@ public class Round extends Observable {
 
     public List<Player> getPlayersOrder() {
         return playersOrder;
+    }
+
+    public boolean isLastRound() {
+        return lastRound;
+    }
+
+    public void setLastRound(boolean lastRound) {
+        this.lastRound = lastRound;
     }
 }

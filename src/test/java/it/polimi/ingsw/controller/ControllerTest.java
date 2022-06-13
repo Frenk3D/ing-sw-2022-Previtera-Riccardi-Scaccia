@@ -243,6 +243,6 @@ class ControllerTest {
         Server s = new Server(2);
         assertNotEquals(s,controller.getServer());
         controller.getGame().getCurrRound().getCurrTurn().setCurrPlayer(p1);
-        assertFalse(controller.checkWin());
+        assertFalse(controller.checkWin(false));
     }
 }

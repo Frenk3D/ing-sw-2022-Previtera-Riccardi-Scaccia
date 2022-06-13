@@ -59,10 +59,6 @@ public class Bag {
         return result;
     }
 
-    public boolean isEmpty(){
-        return studentsList.isEmpty();
-    }
-
     public void addAllStudents() { //fills the bag with remaining students
         for(int i=0;i<24;i++){
             studentsList.add(new Student(PawnColor.BLUE));
@@ -72,9 +68,13 @@ public class Bag {
             studentsList.add(new Student(PawnColor.YELLOW));
         }
     }
+
+    public int getRemainingStudents(){
+        return studentsList.size();
+    }
+
+
     //for test purposes
-
-
   /*  @Override
     public boolean equals(Object o) {
         if (this == o) return true;

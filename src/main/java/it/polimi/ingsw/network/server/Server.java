@@ -186,7 +186,7 @@ public class Server{
         }
     }
 
-    private void deleteLobby(Controller controller){
+    public void deleteLobby(Controller controller){
         List<Integer> playersToRemove = new ArrayList<>();
         String controllerToRemove = null;
 

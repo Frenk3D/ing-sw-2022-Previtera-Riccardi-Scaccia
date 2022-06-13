@@ -157,7 +157,11 @@ public class ClientController implements ViewObserver {
                 clientGameModel.setAssistantList(assistantsSendMessage.getAssistantsList());
                 break;
 
-                //case THROWN_CHARACTER: String nameP = clientGame.findPlayerById(message.getPlayerId()) clientGameModel.show(nameP + "thrown character: " + message.getCharId()) ...
+            case THROWN_CHARACTER:
+                ThrownCharacterMessage thrownCharacterMessage = (ThrownCharacterMessage) message;
+                String nameP = clientGameModel.findPlayerById(thrownCharacterMessage.getPlayerId()).getName();
+                clientGameModel.show(nameP + "threw character: " + thrownCharacterMessage.getCharacterId());
+                break;
 
             case WIN: //we decided that we can restart a new game after finished one
                 StringMessage stringMessage = (StringMessage) message;

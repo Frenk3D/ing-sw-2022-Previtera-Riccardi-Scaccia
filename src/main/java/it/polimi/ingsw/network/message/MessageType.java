@@ -20,7 +20,7 @@ public enum MessageType {
     MOVE_MOTHER_NATURE,
     TAKE_FROM_CLOUD,
     SELECT_ASSISTANT,
-    USE_CHARACTER,
+    USE_CHARACTER, THROWN_CHARACTER,
     WIN,
 
     OK_REPLY, ERROR_REPLY, //generic message

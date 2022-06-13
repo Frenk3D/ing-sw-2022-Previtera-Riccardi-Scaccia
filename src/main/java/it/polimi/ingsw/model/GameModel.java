@@ -357,6 +357,14 @@ public class GameModel extends Observable {
         notifyObserver(new CharacterTableMessage(SERVERID,tableMoney.get(),getReducedCharacterList(),getNumOfMoneyMap()));
     }
 
+    public void sendThrownCharacter(int characterId){
+        notifyObserver(new ThrownCharacterMessage(SERVERID,characterId,getCurrPlayer().getId()));
+    }
+
+    public void sendWin(int winnerId){
+        notifyObserver(new StringMessage(MessageType.WIN,SERVERID,false,getPlayerById(winnerId).getName()));
+    }
+
     //----------------------------------------------------------------REDUCED LIST GENERATORS-------------------------------------------------------------------------
     public List<ReducedIsland> getReducedIslandsList(){
         List<ReducedIsland> reducedIslands = new ArrayList<>();
