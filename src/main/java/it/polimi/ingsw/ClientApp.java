@@ -36,7 +36,7 @@ public class ClientApp {
 
 
          */
-        //THIS IS THE REAL CLIENTAPP
+        //THIS IS THE REAL CLIENT-APP
         boolean cliParam = false; // default value
 
         for (String arg : args) {

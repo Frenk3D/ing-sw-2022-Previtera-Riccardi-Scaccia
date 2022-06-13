@@ -24,7 +24,7 @@ public class KeyboardManager implements Runnable{
     private List<TowerColor> availableTowerColors = null;
     private List<Wizard> availableWizards = null;
     private ClientGameModel clientGameModel = null;  //from now on we take the lists from here
-    private int usedCharacter = -1;
+    private int usedCharacter = -1;    //this is for the control of the parameters
 
     public KeyboardManager(ClientController controller, Cli cli){
         this.controller = controller;
@@ -181,7 +181,7 @@ public class KeyboardManager implements Runnable{
                         break;
 
                     case THROWING_ASSISTANT:
-                        usedCharacter = -1;
+                        //usedCharacter = -1;
                         try {
                             int selectedAssistantId = Integer.parseInt(userInput); //why don't need try catch because if the input is incorrect,nothing is returned
                             cli.notifyObserver(obs -> obs.onSendSelectAssistant(selectedAssistantId));
@@ -234,7 +234,7 @@ public class KeyboardManager implements Runnable{
                         try {
                             int parsedInputMN = Integer.parseInt(userInput); //we need try-catch because if the input is incorrect, there is an exception
                             int selectedMNPos = parsedInputMN-1;
-                            cli.notifyObserver(obs -> obs.onSendMoveMotherNature(selectedMNPos,usedCharacter));
+                            cli.notifyObserver(obs -> obs.onSendMoveMotherNature(selectedMNPos));
                         }
                         catch (Exception e) {
                             System.out.println("Input failed, retry");

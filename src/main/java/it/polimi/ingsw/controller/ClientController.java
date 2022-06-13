@@ -34,6 +34,7 @@ public class ClientController implements ViewObserver {
     //my player id is in clientGameModel and in client
     private ClientState prevClientState;
 
+    private int usedCharacter; //this is for the input verifier
     /**
      * Constructs Client Controller.
      *
@@ -44,6 +45,7 @@ public class ClientController implements ViewObserver {
         clientState = ClientState.APPLICATION_START;
         clientGameModel = new ClientGameModel();
         nickname = null;
+        usedCharacter = -1;
 
 
     }
@@ -362,7 +364,7 @@ public class ClientController implements ViewObserver {
      * @param selectedIslandIndex
      */
     @Override
-    public void onSendMoveMotherNature(int selectedIslandIndex,int usedCharacter) {
+    public void onSendMoveMotherNature(int selectedIslandIndex) {
         if(ClientInputVerifier.verifyMotherNaturePos(clientGameModel,selectedIslandIndex,usedCharacter)) {
             MoveMotherNatureMessage message = new MoveMotherNatureMessage(client.getClientId(), selectedIslandIndex);
             clientState = ClientState.MOVED_MOTHER_NATURE;
@@ -397,6 +399,7 @@ public class ClientController implements ViewObserver {
     public void onAskCharacter(int characterId) {
         if(ClientInputVerifier.verifyCharacter(clientGameModel, characterId)){
             prevClientState = clientState;
+            usedCharacter = characterId;
             if(characterId == 1 || characterId== 3 || characterId == 5 || characterId == 7 || characterId == 9 || characterId == 10 || characterId== 11 || characterId ==12){
                 clientState = ClientState.USING_CHARACTER;
                 clientGameModel.askCharacterParameters(characterId);}
@@ -447,9 +450,11 @@ public class ClientController implements ViewObserver {
                 break;
 
             case CHOSEN_TOWER_COLOR:
+                clientGameModel.show("Color chosen, waiting for other players to choose color");
                 //clientState = ClientState.CHOOSING_WIZARD; //and now I will wait for available ... send
                 break;
             case CHOSEN_WIZARD:
+                clientGameModel.show("Wizard chosen, waiting for other players to choose wizard");
                 //clientState = ClientState.GAME_START;
                 break;
             default:
@@ -505,6 +510,7 @@ public class ClientController implements ViewObserver {
                 break;
             case USED_CHARACTER:
                 clientState= prevClientState;
+                usedCharacter = -1;
                 //only the print of the string is ok and reset to the prev clientState
                 break;
 
@@ -541,6 +547,7 @@ public class ClientController implements ViewObserver {
                 for(ReducedPlayer p : clientGameModel.getPlayersList()){
                     p.setSelectedAssistant(null);
                 }
+                usedCharacter = -1;
                 clientGameModel.setRoundState(roundState);
             }
 
