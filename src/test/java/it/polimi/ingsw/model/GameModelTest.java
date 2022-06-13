@@ -104,6 +104,7 @@ class GameModelTest {
 
     @Test
     void checkWin() {
+        //tested in real games
     }
     @Test
     void setNumOfPlayers(){
