@@ -41,11 +41,11 @@ public abstract class Character {
             idList.add(i);
         }
 
-        Collections.shuffle(idList);
+        //Collections.shuffle(idList);
 
         returnList.add(Factory.newCharacter(idList.get(0)));
-        returnList.add(Factory.newCharacter(idList.get(5))); //or 1
-        returnList.add(Factory.newCharacter(idList.get(2)));
+        returnList.add(Factory.newCharacter(idList.get(4))); //or 1
+        returnList.add(Factory.newCharacter(idList.get(10)));
         return returnList;
     }
 

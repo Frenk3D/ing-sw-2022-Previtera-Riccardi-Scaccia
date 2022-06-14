@@ -159,8 +159,10 @@ public class ClientController implements ViewObserver {
 
             case THROWN_CHARACTER:
                 ThrownCharacterMessage thrownCharacterMessage = (ThrownCharacterMessage) message;
-                String nameP = clientGameModel.findPlayerById(thrownCharacterMessage.getPlayerId()).getName();
-                clientGameModel.show(nameP + "threw character: " + thrownCharacterMessage.getCharacterId());
+                if(thrownCharacterMessage.getPlayerId()!=clientGameModel.getMyPlayerId()) {
+                    String nameP = clientGameModel.findPlayerById(thrownCharacterMessage.getPlayerId()).getName();
+                    clientGameModel.show(nameP + " threw character: " + thrownCharacterMessage.getCharacterId());
+                }
                 break;
 
             case WIN: //we decided that we can restart a new game after finished one

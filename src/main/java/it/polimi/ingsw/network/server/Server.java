@@ -287,7 +287,7 @@ public class Server{
     public void createTestController(){
         Controller controller = new Controller();
         controller.setServer(this);
-        controller.configure(2,false);
+        controller.configure(2,true);
         controllersMap.put("test",controller);
 
         Controller controller1 = new Controller();

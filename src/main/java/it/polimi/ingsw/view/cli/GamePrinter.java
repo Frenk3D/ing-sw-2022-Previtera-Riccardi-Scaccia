@@ -15,6 +15,7 @@ public class GamePrinter {
     private final int[][] cloudPositions = {{77,12},{95,12},{77,17},{95,17}};
     private final int[][] dashboardPositions = {{49,33},{95,33},{3,33},{141,33}};
     private final int[][] dashboardEntrancePositions = {{2,1},{6,1},{2,2},{6,2},{2,3},{6,3},{2,4},{6,4},{2,5},{6,5}};
+    private final int[][] characterStudentsPositions = {{2,3},{6,3},{2,4},{6,4},{2,5},{6,5}};
 
     public void print(ClientGameModel clientGameModel){ //this class is called by the Cli
         /*
@@ -28,7 +29,7 @@ public class GamePrinter {
         */
 
         //String[] canvas = generateCanvas(130,20," ");
-        String[] canvas = generateSquare(189,49);
+        String[] canvas = generateSquare(189,50);
 
         boolean motherNatureHere = false;
         int index = -1;
@@ -73,18 +74,18 @@ public class GamePrinter {
         }
 
         if(clientGameModel.isExpertMode()) {
-            writeAtPos(canvas, 144,47, "Write use_character [id] to use a character");
+            writeAtPos(canvas, 144,48, "Write use_character [id] to use a character");
 
-            writeAtPos(canvas, 150, 41, "Characters - Table money: " + clientGameModel.getTableMoney());
-            for (int i = 41; i < 47; i++) {
+            writeAtPos(canvas, 150, 40, "Characters - Table money: " + clientGameModel.getTableMoney());
+            for (int i = 40; i < 48; i++) {
                 writeAtPos(canvas, 147, i, "|");
             }
 
             int characterPos = 150;
             for (ReducedCharacter character : clientGameModel.getCharactersList()) {
                 String[] generatedCharacter = generateCharacter(character);
-                mergeMatrix(canvas, characterPos, 42, generatedCharacter);
-                characterPos += 10;
+                mergeMatrix(canvas, characterPos, 41, generatedCharacter);
+                characterPos += 13;
             }
         }
         printMatrix(canvas);
@@ -226,13 +227,25 @@ public class GamePrinter {
     }
 
     private String[] generateCharacter(ReducedCharacter character){
-        String[] result = generateSquare(9,5);
+        String[] result = generateSquare(11,7);
         writeAtPos(result, 1, 1, ColorCli.GREEN_BOLD+""+ character.getId() +"" + ColorCli.RESET);
-        writeAtPos(result, 2, 2, "COST:");
-        writeAtPos(result, 4, 3, character.getInitialCost()+"");
+        writeAtPos(result, 2, 2, "COST: "+character.getInitialCost());
 
         if(character.isUsed()){
-            writeAtPos(result, 6, 1, ColorCli.YELLOW_BOLD+"█" + ColorCli.RESET);
+            writeAtPos(result, 8, 1, ColorCli.YELLOW_BOLD+"█" + ColorCli.RESET);
+        }
+
+        if(character.getId() == 1 || character.getId() == 7 || character.getId() == 11){
+            int pos = 0;
+            for (PawnColor p : character.getCardStudentsList()){
+                writeAtPos(result, characterStudentsPositions[pos][0], characterStudentsPositions[pos][1], getColorBg(p)+" " +(pos+1)+" " + ColorCli.RESET);
+                pos++;
+            }
+        }
+
+        else if(character.getId() == 5){
+            writeAtPos(result, 2, 4, "Forbid");
+            writeAtPos(result, 2, 5, "Cards:"+character.getNumOfForbidCards());
         }
 
         return result;

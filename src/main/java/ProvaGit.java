@@ -114,7 +114,7 @@ public class ProvaGit {
 
         clientGameModel.setAssistantList(p1.getAssistantDeck().getReducedAssistantsList());
 
-        Character character = Factory.newCharacter(3);
+        Character character = Factory.newCharacter(5);
         character.setUsed();
 
         List<ReducedCharacter> characters = new ArrayList<>();

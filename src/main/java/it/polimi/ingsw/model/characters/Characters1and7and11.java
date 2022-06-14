@@ -40,6 +40,10 @@ public class Characters1and7and11 extends Character {
         try {
             island.getStudentsList().add(cardStudentsList.get(studentIndex));
             cardStudentsList.remove(studentIndex);
+            List<Student> newStudentList = bag.extractStudents(1);
+            if(newStudentList != null){
+                cardStudentsList.add(newStudentList.get(0));
+            }
             return true;
         }
 
@@ -80,7 +84,10 @@ public class Characters1and7and11 extends Character {
         try {
             cardPlayer.getDashboard().getEntranceList().add(cardStudentsList.get(studentIndex));
             cardStudentsList.remove(studentIndex);
-            cardStudentsList.add(bag.extractStudents(1).get(0));
+            List<Student> newStudentList = bag.extractStudents(1);
+            if(newStudentList != null){
+                cardStudentsList.add(newStudentList.get(0));
+            }
             return true;
         }
         catch (Exception e){
@@ -107,8 +114,6 @@ public class Characters1and7and11 extends Character {
         bag = params.getBag();
         initStudents();
     }
-
-    //for test purposes
 
 
     public List<Student> getCardStudentsList() {
