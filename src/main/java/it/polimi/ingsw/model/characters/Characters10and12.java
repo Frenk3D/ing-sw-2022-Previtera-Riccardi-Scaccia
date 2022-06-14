@@ -6,9 +6,11 @@ import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Characters10and12 extends Character{
-
+    private final Logger logger = Logger.getLogger(getClass().getName());
     private Bag bag;
 
     //constructor
@@ -39,7 +41,7 @@ public class Characters10and12 extends Character{
             return true;
         }
         catch (Exception e){
-            System.out.println("Error in the swap");
+            logger.log(Level.SEVERE,"Error in the swap");
             return false;
         }
     }
@@ -53,7 +55,7 @@ public class Characters10and12 extends Character{
                         Student s = p.getDashboard().getHallStudentsListByColor(hallColor).remove(size - 1);
                         bag.getStudentsList().add(s);
                     } catch (IndexOutOfBoundsException e) {
-                        System.out.println("No more students of this color");
+                        logger.log(Level.SEVERE,"No more students of this color");
                         e.printStackTrace();
                     }
 

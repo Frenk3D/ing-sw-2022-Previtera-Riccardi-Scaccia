@@ -14,6 +14,8 @@ import it.polimi.ingsw.view.RemoteView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static it.polimi.ingsw.network.server.Server.SERVERID;
 
@@ -21,6 +23,7 @@ public class Controller implements Observer {
     //attributes
     private GameModel game;  //intellij says it should be final,but it actually changes so it's not
     private Server server;
+    private final Logger logger = Logger.getLogger(getClass().getName());
 
     //constructor
     public Controller(){
@@ -59,7 +62,6 @@ public class Controller implements Observer {
 
     @Override
     public void update(Message message){ //the controller observes the view
-        System.out.println("received "+ message.getMessageType()+" from player "+message.getSenderId());
         switch (getGameState()){
             case SETTING_STATE:
                 settingState(message);
@@ -73,7 +75,7 @@ public class Controller implements Observer {
                 }
                 break;
             default:
-                System.out.println("Error");
+                logger.log(Level.SEVERE,"reached default in switch");
                 sendError(message.getSenderId(), "The game is not active");
                 break;
         }
@@ -97,7 +99,7 @@ public class Controller implements Observer {
                 break;
 
             default:
-                System.out.println("Error");
+                logger.log(Level.SEVERE,"reached default in switch");
                 sendError(receivedMessage.getSenderId(), "Forbidden command");
                 break;
         }
@@ -151,7 +153,7 @@ public class Controller implements Observer {
                 break;
 
             default:
-                System.out.println("Error");
+                logger.log(Level.SEVERE,"reached default in switch");
                 sendError(receivedMessage.getSenderId(), "Forbidden command");
                 break;
         }
@@ -160,7 +162,7 @@ public class Controller implements Observer {
     public void configure(int numOfPlayers, boolean expertMode){
         boolean result = game.setNumOfPlayers(numOfPlayers);
         if(!result){
-            System.out.println("configure: wrong parameters");
+            logger.log(Level.SEVERE,"wrong parameters");
             return;
         }
         game.setExpertMode(expertMode);
@@ -171,7 +173,7 @@ public class Controller implements Observer {
         if(getGameState() == GameState.LOGIN_STATE || game.getNumOfPlayers() == 0) {
             boolean result = game.addPlayer(player);
             if (!result) {
-                System.out.println("addPlayer: too many players");
+                logger.log(Level.SEVERE,"addPlayer: too many players");
                 return;
             }
             if (game.getNumOfPlayers() != 4) {
@@ -179,11 +181,11 @@ public class Controller implements Observer {
             }
             if (game.getPlayersList().size() == game.getNumOfPlayers()){
                 game.init();
-                System.out.println("GAME INITALIZED!");
+                logger.log(Level.INFO,"GAME INITALIZED!");
             }
         }
         else {
-            System.out.println("add player: not in login state or game not configured");
+            logger.log(Level.SEVERE,"not in login state or game not configured");
         }
     }
 
@@ -194,11 +196,11 @@ public class Controller implements Observer {
             Player requestedTeamPlayer = game.getPlayerById(requestedPlayerId);
 
             if(requestingPlayer==null || requestedTeamPlayer==null){
-                System.out.println("chooseTeam: wrong parameters");
+                logger.log(Level.SEVERE,"wrong parameters");
                 sendError(playerId, "Wrong parameters");
             }
             else if(requestingPlayer.getTeam() != -1 || requestedTeamPlayer.getTeam()!=-1){
-                System.out.println("chooseTeam: you already have a team or requested player already has a team");
+                logger.log(Level.SEVERE,"you already have a team or requested player already has a team");
                 sendError(playerId, "You already have a team or requested player already has a team");
             }
             else {
@@ -219,7 +221,7 @@ public class Controller implements Observer {
             }
         }
         else {
-            System.out.println("chooseTeam: forbidden move");
+            logger.log(Level.SEVERE,"forbidden move");
             sendError(playerId, "Forbidden command");
         }
     }
@@ -230,15 +232,15 @@ public class Controller implements Observer {
             Player requestingPlayer = game.getPlayerById(playerId);
             List<TowerColor> availableColors = game.getChooseTowerColorList();
             if (requestingPlayer == null) {
-                System.out.println("chooseTowerColor: wrong parameters");
+                logger.log(Level.SEVERE,"wrong parameters");
             } else if (!requestingPlayer.hasTower()) {
-                System.out.println("chooseTowerColor: player doesn't have tower");
+                logger.log(Level.SEVERE,"player isn't tower holder");
                 sendError(playerId, "You aren't the tower holder");
             } else if (!availableColors.contains(selectedColor)) {
-                System.out.println("chooseTowerColor: already chosen color");
+                logger.log(Level.SEVERE,"already chosen color");
                 sendError(playerId, "Already chosen color");
             } else if(requestingPlayer.getTowerColor() != null){
-                System.out.println("chooseTowerColor: you already chosen color");
+                logger.log(Level.SEVERE,"player already choose color");
                 sendError(playerId, "You already chosen color");
             }
             else {
@@ -257,7 +259,7 @@ public class Controller implements Observer {
             }
         }
         else {
-            System.out.println("chooseTowerColor: Forbidden move");
+            logger.log(Level.SEVERE,"forbidden move");
             sendError(playerId, "Forbidden command");
         }
     }
@@ -268,12 +270,12 @@ public class Controller implements Observer {
             Player requestingPlayer = game.getPlayerById(playerId);
             List<Wizard> availableWizards = game.getWizardList();
             if (requestingPlayer == null) {
-                System.out.println("chooseWizard: wrong parameters");
+                logger.log(Level.SEVERE,"wrong parameters");
             } else if (!availableWizards.contains(selectedWizard)) {
-                System.out.println("chooseWizard: already chosen wizard");
+                logger.log(Level.SEVERE,"already chosen wizard");
                 sendError(playerId, "Already chosen wizard");
             } else if(requestingPlayer.getAssistantDeck().getWizard()!=null){
-                System.out.println("chooseWizard: you already choose wizard");
+                logger.log(Level.SEVERE,"player already choose wizard");
                 sendError(playerId, "You already choose wizard");
             }
             else {
@@ -289,11 +291,11 @@ public class Controller implements Observer {
                 }
                 game.setSettingState(SettingState.NOT_SETTING_STATE);
                 game.start();
-                System.out.println("GAME STARTED!");
+                logger.log(Level.INFO,"GAME STARTED!");
             }
         }
         else {
-            System.out.println("chooseWizard: Forbidden move");
+            logger.log(Level.SEVERE,"forbidden move");
             sendError(playerId, "Forbidden command");
         }
     }
@@ -306,7 +308,7 @@ public class Controller implements Observer {
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.MOVE_STUDENT_STATE) {
             Player currPlayer = game.getCurrPlayer();
             if(currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex)==null||game.getIslandByIndex(islandIndex)==null){
-                System.out.println("move student island: wrong parameters");
+                logger.log(Level.SEVERE,"wrong parameters");
                 sendError(game.getCurrPlayer().getId(), "Wrong parameters");
                 return;
             }
@@ -321,7 +323,7 @@ public class Controller implements Observer {
             game.sendInGameState();
         }
         else {
-            System.out.println("move student island: forbidden move");
+            logger.log(Level.SEVERE,"forbidden move");
             sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
     }
@@ -331,7 +333,7 @@ public class Controller implements Observer {
         if(game.getCurrRound().getStage()== RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.MOVE_STUDENT_STATE){
             Player currPlayer = game.getCurrPlayer();
             if(currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex)==null){
-                System.out.println("move student dashboard: wrong parameters");
+                logger.log(Level.SEVERE,"wrong parameters");
                 sendError(game.getCurrPlayer().getId(), "Wrong parameters");
                 return;
             }
@@ -339,7 +341,7 @@ public class Controller implements Observer {
             Student studentToMove = currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex);
             boolean result = currPlayer.getDashboard().addStudentHall(studentToMove,currPlayer,game.getTableMoney());
             if(!result){
-                System.out.println("move student dashboard: too many students");
+                logger.log(Level.SEVERE,"too many students");
                 sendError(game.getCurrPlayer().getId(), "Too many students");
                 return;
             }
@@ -365,7 +367,7 @@ public class Controller implements Observer {
         }
 
         else {
-            System.out.println("move student dashboard: forbidden move");
+            logger.log(Level.SEVERE,"forbidden move");
             sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
     }
@@ -377,17 +379,17 @@ public class Controller implements Observer {
             int prevMotherNaturePos = game.getMotherNaturePos();
 
             if(game.getIslandByIndex(islandIndex)==null || islandIndex == prevMotherNaturePos){
-                System.out.println("move mother nature: wrong parameters");
+                logger.log(Level.SEVERE,"wrong parameters");
                 sendError(game.getCurrPlayer().getId(), "Wrong parameters");
                 return;
             }
             else if((islandIndex - prevMotherNaturePos > 0) && (islandIndex - prevMotherNaturePos > game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift())){
-                System.out.println("move mother nature: too far");
+                logger.log(Level.SEVERE,"moved mother nature too far");
                 sendError(game.getCurrPlayer().getId(), "Mother nature moved too far");
                 return;
             }
             else if((islandIndex - prevMotherNaturePos < 0) && ((game.getIslandsList().size()-prevMotherNaturePos+islandIndex) > game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift())){
-                System.out.println("move mother nature: too far");
+                logger.log(Level.SEVERE,"moved mother nature too far");
                 sendError(game.getCurrPlayer().getId(), "Mother nature moved too far");
                 return;
             }
@@ -436,7 +438,7 @@ public class Controller implements Observer {
 
         }
         else {
-            System.out.println("move mother nature: forbidden move");
+            logger.log(Level.SEVERE,"forbidden move");
             sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
     }
@@ -445,7 +447,7 @@ public class Controller implements Observer {
     public void takeFromCloud(int cloudIndex){ //they go in the entranceList
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.CHOOSE_CLOUD_STATE){
             if(game.getCloudByIndex(cloudIndex)==null || game.getCloudByIndex(cloudIndex).getStudents().isEmpty()){
-                System.out.println("take from cloud: wrong parameters");
+                logger.log(Level.SEVERE,"wrong parameters");
                 sendError(game.getCurrPlayer().getId(), "Wrong parameters");
                 return;
             }
@@ -471,7 +473,7 @@ public class Controller implements Observer {
             game.sendInGameState();
         }
         else {
-            System.out.println("take from cloud: forbidden move");
+            logger.log(Level.SEVERE,"forbidden move");
             sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
 
@@ -482,7 +484,7 @@ public class Controller implements Observer {
             Round round = game.getCurrRound();
             Player player = round.getPlanningPhasePlayer(game.getPlayersList());
             if(player.getAssistantDeck().getAssistantById(assistantId)==null){
-                System.out.println("select assistant: wrong parameters");
+                logger.log(Level.SEVERE,"wrong parameters");
                 sendError(player.getId(), "Assistant not available");
                 return;
             }
@@ -499,7 +501,7 @@ public class Controller implements Observer {
             }
 
             if(thrownAssistants.contains(assistantId) && !thrownAssistants.containsAll(myAssistants)){ //my assistant was already thrown, and it is false that all my assistants were already thrown
-                System.out.println("select assistant: same id of other players");
+                logger.log(Level.SEVERE,"same id of other players");
                 sendError(player.getId(), "Assistant not available");
                 return;
             }
@@ -518,7 +520,7 @@ public class Controller implements Observer {
             game.sendInGameState();
         }
         else {
-            System.out.println("select assistant: forbidden move");
+            logger.log(Level.SEVERE,"forbidden move");
             sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
     }
@@ -528,7 +530,7 @@ public class Controller implements Observer {
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE) {
             Character usedCharacter = game.getCharacterById(characterId);
             if(usedCharacter==null){
-                System.out.println("use character: wrong parameters");
+                logger.log(Level.SEVERE,"wrong parameters");
                 sendError(game.getCurrPlayer().getId(), "Wrong parameters");
                 return;
             }
@@ -543,7 +545,7 @@ public class Controller implements Observer {
                 game.getCurrRound().getCurrTurn().updateIslandList(game.getIslandsList()); //we update islands because some characters calculate the influence
 
                 if(!result) {
-                    System.out.println("use character: error in character use");
+                    logger.log(Level.SEVERE,"error in character use");
                     sendError(game.getCurrPlayer().getId(), "Error in character use, no money was taken");
                     return;
                 }
@@ -563,12 +565,12 @@ public class Controller implements Observer {
                 }
             }
             else {
-                System.out.println("use character: Not enough money");
+                logger.log(Level.SEVERE,"Not enough money");
                 sendError(game.getCurrPlayer().getId(), "Not enough money");
             }
         }
         else {
-            System.out.println("forbidden move");
+            logger.log(Level.SEVERE,"forbidden move");
             sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
     }
@@ -581,15 +583,18 @@ public class Controller implements Observer {
         if(finishedRound){
             for (Player p : game.getPlayersList()){ //one player finished assistants
                 if(p.getAssistantDeck().getAssistantsList().isEmpty()){
+                    logger.log(Level.INFO,"win on finished assistants");
                     return true;
                 }
             }
         }
         else{
             if(game.getCurrPlayer().getDashboard().getTowersList().isEmpty()){ //the player finished the towers
+                logger.log(Level.INFO,"win on finished towers");
                 return true;
             }
             else if (game.getIslandsList().size()<=3){//there are only three islands on the table
+                logger.log(Level.INFO,"win on 3 island remained");
                 return true;
             }
         }

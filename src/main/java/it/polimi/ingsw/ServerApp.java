@@ -18,7 +18,6 @@ public class ServerApp
         try {
             server = new Server(3333);
             server.createTestController();
-            System.out.println("Started server");
         } catch (Exception e) {
             System.err.println("Impossible to initialize the server: " + e.getMessage() + "!");
         }

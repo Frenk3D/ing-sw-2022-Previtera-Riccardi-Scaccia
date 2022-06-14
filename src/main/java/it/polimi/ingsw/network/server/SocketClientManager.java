@@ -10,10 +10,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static it.polimi.ingsw.network.server.Server.SERVERID;
 
 public class SocketClientManager implements Runnable{
+    private final Logger logger = Logger.getLogger(getClass().getName());
     private Socket socket;
     private RemoteView remoteView;
     private Server server;
@@ -59,7 +62,7 @@ public class SocketClientManager implements Runnable{
                 }
             }
         } catch (ClassCastException | ClassNotFoundException | NullPointerException e) {
-            System.out.println("SocketClientManager: error in reception, closing socket");
+            logger.log(Level.SEVERE,"error in reception, closing socket");
             e.printStackTrace();
         }
         disconnect();
@@ -102,10 +105,10 @@ public class SocketClientManager implements Runnable{
             try {
                 if (!socket.isClosed()) {
                     socket.close();
-                    System.out.println("Socket: Client disconnected");
+                    logger.log(Level.SEVERE,"the client disconnected");
                 }
             } catch (IOException e) {
-                System.out.println("Error disconnect");
+                logger.log(Level.SEVERE,"error in disconnect");
                 e.printStackTrace();
             }
             connected = false;

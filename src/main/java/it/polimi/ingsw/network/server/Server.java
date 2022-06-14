@@ -11,8 +11,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Server{
+    private final Logger logger = Logger.getLogger(getClass().getName());
     private Map<Integer, RemoteView> remoteViewMap; //player id - remote view
     private Map<Integer, SocketClientManager> idSocketMap; //player id - socket
     private Map<SocketClientManager, Integer> socketIdMap; //socket - player id
@@ -41,7 +44,7 @@ public class Server{
     }
 
     public synchronized void onInitMessageReceived(Message message, SocketClientManager socketManager){
-        System.out.println(message.getMessageType()+ " received from client "+ message.getSenderId());
+        logger.log(Level.INFO,message.getMessageType()+ " received from client "+ message.getSenderId());
 
         switch (message.getMessageType()){
             case LOGIN_REQUEST:
@@ -75,7 +78,7 @@ public class Server{
             remoteViewMap.put(playersIdCounter,remoteView);
 
             socketManager.sendMessage(new StringMessage(MessageType.LOGIN_REPLY, SERVERID, true, playersIdCounter + ""));
-            System.out.println("Server: Added new player " + name + " id: " + playersIdCounter);
+            logger.log(Level.INFO,"added new player " + name + " id: " + playersIdCounter);
         }
         else{
             socketManager.sendMessage(new StringMessage(MessageType.ERROR_REPLY, SERVERID, true,"Nickname already used"));
@@ -143,7 +146,7 @@ public class Server{
             controller.addPlayer(player);
             watchingLobbiesPlayersList.remove(player); //if the player choose new game the method applies no changes on the list
 
-            System.out.println("Server: added player "+senderId+" to lobby "+ lobbyName);
+            logger.log(Level.INFO,"added player "+senderId+" to lobby "+ lobbyName);
 
             //if a user entered a lobby we update the list for everybody waiting
             for (Player waitingPlayer : watchingLobbiesPlayersList){
@@ -173,7 +176,8 @@ public class Server{
             remoteViewMap.remove(disconnectedPlayer.getId());
             allPlayersList.remove(disconnectedPlayer);
             watchingLobbiesPlayersList.remove(disconnectedPlayer);
-            System.out.println("Removed player "+disconnectedPlayer.getName());
+
+            logger.log(Level.INFO,"removed disconnected player "+disconnectedPlayer.getName());
         }
 
     }
@@ -211,12 +215,11 @@ public class Server{
             controller.getGame().removeObserver(remoteView);
             playerControllerMap.remove(id);
             getPlayerById(id).reset();
-            System.out.println("Removed player "+ id);
         }
 
         //remove the controller from the controllers map
         controllersMap.remove(controllerToRemove);
-        System.out.println("Removed controller "+ controllerToRemove);
+        logger.log(Level.INFO,"removed controller "+ controllerToRemove);
     }
 
     private Player getPlayerById(int id){
@@ -273,7 +276,7 @@ public class Server{
 
     public boolean checkIdSocket(Message message, SocketClientManager socketManager){
         if(message.getMessageType() != MessageType.LOGIN_REQUEST && idSocketMap.get(message.getSenderId()) != socketManager){
-            System.out.println("Received message with invalid id");
+            logger.log(Level.SEVERE,"Received message with invalid id");
             return false;
         }
         return true;
@@ -281,7 +284,6 @@ public class Server{
 
     private void sendError(int clientId, String error){
         idSocketMap.get(clientId).sendMessage(new StringMessage(MessageType.ERROR_REPLY, SERVERID, true, error));
-        System.out.println("Sent error to "+clientId +" ,"+ error);
     }
 
     public void createTestController(){
@@ -298,14 +300,14 @@ public class Server{
 
     private void pumpControllerCommands(Controller controller){
         if(controllersMap.get("test")!= null && controllersMap.get("test").equals(controller)&&!controller.isOpen() && playersIdCounter == 2){
-            System.out.println("pumping controller");
+            logger.log(Level.INFO,"pumping controller");
             controller.chooseTowerColor(1, TowerColor.BLACK);
             controller.chooseTowerColor(2,TowerColor.WHITE);
             controller.chooseWizard(1, Wizard.ASIATIC);
             controller.chooseWizard(2,Wizard.KING);
         }
         else if(controllersMap.get("mytest")!= null && controllersMap.get("mytest").equals(controller)&&!controller.isOpen() && playersIdCounter == 3){
-            System.out.println("pumping controller");
+            logger.log(Level.INFO,"pumping controller");
             controller.chooseTowerColor(1, TowerColor.BLACK);
             controller.chooseTowerColor(2,TowerColor.WHITE);
             controller.chooseTowerColor(3,TowerColor.GRAY);

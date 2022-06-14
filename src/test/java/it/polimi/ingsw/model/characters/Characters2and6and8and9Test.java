@@ -112,7 +112,6 @@ class Characters2and6and8and9Test {
         characterParameters.setPlayersList(game.getPlayersList());
         characterParameters.setTableProfessorsList(game.getTableProfessorsList());
         c2.applyEffect(characterParameters);
-        //System.out.println("\n secondo test ");
         assertNotEquals(tmpProfessorList,game.getTableProfessorsList());
         assertEquals(3, game.getTableProfessorsList().size());
         assertEquals(PawnColor.GREEN, p1.getDashboard().getProfessorByColor(PawnColor.GREEN).getColor());

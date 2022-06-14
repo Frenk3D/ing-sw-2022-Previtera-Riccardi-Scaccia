@@ -4,8 +4,11 @@ import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Player;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Characters3and4and5 extends Character{
+    private final Logger logger = Logger.getLogger(getClass().getName());
     //attributes
     private int forbidCards;
 
@@ -43,7 +46,7 @@ public class Characters3and4and5 extends Character{
 
     private boolean moveForbidCard5(Island island) {
         if(forbidCards <= 0){
-            System.out.println("Forbid cards finished!");
+            logger.log(Level.SEVERE,"Forbid cards finished!");
             return false;
         }
 
@@ -60,7 +63,7 @@ public class Characters3and4and5 extends Character{
 
     public void addForbidCard5(){
         if(forbidCards>=4){
-            System.out.println("Too many forbid cards");
+            logger.log(Level.SEVERE,"Too many forbid cards on the card");
             return;
         }
         forbidCards++;

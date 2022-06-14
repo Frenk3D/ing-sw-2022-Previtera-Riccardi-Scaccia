@@ -160,9 +160,6 @@ public class GameModel extends Observable {
             if(motherNaturePos!=pos&& pos>=0 && pos<12) { //mother nature has to move at least of 1 pos, but we have to manage illegal back moves
                 motherNaturePos = pos;
             }
-            else{
-                System.out.println("Choose a correct move");
-            }
     }
 
 

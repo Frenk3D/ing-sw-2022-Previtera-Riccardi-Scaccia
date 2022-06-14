@@ -5,11 +5,14 @@ import it.polimi.ingsw.model.enumerations.PawnColor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Bag {
     //attributes
     private List<Student> studentsList;
+    private final Logger logger = Logger.getLogger(getClass().getName());
 
     //Methods
     //constructor
@@ -43,14 +46,13 @@ public class Bag {
    */
     public List<Student> extractStudents (int num) {
         if(studentsList.size()<num){
-            System.out.println("Not enough students in bag");
+            logger.log(Level.SEVERE,"Not enough students in bag");
             return null;
         }
 
         List<Student> result = new ArrayList<>(); //..
         int remainingExtraction=num;
         while (remainingExtraction>0){
-            // for testing, to check, System.out.println(remainingExtraction);
             int randomInt = (int)(Math.random() * (studentsList.size()));
             result.add(studentsList.get(randomInt));
             studentsList.remove(randomInt);

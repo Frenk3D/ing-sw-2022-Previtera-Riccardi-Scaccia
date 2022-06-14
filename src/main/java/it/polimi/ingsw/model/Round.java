@@ -84,7 +84,6 @@ public class Round extends Observable {
         }
         else {
             resetRound();
-            System.out.println("The round is ended");
             return false;
         }
     }

@@ -90,7 +90,6 @@ public class Dashboard {
 
     public boolean addStudentHall(Student student, Player currPlayer, AtomicInteger tableMoney){
         if (getHallStudentsListByColor(student.getColor()).size()==10){
-            System.out.println("The hall is full");
             return false;
         }
         getHallStudentsListByColor(student.getColor()).add(student);

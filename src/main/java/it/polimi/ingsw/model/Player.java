@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.enumerations.TowerColor;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Player {
     //attributes
@@ -16,6 +18,7 @@ public class Player {
     private TowerColor playerTowerColor;
     private Dashboard dashboard;
     private boolean hasTower;
+    private final Logger logger = Logger.getLogger(getClass().getName());
 
     //constructor
     public Player(String name, int id){
@@ -82,7 +85,7 @@ public class Player {
 
     public void modifyMoney(int num, AtomicInteger tableMoney, boolean isUsed){ //we have this overload for the use of character
         if((numOfMoney + num) < 0 || num > 0){
-            System.out.println("there is a mistake!");
+            logger.log(Level.SEVERE,"wrong money number");
             return;
         }
 
@@ -102,7 +105,7 @@ public class Player {
         }
 
         if((tableMoney.get() - num) < 0 || (numOfMoney + num) < 0){
-            System.out.println("Both Out of money!");
+            logger.log(Level.SEVERE,"Both Out of money!");
             return;
         }
 
