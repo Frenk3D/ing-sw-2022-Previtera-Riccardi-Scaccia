@@ -43,9 +43,9 @@ public abstract class Character {
 
         //Collections.shuffle(idList);
 
-        returnList.add(Factory.newCharacter(idList.get(0)));
-        returnList.add(Factory.newCharacter(idList.get(4))); //or 1
-        returnList.add(Factory.newCharacter(idList.get(10)));
+        returnList.add(Factory.newCharacter(idList.get(6))); //we can force them
+        returnList.add(Factory.newCharacter(idList.get(7))); //or 1
+        returnList.add(Factory.newCharacter(idList.get(5)));
         return returnList;
     }
 

@@ -82,7 +82,8 @@ public class Characters1and7and11 extends Character {
 
     private boolean moveStudent11(Player cardPlayer, int studentIndex){
         try {
-            cardPlayer.getDashboard().getEntranceList().add(cardStudentsList.get(studentIndex));
+            cardPlayer.getDashboard().getHallStudentsListByColor(cardStudentsList.get(studentIndex).getColor()).add(cardStudentsList.get(studentIndex));
+            //cardPlayer.getDashboard().getEntranceList().add(cardStudentsList.get(studentIndex));
             cardStudentsList.remove(studentIndex);
             List<Student> newStudentList = bag.extractStudents(1);
             if(newStudentList != null){

@@ -543,6 +543,7 @@ public class Controller implements Observer {
             if (game.getCurrPlayer().getMoney() >= characterCost) { //check if the player has enough money to pay the character
                 boolean result = usedCharacter.applyEffect(parameters);
                 game.getCurrRound().getCurrTurn().updateIslandList(game.getIslandsList()); //we update islands because some characters calculate the influence
+                game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(), game.getTableProfessorsList());
 
                 if(!result) {
                     logger.log(Level.SEVERE,"error in character use");
