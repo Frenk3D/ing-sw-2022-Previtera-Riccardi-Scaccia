@@ -105,7 +105,7 @@ public class Player {
         }
 
         if((tableMoney.get() - num) < 0 || (numOfMoney + num) < 0){
-            logger.log(Level.SEVERE,"Both Out of money!");
+            logger.log(Level.SEVERE,"Out of money!");
             return;
         }
 

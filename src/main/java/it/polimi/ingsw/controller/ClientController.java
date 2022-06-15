@@ -173,7 +173,7 @@ public class ClientController implements ViewObserver {
                 }
                 else{clientGameModel.show("The winner is: " + stringMessage.getString());}
 
-                clientGameModel.show("Restarting...");
+                clientGameModel.show("'Restarting'...");
                 clientState = ClientState.CHOOSING_JOIN_CREATE;
                 teamLeader = true;
                 teamId = client.getClientId();

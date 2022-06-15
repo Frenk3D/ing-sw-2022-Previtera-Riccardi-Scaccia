@@ -68,7 +68,7 @@ public class ClientSocket  {
                     System.out.println("Received: " + message.getMessageType()); //only for debug
                     clientController.onMessageReceived(message);
                 } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                     disconnect();
                 }
             }

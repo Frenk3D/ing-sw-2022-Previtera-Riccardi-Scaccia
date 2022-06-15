@@ -81,7 +81,7 @@ public class Server{
             logger.log(Level.INFO,"added new player " + name + " id: " + playersIdCounter);
         }
         else{
-            socketManager.sendMessage(new StringMessage(MessageType.ERROR_REPLY, SERVERID, true,"Nickname already used"));
+            socketManager.sendMessage(new StringMessage(MessageType.ERROR_REPLY, SERVERID, true,"Nickname already used or empty"));
         }
     }
 
@@ -174,7 +174,7 @@ public class Server{
             allPlayersList.remove(disconnectedPlayer);
             watchingLobbiesPlayersList.remove(disconnectedPlayer);
 
-            if(controller.isOpen()){
+            if(controller!=null && controller.isOpen()){
                 broadcastAvailableLobbies();
             }
 

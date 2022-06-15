@@ -22,21 +22,31 @@ public class Characters10and12 extends Character{
 
     private boolean swapStudents10(Player cardPlayer, List<Integer> studentsIndexEntranceList, PawnColor hallStudentColor1, PawnColor hallStudentColor2){
         //if we swap students of the same colors, the ref of the students swapped are not right, but the colors yes, it's ok
-
+        int cont=0;
+        List<Student> tmp = cardPlayer.getDashboard().getEntranceList();
         try {
             for (Integer i : studentsIndexEntranceList) {
-                PawnColor selectedColor = cardPlayer.getDashboard().getEntranceList().get(i).getColor(); //the ref of the students are different, but they are the same colors
-                cardPlayer.getDashboard().getHallStudentsListByColor(selectedColor).add(cardPlayer.getDashboard().getEntranceList().get(i));
-            }
-            for(int i=0; i<studentsIndexEntranceList.size(); i++) {
-                cardPlayer.getDashboard().getEntranceList().remove(studentsIndexEntranceList.get(0));
+                PawnColor selectedColor = cardPlayer.getDashboard().getEntranceList().get(i.intValue()).getColor(); //the ref of the students are different, but they are the same colors
+                cardPlayer.getDashboard().getHallStudentsListByColor(selectedColor).add(cardPlayer.getDashboard().getEntranceList().get(i.intValue()));
             }
 
-            int size1 = cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor1).size();
-            cardPlayer.getDashboard().getEntranceList().add(cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor1).remove(size1 - 1));
+            for(int i=0; i<studentsIndexEntranceList.size(); i++) {
+                if (cont == 1) {
+                    Student tmpStud = cardPlayer.getDashboard().getEntranceList().get(studentsIndexEntranceList.get(i));
+                    tmp.remove(tmpStud);
+                } else {
+                    tmp.remove(studentsIndexEntranceList.get(i).intValue());
+                    cont++;
+                }
+            }
+
+            cardPlayer.getDashboard().setEntranceList(tmp);
+
+            //int size1 = cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor1).size();
+            cardPlayer.getDashboard().getEntranceList().add(cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor1).remove(0));
             if (studentsIndexEntranceList.size() == 2) {
-                int size2 = cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor2).size();
-                cardPlayer.getDashboard().getEntranceList().add(cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor2).remove(size2 - 1)); //we add students at the end of the list
+                //int size2 = cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor2).size();
+                cardPlayer.getDashboard().getEntranceList().add(cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor2).remove(0)); //we add students at the end of the list
             }
             return true;
         }
@@ -73,7 +83,7 @@ public class Characters10and12 extends Character{
     public boolean applyEffect(CharacterParameters params) {
         switch (id){
             case 10:
-                return swapStudents10(params.getPlayer(),params.getStudentsIndexList(),params.getSelectedColor(),params.getSelectedColor2());
+                return swapStudents10(params.getPlayer(),params.getStudentsIndexEntranceList(),params.getSelectedColor(),params.getSelectedColor2());
             case 12:
                 return fillBagFromHall12(params.getSelectedColor(),params.getPlayersList());
             default:

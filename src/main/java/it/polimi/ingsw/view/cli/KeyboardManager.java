@@ -309,7 +309,7 @@ public class KeyboardManager implements Runnable{
                         params.setIslandIndex(parsedSplitted.get(1));
                     }
                     else{
-                        System.out.println("Params not correct, try again");
+                        System.out.println("Params not correct, try again to write the params");
                         return;
                     }
                         break;
@@ -387,7 +387,7 @@ public class KeyboardManager implements Runnable{
                         }
 
                         for(int i = listsize2 ; i< splitted.length ; i++){
-                            int parsed = Integer.parseInt(splitted[i]);
+                            int parsed = Integer.parseInt(splitted[i]) - 1;
                             studentsEntranceList2.add(parsed);
                         }
 

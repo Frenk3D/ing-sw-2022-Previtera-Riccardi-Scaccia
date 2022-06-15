@@ -117,7 +117,7 @@ public class GameModel extends Observable {
             tableMoney = new AtomicInteger();
             tableMoney.set(20);
             for (Player p: playersList){
-                p.modifyMoney(5,tableMoney);
+                p.modifyMoney(10,tableMoney);
             }
             CharacterParameters parameters = new CharacterParameters();
             parameters.setBag(bag);
