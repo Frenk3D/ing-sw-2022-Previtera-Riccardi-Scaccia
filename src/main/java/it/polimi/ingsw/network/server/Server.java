@@ -149,11 +149,8 @@ public class Server{
             logger.log(Level.INFO,"added player "+senderId+" to lobby "+ lobbyName);
 
             //if a user entered a lobby we update the list for everybody waiting
-            for (Player waitingPlayer : watchingLobbiesPlayersList){
-                SocketClientManager destSocket = idSocketMap.get(waitingPlayer.getId());
-                LobbyMessage lobbyMessage = new LobbyMessage(SERVERID, getAvailableLobbiesList());
-                destSocket.sendMessage(lobbyMessage);
-            }
+            broadcastAvailableLobbies();
+            //pump the controller if needed
             pumpControllerCommands(controller);
 
         }
@@ -176,6 +173,10 @@ public class Server{
             remoteViewMap.remove(disconnectedPlayer.getId());
             allPlayersList.remove(disconnectedPlayer);
             watchingLobbiesPlayersList.remove(disconnectedPlayer);
+
+            if(controller.isOpen()){
+                broadcastAvailableLobbies();
+            }
 
             logger.log(Level.INFO,"removed disconnected player "+disconnectedPlayer.getName());
         }
@@ -314,6 +315,14 @@ public class Server{
             controller.chooseWizard(1, Wizard.ASIATIC);
             controller.chooseWizard(2,Wizard.KING);
             controller.chooseWizard(3,Wizard.WITCH);
+        }
+    }
+
+    private void broadcastAvailableLobbies(){
+        for (Player waitingPlayer : watchingLobbiesPlayersList){
+            SocketClientManager destSocket = idSocketMap.get(waitingPlayer.getId());
+            LobbyMessage lobbyMessage = new LobbyMessage(SERVERID, getAvailableLobbiesList());
+            destSocket.sendMessage(lobbyMessage);
         }
     }
 }

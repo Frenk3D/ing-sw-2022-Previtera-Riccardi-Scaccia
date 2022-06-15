@@ -304,7 +304,7 @@ public class Controller implements Observer {
 
     //methods
     //ACTION PHASE 1
-    public void moveStudentIsland(int entranceListIndex,int islandIndex){
+    public synchronized void moveStudentIsland(int entranceListIndex,int islandIndex){
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.MOVE_STUDENT_STATE) {
             Player currPlayer = game.getCurrPlayer();
             if(currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex)==null||game.getIslandByIndex(islandIndex)==null){
@@ -329,7 +329,7 @@ public class Controller implements Observer {
     }
 
     //ACTION PHASE 1
-    public void moveStudentDashboard(int entranceListIndex){
+    public synchronized void moveStudentDashboard(int entranceListIndex){
         if(game.getCurrRound().getStage()== RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.MOVE_STUDENT_STATE){
             Player currPlayer = game.getCurrPlayer();
             if(currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex)==null){
@@ -373,7 +373,7 @@ public class Controller implements Observer {
     }
 
     //ACTION PHASE 2
-    public void moveMotherNature(int islandIndex){
+    public synchronized void moveMotherNature(int islandIndex){
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage()== TurnState.MOVE_MOTHER_NATURE_STATE){
 
             int prevMotherNaturePos = game.getMotherNaturePos();
@@ -424,12 +424,12 @@ public class Controller implements Observer {
 
             if(game.getCurrRound().isLastRound() && !game.getCurrRound().nextTurn()){ //if it is the last round because students in the bag finished we jump to next turn, if turn is the last we find the winner
                 game.sendWin(getWinner());
-                server.deleteLobby(this);
+                new Thread(() -> server.deleteLobby(this)).start();
                 return;
             }
             else if(checkWin(false)){
                 game.sendWin(getWinner());
-                server.deleteLobby(this);
+                new Thread(() -> server.deleteLobby(this)).start();
                 return;
             }
             else {
@@ -444,7 +444,7 @@ public class Controller implements Observer {
     }
 
     //ACTION PHASE 3
-    public void takeFromCloud(int cloudIndex){ //they go in the entranceList
+    public synchronized void takeFromCloud(int cloudIndex){ //they go in the entranceList
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.CHOOSE_CLOUD_STATE){
             if(game.getCloudByIndex(cloudIndex)==null || game.getCloudByIndex(cloudIndex).getStudents().isEmpty()){
                 logger.log(Level.SEVERE,"wrong parameters");
@@ -460,7 +460,7 @@ public class Controller implements Observer {
             if(!result){ //the round is ended and we fill the clouds again
                 if (checkWin(true)) {
                     game.sendWin(getWinner());
-                    server.deleteLobby(this);
+                    new Thread(() -> server.deleteLobby(this)).start();
                     return;
                 }
 
@@ -479,7 +479,7 @@ public class Controller implements Observer {
 
     }
 
-    public void selectAssistant(int assistantId){
+    public synchronized void selectAssistant(int assistantId){
         if(game.getCurrRound().getStage() == RoundState.PLANNING_STATE) {
             Round round = game.getCurrRound();
             Player player = round.getPlanningPhasePlayer(game.getPlayersList());
@@ -526,7 +526,7 @@ public class Controller implements Observer {
     }
 
 
-    public void useCharacter(int characterId, CharacterParameters parameters){
+    public synchronized void useCharacter(int characterId, CharacterParameters parameters){
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE) {
             Character usedCharacter = game.getCharacterById(characterId);
             if(usedCharacter==null){
@@ -561,7 +561,7 @@ public class Controller implements Observer {
 
                 if(checkWin(false)){
                     game.sendWin(getWinner());
-                    server.deleteLobby(this);
+                    new Thread(() -> server.deleteLobby(this)).start();
                     return;
                 }
             }
