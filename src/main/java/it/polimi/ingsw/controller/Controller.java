@@ -547,6 +547,7 @@ public class Controller implements Observer {
                     game.setMotherNaturePosition(newMotherNaturePos);
                 }  //we update islands because some characters calculate the influence
                 game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(), game.getTableProfessorsList());
+                game.getCurrRound().getCurrTurn().returnProfessorsToTable(game.getPlayersList(), game.getTableProfessorsList());
 
                 if(!result) {
                     logger.log(Level.SEVERE,"error in character use");

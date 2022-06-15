@@ -97,6 +97,19 @@ public class Turn {
         return -1;
     }
 
+    public void returnProfessorsToTable(List<Player> playersList, List<Professor> tableProfessorsList){
+        for (PawnColor currColor : PawnColor.values()) {
+            for (Player p : playersList){
+                Professor currProfessor = p.getDashboard().getProfessorByColor(currColor);
+                if(currProfessor!=null && p.getDashboard().getNumOfHallStudents(currColor)==0){
+                    p.getDashboard().getProfessorsList().remove(currProfessor);
+                    tableProfessorsList.add(currProfessor);
+                }
+            }
+
+        }
+    }
+
     public int updateIslandList(List<Island> islandsList){
         int updatedMotherNature = -1;
         boolean merged = false;
