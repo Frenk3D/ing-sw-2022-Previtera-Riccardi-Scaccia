@@ -11,20 +11,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="rootPane" stylesheets="@../css/table-scene.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView pickOnBounds="true">
-         <image>
-            <Image url="@../images/bg_table.png" />
-         </image>
-         <StackPane.margin>
-            <Insets />
-         </StackPane.margin>
-      </ImageView>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <center>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="420.0" prefWidth="830.0" BorderPane.alignment="CENTER">
                <children>
                   <StackPane fx:id="island1Pane" alignment="TOP_LEFT" layoutY="200.0" prefHeight="150.0" prefWidth="150.0">
                      <children>
@@ -162,7 +153,7 @@
                         </VBox>
                      </children>
                   </StackPane>
-                  <StackPane fx:id="island9Pane" alignment="TOP_LEFT" layoutX="550.0" layoutY="410.0" prefHeight="150.0" prefWidth="150.0">
+                  <StackPane fx:id="island9Pane" alignment="TOP_LEFT" layoutX="550.0" layoutY="410.0" prefHeight="130.0" prefWidth="150.0">
                      <children>
                         <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -179,7 +170,7 @@
                         </VBox>
                      </children>
                   </StackPane>
-                  <StackPane fx:id="island10Pane" alignment="TOP_LEFT" layoutX="400.0" layoutY="410.0" prefHeight="150.0" prefWidth="150.0">
+                  <StackPane fx:id="island10Pane" alignment="TOP_LEFT" layoutX="400.0" layoutY="410.0" prefHeight="130.0" prefWidth="150.0">
                      <children>
                         <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -196,7 +187,7 @@
                         </VBox>
                      </children>
                   </StackPane>
-                  <StackPane fx:id="island11Pane" alignment="TOP_LEFT" layoutX="250.0" layoutY="410.0" prefHeight="150.0" prefWidth="150.0">
+                  <StackPane fx:id="island11Pane" alignment="TOP_LEFT" layoutX="250.0" layoutY="410.0" prefHeight="130.0" prefWidth="150.0">
                      <children>
                         <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                            <image>

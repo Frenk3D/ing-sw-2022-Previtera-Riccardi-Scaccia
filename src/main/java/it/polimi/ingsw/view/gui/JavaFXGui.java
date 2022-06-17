@@ -18,6 +18,7 @@ import java.io.IOException;
 public class JavaFXGui extends Application {
     Stage rootLayout;
     Scene firstScene;
+    Scene secondScene;
 
     @Override
     public void start(Stage stage) {
@@ -32,13 +33,26 @@ public class JavaFXGui extends Application {
         }
 
         stage.setScene(firstScene);
-        stage.setTitle("Dashboard");
+        stage.setTitle("Game");
         stage.setWidth(999);
         stage.setHeight(434);
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.show();
 
 
+        Stage stage2 = new Stage();
+        loader = new FXMLLoader(JavaFXGui.class.getResource("/fxml/TableScene.fxml"));
+        try {
+            secondScene = new Scene(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage2.setScene(secondScene);
+        stage2.setTitle("Dashboard");
+        stage2.setWidth(999);
+        stage2.setHeight(434);
+        stage2.setResizable(true);
+        stage2.show();
 
         Platform.runLater(() -> {
                     DashboardSceneController dashboardController = ((FXMLLoader) firstScene.getUserData()).getController();
