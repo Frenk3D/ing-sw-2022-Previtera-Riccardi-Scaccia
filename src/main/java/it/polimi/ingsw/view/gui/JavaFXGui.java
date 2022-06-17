@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.model.client.ReducedDashboard;
+import it.polimi.ingsw.view.gui.scene.DashboardSceneController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -20,23 +22,28 @@ public class JavaFXGui extends Application {
     @Override
     public void start(Stage stage) {
 
-        FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource("/fxml/TableScene.fxml"));
+        FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource("/fxml/DashboardScene.fxml"));
 
         try {
             firstScene = new Scene(loader.load());
+            firstScene.setUserData(loader);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         stage.setScene(firstScene);
         stage.setTitle("Dashboard");
-        //stage.setWidth(999);
-        //stage.setHeight(434);
-        stage.setFullScreen(true);
+        stage.setWidth(999);
+        stage.setHeight(434);
         stage.setResizable(false);
         stage.show();
 
 
+
+        Platform.runLater(() -> {
+                    DashboardSceneController dashboardController = ((FXMLLoader) firstScene.getUserData()).getController();
+                    dashboardController.loadDashboard();
+                });
 
 
         /*
