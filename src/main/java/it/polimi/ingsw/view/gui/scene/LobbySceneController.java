@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.gui.scene;
 
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.network.message.PlayerJoinMessage;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.gui.SceneController;
@@ -15,59 +17,38 @@ import java.util.List;
 // * This class implements the scene where players wait for other players to join the game.
 // */
 public class LobbySceneController extends ViewObservable implements GenericSceneController {
-//
-//    private List<String> nicknames;
-//    private int maxPlayers;
-//
-//    @FXML
-//    private Label playersLbl;
-//    @FXML
-//    private Label numbersLbl;
-//    @FXML
-//    private Button backToMenuBtn;
-//
-//    @FXML
-//    public void initialize() {
-//        playersLbl.setText(String.join(", ", nicknames));
-//        numbersLbl.setText(nicknames.size() + "/" + maxPlayers);
-//
-//        backToMenuBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onBackToMenuBtnClick);
-//    }
-//
-//    /**
-//     * Handle click on back to menu button.
-//     *
-//     * @param event the mouse click event.
-//     */
-//    private void onBackToMenuBtnClick(Event event) {
-//        backToMenuBtn.setDisable(true);
-//        new Thread(() -> notifyObserver(ViewObserver::onDisconnection)).start();
-//        SceneController.changeRootPane(observers, event, "menu_scene.fxml");
-//    }
-//
-//    /**
-//     * Set nicknames already logged in game.
-//     *
-//     * @param nicknames list of nicknames.
-//     */
-//    public void setNicknames(List<String> nicknames) {
-//        this.nicknames = nicknames;
-//    }
-//
-//    /**
-//     * Set number of max players chosen by first user.
-//     *
-//     * @param maxPlayers number of max players in game.
-//     */
-//    public void setMaxPlayers(int maxPlayers) {
-//        this.maxPlayers = maxPlayers;
-//    }
-//
-//    /**
-//     * Update nicknames and number of players connecte every time a user join.
-//     */
-//    public void updateValues() {
-//        playersLbl.setText(String.join(", ", this.nicknames));
-//        numbersLbl.setText(this.nicknames.size() + "/" + this.maxPlayers);
-//   }
+
+    @FXML
+    private Label player1Label;
+
+    @FXML
+    private Label player2Label;
+
+    @FXML
+    private Label player3Label;
+
+    @FXML
+    private Label player4Label;
+
+    public void setPlayersLabel(List<Player> playersList){
+        if(playersList.size() == 2){
+            player1Label.setText(playersList.get(0).getName());
+            player2Label.setText(playersList.get(1).getName());
+            player3Label.setVisible(false);
+            player4Label.setVisible(false);
+        }
+        if(playersList.size() == 3){
+            player1Label.setText(playersList.get(0).getName());
+            player2Label.setText(playersList.get(1).getName());
+            player3Label.setText(playersList.get(2).getName());
+            player4Label.setVisible(false);
+        }
+        if(playersList.size() == 4){
+            player1Label.setText(playersList.get(0).getName());
+            player2Label.setText(playersList.get(1).getName());
+            player3Label.setText(playersList.get(2).getName());
+            player4Label.setText(playersList.get(3).getName());
+        }
+
+    }
 }

@@ -71,7 +71,7 @@ public class LoginSceneController extends ViewObservable implements GenericScene
             new Thread(() -> notifyObserver(obs -> obs.onAskServerInfo(serverInfo))).start();
 
         }
-        SceneController.changeRootPane(observers,event,"AskOrCreateScene.fxml");
+        SceneController.changeRootPane(observers,event,"AskCreateOrJoinScene.fxml");
     }
 
 //    private void onJoinOrCreateBtnClick(Event event) {
