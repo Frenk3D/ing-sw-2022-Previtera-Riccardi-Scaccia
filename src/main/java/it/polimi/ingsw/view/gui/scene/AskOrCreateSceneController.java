@@ -7,7 +7,7 @@ import javafx.scene.input.MouseEvent;
 import javax.swing.event.DocumentEvent;
 import java.util.Map;
 
-public class AskOrCreateSceneController extends ViewObservable implements GenericSceneController{
+public class AskOrCreateSceneController extends ViewObservable{
     @FXML
     private Button joinBtn;
 
