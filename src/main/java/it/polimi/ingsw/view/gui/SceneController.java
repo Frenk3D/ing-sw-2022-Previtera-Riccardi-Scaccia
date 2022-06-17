@@ -174,23 +174,23 @@ public class SceneController extends ViewObservable {
      * @param message the message of the popup.
      */
 
-    public static void showAlert(String title, String message) {
-        FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/alert_scene.fxml"));
-
-        Parent parent;
-        try {
-            parent = loader.load();
-        } catch (IOException e) {
-            //Client.LOGGER.severe(e.getMessage());
-            return;
-        }
-        AlertSceneController alertSceneController = loader.getController();
-        Scene alertScene = new Scene(parent);
-        alertSceneController.setScene(alertScene);
-        alertSceneController.setAlertTitle(title);
-        alertSceneController.setAlertMessage(message);
-        alertSceneController.displayAlert();
-    }
+//    public static void showAlert(String title, String message) {
+//        FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/alert_scene.fxml"));
+//
+//        Parent parent;
+//        try {
+//            parent = loader.load();
+//        } catch (IOException e) {
+//            //Client.LOGGER.severe(e.getMessage());
+//            return;
+//        }
+//        AlertSceneController alertSceneController = loader.getController();
+//        Scene alertScene = new Scene(parent);
+//        alertSceneController.setScene(alertScene);
+//        alertSceneController.setAlertTitle(title);
+//        alertSceneController.setAlertMessage(message);
+//        alertSceneController.displayAlert();
+//    }
 }
 
 ///**
