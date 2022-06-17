@@ -431,9 +431,13 @@ public class ClientController implements ViewObserver {
      */
     @Override
     public void onSendUseCharacter(MessageCharacterParameters params) {
+        if(ClientInputVerifier.verifyCharacterParams(params, clientGameModel)){
         UseCharacterMessage message = new UseCharacterMessage(client.getClientId(), params);
         clientState = ClientState.USED_CHARACTER;
-        client.sendMessage(message);
+        client.sendMessage(message);}
+        else{
+            clientGameModel.show("The params are not correct");
+        }
     }
 
     public void onSocketDisconnect(){   //this happens only when there is a mine critical problem
@@ -520,6 +524,7 @@ public class ClientController implements ViewObserver {
             case USED_CHARACTER:
                 clientState= prevClientState;
                 usedCharacter = -1;
+                clientGameModel.show("Retry to use character or continue playing"); //for clarity
                 //only the print of the string is ok and reset to the prev clientState
                 break;
 

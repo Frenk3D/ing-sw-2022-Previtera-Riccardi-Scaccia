@@ -542,10 +542,16 @@ public class Controller implements Observer {
             }
             if (game.getCurrPlayer().getMoney() >= characterCost) { //check if the player has enough money to pay the character
                 boolean result = usedCharacter.applyEffect(parameters);
+                Island prevIsl = game.getIslandByIndex(game.getMotherNaturePos());
+                int prevIslListsize = game.getIslandsList().size();
                 int newMotherNaturePos = game.getCurrRound().getCurrTurn().updateIslandList(game.getIslandsList());
-                if(newMotherNaturePos != -1){
+                int diff = prevIslListsize- game.getIslandsList().size();
+                if(newMotherNaturePos != -1 && (!game.getIslandsList().contains(prevIsl)  || parameters.getIsland() == prevIsl )){
                     game.setMotherNaturePosition(newMotherNaturePos);
                 }  //we update islands because some characters calculate the influence
+                else if(diff !=0 && newMotherNaturePos<game.getMotherNaturePos()){
+                    game.setMotherNaturePosition((game.getMotherNaturePos()) - diff);
+                }
                 game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(), game.getTableProfessorsList());
                 game.getCurrRound().getCurrTurn().returnProfessorsToTable(game.getPlayersList(), game.getTableProfessorsList());
 

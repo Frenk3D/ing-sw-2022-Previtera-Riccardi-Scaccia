@@ -15,6 +15,19 @@ public class MessageCharacterParameters implements Serializable {
     private PawnColor selectedColor;
     private PawnColor selectedColor2;
 
+    //tableMoney?
+
+
+    public MessageCharacterParameters() {
+        characterId = -1;
+        islandIndex = -1;
+        studentsIndexList = null;
+        studentsIndexEntranceList = null;
+        studentIndex = -1;
+        selectedColor = null;
+        selectedColor2 = null;
+    }
+
     public int getCharacterId() {
         return characterId;
     }
