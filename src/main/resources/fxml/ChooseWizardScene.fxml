@@ -1,14 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="fxml.ChooseWizardScene"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url('../images/magia.jpg');" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.ChooseWizardScene">
+   <children>
+      <Label layoutX="126.0" layoutY="50.0" prefHeight="41.0" prefWidth="317.0" text="Choose a wizard from the available:">
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.9200000166893005" green="0.09602225571870804" blue="0.04600000008940697" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.9200000166893005" green="0.04600000008940697" blue="0.04600000008940697" opacity="0.5699999928474426" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </textFill>
+         <font>
+            <Font name="Times Roman" size="21.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="200.0" fitWidth="135.0" layoutY="113.0">
+         <image>
+            <Image url="@../images/MAGO%201_1.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="135.0" layoutX="150.0" layoutY="113.0">
+         <image>
+            <Image url="@../images/MAGO%202_1.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="135.0" layoutX="308.0" layoutY="113.0">
+         <image>
+            <Image url="@../images/MAGO%203_1_correzioni.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="135.0" layoutX="465.0" layoutY="113.0">
+         <image>
+            <Image url="@../images/MAGO%204_1.jpg" />
+         </image>
+      </ImageView>
+   </children>
 </AnchorPane>

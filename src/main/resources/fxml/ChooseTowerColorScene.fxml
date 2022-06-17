@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="fxml.ChooseTowerColor"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.ChooseTowerColor">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="167.0" layoutY="59.0" prefHeight="46.0" prefWidth="270.0" text="Choose a tower color from the available:" textFill="#16836f" wrapText="true">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="386.0" layoutY="128.0">
+         <image>
+            <Image url="@../images/torre%20grigia.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="133.0" fitWidth="200.0" layoutX="192.0" layoutY="154.0">
+         <image>
+            <Image url="@../images/torre%20bianca.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="9.0" layoutY="127.0">
+         <image>
+            <Image url="@../images/torre%20nera.png" />
+         </image>
+      </ImageView>
+   </children>
 </AnchorPane>

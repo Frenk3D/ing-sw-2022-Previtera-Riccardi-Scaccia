@@ -115,9 +115,9 @@ public class GameModel extends Observable {
         if(expertMode){
             charactersList = Character.extractCharacters();
             tableMoney = new AtomicInteger();
-            tableMoney.set(60);
+            tableMoney.set(20);
             for (Player p: playersList){
-                p.modifyMoney(30,tableMoney);
+                p.modifyMoney(1,tableMoney);
             }
             CharacterParameters parameters = new CharacterParameters();
             parameters.setBag(bag);
