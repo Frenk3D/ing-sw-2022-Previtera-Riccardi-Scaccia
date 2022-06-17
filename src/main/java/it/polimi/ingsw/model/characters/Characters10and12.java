@@ -42,6 +42,7 @@ public class Characters10and12 extends Character{
             for (Integer i : studentsIndexEntranceList) {
                 PawnColor selectedColor = cardPlayer.getDashboard().getEntranceList().get(i).getColor(); //the ref of the students are different, but they are the same colors
                 cardPlayer.getDashboard().getHallStudentsListByColor(selectedColor).add(cardPlayer.getDashboard().getEntranceList().get(i));
+                //cardPlayer.getDashboard().addStudentHall(cardPlayer.getDashboard().getEntranceList().get(i), cardPlayer,tableMoney);
                 studentsToRemove.add(cardPlayer.getDashboard().getEntranceList().get(i));
             }
             //remove selected students from the entrance
