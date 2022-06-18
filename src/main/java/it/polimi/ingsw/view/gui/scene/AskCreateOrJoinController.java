@@ -47,14 +47,14 @@ public class AskCreateOrJoinController extends ViewObservable implements Generic
     public void onJoinBtnClick(Event event){
         joinBtn.setDisable(true);
         createBtn.setDisable(true);
-        SceneController.changeRootPane(observers,event,"joinScene.fxml");
+        SceneController.changeRootPane(observers,"joinScene.fxml");
         new Thread(() -> notifyObserver(obs -> obs.onSendLobbiesRequest())).start();
     }
     @FXML
     public void onCreateBtnClick(Event event){
         joinBtn.setDisable(true);
         createBtn.setDisable(true);
-        SceneController.changeRootPane(observers,event,"CreateScene.fxml");
+        SceneController.changeRootPane(observers,"CreateScene.fxml");
     }
     @FXML
     public void onCheckBoxClick(Event event){
@@ -72,7 +72,7 @@ public class AskCreateOrJoinController extends ViewObservable implements Generic
         String lobby = lobbyName.getText();
         int players = Integer.parseInt(numOfPlayers.getText());
         new Thread(() -> notifyObserver(obs -> obs.onSendNewLobbyRequest(lobby,players,expertMode))).start();
-        SceneController.changeRootPane(observers,event,"LobbyScene.fxml");
+        SceneController.changeRootPane(observers,"LobbyScene.fxml");
     }
 
 

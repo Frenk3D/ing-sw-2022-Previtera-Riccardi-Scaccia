@@ -265,6 +265,7 @@ public class ClientController implements ViewObserver {
     //from now there are the override of the ViewObserver interface
     @Override
     public void onAskServerInfo(Map<String, String> serverInfo)  {
+        System.out.println("requested");
         try {
             client = new ClientSocket(serverInfo.get("address"), Integer.parseInt(serverInfo.get("port")), this);
             clientState = ClientState.REQUESTING_LOGIN;

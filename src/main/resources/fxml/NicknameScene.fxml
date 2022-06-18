@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.NicknameSceneController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="720.0" prefWidth="1280.0" spacing="10.0">
+         <children>
+            <Label text="Enter your nickname" />
+            <TextField fx:id="textNickname" maxWidth="-Infinity" />
+            <Button fx:id="buttonSubmitNickname" mnemonicParsing="false" text="Submit" />
+         </children>
+      </VBox>
+   </children>
+</StackPane>

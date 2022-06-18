@@ -13,6 +13,7 @@ import javafx.application.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
@@ -31,19 +32,27 @@ public class Gui extends View {
     private static final String MENU_SCENE_FXML = "menu_scene.fxml";
 
 
-
     @Override
     public void onAskServerInfo() {
-
+        LoginSceneController controller = (LoginSceneController) SceneController.getActiveController();
+        Platform.runLater(controller::errorInServer);
     }
     @Override
     public void onSendLoginRequest() {
-
+        Platform.runLater(() -> {
+            if(SceneController.getCurrFxml().equals("NicknameScene.fxml")){
+                NicknameSceneController controller = (NicknameSceneController) SceneController.getActiveController();
+                controller.setError();
+            }
+            else {
+                SceneController.changeRootPane(observers, "NicknameScene.fxml");
+            }
+        });
     }
 
     @Override
     public void onAskCreateOrJoin() {
-
+        Platform.runLater(() -> SceneController.changeRootPane(observers, "AskCreateOrJoinScene.fxml"));
     }
 
 
