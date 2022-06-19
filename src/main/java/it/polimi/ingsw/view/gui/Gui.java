@@ -229,4 +229,9 @@ public class Gui extends View {
     public void onShowGame(ClientGameModel clientGameModel){
 
     }
+
+    @Override
+    public void onShowPlayerJoin(List<String> playersList) {
+
+    }
 }

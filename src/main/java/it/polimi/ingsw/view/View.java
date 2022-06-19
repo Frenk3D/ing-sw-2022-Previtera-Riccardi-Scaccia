@@ -80,6 +80,8 @@ public abstract class View extends ViewObservable implements ModelObserver {
 
     @Override
     public abstract void onShow(Object toShow) ;  //generic to show everything in base to the type...
+    @Override
+    public abstract  void onShowPlayerJoin(List<String> playersList) ;
 
     @Override
     public abstract void updateClientGameModel(ClientGameModel clientGameModel) ;

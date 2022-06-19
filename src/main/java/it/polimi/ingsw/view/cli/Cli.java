@@ -290,10 +290,9 @@ public class Cli extends View {
      * @param toShow
      */
     @Override
-    public void onShow(Object toShow) { //we can print in different way in base of the type
-    if (toShow instanceof String){   //not typeOf...
+    public void onShow(Object toShow) { //we can print in different way in base of the type  //not typeOf...
         System.out.println(toShow);
-        }
+
     }
 
     @Override
@@ -305,6 +304,16 @@ public class Cli extends View {
     public void onShowGame(ClientGameModel clientGameModel){
         clearCli();
         gamePrinter.print(clientGameModel);
+    }
+
+    @Override
+    public void onShowPlayerJoin(List<String> playersList){
+        out.println("The players in the lobby are:");;
+        for(String player: playersList){
+            out.println("Player: " + player);;
+        }
+        out.println("Waiting for other players...");;
+
     }
 
 

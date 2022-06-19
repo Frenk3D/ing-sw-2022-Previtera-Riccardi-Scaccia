@@ -61,6 +61,8 @@ public interface ModelObserver {
 
     void onShow(Object toShow);
 
+    void onShowPlayerJoin(List<String> playersList);
+
     void updateClientGameModel(ClientGameModel clientGameModel);
 
     void onShowGame(ClientGameModel clientGameModel);

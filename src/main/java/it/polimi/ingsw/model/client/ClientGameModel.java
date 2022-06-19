@@ -232,12 +232,7 @@ public class ClientGameModel extends ModelObservable {
     }
 
     public void showPlayerJoin(List<String> playersList){
-        notifyObserver(obs -> obs.onShow("The players in the lobby are:"));
-        for(String player: playersList){
-            notifyObserver(obs -> obs.onShow("Player: " + player));
-        }
-        notifyObserver(obs -> obs.onShow("Waiting for other players..."));
-
+        notifyObserver(obs -> obs.onShowPlayerJoin(playersList));
     }
 
     public void showGame(){  //it is a generic function to print or show some info on view, Object can be everything also null
