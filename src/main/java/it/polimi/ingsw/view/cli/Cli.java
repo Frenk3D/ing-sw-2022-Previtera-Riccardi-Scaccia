@@ -54,8 +54,8 @@ public class Cli extends View {
 
         out.println(welcome);
 
-        out.println("\nWelcome to the magic world of Eriantys!\n");
-        out.println("Enjoy from Marco Previtera, Francesco Riccardi and Nicolò Scaccia");
+        out.println("\n             Welcome to the magic world of Eriantys!");
+        out.println("Have fun, from Marco Previtera, Francesco Riccardi and Nicolò Scaccia\n");
 
 
         onAskServerInfo();
