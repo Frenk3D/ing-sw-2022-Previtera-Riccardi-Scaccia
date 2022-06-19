@@ -5,15 +5,24 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.text.Font?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.NicknameSceneController">
    <children>
       <VBox alignment="CENTER" prefHeight="720.0" prefWidth="1280.0" spacing="10.0">
          <children>
-            <Label text="Enter your nickname" />
-            <TextField fx:id="textNickname" maxWidth="-Infinity" />
-            <Button fx:id="buttonSubmitNickname" mnemonicParsing="false" text="Submit" />
+            <Label text="Enter your nickname">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font></Label>
+            <TextField fx:id="textNickname" maxWidth="-Infinity">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <Button fx:id="buttonSubmitNickname" mnemonicParsing="false" text="Submit">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
          </children>
       </VBox>
    </children>

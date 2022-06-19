@@ -1,30 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<Pane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.LoginSceneController">
-    <children>
-        <ImageView fitHeight="780.0" fitWidth="1280.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../images/sky.jpg" />
-            </image>
-        </ImageView>
-        <Text fill="#d40a8e" fontSmoothingType="LCD" layoutX="150.0" layoutY="74.0" strokeType="INSIDE" strokeWidth="0.0" text="ERIANTYS">
-            <font>
-                <Font name="Constantia" size="64.0" />
-            </font>
-        </Text>
-      <TextField id="serverAddressField" fx:id="serverAddressField" layoutX="225.0" layoutY="157.0" promptText="Insert Server address" text="localhost" />
-      <TextField id="serverPortField" fx:id="serverPortField" layoutX="225.0" layoutY="203.0" promptText="Insert Server port" text="3333" />
-      <Button id="connectBtn" fx:id="connectBtn" alignment="CENTER" layoutX="260.0" layoutY="249.0" mnemonicParsing="false" onAction="#onConnectBtnClick" prefHeight="32.0" prefWidth="79.0" text="Connect">
-         <font>
-            <Font size="15.0" />
-         </font></Button>
-    </children>
-</Pane>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.LoginSceneController">
+   <children>
+      <ImageView fitHeight="780.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/sky.jpg" />
+         </image>
+      </ImageView>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <center>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/eriantys_text_logo.png" />
+                     </image>
+                  </ImageView>
+                  <TextField id="serverAddressField" fx:id="serverAddressField" maxWidth="-Infinity" prefWidth="200.0" promptText="Insert Server address" text="localhost">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </TextField>
+                  <TextField id="serverPortField" fx:id="serverPortField" maxWidth="-Infinity" prefWidth="200.0" promptText="Insert Server port" text="3333">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </TextField>
+                  <Button id="connectBtn" fx:id="connectBtn" alignment="CENTER" mnemonicParsing="false" onAction="#onConnectBtnClick" text="Connect">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="15.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </center>
+         <bottom>
+            <Label text="Marco Previtera, Francesco Riccardi, Nicolò Scaccia" textFill="#7a6bff" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </bottom>
+      </BorderPane>
+   </children>
+</StackPane>
