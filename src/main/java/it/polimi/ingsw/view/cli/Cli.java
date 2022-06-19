@@ -318,5 +318,10 @@ public class Cli extends View {
 
     }
 
+    @Override
+    public void onShowChosenTeam(String toShow){
+        out.println(toShow);
+    }
+
 
 }

@@ -67,4 +67,6 @@ public interface ModelObserver {
 
     void onShowGame(ClientGameModel clientGameModel);
 
+    void onShowChosenTeam(String toShow);
+
 }

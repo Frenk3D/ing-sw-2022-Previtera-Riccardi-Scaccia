@@ -239,6 +239,8 @@ public class ClientGameModel extends ModelObservable {
         notifyObserver(obs -> obs.onShowGame(this));
     }
 
+    public void showChosenTeam(String toShow){notifyObserver(obs -> obs.onShow(toShow));}
+
     public RoundState getRoundState() {
         return roundState;
     }

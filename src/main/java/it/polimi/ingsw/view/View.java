@@ -88,4 +88,7 @@ public abstract class View extends ViewObservable implements ModelObserver {
 
     @Override
     public abstract void onShowGame(ClientGameModel clientGameModel);
+
+    @Override
+    public abstract void onShowChosenTeam(String toShow);
 }

@@ -71,6 +71,13 @@ public class Gui extends View {
 
     @Override
     public void onSendChooseTeam(Map<String,Integer> availablePlayers){
+        Platform.runLater(() -> {
+            if(!SceneController.getCurrFxml().equals("ChooseTeamScene.fxml")){
+                SceneController.changeRootPane(observers, "ChooseTeamScene.fxml");
+            }
+            ChooseTeamSceneController controller = (ChooseTeamSceneController) SceneController.getActiveController();
+            controller.updateList(availablePlayers);
+        });
 
     }
 
@@ -239,6 +246,16 @@ public class Gui extends View {
             }
             LobbySceneController controller = (LobbySceneController) SceneController.getActiveController();
             controller.setPlayersLabel(playersList);
+        });
+    }
+
+    @Override
+    public void onShowChosenTeam(String toShow) {
+        Platform.runLater(() -> {
+            if(SceneController.getCurrFxml().equals("ChooseTeamScene.fxml")) {
+                ChooseTeamSceneController controller = (ChooseTeamSceneController) SceneController.getActiveController();
+                controller.disableChoice(toShow);
+            }
         });
     }
 }

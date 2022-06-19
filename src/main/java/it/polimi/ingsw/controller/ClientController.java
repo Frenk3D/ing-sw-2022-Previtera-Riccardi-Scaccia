@@ -451,13 +451,13 @@ public class ClientController implements ViewObserver {
         switch(clientState){
             case CHOOSING_TEAM:
                 teamLeader = false; //and with init send I will receive my teamPlayer
-                clientGameModel.show("Chosen, now you are not the leader, you can't choose tower color");
+                clientGameModel.showChosenTeam("Chosen, now you are not the leader, you can't choose tower color");
                 clientState = ClientState.CHOSEN_TEAM;
                 break;
 
             case CHOSEN_TEAM:
                 teamLeader = true; //for security, I set it true
-                clientGameModel.show("Ok, you are the leader of the team, you can choose tower color"); //they can choose if communicate outside the game
+                clientGameModel.showChosenTeam("Ok, you are the leader of the team, you can choose tower color"); //they can choose if communicate outside the game
                 teamId = client.getClientId(); //for security, I set it, the team Id is mine
                 //clientState = ClientState.CHOOSING_TOWER_COLOR; //and now I will wait for available ... send
                 break;
