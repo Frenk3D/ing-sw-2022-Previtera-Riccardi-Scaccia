@@ -28,6 +28,7 @@ public class Gui extends View {
     public void onAskServerInfo() {
         LoginSceneController controller = (LoginSceneController) SceneController.getActiveController();
         Platform.runLater(controller::errorInServer);
+        SceneController.showMessage("Error in connection, try again");
     }
     @Override
     public void onSendLoginRequest() {

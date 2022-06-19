@@ -55,9 +55,10 @@ public class LoginSceneController extends ViewObservable implements GenericScene
     @FXML
     public void errorInServer(){
         connectBtn.setDisable(false);
-        connectBtn.setText("Errore");
         serverAddressField.setDisable(false);
         serverPortField.setDisable(false);
+        serverAddressField.setText("localhost");
+        serverPortField.setText("3333");
     }
 }
 
