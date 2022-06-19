@@ -4,8 +4,6 @@ import it.polimi.ingsw.view.gui.SceneController;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
 
@@ -19,29 +17,13 @@ public class AskCreateOrJoinController extends ViewObservable implements Generic
     @FXML
     private  Button createBtn;
 
-    @FXML
-    private Button createConfirmBtn;
 
-    @FXML
-    private TextField lobbyName;
-
-    @FXML
-    private TextField numOfPlayers;
-
-    @FXML
-    private CheckBox expertModeBox;
-
-    private int checkBoxCounter;
-
-    private boolean expertMode;
 
     @FXML
     public void initialize(){
         joinBtn.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onJoinBtnClick);
         createBtn.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onCreateBtnClick);
-        //expertModeBox.addEventHandler(MouseEvent.MOUSE_PRESSED,this::initialize);
-        checkBoxCounter = 0;
-        expertMode = false;
+
     }
     @FXML
     public void onJoinBtnClick(Event event){
@@ -55,27 +37,6 @@ public class AskCreateOrJoinController extends ViewObservable implements Generic
         createBtn.setDisable(true);
         SceneController.changeRootPane(observers,"CreateScene.fxml");
     }
-    @FXML
-    public void onCheckBoxClick(Event event){
-        checkBoxCounter++;
-        if(checkBoxCounter % 2 != 0 || checkBoxCounter == 1){
-            expertMode = true;
-        }
-        else{
-            expertMode = false;
-        }
-    }
-    @FXML
-    public void onCreateConfirmBtnClick(Event event){
-        createConfirmBtn.setDisable(true);
-        String lobby = lobbyName.getText();
-        int players = Integer.parseInt(numOfPlayers.getText());
-        new Thread(() -> notifyObserver(obs -> obs.onSendNewLobbyRequest(lobby,players,expertMode))).start();
-        SceneController.changeRootPane(observers,"LobbyScene.fxml");
-    }
-
-
-
 
 
 }
