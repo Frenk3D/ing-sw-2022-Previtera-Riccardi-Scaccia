@@ -36,10 +36,10 @@ public class AskCreateOrJoinController extends ViewObservable implements Generic
     private boolean expertMode;
 
     @FXML
-    public void initialize(Event event){
-        joinBtn.addEventHandler(MouseEvent.MOUSE_CLICKED,this::initialize);
-        createBtn.addEventHandler(MouseEvent.MOUSE_CLICKED,this::initialize);
-        expertModeBox.addEventHandler(MouseEvent.MOUSE_CLICKED,this::initialize);
+    public void initialize(){
+        joinBtn.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onJoinBtnClick);
+        createBtn.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onCreateBtnClick);
+        //expertModeBox.addEventHandler(MouseEvent.MOUSE_PRESSED,this::initialize);
         checkBoxCounter = 0;
         expertMode = false;
     }
@@ -47,7 +47,6 @@ public class AskCreateOrJoinController extends ViewObservable implements Generic
     public void onJoinBtnClick(Event event){
         joinBtn.setDisable(true);
         createBtn.setDisable(true);
-        SceneController.changeRootPane(observers,"joinScene.fxml");
         new Thread(() -> notifyObserver(obs -> obs.onSendLobbiesRequest())).start();
     }
     @FXML

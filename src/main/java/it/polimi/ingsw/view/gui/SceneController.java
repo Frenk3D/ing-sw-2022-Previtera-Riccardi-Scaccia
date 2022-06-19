@@ -5,9 +5,8 @@ import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.gui.scene.*;
 
-import javafx.event.Event;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
@@ -63,4 +62,23 @@ public class SceneController{
         }
     }
 
+    public static void showMessage(String message){
+        Platform.runLater(()->{
+            FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/AlertShowScene.fxml"));
+
+            Parent parent;
+            try {
+                parent = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            AlertSceneController alertSceneController = loader.getController();
+            Scene alertScene = new Scene(parent);
+            alertSceneController.setScene(alertScene);
+            alertSceneController.setMessage(message);
+            alertSceneController.showAlert();
+        });
+
+    }
 }

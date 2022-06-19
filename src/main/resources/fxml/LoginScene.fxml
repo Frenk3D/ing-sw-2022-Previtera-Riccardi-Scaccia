@@ -20,11 +20,11 @@
                 <Font name="Constantia" size="64.0" />
             </font>
         </Text>
+      <TextField id="serverAddressField" fx:id="serverAddressField" layoutX="225.0" layoutY="157.0" promptText="Insert Server address" text="localhost" />
+      <TextField id="serverPortField" fx:id="serverPortField" layoutX="225.0" layoutY="203.0" promptText="Insert Server port" text="3333" />
       <Button id="connectBtn" fx:id="connectBtn" alignment="CENTER" layoutX="260.0" layoutY="249.0" mnemonicParsing="false" onAction="#onConnectBtnClick" prefHeight="32.0" prefWidth="79.0" text="Connect">
          <font>
             <Font size="15.0" />
          </font></Button>
-      <TextField id="serverPortField" fx:id="serverPortField" layoutX="225.0" layoutY="203.0" promptText="Insert Server port" />
-      <TextField id="serverAddressField" fx:id="serverAddressField" layoutX="225.0" layoutY="157.0" promptText="Insert Server address" />
     </children>
 </Pane>

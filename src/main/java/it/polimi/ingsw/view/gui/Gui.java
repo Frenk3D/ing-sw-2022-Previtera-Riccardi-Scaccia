@@ -10,14 +10,6 @@ import java.util.Map;
 
 //For javaFX? use SceneBuilder?
 import javafx.application.*;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import it.polimi.ingsw.view.gui.scene.*;
 
 
@@ -67,7 +59,13 @@ public class Gui extends View {
 
     @Override
     public void onSendChooseLobby(List<Lobby> lobbylist){
-
+        Platform.runLater(() -> {
+            if(!SceneController.getCurrFxml().equals("JoinScene.fxml")){
+                SceneController.changeRootPane(observers, "JoinScene.fxml");
+            }
+            JoinSceneController controller = (JoinSceneController) SceneController.getActiveController();
+            controller.updateList(lobbylist);
+        });
     }
 
     @Override
@@ -219,7 +217,7 @@ public class Gui extends View {
      */
     @Override
     public void onShow(Object toShow) {
-
+        SceneController.showMessage((String) toShow);
     }
 
     @Override
