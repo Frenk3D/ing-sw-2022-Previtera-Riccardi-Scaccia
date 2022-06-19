@@ -19,42 +19,41 @@ public class CreateSceneController extends ViewObservable implements GenericScen
     private Button createConfirmBtn;
 
     @FXML
-    private TextField lobbyName;
+    private TextField lobbyNameTextField;
 
     @FXML
-    private TextField numOfPlayers;
+    private TextField numOfPlayersTextField;
 
     @FXML
     private CheckBox expertModeBox;
 
-    private int checkBoxCounter;
-
-    private boolean expertMode;
 
     @FXML
     public void initialize(){
-        expertModeBox.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onCheckBoxClick);
         createConfirmBtn.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onCreateConfirmBtnClick);
-        checkBoxCounter = 0;
-        expertMode = false;
     }
 
 
-    @FXML
-    public void onCheckBoxClick(Event event){
-        checkBoxCounter++;
-        if(checkBoxCounter % 2 != 0 || checkBoxCounter == 1){
-            expertMode = true;
-        }
-        else{
-            expertMode = false;
-        }
-    }
     @FXML
     public void onCreateConfirmBtnClick(Event event){
-        String lobby = lobbyName.getText();
-        int players = Integer.parseInt(numOfPlayers.getText());
-        new Thread(() -> notifyObserver(obs -> obs.onSendNewLobbyRequest(lobby,players,expertMode))).start();
+        String lobby = lobbyNameTextField.getText();
+        boolean expertMode = expertModeBox.isSelected();
+        int players = -1;
+        try {
+            players = Integer.parseInt(numOfPlayersTextField.getText());
+        }
+        catch (Exception e){
+        }
+
+        if(!lobby.equals("") && players!=-1){
+            int finalPlayers = players;
+            new Thread(() -> notifyObserver(obs -> obs.onSendNewLobbyRequest(lobby, finalPlayers,expertMode))).start();
+        }
+        else {
+            lobbyNameTextField.setText("");
+            numOfPlayersTextField.setText("");
+        }
+
     }
 
 
