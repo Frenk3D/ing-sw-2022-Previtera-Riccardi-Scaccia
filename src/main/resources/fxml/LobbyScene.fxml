@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -14,10 +15,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Label fx:id="playersLobbyLabel" contentDisplay="CENTER">
-               <font>
-                  <Font size="34.0" />
-               </font></Label>
+            <ListView fx:id="listViewJoin" maxWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" />
          </children>
       </VBox>
    </children>

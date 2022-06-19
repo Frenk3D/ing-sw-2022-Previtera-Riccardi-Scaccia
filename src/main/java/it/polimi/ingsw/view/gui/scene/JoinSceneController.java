@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.gui.scene;
 
 import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.observer.ViewObservable;
-import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;

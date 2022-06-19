@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.gui.scene;
 
+import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.observer.ViewObservable;
+import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -32,6 +34,7 @@ public class CreateSceneController extends ViewObservable implements GenericScen
     @FXML
     public void initialize(){
         expertModeBox.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onCheckBoxClick);
+        createConfirmBtn.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onCreateConfirmBtnClick);
         checkBoxCounter = 0;
         expertMode = false;
     }
@@ -49,11 +52,9 @@ public class CreateSceneController extends ViewObservable implements GenericScen
     }
     @FXML
     public void onCreateConfirmBtnClick(Event event){
-        //createConfirmBtn.setDisable(true);
         String lobby = lobbyName.getText();
         int players = Integer.parseInt(numOfPlayers.getText());
         new Thread(() -> notifyObserver(obs -> obs.onSendNewLobbyRequest(lobby,players,expertMode))).start();
-        //SceneController.changeRootPane(observers,"LobbyScene.fxml");
     }
 
 

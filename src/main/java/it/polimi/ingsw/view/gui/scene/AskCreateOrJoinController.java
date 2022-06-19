@@ -29,7 +29,7 @@ public class AskCreateOrJoinController extends ViewObservable implements Generic
     public void onJoinBtnClick(Event event){
         joinBtn.setDisable(true);
         createBtn.setDisable(true);
-        new Thread(() -> notifyObserver(obs -> obs.onSendLobbiesRequest())).start();
+        new Thread(() -> notifyObserver((obs -> obs.onSendLobbiesRequest()))).start();
     }
     @FXML
     public void onCreateBtnClick(Event event){
