@@ -232,6 +232,12 @@ public class Gui extends View {
 
     @Override
     public void onShowPlayerJoin(List<String> playersList) {
-
+        Platform.runLater(() -> {
+            if(!SceneController.getCurrFxml().equals("LobbyScene.fxml")){
+                SceneController.changeRootPane(observers, "LobbyScene.fxml");
+            }
+            LobbySceneController controller = (LobbySceneController) SceneController.getActiveController();
+            controller.setPlayersLabel(playersList);
+        });
     }
 }

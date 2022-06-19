@@ -18,36 +18,13 @@ import java.util.List;
 // */
 public class LobbySceneController extends ViewObservable implements GenericSceneController {
 
-    @FXML
-    private Label player1Label;
+    @FXML private Label playersLobbyLabel;
 
-    @FXML
-    private Label player2Label;
 
-    @FXML
-    private Label player3Label;
-
-    @FXML
-    private Label player4Label;
-
-    public void setPlayersLabel(List<Player> playersList){
-        if(playersList.size() == 2){
-            player1Label.setText(playersList.get(0).getName());
-            player2Label.setText(playersList.get(1).getName());
-            player3Label.setVisible(false);
-            player4Label.setVisible(false);
-        }
-        if(playersList.size() == 3){
-            player1Label.setText(playersList.get(0).getName());
-            player2Label.setText(playersList.get(1).getName());
-            player3Label.setText(playersList.get(2).getName());
-            player4Label.setVisible(false);
-        }
-        if(playersList.size() == 4){
-            player1Label.setText(playersList.get(0).getName());
-            player2Label.setText(playersList.get(1).getName());
-            player3Label.setText(playersList.get(2).getName());
-            player4Label.setText(playersList.get(3).getName());
+    public void setPlayersLabel(List<String> playersList){
+        playersLobbyLabel.setText("");
+        for (String name : playersList){
+            playersLobbyLabel.setText(playersLobbyLabel.getText()+"\n"+name);
         }
 
     }

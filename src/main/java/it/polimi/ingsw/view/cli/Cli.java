@@ -309,6 +309,7 @@ public class Cli extends View {
 
     @Override
     public void onShowPlayerJoin(List<String> playersList){
+        clearCli();
         out.println("The players in the lobby are:");;
         for(String player: playersList){
             out.println("Player: " + player);;
