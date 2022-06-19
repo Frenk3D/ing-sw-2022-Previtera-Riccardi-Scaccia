@@ -19,10 +19,11 @@ public class AlertSceneController {
         stage = new Stage();
         stage.setWidth(500);
         stage.setHeight(250);
-        stage.setResizable(false);
+        stage.setResizable(false); //maybe to resize for bigger message?
         stage.setTitle("Message");
         stage.initModality(Modality.APPLICATION_MODAL);
     }
+
 
     @FXML
     public void initialize(){

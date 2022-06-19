@@ -34,7 +34,7 @@ public class ChooseTeamSceneController extends ViewObservable implements Generic
             availablePlayersId = new ArrayList<>();
             ObservableList<String> playersNames = FXCollections.observableArrayList();
             for (Map.Entry<String,Integer> entry : availablePlayers.entrySet()){
-                playersNames.add("Name: " + entry.getKey() + ", Id: " + entry.getValue());
+                playersNames.add(entry.getKey());
                 availablePlayersId.add(entry.getValue());
             }
             playersListView.setItems(playersNames);
