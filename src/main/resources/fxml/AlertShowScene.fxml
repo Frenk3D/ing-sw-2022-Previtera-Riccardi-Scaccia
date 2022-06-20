@@ -33,7 +33,7 @@
             </HBox>
             <VBox alignment="CENTER" prefHeight="99999.0">
                <children>
-                  <Label fx:id="messageBoxLabel">
+                  <Label fx:id="messageBoxLabel" wrapText="true">
                      <font>
                         <Font size="17.0" />
                      </font>
