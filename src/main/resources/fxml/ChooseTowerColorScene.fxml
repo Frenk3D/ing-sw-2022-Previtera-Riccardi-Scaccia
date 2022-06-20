@@ -6,26 +6,26 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.ChooseTowerColor">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.ChooseTowerColorSceneController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="167.0" layoutY="59.0" prefHeight="46.0" prefWidth="270.0" text="Choose a tower color from the available:" textFill="#16836f" wrapText="true">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="386.0" layoutY="128.0">
+      <ImageView fx:id="greyTowerImgView" fitHeight="200.0" fitWidth="200.0" layoutX="386.0" layoutY="128.0" onMousePressed="#onClickGreyTowerImgView">
          <image>
-            <Image url="@../images/torre%20grigia.png" />
+            <Image url="@../images/torre grigia.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="133.0" fitWidth="200.0" layoutX="192.0" layoutY="154.0">
+      <ImageView fx:id="whiteTowerImgView" fitHeight="133.0" fitWidth="200.0" layoutX="192.0" layoutY="154.0" onMousePressed="#onClickWhiteTowerImgView">
          <image>
-            <Image url="@../images/torre%20bianca.png" />
+            <Image url="@../images/torre bianca.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="9.0" layoutY="127.0">
+      <ImageView fx:id="blackTowerImgView" fitHeight="200.0" fitWidth="200.0" layoutX="9.0" layoutY="127.0" onMousePressed="#onClickBlackTowerImgView">
          <image>
-            <Image url="@../images/torre%20nera.png" />
+            <Image url="@../images/torre nera.png" />
          </image>
       </ImageView>
    </children>

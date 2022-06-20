@@ -83,7 +83,13 @@ public class Gui extends View {
 
     @Override
     public void onSendChooseTowerColor(List<TowerColor> availableTowerColors){
-
+        Platform.runLater(() -> {
+            if(!SceneController.getCurrFxml().equals("ChooseTowerColorScene.fxml")){
+                SceneController.changeRootPane(observers, "ChooseTowerColorScene.fxml");
+            }
+            ChooseTowerColorSceneController controller = (ChooseTowerColorSceneController) SceneController.getActiveController();
+            //controller.updateList(availablePlayers);
+        });
     }
 
     @Override
