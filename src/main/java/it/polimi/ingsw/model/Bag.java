@@ -8,7 +8,9 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**
+ * this class implements the bag containing the students (to be extracted from it)
+ */
 public class Bag {
     //attributes
     private List<Student> studentsList;
@@ -21,12 +23,17 @@ public class Bag {
         studentsList = new ArrayList<>(); //removed argument from <> as Intellij suggests
     }
 
-    //getter
+    /**
+     *
+     * @return the bag's stduents list
+     */
     public List<Student> getStudentsList() {
         return studentsList;
     }
 
-
+    /**
+     * adds the initial 10 students in the bag
+     */
     public void initialBagFill() { //fills the bag with two students of each color
         for(int i=0;i<2;i++){
         studentsList.add(new Student(PawnColor.BLUE));
@@ -61,6 +68,9 @@ public class Bag {
         return result;
     }
 
+    /**
+     * adds all the remaining students to the bag
+     */
     public void addAllStudents() { //fills the bag with remaining students
         for(int i=0;i<24;i++){
             studentsList.add(new Student(PawnColor.BLUE));
@@ -71,6 +81,10 @@ public class Bag {
         }
     }
 
+    /**
+     *
+     * @return the number of remaining students in the bag
+     */
     public int getRemainingStudents(){
         return studentsList.size();
     }

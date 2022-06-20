@@ -8,6 +8,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * this class implements the game object Dashboard
+ * the dashboard contains the hall (with students and professor),the entrance (with students),and the towers
+ * the towers can be missing from the dashboard if you are not the team leader of your team (in a 4 players game)
+ */
 public class Dashboard {
     //attributes
     private List<Student> redStudentsList;
@@ -23,6 +28,10 @@ public class Dashboard {
 
     //Methods
     //constructor
+
+    /**
+     * default constructor
+     */
     public Dashboard(){
         entranceList = new ArrayList<>(); //intellij suggests to remove Student from <>
         towersList = new ArrayList<>();
@@ -34,6 +43,11 @@ public class Dashboard {
         blueStudentsList = new ArrayList<>();
     }
 
+    /**
+     *
+     * @param color
+     * @return the list of students in the hall of the selected color
+     */
     public List<Student> getHallStudentsListByColor(PawnColor color){
         switch (color){
             case RED:
@@ -50,6 +64,11 @@ public class Dashboard {
         return null;
     }
 
+    /**
+     *
+     * @param color
+     * @return a professor of the selected color
+     */
     public Professor getProfessorByColor(PawnColor color){
         for(Professor p : professorsList){
             if(p.getColor().equals(color)){
@@ -59,6 +78,12 @@ public class Dashboard {
         return null;
     }
 
+    /**
+     * places the students on the entrance
+     * the number of students placed varies based on the number of players in the game
+     * @param numOfPlayers
+     * @param bag
+     */
     public void placeStudentEntrance(int numOfPlayers, Bag bag){ //init function, we can't add to many students for the entrance's size
         List<Student> entranceList;
         entranceList = new ArrayList<>();
@@ -73,6 +98,12 @@ public class Dashboard {
         setEntranceList(entranceList);
     }
 
+    /**
+     * generates the player's (or the team's) towers
+     * the number of towers generated varies based on the number of players in the game
+     * @param numOfPlayers
+     * @param playerTowerColor
+     */
     public void generateTower(int numOfPlayers, TowerColor playerTowerColor){ //number of players is needed
         int towersToGenerate;
         if(numOfPlayers==2 || numOfPlayers==4) {
@@ -88,6 +119,13 @@ public class Dashboard {
         setTowersList(towers);
     }
 
+    /**
+     *
+     * @param student
+     * @param currPlayer
+     * @param tableMoney
+     * @return adds a student in the hall
+     */
     public boolean addStudentHall(Student student, Player currPlayer, AtomicInteger tableMoney){
         if (getHallStudentsListByColor(student.getColor()).size()==10){
             return false;
@@ -99,33 +137,60 @@ public class Dashboard {
         return true;
     }
 
+    /**
+     * sets the list of towers
+     * @param towersList
+     */
     public void setTowersList(List<Tower> towersList) {
         this.towersList = towersList;
     }
 
+    /**
+     *
+     * @return the list of towers
+     */
     public List<Tower> getTowersList() {
         return towersList;
     }
 
-
+    /**
+     * sets the list of students in the entrance
+     * @param entranceList
+     */
     public void setEntranceList(List<Student> entranceList) {
         this.entranceList = entranceList;
     }
 
-
+    /**
+     *
+     * @return the list of students in the entrance
+     */
     public List<Student> getEntranceList() {
         return entranceList;
     }
 
-
+    /**
+     *
+     * @return the list of professors
+     */
     public List<Professor> getProfessorsList() {
         return professorsList;
     }
 
+    /**
+     *
+     * @param color
+     * @return the number of hall students of the selected color
+     */
     public int getNumOfHallStudents(PawnColor color){
         return getHallStudentsListByColor(color).size();
     }
 
+    /**
+     *
+     * @param studentIndex
+     * @return a student in the entrance student list selected by index
+     */
     public Student getEntranceStudentByIndex(int studentIndex){
         if(studentIndex >= entranceList.size() || studentIndex<0){
             return null;

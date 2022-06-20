@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.enumerations.Wizard;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * this class is the deck containing all the game's assistants
+ */
 public class AssistantDeck {
     //attributes
     private Wizard wizard; //every wizard is the deck's representative, every wizard has the same deck and the attribute is set from Game for practical purposes
@@ -14,6 +17,10 @@ public class AssistantDeck {
 
     //Methods
     //constructor
+
+    /**
+     * constructor used to fill the deck with each assistant
+     */
     public AssistantDeck(){
         assistantsList = new ArrayList<Assistant>();
         assistantsList.add(new Assistant(1,1));
@@ -28,14 +35,28 @@ public class AssistantDeck {
         assistantsList.add(new Assistant(10,5));
     }
     //setter
+
+    /**
+     * sets the wizard's type
+     * @param type
+     */
     public void setWizard (Wizard type){
         wizard = type;
     }
 
+    /**
+     *
+     * @return the list of available assistants
+     */
     public List<Assistant> getAssistantsList() {
         return assistantsList;
     }
 
+    /**
+     *
+     * @param id
+     * @return the assistant chosen by id
+     */
     public Assistant getAssistantById(int id){
         for(Assistant assistant : assistantsList){
             if(assistant.getId()==id){
@@ -45,6 +66,10 @@ public class AssistantDeck {
         return null;
     }
 
+    /**
+     * removes the assistant chosen by id
+     * @param id
+     */
     public void removeAssistantById(int id){
         for(Assistant assistant : assistantsList){
             if(assistant.getId()==id){
@@ -54,6 +79,10 @@ public class AssistantDeck {
         }
     }
 
+    /**
+     *
+     * @return the list of Reduced Assistants (used by the client side)
+     */
     public List<ReducedAssistant> getReducedAssistantsList(){
         List<ReducedAssistant> reducedAssistants = new ArrayList<>();
         for(Assistant a : assistantsList){
@@ -62,6 +91,10 @@ public class AssistantDeck {
         return reducedAssistants;
     }
 
+    /**
+     *
+     * @return a wizard
+     */
     public Wizard getWizard(){
         return wizard;
     }
