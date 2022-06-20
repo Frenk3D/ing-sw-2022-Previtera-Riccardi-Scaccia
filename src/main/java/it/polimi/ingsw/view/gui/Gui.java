@@ -88,12 +88,19 @@ public class Gui extends View {
                 SceneController.changeRootPane(observers, "ChooseTowerColorScene.fxml");
             }
             ChooseTowerColorSceneController controller = (ChooseTowerColorSceneController) SceneController.getActiveController();
-            //controller.updateList(availablePlayers);
+            controller.updateList(availableTowerColors);
         });
     }
 
     @Override
     public void onSendChooseWizard(List<Wizard> availableWizards){
+        Platform.runLater(() -> {
+            if(!SceneController.getCurrFxml().equals("ChooseWizardScene.fxml")){
+                SceneController.changeRootPane(observers, "ChooseWizardScene.fxml");
+            }
+            ChooseWizardSceneController controller = (ChooseWizardSceneController) SceneController.getActiveController();
+            controller.updateList(availableWizards);
+        });
 
     }
 

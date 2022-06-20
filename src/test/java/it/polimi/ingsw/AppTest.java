@@ -6,12 +6,12 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
- * Unit test for simple it.polimi.ingsw.App.
+ * All the tests are explained with comments or the names of methods themselves
  */
 public class AppTest
 {
     /**
-     * Rigorous Test :-)
+     * Example of Test
      */
     @Test
     public void shouldAnswerWithTrue()

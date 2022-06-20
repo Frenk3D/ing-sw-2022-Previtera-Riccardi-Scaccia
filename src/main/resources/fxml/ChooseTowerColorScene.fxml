@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.BoxBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,20 +16,36 @@
             <Font size="17.0" />
          </font>
       </Label>
-      <ImageView fx:id="greyTowerImgView" fitHeight="200.0" fitWidth="200.0" layoutX="386.0" layoutY="128.0" onMousePressed="#onClickGreyTowerImgView">
+      <ImageView fx:id="blackTowerImgView" fitHeight="200.0" fitWidth="200.0" layoutX="9.0" layoutY="127.0">
          <image>
-            <Image url="@../images/torre grigia.png" />
+            <Image url="@../images/black_tower.png" />
          </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <Blend>
+               <topInput>
+                  <BoxBlur />
+               </topInput>
+            </Blend>
+         </effect>
       </ImageView>
-      <ImageView fx:id="whiteTowerImgView" fitHeight="133.0" fitWidth="200.0" layoutX="192.0" layoutY="154.0" onMousePressed="#onClickWhiteTowerImgView">
+      <ImageView fx:id="whiteTowerImgView" fitHeight="133.0" fitWidth="200.0" layoutX="192.0" layoutY="154.0">
          <image>
-            <Image url="@../images/torre bianca.png" />
+            <Image url="@../images/white_tower.png" />
          </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
-      <ImageView fx:id="blackTowerImgView" fitHeight="200.0" fitWidth="200.0" layoutX="9.0" layoutY="127.0" onMousePressed="#onClickBlackTowerImgView">
+      <ImageView fx:id="greyTowerImgView" fitHeight="200.0" fitWidth="200.0" layoutX="386.0" layoutY="128.0">
          <image>
-            <Image url="@../images/torre nera.png" />
+            <Image url="@../images/grey_tower.png" />
          </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
    </children>
 </AnchorPane>

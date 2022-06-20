@@ -5,6 +5,9 @@ import it.polimi.ingsw.network.server.SocketClientManager;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 
+/**
+ * This class is used to communicate with the respective clients
+ */
 public class RemoteView extends Observable implements Observer {
 
     private SocketClientManager clientManager;

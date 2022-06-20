@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+//only to test
 public class TestClient {
 
     private String ip;

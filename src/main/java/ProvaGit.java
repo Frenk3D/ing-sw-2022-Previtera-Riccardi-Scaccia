@@ -18,9 +18,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/** Deselezionare sempre .idea e pom.xml sia da push che da pull per evitare problemi!!!
+
+/**
  * It is a main only to test something
- * ok Fra, ok Nic, ok marco, sometimes gives problem because we force playerId, and check the random problems with random features
+ * ok Fra, ok Nic, ok marco, check the random problems with random features
  */
 public class ProvaGit {
 

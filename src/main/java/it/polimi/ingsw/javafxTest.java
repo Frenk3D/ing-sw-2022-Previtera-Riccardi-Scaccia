@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+//only for tests
 public class javafxTest extends Application {
 
     Stage rootLayout;

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DisplacementMap?>
+<?import javafx.scene.effect.FloatMap?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -9,7 +12,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url('../images/magia.jpg');" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.ChooseWizardScene">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url('../images/magia.jpg');" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.ChooseWizardSceneController">
    <children>
       <Label layoutX="126.0" layoutY="50.0" prefHeight="41.0" prefWidth="317.0" text="Choose a wizard from the available:">
          <textFill>
@@ -32,25 +35,44 @@
             <Font name="Times Roman" size="21.0" />
          </font>
       </Label>
-      <ImageView fitHeight="200.0" fitWidth="135.0" layoutY="113.0">
+      <ImageView fx:id="oldWizardImgView" fitHeight="200.0" fitWidth="135.0" layoutY="113.0">
          <image>
-            <Image url="@../images/MAGO%201_1.jpg" />
+            <Image url="@../images/MAGO1_1.jpg" />
          </image>
+         <effect>
+            <DisplacementMap wrap="true">
+               <mapData>
+                  <FloatMap />
+               </mapData>
+            </DisplacementMap>
+         </effect>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="135.0" layoutX="150.0" layoutY="113.0">
+      <ImageView fx:id="kingWizardImgView" fitHeight="200.0" fitWidth="135.0" layoutX="150.0" layoutY="113.0">
          <image>
-            <Image url="@../images/MAGO%202_1.jpg" />
+            <Image url="@../images/MAGO2_1.jpg" />
          </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="135.0" layoutX="308.0" layoutY="113.0">
+      <ImageView fx:id="girlWizardImgView" fitHeight="200.0" fitWidth="135.0" layoutX="308.0" layoutY="113.0">
          <image>
-            <Image url="@../images/MAGO%203_1_correzioni.jpg" />
+            <Image url="@../images/MAGO3_1_correzioni.jpg" />
          </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="135.0" layoutX="465.0" layoutY="113.0">
+      <ImageView fx:id="asiaticWizardImgView" fitHeight="200.0" fitWidth="135.0" layoutX="465.0" layoutY="113.0" onMousePressed="#onClickAsiaticWizardImgView">
          <image>
-            <Image url="@../images/MAGO%204_1.jpg" />
+            <Image url="@../images/MAGO4_1.jpg" />
          </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
    </children>
 </AnchorPane>
