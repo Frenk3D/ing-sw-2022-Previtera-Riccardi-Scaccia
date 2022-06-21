@@ -6,46 +6,57 @@
 <?import javafx.scene.effect.BoxBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.ChooseTowerColorSceneController">
+
+<StackPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.ChooseTowerColorSceneController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="167.0" layoutY="59.0" prefHeight="46.0" prefWidth="270.0" text="Choose a tower color from the available:" textFill="#16836f" wrapText="true">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
-      <ImageView fx:id="blackTowerImgView" fitHeight="200.0" fitWidth="200.0" layoutX="9.0" layoutY="127.0">
-         <image>
-            <Image url="@../images/black_tower.png" />
-         </image>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <effect>
-            <Blend>
-               <topInput>
-                  <BoxBlur />
-               </topInput>
-            </Blend>
-         </effect>
-      </ImageView>
-      <ImageView fx:id="whiteTowerImgView" fitHeight="133.0" fitWidth="200.0" layoutX="192.0" layoutY="154.0">
-         <image>
-            <Image url="@../images/white_tower.png" />
-         </image>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </ImageView>
-      <ImageView fx:id="greyTowerImgView" fitHeight="200.0" fitWidth="200.0" layoutX="386.0" layoutY="128.0">
-         <image>
-            <Image url="@../images/grey_tower.png" />
-         </image>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </ImageView>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="500.0" text="Choose a tower color from the available:" textFill="#16836f" wrapText="true">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <ImageView fx:id="blackTowerImgView" fitHeight="200.0" fitWidth="200.0" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/black_tower.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <Blend>
+                           <topInput>
+                              <BoxBlur />
+                           </topInput>
+                        </Blend>
+                     </effect>
+                  </ImageView>
+                  <ImageView fx:id="whiteTowerImgView" fitHeight="200.0" fitWidth="200.0" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/white_tower.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="greyTowerImgView" fitHeight="230.0" fitWidth="230.0" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/grey_tower.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
-</AnchorPane>
+</StackPane>

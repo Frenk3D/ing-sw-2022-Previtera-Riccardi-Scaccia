@@ -101,7 +101,6 @@ public class Gui extends View {
             ChooseWizardSceneController controller = (ChooseWizardSceneController) SceneController.getActiveController();
             controller.updateList(availableWizards);
         });
-
     }
 
     @Override
