@@ -148,6 +148,7 @@ public class Controller implements Observer {
                 parameters.setStudentIndex(messageParams.getStudentIndex());
                 parameters.setSelectedColor(messageParams.getSelectedColor());
                 parameters.setSelectedColor2(messageParams.getSelectedColor2());
+                parameters.setTableMoney(game.getTableMoney());
 
                 useCharacter(messageParams.getCharacterId(),parameters);
                 break;
