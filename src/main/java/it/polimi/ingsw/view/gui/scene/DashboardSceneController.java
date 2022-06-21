@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.scene;
 
+import it.polimi.ingsw.model.client.ReducedDashboard;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,7 +12,7 @@ public class DashboardSceneController {
     @FXML private GridPane hallGridPane;
     @FXML private GridPane towersGridPane;
 
-    public void loadDashboard(){
+    public void loadDashboard(ReducedDashboard dashboard){
         for (int j=0;j<5;j++){
             for (int i = 0; i<2;i++){
                 ImageView imageView = new ImageView();

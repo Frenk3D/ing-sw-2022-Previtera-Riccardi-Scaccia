@@ -222,7 +222,7 @@
                         </VBox>
                      </children>
                   </StackPane>
-                  <StackPane layoutX="350.0" layoutY="150.0" prefHeight="120.0" prefWidth="120.0">
+                  <StackPane fx:id="cloud1Pane" layoutX="350.0" layoutY="150.0" prefHeight="120.0" prefWidth="120.0">
                      <children>
                         <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -236,7 +236,7 @@
                         </VBox>
                      </children>
                   </StackPane>
-                  <StackPane layoutX="500.0" layoutY="150.0" prefHeight="120.0" prefWidth="120.0">
+                  <StackPane fx:id="cloud2Pane" layoutX="500.0" layoutY="150.0" prefHeight="120.0" prefWidth="120.0">
                      <children>
                         <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -250,7 +250,7 @@
                         </VBox>
                      </children>
                   </StackPane>
-                  <StackPane layoutX="500.0" layoutY="270.0" prefHeight="120.0" prefWidth="120.0">
+                  <StackPane fx:id="cloud3Pane" layoutX="500.0" layoutY="270.0" prefHeight="120.0" prefWidth="120.0">
                      <children>
                         <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -264,7 +264,7 @@
                         </VBox>
                      </children>
                   </StackPane>
-                  <StackPane layoutX="350.0" layoutY="270.0" prefHeight="120.0" prefWidth="120.0">
+                  <StackPane fx:id="cloud4Pane" layoutX="350.0" layoutY="270.0" prefHeight="120.0" prefWidth="120.0">
                      <children>
                         <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -278,6 +278,16 @@
                         </VBox>
                      </children>
                   </StackPane>
+                  <Button fx:id="buttonCommand1" layoutX="150.0" layoutY="255.0" mnemonicParsing="false" text="Move student island">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="buttonCommand2" layoutX="607.0" layoutY="257.0" mnemonicParsing="false" text="Move student dashboard">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
                </children>
                <BorderPane.margin>
                   <Insets left="15.0" />
@@ -374,27 +384,27 @@
                <children>
                   <HBox prefHeight="150.0" prefWidth="320.0" spacing="10.0">
                      <children>
-                        <StackPane prefHeight="150.0" prefWidth="200.0">
+                        <StackPane fx:id="character1Pane" prefHeight="130.0" prefWidth="200.0">
                            <children>
-                              <ImageView fitHeight="140.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="130.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/char1-small.png" />
                                  </image>
                               </ImageView>
                            </children>
                         </StackPane>
-                        <StackPane prefHeight="150.0" prefWidth="200.0">
+                        <StackPane fx:id="character2Pane" prefHeight="130.0" prefWidth="200.0">
                            <children>
-                              <ImageView fitHeight="140.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="130.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/char2-small.png" />
                                  </image>
                               </ImageView>
                            </children>
                         </StackPane>
-                        <StackPane prefHeight="150.0" prefWidth="200.0">
+                        <StackPane fx:id="character3Pane" prefHeight="130.0" prefWidth="200.0">
                            <children>
-                              <ImageView fitHeight="140.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="130.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/char3-small.png" />
                                  </image>
@@ -413,51 +423,6 @@
                               <Image url="@../images/ass1.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="110.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/ass2.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="110.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/ass3.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="110.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/ass1.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="110.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/ass2.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="110.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/ass3.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="110.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/ass1.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="110.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/ass2.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="110.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/ass3.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="110.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/ass1.png" />
-                           </image>
-                        </ImageView>
                      </children>
                   </HBox>
                </children>
@@ -467,14 +432,18 @@
             </HBox>
          </bottom>
          <top>
-            <Label text="Errore! Posizione madre natura troppo distante" textFill="WHITE" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="System Bold Italic" size="15.0" />
-               </font>
+            <HBox alignment="TOP_RIGHT" prefHeight="0.0" prefWidth="0.0" spacing="30.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Errore! Posizione madre natura troppo distante" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
                <BorderPane.margin>
-                  <Insets top="3.0" />
+                  <Insets right="10.0" top="5.0" />
                </BorderPane.margin>
-            </Label>
+            </HBox>
          </top>
       </BorderPane>
    </children>
