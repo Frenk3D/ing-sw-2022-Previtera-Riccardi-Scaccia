@@ -173,7 +173,7 @@ public class ClientController implements ViewObserver {
                 }
                 else{clientGameModel.show("The winner is: " + stringMessage.getString());}
 
-                clientGameModel.show("'Restarting'...");
+                //clientGameModel.show("'Restarting'...");
                 clientState = ClientState.CHOOSING_JOIN_CREATE;
                 teamLeader = true;
                 teamId = client.getClientId();
@@ -183,7 +183,6 @@ public class ClientController implements ViewObserver {
 
 
             case OK_REPLY: //used also like a state sync message
-                //GenericMessage okReply = (GenericMessage) message;
                 manageOkReplyMessage();//we use a private method to have more order
                 break;
 
