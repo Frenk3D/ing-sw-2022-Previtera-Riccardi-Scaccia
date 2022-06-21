@@ -23,7 +23,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static it.polimi.ingsw.network.server.Server.SERVERID;
 
-
+/**
+ * this is the main class of the game
+ * it contains the logic of the game itself
+ * the structure and all the info of the game is collected here
+ */
 public class GameModel extends Observable {
     //attributes
     private int numOfPlayers;
@@ -43,6 +47,14 @@ public class GameModel extends Observable {
     private AtomicInteger tableMoney;
 
     //constructor
+
+    /**
+     * number of players set by default to -1
+     * expert mode set to false
+     * the game state is initially set to LOGIN_STATE
+     * the setting state is set to NOT_SETTING_STATE
+     * the rest is a default constructor
+     */
     public GameModel(){
         numOfPlayers = -1;
         expertMode=false;
@@ -58,6 +70,10 @@ public class GameModel extends Observable {
         tableMoney = null;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean init(){
         if(playersList.size()!=numOfPlayers){
             return false;
@@ -87,6 +103,10 @@ public class GameModel extends Observable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean start(){
         if(playersList.size()!=numOfPlayers){
             return false;
@@ -133,7 +153,12 @@ public class GameModel extends Observable {
         return true;
     }
 
-
+    /**
+     * sets the chosen number of players
+     * @param chosenNumOfPlayers
+     * @return true if the chosen number is between 0 and 4
+     * @return false otherwise
+     */
     public boolean setNumOfPlayers(int chosenNumOfPlayers){
         if (chosenNumOfPlayers > 0 && chosenNumOfPlayers <= 4) {
             numOfPlayers = chosenNumOfPlayers;
@@ -142,6 +167,11 @@ public class GameModel extends Observable {
         return false;
     }
 
+    /**
+     * adds a player to the player list
+     * @param player
+     * @return
+     */
     public boolean addPlayer(Player player){
         if(numOfPlayers!=-1 && playersList.size()<numOfPlayers) {
             playersList.add(player);
@@ -151,18 +181,27 @@ public class GameModel extends Observable {
         return false;
     }
 
+    /**
+     * sets expert mode
+     * @param expertMode
+     */
     public void setExpertMode(boolean expertMode){
         this.expertMode=expertMode;
     }
 
-
+    /**
+     * sets mother nature position(only if its different from the current position and inferior to 12)
+     * @param pos
+     */
     public void setMotherNaturePosition(int pos){
             if(motherNaturePos!=pos&& pos>=0 && pos<12) { //mother nature has to move at least of 1 pos, but we have to manage illegal back moves
                 motherNaturePos = pos;
             }
     }
 
-
+    /**
+     * random set of the initial position of mother nature
+     */
     private void initMotherNaturePos(){
         int randomInt = (int)(Math.random() * (12));
         motherNaturePos = randomInt;
@@ -172,6 +211,11 @@ public class GameModel extends Observable {
         return motherNaturePos;
     }
 
+    /**
+     *
+     * @param playerId
+     * @return a player chosen by id
+     */
     public Player getPlayerById(int playerId){
         for(Player p : playersList){
             if(p.getId() == playerId){
@@ -181,6 +225,11 @@ public class GameModel extends Observable {
         return null;
     }
 
+    /**
+     *
+     * @param islandIndex
+     * @return an island chosen by index
+     */
     public Island getIslandByIndex(int islandIndex){
         if(islandIndex > islandsList.size() || islandIndex<0){
             return null;
@@ -188,6 +237,11 @@ public class GameModel extends Observable {
         return islandsList.get(islandIndex);
     }
 
+    /**
+     *
+     * @param cloudIndex
+     * @return a cloud chosen by index
+     */
     public Cloud getCloudByIndex(int cloudIndex){
         if(cloudIndex >= cloudsList.size() || cloudIndex<0){
             return null;
@@ -195,6 +249,11 @@ public class GameModel extends Observable {
         return cloudsList.get(cloudIndex);
     }
 
+    /**
+     *
+     * @param characterIndex
+     * @return a character chosen by index
+     */
     public Character getCharacterByIndex(int characterIndex) {
         if (characterIndex >= charactersList.size() || characterIndex < 0) {
             return null;
@@ -202,6 +261,11 @@ public class GameModel extends Observable {
         return charactersList.get(characterIndex);
     }
 
+    /**
+     *
+     * @param characterId
+     * @return a character chosen by id
+     */
     public Character getCharacterById(int characterId){
         for (Character c : charactersList){
             if (c.getId() == characterId){
@@ -211,6 +275,10 @@ public class GameModel extends Observable {
         return null;
     }
 
+    /**
+     *
+     * @return the fifth character (forbid character)
+     */
     public Characters3and4and5 getForbidCharacter(){
         for (Character c : charactersList) {
             if (c.getId() == 5) {
