@@ -24,47 +24,61 @@ public class ChooseTowerColorSceneController extends ViewObservable implements G
         whiteTowerImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickWhiteTowerImgView);
         blackTowerImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickBlackTowerImgView);
         greyTowerImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickGreyTowerImgView);
-        greyTowerImgView.setDisable(true);
-        blackTowerImgView.setDisable(true);
-        whiteTowerImgView.setDisable(true);
-
+        
     }
     public void onClickWhiteTowerImgView(Event event){
-        greyTowerImgView.setDisable(true);
-        blackTowerImgView.setDisable(true);
-        whiteTowerImgView.setDisable(true);
+        setAllDisabled(true);
+        setAllFaded(true);
         TowerColor tc = TowerColor.WHITE;
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseTowerColor(tc))).start();
     }
     public void onClickBlackTowerImgView(Event event){
-        greyTowerImgView.setDisable(true);
-        blackTowerImgView.setDisable(true);
-        whiteTowerImgView.setDisable(true);
+        setAllDisabled(true);
+        setAllFaded(true);
         TowerColor tc = TowerColor.BLACK;
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseTowerColor(tc))).start();
     }
     public void onClickGreyTowerImgView(Event event){
-        greyTowerImgView.setDisable(true);
-        blackTowerImgView.setDisable(true);
-        whiteTowerImgView.setDisable(true);
+        setAllDisabled(true);
+        setAllFaded(true);
         TowerColor tc = TowerColor.GRAY;
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseTowerColor(tc))).start();
     }
 
     public void updateList(List<TowerColor> availableTowerColors){
-        if (availableTowerColors.contains(TowerColor.BLACK)) {
-            blackTowerImgView.setDisable(false);
-        } else{blackTowerImgView.setDisable(false);}
-
-        if (availableTowerColors.contains(TowerColor.WHITE)) {
-            whiteTowerImgView.setDisable(false);
-        }else{whiteTowerImgView.setDisable(false);}
-
-        if (availableTowerColors.contains(TowerColor.GRAY)) {
-            greyTowerImgView.setDisable(false);
+        setAllDisabled(false);
+        setAllFaded(false);
+        if (!availableTowerColors.contains(TowerColor.BLACK)) {
+            blackTowerImgView.setDisable(true);
+            blackTowerImgView.setOpacity(0.2);
         }
-        else{greyTowerImgView.setDisable(false);}
+        if (!availableTowerColors.contains(TowerColor.WHITE)) {
+            whiteTowerImgView.setDisable(true);
+            whiteTowerImgView.setOpacity(0.2);
+        }
+        if (!availableTowerColors.contains(TowerColor.GRAY)) {
+            greyTowerImgView.setDisable(true);
+            greyTowerImgView.setOpacity(0.2);
+        }
+    }
 
 
+    private void setAllDisabled(boolean state){
+        greyTowerImgView.setDisable(state);
+        blackTowerImgView.setDisable(state);
+        whiteTowerImgView.setDisable(state);
+    }
+
+    private void setAllFaded(boolean state){
+        if(state) {
+            greyTowerImgView.setOpacity(0.2);
+            blackTowerImgView.setOpacity(0.2);
+            whiteTowerImgView.setOpacity(0.2);
+        }
+        else {
+            greyTowerImgView.setOpacity(1);
+            blackTowerImgView.setOpacity(1);
+            whiteTowerImgView.setOpacity(1);
+        }
     }
 }

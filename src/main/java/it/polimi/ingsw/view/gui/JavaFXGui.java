@@ -23,8 +23,9 @@ public class JavaFXGui extends Application {
     @Override
     public void start(Stage stage) {
 
-        Gui view = new Gui();
         ClientController clientController = new ClientController();
+        Gui view = new Gui(clientController);
+
         view.addObserver(clientController);
         clientController.getClientGameModel().addObserver(view);
 

@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.enumerations.PawnColor;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This class contains all the different parameters used by each character
@@ -25,6 +26,7 @@ public class CharacterParameters implements Serializable {
     private PawnColor selectedColor2; //only for the character 10
     private Characters3and4and5 forbidCharacter;
     private Bag bag;
+    private AtomicInteger tableMoney; //only for the char 10 and 11
 
     /**
      * studentIndex is set to -1
@@ -41,6 +43,7 @@ public class CharacterParameters implements Serializable {
         forbidCharacter = null;
         bag = null;
         studentIndex = -1;
+        tableMoney = null;
 
     }
 
@@ -218,5 +221,11 @@ public class CharacterParameters implements Serializable {
         this.tableProfessorsList = tableProfessorsList;
     }
 
+    public AtomicInteger getTableMoney() {
+        return tableMoney;
+    }
 
+    public void setTableMoney(AtomicInteger tableMoney) {
+        this.tableMoney = tableMoney;
+    }
 }

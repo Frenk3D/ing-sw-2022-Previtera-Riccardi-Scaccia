@@ -147,6 +147,7 @@ public class Cli extends View {
 
     @Override
     public void onAskCreateOrJoin(){
+        clearCli();
         out.println("Type 'c' to create a new lobby and join it, or type 'j' to join an existing lobby");
     }
 

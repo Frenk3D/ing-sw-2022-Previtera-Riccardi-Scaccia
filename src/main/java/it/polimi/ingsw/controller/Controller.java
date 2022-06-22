@@ -148,6 +148,7 @@ public class Controller implements Observer {
                 parameters.setStudentIndex(messageParams.getStudentIndex());
                 parameters.setSelectedColor(messageParams.getSelectedColor());
                 parameters.setSelectedColor2(messageParams.getSelectedColor2());
+                parameters.setTableMoney(game.getTableMoney());
 
                 useCharacter(messageParams.getCharacterId(),parameters);
                 break;
@@ -557,7 +558,7 @@ public class Controller implements Observer {
 
                 if(!result) {
                     logger.log(Level.SEVERE,"error in character use");
-                    sendError(game.getCurrPlayer().getId(), "Error in character use, no money was taken");
+                    sendError(game.getCurrPlayer().getId(), "Error in character use, no money was taken, \nRetry to use character or continue playing");
                     return;
                 }
                 game.getCurrPlayer().modifyMoney(-(characterCost), game.getTableMoney(), usedCharacter.isUsed());

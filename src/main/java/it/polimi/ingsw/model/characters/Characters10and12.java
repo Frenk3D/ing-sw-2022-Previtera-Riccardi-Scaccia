@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.enumerations.PawnColor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,7 +22,7 @@ public class Characters10and12 extends Character{
     }
     //methods
 
-    private boolean swapStudents10(Player cardPlayer, List<Integer> studentsIndexEntranceList, PawnColor hallStudentColor1, PawnColor hallStudentColor2){
+    private boolean swapStudents10(Player cardPlayer, List<Integer> studentsIndexEntranceList, PawnColor hallStudentColor1, PawnColor hallStudentColor2, AtomicInteger tableMoney){
         //if we swap students of the same colors, the ref of the students swapped are not right, but the colors yes, it's ok
 
         try {
@@ -41,8 +42,8 @@ public class Characters10and12 extends Character{
             List<Student> studentsToRemove = new ArrayList<>();
             for (Integer i : studentsIndexEntranceList) {
                 PawnColor selectedColor = cardPlayer.getDashboard().getEntranceList().get(i).getColor(); //the ref of the students are different, but they are the same colors
-                cardPlayer.getDashboard().getHallStudentsListByColor(selectedColor).add(cardPlayer.getDashboard().getEntranceList().get(i));
-                //cardPlayer.getDashboard().addStudentHall(cardPlayer.getDashboard().getEntranceList().get(i), cardPlayer,tableMoney);
+                //cardPlayer.getDashboard().getHallStudentsListByColor(selectedColor).add(cardPlayer.getDashboard().getEntranceList().get(i));
+                cardPlayer.getDashboard().addStudentHall(cardPlayer.getDashboard().getEntranceList().get(i), cardPlayer,tableMoney);
                 studentsToRemove.add(cardPlayer.getDashboard().getEntranceList().get(i));
             }
             //remove selected students from the entrance
@@ -91,7 +92,7 @@ public class Characters10and12 extends Character{
     public boolean applyEffect(CharacterParameters params) {
         switch (id){
             case 10:
-                return swapStudents10(params.getPlayer(),params.getStudentsIndexEntranceList(),params.getSelectedColor(),params.getSelectedColor2());
+                return swapStudents10(params.getPlayer(),params.getStudentsIndexEntranceList(),params.getSelectedColor(),params.getSelectedColor2(), params.getTableMoney());
             case 12:
                 return fillBagFromHall12(params.getSelectedColor(),params.getPlayersList());
             default:

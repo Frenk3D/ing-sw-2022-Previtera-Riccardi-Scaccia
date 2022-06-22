@@ -78,8 +78,9 @@ public class ClientSocket  {
 
     public void sendMessage(Message message) {
         try {
+            System.out.println("--sent message: "+message.getMessageType());
             outputStm.writeObject(message);
-            //outputStm.flush();
+            outputStm.flush();
             outputStm.reset();
         } catch (IOException e) {
             e.printStackTrace();

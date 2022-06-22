@@ -169,11 +169,11 @@ public class ClientController implements ViewObserver {
                 StringMessage stringMessage = (StringMessage) message;
                 clientState = ClientState.GAME_FINISHED;
                 if(clientGameModel.getNumOfPlayers() ==4){
-                    clientGameModel.show("The winners are: " + stringMessage.getString());
+                    clientGameModel.show("The winners are: " + stringMessage.getString() + " \nYou can play again if you want!");
                 }
-                else{clientGameModel.show("The winner is: " + stringMessage.getString());}
+                else{clientGameModel.show("The winner is: " + stringMessage.getString() + " \n|You can play again if you want!|");}
 
-                clientGameModel.show("'Restarting'...");
+                //clientGameModel.show("'Restarting'...");
                 clientState = ClientState.CHOOSING_JOIN_CREATE;
                 teamLeader = true;
                 teamId = client.getClientId();
@@ -183,14 +183,13 @@ public class ClientController implements ViewObserver {
 
 
             case OK_REPLY: //used also like a state sync message
-                //GenericMessage okReply = (GenericMessage) message;
                 manageOkReplyMessage();//we use a private method to have more order
                 break;
 
 
             case ERROR_REPLY: //It will show the error and reset the previous state, it will interrupt the current thread?
                 StringMessage errorReply = (StringMessage) message;
-                clientGameModel.show("ErrorMessage: " + errorReply.getString());
+                clientGameModel.show("ErrorMessage: \n" + errorReply.getString());
                 manageErrorReplyMessage();
                 break;
 
@@ -451,13 +450,13 @@ public class ClientController implements ViewObserver {
         switch(clientState){
             case CHOOSING_TEAM:
                 teamLeader = false; //and with init send I will receive my teamPlayer
-                clientGameModel.showChosenTeam("Chosen, now you are not the leader, you can't choose tower color");
+                clientGameModel.showChosenTeam("Chosen, now you are not the leader, \nyou can't choose tower color");
                 clientState = ClientState.CHOSEN_TEAM;
                 break;
 
             case CHOSEN_TEAM:
                 teamLeader = true; //for security, I set it true
-                clientGameModel.showChosenTeam("Ok, you are the leader of the team, you can choose tower color"); //they can choose if communicate outside the game
+                clientGameModel.showChosenTeam("Ok, you are the leader of the team, \nyou can choose tower color"); //they can choose if communicate outside the game
                 teamId = client.getClientId(); //for security, I set it, the team Id is mine
                 //clientState = ClientState.CHOOSING_TOWER_COLOR; //and now I will wait for available ... send
                 break;
@@ -524,7 +523,7 @@ public class ClientController implements ViewObserver {
             case USED_CHARACTER:
                 clientState= prevClientState;
                 usedCharacter = -1;
-                clientGameModel.show("Retry to use character or continue playing"); //for clarity
+                //clientGameModel.show("Retry to use character or continue playing"); //for clarity
                 //only the print of the string is ok and reset to the prev clientState
                 break;
 

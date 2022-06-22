@@ -7,11 +7,16 @@ import it.polimi.ingsw.model.Student;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Characters1and7and11 extends Character {
     //attributes
     private List<Student> cardStudentsList;
-    Bag bag;
+    private Bag bag;
+    private final Logger logger = Logger.getLogger(getClass().getName());
+
 
     //constructor
 
@@ -38,6 +43,18 @@ public class Characters1and7and11 extends Character {
 
     private boolean moveStudent1(Island island, int studentIndex){
         try {
+            //check if selected island and student exist
+                if(island==null){ //never happen
+                    logger.log(Level.SEVERE,"selected island does not exist");
+                    return false;
+
+                }
+
+                if(cardStudentsList.get(studentIndex)==null){
+                    logger.log(Level.SEVERE,"selected students does not exist");
+                    return false;
+                }
+
             island.getStudentsList().add(cardStudentsList.get(studentIndex));
             cardStudentsList.remove(studentIndex);
             List<Student> newStudentList = bag.extractStudents(1);
@@ -54,6 +71,23 @@ public class Characters1and7and11 extends Character {
 
     private boolean moveStudent7(Player cardPlayer, List<Integer> studentsIndexList, List<Integer> studentsIndexEntranceList){
         try {
+
+            //check if selected students exist
+            for (Integer i : studentsIndexEntranceList) {
+                if(cardPlayer.getDashboard().getEntranceStudentByIndex(i)==null){
+                    logger.log(Level.SEVERE,"selected entrance students does not exist");
+                    return false;
+                }
+            }
+
+            for (Integer i : studentsIndexList) {
+                if(cardStudentsList.get(i)==null){
+                    logger.log(Level.SEVERE,"selected students from the card does not exist");
+                    return false;
+                }
+            }
+
+
             List<Student> tmpDashboardStudents = new ArrayList<>();
             List<Student> tmpCardStudents = new ArrayList<>();
             for (Integer i : studentsIndexEntranceList) {
@@ -80,10 +114,17 @@ public class Characters1and7and11 extends Character {
         }
     }
 
-    private boolean moveStudent11(Player cardPlayer, int studentIndex){
+    private boolean moveStudent11(Player cardPlayer, int studentIndex, AtomicInteger tableMoney){
+
         try {
-            cardPlayer.getDashboard().getHallStudentsListByColor(cardStudentsList.get(studentIndex).getColor()).add(cardStudentsList.get(studentIndex));
-            //cardPlayer.getDashboard().addStudentHall(cardStudentsList.get(studentIndex), cardPlayer,tableMoney);
+            //check if selected students exist
+            if(cardPlayer.getDashboard().getEntranceStudentByIndex(studentIndex)==null){
+                logger.log(Level.SEVERE,"selected entrance students does not exist");
+                return false;
+            }
+
+            //cardPlayer.getDashboard().getHallStudentsListByColor(cardStudentsList.get(studentIndex).getColor()).add(cardStudentsList.get(studentIndex));
+            cardPlayer.getDashboard().addStudentHall(cardStudentsList.get(studentIndex), cardPlayer,tableMoney);
             cardStudentsList.remove(studentIndex);
             List<Student> newStudentList = bag.extractStudents(1);
             if(newStudentList != null){
@@ -104,7 +145,7 @@ public class Characters1and7and11 extends Character {
             case 7:
                 return moveStudent7(params.getPlayer(),params.getStudentsIndexList(),params.getStudentsIndexEntranceList());
             case 11:
-                return moveStudent11(params.getPlayer(),params.getStudentIndex());
+                return moveStudent11(params.getPlayer(),params.getStudentIndex(), params.getTableMoney());
             default:
                 return false;
         }

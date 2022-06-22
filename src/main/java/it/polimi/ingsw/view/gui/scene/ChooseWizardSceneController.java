@@ -29,57 +29,69 @@ public class ChooseWizardSceneController extends ViewObservable implements Gener
         kingWizardImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickKingWizardImgView);
         girlWizardImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickGirlWizardImgView);
         asiaticWizardImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickAsiaticWizardImgView);
-        oldWizardImgView.setDisable(true);
-        kingWizardImgView.setDisable(true);
-        girlWizardImgView.setDisable(true);
-        asiaticWizardImgView.setDisable(true);
 
     }
     public void onClickOldWizardImgView(Event event){
-        oldWizardImgView.setDisable(true);
-        kingWizardImgView.setDisable(true);
-        girlWizardImgView.setDisable(true);
-        asiaticWizardImgView.setDisable(true);
+        setAllDisable(true);
+        setAllFaded(true);
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseWizard(Wizard.SAGE))).start();
     }
     public void onClickKingWizardImgView(Event event){
-        oldWizardImgView.setDisable(true);
-        kingWizardImgView.setDisable(true);
-        girlWizardImgView.setDisable(true);
-        asiaticWizardImgView.setDisable(true);
+        setAllDisable(true);
+        setAllFaded(true);
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseWizard(Wizard.KING))).start();
     }
     public void onClickGirlWizardImgView(Event event){
-        oldWizardImgView.setDisable(true);
-        kingWizardImgView.setDisable(true);
-        girlWizardImgView.setDisable(true);
-        asiaticWizardImgView.setDisable(true);
+        setAllDisable(true);
+        setAllFaded(true);
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseWizard(Wizard.WITCH))).start();
     }
     public void onClickAsiaticWizardImgView(Event event){
-        oldWizardImgView.setDisable(true);
-        kingWizardImgView.setDisable(true);
-        girlWizardImgView.setDisable(true);
-        asiaticWizardImgView.setDisable(true);
+        setAllDisable(true);
+        setAllFaded(true);
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseWizard(Wizard.ASIATIC))).start();
     }
 
     public void updateList(List<Wizard> availableWizards){
-        if (availableWizards.contains(Wizard.SAGE)) {
-            oldWizardImgView.setDisable(false);
-        } else{oldWizardImgView.setDisable(false);}
-
-        if (availableWizards.contains(Wizard.KING)) {
-            kingWizardImgView.setDisable(false);
-        } else{kingWizardImgView.setDisable(false);}
-
-        if (availableWizards.contains(Wizard.WITCH)) {
-            girlWizardImgView.setDisable(false);
-        } else{girlWizardImgView.setDisable(false);}
-
-        if (availableWizards.contains(Wizard.ASIATIC)) {
-            asiaticWizardImgView.setDisable(false);
-        } else{asiaticWizardImgView.setDisable(false);}
-
+        setAllDisable(false);
+        setAllFaded(false);
+        if (!availableWizards.contains(Wizard.SAGE)) {
+            oldWizardImgView.setDisable(true);
+            oldWizardImgView.setOpacity(0.2);
+        }
+        if (!availableWizards.contains(Wizard.KING)) {
+            kingWizardImgView.setDisable(true);
+            kingWizardImgView.setOpacity(0.2);
+        }
+        if (!availableWizards.contains(Wizard.WITCH)) {
+            girlWizardImgView.setDisable(true);
+            girlWizardImgView.setOpacity(0.2);
+        }
+        if (!availableWizards.contains(Wizard.ASIATIC)) {
+            asiaticWizardImgView.setDisable(true);
+            asiaticWizardImgView.setOpacity(0.2);
+        }
+    }
+    
+    private void setAllDisable(boolean state){
+        oldWizardImgView.setDisable(state);
+        kingWizardImgView.setDisable(state);
+        girlWizardImgView.setDisable(state);
+        asiaticWizardImgView.setDisable(state);
+    }
+    
+    private void setAllFaded(boolean state){
+        if(state) {
+            oldWizardImgView.setOpacity(0.2);
+            kingWizardImgView.setOpacity(0.2);
+            girlWizardImgView.setOpacity(0.2);
+            asiaticWizardImgView.setOpacity(0.2);
+        }
+        else {
+            oldWizardImgView.setOpacity(1);
+            kingWizardImgView.setOpacity(1);
+            girlWizardImgView.setOpacity(1);
+            asiaticWizardImgView.setOpacity(1);
+        }
     }
 }
