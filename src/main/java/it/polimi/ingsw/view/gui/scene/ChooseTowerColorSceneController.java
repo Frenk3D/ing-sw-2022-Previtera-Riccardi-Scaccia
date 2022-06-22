@@ -24,6 +24,31 @@ public class ChooseTowerColorSceneController extends ViewObservable implements G
         whiteTowerImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickWhiteTowerImgView);
         blackTowerImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickBlackTowerImgView);
         greyTowerImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickGreyTowerImgView);
+
+        whiteTowerImgView.setOnMouseEntered((e)->{
+            whiteTowerImgView.setScaleX(1.04);
+            whiteTowerImgView.setScaleY(1.04);
+        });
+        whiteTowerImgView.setOnMouseExited((e)->{
+            whiteTowerImgView.setScaleX(1);
+            whiteTowerImgView.setScaleY(1);
+        });
+        blackTowerImgView.setOnMouseEntered((e)->{
+            blackTowerImgView.setScaleX(1.04);
+            blackTowerImgView.setScaleY(1.04);
+        });
+        blackTowerImgView.setOnMouseExited((e)->{
+            blackTowerImgView.setScaleX(1);
+            blackTowerImgView.setScaleY(1);
+        });
+        greyTowerImgView.setOnMouseEntered((e)->{
+            greyTowerImgView.setScaleX(1.04);
+            greyTowerImgView.setScaleY(1.04);
+        });
+        greyTowerImgView.setOnMouseExited((e)->{
+            greyTowerImgView.setScaleX(1);
+            greyTowerImgView.setScaleY(1);
+        });
         
     }
     public void onClickWhiteTowerImgView(Event event){

@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,6 +26,7 @@ public class SceneController{
     private static Scene activeScene;
     private static GenericSceneController activeController;
     private static String currFxml ="";
+    private static Stage mainStage;
 
 
     public static String getCurrFxml() {
@@ -43,6 +45,13 @@ public class SceneController{
         return activeScene;
     }
 
+    public static Stage getMainStage() {
+        return mainStage;
+    }
+
+    public static void setMainStage(Stage mainStage) {
+        SceneController.mainStage = mainStage;
+    }
 
     public static GenericSceneController getActiveController() {
         return activeController;

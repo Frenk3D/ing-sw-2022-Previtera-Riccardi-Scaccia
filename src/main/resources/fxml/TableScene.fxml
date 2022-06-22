@@ -16,7 +16,7 @@
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <center>
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="420.0" prefWidth="830.0" BorderPane.alignment="CENTER">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="420.0" prefWidth="830.0" styleClass="stackPane" stylesheets="@../css/table-scene.css" BorderPane.alignment="CENTER">
                <children>
                   <StackPane fx:id="island1Pane" alignment="TOP_LEFT" layoutY="200.0" prefHeight="130.0" prefWidth="150.0">
                      <children>
@@ -133,11 +133,6 @@
                               <Image url="@../images/cloud.png" />
                            </image>
                         </ImageView>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <StackPane.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </StackPane.margin>
-                        </VBox>
                      </children>
                   </StackPane>
                   <StackPane fx:id="cloud2Pane" layoutX="500.0" layoutY="150.0" prefHeight="120.0" prefWidth="120.0">
@@ -147,39 +142,24 @@
                               <Image url="@../images/cloud.png" />
                            </image>
                         </ImageView>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <StackPane.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </StackPane.margin>
-                        </VBox>
                      </children>
                   </StackPane>
-                  <StackPane fx:id="cloud3Pane" layoutX="500.0" layoutY="270.0" prefHeight="120.0" prefWidth="120.0">
+                  <StackPane fx:id="cloud3Pane" layoutX="500.0" layoutY="270.0" prefHeight="120.0" prefWidth="120.0" visible="false">
                      <children>
                         <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/cloud.png" />
                            </image>
                         </ImageView>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <StackPane.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </StackPane.margin>
-                        </VBox>
                      </children>
                   </StackPane>
-                  <StackPane fx:id="cloud4Pane" layoutX="350.0" layoutY="270.0" prefHeight="120.0" prefWidth="120.0">
+                  <StackPane fx:id="cloud4Pane" layoutX="350.0" layoutY="270.0" prefHeight="120.0" prefWidth="120.0" visible="false">
                      <children>
                         <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/cloud.png" />
                            </image>
                         </ImageView>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <StackPane.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </StackPane.margin>
-                        </VBox>
                      </children>
                   </StackPane>
                   <Button fx:id="buttonCommand1" layoutX="60.0" layoutY="500.0" mnemonicParsing="false" text="Move student island" visible="false">
@@ -199,7 +179,7 @@
             </AnchorPane>
          </center>
          <left>
-            <VBox prefHeight="200.0" prefWidth="150.0" spacing="10.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="200.0" prefWidth="150.0" spacing="10.0" styleClass="stackPane" stylesheets="@../css/table-scene.css" BorderPane.alignment="CENTER">
                <children>
                   <HBox fx:id="HboxPlayer1" alignment="CENTER_LEFT" prefHeight="87.0" prefWidth="200.0" spacing="10.0">
                      <children>
@@ -210,7 +190,10 @@
                                     <Image url="@../images/dashboard-scaled.png" />
                                  </image>
                               </ImageView>
-                              <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Player 1" />
+                              <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Player 1">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></Button>
                            </children>
                         </StackPane>
                         <ImageView fitHeight="115.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
@@ -229,7 +212,10 @@
                                     <Image url="@../images/dashboard-scaled.png" />
                                  </image>
                               </ImageView>
-                              <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Player 1" />
+                              <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Player 2">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></Button>
                            </children>
                         </StackPane>
                         <ImageView fitHeight="115.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
@@ -239,7 +225,7 @@
                         </ImageView>
                      </children>
                   </HBox>
-                  <HBox fx:id="HboxPlayer3" alignment="CENTER_LEFT" prefHeight="87.0" prefWidth="200.0" spacing="10.0">
+                  <HBox fx:id="HboxPlayer3" alignment="CENTER_LEFT" prefHeight="87.0" prefWidth="200.0" spacing="10.0" visible="false">
                      <children>
                         <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="87.0" prefWidth="200.0">
                            <children>
@@ -258,7 +244,7 @@
                         </ImageView>
                      </children>
                   </HBox>
-                  <HBox fx:id="HboxPlayer4" alignment="CENTER_LEFT" prefHeight="87.0" prefWidth="200.0" spacing="10.0">
+                  <HBox fx:id="HboxPlayer4" alignment="CENTER_LEFT" prefHeight="87.0" prefWidth="200.0" spacing="10.0" visible="false">
                      <children>
                         <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="87.0" prefWidth="200.0">
                            <children>
@@ -284,11 +270,11 @@
             </VBox>
          </left>
          <bottom>
-            <HBox alignment="BASELINE_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <HBox alignment="BASELINE_LEFT" prefHeight="100.0" prefWidth="200.0" styleClass="stackPane" stylesheets="@../css/table-scene.css" BorderPane.alignment="CENTER">
                <children>
-                  <HBox prefHeight="150.0" prefWidth="320.0" spacing="10.0">
+                  <HBox prefHeight="150.0" prefWidth="0.0" spacing="10.0">
                      <children>
-                        <StackPane fx:id="character1Pane" prefHeight="130.0" prefWidth="200.0">
+                        <StackPane fx:id="character1Pane" prefHeight="130.0" prefWidth="200.0" visible="false">
                            <children>
                               <ImageView fitHeight="130.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -297,7 +283,7 @@
                               </ImageView>
                            </children>
                         </StackPane>
-                        <StackPane fx:id="character2Pane" prefHeight="130.0" prefWidth="200.0">
+                        <StackPane fx:id="character2Pane" prefHeight="130.0" prefWidth="200.0" visible="false">
                            <children>
                               <ImageView fitHeight="130.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -306,7 +292,7 @@
                               </ImageView>
                            </children>
                         </StackPane>
-                        <StackPane fx:id="character3Pane" prefHeight="130.0" prefWidth="200.0">
+                        <StackPane fx:id="character3Pane" prefHeight="130.0" prefWidth="200.0" visible="false">
                            <children>
                               <ImageView fitHeight="130.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -320,7 +306,10 @@
                         <Insets right="30.0" />
                      </HBox.margin>
                   </HBox>
-                  <HBox fx:id="assistantsPane" prefHeight="100.0" prefWidth="200.0" spacing="10.0" />
+                  <HBox fx:id="assistantsPane" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <HBox.margin>
+                        <Insets top="12.0" />
+                     </HBox.margin></HBox>
                </children>
                <BorderPane.margin>
                   <Insets bottom="10.0" left="10.0" />
@@ -330,7 +319,7 @@
          <top>
             <HBox alignment="TOP_RIGHT" prefHeight="0.0" prefWidth="0.0" spacing="30.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label text="Errore! Posizione madre natura troppo distante" textFill="WHITE">
+                  <Label fx:id="tableInfoLabel" textFill="WHITE">
                      <font>
                         <Font name="System Bold Italic" size="15.0" />
                      </font>

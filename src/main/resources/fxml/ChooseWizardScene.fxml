@@ -39,7 +39,7 @@
                   <Font name="Times Roman" size="21.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" styleClass="imageView" stylesheets="@../css/login-scene.css">
                <children>
                   <ImageView fx:id="oldWizardImgView" disable="true" fitHeight="300.0" fitWidth="250.0" preserveRatio="true">
                      <image>

@@ -48,6 +48,7 @@ public class JavaFXGui extends Application {
         Scene scene = new Scene(rootLayout);
         SceneController.setActiveScene(scene);
         SceneController.setActiveController(controller);
+        SceneController.setMainStage(stage);
         stage.setScene(scene);
         stage.setWidth(900);
         stage.setHeight(600);

@@ -30,6 +30,41 @@ public class ChooseWizardSceneController extends ViewObservable implements Gener
         girlWizardImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickGirlWizardImgView);
         asiaticWizardImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickAsiaticWizardImgView);
 
+        oldWizardImgView.setOnMouseEntered((e)->{
+            oldWizardImgView.setScaleX(1.04);
+            oldWizardImgView.setScaleY(1.04);
+        });
+        oldWizardImgView.setOnMouseExited((e)->{
+            oldWizardImgView.setScaleX(1);
+            oldWizardImgView.setScaleY(1);
+        });
+        kingWizardImgView.setOnMouseEntered((e)->{
+            kingWizardImgView.setScaleX(1.04);
+            kingWizardImgView.setScaleY(1.04);
+        });
+        kingWizardImgView.setOnMouseExited((e)->{
+            kingWizardImgView.setScaleX(1);
+            kingWizardImgView.setScaleY(1);
+        });
+        girlWizardImgView.setOnMouseEntered((e)->{
+            girlWizardImgView.setScaleX(1.04);
+            girlWizardImgView.setScaleY(1.04);
+        });
+        girlWizardImgView.setOnMouseExited((e)->{
+            girlWizardImgView.setScaleX(1);
+            girlWizardImgView.setScaleY(1);
+        });
+
+        asiaticWizardImgView.setOnMouseEntered((e)->{
+            asiaticWizardImgView.setScaleX(1.04);
+            asiaticWizardImgView.setScaleY(1.04);
+        });
+
+        asiaticWizardImgView.setOnMouseExited((e)->{
+            asiaticWizardImgView.setScaleX(1);
+            asiaticWizardImgView.setScaleY(1);
+        });
+
     }
     public void onClickOldWizardImgView(Event event){
         setAllDisable(true);

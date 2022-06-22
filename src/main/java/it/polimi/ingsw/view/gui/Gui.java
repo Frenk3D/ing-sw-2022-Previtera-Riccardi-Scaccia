@@ -163,6 +163,14 @@ public class Gui extends View {
         if(state != ClientState.WAITING_FOR_YOUR_TURN){
             SceneController.showMessage((String) toShow);
         }
+        else {
+            Platform.runLater(() -> {
+                if (SceneController.getCurrFxml().equals("TableScene.fxml")) {
+                    TableSceneController controller = (TableSceneController) SceneController.getActiveController();
+                    controller.manageGameInfo((String) toShow);
+                }
+            });
+        }
     }
 
     @Override
@@ -170,6 +178,7 @@ public class Gui extends View {
         Platform.runLater(() -> {
             if (!SceneController.getCurrFxml().equals("TableScene.fxml")) {
                 SceneController.changeRootPane(observers, "TableScene.fxml");
+                SceneController.getMainStage().setMaximized(true);
             }
         });
     }

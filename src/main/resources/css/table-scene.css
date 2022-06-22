@@ -4,3 +4,7 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
+
+.stackPane {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2),15,0.5,0.0,0.0)
+}

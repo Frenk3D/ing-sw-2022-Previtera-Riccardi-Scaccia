@@ -82,7 +82,7 @@ public class ProvaGit {
 
 
         Player p1 = new Player("Marco", 2);
-        p1.setPlayerTowerColor(TowerColor.WHITE);
+        p1.setPlayerTowerColor(TowerColor.BLACK);
         p1.getAssistantDeck().setWizard(Wizard.ASIATIC);
         p1.setSelectedAssistant(5);
         p1.modifyMoney(6,new AtomicInteger(10));
@@ -109,6 +109,8 @@ public class ProvaGit {
         professorList.add(new Professor(PawnColor.RED));
 
         List<Tower> towerList = dashboard.getTowersList();
+        towerList.add(new Tower(TowerColor.BLACK));
+        towerList.add(new Tower(TowerColor.BLACK));
         towerList.add(new Tower(TowerColor.BLACK));
         towerList.add(new Tower(TowerColor.BLACK));
 
