@@ -5,6 +5,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * This class is an abstract class that implements the game object Character
+ * There are 12 different types of characters,each with a unique effect
+ * we decided to use the factory pattern to implement this
+ */
 public abstract class Character {
 
     boolean used;
@@ -13,26 +18,58 @@ public abstract class Character {
 
 
     //getter prototypes
+
+    /**
+     *
+     * @return true if the character is used
+     * @return false if it is not
+     */
     public boolean isUsed() {
         return used;
     }
 
+    /**
+     *
+     * @return the character's id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     *
+     * @return the character's initial cost
+     */
     public int getInitialCost() {
         return initialCost;
     }
 
     //setter prototypes
+
+    /**
+     * Sets the character as used
+     */
     public void setUsed() {
         used = true; //can't go again to false
     }
 
+    /**
+     * class used for the pattern factory
+     * @param params
+     * @return true if the effect is applied
+     */
     public abstract boolean applyEffect(CharacterParameters params);
+
+    /**
+     * initializes the character
+     * @param params
+     */
     public abstract void initCharacter(CharacterParameters params);
 
+    /**
+     *
+     * @return randomly generated characters list
+     */
     public static List<Character> extractCharacters(){
         List<Character> returnList = new ArrayList<>();
         List<Integer> idList = new ArrayList<>(); //we use integers to avoid generating useless characters
@@ -50,6 +87,11 @@ public abstract class Character {
     }
 
     // only for tests purposes
+
+    /**
+     * Sets the character's id
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }

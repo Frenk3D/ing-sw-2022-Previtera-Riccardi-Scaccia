@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
+/**
+ * This class implements the game object Round
+ * Each round is made by as many turns as the number of players in the game
+ */
 public class Round extends Observable {
     //attributes
     private Turn currTurn;
@@ -17,6 +21,11 @@ public class Round extends Observable {
     private boolean lastRound = false;
 
     //constructor
+
+    /**
+     * the round state is set to planning state
+     * the rest is a default constructor
+     */
     public Round() {
         currTurn=new Turn();
         playersOrder=new ArrayList<>();
@@ -25,12 +34,22 @@ public class Round extends Observable {
     }
 
     //methods
+
+    /**
+     * resets the round state to planning state
+     */
     public void resetRound(){ //resets round to planning state
         currTurn.setCurrPlayer(null);
         stage = RoundState.PLANNING_STATE;
         numOfAssistantThrows = 0;
     }
 
+    /**
+     * fills the clouds with a number of students varying based on the number of players
+     * @param cloudsList
+     * @param bag
+     * @param numOfPlayers
+     */
     public void fillClouds(List<Cloud> cloudsList, Bag bag, int numOfPlayers){
         int requiredStudents = 12;
         if(numOfPlayers == 2){
@@ -48,7 +67,11 @@ public class Round extends Observable {
         }
     }
 
-
+    /**
+     * initializes the round and the player's order
+     * called by the controller after the planning state is finished
+     * @param playersList
+     */
     public void initRound(List<Player> playersList) { //called by the controller after the planning state is finished
         int i = 0;
 
@@ -74,6 +97,10 @@ public class Round extends Observable {
         nextTurn();
     }
 
+    /**
+     *
+     * @return the next turn in the round
+     */
     public boolean nextTurn(){
         Player nextPlayer = getNextPlayer();
 
@@ -88,6 +115,10 @@ public class Round extends Observable {
         }
     }
 
+    /**
+     *
+     * @return the next player
+     */
     public Player getNextPlayer(){
         if(playersOrder.size()==0){
             return null;
@@ -95,28 +126,53 @@ public class Round extends Observable {
         return playersOrder.remove(0);
     }
 
+    /**
+     *
+     * @return the current turn
+     */
     public Turn getCurrTurn(){
         return currTurn;
     }
 
+    /**
+     *
+     * @return the round stage
+     */
     public RoundState getStage() {
         return stage;
     }
 
+    /**
+     *
+     * @return the number of assistants thrown
+     */
     public int getNumOfAssistantThrows() {
         return numOfAssistantThrows;
     }
 
+    /**
+     *
+     * @param playersList
+     * @return the planning phase player
+     */
     public Player getPlanningPhasePlayer(List<Player> playersList){
         return playersList.get(planningPhasePlayer);
     }
 
+    /**
+     * randomly generates a starting player
+     * @param playersList
+     */
     public void randomStartingPlayer(List<Player> playersList){ //chooses the first Player at the beginning of the game
         int numOfPlayers = playersList.size();
         int randomInt = (int)(Math.random() * (numOfPlayers));
         planningPhasePlayer = randomInt;
     }
 
+    /**
+     * Sets the next planning phase player
+     * @param numOfPlayers
+     */
     public void setNextPlayerPlanning(int numOfPlayers){ //set the next player that must throw the assistant card
         if(stage == RoundState.PLANNING_STATE && numOfAssistantThrows<numOfPlayers) {
                 planningPhasePlayer = (planningPhasePlayer + 1) % numOfPlayers;

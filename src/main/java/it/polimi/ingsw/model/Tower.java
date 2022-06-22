@@ -4,17 +4,30 @@ import it.polimi.ingsw.model.enumerations.TowerColor;
 
 import java.util.Objects;
 
+/**
+ * implements the game object tower
+ */
 public class Tower {
     //attributes
     private final TowerColor color;
 
 
     //constructor
+
+    /**
+     * default constructor
+     * @param color
+     */
     public Tower(TowerColor color){
         this.color= color;
     }
 
     //getter
+
+    /**
+     *
+     * @return the tower's color
+     */
     public TowerColor getColor(){
         return color;
     }

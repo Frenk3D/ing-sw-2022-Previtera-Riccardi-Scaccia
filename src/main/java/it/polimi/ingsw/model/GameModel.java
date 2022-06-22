@@ -288,54 +288,107 @@ public class GameModel extends Observable {
         return null;
     }
 
+    /**
+     *
+     * @return the number of players
+     */
     public int getNumOfPlayers(){
         return numOfPlayers;
     }
 
+    /**
+     *
+     * @return the current round
+     */
     public Round getCurrRound(){
         return currRound;
     }
 
+    /**
+     *
+     * @return the list of players
+     */
     public List<Player> getPlayersList(){
         return playersList;
     }
 
+    /**
+     *
+     * @return the current player
+     */
     public Player getCurrPlayer(){
         return getCurrRound().getCurrTurn().getCurrPlayer();
     }
 
+    /**
+     *
+     * @return the money on the table
+     */
     public AtomicInteger getTableMoney() {
         return tableMoney;
     }
 
+    /**
+     *
+     * @return the bag
+     */
     public Bag getBag() {
         return bag;
     }
 
+    /**
+     *
+     * @return the list of clouds
+     */
     public List<Cloud> getCloudsList() {
         return cloudsList;
     }
 
+    /**
+     *
+     * @return the state of the game
+     */
     public GameState getGameState(){
         return state;
     }
 
+    /**
+     *
+     * @return true if the game is in expert mode
+     * @return false otherwise
+     */
     public boolean isExpertMode() {
         return expertMode;
     }
 
+    /**
+     *
+     * @return the list of professors on the table
+     */
     public List<Professor> getTableProfessorsList() {
         return tableProfessorsList;
     }
 
+    /**
+     *
+     * @return the list of wizards
+     */
     public List<Wizard> getWizardList() {
         return wizardList;
     }
 
+    /**
+     *
+     * @return the list of chosen tower colors
+     */
     public List<TowerColor> getChooseTowerColorList() {
         return chooseTowerColorList;
     }
 
+    /**
+     * sets the state in settingState
+     * @param settingState
+     */
     public void setSettingState(SettingState settingState) {
         this.settingState = settingState;
         if(settingState != SettingState.NOT_SETTING_STATE){
@@ -343,15 +396,30 @@ public class GameModel extends Observable {
         }
     }
 
+    /**
+     *
+     * @return setting state
+     */
     public SettingState getSettingState() {
         return settingState;
     }
 
+    /**
+     *
+     * @return the list of islands
+     */
     public List<Island> getIslandsList() {
         return islandsList;
     }
 
     //-------------------------------------------------------------------MESSAGES MANAGEMENT---------------------------------------------------------------
+    /**
+     * the following classes are used for message management,they notify the observer with the needed info
+     */
+
+    /**
+     * sends the message that notifies that a player has joined
+     */
     public void sendPlayerJoin(){
         List<String> result = new ArrayList<>();
         for(Player p : playersList){
@@ -360,26 +428,44 @@ public class GameModel extends Observable {
         notifyObserver(new PlayerJoinMessage(SERVERID,result));
     }
 
+    /**
+     * sends the message containing the table
+     */
     public void sendTable(){
         notifyObserver(new TableMessage(SERVERID,getReducedIslandsList(),getReducedCloudsList(),motherNaturePos));
     }
 
+    /**
+     * sends the message containing the available team players
+     */
     public void sendAvailableTeamPlayers(){
         notifyObserver(new SyncInitMessage(MessageType.AVAILABLE_TEAM_SEND, SERVERID, getPlayersWithoutTeamMap(), null, null));
     }
 
+    /**
+     * sends the message containing the available tower colors
+     */
     public void sendAvailableTowerColors(){
         notifyObserver(new SyncInitMessage(MessageType.AVAILABLE_TOWER_SEND, SERVERID, null, chooseTowerColorList, null));
     }
 
+    /**
+     * sends the message containing the available wizards
+     */
     public void sendAvailableWizards(){
         notifyObserver(new SyncInitMessage(MessageType.AVAILABLE_WIZARD_SEND, SERVERID, null, null, wizardList));
     }
 
+    /**
+     * sends a sync state message,setting it to setting state
+     */
     public void sendSettingState(){
         notifyObserver(new SyncStateMessage(SERVERID,state,settingState));
     }
 
+    /**
+     * sends a sync state message,setting it to in game state
+     */
     public void sendInGameState(){
         if(currRound.getStage() == RoundState.PLANNING_STATE){
             notifyObserver(new SyncStateMessage(SERVERID,state,currRound.getStage(),currRound.getCurrTurn().getStage(),currRound.getPlanningPhasePlayer(playersList).getId()));
@@ -390,6 +476,9 @@ public class GameModel extends Observable {
 
     }
 
+    /**
+     * sends game initialization message
+     */
     public void sendInitGame(){
         if(expertMode){
             notifyObserver(new AllGameMessage(SERVERID,getReducedPlayersList(), expertMode, getReducedIslandsList(),getReducedCloudsList(),playersList.get(0).getAssistantDeck().getReducedAssistantsList(), motherNaturePos, tableMoney.get(), getReducedCharacterList()));
@@ -399,33 +488,57 @@ public class GameModel extends Observable {
         }
     }
 
+    /**
+     * sends a message notifying the observer with the selected assistant
+     */
     public void sendSelectedAssistant(){
         Player currPlayer = currRound.getPlanningPhasePlayer(playersList);
         notifyObserver(new ThrownAssistantMessage(SERVERID,new ReducedAssistant(currPlayer.getSelectedAssistant()),currPlayer.getId()));
     }
 
+    /**
+     * sends the dashboard of the current player
+     */
     public void sendDashboard(){
         notifyObserver(new DashboardMessage(SERVERID, new ReducedDashboard(getCurrPlayer().getDashboard()),getCurrPlayer().getId()));
     }
 
+    /**
+     * sends the dashboard of a player chosen by id
+     * @param playerId
+     */
     public void sendDashboard(int playerId){
         notifyObserver(new DashboardMessage(SERVERID, new ReducedDashboard(getPlayerById(playerId).getDashboard()),playerId));
     }
 
+    /**
+     * sends the dashboards of all players
+     */
     public void sendAllDashboards(){
         for (Player p : playersList){
             notifyObserver(new DashboardMessage(SERVERID, new ReducedDashboard(p.getDashboard()),p.getId()));
         }
     }
 
+    /**
+     * sends the list of characters,the table money,and the map number of money
+     */
     public void sendCharacterTable(){
         notifyObserver(new CharacterTableMessage(SERVERID,tableMoney.get(),getReducedCharacterList(),getNumOfMoneyMap()));
     }
 
+    /**
+     * sends the thrown character chosen by id
+     * @param characterId
+     */
     public void sendThrownCharacter(int characterId){
         notifyObserver(new ThrownCharacterMessage(SERVERID,characterId,getCurrPlayer().getId()));
     }
 
+    /**
+     * sends a message that notifies the end of the game,and the player who won
+     * @param winnerId
+     */
     public void sendWin(int winnerId){
         StringBuilder names = new StringBuilder();
         if(numOfPlayers==4){
@@ -440,6 +553,11 @@ public class GameModel extends Observable {
     }
 
     //----------------------------------------------------------------REDUCED LIST GENERATORS-------------------------------------------------------------------------
+
+    /**
+     *
+     * @return the list of reduced islands
+     */
     public List<ReducedIsland> getReducedIslandsList(){
         List<ReducedIsland> reducedIslands = new ArrayList<>();
         for(Island i : islandsList){
@@ -448,6 +566,10 @@ public class GameModel extends Observable {
         return reducedIslands;
     }
 
+    /**
+     *
+     * @return the list of reduced clouds
+     */
     public List<ReducedCloud> getReducedCloudsList(){
         List<ReducedCloud> reducedClouds = new ArrayList<>();
         for(Cloud c : cloudsList){
@@ -456,6 +578,10 @@ public class GameModel extends Observable {
         return reducedClouds;
     }
 
+    /**
+     *
+     * @return the list of reduced characters
+     */
     public List<ReducedCharacter> getReducedCharacterList(){
         List<ReducedCharacter> reducedCharacters = new ArrayList<>();
         for(Character c : charactersList){
@@ -464,6 +590,10 @@ public class GameModel extends Observable {
         return reducedCharacters;
     }
 
+    /**
+     *
+     * @return the list of reduced players
+     */
     public List<ReducedPlayer> getReducedPlayersList(){
         List<ReducedPlayer> reducedPlayers = new ArrayList<>();
         for(Player p : playersList){
@@ -472,6 +602,10 @@ public class GameModel extends Observable {
         return reducedPlayers;
     }
 
+    /**
+     *
+     * @return the map containing players without a team
+     */
     public Map<String, Integer> getPlayersWithoutTeamMap(){
         Map<String, Integer> result = new HashMap<>();
         for (Player p : playersList){ //check if all player choose team player
@@ -482,6 +616,10 @@ public class GameModel extends Observable {
         return result;
     }
 
+    /**
+     *
+     * @return the map containing the number of money of each player
+     */
     public Map<Integer,Integer> getNumOfMoneyMap(){
         Map<Integer, Integer> result = new HashMap<>();
         for (Player p : playersList){

@@ -6,6 +6,10 @@ import it.polimi.ingsw.model.enumerations.TurnState;
 
 import java.util.List;
 
+/**
+ * implement the game object Turn
+ * A turn is the sets of action the a player can make inside a round
+ */
 public class Turn {
     //attributes
     private TurnState stage;
@@ -13,37 +17,70 @@ public class Turn {
     private Player currPlayer;
     private Character usedCharacter;
 
+    /**
+     * default constructor
+     */
     public Turn() {
         currPlayer = null;
     }
 
     //methods
+
+    /**
+     *
+     * @return the current player
+     */
     public Player getCurrPlayer() {
         return currPlayer;
     }
 
+    /**
+     *
+     * @return the used character
+     */
     public Character getUsedCharacter() {
         return usedCharacter;
     }
 
+    /**
+     * Sets the turn stage
+     * @param stage
+     */
     public void setStage(TurnState stage) {
         this.stage = stage;
     }
 
+    /**
+     *
+     * @return the turn stage
+     */
     public TurnState getStage() {
         return stage;
     }
 
+    /**
+     * Sets the current player
+     * @param name
+     */
     public void setCurrPlayer(Player name) {
         this.currPlayer = name;
     }
 
+    /**
+     * Initializes the turn
+     */
     public void initTurn(){
         usedCharacter=null;
         movedStudentNumber=0;
         stage=TurnState.MOVE_STUDENT_STATE;
     }
 
+    /**
+     * Updates the list of professors
+     * @param playersList
+     * @param tableProfessorsList
+     * @return
+     */
     public int updateProfessorsLists(List<Player> playersList, List<Professor> tableProfessorsList){
         for (PawnColor currColor : PawnColor.values()){ //scan of all colors
             Player tmpPlayer = null; //temp variable to store the player that has to receive the professor
@@ -97,6 +134,11 @@ public class Turn {
         return -1;
     }
 
+    /**
+     *
+     * @param playersList
+     * @param tableProfessorsList
+     */
     public void returnProfessorsToTable(List<Player> playersList, List<Professor> tableProfessorsList){
         for (PawnColor currColor : PawnColor.values()) {
             for (Player p : playersList){
@@ -110,6 +152,11 @@ public class Turn {
         }
     }
 
+    /**
+     * Updates the list of islands
+     * @param islandsList
+     * @return
+     */
     public int updateIslandList(List<Island> islandsList){
         int updatedMotherNature = -1;
         boolean merged = false;
@@ -141,12 +188,11 @@ public class Turn {
     }
 
 
-
-
-
-
-
-
+    /**
+     * increments the number of moved students
+     * @param numOfPlayers
+     * @return the incremented number of moved students
+     */
     public boolean incrementMovedStudents(int numOfPlayers){
         movedStudentNumber++;
         if((movedStudentNumber==3 && numOfPlayers != 3) || (movedStudentNumber==4 && numOfPlayers == 3)){
@@ -156,10 +202,18 @@ public class Turn {
         return true;
     }
 
+    /**
+     *
+     * @return the number of moved students
+     */
     public int getMovedStudentsNumber() {
         return movedStudentNumber;
     }
 
+    /**
+     * Sets the number of used students
+     * @param usedCharacter
+     */
     public void setUsedCharacter(Character usedCharacter) {
         this.usedCharacter = usedCharacter;
     }

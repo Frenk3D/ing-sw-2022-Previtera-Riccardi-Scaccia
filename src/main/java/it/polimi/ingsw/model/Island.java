@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * this class implements the game object island
+ * there are 12 islands in the game
+ * the islands can contain students,towers and mother nature
+ * the island's weight is an integer that specifies if the island is a merge of different single islands
+ */
 public class Island {
     //attributes
     private int forbidCards;
@@ -17,6 +23,12 @@ public class Island {
 
     //Methods
     //constructor
+
+    /**
+     * the island weight is set to 1
+     * the numbers of forbid cards is set to 0
+     * the rest is a default constructor
+     */
     public Island(){
         weight = 1;
         forbidCards = 0;
@@ -24,7 +36,13 @@ public class Island {
         studentsList= new ArrayList<Student>();
     }
 
-
+    /**
+     * Adds the first students on the islands
+     * The students are not added on the island with mother nature on it,and the opposite island
+     * @param islandsList
+     * @param motherNaturePos
+     * @param bag
+     */
     public static void initStudentIsland(List<Island> islandsList, int motherNaturePos, Bag bag){
         int counter = 0;
         List<Student> l=bag.extractStudents(10);
@@ -42,6 +60,10 @@ public class Island {
         }
     }
 
+    /**
+     *
+     * @return the list of generated islands
+     */
     public static ArrayList<Island> generateIslandsList(){
         ArrayList<Island> islandsList= new ArrayList<>();
         for(int i=0; i<12; i++){
@@ -50,19 +72,34 @@ public class Island {
         return islandsList;
     }
 
-
+    /**
+     *
+     * @return the forbid cards on an island
+     */
     public int getForbidCards() {
         return forbidCards;
     }
 
+    /**
+     * Sets the forbid cards
+     * @param forbidCards
+     */
     public void setForbidCards(int forbidCards) {
         this.forbidCards = forbidCards;
     }
 
+    /**
+     *
+     * @return the list of towers of an island
+     */
     public List<Tower> getTowersList() {
         return towersList;
     }
 
+    /**
+     *
+     * @return the color of the tower(s) on the island
+     */
     public TowerColor getTowerColor() {
         if(towersList.isEmpty()){
             return null;
@@ -70,23 +107,43 @@ public class Island {
         return towersList.get(0).getColor();
     }
 
+    /**
+     * Adds a tower to the island
+     * @param tower
+     */
     public void addTower(Tower tower){
         towersList.add(tower);
     }
 
+    /**
+     *
+     * @return the list of students on the island
+     */
     public List<Student> getStudentsList() {
         return studentsList;
     }
 
+    /**
+     * Sets the list of students on the island
+     * @param studentsList
+     */
     public void setStudentsList(List<Student> studentsList) {
         this.studentsList = studentsList;
     }
 
+    /**
+     * Adds a student to the island
+     * @param student
+     */
     public void addStudent(Student student){
         studentsList.add(student);
     }
 
-
+    /**
+     * Updates the player domain of the island
+     * if the domain changes a tower of the player's tower color is added to the island
+     * @param playersList
+     */
     public void updateIslandDomain(List<Player> playersList) {
         Player oldDominatingPlayer = null;
         Player tmpPlayer = null ;
@@ -140,7 +197,12 @@ public class Island {
 
     }
 
-
+    /**
+     * Expert mode version of the update island domain method
+     * the domain depends on forbid cards as well
+     * @param playersList
+     * @param forbidCharacter
+     */
     public void updateIslandDomainExpert(List<Player> playersList, Characters3and4and5 forbidCharacter){
         if(forbidCards > 0 && forbidCharacter!=null){
             forbidCards--;
@@ -150,7 +212,13 @@ public class Island {
         updateIslandDomain(playersList);
     }
 
-
+    /**
+     * Calculates the influence of a player on the island
+     * the island's domain is updated depending on the influence of the player
+     * @param player
+     * @param playersList
+     * @return the influence of a given player on the island
+     */
     private int calculateInfluence(Player player, List<Player> playersList){
         int influence = 0;
         Player teamPlayer = player.getTeamPlayer(playersList);
@@ -171,6 +239,12 @@ public class Island {
         return influence;
     }
 
+    /**
+     * If two adjacent islands share the same players domain they are merged into a single island
+     * The number of islands merged defines the island's weight
+     * @param nextIsland
+     * @return the merged island
+     */
     public boolean mergeIsland(Island nextIsland){ //is to call more times
         if (getTowerColor()!=null && nextIsland.getTowerColor()!=null && getTowerColor() == nextIsland.getTowerColor()){
             weight = weight + nextIsland.weight;
@@ -184,10 +258,18 @@ public class Island {
         return false;
     }
 
+    /**
+     * Sets the island's weight
+     * @param weight
+     */
     public void setWeight(int weight) {
         this.weight = weight;
     }
 
+    /**
+     *
+     * @return the island's weight
+     */
     public int getWeight() {
         return weight;
     }
