@@ -17,6 +17,7 @@ import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.observer.ViewObserver;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -27,6 +28,8 @@ import static it.polimi.ingsw.network.server.Server.SERVERID;
  * this is the main class of the game
  * it contains the logic of the game itself
  * the structure and all the info of the game is collected here
+ *
+ * It is an {@link Observable}.
  */
 public class GameModel extends Observable {
     //attributes

@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.enumerations.PawnColor;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * This class contains all the different parameters used by each character. It is used to communicate with the {@link it.polimi.ingsw.network.client}.
+ */
 public class MessageCharacterParameters implements Serializable {
     private int characterId;
 

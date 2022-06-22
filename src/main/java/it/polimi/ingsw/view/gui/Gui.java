@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-//For javaFX? use SceneBuilder?
+//For javaFX used SceneBuilder
 import javafx.application.*;
 import it.polimi.ingsw.view.gui.scene.*;
 
@@ -20,7 +20,7 @@ import it.polimi.ingsw.view.gui.scene.*;
 
 
 /**
- * This class implements all methods of View. Is used for the Graphic User Interface.
+ * This class implements all methods of View. Is used for the Graphic User Interface. It is an implementation of the {@link View}.
  */
 public class Gui extends View {
 

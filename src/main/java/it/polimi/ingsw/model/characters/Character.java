@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.characters;
 
+import it.polimi.ingsw.view.View;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,7 +9,7 @@ import java.util.Objects;
 
 /**
  * This class is an abstract class that implements the game object Character
- * There are 12 different types of characters,each with a unique effect
+ * There are 12 different types of characters,each with a unique effect. The constructor for each type is made from the {@link Factory}
  * we decided to use the factory pattern to implement this
  */
 public abstract class Character {

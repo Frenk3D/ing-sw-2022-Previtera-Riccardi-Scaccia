@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.controller.ClientController;
 import it.polimi.ingsw.model.client.ReducedDashboard;
+import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.gui.scene.DashboardSceneController;
 import it.polimi.ingsw.view.gui.scene.LoginSceneController;
 import javafx.application.Application;
@@ -16,7 +17,9 @@ import java.io.IOException;
 
 /**
  * Main JavaFX class which starts the main stage and scene.
- we have to choose between swing or javafx*/
+ * we have to choose between swing or javafx
+ * It extends {@link Application}
+ */
 public class JavaFXGui extends Application {
 
 

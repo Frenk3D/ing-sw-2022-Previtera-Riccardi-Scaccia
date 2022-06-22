@@ -17,6 +17,9 @@ import java.util.List;
 //the folder scene is to define, now there are something not good for this project
 
 
+/**
+ * This is the class the manage the change of views in the GUI.
+ */
 public class SceneController{
 
     private static Scene activeScene;

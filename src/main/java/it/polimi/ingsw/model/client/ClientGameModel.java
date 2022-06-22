@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.observer.*;
+import it.polimi.ingsw.view.View;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,11 @@ import java.util.concurrent.ExecutionException;
 
 import static it.polimi.ingsw.network.server.Server.SERVERID;
 
+/**
+ * It is a reduced {@link it.polimi.ingsw.model.GameModel}
+ * It extends {@link ModelObservable}
+ * @see it.polimi.ingsw.observer.ModelObservable
+ */
 public class ClientGameModel extends ModelObservable {
     private Map<String,Integer> availableTeamPlayers;
     private List<TowerColor> availableTowerColors;

@@ -20,7 +20,6 @@ import java.util.concurrent.Executors;
 
 /**
  *
- * @see Runnable
  */
 
 public class ClientSocket  {
@@ -102,8 +101,21 @@ public class ClientSocket  {
         clientController.onSocketDisconnect();
     }
 
-    //TO DELETE
-    /*public void run() throws IOException {
+
+    public int getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
+    }
+}
+
+
+/*
+____________________________________________________Old version____________________________________________________
+
+    public void run() throws IOException {
         Socket socket = new Socket(ip, port);
         System.out.println("Connection established");
         ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
@@ -123,14 +135,5 @@ public class ClientSocket  {
             socketOut.close();
             socket.close();
         }*/
-
-    public int getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
-    }
-}
 
 

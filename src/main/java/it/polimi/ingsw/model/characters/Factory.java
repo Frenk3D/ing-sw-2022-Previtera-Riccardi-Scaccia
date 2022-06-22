@@ -2,7 +2,11 @@ package it.polimi.ingsw.model.characters;
 
 import it.polimi.ingsw.model.characters.*;
 import it.polimi.ingsw.model.characters.Character;
+import it.polimi.ingsw.view.View;
 
+/**
+ * Used from the abstract class {@link Character} to build the various different characters.
+ */
 public class Factory {
     //methods
     public static Character newCharacter(int id){

@@ -3,10 +3,12 @@ package it.polimi.ingsw.observer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-//view implements it and controller is the ViewObserver (it has same prototypes of ModelObservable)
+
 /**
  * Custom observable class that can be observed by implementing the {@link ViewObserver} interface and registering as listener.
+ * //{@link it.polimi.ingsw.view.View} and the various implementations of {@link it.polimi.ingsw.view.gui.scene.GenericSceneController} implements it
  */
+//and controller is the ViewObserver (it has similar prototypes of ModelObservable)
 public class ViewObservable {
 
     protected final List<ViewObserver> observers = new ArrayList<>();

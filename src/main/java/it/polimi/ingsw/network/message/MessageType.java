@@ -1,5 +1,8 @@
 package it.polimi.ingsw.network.message;
 
+/**
+ * This enum is used to differentiate the message communicated.
+ */
 public enum MessageType {
     //-----------------INIT MESSAGES--------------------------
     LOGIN_REQUEST, LOGIN_REPLY, //string message, string message

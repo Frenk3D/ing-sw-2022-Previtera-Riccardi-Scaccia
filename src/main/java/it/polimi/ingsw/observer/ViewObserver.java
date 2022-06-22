@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutionException;
 /*(it has fewer prototypes of ModelObserver but with more parameters to say to the controller witch message send)*/
 
 /**
- * Custom observer interface for views. It supports different types of notification. From view to clientController and from clientModel to View (CLI OR GUI)
+ * Custom observer interface for views. It supports different types of notification. From the different views to {@link it.polimi.ingsw.controller.ClientController}
  */
 public interface ViewObserver {
 

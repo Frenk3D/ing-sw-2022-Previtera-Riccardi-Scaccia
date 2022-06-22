@@ -6,12 +6,14 @@ package it.polimi.ingsw.observer;
 import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.server.Lobby;
+import it.polimi.ingsw.view.View;
+
 import java.util.List;
 import java.util.Map;
 //import java.util.concurrent.ExecutionException;
 
 /**
- * Custom observer interface for views. It supports different types of notification. )
+ * Custom observer interface for views. It supports different types of notification. ). {@link View}  extends this.
  */
 public interface ModelObserver {
 

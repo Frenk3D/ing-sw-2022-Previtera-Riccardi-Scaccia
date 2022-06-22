@@ -283,9 +283,7 @@ public class Cli extends View {
 
     }
 
-    /**
-     * @param toShow
-     */
+
     @Override
     public void onShow(Object toShow) { //we can print in different way in base of the type  //not typeOf...
         System.out.println(toShow);

@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.observer.Observer;
+import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.RemoteView;
 
 import java.util.ArrayList;
@@ -19,6 +20,9 @@ import java.util.logging.Logger;
 
 import static it.polimi.ingsw.network.server.Server.SERVERID;
 
+/**
+ * This is the main controller of the game rules in the server. It implements {@link Observer}
+ */
 public class Controller implements Observer {
     //attributes
     private GameModel game;  //intellij says it should be final,but it actually changes so it's not

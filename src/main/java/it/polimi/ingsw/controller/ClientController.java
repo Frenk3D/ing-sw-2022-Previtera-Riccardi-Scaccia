@@ -22,6 +22,7 @@ import java.util.*;
  * This class is part of the client side.
  * It is an interpreter between the network and a generic view (which in this case can be CLI or GUI).
  * It receives the messages, wraps/unwraps and pass them to the network/view.
+ * Implements {@link ViewObserver}
  */
 public class ClientController implements ViewObserver {
 

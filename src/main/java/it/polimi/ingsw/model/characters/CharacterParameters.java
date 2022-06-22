@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * This class contains all the different parameters used by each character
+ * This class contains all the different parameters used by each character. It is used in the server side.
  */
 public class CharacterParameters implements Serializable {
     private Island island;

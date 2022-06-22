@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enumerations.RoundState;
 import it.polimi.ingsw.observer.Observable;
-
+import it.polimi.ingsw.observer.ViewObserver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
@@ -10,8 +10,10 @@ import java.util.Collections;
 /**
  * This class implements the game object Round
  * Each round is made by as many turns as the number of players in the game
+ *
+ *
  */
-public class Round extends Observable {
+public class Round {
     //attributes
     private Turn currTurn;
     private List<Player> playersOrder;

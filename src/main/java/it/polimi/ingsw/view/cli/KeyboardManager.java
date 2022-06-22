@@ -7,12 +7,16 @@ import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.client.ClientState;
 import it.polimi.ingsw.network.server.Lobby;
+import it.polimi.ingsw.observer.ViewObserver;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * It is the class that manage the user input. It implements {@link Runnable}
+ */
 public class KeyboardManager implements Runnable{
     private ClientController controller; //only to check the state
     private Cli cli;
