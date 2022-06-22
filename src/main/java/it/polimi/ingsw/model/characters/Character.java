@@ -44,10 +44,11 @@ public abstract class Character {
         Collections.shuffle(idList);
 
         returnList.add(Factory.newCharacter(idList.get(0))); //we can force them leaving the shuffle, it's id-1
-        returnList.add(Factory.newCharacter(idList.get(5))); //or 1
+        returnList.add(Factory.newCharacter(idList.get(9))); //or 1
         returnList.add(Factory.newCharacter(idList.get(2))); //
         return returnList;
     }
+
 
     // only for tests purposes
     public void setId(int id) {

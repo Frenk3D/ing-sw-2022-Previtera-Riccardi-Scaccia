@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
-//All the checks are in the specific views, not in controller or in game model, because we WANT to have same prototypes for CLI (with prints etc.) and GUI (with shows)
+//All the checks are in the specific views, not in controller or in game model, because we WANT to have same prototypes for CLI (with prints etc.) and GUI (with shows), ok also for javadoc
 //VIEW FOR CLIENT if a client has to send/write something is an ask  (from the controller, params are the things where I have to choose) or it's a show method (like the sync message or else automatic, params are the things to show)
 
 /**
