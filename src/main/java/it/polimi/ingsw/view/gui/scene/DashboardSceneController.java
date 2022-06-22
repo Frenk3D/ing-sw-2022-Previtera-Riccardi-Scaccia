@@ -33,6 +33,7 @@ public class DashboardSceneController {
     }
 
     public void loadDashboard(ReducedDashboard dashboard, TowerColor color){
+        clearDashboard();
 
         //load entrance
         ImageView firstPawn = getPawnImage(dashboard.getEntranceList().get(0));
@@ -98,7 +99,6 @@ public class DashboardSceneController {
                 }
             }
         }
-
     }
 
     private void onStudentClicked(Event e){
@@ -124,6 +124,20 @@ public class DashboardSceneController {
 
     public List<Integer> getEntranceChoiceSelection() {
         return entranceChoiceList;
+    }
+
+    private void clearDashboard(){
+        for (int i = entranceGridPane.getChildren().size()-1 ; i>=0 ;i--) {
+                entranceGridPane.getChildren().remove(i);
+        }
+
+        for (int i = hallGridPane.getChildren().size()-1 ; i>=0 ;i--) {
+            hallGridPane.getChildren().remove(i);
+        }
+
+        for (int i = towersGridPane.getChildren().size()-1 ; i>=0 ;i--) {
+            towersGridPane.getChildren().remove(i);
+        }
     }
 
     private ImageView getPawnImage(PawnColor color){

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.scene;
 
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.TowerColor;
@@ -63,6 +64,7 @@ public class TableSceneController extends ViewObservable implements GenericScene
 
     private Stage stage;
     private Scene dashboardScene;
+    private DashboardSceneController currDashboardController;
     private GuiState guiState = GuiState.LOCKED;
 
     private StackPane[] islandArray = new StackPane[12];
@@ -141,6 +143,7 @@ public class TableSceneController extends ViewObservable implements GenericScene
         guiState = GuiState.WAITING_FOR_ASSISTANT_CLICK;
         tableInfoLabel.setText("Choose an assistant...");
     }
+
     public void requestedMoveStudent(){
         guiState = GuiState.WAITING_FOR_MOVE_OR;
         buttonCommand1.setVisible(true);
@@ -201,7 +204,7 @@ public class TableSceneController extends ViewObservable implements GenericScene
     private void onDashboardClick(Event e){
         int playerIndex = (int)((Button)e.getSource()).getUserData();
         System.out.println("Click on dashboard "+ playerIndex);
-        openDashboard(gameModel.getPlayersList().get(playerIndex).getDashboard(),gameModel.getPlayersList().get(playerIndex).getPlayerTowerColor());
+        openDashboard(gameModel.getPlayersList().get(playerIndex));
     }
 
     private void onCharacterClick(Event e){
@@ -235,25 +238,26 @@ public class TableSceneController extends ViewObservable implements GenericScene
 
 
 
-    private void openDashboard(ReducedDashboard dashboard, TowerColor color){
+    private void openDashboard(ReducedPlayer player){
         stage = new Stage();
         FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource("/fxml/DashboardScene.fxml"));
 
         try {
             dashboardScene = new Scene(loader.load());
-            dashboardScene.setUserData(loader);
+            dashboardScene.setUserData(player);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         stage.setScene(dashboardScene);
-        stage.setTitle("Dashboard");
+        stage.setTitle("Dashboard "+ player.getName());
         stage.setWidth(999);
         stage.setHeight(434);
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
         DashboardSceneController dashboardController = loader.getController();
-        dashboardController.loadDashboard(dashboard,color);
+        dashboardController.loadDashboard(player.getDashboard(),player.getPlayerTowerColor());
+        currDashboardController = dashboardController;
         stage.showAndWait();
     }
 
@@ -263,7 +267,6 @@ public class TableSceneController extends ViewObservable implements GenericScene
 
         try {
             dashboardScene = new Scene(loader.load());
-            dashboardScene.setUserData(loader);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -278,6 +281,7 @@ public class TableSceneController extends ViewObservable implements GenericScene
         dashboardController.setStage(stage);
         dashboardController.selectionMode(entranceChoice);
         dashboardController.loadDashboard(gameModel.findPlayerById(gameModel.getMyPlayerId()).getDashboard(),gameModel.findPlayerById(gameModel.getMyPlayerId()).getPlayerTowerColor());
+        currDashboardController = dashboardController;
         stage.showAndWait();
         dashboardEntranceSelection=dashboardController.getEntranceChoiceSelection();
     }
@@ -295,6 +299,10 @@ public class TableSceneController extends ViewObservable implements GenericScene
             character1Pane.setManaged(false);
             character2Pane.setManaged(false);
             character3Pane.setManaged(false);
+        }
+
+        if(stage!= null && stage.isShowing()){
+            currDashboardController.loadDashboard(((ReducedPlayer)dashboardScene.getUserData()).getDashboard(),((ReducedPlayer)dashboardScene.getUserData()).getPlayerTowerColor());
         }
     }
 

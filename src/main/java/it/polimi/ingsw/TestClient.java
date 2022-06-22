@@ -158,7 +158,7 @@ public class TestClient {
                             case "choosetower":
                                 System.out.print("Enter tower color: ");
                                 int towerNum = scanIn.nextInt();
-                                ChooseTowerColorMessage chooseTowerColorMessage = new ChooseTowerColorMessage(clientId, TowerColor.getTowerColor(towerNum));
+                                ChooseTowerColorMessage chooseTowerColorMessage = new ChooseTowerColorMessage(clientId, TowerColor.BLACK);
                                 output.writeObject(chooseTowerColorMessage);
                                 output.flush();
                                 output.reset();
@@ -167,7 +167,7 @@ public class TestClient {
                             case "choosewizard":
                                 System.out.print("Enter wizard: ");
                                 int wizardNum = scanIn.nextInt();
-                                ChooseWizardMessage chooseWizardMessage = new ChooseWizardMessage(clientId, Wizard.getWizard(wizardNum));
+                                ChooseWizardMessage chooseWizardMessage = new ChooseWizardMessage(clientId, Wizard.ASIATIC);
                                 output.writeObject(chooseWizardMessage);
                                 output.flush();
                                 output.reset();
