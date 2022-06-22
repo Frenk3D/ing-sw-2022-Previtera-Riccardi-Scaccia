@@ -48,6 +48,11 @@ public class SceneController{
 
     public static void changeRootPane(List<ViewObserver> observerList, String fxml) {
         try {
+            if(currFxml.equals("TableScene.fxml")){
+                TableSceneController tableSceneController = (TableSceneController) activeController;
+                tableSceneController.closeAllPopups();
+            }
+
             FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/" + fxml));
             Parent root = loader.load();
             ViewObservable controller = loader.getController();

@@ -102,34 +102,43 @@ public class Gui extends View {
     }
 
     @Override
-    public void onSendSelectAssistant(List<ReducedAssistant> assistantList){
-
-    };
+    public void onSendSelectAssistant(){
+        Platform.runLater(() -> {
+            if (SceneController.getCurrFxml().equals("TableScene.fxml")) {
+                TableSceneController controller = (TableSceneController) SceneController.getActiveController();
+                controller.requestedChooseAssistant();
+            }
+        });
+    }
 
     @Override
     public void onAskWhereToMoveStudent() {
-
+        Platform.runLater(() -> {
+            if (SceneController.getCurrFxml().equals("TableScene.fxml")) {
+                TableSceneController controller = (TableSceneController) SceneController.getActiveController();
+                controller.requestedMoveStudent();
+            }
+        });
     }
 
-    public void sendMoveStudentIsland(){}
-
-    public void sendMoveStudentDashboard(){}
-
-    /**
-     * @param islandList 
-     * @param selectedAssistant
-     */
     @Override
-    public void onSendMoveMotherNature(List<ReducedIsland> islandList, ReducedAssistant selectedAssistant) {
-
+    public void onSendMoveMotherNature() {
+        Platform.runLater(() -> {
+            if (SceneController.getCurrFxml().equals("TableScene.fxml")) {
+                TableSceneController controller = (TableSceneController) SceneController.getActiveController();
+                controller.requestedMoveMotherNature();
+            }
+        });
     }
 
-    /**
-     * @param cloudList 
-     */
     @Override
-    public void onSendChooseCloud(List<ReducedCloud> cloudList) {
-
+    public void onSendChooseCloud() {
+        Platform.runLater(() -> {
+            if (SceneController.getCurrFxml().equals("TableScene.fxml")) {
+                TableSceneController controller = (TableSceneController) SceneController.getActiveController();
+                controller.requestedChooseCloud();
+            }
+        });
     }
 
     /**
@@ -137,7 +146,12 @@ public class Gui extends View {
      */
     @Override
     public void onAskCharacterParameters(int characterId) {
-
+        Platform.runLater(() -> {
+            if (SceneController.getCurrFxml().equals("TableScene.fxml")) {
+                TableSceneController controller = (TableSceneController) SceneController.getActiveController();
+                controller.requestedCharacterParameters(characterId);
+            }
+        });
     }
 
     /**
@@ -162,7 +176,12 @@ public class Gui extends View {
 
     @Override
     public void onShowGame(ClientGameModel clientGameModel){
-
+        Platform.runLater(() -> {
+            if (SceneController.getCurrFxml().equals("TableScene.fxml")) {
+                TableSceneController controller = (TableSceneController) SceneController.getActiveController();
+                controller.updateGraphics(clientGameModel);
+            }
+        });
     }
 
     @Override

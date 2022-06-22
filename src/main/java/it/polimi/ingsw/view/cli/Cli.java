@@ -213,7 +213,7 @@ public class Cli extends View {
     }
 
     @Override
-    public void onSendSelectAssistant(List<ReducedAssistant> assistantList) {
+    public void onSendSelectAssistant() {
         out.println("Choose an Assistant id from the list: ");
         return;
     }
@@ -231,21 +231,16 @@ public class Cli extends View {
         out.println("Use a space to split the chosen index");
     }
 
-    /**
-     * @param islandList 
-     * @param selectedAssistant
-     */
+
     @Override
-    public void onSendMoveMotherNature(List<ReducedIsland> islandList, ReducedAssistant selectedAssistant) {
+    public void onSendMoveMotherNature() {
         out.println("Choose the island index where to move mother nature, pay attention of the admitted moves");
 
     }
 
-    /**
-     * @param cloudList 
-     */
+
     @Override
-    public void onSendChooseCloud(List<ReducedCloud> cloudList) {
+    public void onSendChooseCloud() {
         out.println("Choose the cloud index where do you want to pick the students, choose a valid cloud(not empty)");
 
     }

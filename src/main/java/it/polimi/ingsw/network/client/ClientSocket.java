@@ -76,9 +76,9 @@ public class ClientSocket  {
     }
 
 
-    public void sendMessage(Message message) {
+    public synchronized void sendMessage(Message message) {
         try {
-            System.out.println("--sent message: "+message.getMessageType());
+            System.out.println("--SENT MESSAGE: "+message.getMessageType());
             outputStm.writeObject(message);
             outputStm.flush();
             outputStm.reset();

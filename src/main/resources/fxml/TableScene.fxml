@@ -18,21 +18,13 @@
          <center>
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="420.0" prefWidth="830.0" BorderPane.alignment="CENTER">
                <children>
-                  <StackPane fx:id="island1Pane" alignment="TOP_LEFT" layoutY="200.0" prefHeight="150.0" prefWidth="150.0">
+                  <StackPane fx:id="island1Pane" alignment="TOP_LEFT" layoutY="200.0" prefHeight="130.0" prefWidth="150.0">
                      <children>
                         <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/isl1.png" />
+                              <Image url="@../images/isl2.png" />
                            </image>
                         </ImageView>
-                        <VBox prefHeight="150.0" prefWidth="150.0">
-                           <padding>
-                              <Insets left="30.0" top="30.0" />
-                           </padding>
-                           <children>
-                              <Label text="Label" />
-                           </children>
-                        </VBox>
                      </children>
                   </StackPane>
                   <StackPane fx:id="island2Pane" alignment="TOP_LEFT" layoutX="100.0" layoutY="80.0" prefHeight="150.0" prefWidth="150.0">
@@ -42,14 +34,6 @@
                               <Image url="@../images/isl2.png" />
                            </image>
                         </ImageView>
-                        <VBox prefHeight="150.0" prefWidth="150.0">
-                           <padding>
-                              <Insets left="30.0" top="30.0" />
-                           </padding>
-                           <children>
-                              <Label text="Label" />
-                           </children>
-                        </VBox>
                      </children>
                   </StackPane>
                   <StackPane fx:id="island3Pane" alignment="TOP_LEFT" layoutX="250.0" prefHeight="150.0" prefWidth="150.0">
@@ -59,14 +43,6 @@
                               <Image url="@../images/isl3.png" />
                            </image>
                         </ImageView>
-                        <VBox prefHeight="150.0" prefWidth="150.0">
-                           <padding>
-                              <Insets left="30.0" top="30.0" />
-                           </padding>
-                           <children>
-                              <Label text="Label" />
-                           </children>
-                        </VBox>
                      </children>
                   </StackPane>
                   <StackPane fx:id="island4Pane" alignment="TOP_LEFT" layoutX="400.0" prefHeight="150.0" prefWidth="150.0">
@@ -76,14 +52,6 @@
                               <Image url="@../images/isl1.png" />
                            </image>
                         </ImageView>
-                        <VBox prefHeight="150.0" prefWidth="150.0">
-                           <padding>
-                              <Insets left="30.0" top="30.0" />
-                           </padding>
-                           <children>
-                              <Label text="Label" />
-                           </children>
-                        </VBox>
                      </children>
                   </StackPane>
                   <StackPane fx:id="island5Pane" alignment="TOP_LEFT" layoutX="550.0" prefHeight="150.0" prefWidth="150.0">
@@ -93,14 +61,6 @@
                               <Image url="@../images/isl2.png" />
                            </image>
                         </ImageView>
-                        <VBox prefHeight="150.0" prefWidth="150.0">
-                           <padding>
-                              <Insets left="30.0" top="30.0" />
-                           </padding>
-                           <children>
-                              <Label text="Label" />
-                           </children>
-                        </VBox>
                      </children>
                   </StackPane>
                   <StackPane fx:id="island6Pane" alignment="TOP_LEFT" layoutX="700.0" layoutY="80.0" prefHeight="150.0" prefWidth="150.0">
@@ -110,14 +70,6 @@
                               <Image url="@../images/isl3.png" />
                            </image>
                         </ImageView>
-                        <VBox prefHeight="150.0" prefWidth="150.0">
-                           <padding>
-                              <Insets left="30.0" top="30.0" />
-                           </padding>
-                           <children>
-                              <Label text="Label" />
-                           </children>
-                        </VBox>
                      </children>
                   </StackPane>
                   <StackPane fx:id="island7Pane" alignment="TOP_LEFT" layoutX="800.0" layoutY="200.0" prefHeight="150.0" prefWidth="150.0">
@@ -127,14 +79,6 @@
                               <Image url="@../images/isl1.png" />
                            </image>
                         </ImageView>
-                        <VBox prefHeight="150.0" prefWidth="150.0">
-                           <padding>
-                              <Insets left="30.0" top="30.0" />
-                           </padding>
-                           <children>
-                              <Label text="Label" />
-                           </children>
-                        </VBox>
                      </children>
                   </StackPane>
                   <StackPane fx:id="island8Pane" alignment="TOP_LEFT" layoutX="700.0" layoutY="330.0" prefHeight="150.0" prefWidth="150.0">
@@ -144,14 +88,6 @@
                               <Image url="@../images/isl2.png" />
                            </image>
                         </ImageView>
-                        <VBox prefHeight="150.0" prefWidth="150.0">
-                           <padding>
-                              <Insets left="30.0" top="30.0" />
-                           </padding>
-                           <children>
-                              <Label text="Label" />
-                           </children>
-                        </VBox>
                      </children>
                   </StackPane>
                   <StackPane fx:id="island9Pane" alignment="TOP_LEFT" layoutX="550.0" layoutY="410.0" prefHeight="130.0" prefWidth="150.0">
@@ -161,14 +97,6 @@
                               <Image url="@../images/isl3.png" />
                            </image>
                         </ImageView>
-                        <VBox prefHeight="150.0" prefWidth="150.0">
-                           <padding>
-                              <Insets left="30.0" top="30.0" />
-                           </padding>
-                           <children>
-                              <Label text="Label" />
-                           </children>
-                        </VBox>
                      </children>
                   </StackPane>
                   <StackPane fx:id="island10Pane" alignment="TOP_LEFT" layoutX="400.0" layoutY="410.0" prefHeight="130.0" prefWidth="150.0">
@@ -178,14 +106,6 @@
                               <Image url="@../images/isl1.png" />
                            </image>
                         </ImageView>
-                        <VBox prefHeight="150.0" prefWidth="150.0">
-                           <padding>
-                              <Insets left="30.0" top="30.0" />
-                           </padding>
-                           <children>
-                              <Label text="Label" />
-                           </children>
-                        </VBox>
                      </children>
                   </StackPane>
                   <StackPane fx:id="island11Pane" alignment="TOP_LEFT" layoutX="250.0" layoutY="410.0" prefHeight="130.0" prefWidth="150.0">
@@ -195,14 +115,6 @@
                               <Image url="@../images/isl2.png" />
                            </image>
                         </ImageView>
-                        <VBox prefHeight="150.0" prefWidth="150.0">
-                           <padding>
-                              <Insets left="30.0" top="30.0" />
-                           </padding>
-                           <children>
-                              <Label text="Label" />
-                           </children>
-                        </VBox>
                      </children>
                   </StackPane>
                   <StackPane fx:id="island12Pane" alignment="TOP_LEFT" layoutX="100.0" layoutY="330.0" prefHeight="150.0" prefWidth="150.0">
@@ -212,14 +124,6 @@
                               <Image url="@../images/isl3.png" />
                            </image>
                         </ImageView>
-                        <VBox prefHeight="150.0" prefWidth="150.0">
-                           <padding>
-                              <Insets left="30.0" top="30.0" />
-                           </padding>
-                           <children>
-                              <Label text="Label" />
-                           </children>
-                        </VBox>
                      </children>
                   </StackPane>
                   <StackPane fx:id="cloud1Pane" layoutX="350.0" layoutY="150.0" prefHeight="120.0" prefWidth="120.0">
@@ -278,12 +182,12 @@
                         </VBox>
                      </children>
                   </StackPane>
-                  <Button fx:id="buttonCommand1" layoutX="150.0" layoutY="255.0" mnemonicParsing="false" text="Move student island">
+                  <Button fx:id="buttonCommand1" layoutX="60.0" layoutY="500.0" mnemonicParsing="false" text="Move student island" visible="false">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Button>
-                  <Button fx:id="buttonCommand2" layoutX="607.0" layoutY="257.0" mnemonicParsing="false" text="Move student dashboard">
+                  <Button fx:id="buttonCommand2" layoutX="726.0" layoutY="500.0" mnemonicParsing="false" text="Move student dashboard" visible="false">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -416,15 +320,7 @@
                         <Insets right="30.0" />
                      </HBox.margin>
                   </HBox>
-                  <HBox fx:id="assistantsPane" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-                     <children>
-                        <ImageView fitHeight="110.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/ass1.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
+                  <HBox fx:id="assistantsPane" prefHeight="100.0" prefWidth="200.0" spacing="10.0" />
                </children>
                <BorderPane.margin>
                   <Insets bottom="10.0" left="10.0" />

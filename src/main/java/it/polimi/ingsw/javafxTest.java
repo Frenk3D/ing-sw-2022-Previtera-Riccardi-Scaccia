@@ -3,6 +3,7 @@ import javax.swing.*;
 
 import it.polimi.ingsw.view.gui.JavaFXGui;
 import it.polimi.ingsw.view.gui.scene.DashboardSceneController;
+import it.polimi.ingsw.view.gui.scene.TableSceneController;
 import javafx.application.Application;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -33,11 +34,14 @@ public class javafxTest extends Application {
                 e.printStackTrace();
             }
             stage2.setScene(secondScene);
-            stage2.setTitle("Dashboard");
-            stage2.setWidth(1200);
-            stage2.setHeight(650);
+            stage2.setTitle("Game");
+            stage2.setWidth(1280);
+            stage2.setHeight(720);
             stage2.setResizable(true);
             stage2.show();
+
+            TableSceneController controller = loader.getController();
+            controller.updateGraphics(ProvaGit.generateClientGameModel());
         }
     }
 

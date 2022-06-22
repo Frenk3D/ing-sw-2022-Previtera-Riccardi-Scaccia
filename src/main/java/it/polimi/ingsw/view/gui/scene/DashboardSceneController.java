@@ -1,16 +1,30 @@
 package it.polimi.ingsw.view.gui.scene;
 
 import it.polimi.ingsw.model.client.ReducedDashboard;
+import it.polimi.ingsw.model.enumerations.PawnColor;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DashboardSceneController {
 
     @FXML private GridPane entranceGridPane;
     @FXML private GridPane hallGridPane;
     @FXML private GridPane towersGridPane;
+
+    private List<Integer> entranceChoiceList;
+    private List<PawnColor> hallChoiceList;
+    private boolean selectionMode=false;
+
+    public DashboardSceneController(){
+        entranceChoiceList = new ArrayList<>();
+        hallChoiceList = new ArrayList<>();
+        entranceChoiceList.add(1);
+    }
 
     public void loadDashboard(ReducedDashboard dashboard){
         for (int j=0;j<5;j++){
@@ -45,5 +59,17 @@ public class DashboardSceneController {
                 hallGridPane.add(imageView, i, j);
             }
         }
+    }
+
+    public void selectionMode(int entranceChoice, int hallChoice){
+        selectionMode=true;
+    }
+
+    public List<Integer> getEntranceChoiceSelection() {
+        return entranceChoiceList;
+    }
+
+    public List<PawnColor> getHallChoiceSelection() {
+        return hallChoiceList;
     }
 }

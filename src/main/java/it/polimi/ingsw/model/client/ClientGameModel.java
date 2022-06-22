@@ -176,16 +176,6 @@ public class ClientGameModel extends ModelObservable {
         notifyObserver(obs -> obs.onAskCreateOrJoin());
     }
 
-
-
-   /*public void sendNewLobbyRequest(){
-        notifyObserver(obs -> obs.onSendNewLobbyRequest());
-
-    }
-    public void sendLobbiesRequest(){
-        notifyObserver(obs -> obs.onSendLobbiesRequest());
-    }*/
-
    public void sendChooseLobby(List<Lobby> lobbylist){
        notifyObserver(obs -> obs.onSendChooseLobby(lobbylist));
    }
@@ -203,7 +193,7 @@ public class ClientGameModel extends ModelObservable {
     }
 
     public void sendSelectAssistant(){
-       notifyObserver(obs -> obs.onSendSelectAssistant(assistantList));
+       notifyObserver(obs -> obs.onSendSelectAssistant());
     }
 
     public void askWhereToMoveStudent(){
@@ -211,20 +201,16 @@ public class ClientGameModel extends ModelObservable {
     }
 
     public void sendMoveMotherNature(){
-       ReducedAssistant selectedAssistant = findPlayerById(myPlayerId).getSelectedAssistant();
-       notifyObserver(obs -> obs.onSendMoveMotherNature(islandList, selectedAssistant));};
+       notifyObserver(obs -> obs.onSendMoveMotherNature());
+   }
 
-   public void sendChooseCloud(){notifyObserver(obs -> obs.onSendChooseCloud(cloudList));};
+   public void sendChooseCloud(){
+       notifyObserver(obs -> obs.onSendChooseCloud());
+   }
 
    public void askCharacterParameters(int characterId){
        notifyObserver(obs -> obs.onAskCharacterParameters(characterId));
    }
-
-//    OLD:
-//    public void sendCharacterTable(){
-//        notifyObserver(new CharacterTableMessage(SERVERID,tableMoney.get(),getReducedCharacterList(),getNumOfMoneyMap()));
-//    }
-
 
     //only show methods
     public void show(Object toShow){  //it is a generic function to print or show some info on view, Object can be everything also null

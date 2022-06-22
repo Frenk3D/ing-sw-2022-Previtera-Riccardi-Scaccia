@@ -50,23 +50,17 @@ public abstract class View extends ViewObservable implements ModelObserver {
     public abstract void onSendChooseWizard(List<Wizard> availableWizards);
 
     @Override
-    public abstract void onSendSelectAssistant(List<ReducedAssistant> assistantList);
+    public abstract void onSendSelectAssistant();
 
     @Override
     public abstract void onAskWhereToMoveStudent() ;
 
-    /**
-     * @param islandList
-     * @param selectedAssistant
-     */
     @Override
-    public abstract void onSendMoveMotherNature(List<ReducedIsland> islandList, ReducedAssistant selectedAssistant) ;
+    public abstract void onSendMoveMotherNature();
 
-    /**
-     * @param cloudList
-     */
+
     @Override
-    public abstract void onSendChooseCloud(List<ReducedCloud> cloudList) ;
+    public abstract void onSendChooseCloud() ;
 
     @Override
     public abstract void onAskCharacterParameters(int characterId);

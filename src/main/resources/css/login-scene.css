@@ -1,6 +1,6 @@
 .rootPane {
-    -fx-background-color: #5ab8e8;
-    -fx-background-size: stretch;
+    -fx-background-image: url("../images/sky.jpg");
+    -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }

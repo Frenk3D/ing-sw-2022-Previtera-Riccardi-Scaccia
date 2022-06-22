@@ -40,13 +40,13 @@ public interface ModelObserver {
 
     void onSendChooseWizard(List<Wizard> availableWizards);
 
-    void onSendSelectAssistant(List<ReducedAssistant> assistantList);
+    void onSendSelectAssistant();
 
     void onAskWhereToMoveStudent();
 
-    void onSendMoveMotherNature(List<ReducedIsland> islandList, ReducedAssistant selectedAssistant);
+    void onSendMoveMotherNature();
 
-    void onSendChooseCloud(List<ReducedCloud> cloudList);
+    void onSendChooseCloud();
 
     void onAskCharacterParameters(int characterId);
 

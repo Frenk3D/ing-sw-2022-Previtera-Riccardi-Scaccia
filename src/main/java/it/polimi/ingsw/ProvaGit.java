@@ -1,3 +1,5 @@
+package it.polimi.ingsw;
+
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.characters.Character;
@@ -36,7 +38,7 @@ public class ProvaGit {
         printer.print(gameModel);
     }
 
-    private static ClientGameModel generateClientGameModel(){
+    public static ClientGameModel generateClientGameModel(){
         ClientGameModel clientGameModel = new ClientGameModel();
 
         clientGameModel.setExpertMode(true);
@@ -46,15 +48,19 @@ public class ProvaGit {
         studentsList.add(new Student(PawnColor.RED));
         studentsList.add(new Student(PawnColor.BLUE));
         studentsList.add(new Student(PawnColor.GREEN));
-        //studentsList.add(new Student(PawnColor.PINK));
+        studentsList.add(new Student(PawnColor.PINK));
         studentsList.add(new Student(PawnColor.YELLOW));
-        island.setWeight(1);
+        island.setWeight(2);
         island.getTowersList().add(new Tower(TowerColor.BLACK));
-        //island.setForbidCards(4);
+        island.setForbidCards(4);
+
 
         List<ReducedIsland> islands = new ArrayList<>();
+        ReducedIsland reducedIsland1 = new ReducedIsland(island);
+        islands.add(reducedIsland1);
+        island.setWeight(1);
 
-        for(int i = 0; i<12;i++){
+        for(int i = 2; i<12;i++){
             ReducedIsland reducedIsland = new ReducedIsland(island);
             islands.add(reducedIsland);
         }
