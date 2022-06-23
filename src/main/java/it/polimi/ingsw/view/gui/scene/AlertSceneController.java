@@ -19,7 +19,7 @@ public class AlertSceneController {
         stage = new Stage();
         stage.setWidth(550);
         stage.setHeight(250);
-        stage.setResizable(true); //maybe to resize for bigger message?
+        stage.setResizable(false); //maybe to resize for bigger message?
         stage.setTitle("Message");
         stage.initModality(Modality.APPLICATION_MODAL);
     }

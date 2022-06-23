@@ -605,11 +605,13 @@ public class Controller implements Observer {
             }
         }
         else{
-            if(game.getCurrPlayer().getDashboard().getTowersList().isEmpty()){ //the player finished the towers
-                logger.log(Level.INFO,"win on finished towers");
-                return true;
+            for(Player p : game.getPlayersList()) {
+                if (p.hasTower() && p.getDashboard().getTowersList().isEmpty()) { //a player finished the towers
+                    logger.log(Level.INFO, "win on finished towers");
+                    return true;
+                }
             }
-            else if (game.getIslandsList().size()<=3){//there are only three islands on the table
+            if (game.getIslandsList().size()<=3){//there are only three islands on the table
                 logger.log(Level.INFO,"win on 3 island remained");
                 return true;
             }

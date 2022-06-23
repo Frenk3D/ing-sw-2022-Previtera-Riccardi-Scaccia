@@ -160,23 +160,25 @@ public class Turn {
     public int updateIslandList(List<Island> islandsList){
         int updatedMotherNature = -1;
         boolean merged = false;
+
         for (int i = 0; i<islandsList.size(); i++){
-            if(i==islandsList.size()-1){ //we are at the last island of the list
-                if(islandsList.get(i).mergeIsland(islandsList.get(0))){
+            int j= islandsList.size()-1;
+            if(j==islandsList.size()-1){ //we are at the last island of the list
+                if(islandsList.get(j).mergeIsland(islandsList.get(0))){
                     islandsList.remove(0);
-                    updatedMotherNature = i;
+                    updatedMotherNature = j;
                     merged = true;
                     break;
                 }
             }
-            else { //we are in the middle of the list
+            //else { //we are in the middle of the list
                 if(islandsList.get(i).mergeIsland(islandsList.get(i+1))){
                     islandsList.remove(i+1);
                     updatedMotherNature = i;
                     merged = true;
                     break;
                 }
-            }
+           // }
         }
         if (!merged){
             return updatedMotherNature;
