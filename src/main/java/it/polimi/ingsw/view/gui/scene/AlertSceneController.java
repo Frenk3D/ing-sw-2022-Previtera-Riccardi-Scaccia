@@ -39,7 +39,14 @@ public class AlertSceneController {
     }
 
     public void showAlert(){
+        try{
         stage.showAndWait();
+        }
+        catch (NullPointerException e){
+                stage.showAndWait();
+                //e.printStackTrace();
+            }
+
     }
 
     public void setScene(Scene scene) {

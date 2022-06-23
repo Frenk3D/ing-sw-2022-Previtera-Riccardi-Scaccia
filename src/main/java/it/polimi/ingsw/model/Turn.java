@@ -161,12 +161,12 @@ public class Turn {
         int updatedMotherNature = -1;
         boolean merged = false;
 
-        for (int i = 0; i<islandsList.size(); i++){
+        for (int i = 0; i<islandsList.size()-1; i++){
             int j= islandsList.size()-1;
             if(j==islandsList.size()-1){ //we are at the last island of the list
-                if(islandsList.get(j).mergeIsland(islandsList.get(0))){
-                    islandsList.remove(0);
-                    updatedMotherNature = j;
+                if(islandsList.get(0).mergeIsland(islandsList.get(j))){ //this is the opposite of the next because of the recursion
+                    islandsList.remove(j);
+                    updatedMotherNature = 0;
                     merged = true;
                     break;
                 }

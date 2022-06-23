@@ -185,12 +185,13 @@ public class Gui extends View {
 
     @Override
     public void onShowGame(ClientGameModel clientGameModel){
+        if(clientGameModel.getIslandList()!=null){
         Platform.runLater(() -> {
             if (SceneController.getCurrFxml().equals("TableScene.fxml")) {
                 TableSceneController controller = (TableSceneController) SceneController.getActiveController();
                 controller.updateGraphics(clientGameModel);
             }
-        });
+        }); }
     }
 
     @Override
