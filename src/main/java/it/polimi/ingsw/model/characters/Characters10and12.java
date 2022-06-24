@@ -11,6 +11,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * As the name suggests,this class implements characters 10 and 12
+ */
 public class Characters10and12 extends Character{
     private final Logger logger = Logger.getLogger(getClass().getName());
     private Bag bag;
@@ -22,6 +25,17 @@ public class Characters10and12 extends Character{
     }
     //methods
 
+    /**
+     * This method implements the 10th character effect,which is a student swap
+     * @param cardPlayer
+     * @param studentsIndexEntranceList
+     * @param hallStudentColor1
+     * @param hallStudentColor2
+     * @param tableMoney
+     * @return false if there aren't available students to get or if an exception is detected
+     * @return true otherwise
+     *
+     */
     private boolean swapStudents10(Player cardPlayer, List<Integer> studentsIndexEntranceList, PawnColor hallStudentColor1, PawnColor hallStudentColor2, AtomicInteger tableMoney){
         //if we swap students of the same colors, the ref of the students swapped are not right, but the colors yes, it's ok
 
@@ -64,6 +78,13 @@ public class Characters10and12 extends Character{
         }
     }
 
+    /**
+     * This method implements the 12th character effect,which is adding students to the bag from the hall
+     * @param hallColor
+     * @param playersList
+     * @return false if an exception is detected
+     * @return true otherwise
+     */
     private boolean fillBagFromHall12(PawnColor hallColor,List<Player> playersList){
         try {
             for (Player p : playersList) {
