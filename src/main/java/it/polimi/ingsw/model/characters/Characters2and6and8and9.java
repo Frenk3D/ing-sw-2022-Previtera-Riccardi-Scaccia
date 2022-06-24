@@ -5,12 +5,21 @@ import it.polimi.ingsw.model.enumerations.PawnColor;
 
 import java.util.List;
 
+/**
+ * As the name suggests,this class implements characters 2,6,8 and 9
+ */
 public class Characters2and6and8and9 extends Character {
 
     //constructor
 
     private PawnColor selectedColor9;
 
+    /**
+     * Default constructor
+     * selected color 9 is set to null
+     * @param id
+     * @param initialCost
+     */
     public Characters2and6and8and9(int id, int initialCost) {
         this.id=id;
         this.initialCost=initialCost;
@@ -102,6 +111,15 @@ public class Characters2and6and8and9 extends Character {
         }
         return influence;
     } */ //old effect of second character
+
+    /**
+     * This method implements the effect of the character 2,which consist in a variation of the updateProfessorsLists method
+     * @param playersList
+     * @param cardPlayer
+     * @param tableProfessorsList
+     * @return false if an exception is detected
+     * @return true if the effect is applied
+     */
     public boolean modifiedUpdateProfessorsLists2(List<Player> playersList, Player cardPlayer, List<Professor> tableProfessorsList) {
         try {
             for (PawnColor currColor : PawnColor.values()) { //scan of all colors
@@ -165,7 +183,12 @@ public class Characters2and6and8and9 extends Character {
     }
 
 
-
+    /**
+     * This method implements the effect of the 6th character,which is a variation of the updateIslandDomain method
+     * @param island
+     * @param playersList
+     * @param forbidCharacter
+     */
     private void updateIslandDomain6(Island island,List<Player> playersList, Characters3and4and5 forbidCharacter) {
         if (island.getForbidCards() > 0) {
             island.setForbidCards(island.getForbidCards() - 1);
@@ -213,7 +236,13 @@ public class Characters2and6and8and9 extends Character {
 
         }
 
-
+    /**
+     * this method is supplementary to the updateIslandDomain6 method
+     * @param island
+     * @param currPlayer
+     * @param playersList
+     * @return the player's influence
+     */
     private int modifiedCalculateInfluence6(Island island, Player currPlayer, List<Player> playersList) {
 
         int influence = 0;
@@ -234,6 +263,13 @@ public class Characters2and6and8and9 extends Character {
         return influence;
     }
 
+    /**
+     *This method implements the effect of the 8th character,which is a variation of the updateIslandDomain method
+     * @param cardPlayer
+     * @param island
+     * @param playersList
+     * @param forbidCharacter
+     */
     private void updateIslandDomain8(Player cardPlayer,Island island,List<Player> playersList, Characters3and4and5 forbidCharacter) {
         if (island.getForbidCards() > 0) {
             island.setForbidCards(island.getForbidCards() - 1);
@@ -281,7 +317,14 @@ public class Characters2and6and8and9 extends Character {
             }
         }
 
-
+    /**
+     * this method is supplementary to the updateIslandDomain8 method
+     * @param island
+     * @param currPlayer
+     * @param cardPlayer
+     * @param playersList
+     * @return
+     */
     private int modifiedCalculateInfluence8(Island island, Player currPlayer, Player cardPlayer, List<Player> playersList){
         int influence = 0;
         Player teamPlayer = currPlayer.getTeamPlayer(playersList);
@@ -307,6 +350,13 @@ public class Characters2and6and8and9 extends Character {
         return influence;
     }
 
+    /**
+     * 
+     * @param island
+     * @param playersList
+     * @param selectedColor
+     * @param forbidCharacter
+     */
     private void updateIslandDomain9(Island island,List<Player> playersList,PawnColor selectedColor, Characters3and4and5 forbidCharacter) {
         if (island.getForbidCards() > 0) {
             island.setForbidCards(island.getForbidCards() - 1);
