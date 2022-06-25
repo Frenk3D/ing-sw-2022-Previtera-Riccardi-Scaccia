@@ -47,6 +47,6 @@ Controller: ~69%
 Model: ~88%
   
     
-Peer-reviews, JavaDoc (generable from intellij) and network protocol messages are in the deliverables folder.
 
-### Other useful links:
+### Other useful info/links:
+Peer-reviews, JavaDoc (generable from intellij) and network protocol messages are in the deliverables folder.
