@@ -23,6 +23,7 @@
 hs_err_pid*
 /.idea/
 /target/
+/out/
 *.iml
 # pom.xml
 deliveries
