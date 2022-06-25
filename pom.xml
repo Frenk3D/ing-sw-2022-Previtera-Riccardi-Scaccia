@@ -16,7 +16,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>18</maven.compiler.source>
     <maven.compiler.target>18</maven.compiler.target>
-    <sonar.coverage.exclusions>**/client/**/*,**/ClientController.java,**/constants/*,**/server/**/*,**/it.polimi.ingsw.TestClient.java,**/it.polimi.ingsw.ServerApp.java,**/it.polimi.ingsw.ClientApp.java,**/Server.java,**/Client.java,**/it.polimi.ingsw.ProvaGit.java,**/view/**/*,**/network/**/*,**/network/message/**/*,**/observer/**/*</sonar.coverage.exclusions>
+    <sonar.coverage.exclusions>**/client/**/*,**/ClientController.java,**/ClientInputVerifier.java,**/constants/*,**/server/**/*,**/it.polimi.ingsw.TestClient.java,**/it.polimi.ingsw.ServerApp.java,**/it.polimi.ingsw.ClientApp.java,**/Server.java,**/Client.java,**/it.polimi.ingsw.ProvaGit.java,**/view/**/*,**/network/**/*,**/network/message/**/*,**/observer/**/*</sonar.coverage.exclusions>
   </properties>
 
   <dependencies>
