@@ -10,6 +10,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class implements the {@link it.polimi.ingsw.client.ClientGameModel} object Reduced Character
+ */
 public class ReducedCharacter implements Serializable {
     private boolean used;
     private int id;
@@ -17,7 +20,11 @@ public class ReducedCharacter implements Serializable {
     private List<PawnColor> cardStudentsList;
     int numOfForbidCards;
 
-
+    /**
+     * Sets character's used status,character's id,initial cost and the students list
+     * depending on which character is passed card students or forbid cards are added
+     * @param character is a Character
+     */
     public ReducedCharacter(Character character){
         used = character.isUsed();
         id = character.getId();
@@ -40,22 +47,43 @@ public class ReducedCharacter implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return true if the character is used
+     * @return false if the character is not used
+     */
     public boolean isUsed() {
         return used;
     }
 
+    /**
+     *
+     * @return the character's id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     *
+     * @return the character's initial cost
+     */
     public int getInitialCost() {
         return initialCost;
     }
 
+    /**
+     *
+     * @return the list of students on the character
+     */
     public List<PawnColor> getCardStudentsList() {
         return cardStudentsList;
     }
 
+    /**
+     *
+     * @return the number of forbid cards on the character
+     */
     public int getNumOfForbidCards() {
         return numOfForbidCards;
     }

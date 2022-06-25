@@ -8,9 +8,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class implements the {@link it.polimi.ingsw.client.ClientGameModel} object Reduced Cloud
+ */
 public class ReducedCloud implements Serializable {
     private List<PawnColor> studentsList;
 
+    /**
+     * adds students to the reduced cloud from the game model's cloud
+     * @param cloud the game model's cloud
+     */
     public ReducedCloud(Cloud cloud){
         studentsList = new ArrayList<>();
         for(Student s : cloud.getStudents()){
@@ -18,6 +25,10 @@ public class ReducedCloud implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return the list of students on the cloud
+     */
     public List<PawnColor> getStudentsList() {
         return studentsList;
     }

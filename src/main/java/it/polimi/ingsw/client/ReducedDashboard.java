@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * this class implements the {@link it.polimi.ingsw.client.ClientGameModel} object Reduced Dashboard
+ */
 public class ReducedDashboard implements Serializable {
 
     private Map<PawnColor,Integer> studentsHall;
@@ -19,6 +22,10 @@ public class ReducedDashboard implements Serializable {
     private List<PawnColor> professorsList;
     private int towerNumber;
 
+    /**
+     * fills the reduced dashboard using the game model's dashboard
+     * @param dashboard the game model's dashboard
+     */
     public ReducedDashboard(Dashboard dashboard){
         studentsHall = new HashMap<>();
         studentsHall.put(PawnColor.RED,dashboard.getNumOfHallStudents(PawnColor.RED));
@@ -39,18 +46,34 @@ public class ReducedDashboard implements Serializable {
         towerNumber = dashboard.getTowersList().size();
     }
 
+    /**
+     *
+     * @return the students hall's pawn color and index map
+     */
     public Map<PawnColor, Integer> getStudentsHall() {
         return studentsHall;
     }
 
+    /**
+     *
+     * @return the entrance list of students
+     */
     public List<PawnColor> getEntranceList() {
         return entranceList;
     }
 
+    /**
+     *
+     * @return the list of professors
+     */
     public List<PawnColor> getProfessorsList() {
         return professorsList;
     }
 
+    /**
+     *
+     * @return the number of towers
+     */
     public int getTowerNumber() {
         return towerNumber;
     }
