@@ -63,6 +63,8 @@ public class TableSceneController extends ViewObservable implements GenericScene
 
     private Stage stage;
     private Scene dashboardScene;
+    private Scene characterScene;
+    private CharacterSceneController currCharacterController;
     private DashboardSceneController currDashboardController;
     private GuiState guiState = GuiState.LOCKED;
 
@@ -208,6 +210,7 @@ public class TableSceneController extends ViewObservable implements GenericScene
 
     private void onCharacterClick(Event e){
         int characterIndex = (int)((StackPane)e.getSource()).getUserData();
+        openCharacter(gameModel.getCharactersList().get(characterIndex));
         System.out.println("Click on character "+ characterIndex);
     }
 
@@ -235,6 +238,28 @@ public class TableSceneController extends ViewObservable implements GenericScene
     }
 
 
+    private void openCharacter(ReducedCharacter character){
+        stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource("/fxml/CharacterScene.fxml"));
+
+        try {
+            characterScene = new Scene(loader.load());
+            characterScene.setUserData(character);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        stage.setScene(characterScene);
+        stage.setTitle("Character Detail");
+        stage.setWidth(329);
+        stage.setHeight(540);
+        stage.setResizable(false);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        CharacterSceneController characterController = loader.getController();
+        characterController.loadCharacter(character);
+        currCharacterController = characterController;
+        stage.showAndWait();
+    }
 
 
     private void openDashboard(ReducedPlayer player){
@@ -329,7 +354,7 @@ public class TableSceneController extends ViewObservable implements GenericScene
         }
 
         if(gameModel.isExpertMode()){
-            buttonText+=" Money: "+player.getNumOfMoney();
+            buttonText+=" - Money: "+player.getNumOfMoney();
         }
 
         button.setText(buttonText);
