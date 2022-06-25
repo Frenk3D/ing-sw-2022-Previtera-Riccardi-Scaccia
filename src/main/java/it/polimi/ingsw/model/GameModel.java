@@ -5,7 +5,7 @@ many warnings on unused things because yet to be implemented or other else.
 exceptions a bit from view, but also here
 passing simple parameters in the network, objects will be copied
 we use a lot of concatenated methods, asked, not a problem for Cugola, passing the var Game is not good
-client has a easier model
+client has an easier model
 Comment with block doesn't work with javadoc
 
 */
