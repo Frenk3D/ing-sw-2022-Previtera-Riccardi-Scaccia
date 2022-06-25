@@ -4,7 +4,7 @@ package it.polimi.ingsw.observer;
 import it.polimi.ingsw.network.message.Message;
 
 /**
- * This class is an implementation of the deprecated Java observer. It is implemented by the {@link it.polimi.ingsw.controller.Controller} and the {@link it.polimi.ingsw.view.RemoteView}
+ * This class is an implementation of the deprecated Java observer. It is implemented by the {@link it.polimi.ingsw.controllers.Controller} and the {@link it.polimi.ingsw.view.RemoteView}
  */
 public interface Observer {
     /**

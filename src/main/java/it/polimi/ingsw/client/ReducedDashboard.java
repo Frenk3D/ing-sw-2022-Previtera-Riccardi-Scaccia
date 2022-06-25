@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.client;
+package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.model.Dashboard;
 import it.polimi.ingsw.model.Professor;

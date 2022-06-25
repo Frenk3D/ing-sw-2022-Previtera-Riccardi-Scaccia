@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 
-import it.polimi.ingsw.model.client.*;
+import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import java.util.HashMap;

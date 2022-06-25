@@ -1,14 +1,13 @@
 package it.polimi.ingsw.view.gui;
 
 
-import it.polimi.ingsw.controller.ClientController;
-import it.polimi.ingsw.model.client.*;
+import it.polimi.ingsw.client.ClientGameModel;
+import it.polimi.ingsw.controllers.ClientController;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.client.ClientState;
 import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

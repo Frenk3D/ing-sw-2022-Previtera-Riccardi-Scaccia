@@ -1,20 +1,12 @@
 package it.polimi.ingsw.network.client;
-import it.polimi.ingsw.controller.ClientController;
-import it.polimi.ingsw.model.client.*;
-import it.polimi.ingsw.network.message.GenericMessage;
+import it.polimi.ingsw.controllers.ClientController;
 import it.polimi.ingsw.network.message.Message;
-import it.polimi.ingsw.network.message.MessageType;
-import it.polimi.ingsw.network.message.StringMessage;
-import it.polimi.ingsw.observer.Observable;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

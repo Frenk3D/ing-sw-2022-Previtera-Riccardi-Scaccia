@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.message;
 
-import it.polimi.ingsw.model.client.*;
+import it.polimi.ingsw.client.*;
 
 import java.util.List;
 

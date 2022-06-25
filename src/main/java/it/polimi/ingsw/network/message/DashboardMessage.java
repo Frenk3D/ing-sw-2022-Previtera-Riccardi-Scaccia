@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.message;
 
-import it.polimi.ingsw.model.Dashboard;
-import it.polimi.ingsw.model.client.ReducedDashboard;
+import it.polimi.ingsw.client.ReducedDashboard;
 
 public class DashboardMessage extends Message{
     ReducedDashboard dashboard;

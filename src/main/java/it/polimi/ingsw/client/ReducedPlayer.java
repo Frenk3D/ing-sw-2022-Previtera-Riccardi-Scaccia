@@ -1,6 +1,5 @@
-package it.polimi.ingsw.model.client;
+package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;

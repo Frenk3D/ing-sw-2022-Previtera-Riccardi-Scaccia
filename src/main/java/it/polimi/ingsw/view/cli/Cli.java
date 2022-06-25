@@ -2,8 +2,8 @@ package it.polimi.ingsw.view.cli;
 
 
 
-import it.polimi.ingsw.controller.ClientController;
-import it.polimi.ingsw.model.client.*;
+import it.polimi.ingsw.client.ClientGameModel;
+import it.polimi.ingsw.controllers.ClientController;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.server.*;
 import it.polimi.ingsw.view.View;

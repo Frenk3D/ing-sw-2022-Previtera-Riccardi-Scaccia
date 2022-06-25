@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.gui.scene;
 
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.client.*;
+import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;

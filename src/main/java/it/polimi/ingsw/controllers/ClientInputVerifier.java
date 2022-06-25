@@ -1,12 +1,10 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controllers;
 
-import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.characters.MessageCharacterParameters;
-import it.polimi.ingsw.model.client.ClientGameModel;
-import it.polimi.ingsw.model.client.ReducedAssistant;
-import it.polimi.ingsw.model.client.ReducedCharacter;
-import it.polimi.ingsw.model.client.ReducedPlayer;
+import it.polimi.ingsw.client.ClientGameModel;
+import it.polimi.ingsw.client.ReducedAssistant;
+import it.polimi.ingsw.client.ReducedCharacter;
+import it.polimi.ingsw.client.ReducedPlayer;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,16 +1,15 @@
-package it.polimi.ingsw.controller; //well connected to Game, need to Observ, with strategy or with checks
+package it.polimi.ingsw.controllers; //well connected to Game, need to Observ, with strategy or with checks
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.characters.CharacterParameters;
 import it.polimi.ingsw.model.characters.Characters2and6and8and9;
 import it.polimi.ingsw.model.characters.MessageCharacterParameters;
-import it.polimi.ingsw.model.client.ReducedAssistant;
+import it.polimi.ingsw.client.ReducedAssistant;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.observer.Observer;
-import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.RemoteView;
 
 import java.util.ArrayList;

@@ -1,16 +1,12 @@
 package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.controller.ClientController;
-import it.polimi.ingsw.model.client.ReducedDashboard;
-import it.polimi.ingsw.observer.ViewObserver;
-import it.polimi.ingsw.view.gui.scene.DashboardSceneController;
+import it.polimi.ingsw.controllers.ClientController;
 import it.polimi.ingsw.view.gui.scene.LoginSceneController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 import java.io.IOException;

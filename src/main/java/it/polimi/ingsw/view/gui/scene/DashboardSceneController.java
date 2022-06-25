@@ -1,16 +1,14 @@
 package it.polimi.ingsw.view.gui.scene;
 
-import it.polimi.ingsw.model.client.ReducedDashboard;
+import it.polimi.ingsw.client.ReducedDashboard;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.TowerColor;
-import it.polimi.ingsw.view.cli.ColorCli;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;

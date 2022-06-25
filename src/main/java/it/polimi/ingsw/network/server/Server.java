@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.controllers.Controller;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;

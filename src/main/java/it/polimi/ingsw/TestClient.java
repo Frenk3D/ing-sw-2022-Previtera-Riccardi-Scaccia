@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.client.ReducedIsland;
+import it.polimi.ingsw.client.ReducedIsland;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;
 import it.polimi.ingsw.network.message.*;
@@ -9,10 +9,8 @@ import it.polimi.ingsw.network.server.Lobby;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 

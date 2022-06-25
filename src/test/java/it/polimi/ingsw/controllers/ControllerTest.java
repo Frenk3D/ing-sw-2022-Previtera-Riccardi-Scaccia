@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controllers;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.characters.*;
@@ -176,7 +176,7 @@ class ControllerTest {
         controller.getGame().getCurrRound().getCurrTurn().setCurrPlayer(p1);
         controller.getGame().getCharactersList().removeAll(controller.getGame().getCharactersList());
         controller.getGame().getCharactersList().add(c);
-        controller.useCharacter(0,params);
+        controller.useCharacter(1,params);
         assertEquals(1, controller.getGame().getCurrRound().getCurrTurn().getUsedCharacter().getId());
         assertEquals(true, controller.getGame().getCurrRound().getCurrTurn().getUsedCharacter().isUsed());
         controller.useCharacter(5,params); //return

@@ -1,18 +1,15 @@
 package it.polimi.ingsw.observer;
 
 import it.polimi.ingsw.model.characters.MessageCharacterParameters;
-import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.*;
 
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 //controller is the view observer and the view is the view observable
 /*(it has fewer prototypes of ModelObserver but with more parameters to say to the controller witch message send)*/
 
 /**
- * Custom observer interface for views. It supports different types of notification. From the different views to {@link it.polimi.ingsw.controller.ClientController}
+ * Custom observer interface for views. It supports different types of notification. From the different views to {@link it.polimi.ingsw.controllers.ClientController}
  */
 public interface ViewObserver {
 

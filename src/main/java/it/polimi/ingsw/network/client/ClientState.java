@@ -1,9 +1,7 @@
 package it.polimi.ingsw.network.client;
 
-import java.io.Serializable;
-
 /**
- * The various state of the {@link it.polimi.ingsw.controller.ClientController}, so we can manage everything with it.
+ * The various state of the {@link it.polimi.ingsw.controllers.ClientController}, so we can manage everything with it.
  */
 public enum ClientState {  //Specifies every state for the single client
     APPLICATION_START, //WHEN CLIENT APP STARTS AND THE VIEW ASKS FOR SERVER INFO... OR THE CONTROLLER

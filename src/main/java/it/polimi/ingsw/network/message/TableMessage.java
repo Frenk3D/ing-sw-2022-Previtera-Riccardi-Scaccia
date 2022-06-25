@@ -1,9 +1,7 @@
 package it.polimi.ingsw.network.message;
 
-import it.polimi.ingsw.model.Cloud;
-import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.client.ReducedCloud;
-import it.polimi.ingsw.model.client.ReducedIsland;
+import it.polimi.ingsw.client.ReducedCloud;
+import it.polimi.ingsw.client.ReducedIsland;
 
 import java.util.List;
 

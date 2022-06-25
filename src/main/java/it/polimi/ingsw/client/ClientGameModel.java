@@ -1,20 +1,13 @@
-package it.polimi.ingsw.model.client;
+package it.polimi.ingsw.client;
 
 
-import it.polimi.ingsw.model.Assistant;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.observer.*;
-import it.polimi.ingsw.view.View;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-
-import static it.polimi.ingsw.network.server.Server.SERVERID;
 
 /**
  * It is a reduced {@link it.polimi.ingsw.model.GameModel}

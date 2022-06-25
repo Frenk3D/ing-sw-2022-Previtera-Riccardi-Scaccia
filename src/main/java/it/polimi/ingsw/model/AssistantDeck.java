@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.client.ReducedAssistant;
-import it.polimi.ingsw.model.client.ReducedPlayer;
+import it.polimi.ingsw.client.ReducedAssistant;
 import it.polimi.ingsw.model.enumerations.Wizard;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.message;
 
-import it.polimi.ingsw.model.client.ReducedCharacter;
+import it.polimi.ingsw.client.ReducedCharacter;
 
 import java.util.List;
 import java.util.Map;

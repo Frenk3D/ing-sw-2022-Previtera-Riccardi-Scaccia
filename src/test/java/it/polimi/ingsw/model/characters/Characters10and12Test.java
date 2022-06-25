@@ -57,6 +57,8 @@ class Characters10and12Test {
         students.add(1);
         students.add(2);
         characterParameters.setStudentsIndexList(students);
+        characterParameters.setStudentsIndexEntranceList(students);
+
     }
 
     @RepeatedTest(1)

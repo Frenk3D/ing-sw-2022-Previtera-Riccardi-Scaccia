@@ -1,20 +1,17 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controllers;
 
 
-import it.polimi.ingsw.model.characters.CharacterParameters;
 import it.polimi.ingsw.model.characters.MessageCharacterParameters;
-import it.polimi.ingsw.model.client.ClientGameModel;
-import it.polimi.ingsw.model.client.ReducedPlayer;
+import it.polimi.ingsw.client.ClientGameModel;
+import it.polimi.ingsw.client.ReducedPlayer;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.client.*;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.observer.ViewObserver;
-import it.polimi.ingsw.view.cli.Cli;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 import java.util.*;
 
 

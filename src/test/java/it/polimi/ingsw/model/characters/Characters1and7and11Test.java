@@ -53,7 +53,7 @@ class Characters1and7and11Test {
     void applyEffect() {
         //test for character 1
         c1.applyEffect(characterParameters);
-        assertEquals(3,((Characters1and7and11) c1).getCardStudentsList().size());
+        assertEquals(4,((Characters1and7and11) c1).getCardStudentsList().size());
         assertEquals(1,island.getStudentsList().size());
         //test for character 7
         Student s = ((Characters1and7and11) c7).getCardStudentsList().get(0);

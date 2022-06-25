@@ -1,23 +1,19 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.client.*;
+import it.polimi.ingsw.controllers.Controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.characters.Factory;
-import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.RoundState;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;
-import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.GamePrinter;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 

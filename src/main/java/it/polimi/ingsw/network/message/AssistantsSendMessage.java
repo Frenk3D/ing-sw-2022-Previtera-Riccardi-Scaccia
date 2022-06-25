@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.message;
 
-import it.polimi.ingsw.model.client.ReducedAssistant;
+import it.polimi.ingsw.client.ReducedAssistant;
 
 import java.util.List;
 

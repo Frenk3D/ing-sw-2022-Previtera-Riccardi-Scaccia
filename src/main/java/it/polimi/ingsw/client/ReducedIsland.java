@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.client;
+package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Student;

@@ -10,14 +10,13 @@ Comment with block doesn't work with javadoc
 
 */
 
+import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.characters.CharacterParameters;
 import it.polimi.ingsw.model.characters.Characters3and4and5;
-import it.polimi.ingsw.model.client.*;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.observer.ViewObserver;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;

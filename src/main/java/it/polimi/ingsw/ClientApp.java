@@ -5,14 +5,9 @@ import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.gui.Gui;
 //import javafx.application.Application;
 
-import it.polimi.ingsw.controller.ClientController;
-import it.polimi.ingsw.network.client.ClientSocket;
-import it.polimi.ingsw.view.cli.Cli;
+import it.polimi.ingsw.controllers.ClientController;
 import it.polimi.ingsw.view.gui.JavaFXGui;
 import javafx.application.Application;
-
-import java.io.IOException;
-import java.util.logging.Level;
 
 /**
  * The class used to start the game client-side.
