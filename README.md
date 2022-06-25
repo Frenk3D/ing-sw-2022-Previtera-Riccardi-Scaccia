@@ -2,7 +2,7 @@
 
 # F.P. game [Eriantys](http://www.craniocreations.it/prodotto/santorini/).
 
-![alt text](src/main/resources/images/eriantys.png)
+![alt text](src/main/resources/images/Eriantys_scatola3Dombra-600x600.png)
 
 ![LOGO CRANIO CREATIONS_bianco](https://user-images.githubusercontent.com/61878014/175766658-f4e66d89-24ae-4f88-8744-b84a20189bfc.png)
   
