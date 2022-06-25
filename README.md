@@ -12,12 +12,12 @@ F.P. game Eriantys
 |:-----------------|:--------------------------------------------------:|
 | Basic rules      | 🟢 |
 | Complete rules   | 🟢 |
-| Socket           | 🟡 |
-| GUI              | 🔴 |
-| CLI              | 🟡 |
-| 4 players game   | 🟡 |
-| 12 characters    | 🟡 |
-| Multiple games   | 🟡 |
+| Socket           | 🟢 |
+| GUI              | 🟡 |
+| CLI              | 🟢 |
+| 4 players game   | 🟢 |
+| 12 characters    | 🟢 |
+| Multiple games   | 🟢 |
 
 
 🔴 waiting...
@@ -27,8 +27,17 @@ F.P. game Eriantys
 
 
 
-UML:
+# UML:
 https://lucid.app/lucidchart/0321ec56-70d4-467c-a649-f40a982a14d6/edit?invitationId=inv_add26b2e-3f1d-4160-9073-47ba92254b02
+
+# How to use JARs:
+For server ...
+For client-> cli with -c 
+
+# Test coverage:
+Controller: ~75%
+Model: ~86%
+
 
 
 Other useful links:

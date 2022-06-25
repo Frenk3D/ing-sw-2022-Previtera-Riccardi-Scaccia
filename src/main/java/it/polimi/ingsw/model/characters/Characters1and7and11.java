@@ -11,6 +11,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * As the name suggests,this class implements the characters 1,7 and 11
+ */
 public class Characters1and7and11 extends Character {
     //attributes
     private List<Student> cardStudentsList;
@@ -20,6 +23,11 @@ public class Characters1and7and11 extends Character {
 
     //constructor
 
+    /**
+     * default constructor
+     * @param id
+     * @param initialCost
+     */
     public Characters1and7and11(int id, int initialCost) {
         this.id=id;
         this.initialCost=initialCost;
@@ -27,6 +35,9 @@ public class Characters1and7and11 extends Character {
 
     //methods
 
+    /**
+     * This method initializes the students to be put on the character cards
+     */
     private void initStudents(){
         switch (id){
             case 1:
@@ -41,6 +52,14 @@ public class Characters1and7and11 extends Character {
         }
     }
 
+    /**
+     * This method moves a student from character card 1
+     * @param island
+     * @param studentIndex
+     * @return false if the selected island doesn't exist
+     * @return false if the card's students list is empty
+     * @return true if the effect is correctly applied
+     */
     private boolean moveStudent1(Island island, int studentIndex){
         try {
             //check if selected island and student exist
@@ -69,6 +88,15 @@ public class Characters1and7and11 extends Character {
         }
     }
 
+    /**
+     * This method implements the 7th character's effect,which is a swap between an entrance list student and a card list student
+     * @param cardPlayer
+     * @param studentsIndexList
+     * @param studentsIndexEntranceList
+     * @return false if the student index selected from entrance list is null
+     * @return false if the student index selected from card list is null
+     * @return true if the effect is correctly applied
+     */
     private boolean moveStudent7(Player cardPlayer, List<Integer> studentsIndexList, List<Integer> studentsIndexEntranceList){
         try {
 
@@ -114,6 +142,15 @@ public class Characters1and7and11 extends Character {
         }
     }
 
+    /**
+     * This method adds a student to a selected hall list from the character card
+     * @param cardPlayer
+     * @param studentIndex
+     * @param tableMoney
+     * @return false if the student of a given index of the entrance list is null
+     * @return false if an exception is detected
+     * @return true if the effect is correctly applied
+     */
     private boolean moveStudent11(Player cardPlayer, int studentIndex, AtomicInteger tableMoney){
 
         try {
@@ -137,6 +174,11 @@ public class Characters1and7and11 extends Character {
         }
     }
 
+    /**
+     * class used for the pattern factory
+     * @param params
+     * @return true if the effect is applied
+     */
     @Override
     public boolean applyEffect(CharacterParameters params) {
         switch (id){
@@ -150,14 +192,20 @@ public class Characters1and7and11 extends Character {
                 return false;
         }
     }
-
+    /**
+     * initializes the character
+     * @param params
+     */
     @Override
     public void initCharacter(CharacterParameters params) {
         bag = params.getBag();
         initStudents();
     }
 
-
+    /**
+     *
+     * @return the card students list
+     */
     public List<Student> getCardStudentsList() {
         return cardStudentsList;
     }
