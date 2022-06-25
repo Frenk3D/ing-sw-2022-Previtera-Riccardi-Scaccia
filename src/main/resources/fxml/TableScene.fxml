@@ -263,6 +263,26 @@
                         </ImageView>
                      </children>
                   </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <ImageView fx:id="imageViewTableMoney" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/moneta.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="tableMoneyLabel" text="0" textFill="WHITE" visible="false">
+                           <font>
+                              <Font name="System Bold" size="17.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" />
+                     </padding>
+                  </HBox>
                </children>
                <BorderPane.margin>
                   <Insets left="10.0" top="10.0" />

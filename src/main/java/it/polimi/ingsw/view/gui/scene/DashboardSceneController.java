@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -19,15 +20,31 @@ public class DashboardSceneController {
     @FXML private GridPane entranceGridPane;
     @FXML private GridPane hallGridPane;
     @FXML private GridPane towersGridPane;
+    @FXML private Button buttonSelectDashboard;
 
     private List<Integer> entranceChoiceList;
+    private List<PawnColor> hallChoiceList;
     private boolean selectionMode=false;
+    private boolean isCharacter10 = false;
+    private boolean selectionSuccess=false;
     private int selectedStudent;
     private int selectedRequest;
     private Stage stage;
 
+    @FXML
+    public void initialize() {
+        buttonSelectDashboard.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onSelectButtonClick);
+
+    }
+
     public DashboardSceneController(){
         entranceChoiceList = new ArrayList<>();
+        hallChoiceList = new ArrayList<>();
+    }
+
+    private void onSelectButtonClick(Event e){
+        selectionSuccess=true;
+        stage.close();
     }
 
     public void loadDashboard(ReducedDashboard dashboard, TowerColor color){
@@ -76,6 +93,8 @@ public class DashboardSceneController {
             int number = dashboard.getStudentsHall().get(pawnColor);
             for (int i=0;i<number;i++){
                 ImageView pawnImage = getPawnImage(pawnColor);
+                pawnImage.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onStudentHallClicked);
+                pawnImage.setUserData(pawnColor);
                 hallGridPane.add(pawnImage, i, row);
             }
 
@@ -102,12 +121,42 @@ public class DashboardSceneController {
     }
 
     private void onStudentClicked(Event e){
-        int studentIndex = (int)((ImageView)e.getSource()).getUserData();
+        ImageView pawnImg = (ImageView)e.getSource();
+        int studentIndex = (int)pawnImg.getUserData();
         if (selectionMode){
+            if(isCharacter10){
+                if(selectedStudent<selectedRequest){
+                    buttonSelectDashboard.setVisible(false);
+                    entranceChoiceList.add(studentIndex);
+                    selectedStudent++;
+                    pawnImg.setOpacity(0.35);
+                    pawnImg.setDisable(true);
+                }
+                return;
+            }
+
             entranceChoiceList.add(studentIndex);
             selectedStudent++;
+            pawnImg.setOpacity(0.35);
+            pawnImg.setDisable(true);
+
             if(selectedStudent>=selectedRequest){
+                selectionSuccess=true;
                 stage.close();
+                return;
+            }
+        }
+    }
+
+    private void onStudentHallClicked(Event e){
+        ImageView pawnImg = (ImageView)e.getSource();
+        PawnColor color = (PawnColor) pawnImg.getUserData();
+        if (selectionMode&&isCharacter10&&hallChoiceList.size()<selectedStudent){
+            hallChoiceList.add(color);
+            pawnImg.setOpacity(0.35);
+            pawnImg.setDisable(true);
+            if(hallChoiceList.size()==entranceChoiceList.size()){
+                buttonSelectDashboard.setVisible(true);
             }
         }
     }
@@ -116,14 +165,23 @@ public class DashboardSceneController {
         this.stage = stage;
     }
 
-    public void selectionMode(int entranceChoice){
+    public void selectionMode(int entranceChoice, boolean isCharacter10){
         selectionMode=true;
         selectedStudent=0;
         selectedRequest=entranceChoice;
+        this.isCharacter10=isCharacter10;
     }
 
     public List<Integer> getEntranceChoiceSelection() {
         return entranceChoiceList;
+    }
+
+    public List<PawnColor> getHallChoiceSelection() {
+        return hallChoiceList;
+    }
+
+    public boolean isSelectionSuccess() {
+        return selectionSuccess;
     }
 
     private void clearDashboard(){

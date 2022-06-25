@@ -128,6 +128,7 @@ public class ProvaGit {
             characters.add(reducedCharacter);
         }
         clientGameModel.setCharactersList(characters);
+        clientGameModel.setMyPlayerId(2);
         return clientGameModel;
     }
 

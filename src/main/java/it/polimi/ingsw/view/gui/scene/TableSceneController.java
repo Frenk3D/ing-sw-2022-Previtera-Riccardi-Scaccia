@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.scene;
 
 import it.polimi.ingsw.client.*;
+import it.polimi.ingsw.model.characters.MessageCharacterParameters;
 import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;
@@ -29,6 +30,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static it.polimi.ingsw.view.gui.GuiState.*;
 
 
 public class TableSceneController extends ViewObservable implements GenericSceneController{
@@ -60,6 +63,8 @@ public class TableSceneController extends ViewObservable implements GenericScene
     @FXML private Button buttonCommand1;
     @FXML private Button buttonCommand2;
     @FXML private Label tableInfoLabel;
+    @FXML private Label tableMoneyLabel;
+    @FXML private ImageView imageViewTableMoney;
 
     private Stage stage;
     private Scene dashboardScene;
@@ -76,6 +81,9 @@ public class TableSceneController extends ViewObservable implements GenericScene
 
     private ClientGameModel gameModel;
     private List<Integer> dashboardEntranceSelection;
+    private List<PawnColor> dashboardHallSelection;
+    private List<Integer> cardStudentsSelection;
+    private PawnColor cardColorSelection;
 
     @FXML
     public void initialize() {
@@ -141,7 +149,7 @@ public class TableSceneController extends ViewObservable implements GenericScene
     }
 
     public void requestedChooseAssistant(){
-        guiState = GuiState.WAITING_FOR_ASSISTANT_CLICK;
+        guiState = WAITING_FOR_ASSISTANT_CLICK;
         tableInfoLabel.setText("Choose an assistant...");
     }
 
@@ -168,26 +176,104 @@ public class TableSceneController extends ViewObservable implements GenericScene
     }
 
     public void requestedCharacterParameters(int id){
+        System.out.println("Requesting character parameters...");
+        MessageCharacterParameters params = new MessageCharacterParameters();
+        params.setCharacterId(id);
+        switch (id){
+            case 1: //choose 1 student from card and 1 island
+                if(selectFromCharacter(getCharacterById(id,gameModel.getCharactersList()))){
+                    guiState=GuiState.WAITING_FOR_ISLAND_CHAR1;
+                    tableInfoLabel.setText("Select the island where to put the student");
+                }
+                break;
+            case 3:
+                guiState=WAITING_FOR_ISLAND_CHAR3;
+                tableInfoLabel.setText("Select the island where to calculate the influence");
+                break;
 
+            case 5: //choose 1 island
+                guiState=WAITING_FOR_ISLAND_CHAR5;
+                tableInfoLabel.setText("Select the island where to put the forbid card");
+                break;
+            case 7: //choose 1-3 students from card and 1-3 students from hall
+                if(selectFromCharacter(getCharacterById(id,gameModel.getCharactersList()))){
+                    if(selectFromDashboard(cardStudentsSelection.size(),false)){
+                        params.setStudentsIndexList(cardStudentsSelection);
+                        params.setStudentsIndexEntranceList(dashboardEntranceSelection);
+                        new Thread(() -> notifyObserver((obs -> obs.onSendUseCharacter(params)))).start();
+                    }
+                }
+                break;
+            case 9: //choose 1 pawn color from card
+                if(selectFromCharacter(getCharacterById(id,gameModel.getCharactersList()))){
+                    params.setSelectedColor(cardColorSelection);
+                    new Thread(() -> notifyObserver((obs -> obs.onSendUseCharacter(params)))).start();
+                }
+                break;
+            case 10: //choose 1-2 students from hall and 1-2 pawn colors
+                if(selectFromDashboard(2,true)){
+                    params.setStudentsIndexEntranceList(dashboardEntranceSelection);
+                    params.setSelectedColor(dashboardHallSelection.get(0));
+                    if(dashboardHallSelection.size()==2) {
+                        params.setSelectedColor2(dashboardHallSelection.get(1));
+                    }
+                    new Thread(() -> notifyObserver((obs -> obs.onSendUseCharacter(params)))).start();
+                }
+                break;
+            case 11: //choose 1 student from card
+                if(selectFromCharacter(getCharacterById(id,gameModel.getCharactersList()))){
+                    params.setStudentIndex(cardStudentsSelection.get(0));
+                    new Thread(() -> notifyObserver((obs -> obs.onSendUseCharacter(params)))).start();
+                }
+                break;
+            case 12: //choose 1 pawn color from card
+                if(selectFromCharacter(getCharacterById(id,gameModel.getCharactersList()))){
+                    params.setSelectedColor(cardColorSelection);
+                    new Thread(() -> notifyObserver((obs -> obs.onSendUseCharacter(params)))).start();
+                }
+                break;
+        }
     }
 
     private void onIslandClick(Event e){
         int islandIndex = (int)((StackPane)e.getSource()).getUserData();
         if(guiState==GuiState.WAITING_FOR_ISLAND_MOVE){
             guiState=GuiState.LOCKED;
-            System.out.println("Click on island "+ islandToId[islandIndex]);
             new Thread(() -> notifyObserver((obs -> obs.onSendMoveAStudentIsland(dashboardEntranceSelection.get(0),islandToId[islandIndex])))).start();
         }
         else if(guiState==GuiState.WAITING_FOR_ISLAND_MN){
-            System.out.println("Click on island "+ islandToId[islandIndex]);
             new Thread(() -> notifyObserver((obs -> obs.onSendMoveMotherNature(islandToId[islandIndex])))).start();
+        }
+        else if(guiState==GuiState.WAITING_FOR_ISLAND_CHAR1){
+            guiState=GuiState.LOCKED;
+            MessageCharacterParameters params = new MessageCharacterParameters();
+            params.setCharacterId(1);
+            params.setIslandIndex(islandIndex);
+            params.setStudentIndex(cardStudentsSelection.get(0));
+            new Thread(() -> notifyObserver((obs -> obs.onSendUseCharacter(params)))).start();
+        }
+
+        else if(guiState==GuiState.WAITING_FOR_ISLAND_CHAR3){
+            guiState=GuiState.LOCKED;
+            MessageCharacterParameters params = new MessageCharacterParameters();
+            params.setCharacterId(3);
+            params.setIslandIndex(islandIndex);
+            new Thread(() -> notifyObserver((obs -> obs.onSendUseCharacter(params)))).start();
+        }
+
+        else if(guiState==GuiState.WAITING_FOR_ISLAND_CHAR5){
+            guiState=GuiState.LOCKED;
+            MessageCharacterParameters params = new MessageCharacterParameters();
+            params.setCharacterId(5);
+            params.setIslandIndex(islandIndex);
+            new Thread(() -> notifyObserver((obs -> obs.onSendUseCharacter(params)))).start();
         }
 
     }
 
     private void onAssistantClick(Event e){
         int assistantIndex = (int)((ImageView)e.getSource()).getUserData();
-        if(guiState==GuiState.WAITING_FOR_ASSISTANT_CLICK){
+        if(guiState== WAITING_FOR_ASSISTANT_CLICK){
             System.out.println("Click on assistant "+ assistantIndex);
             new Thread(() -> notifyObserver((obs -> obs.onSendSelectAssistant(assistantIndex)))).start();
         }
@@ -210,8 +296,11 @@ public class TableSceneController extends ViewObservable implements GenericScene
 
     private void onCharacterClick(Event e){
         int characterIndex = (int)((StackPane)e.getSource()).getUserData();
-        openCharacter(gameModel.getCharactersList().get(characterIndex));
-        System.out.println("Click on character "+ characterIndex);
+        int result = openCharacter(gameModel.getCharactersList().get(characterIndex));
+        if(result!=-1 && guiState!=GuiState.LOCKED && guiState != GuiState.WAITING_FOR_ASSISTANT_CLICK){
+            new Thread(() -> notifyObserver((obs -> obs.onAskCharacter(result)))).start();
+            System.out.println("Used character "+ result);
+        }
     }
 
     private void onButtonCommandClick(Event e){
@@ -221,8 +310,7 @@ public class TableSceneController extends ViewObservable implements GenericScene
             guiState=GuiState.LOCKED;
             int buttonIndex = (int) ((Button) e.getSource()).getUserData();
             System.out.println("Click on button " + buttonIndex);
-            selectFromDashboard(1,false);
-            if(dashboardEntranceSelection.size()==0){ //the dashboard was closed without selection
+            if(!selectFromDashboard(1,false)){
                 requestedMoveStudent();
                 return;
             }
@@ -238,7 +326,7 @@ public class TableSceneController extends ViewObservable implements GenericScene
     }
 
 
-    private void openCharacter(ReducedCharacter character){
+    private int openCharacter(ReducedCharacter character){
         stage = new Stage();
         FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource("/fxml/CharacterScene.fxml"));
 
@@ -257,8 +345,40 @@ public class TableSceneController extends ViewObservable implements GenericScene
         stage.initModality(Modality.APPLICATION_MODAL);
         CharacterSceneController characterController = loader.getController();
         characterController.loadCharacter(character);
+        characterController.setStage(stage);
         currCharacterController = characterController;
         stage.showAndWait();
+        if (characterController.isChooseUse()){
+            return character.getId();
+        }
+        return -1;
+    }
+
+    private boolean selectFromCharacter(ReducedCharacter character){
+        stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource("/fxml/CharacterScene.fxml"));
+
+        try {
+            characterScene = new Scene(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        stage.setScene(characterScene);
+        stage.setTitle("Character Detail");
+        stage.setWidth(329);
+        stage.setHeight(540);
+        stage.setResizable(false);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        CharacterSceneController characterController = loader.getController();
+        characterController.loadCharacter(character);
+        characterController.setStage(stage);
+        characterController.selectionMode();
+        currCharacterController = characterController;
+        stage.showAndWait();
+        cardColorSelection=characterController.getSelectedProfessorResult();
+        cardStudentsSelection=characterController.getSelectedStudentResult();
+        return characterController.isSelectionSuccess();
     }
 
 
@@ -285,7 +405,7 @@ public class TableSceneController extends ViewObservable implements GenericScene
         stage.showAndWait();
     }
 
-    private void selectFromDashboard(int entranceChoice, boolean isVariable){
+    public boolean selectFromDashboard(int entranceChoice, boolean isCharacter10){
         stage = new Stage();
         FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource("/fxml/DashboardScene.fxml"));
 
@@ -303,11 +423,13 @@ public class TableSceneController extends ViewObservable implements GenericScene
         stage.initModality(Modality.APPLICATION_MODAL);
         DashboardSceneController dashboardController = loader.getController();
         dashboardController.setStage(stage);
-        dashboardController.selectionMode(entranceChoice);
+        dashboardController.selectionMode(entranceChoice,isCharacter10);
         dashboardController.loadDashboard(gameModel.findPlayerById(gameModel.getMyPlayerId()).getDashboard(),gameModel.findPlayerById(gameModel.getMyPlayerId()).getPlayerTowerColor());
         currDashboardController = dashboardController;
         stage.showAndWait();
         dashboardEntranceSelection=dashboardController.getEntranceChoiceSelection();
+        dashboardHallSelection=dashboardController.getHallChoiceSelection();
+        return dashboardController.isSelectionSuccess();
     }
 
     public void updateGraphics(ClientGameModel model){
@@ -318,6 +440,9 @@ public class TableSceneController extends ViewObservable implements GenericScene
         loadPlayers(model.getPlayersList());
         if(model.isExpertMode()){
             loadCharacters(gameModel.getCharactersList());
+            tableMoneyLabel.setVisible(true);
+            imageViewTableMoney.setVisible(true);
+            tableMoneyLabel.setText(gameModel.getTableMoney()+" coins");
         }
         else {
             character1Pane.setManaged(false);
@@ -329,9 +454,6 @@ public class TableSceneController extends ViewObservable implements GenericScene
             currDashboardController.loadDashboard(((ReducedPlayer)dashboardScene.getUserData()).getDashboard(),((ReducedPlayer)dashboardScene.getUserData()).getPlayerTowerColor());
         }
     }
-
-
-
 
     private void loadPlayers(List<ReducedPlayer> playerList){
         int i = 0;
@@ -577,9 +699,6 @@ public class TableSceneController extends ViewObservable implements GenericScene
         characterArray[2]=character3Pane;
     }
 
-
-
-
     public void closeAllPopups(){
         if(stage!= null && stage.isShowing()){
             stage.close();
@@ -674,6 +793,15 @@ public class TableSceneController extends ViewObservable implements GenericScene
         imageView.setImage(new Image(getClass().getResourceAsStream(path)));
         imageView.setFitWidth(78);
         imageView.setFitHeight(115);
+    }
+
+    private ReducedCharacter getCharacterById(int id, List<ReducedCharacter> characterList){
+        for (ReducedCharacter c: characterList){
+            if(c.getId()==id){
+                return c;
+            }
+        }
+        return null;
     }
 
 }

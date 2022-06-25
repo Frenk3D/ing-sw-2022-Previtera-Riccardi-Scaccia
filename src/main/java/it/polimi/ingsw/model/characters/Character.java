@@ -83,8 +83,8 @@ public abstract class Character {
         //Collections.shuffle(idList);
 
         returnList.add(Factory.newCharacter(idList.get(0))); //we can force them leaving the shuffle, it's id-1
-        returnList.add(Factory.newCharacter(idList.get(6))); //or 1
-        returnList.add(Factory.newCharacter(idList.get(10))); //
+        returnList.add(Factory.newCharacter(idList.get(1))); //or 1
+        returnList.add(Factory.newCharacter(idList.get(2))); //
         return returnList;
     }
 

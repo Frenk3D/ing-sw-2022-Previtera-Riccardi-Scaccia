@@ -11,6 +11,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class CharacterSceneController {
 
@@ -20,7 +23,19 @@ public class CharacterSceneController {
     @FXML private ImageView imageViewUsedMoney;
 
 
+    private ReducedCharacter character;
     private Stage stage;
+    private boolean chooseUse = false; //set true if I choose to use the character
+
+    private List<Integer> selectedStudentResult; //result of the selection
+    private PawnColor selectedProfessorResult; //result of the selection
+    private int selectedStudents=0;
+    private boolean selectionMode=false;
+    private boolean selectionSuccess=false;
+
+    public CharacterSceneController(){
+        selectedStudentResult = new ArrayList<>();
+    }
 
     @FXML
     public void initialize() {
@@ -30,6 +45,7 @@ public class CharacterSceneController {
 
 
     public void loadCharacter(ReducedCharacter character){
+        this.character=character;
         getCharacterImage(character.getId(),characterDetailImageView);
         if(character.isUsed()){
             imageViewUsedMoney.setVisible(true);
@@ -68,7 +84,7 @@ public class CharacterSceneController {
                 for (int i = 0; i < 2; i++) {
                     if (index < character.getNumOfForbidCards()) {
                         ImageView imageView = new ImageView();
-                        imageView.setImage(new Image(getClass().getResourceAsStream("/images/deny_icon.png")));
+                        imageView.setImage(new Image(getClass().getResourceAsStream("/images/forbidCircle.png")));
                         imageView.setFitWidth(44);
                         imageView.setFitHeight(44);
                         characterGridPane.add(imageView, i, j);
@@ -80,16 +96,100 @@ public class CharacterSceneController {
 
     }
 
-    private void onUseClick(Event e){
+    public void selectionMode(){
+        selectionMode=true;
+        buttonPlayCharacter.setText("Select");
+        buttonPlayCharacter.setVisible(false);
 
+        if(character.getId()==9 || character.getId()==12){
+            PawnColor[] pawnColors = PawnColor.values();
+
+            int index = 0;
+            for (int j = 0; j < 3; j++) {
+                for (int i = 0; i < 2; i++) {
+                    if (index < pawnColors.length) {
+                        ImageView professorImage = getProfessorImage(pawnColors[index]);
+                        professorImage.setRotate(-90);
+                        professorImage.setOnMouseEntered((e)->{
+                            professorImage.setFitWidth(46);
+                            professorImage.setFitHeight(46);
+                        });
+
+                        professorImage.setOnMouseExited((e)->{
+                            professorImage.setFitWidth(44);
+                            professorImage.setFitHeight(44);
+                        });
+                        professorImage.setUserData(pawnColors[index]);
+                        professorImage.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onProfessorClicked);
+                        characterGridPane.add(professorImage, i, j);
+                        index++;
+                    }
+                }
+            }
+
+        }
+    }
+
+    private void onUseClick(Event e){
+        chooseUse = true;
+        selectionSuccess = true;
+        stage.close();
     }
 
     private void onStudentClicked(Event e){
+        ImageView pawnImg = (ImageView)e.getSource();
+        int studentId = (int) pawnImg.getUserData();
 
+        if (selectionMode){
+            if(character.getId()==1||character.getId()==11){
+                selectedStudentResult.add(studentId);
+                selectionSuccess = true;
+                stage.close();
+                return;
+            }
+            if(character.getId()==7){
+                selectedStudentResult.add(studentId);
+                selectedStudents++;
+                pawnImg.setDisable(true);
+                pawnImg.setOpacity(0.35);
+                if(selectedStudents==3){
+                    selectionSuccess = true;
+                    stage.close();
+                }
+                if(selectedStudents>=1){
+                    buttonPlayCharacter.setVisible(true); //enable the selection button for choosing less than 3 students
+                }
+            }
+        }
+    }
+
+    private void onProfessorClicked(Event e){
+        PawnColor pawnColor = (PawnColor) ((ImageView)e.getSource()).getUserData();
+        if(selectionMode){
+            selectedProfessorResult = pawnColor;
+            selectionSuccess=true;
+            stage.close();
+        }
+    }
+
+    public boolean isChooseUse() {
+        return chooseUse;
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public boolean isSelectionSuccess() {
+        return selectionSuccess;
+    }
+
+    public PawnColor getSelectedProfessorResult() {
+        return selectedProfessorResult;
+    }
+
+    public List<Integer> getSelectedStudentResult() {
+        return selectedStudentResult;
     }
 
     private void getCharacterImage(int id, ImageView imageView){
@@ -117,6 +217,32 @@ public class CharacterSceneController {
                 break;
             case GREEN:
                 path+="greenStudent3D.png";
+                break;
+        }
+        imageView.setImage(new Image(getClass().getResourceAsStream(path)));
+        imageView.setFitWidth(44);
+        imageView.setFitHeight(44);
+        return imageView;
+    }
+
+    private ImageView getProfessorImage(PawnColor color){
+        ImageView imageView = new ImageView();
+        String path = "/images/";
+        switch (color){
+            case RED:
+                path+="teacher_red.png";
+                break;
+            case BLUE:
+                path+="teacher_blue.png";
+                break;
+            case YELLOW:
+                path+="teacher_yellow.png";
+                break;
+            case PINK:
+                path+="teacher_pink.png";
+                break;
+            case GREEN:
+                path+="teacher_green.png";
                 break;
         }
         imageView.setImage(new Image(getClass().getResourceAsStream(path)));

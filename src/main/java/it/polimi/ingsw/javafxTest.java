@@ -1,28 +1,16 @@
 package it.polimi.ingsw;
-import javax.swing.*;
 
 import it.polimi.ingsw.view.gui.JavaFXGui;
-import it.polimi.ingsw.view.gui.scene.DashboardSceneController;
 import it.polimi.ingsw.view.gui.scene.TableSceneController;
 import javafx.application.Application;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 //only for tests
 public class javafxTest extends Application {
 
-    Stage rootLayout;
-    Scene firstScene;
     Scene secondScene;
 
         public void start(Stage stage) {
@@ -42,6 +30,7 @@ public class javafxTest extends Application {
 
             TableSceneController controller = loader.getController();
             controller.updateGraphics(ProvaGit.generateClientGameModel());
+            controller.selectFromDashboard(3,false);
         }
     }
 

@@ -18,7 +18,6 @@ public class MessageCharacterParameters implements Serializable {
     private PawnColor selectedColor;
     private PawnColor selectedColor2;
 
-    //tableMoney?
 
 
     public MessageCharacterParameters() {
