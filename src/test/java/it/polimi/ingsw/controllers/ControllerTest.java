@@ -244,5 +244,8 @@ class ControllerTest {
         assertNotEquals(s,controller.getServer());
         controller.getGame().getCurrRound().getCurrTurn().setCurrPlayer(p1);
         assertFalse(controller.checkWin(false));
+        controller.getGame().getCurrPlayer().getDashboard().setTowersList(new ArrayList<>());
+        assertEquals(false, controller.checkWin(true));
+        assertEquals(controller.getGame().getCurrPlayer().getId(),controller.getWinner());
     }
 }
