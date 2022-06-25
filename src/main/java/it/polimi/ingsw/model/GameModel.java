@@ -139,14 +139,14 @@ public class GameModel extends Observable {
             tableMoney = new AtomicInteger();
             tableMoney.set(20);
             for (Player p: playersList){
-                p.modifyMoney(10,tableMoney);
+                p.modifyMoney(9,tableMoney);
             }
             CharacterParameters parameters = new CharacterParameters();
             parameters.setBag(bag);
 
             for(Character c : charactersList){
                 c.initCharacter(parameters);
-                //the method getForbidCharacter does everything
+                //the method getForbidCharacter search if there is id 5 otherwise return null
             }
         }
         state = GameState.INGAME_STATE;

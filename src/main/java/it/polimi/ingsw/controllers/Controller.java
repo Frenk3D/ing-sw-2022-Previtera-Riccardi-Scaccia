@@ -400,14 +400,18 @@ public class Controller implements Observer {
 
             game.setMotherNaturePosition(islandIndex);
 
-            if(game.isExpertMode() && game.getCurrRound().getCurrTurn().getUsedCharacter()!=null){ //we apply the character effect if it's used or we remove forbid card if present
-                int usedCharacterId = game.getCurrRound().getCurrTurn().getUsedCharacter().getId();
-
-                if(usedCharacterId==6||usedCharacterId==8||usedCharacterId==9) {
+            if(game.isExpertMode()) { //we apply the character effect if it's used, or we remove forbid card if present
+                if( game.getCurrRound().getCurrTurn().getUsedCharacter()!=null){
+                    int usedCharacterId = game.getCurrRound().getCurrTurn().getUsedCharacter().getId();
+                    if(usedCharacterId==6||usedCharacterId==8||usedCharacterId==9) {
                     Characters2and6and8and9 character = (Characters2and6and8and9) game.getCurrRound().getCurrTurn().getUsedCharacter();
                     character.updateIslandDomainCharacter(game.getCurrPlayer(),game.getIslandByIndex(islandIndex),game.getPlayersList(),game.getForbidCharacter());
+                    }
+                    else { //simply remove forbid card if none of characters 6/8/9 was used in this turn (if there is)
+                        game.getIslandByIndex(islandIndex).updateIslandDomainExpert(game.getPlayersList(), game.getForbidCharacter());
+                    }
                 }
-                else { //simply remove forbid card if no character was used in this turn
+                else{ //simply remove forbid card if no character was used in this turn (if there is)
                     game.getIslandByIndex(islandIndex).updateIslandDomainExpert(game.getPlayersList(), game.getForbidCharacter());
                 }
                 game.sendCharacterTable(); //update the number of forbid cards on the character

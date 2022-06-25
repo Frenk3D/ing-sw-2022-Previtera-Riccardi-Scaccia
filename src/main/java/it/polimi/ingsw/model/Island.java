@@ -213,7 +213,7 @@ public class Island {
     }
 
     /**
-     * Calculates the influence of a player on the island
+     * Calculates the influence of a player on the island,
      * the island's domain is updated depending on the influence of the player
      * @param player
      * @param playersList
