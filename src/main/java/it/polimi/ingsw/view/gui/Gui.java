@@ -53,7 +53,12 @@ public class Gui extends View {
 
     @Override
     public void onAskCreateOrJoin() {
-        Platform.runLater(() -> SceneController.changeRootPane(observers, "AskCreateOrJoinScene.fxml"));
+        Platform.runLater(() -> {
+            SceneController.changeRootPane(observers, "AskCreateOrJoinScene.fxml");
+            SceneController.getMainStage().setMaximized(false);
+            SceneController.getMainStage().setWidth(900);
+            SceneController.getMainStage().setHeight(600);
+        });
     }
 
     @Override

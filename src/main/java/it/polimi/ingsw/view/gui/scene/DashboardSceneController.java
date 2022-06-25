@@ -89,13 +89,15 @@ public class DashboardSceneController {
         }
 
         //load towers
-        index = 0;
-        for (int j=0;j<5;j++){
-            for (int i = 0; i<2;i++){
-                if(index < dashboard.getTowerNumber()) {
-                    ImageView pawnImage = getTowerImage(color);
-                    towersGridPane.add(pawnImage, i, j);
-                    index++;
+        if(color!=null) {
+            index = 0;
+            for (int j = 0; j < 5; j++) {
+                for (int i = 0; i < 2; i++) {
+                    if (index < dashboard.getTowerNumber()) {
+                        ImageView pawnImage = getTowerImage(color);
+                        towersGridPane.add(pawnImage, i, j);
+                        index++;
+                    }
                 }
             }
         }

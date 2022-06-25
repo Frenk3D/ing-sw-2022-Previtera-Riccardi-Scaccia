@@ -74,6 +74,7 @@ public class ClientController implements ViewObserver {
                 break;
             case PLAYER_JOIN:
                 clientState = ClientState.WAITING_IN_LOBBY;
+                clientGameModel.reset();
                 PlayerJoinMessage playerJoinMessage = (PlayerJoinMessage) message;
                 clientGameModel.showPlayerJoin(playerJoinMessage.getPlayersList());
                 break;
@@ -178,7 +179,6 @@ public class ClientController implements ViewObserver {
                 clientState = ClientState.CHOOSING_JOIN_CREATE;
                 teamLeader = true;
                 teamId = client.getClientId();
-                clientGameModel.reset();
                 clientGameModel.askCreateOrJoin();
                 break;
 
@@ -201,7 +201,6 @@ public class ClientController implements ViewObserver {
                 clientGameModel.show(disconnectionMessage.getString() +" disconnected... returning to home\n");
                 teamLeader = true;
                 teamId = client.getClientId();
-                clientGameModel.reset();
                 clientGameModel.askCreateOrJoin();
                 break;
 

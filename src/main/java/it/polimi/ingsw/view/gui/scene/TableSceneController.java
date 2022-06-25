@@ -321,7 +321,19 @@ public class TableSceneController extends ViewObservable implements GenericScene
     private void loadPlayer(HBox playerPane, ReducedPlayer player){
         StackPane dashboardPane = (StackPane) playerPane.getChildren().get(0);
         Button button = (Button) dashboardPane.getChildren().get(1);
-        button.setText(player.getName());
+
+        String buttonText = "";
+        buttonText += player.getName();
+
+        if(player.getId() == gameModel.getMyPlayerId()){
+            buttonText+= " (Me)";
+        }
+
+        if(gameModel.isExpertMode()){
+            buttonText+=" Money: "+player.getNumOfMoney();
+        }
+
+        button.setText(buttonText);
 
         ImageView thrownAssistantImage = (ImageView) playerPane.getChildren().get(1);
         if(player.getSelectedAssistant()!=null){
@@ -399,7 +411,7 @@ public class TableSceneController extends ViewObservable implements GenericScene
             }
             index += island.getWeight();
             StackPane islandPane = islandArray[index];
-            if(islandPane.getChildren().size()!=1){
+            if(islandPane.getChildren().size()!=1){ //clear the old islands
                 islandPane.getChildren().remove(1);
             }
             islandToId[index]=i;
@@ -414,6 +426,7 @@ public class TableSceneController extends ViewObservable implements GenericScene
     }
 
     private void loadIsland(StackPane islandPane, ReducedIsland island, boolean motherNature){
+        islandPane.setVisible(true);
         AnchorPane anchorPane = new AnchorPane();
 
         //preload colors
