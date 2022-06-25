@@ -426,7 +426,7 @@ public class Controller implements Observer {
             game.sendTable();
             game.getCurrRound().getCurrTurn().setStage(TurnState.CHOOSE_CLOUD_STATE);
 
-            if(game.getCurrRound().isLastRound() && !game.getCurrRound().nextTurn()){ //if it is the last round because students in the bag finished we jump to next turn, if turn is the last we find the winner
+            if(game.getCurrRound().isLastRound() && !game.getCurrRound().nextTurn()){ //if it is the last round because students in the bag finished we jump to next turn (without take from cloud), if turn is the last we find the winner
                 game.sendWin(getWinner());
                 new Thread(() -> server.deleteLobby(this)).start();
                 return;
@@ -596,7 +596,7 @@ public class Controller implements Observer {
 
     public boolean checkWin(boolean finishedRound){
         if(finishedRound){
-            for (Player p : game.getPlayersList()){ //one player finished assistants
+            for (Player p : game.getPlayersList()){ //one player finished assistants, the check on the bag is done in the method movemothernature
                 if(p.getAssistantDeck().getAssistantsList().isEmpty()){
                     logger.log(Level.INFO,"win on finished assistants");
                     return true;
@@ -618,7 +618,7 @@ public class Controller implements Observer {
         return false;
     }
 
-    private int getWinner() {
+    public int getWinner() {  //it was private, but we have to put it public for the tests
         int winnerId = -1;
         Player tmpPlayer = null ;
         for(int i = 0; i<game.getPlayersList().size(); i++){

@@ -47,7 +47,7 @@ GUI: java -jar out\artifacts\WHATEVER_jar\WHATEVER.jar
 https://taylorial.com/cs1021/Jar.htm
 
 ## Test coverage (on Server):
-Controller: ~69%
+Controller: ~73%  
 Model: ~88%
   
   
