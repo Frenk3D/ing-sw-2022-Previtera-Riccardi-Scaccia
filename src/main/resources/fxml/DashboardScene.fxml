@@ -12,7 +12,7 @@
    <children>
       <ImageView fitHeight="434.0" fitWidth="999.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/dashboard-scaled.png" />
+            <Image url="@../images/dashboard-scaled1.png" />
          </image>
       </ImageView>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="999.0" styleClass="imageView" stylesheets="@../css/login-scene.css">
