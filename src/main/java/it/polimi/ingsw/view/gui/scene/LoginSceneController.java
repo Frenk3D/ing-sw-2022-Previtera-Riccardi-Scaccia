@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import java.util.Map;
 
 /**
- * This class implements the scene where users choose their nicknames.
+ * The controller of the scene where you have to put the server info
  */
 public class LoginSceneController extends ViewObservable implements GenericSceneController {
 
@@ -31,7 +31,11 @@ public class LoginSceneController extends ViewObservable implements GenericScene
     }
 
 
-
+    /**
+     * Handle the connect click button
+     *
+     * @param event the mouse click event
+     */
     @FXML
     private void onConnectBtnClick(Event event){
         String address = serverAddressField.getText();
@@ -52,6 +56,9 @@ public class LoginSceneController extends ViewObservable implements GenericScene
         }
     }
 
+    /**
+     * This is the handler if the client receive an error linked to this scene
+     */
     @FXML
     public void errorInServer(){
         connectBtn.setDisable(false);

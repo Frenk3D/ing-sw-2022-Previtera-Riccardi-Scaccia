@@ -9,6 +9,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.List;
 
+/**
+ * This class implements the controller of the scene where users choose a tower color (only the team leaders)
+ */
 public class ChooseTowerColorSceneController extends ViewObservable implements GenericSceneController{
 
     @FXML
@@ -51,18 +54,33 @@ public class ChooseTowerColorSceneController extends ViewObservable implements G
         });
         
     }
+
+    /**
+     * Handle onClickWhiteTower event.
+     * @param event mouse click event.
+     */
     public void onClickWhiteTowerImgView(Event event){
         setAllDisabled(true);
         setAllFaded(true);
         TowerColor tc = TowerColor.WHITE;
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseTowerColor(tc))).start();
     }
+
+    /**
+     * Handle onClickBlackTower event.
+     * @param event mouse click event.
+     */
     public void onClickBlackTowerImgView(Event event){
         setAllDisabled(true);
         setAllFaded(true);
         TowerColor tc = TowerColor.BLACK;
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseTowerColor(tc))).start();
     }
+
+    /**
+     * Handle onClickGreyTower event.
+     * @param event mouse click event.
+     */
     public void onClickGreyTowerImgView(Event event){
         setAllDisabled(true);
         setAllFaded(true);
@@ -70,6 +88,11 @@ public class ChooseTowerColorSceneController extends ViewObservable implements G
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseTowerColor(tc))).start();
     }
 
+    /** Update the list of tower colors not yet chosen.
+     *
+     *
+     * @param availableTowerColors the available tower colors for the choice
+     */ //not still...
     public void updateList(List<TowerColor> availableTowerColors){
         setAllDisabled(false);
         setAllFaded(false);
@@ -88,12 +111,20 @@ public class ChooseTowerColorSceneController extends ViewObservable implements G
     }
 
 
+    /**
+     * To disable the choices not available.
+     * @param state if available (false) or not (true)
+     */
     private void setAllDisabled(boolean state){
         greyTowerImgView.setDisable(state);
         blackTowerImgView.setDisable(state);
         whiteTowerImgView.setDisable(state);
     }
 
+    /**
+     * To set the opacity at the choices not available.
+     * @param state if available (false) or not (true)
+     */
     private void setAllFaded(boolean state){
         if(state) {
             greyTowerImgView.setOpacity(0.2);

@@ -12,6 +12,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
 
+/**
+ * This is the class that manage the creation of a lobby
+ */
 public class CreateSceneController extends ViewObservable implements GenericSceneController{
 
 
@@ -34,6 +37,10 @@ public class CreateSceneController extends ViewObservable implements GenericScen
     }
 
 
+    /**
+     * Handle the click event of the confirm button, after insert lobby info.
+     * @param event The mouse click event.
+     */
     @FXML
     public void onCreateConfirmBtnClick(Event event){
         String lobby = lobbyNameTextField.getText();

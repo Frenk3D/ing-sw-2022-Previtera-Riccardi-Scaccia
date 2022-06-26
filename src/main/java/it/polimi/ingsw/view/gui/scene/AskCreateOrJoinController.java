@@ -10,6 +10,9 @@ import javafx.scene.input.MouseEvent;
 import javax.swing.event.DocumentEvent;
 import java.util.Map;
 
+/**
+ * The scene where the player choose to join or create a lobby (for his match).
+ */
 public class AskCreateOrJoinController extends ViewObservable implements GenericSceneController{
     @FXML
     private Button joinBtn;
@@ -25,12 +28,22 @@ public class AskCreateOrJoinController extends ViewObservable implements Generic
         createBtn.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onCreateBtnClick);
 
     }
+
+    /**
+     * The user choose to join in an existing lobby.
+     * @param event click event.
+     */
     @FXML
     public void onJoinBtnClick(Event event){
         joinBtn.setDisable(true);
         createBtn.setDisable(true);
         new Thread(() -> notifyObserver((obs -> obs.onSendLobbiesRequest()))).start();
     }
+
+    /**
+     * The user choose to create a lobby.
+     * @param event click event.
+     */
     @FXML
     public void onCreateBtnClick(Event event){
         joinBtn.setDisable(true);

@@ -10,6 +10,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.List;
 
+/**
+ * This class implements the controller of the scene where users choose a wizard (all the assistant decks are equals...)
+ */
 public class ChooseWizardSceneController extends ViewObservable implements GenericSceneController{
 
     @FXML
@@ -66,27 +69,52 @@ public class ChooseWizardSceneController extends ViewObservable implements Gener
         });
 
     }
+
+    /**
+     * Handle onClickSageWizard event.
+     * @param event mouse click event.
+     */
     public void onClickOldWizardImgView(Event event){
         setAllDisable(true);
         setAllFaded(true);
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseWizard(Wizard.SAGE))).start();
     }
+
+    /**
+     * Handle onClickKingWizard event.
+     * @param event mouse click event.
+     */
     public void onClickKingWizardImgView(Event event){
         setAllDisable(true);
         setAllFaded(true);
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseWizard(Wizard.KING))).start();
     }
+
+    /**
+     * Handle onClickWitchWizard event.
+     * @param event mouse click event.
+     */
     public void onClickGirlWizardImgView(Event event){
         setAllDisable(true);
         setAllFaded(true);
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseWizard(Wizard.WITCH))).start();
     }
+
+    /**
+     * Handle onClickAsiaticWizard event.
+     * @param event mouse click event.
+     */
     public void onClickAsiaticWizardImgView(Event event){
         setAllDisable(true);
         setAllFaded(true);
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseWizard(Wizard.ASIATIC))).start();
     }
 
+    /** Update the list of wizards not yet chosen.
+     *
+     *
+     * @param availableWizards the available wizards for the choice
+     */
     public void updateList(List<Wizard> availableWizards){
         setAllDisable(false);
         setAllFaded(false);
@@ -107,14 +135,22 @@ public class ChooseWizardSceneController extends ViewObservable implements Gener
             asiaticWizardImgView.setOpacity(0.2);
         }
     }
-    
+
+    /**
+     * To disable the choices not available.
+     * @param state if available (false) or not (true)
+     */
     private void setAllDisable(boolean state){
         oldWizardImgView.setDisable(state);
         kingWizardImgView.setDisable(state);
         girlWizardImgView.setDisable(state);
         asiaticWizardImgView.setDisable(state);
     }
-    
+
+    /**
+     * To set the opacity at the choices not available.
+     * @param state if available (false) or not (true)
+     */
     private void setAllFaded(boolean state){
         if(state) {
             oldWizardImgView.setOpacity(0.2);
