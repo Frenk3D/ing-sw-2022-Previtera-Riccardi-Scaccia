@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- *
+ *This class is used to implement and manage the client side socket
  */
 
 public class ClientSocket  {
@@ -24,7 +24,13 @@ public class ClientSocket  {
     private int clientId;
     private ClientController clientController;
 
-
+    /**
+     * Constructor that initializes the socket and creates the socket's output stream,input stream and the read execution queue
+     * @param ip the client ip
+     * @param port the client port
+     * @param clientController the client controller
+     * @throws IOException
+     */
     public ClientSocket(String ip, int port, ClientController clientController) throws IOException{
         this.ip = ip;
         this.port = port;
@@ -48,7 +54,10 @@ public class ClientSocket  {
     } */
 
 
-
+    /**
+     * This method handles the reading of received messages through the input stream
+     * If an IOException or a ClassNotFoundException are detected the socket disconnects
+     */
     public void readMessage() {
         readExecutionQueue.execute(() -> {
 
@@ -66,7 +75,11 @@ public class ClientSocket  {
         });
     }
 
-
+    /**
+     * This method handles the sending of messages through the socket's output stream
+     * If an IOException is detected the socket is disconnected
+     * @param message the message to be sent
+     */
     public synchronized void sendMessage(Message message) {
         try {
             System.out.println("--SENT MESSAGE: "+message.getMessageType());
@@ -80,6 +93,10 @@ public class ClientSocket  {
     }
 
     //it is when THIS client disconnect, or there are others critical problems...
+
+    /**
+     * This method handles the socket disconnection by closing it
+     */
     public void disconnect() {
         readExecutionQueue.shutdownNow();
         try {
@@ -93,11 +110,18 @@ public class ClientSocket  {
         clientController.onSocketDisconnect();
     }
 
-
+    /**
+     *
+     * @return the client's id
+     */
     public int getClientId() {
         return clientId;
     }
 
+    /**
+     * Sets the client id
+     * @param clientId the client id
+     */
     public void setClientId(int clientId) {
         this.clientId = clientId;
     }
