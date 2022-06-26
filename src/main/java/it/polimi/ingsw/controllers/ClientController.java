@@ -271,6 +271,11 @@ public class ClientController implements ViewObserver {
             clientGameModel.sendServerInfoRequest();
         }
     }
+
+    /**
+     * Request of the client to login containing the desired name
+     * @param input the player's desired name
+     */
     @Override
     public void onSendLoginRequest(String input){
         StringMessage loginRequest = new StringMessage(MessageType.LOGIN_REQUEST, client.getClientId(), true,input);
@@ -278,6 +283,12 @@ public class ClientController implements ViewObserver {
         client.sendMessage(loginRequest);
     }
 
+    /**
+     * Request containing the name,number of players and game mode of a lobby to be created by the client
+     * @param input the name of the lobby
+     * @param numOfPlayers the number of players of the lobby
+     * @param expertMode the game mode of the lobby
+     */
     @Override
     public void onSendNewLobbyRequest(String input,int numOfPlayers,boolean expertMode){
         Lobby lobby = new Lobby(numOfPlayers,0,expertMode,input);
@@ -286,6 +297,9 @@ public class ClientController implements ViewObserver {
         client.sendMessage(message);
     }
 
+    /**
+     * Request to showcase the list of available lobbies,at this point the client is choosing a lobby
+     */
     @Override
     public void onSendLobbiesRequest(){
         GenericMessage message = new GenericMessage(MessageType.LOBBIES_REQUEST,client.getClientId(),true);
@@ -293,6 +307,10 @@ public class ClientController implements ViewObserver {
         client.sendMessage(message);
     }
 
+    /**
+     * The client sends a message containing the chosen lobby from the available lobbies
+     * @param chosenLobby the lobby selected by the player
+     */
     @Override
     public void onSendChooseLobby(String chosenLobby){
         StringMessage message =  new StringMessage(MessageType.CHOOSE_LOBBY,client.getClientId(),true, chosenLobby);
@@ -300,6 +318,10 @@ public class ClientController implements ViewObserver {
         client.sendMessage(message);
     }
 
+    /**
+     * The client sends a message containing the chosen team player from the available players
+     * @param chosenTeamPlayerId the id of the selected team player
+     */
     @Override
     public void onSendChooseTeam(int chosenTeamPlayerId) {
         ChooseTeamMessage message = new ChooseTeamMessage(client.getClientId(),chosenTeamPlayerId);
@@ -307,6 +329,10 @@ public class ClientController implements ViewObserver {
         client.sendMessage(message);
     }
 
+    /**
+     * The client sends a message containing the chosen tower color from the available tower colors
+     * @param color the tower color selected by the player
+     */
     @Override
     public void onSendChooseTowerColor(TowerColor color) {
         ChooseTowerColorMessage message = new ChooseTowerColorMessage(client.getClientId(),color);
@@ -314,6 +340,10 @@ public class ClientController implements ViewObserver {
         client.sendMessage(message);
     }
 
+    /**
+     * The client sends a message containing the chosen wizard from the available wizards
+     * @param wizard the wizard selected by the player
+     */
     @Override
     public void onSendChooseWizard(Wizard wizard) {
         ChooseWizardMessage message = new ChooseWizardMessage(client.getClientId(),wizard);
@@ -321,7 +351,10 @@ public class ClientController implements ViewObserver {
         client.sendMessage(message);
     }
 
-
+    /**
+     * The client sends a message containing the chosen assistant's id from the available assistants
+     * @param selectedAssistantId the assistant's id selected by the player
+     */
     @Override
     public void onSendSelectAssistant(int selectedAssistantId) {
         if(ClientInputVerifier.verifyAssistant(clientGameModel,selectedAssistantId)) {
@@ -335,8 +368,9 @@ public class ClientController implements ViewObserver {
     }
 
     /**
-     * @param selectedStudentIndex
-     * @param selectedIslandIndex
+     * The player sends a message containing the selected student's index and the island's index where the student has to be moved
+     * @param selectedStudentIndex the index of the chosen student
+     * @param selectedIslandIndex the index of the island where the student has to be moved
      */
     @Override
     public void onSendMoveAStudentIsland(int selectedStudentIndex, int selectedIslandIndex) {
@@ -351,6 +385,8 @@ public class ClientController implements ViewObserver {
     }
 
     /**
+     * The player chooses a student to be moved to the dashboard,where it's added to the hall based on its color
+     * the client then sends a message containing the information
      * @param selectedStudentIndex
      */
     @Override
@@ -366,6 +402,8 @@ public class ClientController implements ViewObserver {
     }
 
     /**
+     * The player choose the island where mother nature has to be moved
+     * the client sends a message containing the info
      * @param selectedIslandIndex
      */
     @Override
@@ -382,7 +420,8 @@ public class ClientController implements ViewObserver {
 
 
     /**
-     *
+     *the player chooses a cloud
+     *the client sends a message containing the chosen cloud index
      * @param selectedCloudIndex
      */
     @Override
@@ -398,6 +437,8 @@ public class ClientController implements ViewObserver {
     }
 
     /**
+     * The player chooses a character to be used
+     * The client sends a message containing the character id
      * @param characterId
      */
     @Override
@@ -423,6 +464,8 @@ public class ClientController implements ViewObserver {
     }
 
     /**
+     * The player uses a character
+     * the client sends a message containing the character parameters
      * @param params
      */
     @Override
@@ -436,6 +479,9 @@ public class ClientController implements ViewObserver {
         }
     }
 
+    /**
+     * A text message notifies that a client lost connection,the game is automatically ended
+     */
     public void onSocketDisconnect(){   //this happens only when there is a mine critical problem
         clientGameModel.show("\nConnection lost, disconnecting...");
         clientState = ClientState.GAME_FINISHED;
@@ -443,6 +489,10 @@ public class ClientController implements ViewObserver {
     }
 
     //UTILS METHODS
+
+    /**
+     * this method manages ok reply messages for each client state
+     */
     private void manageOkReplyMessage(){ //if we don't receive error we suppose that everything is ok
         switch(clientState){
             case CHOOSING_TEAM:
@@ -471,6 +521,9 @@ public class ClientController implements ViewObserver {
         }
     }
 
+    /**
+     * This method manages error replies for each client state
+     */
     private void manageErrorReplyMessage(){
         switch(clientState) {
             case LOGIN_ACCEPTED:
@@ -529,6 +582,10 @@ public class ClientController implements ViewObserver {
         }
     }
 
+    /**
+     * This method manages sync state message for each game state
+     * @param syncStateMessage the message used to sync states
+     */
     private  void manageSyncStateMessage(SyncStateMessage syncStateMessage){
         GameState gameState = syncStateMessage.getGameState();
         SettingState settingState = syncStateMessage.getSettingState();
@@ -623,18 +680,34 @@ public class ClientController implements ViewObserver {
 
     }
 
+    /**
+     *
+     * @return the client game model
+     */
     public ClientGameModel getClientGameModel() {
         return clientGameModel;
     }
 
+    /**
+     * Sets the nickname
+     * @param nickname the name of the player
+     */
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
+    /**
+     *
+     * @return the client state
+     */
     public ClientState getClientState() {
         return clientState;
     }
 
+    /**
+     * Sets the client state
+     * @param clientState the current state of the client
+     */
     public void setClientState(ClientState clientState) {
         this.clientState = clientState;
     }

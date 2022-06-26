@@ -29,31 +29,60 @@ public class Controller implements Observer {
     private final Logger logger = Logger.getLogger(getClass().getName());
 
     //constructor
+
+    /**
+     * default controller
+     */
     public Controller(){
         game = new GameModel();
     }
 
+    /**
+     * Sets the server
+     * @param server the server
+     */
     public void setServer(Server server){
         this.server = server;
     }
 
+    /**
+     *
+     * @return the game
+     */
     public GameModel getGame(){
         return game;
     }
 
     //----------------functions for lobby display on server----------------------
+
+    /**
+     *
+     * @return the number of players of the game
+     */
     public int getNumOfPlayer(){
         return game.getNumOfPlayers();
     }
 
+    /**
+     *
+     * @return the size of the game's players list
+     */
     public int getActualNumOfPlayers(){
         return game.getPlayersList().size();
     }
 
+    /**
+     *
+     * @return {@code true} if the game is in expert mode {@code false} if the game is in normal mode
+     */
     public boolean getExpertMode(){
         return game.isExpertMode();
     }
 
+    /**
+     *
+     * @return {@code true} if the game is in login state {@code false} otherwise
+     */
     public boolean isOpen(){
         if(game.getGameState()==GameState.LOGIN_STATE){
             return true;
@@ -84,6 +113,10 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     * This method manages the setting state,the stage in which the player chooses team,tower color and wizard
+     * @param receivedMessage the message received by the server
+     */
     private void settingState(Message receivedMessage){
         switch (receivedMessage.getMessageType()){
             case CHOOSE_TEAM:
@@ -108,6 +141,10 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     * This method manages the in game state,in which the player can make every move allowed in the game
+     * @param receivedMessage the message received by the server
+     */
     private void inGameState(Message receivedMessage){
         switch (receivedMessage.getMessageType()){
             case SELECT_ASSISTANT:
@@ -163,6 +200,11 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     * This method configures expert mode and number of players
+     * @param numOfPlayers number of players in the game
+     * @param expertMode the game mode
+     */
     public void configure(int numOfPlayers, boolean expertMode){
         boolean result = game.setNumOfPlayers(numOfPlayers);
         if(!result){
@@ -173,6 +215,11 @@ public class Controller implements Observer {
     }
 
     //LOGIN STATE
+
+    /**
+     * This method adds a player to the game
+     * @param player the player to be added
+     */
     public synchronized void addPlayer(Player player){
         if(getGameState() == GameState.LOGIN_STATE || game.getNumOfPlayers() == 0) {
             boolean result = game.addPlayer(player);
@@ -194,6 +241,12 @@ public class Controller implements Observer {
     }
 
     //SETTING PHASE 1
+
+    /**
+     * This method chooses a team for the requesting player
+     * @param playerId the requesting player id
+     * @param requestedPlayerId the requested player id
+     */
     public synchronized void chooseTeam(int playerId, int requestedPlayerId){
         if(game.getNumOfPlayers() == 4 && game.getSettingState() == SettingState.CHOOSE_TEAM_STATE) {
             Player requestingPlayer = game.getPlayerById(playerId);
@@ -231,6 +284,12 @@ public class Controller implements Observer {
     }
 
     //SETTING PHASE 2
+
+    /**
+     * This method chooses a tower color for the requesting player
+     * @param playerId the requesting player id
+     * @param selectedColor the selected tower color
+     */
     public synchronized void chooseTowerColor(int playerId, TowerColor selectedColor){
         if(game.getSettingState()==SettingState.CHOOSE_TOWER_COLOR_STATE) {
             Player requestingPlayer = game.getPlayerById(playerId);
@@ -269,6 +328,12 @@ public class Controller implements Observer {
     }
 
     //SETTING PHASE 3
+
+    /**
+     * This method chooses a wizard for the requesting player
+     * @param playerId the requesting player id
+     * @param selectedWizard the selected wizard
+     */
     public synchronized void chooseWizard(int playerId, Wizard selectedWizard){
         if(game.getSettingState()==SettingState.CHOOSE_WIZARD_STATE) {
             Player requestingPlayer = game.getPlayerById(playerId);
@@ -308,6 +373,12 @@ public class Controller implements Observer {
 
     //methods
     //ACTION PHASE 1
+
+    /**
+     * This method moves a student to an island for the current player
+     * @param entranceListIndex list of indexes of the entrance list
+     * @param islandIndex list of indexes of the islands list
+     */
     public synchronized void moveStudentIsland(int entranceListIndex,int islandIndex){
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.MOVE_STUDENT_STATE) {
             Player currPlayer = game.getCurrPlayer();
@@ -333,6 +404,11 @@ public class Controller implements Observer {
     }
 
     //ACTION PHASE 1
+
+    /**
+     * This method moves a student to the hall based on its color for the current player
+     * @param entranceListIndex list of indexes of the entrance list
+     */
     public synchronized void moveStudentDashboard(int entranceListIndex){
         if(game.getCurrRound().getStage()== RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.MOVE_STUDENT_STATE){
             Player currPlayer = game.getCurrPlayer();
@@ -377,6 +453,11 @@ public class Controller implements Observer {
     }
 
     //ACTION PHASE 2
+
+    /**
+     * This method moves mother nature for the current player
+     * @param islandIndex index of the selected island
+     */
     public synchronized void moveMotherNature(int islandIndex){
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage()== TurnState.MOVE_MOTHER_NATURE_STATE){
 
@@ -452,6 +533,11 @@ public class Controller implements Observer {
     }
 
     //ACTION PHASE 3
+
+    /**
+     * This methods takes the students of the selected cloud and gives them to the current player
+     * @param cloudIndex index of the selected cloud
+     */
     public synchronized void takeFromCloud(int cloudIndex){ //they go in the entranceList
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.CHOOSE_CLOUD_STATE){
             if(game.getCloudByIndex(cloudIndex)==null || game.getCloudByIndex(cloudIndex).getStudents().isEmpty()){
@@ -487,6 +573,10 @@ public class Controller implements Observer {
 
     }
 
+    /**
+     * This method selects an assistant for the current player
+     * @param assistantId id of the selected assistant
+     */
     public synchronized void selectAssistant(int assistantId){
         if(game.getCurrRound().getStage() == RoundState.PLANNING_STATE) {
             Round round = game.getCurrRound();
@@ -533,7 +623,11 @@ public class Controller implements Observer {
         }
     }
 
-
+    /**
+     * this method uses a character for the current player
+     * @param characterId id of the selected character
+     * @param parameters the selected character's parameters
+     */
     public synchronized void useCharacter(int characterId, CharacterParameters parameters){
         if(game.getCurrRound().getStage() == RoundState.ACTION_STATE) {
             Character usedCharacter = game.getCharacterById(characterId);
@@ -594,10 +688,18 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     * @return the state of the game
+     */
     private GameState getGameState() {
         return game.getGameState();
     }
 
+    /**
+     *
+     * @param finishedRound
+     * @return {@code true} if someone won {@code false} if not
+     */
     public boolean checkWin(boolean finishedRound){
         if(finishedRound){
             for (Player p : game.getPlayersList()){ //one player finished assistants, the check on the bag is done in the method movemothernature
@@ -622,6 +724,10 @@ public class Controller implements Observer {
         return false;
     }
 
+    /**
+     *
+     * @return the player who won the game
+     */
     public int getWinner() {  //it was private, but we have to put it public for the tests
         int winnerId = -1;
         Player tmpPlayer = null ;
@@ -646,6 +752,11 @@ public class Controller implements Observer {
         return tmpPlayer.getId();
     }
 
+    /**
+     * This method checks if the sender of the message is the current player
+     * @param message the received message
+     * @return {@code true} if the sender of the message is the current player {@code false} otherwise
+      */
     private boolean checkUser(Message message){
         if((game.getCurrRound().getStage()==RoundState.ACTION_STATE && message.getSenderId()==game.getCurrPlayer().getId()) || (game.getCurrRound().getStage() == RoundState.PLANNING_STATE && message.getSenderId()==game.getCurrRound().getPlanningPhasePlayer(game.getPlayersList()).getId())){
             return true;
@@ -653,6 +764,11 @@ public class Controller implements Observer {
         return false;
     }
 
+    /**
+     * This method sends an error message to a player
+     * @param playerId id of the player
+     * @param message the message received
+     */
     private void sendError(int playerId, String message){
         if(server != null) {
             RemoteView remoteView = server.getRemoteViewByPlayerId(playerId);
@@ -660,6 +776,10 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     * This method sends an ok message to a player
+     * @param playerId id of the player
+     */
     private void sendOk(int playerId){
         if(server != null) {
             RemoteView remoteView = server.getRemoteViewByPlayerId(playerId);
@@ -667,6 +787,11 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     * Sends the assistants to a player
+     * @param playerId id of the player
+     * @param assistantList list of the sent assistants
+     */
     private void sendAssistantsToClient(int playerId, List<ReducedAssistant> assistantList){
         if(server != null) {
             RemoteView remoteView = server.getRemoteViewByPlayerId(playerId);
@@ -677,6 +802,10 @@ public class Controller implements Observer {
 
     //ONLY TO TEST METHOD
 
+    /**
+     *
+     * @return the server
+     */
     public Server getServer() {
         return server;
     }

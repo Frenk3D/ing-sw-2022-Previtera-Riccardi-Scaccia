@@ -9,8 +9,16 @@ import it.polimi.ingsw.client.ReducedPlayer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is used to verify the correctness of the client's input
+ */
 public class ClientInputVerifier {
-
+    /**
+     * This method verifies if the input assistant is available or if the input is correct
+     * @param clientGameModel the client game model
+     * @param selectedAssistant the selected assistant
+     * @return {@code true} if the assistant is available and the input is correct {@code false} otherwise
+     */
     public static boolean verifyAssistant(ClientGameModel clientGameModel, int selectedAssistant) {
         List<Integer> thrownAssistants = new ArrayList<>();
         List<Integer> myAssistants = new ArrayList<>();
@@ -30,6 +38,12 @@ public class ClientInputVerifier {
         return true;
     }
 
+    /**
+     * This method basically verifies if the dashboard's entrance list is empty
+     * @param clientGameModel
+     * @param selectedStudent
+     * @return {@code true} if the entrance list is not empty and the selected student is not a negative number {@code false} otherwise
+     */
     public static boolean verifyStudentDashboard(ClientGameModel clientGameModel, int selectedStudent) {
         if (selectedStudent < 0) {
             return false;
@@ -51,6 +65,16 @@ public class ClientInputVerifier {
         return true;
     }
 
+    /**
+     *This method verifies the correctness of the selected mother nature position
+     * @param clientGameModel the client game model
+     * @param selectedPos the selected mother nature position
+     * @param usedCharacter the used character(in case it influences mother nature's movement)
+     * @return {@code false} if the selected position is a negative number or if it's equals to the current mother nature position
+     * @return {@code false} if the selected position is greater than the islands list's size
+     * @return {@code false} if the movement is illegal based on the selected assistant
+     * @return {@code true} otherwise
+     */
     public static boolean verifyMotherNaturePos(ClientGameModel clientGameModel, int selectedPos, int usedCharacter) {
         ReducedAssistant assistant = clientGameModel.findPlayerById(clientGameModel.getMyPlayerId()).getSelectedAssistant();
         if (usedCharacter != 4) {
@@ -78,6 +102,13 @@ public class ClientInputVerifier {
         return true;
     }
 
+    /**
+     * This method verifies the selected cloud correctness
+     * @param clientGameModel the client game model
+     * @param selectedCloud the chosen cloud
+     * @return {@code false} if the selected cloud is a negative number,is greater than the clouds list's size or the clouds list is empty
+     * @return {@code true} otherwise
+     */
     public static boolean verifyCloud(ClientGameModel clientGameModel, int selectedCloud) {
         if (selectedCloud < 0) {
             return false;
@@ -89,6 +120,13 @@ public class ClientInputVerifier {
         return true;
     }
 
+    /**
+     * This method verifies the correctness of a selected character
+     * @param clientGameModel the client game model
+     * @param selectedCharacter the selected character
+     * @return {@code false} if the character is null,or if the number of money of the player is inferior to the character's cost
+     * @return {@code true} otherwise
+     */
     public static boolean verifyCharacter(ClientGameModel clientGameModel, int selectedCharacter) {
         ReducedCharacter reducedCharacter = null;
         int cost = -1;
@@ -114,6 +152,13 @@ public class ClientInputVerifier {
         }
     }
 
+    /**
+     * This method verifies the correctness of character parameters
+     * @param params the character parameters
+     * @param clientGameModel the client game model
+     * @return {@code false} if the character's id is not a number between 1 and 12,if the entrance list is null or a student within it is null
+     * @return {@code true} if the params are correct
+     */
     public static boolean verifyCharacterParams(MessageCharacterParameters params, ClientGameModel clientGameModel) {
         if (params.getCharacterId() < 1 || params.getCharacterId() > 12) {
             return false;
