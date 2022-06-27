@@ -69,7 +69,7 @@ public class Characters1and7and11 extends Character {
 
                 }
 
-                if(cardStudentsList.get(studentIndex)==null){
+                if(cardStudentsList.size()<=studentIndex||studentIndex<0){
                     logger.log(Level.SEVERE,"selected students does not exist");
                     return false;
                 }
@@ -109,7 +109,7 @@ public class Characters1and7and11 extends Character {
             }
 
             for (Integer i : studentsIndexList) {
-                if(cardStudentsList.get(i)==null){
+                if(cardStudentsList.size()<=i||i<0){
                     logger.log(Level.SEVERE,"selected students from the card does not exist");
                     return false;
                 }
