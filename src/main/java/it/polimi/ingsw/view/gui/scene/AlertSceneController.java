@@ -9,12 +9,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Scene that show a message to the user.
+ */
 public class AlertSceneController {
 
     private final Stage stage;
     @FXML private Label messageBoxLabel;
     @FXML private Button okBtnMessageBox;
 
+    /**
+     * Constructor of the controller and the stage
+     */
     public AlertSceneController(){
         stage = new Stage();
         stage.setWidth(550);
@@ -30,14 +36,24 @@ public class AlertSceneController {
         okBtnMessageBox.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onOkClick);
     }
 
+    /**
+     * Closes the modal window if press ok.
+     * @param e mouse click
+     */
     private void onOkClick(Event e){
         stage.close();
     }
 
+    /**
+     * @param message the message to show
+     */
     public void setMessage(String message){
         messageBoxLabel.setText(message);
     }
 
+    /**
+     * Show the pop-up with the message blocking the window below.
+     */
     public void showAlert(){
         try{
         stage.showAndWait();
@@ -48,6 +64,9 @@ public class AlertSceneController {
 
     }
 
+    /**
+     * @param scene the alert scene.
+     */
     public void setScene(Scene scene) {
         stage.setScene(scene);
     }
