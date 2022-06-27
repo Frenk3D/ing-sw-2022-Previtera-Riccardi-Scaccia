@@ -197,7 +197,13 @@ public class Characters2and6and8and9 extends Character {
         }
 
         Player oldDominatingPlayer = null;
-        Player tmpPlayer = playersList.get(0); //tmpPlayer is the current dominating player, and allParity blocks if there is none that has to receive domain
+        Player tmpPlayer = null ;
+        for(int i = 0; i<playersList.size(); i++){
+            if(playersList.get(i).hasTower()==true){ //it is impossible that tmpPlayer is not set here
+                tmpPlayer = playersList.get(i); //tmpPlayer is the current dominating player, and allParity blocks if there is none that has to receive domain
+                break;
+            }
+        }
         boolean allParity = true;
 
 
@@ -214,6 +220,12 @@ public class Characters2and6and8and9 extends Character {
                     allParity=false;
                 }
             }
+
+        for(Player p : playersList){
+            if(p!=tmpPlayer && p.hasTower() && modifiedCalculateInfluence6(island, p, playersList) == modifiedCalculateInfluence6(island, tmpPlayer, playersList))
+                allParity = true;
+        }
+
             if (allParity == false) { //if the var is false there is a change of domain, or else we do nothing
                 if (tmpPlayer != oldDominatingPlayer) { //if we have to change the tower
                     for (Tower t: island.getTowersList()) {
@@ -278,7 +290,13 @@ public class Characters2and6and8and9 extends Character {
         }
 
         Player oldDominatingPlayer = null;
-        Player tmpPlayer = playersList.get(0); //tmpPlayer is the current dominating player, and allParity blocks if there is none that has to receive domain
+        Player tmpPlayer = null ;
+        for(int i = 0; i<playersList.size(); i++){
+            if(playersList.get(i).hasTower()==true){ //it is impossible that tmpPlayer is not set here
+                tmpPlayer = playersList.get(i); //tmpPlayer is the current dominating player, and allParity blocks if there is none that has to receive domain
+                break;
+            }
+        }
         boolean allParity = true;
 
 
@@ -296,6 +314,11 @@ public class Characters2and6and8and9 extends Character {
                     allParity=false;
                 }
             }
+        for(Player p : playersList){
+            if(p!=tmpPlayer && p.hasTower() && modifiedCalculateInfluence8(island, p,cardPlayer, playersList) == modifiedCalculateInfluence8(island, tmpPlayer,cardPlayer, playersList))
+                allParity = true;
+        }
+
             if (allParity == false) { //if the var is false there is a change of domain, or else we do nothing
                 if (tmpPlayer != oldDominatingPlayer) { //if we have to change the tower
                     for (Tower t: island.getTowersList()) {
@@ -365,7 +388,14 @@ public class Characters2and6and8and9 extends Character {
         }
 
         Player oldDominatingPlayer = null;
-        Player tmpPlayer = playersList.get(0); //tmpPlayer is the current dominating player, and allParity blocks if there is none that has to receive domain
+        Player tmpPlayer = null ;
+        for(int i = 0; i<playersList.size(); i++){
+            if(playersList.get(i).hasTower()==true){ //it is impossible that tmpPlayer is not set here
+                tmpPlayer = playersList.get(i); //tmpPlayer is the current dominating player, and allParity blocks if there is none that has to receive domain
+                break;
+            }
+        }
+
         boolean allParity = true;
 
 
@@ -382,6 +412,12 @@ public class Characters2and6and8and9 extends Character {
                     allParity = false;
                 }
             }
+
+        for(Player p : playersList){
+            if(p!=tmpPlayer && p.hasTower() && modifiedCalculateInfluence9(island, p,selectedColor, playersList) == modifiedCalculateInfluence9(island, tmpPlayer,selectedColor, playersList))
+                allParity = true;
+        }
+
             if (allParity == false) { //if the var is false there is a change of domain, or else we do nothing
                 if (tmpPlayer != oldDominatingPlayer) { //if we have to change the tower
                     for (Tower t: island.getTowersList()) {
