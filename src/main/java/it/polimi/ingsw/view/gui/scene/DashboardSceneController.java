@@ -261,7 +261,7 @@ public class DashboardSceneController {
                 path+="white_tower.png";
                 break;
             case GRAY:
-                path+="gray_tower.png";
+                path+="grey_tower.png";
                 break;
         }
         imageView.setImage(new Image(getClass().getResourceAsStream(path)));
