@@ -672,7 +672,8 @@ public class Controller implements Observer {
 
                 if(!result) {
                     logger.log(Level.SEVERE,"error in character use");
-                    sendError(game.getCurrPlayer().getId(), "Error in character use, no money was taken, \nRetry to use character or continue playing");
+                    sendError(game.getCurrPlayer().getId(), "Error, retry to use character or continue playing");
+                    game.sendInGameState();
                     return;
                 }
                 game.getCurrPlayer().modifyMoney(-(characterCost), game.getTableMoney(), usedCharacter.isUsed());
