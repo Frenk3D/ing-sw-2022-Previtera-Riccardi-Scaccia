@@ -187,7 +187,7 @@ public class ClientController implements ViewObserver {
 
             case ERROR_REPLY: //It will show the error and reset the previous state, it will interrupt the current thread?
                 StringMessage errorReply = (StringMessage) message;
-                clientGameModel.show("ErrorMessage: \n" + errorReply.getString());
+                clientGameModel.show(errorReply.getString());
                 manageErrorReplyMessage();
                 break;
 
