@@ -621,20 +621,12 @@ public class ClientController implements ViewObserver {
             if(currPlayerId == client.getClientId()){
                 clientState = ClientState.THROWING_ASSISTANT;
                 clientGameModel.showGame();
-                if (teamLeader == false) {
-                    String leaderName = clientGameModel.findPlayerById(teamId).getName();
-                    clientGameModel.show("Your team leader is: " + leaderName);
-                }
                 clientGameModel.sendSelectAssistant();
             }
             else {
                 clientState = ClientState.WAITING_FOR_YOUR_TURN;
                 String playerName = clientGameModel.findPlayerById(currPlayerId).getName();
                 clientGameModel.showGame();
-                if (teamLeader == false) {
-                    String leaderName = clientGameModel.findPlayerById(teamId).getName();
-                    clientGameModel.show("Your team leader is: " + leaderName);
-                }
                 clientGameModel.show(playerName + " is throwing an assistant..." );
 
             }

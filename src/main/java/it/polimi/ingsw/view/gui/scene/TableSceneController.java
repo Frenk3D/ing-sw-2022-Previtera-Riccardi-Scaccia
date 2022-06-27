@@ -476,7 +476,16 @@ public class TableSceneController extends ViewObservable implements GenericScene
         }
 
         if(gameModel.isExpertMode()){
-            buttonText+=" - Money: "+player.getNumOfMoney();
+            buttonText+=" - M: "+player.getNumOfMoney();
+        }
+
+        if(gameModel.getNumOfPlayers()==4){
+            for (ReducedPlayer currP : gameModel.getPlayersList()){
+                if(currP!=player&&currP.getTeam()==player.getTeam()){
+                    buttonText+=" - T: "+currP.getName();
+                    break;
+                }
+            }
         }
 
         button.setText(buttonText);

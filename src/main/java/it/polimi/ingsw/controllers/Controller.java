@@ -92,6 +92,19 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     *
+     * @return {@code true} if the game is in finished state {@code false} otherwise
+     */
+    public boolean isFinished(){
+        if(game.getGameState()==GameState.FINISHED_STATE){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     @Override
     public void update(Message message){ //the controller observes the view
         switch (getGameState()){
@@ -513,12 +526,12 @@ public class Controller implements Observer {
 
             if(game.getCurrRound().isLastRound() && !game.getCurrRound().nextTurn()){ //if it is the last round because students in the bag finished we jump to next turn (without take from cloud), if turn is the last we find the winner
                 game.sendWin(getWinner());
-                new Thread(() -> server.deleteLobby(this)).start();
+                game.setState(GameState.FINISHED_STATE);
                 return;
             }
             else if(checkWin(false)){
                 game.sendWin(getWinner());
-                new Thread(() -> server.deleteLobby(this)).start();
+                game.setState(GameState.FINISHED_STATE);
                 return;
             }
             else {
@@ -554,7 +567,7 @@ public class Controller implements Observer {
             if(!result){ //the round is ended and we fill the clouds again
                 if (checkWin(true)) {
                     game.sendWin(getWinner());
-                    new Thread(() -> server.deleteLobby(this)).start();
+                    game.setState(GameState.FINISHED_STATE);
                     return;
                 }
 
@@ -673,7 +686,7 @@ public class Controller implements Observer {
 
                 if(checkWin(false)){
                     game.sendWin(getWinner());
-                    new Thread(() -> server.deleteLobby(this)).start();
+                    game.setState(GameState.FINISHED_STATE);
                     return;
                 }
             }

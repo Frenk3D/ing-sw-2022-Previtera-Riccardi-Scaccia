@@ -56,7 +56,18 @@ public class GamePrinter {
 
         index = 0;
         for (ReducedPlayer player : clientGameModel.getPlayersList()){
-            String[] generatedDashboard = generateDashboard(player);
+
+            String teamPlayer="";
+            if(clientGameModel.getNumOfPlayers()==4){
+                for (ReducedPlayer currP : clientGameModel.getPlayersList()){
+                    if(currP!=player&&currP.getTeam()==player.getTeam()){
+                        teamPlayer=currP.getName();
+                        break;
+                    }
+                }
+            }
+
+            String[] generatedDashboard = generateDashboard(player,teamPlayer);
             mergeMatrix(canvas,dashboardPositions[index][0],dashboardPositions[index][1],generatedDashboard);
             index++;
         }
@@ -138,7 +149,7 @@ public class GamePrinter {
         return result;
     }
 
-    private String[] generateDashboard(ReducedPlayer player){
+    private String[] generateDashboard(ReducedPlayer player,String teamPlayer){
         ReducedDashboard dashboard = player.getDashboard();
         String playerName = player.getName();
         TowerColor towerColor = player.getPlayerTowerColor();
@@ -147,7 +158,7 @@ public class GamePrinter {
         String[] result = generateSquare(45,7);
 
         if (player.getNumOfMoney() != -1){
-            writeAtPos(result,2,0," "+ playerName+ " ("+player.getWizard().toString()+") Money: " + player.getNumOfMoney()+" ");
+            writeAtPos(result,2,0," "+ playerName+ " ("+player.getWizard().toString()+" "+teamPlayer+") Money: " + player.getNumOfMoney()+" ");
         }
         else {
             writeAtPos(result,2,0," "+ playerName+ " ("+player.getWizard().toString()+") ");
