@@ -171,7 +171,7 @@ public class Island {
             }
 
             for(Player p : playersList){
-                if(p!=tmpPlayer && calculateInfluence(p,playersList) == calculateInfluence(tmpPlayer,playersList))
+                if(p!=tmpPlayer && p.hasTower() && calculateInfluence(p,playersList) == calculateInfluence(tmpPlayer,playersList))
                     allParity = true;
             }
 
