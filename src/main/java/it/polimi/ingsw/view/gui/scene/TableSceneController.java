@@ -148,11 +148,17 @@ public class TableSceneController extends ViewObservable implements GenericScene
         buttonCommand2.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onButtonCommandClick);
     }
 
+    /**
+     * function called by gui class to ask to choose assistant
+     */
     public void requestedChooseAssistant(){
         guiState = WAITING_FOR_ASSISTANT_CLICK;
         tableInfoLabel.setText("Choose an assistant...");
     }
 
+    /**
+     * function called by gui class to ask to move student
+     */
     public void requestedMoveStudent(){
         guiState = GuiState.WAITING_FOR_MOVE_OR;
         buttonCommand1.setVisible(true);
@@ -160,21 +166,33 @@ public class TableSceneController extends ViewObservable implements GenericScene
         tableInfoLabel.setText("Choose if you want to move a student on the dashboard or on an island...");
     }
 
+    /**
+     * function called by gui class to ask to move mother nature
+     */
     public void requestedMoveMotherNature(){
         guiState = GuiState.WAITING_FOR_ISLAND_MN;
         tableInfoLabel.setText("Choose where to move mother nature...");
     }
 
+    /**
+     * function called by gui class to ask to choose cloud
+     */
     public void requestedChooseCloud(){
         guiState = GuiState.WAITING_FOR_CLOUD;
         tableInfoLabel.setText("Choose a cloud...");
     }
 
+    /**
+     * function called by gui class to update game info
+     */
     public void manageGameInfo(String text){
         tableInfoLabel.setText(text);
         guiState = GuiState.LOCKED;
     }
 
+    /**
+     * function called by gui class to ask to choose character parameters
+     */
     public void requestedCharacterParameters(int id){
         System.out.println("Requesting character parameters...");
         MessageCharacterParameters params = new MessageCharacterParameters();
@@ -235,6 +253,10 @@ public class TableSceneController extends ViewObservable implements GenericScene
         }
     }
 
+    /**
+     * Island click event
+     * @param e
+     */
     private void onIslandClick(Event e){
         int islandIndex = (int)((StackPane)e.getSource()).getUserData();
         if(guiState==GuiState.WAITING_FOR_ISLAND_MOVE){
@@ -271,6 +293,10 @@ public class TableSceneController extends ViewObservable implements GenericScene
 
     }
 
+    /**
+     * Assistant click event
+     * @param e
+     */
     private void onAssistantClick(Event e){
         int assistantIndex = (int)((ImageView)e.getSource()).getUserData();
         if(guiState== WAITING_FOR_ASSISTANT_CLICK){
@@ -280,6 +306,10 @@ public class TableSceneController extends ViewObservable implements GenericScene
 
     }
 
+    /**
+     * Cloud click event
+     * @param e
+     */
     private void onCloudClick(Event e){
         int cloudIndex = (int)((StackPane)e.getSource()).getUserData();
         if(guiState==GuiState.WAITING_FOR_CLOUD){
@@ -288,12 +318,20 @@ public class TableSceneController extends ViewObservable implements GenericScene
         }
     }
 
+    /**
+     * Dashboard click event
+     * @param e
+     */
     private void onDashboardClick(Event e){
         int playerIndex = (int)((Button)e.getSource()).getUserData();
         System.out.println("Click on dashboard "+ playerIndex);
         openDashboard(gameModel.getPlayersList().get(playerIndex));
     }
 
+    /**
+     * Character click event
+     * @param e
+     */
     private void onCharacterClick(Event e){
         int characterIndex = (int)((StackPane)e.getSource()).getUserData();
         int result = openCharacter(gameModel.getCharactersList().get(characterIndex));
@@ -303,6 +341,10 @@ public class TableSceneController extends ViewObservable implements GenericScene
         }
     }
 
+    /**
+     * Button move student dashboard or move student island click event
+     * @param e
+     */
     private void onButtonCommandClick(Event e){
         buttonCommand1.setVisible(false);
         buttonCommand2.setVisible(false);
@@ -326,6 +368,11 @@ public class TableSceneController extends ViewObservable implements GenericScene
     }
 
 
+    /**
+     * open a new stage with the selected character
+     * @param character selected character
+     * @return the id of played character if selected else -1
+     */
     private int openCharacter(ReducedCharacter character){
         stage = new Stage();
         FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource("/fxml/CharacterScene.fxml"));
@@ -354,6 +401,11 @@ public class TableSceneController extends ViewObservable implements GenericScene
         return -1;
     }
 
+    /**
+     * open character in a new stage to select things on it
+     * @param character selected character
+     * @return true if selection succeeded false if window was closed
+     */
     private boolean selectFromCharacter(ReducedCharacter character){
         stage = new Stage();
         FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource("/fxml/CharacterScene.fxml"));
@@ -382,6 +434,10 @@ public class TableSceneController extends ViewObservable implements GenericScene
     }
 
 
+    /**
+     * open a new stage with the dashboard of selected player
+     * @param player selected player
+     */
     private void openDashboard(ReducedPlayer player){
         stage = new Stage();
         FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource("/fxml/DashboardScene.fxml"));
@@ -405,6 +461,12 @@ public class TableSceneController extends ViewObservable implements GenericScene
         stage.showAndWait();
     }
 
+    /**
+     * open the dashboard of the selected player in selection mode
+     * @param entranceChoice number of students to choose
+     * @param isCharacter10 true if the choice is of character 10
+     * @return true if ok, false if closed
+     */
     public boolean selectFromDashboard(int entranceChoice, boolean isCharacter10){
         stage = new Stage();
         FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource("/fxml/DashboardScene.fxml"));
@@ -432,6 +494,10 @@ public class TableSceneController extends ViewObservable implements GenericScene
         return dashboardController.isSelectionSuccess();
     }
 
+    /**
+     * function called by gui when new data arrives
+     * @param model game to show
+     */
     public void updateGraphics(ClientGameModel model){
         gameModel = model;
         loadAssistants(model.getAssistantList());
@@ -455,6 +521,10 @@ public class TableSceneController extends ViewObservable implements GenericScene
         }
     }
 
+    /**
+     * loads the players in the graphic
+     * @param playerList
+     */
     private void loadPlayers(List<ReducedPlayer> playerList){
         int i = 0;
         for (ReducedPlayer player : playerList){
@@ -464,6 +534,11 @@ public class TableSceneController extends ViewObservable implements GenericScene
         }
     }
 
+    /**
+     * loads the selected player
+     * @param playerPane pane where to load the player
+     * @param player player to load
+     */
     private void loadPlayer(HBox playerPane, ReducedPlayer player){
         StackPane dashboardPane = (StackPane) playerPane.getChildren().get(0);
         Button button = (Button) dashboardPane.getChildren().get(1);
@@ -501,6 +576,10 @@ public class TableSceneController extends ViewObservable implements GenericScene
 
     }
 
+    /**
+     * loads the characters in the graphic
+     * @param characterList
+     */
     private void loadCharacters(List<ReducedCharacter> characterList){
         int i=0;
         for (ReducedCharacter character:characterList){
@@ -514,11 +593,20 @@ public class TableSceneController extends ViewObservable implements GenericScene
         }
     }
 
+    /**
+     * loads the character
+     * @param characterPane selected Pane
+     * @param character selected character
+     */
     private void loadCharacter(StackPane characterPane, ReducedCharacter character){
         ImageView charImageView = (ImageView) characterPane.getChildren().get(0);
         getCharacterImage(character.getId(),charImageView);
     }
 
+    /**
+     * loads the clouds in the graphic
+     * @param cloudList
+     */
     private void loadClouds(List<ReducedCloud> cloudList){
         int i=0;
         for (ReducedCloud c : cloudList){
@@ -532,6 +620,11 @@ public class TableSceneController extends ViewObservable implements GenericScene
         }
     }
 
+    /**
+     * load the cloud
+     * @param cloudPane selected Pane
+     * @param cloud selected cloud
+     */
     private void loadCloud(StackPane cloudPane, ReducedCloud cloud){
         AnchorPane anchorPane = new AnchorPane();
         double[][] positions = {{25,30},{58,30},{25,63},{58,63}};
@@ -551,6 +644,11 @@ public class TableSceneController extends ViewObservable implements GenericScene
 
     }
 
+    /**
+     * load the islands in the graphics
+     * @param islandList list of islands
+     * @param motherNature mother nature position
+     */
     private void loadIslands(List<ReducedIsland> islandList, int motherNature) {
         int i=0,index=-1;
         boolean motherNatureHere;
@@ -580,6 +678,12 @@ public class TableSceneController extends ViewObservable implements GenericScene
         }
     }
 
+    /**
+     * load selected island
+     * @param islandPane selected Pane
+     * @param island
+     * @param motherNature true if mother nature is on the island
+     */
     private void loadIsland(StackPane islandPane, ReducedIsland island, boolean motherNature){
         islandPane.setVisible(true);
         AnchorPane anchorPane = new AnchorPane();
@@ -663,6 +767,10 @@ public class TableSceneController extends ViewObservable implements GenericScene
         islandPane.getChildren().add(anchorPane);
     }
 
+    /**
+     * load assistants on the graphic
+     * @param assistantList
+     */
     private void loadAssistants(List<ReducedAssistant> assistantList){
         assistantsPane.getChildren().clear();
         for (ReducedAssistant assistant : assistantList){
@@ -682,6 +790,9 @@ public class TableSceneController extends ViewObservable implements GenericScene
 
     }
 
+    /**
+     * load all the table components in an array to iterate on them
+     */
     private void loadGraphicsArrays(){
         islandArray[0]=island1Pane;
         islandArray[1]=island2Pane;
@@ -708,12 +819,20 @@ public class TableSceneController extends ViewObservable implements GenericScene
         characterArray[2]=character3Pane;
     }
 
+    /**
+     * close dashboard or character stages if opened when we exit the game
+     */
     public void closeAllPopups(){
         if(stage!= null && stage.isShowing()){
             stage.close();
         }
     }
 
+    /**
+     * get imageview of selected Pawn
+     * @param color
+     * @return ImageView
+     */
     private ImageView getPawnImage(PawnColor color){
         ImageView imageView = new ImageView();
         String path = "/images/";
@@ -740,6 +859,11 @@ public class TableSceneController extends ViewObservable implements GenericScene
         return imageView;
     }
 
+    /**
+     * get imageview of selected Tower
+     * @param color
+     * @return ImageView
+     */
     private ImageView getTowerImage(TowerColor color){
         ImageView imageView = new ImageView();
         String path = "/images/";
@@ -760,6 +884,11 @@ public class TableSceneController extends ViewObservable implements GenericScene
         return imageView;
     }
 
+    /**
+     * get imageview of selected Assistant
+     * @param id
+     * @return ImageView
+     */
     private ImageView getAssistantImage(int id){
         ImageView imageView = new ImageView();
         String path = "/images/ass"+id+".png";
@@ -769,6 +898,11 @@ public class TableSceneController extends ViewObservable implements GenericScene
         return imageView;
     }
 
+    /**
+     * loads assistant image in the selected imageview
+     * @param id
+     * @param imageView
+     */
     private void getAssistantImage(int id, ImageView imageView){
         String path = "/images/ass"+id+".png";
         imageView.setImage(new Image(getClass().getResourceAsStream(path)));
@@ -776,6 +910,11 @@ public class TableSceneController extends ViewObservable implements GenericScene
         imageView.setFitHeight(115);
     }
 
+    /**
+     * loads character image in the selected imageview
+     * @param id
+     * @param imageView
+     */
     private void getCharacterImage(int id, ImageView imageView){
         String path = "/images/char"+id+"-small.png";
         imageView.setImage(new Image(getClass().getResourceAsStream(path)));
@@ -783,6 +922,11 @@ public class TableSceneController extends ViewObservable implements GenericScene
         imageView.setFitHeight(130);
     }
 
+    /**
+     * loads wizard image in the selected imageview
+     * @param wizard
+     * @param imageView
+     */
     private void getWizardImage(Wizard wizard, ImageView imageView){
         String path = "/images/";
         switch (wizard){
@@ -804,6 +948,12 @@ public class TableSceneController extends ViewObservable implements GenericScene
         imageView.setFitHeight(115);
     }
 
+    /**
+     * get character object from its id
+     * @param id character id
+     * @param characterList character list
+     * @return ReducedCharacter
+     */
     private ReducedCharacter getCharacterById(int id, List<ReducedCharacter> characterList){
         for (ReducedCharacter c: characterList){
             if(c.getId()==id){

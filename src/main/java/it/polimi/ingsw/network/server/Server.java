@@ -14,6 +14,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This class implements the server object
+ * it handles the connections of the clients
+ * it is also used to manage the creation and join of the lobbies
+ */
 public class Server{
     private final Logger logger = Logger.getLogger(getClass().getName());
     private Map<Integer, RemoteView> remoteViewMap; //player id - remote view
@@ -28,6 +33,10 @@ public class Server{
     private int playersIdCounter = 0;
     public static final int SERVERID = 9999;
 
+    /**
+     * Default constructor
+     * @param port the port on witch the server will listen
+     */
     public Server(int port){
         remoteViewMap = new HashMap<>();
         idSocketMap = new HashMap<>();
@@ -43,6 +52,12 @@ public class Server{
         thread.start();
     }
 
+    /**
+     * Called from a client thread when arrives a message of initialization
+     * it gives the message to the correct function
+     * @param message received init message
+     * @param socketManager reference of the socketManager that received the message
+     */
     public synchronized void onInitMessageReceived(Message message, SocketClientManager socketManager){
         logger.log(Level.INFO,message.getMessageType()+ " received from client "+ message.getSenderId());
 
@@ -66,6 +81,13 @@ public class Server{
 
     }
 
+    /**
+     * creates and stores a player
+     * it assigns a new id to the created player
+     * check if the name is valid
+     * @param name player name
+     * @param socketManager reference of the socketManager that received the message
+     */
     private void createPlayer(String name, SocketClientManager socketManager){
         if(checkName(name) && socketIdMap.get(socketManager)==null) {
             playersIdCounter++;
@@ -85,7 +107,11 @@ public class Server{
         }
     }
 
-
+    /**
+     * send the available lobbies to the player
+     * called when player choose join
+     * @param senderId id of the player
+     */
     private void sendAvailableLobbies(int senderId){ //the player requested join game, so he remains waiting for a lobby to play
         SocketClientManager destSocket = idSocketMap.get(senderId);
         Player player = getPlayerById(senderId);
@@ -102,6 +128,12 @@ public class Server{
         }
     }
 
+    /**
+     * creates a new lobby and its controller
+     * add the player which created the lobby
+     * @param senderId id of the player
+     * @param lobby lobby object
+     */
     private void newLobby(int senderId, Lobby lobby){
         if(playerControllerMap.get(senderId) != null){ //player already associated to a controller
             sendError(senderId,"Command not available in this moment");
@@ -125,6 +157,11 @@ public class Server{
         }
     }
 
+    /**
+     * add a player that choose join to the selected lobby
+     * @param senderId id of the player
+     * @param lobbyName name of the lobby
+     */
     private void addToLobby(int senderId, String lobbyName){
         Player player = getPlayerById(senderId);
         Controller controller = getLobbyByName(lobbyName);
@@ -150,12 +187,15 @@ public class Server{
 
             //if a user entered a lobby we update the list for everybody waiting
             broadcastAvailableLobbies();
-            //pump the controller if needed
-            pumpControllerCommands(controller);
-
         }
     }
 
+    /**
+     * handle disconnection of a client
+     * closes the open game if exist
+     * send the disconnection message to the other clients
+     * @param client socket which disconnected
+     */
     public synchronized void onDisconnect(SocketClientManager client){
         Integer playerId = socketIdMap.get(client);
 
@@ -183,6 +223,11 @@ public class Server{
 
     }
 
+    /**
+     * send the disconnection message to all clients in a lobby
+     * @param controller closed controller
+     * @param disconnectedPlayer player that disconnected
+     */
     private void broadcastDisconnectionToLobby(Controller controller, Player disconnectedPlayer){
         for(Integer playerId : playerControllerMap.keySet()){
             if(playerControllerMap.get(playerId)==controller && playerId != disconnectedPlayer.getId()){
@@ -191,6 +236,10 @@ public class Server{
         }
     }
 
+
+    /**
+     * check for finished game and remove that
+     */
     public synchronized void removeFinishedController(){
         List<String> controllersToRemove = new ArrayList<>();
         for(String s : controllersMap.keySet()){
@@ -203,6 +252,11 @@ public class Server{
         }
     }
 
+    /**
+     * delete a lobby
+     * removes controller and all observers
+     * @param controller controller to close
+     */
     public void deleteLobby(Controller controller){
         List<Integer> playersToRemove = new ArrayList<>();
         String controllerToRemove = null;
@@ -235,6 +289,11 @@ public class Server{
         logger.log(Level.INFO,"removed controller "+ controllerToRemove);
     }
 
+    /**
+     * get the player object with requested id
+     * @param id
+     * @return a player chosen by id
+     */
     private Player getPlayerById(int id){
         for (Player p : allPlayersList){
             if(p.getId()==id){
@@ -244,6 +303,11 @@ public class Server{
         return null;
     }
 
+    /**
+     * check if the selected name is valid
+     * @param name
+     * @return true if valid, false if not valid
+     */
     private boolean checkName(String name){
         if(name == null || name.isEmpty()) {
             return false;
@@ -256,6 +320,11 @@ public class Server{
         return true;
     }
 
+    /**
+     * check if the choosen name for the controller is valid
+     * @param name
+     * @return true if valid, false if not valid
+     */
     private boolean checkControllerName(String name){
         if(name == null || name.isEmpty()) {
             return false;
@@ -268,14 +337,28 @@ public class Server{
         return true;
     }
 
+    /**
+     * get the RemoteView object with requested id
+     * @param id
+     * @return requested RemoteView or null if not exist
+     */
     public RemoteView getRemoteViewByPlayerId(int id){
         return remoteViewMap.get(id);
     }
 
+    /**
+     * get the lobby by name
+     * @param lobby
+     * @return requested controller or null if not exist
+     */
     private Controller getLobbyByName(String lobby){
         return controllersMap.get(lobby);
     }
 
+    /**
+     *
+     * @return list of the open lobbies
+     */
     private List<Lobby> getAvailableLobbiesList(){
         List<Lobby> availableLobbiesList = new ArrayList<>();
         for (String s : controllersMap.keySet()) {
@@ -287,6 +370,12 @@ public class Server{
         return availableLobbiesList;
     }
 
+    /**
+     * check for network security if the id is correctly associated with the socketManager
+     * @param message
+     * @param socketManager
+     * @return true if found, false if not found
+     */
     public boolean checkIdSocket(Message message, SocketClientManager socketManager){
         if(message.getMessageType() != MessageType.LOGIN_REQUEST && idSocketMap.get(message.getSenderId()) != socketManager){
             logger.log(Level.SEVERE,"Received message with invalid id");
@@ -295,41 +384,19 @@ public class Server{
         return true;
     }
 
+    /**
+     * send error message to a specific client
+     * @param clientId client that generated the error
+     * @param error text of the error
+     */
     private void sendError(int clientId, String error){
         idSocketMap.get(clientId).sendMessage(new StringMessage(MessageType.ERROR_REPLY, SERVERID, true, error));
     }
 
-    public void createTestController(){
-        Controller controller = new Controller();
-        controller.setServer(this);
-        controller.configure(2,true);
-        controllersMap.put("test",controller);
 
-        Controller controller1 = new Controller();
-        controller1.setServer(this);
-        controller1.configure(3,false);
-        controllersMap.put("mytest",controller1);
-    }
-
-    private void pumpControllerCommands(Controller controller){
-        if(controllersMap.get("test")!= null && controllersMap.get("test").equals(controller)&&!controller.isOpen() && playersIdCounter == 2){
-            logger.log(Level.INFO,"pumping controller");
-            controller.chooseTowerColor(1, TowerColor.BLACK);
-            controller.chooseTowerColor(2,TowerColor.WHITE);
-            controller.chooseWizard(1, Wizard.ASIATIC);
-            controller.chooseWizard(2,Wizard.KING);
-        }
-        else if(controllersMap.get("mytest")!= null && controllersMap.get("mytest").equals(controller)&&!controller.isOpen() && playersIdCounter == 3){
-            logger.log(Level.INFO,"pumping controller");
-            controller.chooseTowerColor(1, TowerColor.BLACK);
-            controller.chooseTowerColor(2,TowerColor.WHITE);
-            controller.chooseTowerColor(3,TowerColor.GRAY);
-            controller.chooseWizard(1, Wizard.ASIATIC);
-            controller.chooseWizard(2,Wizard.KING);
-            controller.chooseWizard(3,Wizard.WITCH);
-        }
-    }
-
+    /**
+     * sends to all players in pre-lobby an update of the available lobbies
+     */
     private void broadcastAvailableLobbies(){
         for (Player waitingPlayer : watchingLobbiesPlayersList){
             SocketClientManager destSocket = idSocketMap.get(waitingPlayer.getId());

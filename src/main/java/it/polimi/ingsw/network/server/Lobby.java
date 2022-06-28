@@ -14,7 +14,7 @@ public class Lobby implements Serializable {
     private String name;
 
     /**
-     * Default controller
+     * Default constructor
      * @param numOfPlayers the number of players in the lobby
      * @param actualNumOfPlayers the player's capacity of the lobby
      * @param expertMode the game mode

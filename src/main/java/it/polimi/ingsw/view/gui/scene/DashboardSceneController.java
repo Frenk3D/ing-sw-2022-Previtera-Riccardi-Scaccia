@@ -37,16 +37,28 @@ public class DashboardSceneController {
 
     }
 
+    /**
+     * Default constructor
+     */
     public DashboardSceneController(){
         entranceChoiceList = new ArrayList<>();
         hallChoiceList = new ArrayList<>();
     }
 
+    /**
+     * click on select button for character 10
+     * @param e
+     */
     private void onSelectButtonClick(Event e){
         selectionSuccess=true;
         stage.close();
     }
 
+    /**
+     * loads the dashboard on the graphics
+     * @param dashboard
+     * @param color tower color
+     */
     public void loadDashboard(ReducedDashboard dashboard, TowerColor color){
         clearDashboard();
 
@@ -148,6 +160,10 @@ public class DashboardSceneController {
         }
     }
 
+    /**
+     * click on one student in the hall
+     * @param e
+     */
     private void onStudentHallClicked(Event e){
         ImageView pawnImg = (ImageView)e.getSource();
         PawnColor color = (PawnColor) pawnImg.getUserData();
@@ -161,10 +177,19 @@ public class DashboardSceneController {
         }
     }
 
+    /**
+     * set the stage for allowing to close it
+     * @param stage
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * enter in selection mode
+     * @param entranceChoice
+     * @param isCharacter10 true if we must use character 10
+     */
     public void selectionMode(int entranceChoice, boolean isCharacter10){
         selectionMode=true;
         selectedStudent=0;
@@ -172,18 +197,33 @@ public class DashboardSceneController {
         this.isCharacter10=isCharacter10;
     }
 
+    /**
+     *
+     * @return selection in the entrance
+     */
     public List<Integer> getEntranceChoiceSelection() {
         return entranceChoiceList;
     }
 
+    /**
+     *
+     * @return selection in the hall
+     */
     public List<PawnColor> getHallChoiceSelection() {
         return hallChoiceList;
     }
 
+    /**
+     *
+     * @return true if selection was successful, false if window was closed
+     * */
     public boolean isSelectionSuccess() {
         return selectionSuccess;
     }
 
+    /**
+     * restores all grid panes before loading new data
+     */
     private void clearDashboard(){
         for (int i = entranceGridPane.getChildren().size()-1 ; i>=0 ;i--) {
                 entranceGridPane.getChildren().remove(i);
@@ -198,6 +238,11 @@ public class DashboardSceneController {
         }
     }
 
+    /**
+     * get imageview with selected image
+     * @param color
+     * @return imageView
+     */
     private ImageView getPawnImage(PawnColor color){
         ImageView imageView = new ImageView();
         String path = "/images/";
@@ -224,6 +269,11 @@ public class DashboardSceneController {
         return imageView;
     }
 
+    /**
+     * get imageview with selected professor
+     * @param color
+     * @return imageView
+     */
     private ImageView getProfessorImage(PawnColor color){
         ImageView imageView = new ImageView();
         String path = "/images/";
@@ -250,6 +300,11 @@ public class DashboardSceneController {
         return imageView;
     }
 
+    /**
+     * returns imageView with selected tower
+     * @param color
+     * @return imageView
+     */
     private ImageView getTowerImage(TowerColor color){
         ImageView imageView = new ImageView();
         String path = "/images/";

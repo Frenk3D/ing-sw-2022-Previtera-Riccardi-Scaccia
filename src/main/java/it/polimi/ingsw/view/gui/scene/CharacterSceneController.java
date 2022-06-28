@@ -44,6 +44,10 @@ public class CharacterSceneController {
     }
 
 
+    /**
+     * laad selected character on the graphics
+     * @param character
+     */
     public void loadCharacter(ReducedCharacter character){
         this.character=character;
         getCharacterImage(character.getId(),characterDetailImageView);
@@ -96,6 +100,9 @@ public class CharacterSceneController {
 
     }
 
+    /**
+     * enters the character in selection mode to choose its pawn
+     */
     public void selectionMode(){
         selectionMode=true;
         buttonPlayCharacter.setText("Select");
@@ -130,12 +137,21 @@ public class CharacterSceneController {
         }
     }
 
+    /**
+     * executed when clicking the use button
+     * closes the stage
+     * @param e
+     */
     private void onUseClick(Event e){
         chooseUse = true;
         selectionSuccess = true;
         stage.close();
     }
 
+    /**
+     * executed when clicking on one student on the card
+     * @param e
+     */
     private void onStudentClicked(Event e){
         ImageView pawnImg = (ImageView)e.getSource();
         int studentId = (int) pawnImg.getUserData();
@@ -163,6 +179,10 @@ public class CharacterSceneController {
         }
     }
 
+    /**
+     * executed when clicking on one professor on the card
+     * @param e
+     */
     private void onProfessorClicked(Event e){
         PawnColor pawnColor = (PawnColor) ((ImageView)e.getSource()).getUserData();
         if(selectionMode){
@@ -172,26 +192,51 @@ public class CharacterSceneController {
         }
     }
 
+    /**
+     *
+     * @return true if play button was clicked
+     */
     public boolean isChooseUse() {
         return chooseUse;
     }
 
+    /**
+     * Give reference of current stage
+     * @param stage
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     *
+     * @return true if selection was successful
+     */
     public boolean isSelectionSuccess() {
         return selectionSuccess;
     }
 
+    /**
+     *
+     * @return selected PawnColor
+     */
     public PawnColor getSelectedProfessorResult() {
         return selectedProfessorResult;
     }
 
+    /**
+     *
+     * @return list of selected students
+     */
     public List<Integer> getSelectedStudentResult() {
         return selectedStudentResult;
     }
 
+    /**
+     * loads selected character on imageView
+     * @param id
+     * @param imageView
+     */
     private void getCharacterImage(int id, ImageView imageView){
         String path = "/images/char"+id+".jpg";
         imageView.setImage(new Image(getClass().getResourceAsStream(path)));
@@ -199,6 +244,11 @@ public class CharacterSceneController {
         imageView.setFitHeight(500);
     }
 
+    /**
+     * gives imageview of selected student
+     * @param color
+     * @return imageView
+     */
     private ImageView getPawnImage(PawnColor color){
         ImageView imageView = new ImageView();
         String path = "/images/";
@@ -225,6 +275,11 @@ public class CharacterSceneController {
         return imageView;
     }
 
+    /**
+     * gives ImageView of selected professor
+     * @param color
+     * @return imageView
+     */
     private ImageView getProfessorImage(PawnColor color){
         ImageView imageView = new ImageView();
         String path = "/images/";
