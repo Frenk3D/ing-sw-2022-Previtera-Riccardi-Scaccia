@@ -153,7 +153,7 @@ public class Island {
             break;
             }
         }
-        boolean allParity = true;
+        boolean allParity = true; //if there is a situation of parity in the domain
 
 
             for (Player p : playersList) {
@@ -169,6 +169,12 @@ public class Island {
                     allParity=false;
                 }
             }
+
+            for(Player p : playersList){
+                if(p!=tmpPlayer && p.hasTower() && calculateInfluence(p,playersList) == calculateInfluence(tmpPlayer,playersList))
+                    allParity = true;
+            }
+
 
             if (allParity == false) {//if the var is false there is a change of domain, or else we do nothing
                 if (tmpPlayer != oldDominatingPlayer){ //if we have to change the tower

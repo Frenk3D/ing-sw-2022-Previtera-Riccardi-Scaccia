@@ -165,12 +165,12 @@ public class ClientInputVerifier {
         }
         if(params.getStudentsIndexEntranceList()!=null) {
             for (Integer i : params.getStudentsIndexEntranceList()) {
-                if (clientGameModel.findPlayerById(clientGameModel.getMyPlayerId()).getDashboard().getEntranceList().get(i) == null) {
+                if (clientGameModel.findPlayerById(clientGameModel.getMyPlayerId()).getDashboard().getEntranceList().size()<=i) {
                     return false;
                 }
             }
         }
-        if(params.getIslandIndex()!=-1 && clientGameModel.getIslandList().get(params.getIslandIndex())==null){
+        if(params.getIslandIndex()!=-1 && clientGameModel.getIslandList().size()<=params.getIslandIndex()){
             return false;
         }
         //if studentindexlist etc depends on characterId, and selected color check if available

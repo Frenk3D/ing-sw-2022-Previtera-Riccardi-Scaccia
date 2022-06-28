@@ -190,10 +190,7 @@
                                     <Image url="@../images/dashboard-scaled.png" />
                                  </image>
                               </ImageView>
-                              <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Player 1">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font></Button>
+                              <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Player 1" />
                            </children>
                         </StackPane>
                         <ImageView fitHeight="115.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
@@ -212,10 +209,7 @@
                                     <Image url="@../images/dashboard-scaled.png" />
                                  </image>
                               </ImageView>
-                              <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Player 2">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font></Button>
+                              <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Player 2" />
                            </children>
                         </StackPane>
                         <ImageView fitHeight="115.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
@@ -263,7 +257,7 @@
                         </ImageView>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                  <HBox alignment="BOTTOM_LEFT" prefHeight="9999.0" prefWidth="200.0" spacing="10.0">
                      <children>
                         <ImageView fx:id="imageViewTableMoney" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" visible="false">
                            <image>

@@ -191,6 +191,18 @@ public class Server{
         }
     }
 
+    public synchronized void removeFinishedController(){
+        List<String> controllersToRemove = new ArrayList<>();
+        for(String s : controllersMap.keySet()){
+            if(controllersMap.get(s).isFinished()){
+                controllersToRemove.add(s);
+            }
+        }
+        for (String name : controllersToRemove){
+            deleteLobby(controllersMap.get(name));
+        }
+    }
+
     public void deleteLobby(Controller controller){
         List<Integer> playersToRemove = new ArrayList<>();
         String controllerToRemove = null;

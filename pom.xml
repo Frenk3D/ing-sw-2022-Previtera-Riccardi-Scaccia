@@ -34,18 +34,56 @@
       <dependency>
           <groupId>org.jetbrains</groupId>
           <artifactId>annotations-java5</artifactId>
-          <version>RELEASE</version>
+          <version>23.0.0</version>
           <scope>compile</scope>
       </dependency>
       <dependency>
           <groupId>org.openjfx</groupId>
           <artifactId>javafx-controls</artifactId>
-          <version>18-ea+6</version>
+          <version>18.0.1</version>
       </dependency>
       <dependency>
           <groupId>org.openjfx</groupId>
           <artifactId>javafx-fxml</artifactId>
+          <version>18.0.1</version>
+      </dependency>
+      <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-graphics</artifactId>
+          <version>18.0.1</version>
+          <classifier>win</classifier>
+      </dependency>
+      <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-graphics</artifactId>
+          <version>18.0.1</version>
+          <classifier>linux</classifier>
+      </dependency>
+      <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-graphics</artifactId>
+          <version>18.0.1</version>
+          <classifier>mac</classifier>
+      </dependency>
+
+
+      <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-media</artifactId>
           <version>18-ea+6</version>
+          <classifier>win</classifier>
+      </dependency>
+      <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-media</artifactId>
+          <version>18-ea+6</version>
+          <classifier>linux</classifier>
+      </dependency>
+      <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-media</artifactId>
+          <version>18-ea+6</version>
+          <classifier>mac</classifier>
       </dependency>
 
 
@@ -144,7 +182,7 @@
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-shade-plugin</artifactId>
-              <version>3.2.4</version>
+              <version>3.3.0</version>
               <executions>
 
                   <execution>

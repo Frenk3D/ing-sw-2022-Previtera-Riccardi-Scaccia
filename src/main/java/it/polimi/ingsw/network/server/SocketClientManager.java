@@ -93,6 +93,7 @@ public class SocketClientManager implements Runnable{
             }
             else if(!message.isInitMessage() && remoteView!=null){
                 remoteView.sendToController(message);
+                server.removeFinishedController(); //check after every move if the match is ended and we have to close the controller
             }
         }
         else{

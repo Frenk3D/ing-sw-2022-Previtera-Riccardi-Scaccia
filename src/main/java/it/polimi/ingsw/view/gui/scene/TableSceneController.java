@@ -248,7 +248,7 @@ public class TableSceneController extends ViewObservable implements GenericScene
             guiState=GuiState.LOCKED;
             MessageCharacterParameters params = new MessageCharacterParameters();
             params.setCharacterId(1);
-            params.setIslandIndex(islandIndex);
+            params.setIslandIndex(islandToId[islandIndex]);
             params.setStudentIndex(cardStudentsSelection.get(0));
             new Thread(() -> notifyObserver((obs -> obs.onSendUseCharacter(params)))).start();
         }
@@ -257,7 +257,7 @@ public class TableSceneController extends ViewObservable implements GenericScene
             guiState=GuiState.LOCKED;
             MessageCharacterParameters params = new MessageCharacterParameters();
             params.setCharacterId(3);
-            params.setIslandIndex(islandIndex);
+            params.setIslandIndex(islandToId[islandIndex]);
             new Thread(() -> notifyObserver((obs -> obs.onSendUseCharacter(params)))).start();
         }
 
@@ -265,7 +265,7 @@ public class TableSceneController extends ViewObservable implements GenericScene
             guiState=GuiState.LOCKED;
             MessageCharacterParameters params = new MessageCharacterParameters();
             params.setCharacterId(5);
-            params.setIslandIndex(islandIndex);
+            params.setIslandIndex(islandToId[islandIndex]);
             new Thread(() -> notifyObserver((obs -> obs.onSendUseCharacter(params)))).start();
         }
 
@@ -476,7 +476,16 @@ public class TableSceneController extends ViewObservable implements GenericScene
         }
 
         if(gameModel.isExpertMode()){
-            buttonText+=" - Money: "+player.getNumOfMoney();
+            buttonText+=" - M: "+player.getNumOfMoney();
+        }
+
+        if(gameModel.getNumOfPlayers()==4){
+            for (ReducedPlayer currP : gameModel.getPlayersList()){
+                if(currP!=player&&currP.getTeam()==player.getTeam()){
+                    buttonText+=" - T: "+currP.getName();
+                    break;
+                }
+            }
         }
 
         button.setText(buttonText);

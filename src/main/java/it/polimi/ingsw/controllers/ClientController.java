@@ -187,7 +187,7 @@ public class ClientController implements ViewObserver {
 
             case ERROR_REPLY: //It will show the error and reset the previous state, it will interrupt the current thread?
                 StringMessage errorReply = (StringMessage) message;
-                clientGameModel.show("ErrorMessage: \n" + errorReply.getString());
+                clientGameModel.show(errorReply.getString());
                 manageErrorReplyMessage();
                 break;
 
@@ -621,20 +621,12 @@ public class ClientController implements ViewObserver {
             if(currPlayerId == client.getClientId()){
                 clientState = ClientState.THROWING_ASSISTANT;
                 clientGameModel.showGame();
-                if (teamLeader == false) {
-                    String leaderName = clientGameModel.findPlayerById(teamId).getName();
-                    clientGameModel.show("Your team leader is: " + leaderName);
-                }
                 clientGameModel.sendSelectAssistant();
             }
             else {
                 clientState = ClientState.WAITING_FOR_YOUR_TURN;
                 String playerName = clientGameModel.findPlayerById(currPlayerId).getName();
                 clientGameModel.showGame();
-                if (teamLeader == false) {
-                    String leaderName = clientGameModel.findPlayerById(teamId).getName();
-                    clientGameModel.show("Your team leader is: " + leaderName);
-                }
                 clientGameModel.show(playerName + " is throwing an assistant..." );
 
             }
