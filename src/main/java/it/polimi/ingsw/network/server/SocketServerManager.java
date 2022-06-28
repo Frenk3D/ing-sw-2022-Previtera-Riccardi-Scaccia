@@ -6,6 +6,10 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This class manages the server socket,it implements {@link Runnable}
+ * it contains the server and the port,and a server socket as well
+ */
 public class SocketServerManager implements Runnable{
 
     private final Logger logger = Logger.getLogger(getClass().getName());
@@ -13,6 +17,11 @@ public class SocketServerManager implements Runnable{
     private Server server;
     private int port;
 
+    /**
+     * Default constructor
+     * @param server the server
+     * @param port the server port
+     */
     public SocketServerManager(Server server, int port){
         this.server = server;
         this.port = port;

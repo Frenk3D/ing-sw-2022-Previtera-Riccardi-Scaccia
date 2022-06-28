@@ -28,36 +28,67 @@ public class SceneController{
     private static String currFxml ="";
     private static Stage mainStage;
 
-
+    /**
+     *
+     * @return the current fxml file
+     */
     public static String getCurrFxml() {
         return currFxml;
     }
 
+    /**
+     * Sets the current active scene
+     * @param activeScene the current scene
+     */
     public static void setActiveScene(Scene activeScene) {
         SceneController.activeScene = activeScene;
     }
 
+    /**
+     * Sets the current active scene controller
+     * @param activeController the current scene controller
+     */
     public static void setActiveController(GenericSceneController activeController) {
         SceneController.activeController = activeController;
     }
 
+    /**
+     *
+     * @return the active scene
+     */
     public static Scene getActiveScene() {
         return activeScene;
     }
 
+    /**
+     *
+     * @return the main stage
+     */
     public static Stage getMainStage() {
         return mainStage;
     }
 
+    /**
+     * Sets the main stage
+     * @param mainStage
+     */
     public static void setMainStage(Stage mainStage) {
         SceneController.mainStage = mainStage;
     }
 
+    /**
+     *
+     * @return the active scene controller
+     */
     public static GenericSceneController getActiveController() {
         return activeController;
     }
 
-
+    /**
+     * Changes the scene
+     * @param observerList the list of observers
+     * @param fxml the fxml file
+     */
     public static void changeRootPane(List<ViewObserver> observerList, String fxml) {
         try {
             if(currFxml.equals("TableScene.fxml")){
@@ -79,6 +110,10 @@ public class SceneController{
         }
     }
 
+    /**
+     * Show a string message
+     * @param message the string message
+     */
     public static void showMessage(String message){
         Platform.runLater(()->{
             FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/AlertShowScene.fxml"));

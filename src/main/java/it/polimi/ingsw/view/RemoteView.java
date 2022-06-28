@@ -13,6 +13,10 @@ public class RemoteView extends Observable implements Observer {
 
     private SocketClientManager clientManager;
 
+    /**
+     * Default constructor
+     * @param clientManager the client manager
+     */
     public RemoteView(SocketClientManager clientManager){
         this.clientManager=clientManager;
     }
@@ -23,10 +27,18 @@ public class RemoteView extends Observable implements Observer {
         clientManager.sendMessage(message);
     }
 
+    /**
+     * Sends a message to the controller
+     * @param message the message sent
+     */
     public void sendToController(Message message){
         notifyObserver(message);
     }
 
+    /**
+     * Sends a message to the client
+     * @param message the message sent
+     */
     public void sendToClient(Message message){
         clientManager.sendMessage(message);
     }

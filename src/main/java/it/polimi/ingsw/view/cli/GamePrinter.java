@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class is used to implement the graphic instances in the {@link it.polimi.ingsw.view.cli.Cli}
+ */
 public class GamePrinter {
 
     private final int[][] islandPositions = {{5,12},{31,6},{57,2},{83,2},{109,2},{135,6},{161,12},{135,18},{109,22},{83,22},{57,22},{31,18}};
@@ -17,6 +20,10 @@ public class GamePrinter {
     private final int[][] dashboardEntrancePositions = {{2,1},{6,1},{2,2},{6,2},{2,3},{6,3},{2,4},{6,4},{2,5},{6,5}};
     private final int[][] characterStudentsPositions = {{2,3},{6,3},{2,4},{6,4},{2,5},{6,5}};
 
+    /**
+     * This method prints in the cli the graphic interface of the game model
+     * @param clientGameModel the client's game model
+     */
     public void print(ClientGameModel clientGameModel){ //this class is called by the Cli
         /*
         try {
@@ -90,7 +97,9 @@ public class GamePrinter {
         }
         printMatrix(canvas);
     }
-
+    /**
+     * This method generates an island in the cli
+     */
     private String[] generateIsland(ReducedIsland island, int id, boolean motherNature){
         String[] result = generateSquare(23,9);
         writeAtPos(result,7,1,"Island "+id);
@@ -138,6 +147,11 @@ public class GamePrinter {
         return result;
     }
 
+    /**
+     * This methods generates a player's dashboard in the cli
+     * @param player the player
+     * @return the dashboard string
+     */
     private String[] generateDashboard(ReducedPlayer player){
         ReducedDashboard dashboard = player.getDashboard();
         String playerName = player.getName();
@@ -206,6 +220,12 @@ public class GamePrinter {
         return result;
     }
 
+    /**
+     * This method generates a cloud in th cli
+     * @param cloud the generated cloud
+     * @param id the cloud's id
+     * @return the generated cloud string
+     */
     private String[] generateCloud(ReducedCloud cloud,int id){
         String[] result = generateSquare(16,5);
         writeAtPos(result,4,1,"Cloud "+id);
@@ -218,6 +238,11 @@ public class GamePrinter {
         return result;
     }
 
+    /**
+     * This method generates an assistant in the cli
+     * @param assistant the generated assistant
+     * @return the generated assistant string
+     */
     private String[] generateAssistant(ReducedAssistant assistant){
         String[] result = generateSquare(8,5);
         writeAtPos(result, 1, 1, ColorCli.BLUE_BOLD+""+ assistant.getId() +"" + ColorCli.RESET);
@@ -226,6 +251,11 @@ public class GamePrinter {
         return result;
     }
 
+    /**
+     * This method generates a character in the cli
+     * @param character the generated character
+     * @return the generated character string
+     */
     private String[] generateCharacter(ReducedCharacter character){
         String[] result = generateSquare(11,7);
         writeAtPos(result, 1, 1, ColorCli.GREEN_BOLD+""+ character.getId() +"" + ColorCli.RESET);
@@ -253,6 +283,13 @@ public class GamePrinter {
 
     //------------------------------------------------------------------------------------------------------
 
+    /**
+     * This method merges a greater matrix with a smaller one
+     * @param matrixToAdd greater matrix
+     * @param x position in the x axis
+     * @param y position in the y axis
+     * @param matrix2 smaller matrix
+     */
     private void mergeMatrix(String[] matrixToAdd, int x, int y, String[] matrix2){
         for (String s : matrix2){
             writeAtPos(matrixToAdd,x,y,s);
@@ -260,6 +297,13 @@ public class GamePrinter {
         }
     }
 
+    /**
+     * Writes text at a given position in a matrix
+     * @param matrix the matrix
+     * @param x the position in the x axis
+     * @param y the position in the y axis
+     * @param text the text to be written
+     */
     private void writeAtPos(String[] matrix, int x, int y, String text){
         String result[] = matrix;
         int ansiLengthText = 0;
@@ -285,6 +329,12 @@ public class GamePrinter {
         result[y] = stringBuilder.toString();
     }
 
+    /**
+     * This method generates a square in the cli
+     * @param x the position in the x axis
+     * @param y the position in the y axis
+     * @return the generated square string
+     */
     private String[] generateSquare(int x, int y){ //x number of columns, y number of rows
         String result[] = new String[y];
         int i,j;
@@ -340,6 +390,10 @@ public class GamePrinter {
         return result;
     }
 
+    /**
+     * Prints a matrix in the cli
+     * @param matrix the printed matrix
+     */
     private void printMatrix(String[] matrix){
         for (String s : matrix){
             if(s!=null){
@@ -348,6 +402,11 @@ public class GamePrinter {
         }
     }
 
+    /**
+     *
+     * @param p the pawn color
+     * @return the pawn color string
+     */
     private String getColor(PawnColor p){
         String color = "";
         switch (p) {
@@ -370,6 +429,11 @@ public class GamePrinter {
         return color;
     }
 
+    /**
+     *
+     * @param t the tower color
+     * @return the tower color string
+     */
     private String getColor(TowerColor t){
         String color = "";
         if(t!=null) {
@@ -388,6 +452,11 @@ public class GamePrinter {
         return color;
     }
 
+    /**
+     *
+     * @param p the pawn color
+     * @return the pawn color string obtained from the background
+     */
     private String getColorBg(PawnColor p){
         String color = "";
         switch (p) {

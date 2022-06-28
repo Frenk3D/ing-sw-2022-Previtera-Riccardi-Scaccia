@@ -15,6 +15,9 @@ import java.util.logging.Logger;
 
 import static it.polimi.ingsw.network.server.Server.SERVERID;
 
+/**
+ * This class manages each client socket,it implements {@link Runnable}
+ */
 public class SocketClientManager implements Runnable{
     private final Logger logger = Logger.getLogger(getClass().getName());
     private Socket socket;
@@ -27,6 +30,13 @@ public class SocketClientManager implements Runnable{
     private final Object inputLock;
     private final Object outputLock;
 
+    /**
+     * Constructor
+     * @param server the server
+     * @param socket the socket
+     *input and output objects are also initialized
+     *it also catches an IOException
+     */
     public SocketClientManager(Server server, Socket socket){
         this.inputLock = new Object();
         this.outputLock = new Object();
@@ -52,7 +62,11 @@ public class SocketClientManager implements Runnable{
         }
     }
 
-
+    /**
+     * This method handles each new client connection
+     * @throws IOException
+     * if an exception is the detected the client disconnects
+     */
     private void handleClientConnection() throws IOException {
         try {
             while (!Thread.currentThread().isInterrupted()) {
@@ -68,7 +82,10 @@ public class SocketClientManager implements Runnable{
         disconnect();
     }
 
-
+    /**
+     * This method manages messages reception
+     * @param message the message received
+     */
     private void manageReception(Message message){
         if (message != null && server.checkIdSocket(message,this)) {
             if(message.isInitMessage()) {
@@ -83,6 +100,10 @@ public class SocketClientManager implements Runnable{
         }
     }
 
+    /**
+     * This method sends a message
+     * @param message the message to be sent
+     */
     public void sendMessage(Message message){
         try {
             synchronized (outputLock) {
@@ -100,6 +121,9 @@ public class SocketClientManager implements Runnable{
         return connected;
     }
 
+    /**
+     * This method handles client's disconnection
+     */
     public void disconnect(){
         if (connected) {
             try {
@@ -117,6 +141,10 @@ public class SocketClientManager implements Runnable{
         }
     }
 
+    /**
+     * Sets a remote view
+     * @param remoteView the remote view
+     */
     public void setRemoteView(RemoteView remoteView) {
         this.remoteView = remoteView;
     }

@@ -270,30 +270,58 @@ public class KeyboardManager implements Runnable{
         }
     }
 
+    /**
+     * Sets the lobbies list
+     * @param lobbiesList the list of lobbies
+     */
     public void setLobbiesList(List<Lobby> lobbiesList) {
         this.lobbiesList = lobbiesList;
     }
 
+    /**
+     * Sets the available players' map
+     * @param availablePlayers the available players map
+     */
     public void setAvailablePlayers(Map<String, Integer> availablePlayers) {
         this.availablePlayers = availablePlayers;
     }
 
+    /**
+     * Sets the available tower colors
+     * @param availableTowerColors the available tower colors
+     */
     public void setAvailableTowerColors(List<TowerColor> availableTowerColors) {
         this.availableTowerColors = availableTowerColors;
     }
 
+    /**
+     * Sets the available wizards
+     * @param availableWizards the available wizards
+     */
     public void setAvailableWizards(List<Wizard> availableWizards) {
         this.availableWizards = availableWizards;
     }
 
+    /**
+     * Sets the client game model
+     * @param clientGameModel the client game model
+     */
     public void setClientGameModel(ClientGameModel clientGameModel) {
         this.clientGameModel = clientGameModel;
     }
 
+    /**
+     * Sets the used character
+     * @param usedCharacter the used character
+     */
     public void setUsedCharacter(int usedCharacter) {
         this.usedCharacter = usedCharacter;
     }
 
+    /**
+     * Manages user input character parameters
+     * @param userInput input character parameters in string form
+     */
     private void manageCharacterParameters(String userInput){
         try {
             String[] splitted = userInput.split(" ");
@@ -432,6 +460,11 @@ public class KeyboardManager implements Runnable{
         System.out.println("User input failed, try again");}
     }
 
+    /**
+     * Parses an input string into a Pawn Color
+     * @param toParse string to be parsed
+     * @return the pawn color
+     */
     private PawnColor parsePawnColor(String toParse){
         toParse = toParse.toUpperCase(); //we transform in upper case
         for (PawnColor c : PawnColor.values()) {

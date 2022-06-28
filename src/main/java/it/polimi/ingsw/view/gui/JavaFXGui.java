@@ -18,7 +18,10 @@ import java.io.IOException;
  */
 public class JavaFXGui extends Application {
 
-
+    /**
+     * Starts the JavaFXGui instance
+     * @param stage the stage
+     */
     @Override
     public void start(Stage stage) {
 
@@ -60,6 +63,9 @@ public class JavaFXGui extends Application {
 
     }
 
+    /**
+     * Stops the ongoing instance
+     */
     @Override
     public void stop() {
         Platform.exit();
