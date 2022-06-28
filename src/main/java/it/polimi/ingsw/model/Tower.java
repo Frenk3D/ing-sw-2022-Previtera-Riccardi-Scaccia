@@ -16,7 +16,7 @@ public class Tower {
 
     /**
      * default constructor
-     * @param color
+     * @param color the tower color
      */
     public Tower(TowerColor color){
         this.color= color;

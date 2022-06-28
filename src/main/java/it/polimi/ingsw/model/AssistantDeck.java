@@ -37,7 +37,7 @@ public class AssistantDeck {
 
     /**
      * sets the wizard's type
-     * @param type
+     * @param type the wizard's type
      */
     public void setWizard (Wizard type){
         wizard = type;
@@ -53,7 +53,7 @@ public class AssistantDeck {
 
     /**
      *
-     * @param id
+     * @param id the assistant's id
      * @return the assistant chosen by id
      */
     public Assistant getAssistantById(int id){
@@ -67,7 +67,7 @@ public class AssistantDeck {
 
     /**
      * removes the assistant chosen by id
-     * @param id
+     * @param id the assistant's id
      */
     public void removeAssistantById(int id){
         for(Assistant assistant : assistantsList){

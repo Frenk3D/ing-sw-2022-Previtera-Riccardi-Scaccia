@@ -33,8 +33,8 @@ public class Player {
      * team is set to -1 by default
      * numOfMoney is set to null
      * the rest is a default constructor
-     * @param name
-     * @param id
+     * @param name the player's name
+     * @param id the player's id
      */
     public Player(String name, int id){
         numOfMoney=null; //if numOfMoney is null we are in normal mode
@@ -90,7 +90,7 @@ public class Player {
 
     /**
      * Sets the selected assistant
-     * @param selectedAssistant
+     * @param selectedAssistant the selected assistant
      */
     public void setSelectedAssistant(Assistant selectedAssistant) {
         this.selectedAssistant = selectedAssistant;
@@ -127,7 +127,7 @@ public class Player {
 
     /**
      * Sets if the player has the tower (in a 4 players game)
-     * @param tower
+     * @param tower the tower
      */
     public void setHasTower(boolean tower){
         this.hasTower = tower;
@@ -135,7 +135,7 @@ public class Player {
 
     /**
      * Sets the player's team
-     * @param team
+     * @param team the team
      */
     public void setTeam(int team) {
         this.team = team;
@@ -143,7 +143,7 @@ public class Player {
 
     /**
      * sets the player's tower color
-     * @param playerTowerColor
+     * @param playerTowerColor the player's tower color
      */
     public void setPlayerTowerColor(TowerColor playerTowerColor) {
         this.playerTowerColor = playerTowerColor;
@@ -151,7 +151,7 @@ public class Player {
 
     /**
      * Sets the selected assistant
-     * @param selAssistantId
+     * @param selAssistantId the selected assistant id
      */
     public void setSelectedAssistant(int selAssistantId){
         selectedAssistant = assistantDeck.getAssistantById(selAssistantId);
@@ -161,9 +161,9 @@ public class Player {
     /**
      * Modifies the player's money
      * overloaded for the use of characters
-     * @param num
-     * @param tableMoney
-     * @param isUsed
+     * @param num the number of money
+     * @param tableMoney the table money
+     * @param isUsed if it's used
      */
     public void modifyMoney(int num, AtomicInteger tableMoney, boolean isUsed){ //we have this overload for the use of character
         if((numOfMoney + num) < 0 || num > 0){
@@ -183,8 +183,8 @@ public class Player {
 
     /**
      * standard modifyMoney method
-     * @param num
-     * @param tableMoney
+     * @param num the number
+     * @param tableMoney the money on the table
      */
     public void modifyMoney(int num, AtomicInteger tableMoney){ //this function works both with positive and negative numbers, for now we call only with positive numbers
         if(numOfMoney == null){ //initialize the variable at first call
@@ -220,7 +220,7 @@ public class Player {
 
     /**
      *
-     * @param playersList
+     * @param playersList the list of players
      * @return the team player
      */
     public Player getTeamPlayer(List<Player> playersList){

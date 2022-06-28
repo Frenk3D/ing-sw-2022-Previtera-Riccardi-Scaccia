@@ -18,7 +18,7 @@ public class Professor {
 
     /**
      * default constructor
-     * @param color
+     * @param color the pawn color
      */
     public Professor(PawnColor color){
         this.color = color;

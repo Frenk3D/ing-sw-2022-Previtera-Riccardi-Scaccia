@@ -36,7 +36,7 @@ public class Cloud {
 
     /**
      * sets the list of students on the cloud
-     * @param studentsList
+     * @param studentsList the cloud's students list
      */
     public void setStudentsList(List<Student> studentsList) {
         this.studentsList=studentsList;
@@ -44,7 +44,7 @@ public class Cloud {
 
     /**
      * generates the list of clouds
-     * @param numOfPlayers
+     * @param numOfPlayers the number of players
      * @return the generated clouds list
      */
     public static List<Cloud> generateCloudsList(int numOfPlayers){
@@ -58,8 +58,8 @@ public class Cloud {
     /**
      * fills the cloud with a random list of students
      * the number of students generated varies based on the number of players of the game
-     * @param bag
-     * @param numOfPlayer
+     * @param bag the bag
+     * @param numOfPlayer the number of players
      */
     public void fillCloud(Bag bag, int numOfPlayer){
         int numOfStudents;

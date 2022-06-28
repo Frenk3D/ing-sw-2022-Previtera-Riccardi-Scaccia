@@ -15,8 +15,8 @@ public class Assistant {
 
     /**
      * default constructor
-     * @param value
-     * @param motherNaturePosShift
+     * @param value the assistant's value
+     * @param motherNaturePosShift the number of moves mother nature can make
      */
     public Assistant(int value,int motherNaturePosShift){
         this.value = value;
@@ -40,6 +40,11 @@ public class Assistant {
     public int getId(){
         return value;
     } //id and value are the same attributes
+
+    /**
+     *
+     * @return the number of moves mother nature can do
+     */
     public int getMotherNaturePosShift() {
         return motherNaturePosShift;
     }
@@ -47,10 +52,9 @@ public class Assistant {
     //setter
 
     /**
-     * sets the number of moves mother noture can do
-     * @param motherNaturePosShift
+     * sets the number of moves mother nature can do
+     * @param motherNaturePosShift the number of moves mother nature can do
      */
-
     public void setMotherNaturePosShift(int motherNaturePosShift) {
         this.motherNaturePosShift = motherNaturePosShift;
     }
