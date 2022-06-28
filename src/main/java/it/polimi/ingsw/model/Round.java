@@ -48,9 +48,9 @@ public class Round {
 
     /**
      * fills the clouds with a number of students varying based on the number of players
-     * @param cloudsList
-     * @param bag
-     * @param numOfPlayers
+     * @param cloudsList the list of clouds
+     * @param bag the bag
+     * @param numOfPlayers the number of players
      */
     public void fillClouds(List<Cloud> cloudsList, Bag bag, int numOfPlayers){
         int requiredStudents = 12;
@@ -72,7 +72,7 @@ public class Round {
     /**
      * initializes the round and the player's order
      * called by the controller after the planning state is finished
-     * @param playersList
+     * @param playersList the list of players
      */
     public void initRound(List<Player> playersList) { //called by the controller after the planning state is finished
         int i = 0;
@@ -154,7 +154,7 @@ public class Round {
 
     /**
      *
-     * @param playersList
+     * @param playersList the list of players
      * @return the planning phase player
      */
     public Player getPlanningPhasePlayer(List<Player> playersList){
@@ -163,7 +163,7 @@ public class Round {
 
     /**
      * randomly generates a starting player
-     * @param playersList
+     * @param playersList the list of players
      */
     public void randomStartingPlayer(List<Player> playersList){ //chooses the first Player at the beginning of the game
         int numOfPlayers = playersList.size();
@@ -173,7 +173,7 @@ public class Round {
 
     /**
      * Sets the next planning phase player
-     * @param numOfPlayers
+     * @param numOfPlayers the number of players
      */
     public void setNextPlayerPlanning(int numOfPlayers){ //set the next player that must throw the assistant card
         if(stage == RoundState.PLANNING_STATE && numOfAssistantThrows<numOfPlayers) {

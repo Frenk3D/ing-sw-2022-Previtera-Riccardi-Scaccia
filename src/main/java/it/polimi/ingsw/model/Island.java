@@ -39,9 +39,9 @@ public class Island {
     /**
      * Adds the first students on the islands
      * The students are not added on the island with mother nature on it,and the opposite island
-     * @param islandsList
-     * @param motherNaturePos
-     * @param bag
+     * @param islandsList the list of the island
+     * @param motherNaturePos the position of mother nature
+     * @param bag the bag
      */
     public static void initStudentIsland(List<Island> islandsList, int motherNaturePos, Bag bag){
         int counter = 0;
@@ -82,7 +82,7 @@ public class Island {
 
     /**
      * Sets the forbid cards
-     * @param forbidCards
+     * @param forbidCards the forbid cards
      */
     public void setForbidCards(int forbidCards) {
         this.forbidCards = forbidCards;
@@ -109,7 +109,7 @@ public class Island {
 
     /**
      * Adds a tower to the island
-     * @param tower
+     * @param tower the tower
      */
     public void addTower(Tower tower){
         towersList.add(tower);
@@ -125,7 +125,7 @@ public class Island {
 
     /**
      * Sets the list of students on the island
-     * @param studentsList
+     * @param studentsList the list of students
      */
     public void setStudentsList(List<Student> studentsList) {
         this.studentsList = studentsList;
@@ -133,7 +133,7 @@ public class Island {
 
     /**
      * Adds a student to the island
-     * @param student
+     * @param student the student
      */
     public void addStudent(Student student){
         studentsList.add(student);
@@ -142,7 +142,7 @@ public class Island {
     /**
      * Updates the player domain of the island
      * if the domain changes a tower of the player's tower color is added to the island
-     * @param playersList
+     * @param playersList the list of players
      */
     public void updateIslandDomain(List<Player> playersList) {
         Player oldDominatingPlayer = null;
@@ -206,8 +206,8 @@ public class Island {
     /**
      * Expert mode version of the update island domain method
      * the domain depends on forbid cards as well
-     * @param playersList
-     * @param forbidCharacter
+     * @param playersList the list of players
+     * @param forbidCharacter the forbid characters
      */
     public void updateIslandDomainExpert(List<Player> playersList, Characters3and4and5 forbidCharacter){
         if(forbidCards > 0 && forbidCharacter!=null){
@@ -221,8 +221,8 @@ public class Island {
     /**
      * Calculates the influence of a player on the island,
      * the island's domain is updated depending on the influence of the player
-     * @param player
-     * @param playersList
+     * @param player the player
+     * @param playersList the list of players
      * @return the influence of a given player on the island
      */
     private int calculateInfluence(Player player, List<Player> playersList){
@@ -248,7 +248,7 @@ public class Island {
     /**
      * If two adjacent islands share the same players domain they are merged into a single island
      * The number of islands merged defines the island's weight
-     * @param nextIsland
+     * @param nextIsland the next island
      * @return the merged island
      */
     public boolean mergeIsland(Island nextIsland){ //is to call more times
@@ -266,7 +266,7 @@ public class Island {
 
     /**
      * Sets the island's weight
-     * @param weight
+     * @param weight the island's weight
      */
     public void setWeight(int weight) {
         this.weight = weight;

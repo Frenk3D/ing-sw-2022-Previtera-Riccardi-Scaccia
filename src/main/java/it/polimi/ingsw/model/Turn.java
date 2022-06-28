@@ -44,7 +44,7 @@ public class Turn {
 
     /**
      * Sets the turn stage
-     * @param stage
+     * @param stage the turn stage
      */
     public void setStage(TurnState stage) {
         this.stage = stage;
@@ -60,7 +60,7 @@ public class Turn {
 
     /**
      * Sets the current player
-     * @param name
+     * @param name the player's name
      */
     public void setCurrPlayer(Player name) {
         this.currPlayer = name;
@@ -77,9 +77,9 @@ public class Turn {
 
     /**
      * Updates the list of professors
-     * @param playersList
-     * @param tableProfessorsList
-     * @return
+     * @param playersList the list of players
+     * @param tableProfessorsList the list of professors on the table
+     * @return the professor id
      */
     public int updateProfessorsLists(List<Player> playersList, List<Professor> tableProfessorsList){
         for (PawnColor currColor : PawnColor.values()){ //scan of all colors
@@ -136,8 +136,8 @@ public class Turn {
 
     /**
      *
-     * @param playersList
-     * @param tableProfessorsList
+     * @param playersList the list of players
+     * @param tableProfessorsList the list of professors on the table
      */
     public void returnProfessorsToTable(List<Player> playersList, List<Professor> tableProfessorsList){
         for (PawnColor currColor : PawnColor.values()) {
@@ -154,8 +154,8 @@ public class Turn {
 
     /**
      * Updates the list of islands
-     * @param islandsList
-     * @return
+     * @param islandsList the list of islands
+     * @return the updated mother nature
      */
     public int updateIslandList(List<Island> islandsList){
         int updatedMotherNature = -1;
@@ -192,7 +192,7 @@ public class Turn {
 
     /**
      * increments the number of moved students
-     * @param numOfPlayers
+     * @param numOfPlayers the number of players
      * @return the incremented number of moved students
      */
     public boolean incrementMovedStudents(int numOfPlayers){
@@ -214,7 +214,7 @@ public class Turn {
 
     /**
      * Sets the number of used students
-     * @param usedCharacter
+     * @param usedCharacter the used character
      */
     public void setUsedCharacter(Character usedCharacter) {
         this.usedCharacter = usedCharacter;

@@ -73,8 +73,8 @@ public class GameModel extends Observable {
     }
 
     /**
-     *
-     * @return
+     *Initializes the game model
+     * @return {@code false} if the size of the players list is different from the number of players {@code true} otherwise
      */
     public boolean init(){
         if(playersList.size()!=numOfPlayers){
@@ -106,8 +106,8 @@ public class GameModel extends Observable {
     }
 
     /**
-     *
-     * @return
+     *Starts the game
+     * @return {@code false} if the number of players is different from the players list size {@code true} otherwise
      */
     public boolean start(){
         if(playersList.size()!=numOfPlayers){
@@ -157,7 +157,7 @@ public class GameModel extends Observable {
 
     /**
      * sets the chosen number of players
-     * @param chosenNumOfPlayers
+     * @param chosenNumOfPlayers the chosen number of players
      * @return true if the chosen number is between 0 and 4
      * @return false otherwise
      */
@@ -171,8 +171,8 @@ public class GameModel extends Observable {
 
     /**
      * adds a player to the player list
-     * @param player
-     * @return
+     * @param player the added player
+     * @return {@code true} if the number of players is different from -1 and the players list size is inferior to the number of players {@code false} otherwise
      */
     public boolean addPlayer(Player player){
         if(numOfPlayers!=-1 && playersList.size()<numOfPlayers) {
@@ -185,7 +185,7 @@ public class GameModel extends Observable {
 
     /**
      * sets expert mode
-     * @param expertMode
+     * @param expertMode the game mode
      */
     public void setExpertMode(boolean expertMode){
         this.expertMode=expertMode;
@@ -193,7 +193,7 @@ public class GameModel extends Observable {
 
     /**
      * sets mother nature position(only if its different from the current position and inferior to 12)
-     * @param pos
+     * @param pos the mother nature's position
      */
     public void setMotherNaturePosition(int pos){
             if(motherNaturePos!=pos&& pos>=0 && pos<12) { //mother nature has to move at least of 1 pos, but we have to manage illegal back moves
@@ -215,7 +215,7 @@ public class GameModel extends Observable {
 
     /**
      *
-     * @param playerId
+     * @param playerId the id of the player
      * @return a player chosen by id
      */
     public Player getPlayerById(int playerId){
@@ -229,7 +229,7 @@ public class GameModel extends Observable {
 
     /**
      *
-     * @param islandIndex
+     * @param islandIndex the index of the island
      * @return an island chosen by index
      */
     public Island getIslandByIndex(int islandIndex){
@@ -241,7 +241,7 @@ public class GameModel extends Observable {
 
     /**
      *
-     * @param cloudIndex
+     * @param cloudIndex the index of the cloud
      * @return a cloud chosen by index
      */
     public Cloud getCloudByIndex(int cloudIndex){
@@ -253,7 +253,7 @@ public class GameModel extends Observable {
 
     /**
      *
-     * @param characterIndex
+     * @param characterIndex the index of the character
      * @return a character chosen by index
      */
     public Character getCharacterByIndex(int characterIndex) {
@@ -265,7 +265,7 @@ public class GameModel extends Observable {
 
     /**
      *
-     * @param characterId
+     * @param characterId the id of the character
      * @return a character chosen by id
      */
     public Character getCharacterById(int characterId){
@@ -389,7 +389,7 @@ public class GameModel extends Observable {
 
     /**
      * sets the state in settingState
-     * @param settingState
+     * @param settingState the setting state
      */
     public void setSettingState(SettingState settingState) {
         this.settingState = settingState;
@@ -507,7 +507,7 @@ public class GameModel extends Observable {
 
     /**
      * sends the dashboard of a player chosen by id
-     * @param playerId
+     * @param playerId the id of the player
      */
     public void sendDashboard(int playerId){
         notifyObserver(new DashboardMessage(SERVERID, new ReducedDashboard(getPlayerById(playerId).getDashboard()),playerId));
@@ -531,7 +531,7 @@ public class GameModel extends Observable {
 
     /**
      * sends the thrown character chosen by id
-     * @param characterId
+     * @param characterId the id of the character
      */
     public void sendThrownCharacter(int characterId){
         notifyObserver(new ThrownCharacterMessage(SERVERID,characterId,getCurrPlayer().getId()));
@@ -539,7 +539,7 @@ public class GameModel extends Observable {
 
     /**
      * sends a message that notifies the end of the game,and the player who won
-     * @param winnerId
+     * @param winnerId the id of the winner
      */
     public void sendWin(int winnerId){
         StringBuilder names = new StringBuilder();

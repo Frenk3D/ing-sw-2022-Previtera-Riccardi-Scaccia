@@ -45,7 +45,7 @@ public class Dashboard {
 
     /**
      *
-     * @param color
+     * @param color the pawn color
      * @return the list of students in the hall of the selected color
      */
     public List<Student> getHallStudentsListByColor(PawnColor color){
@@ -66,7 +66,7 @@ public class Dashboard {
 
     /**
      *
-     * @param color
+     * @param color the pawn color
      * @return a professor of the selected color
      */
     public Professor getProfessorByColor(PawnColor color){
@@ -81,8 +81,8 @@ public class Dashboard {
     /**
      * places the students on the entrance
      * the number of students placed varies based on the number of players in the game
-     * @param numOfPlayers
-     * @param bag
+     * @param numOfPlayers the number of players
+     * @param bag the bag
      */
     public void placeStudentEntrance(int numOfPlayers, Bag bag){ //init function, we can't add to many students for the entrance's size
         List<Student> entranceList;
@@ -101,8 +101,8 @@ public class Dashboard {
     /**
      * generates the player's (or the team's) towers
      * the number of towers generated varies based on the number of players in the game
-     * @param numOfPlayers
-     * @param playerTowerColor
+     * @param numOfPlayers the number of players
+     * @param playerTowerColor the player's tower color
      */
     public void generateTower(int numOfPlayers, TowerColor playerTowerColor){ //number of players is needed
         int towersToGenerate;
@@ -121,9 +121,9 @@ public class Dashboard {
 
     /**
      *
-     * @param student
-     * @param currPlayer
-     * @param tableMoney
+     * @param student the student
+     * @param currPlayer the current player
+     * @param tableMoney the money on the table
      * @return adds a student in the hall
      */
     public boolean addStudentHall(Student student, Player currPlayer, AtomicInteger tableMoney){
@@ -139,7 +139,7 @@ public class Dashboard {
 
     /**
      * sets the list of towers
-     * @param towersList
+     * @param towersList the list of towers
      */
     public void setTowersList(List<Tower> towersList) {
         this.towersList = towersList;
@@ -155,7 +155,7 @@ public class Dashboard {
 
     /**
      * sets the list of students in the entrance
-     * @param entranceList
+     * @param entranceList the entrance list
      */
     public void setEntranceList(List<Student> entranceList) {
         this.entranceList = entranceList;
@@ -179,7 +179,7 @@ public class Dashboard {
 
     /**
      *
-     * @param color
+     * @param color the pawn color
      * @return the number of hall students of the selected color
      */
     public int getNumOfHallStudents(PawnColor color){
@@ -188,7 +188,7 @@ public class Dashboard {
 
     /**
      *
-     * @param studentIndex
+     * @param studentIndex the index of the student
      * @return a student in the entrance student list selected by index
      */
     public Student getEntranceStudentByIndex(int studentIndex){
