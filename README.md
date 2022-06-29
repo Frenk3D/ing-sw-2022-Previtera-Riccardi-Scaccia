@@ -15,7 +15,10 @@ The game is playable starting a ServerApp and after using ClientApp CLI or GUI, 
 - ###  10724922  Nicolò Scaccia Email: <br>nicolo.scaccia@mail.polimi.it / Cell. : +39 3662607385
 - ###  10682248  Marco Luca Previtera Email: <br>marcoluca.previtera@mail.polimi.it / Cell. : +39 3466776801
 
-
+  
+  
+  
+## Functionality
 | Functionality    |                       State                        |
 |:-----------------|:--------------------------------------------------:|
 | Basic rules      | 🟢 |
@@ -34,26 +37,29 @@ The game is playable starting a ServerApp and after using ClientApp CLI or GUI, 
 
 
 
-
-## UML (in the deliverables folder):
+## Documentation
+### UML (in the deliverables folder):
 - [UMLFolder](https://github.com/Frenk3D/ing-sw-2022-Previtera-Riccardi-Scaccia/tree/main/deliveries/UMLFolder)
 
-https://lucid.app/lucidchart/0321ec56-70d4-467c-a649-f40a982a14d6/edit?invitationId=inv_add26b2e-3f1d-4160-9073-47ba92254b02
+[OnTool](https://lucid.app/lucidchart/0321ec56-70d4-467c-a649-f40a982a14d6/edit?invitationId=inv_add26b2e-3f1d-4160-9073-47ba92254b02)
 
-## How to use JARs (in the [deliverables folder](https://github.com/Frenk3D/ing-sw-2022-Previtera-Riccardi-Scaccia/tree/main/deliveries) ):
-We create it with Maven Shade Plugin
-For server ...  java -jar deliveries\JARfull\artifacts\softend-GC02-server.jar (you can choose also the port with -p [])
-For client-> cli: java -jar deliveries\JARfull\artifacts\softend-GC02-client  -c   
-GUI: java -jar java -jar deliveries\JARfull\artifacts\softend-GC02-client
-  
-https://taylorial.com/cs1021/Jar.htm
+### How to use JARs (in the [deliverables folder](https://github.com/Frenk3D/ing-sw-2022-Previtera-Riccardi-Scaccia/tree/main/deliveries) ):
+We create it with Maven Shade Plugin  
+For server ...  java -jar deliveries\JARfull\artifacts\softend-GC02-server.jar (you can choose also the port with -p [])  
+For client-> cli: java -jar deliveries\JARfull\artifacts\softend-GC02-client  -c     
+GUI: java -jar java -jar deliveries\JARfull\artifacts\softend-GC02-client or with double-click on the file.
 
-## Test coverage (on Server):
-Controller: ~73%  (methods that regards the communication are tested playing )
+
+### JavaDoc
+The following documentation includes a description for most of the classes and methods used, follows the Java documentation techniques, and can be accessed by generating it from code or here [JavaDoc](https://github.com/Frenk3D/ing-sw-2022-Previtera-Riccardi-Scaccia/tree/main/deliveries/JavaDoc(generabile%20da%20intellij))  
+Starts from index.html.
+
+### Test coverage (on Server):
+Controller: ~73%  (methods that regards the communication are tested playing )  
 Model: ~88%
   
   
-## Librerie e Plugins (utilizzati e consigliati dal corso)
+### Librerie e Plugins (utilizzati e consigliati dal corso)
 |Libreria/Plugin| Descrizione                                                                              |
 |---------------|------------------------------------------------------------------------------------------|
 |__Maven__| Strumento di automazione della compilazione utilizzato principalmente per progetti Java. |

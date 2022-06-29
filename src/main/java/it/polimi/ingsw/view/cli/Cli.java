@@ -150,7 +150,7 @@ public class Cli extends View {
 
 
     public void sendNewLobbyRequest() {
-        out.println("Enter [Lobby name] [Number of players] [Expert mode]");
+        out.println("Enter [Lobby name] [Number of players] [Expert mode: true or false]");
 
     }
 
