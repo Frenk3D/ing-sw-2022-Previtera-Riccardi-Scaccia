@@ -295,8 +295,8 @@ public class DashboardSceneController {
                 break;
         }
         imageView.setImage(new Image(getClass().getResourceAsStream(path)));
-        imageView.setFitWidth(50);
-        imageView.setFitHeight(50);
+        imageView.setFitWidth(52);
+        imageView.setFitHeight(52);
         return imageView;
     }
 

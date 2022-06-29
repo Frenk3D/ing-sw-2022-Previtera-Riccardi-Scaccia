@@ -48,8 +48,9 @@ public class CharacterSceneController {
      * laad selected character on the graphics
      * @param character
      */
-    public void loadCharacter(ReducedCharacter character){
+    public void loadCharacter(ReducedCharacter character, boolean enabled){
         this.character=character;
+        buttonPlayCharacter.setVisible(enabled);
         getCharacterImage(character.getId(),characterDetailImageView);
         if(character.isUsed()){
             imageViewUsedMoney.setVisible(true);

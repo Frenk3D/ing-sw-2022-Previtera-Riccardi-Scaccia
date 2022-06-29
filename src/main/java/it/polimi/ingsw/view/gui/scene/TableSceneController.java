@@ -374,6 +374,11 @@ public class TableSceneController extends ViewObservable implements GenericScene
      * @return the id of played character if selected else -1
      */
     private int openCharacter(ReducedCharacter character){
+        boolean usable = false;
+        if(guiState==WAITING_FOR_MOVE_OR||guiState==WAITING_FOR_ISLAND_MN||guiState==WAITING_FOR_CLOUD){
+            usable = true;
+        }
+
         stage = new Stage();
         FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource("/fxml/CharacterScene.fxml"));
 
@@ -391,7 +396,7 @@ public class TableSceneController extends ViewObservable implements GenericScene
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
         CharacterSceneController characterController = loader.getController();
-        characterController.loadCharacter(character);
+        characterController.loadCharacter(character,usable);
         characterController.setStage(stage);
         currCharacterController = characterController;
         stage.showAndWait();
@@ -423,7 +428,7 @@ public class TableSceneController extends ViewObservable implements GenericScene
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
         CharacterSceneController characterController = loader.getController();
-        characterController.loadCharacter(character);
+        characterController.loadCharacter(character,true);
         characterController.setStage(stage);
         characterController.selectionMode();
         currCharacterController = characterController;
@@ -551,13 +556,13 @@ public class TableSceneController extends ViewObservable implements GenericScene
         }
 
         if(gameModel.isExpertMode()){
-            buttonText+=" - M: "+player.getNumOfMoney();
+            buttonText+=" - Coins: "+player.getNumOfMoney();
         }
 
         if(gameModel.getNumOfPlayers()==4){
             for (ReducedPlayer currP : gameModel.getPlayersList()){
                 if(currP!=player&&currP.getTeam()==player.getTeam()){
-                    buttonText+=" - T: "+currP.getName();
+                    buttonText+="\nTeam: "+currP.getName();
                     break;
                 }
             }
