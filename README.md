@@ -41,13 +41,15 @@ The game is playable starting a ServerApp and after using ClientApp CLI or GUI, 
 https://lucid.app/lucidchart/0321ec56-70d4-467c-a649-f40a982a14d6/edit?invitationId=inv_add26b2e-3f1d-4160-9073-47ba92254b02
 
 ## How to use JARs (in the [deliverables folder](https://github.com/Frenk3D/ing-sw-2022-Previtera-Riccardi-Scaccia/tree/main/deliveries) ):
-For server ...  java -jar out\artifacts\WHATEVER_jar\WHATEVER.jar
-For client-> cli: java -jar out\artifacts\WHATEVER_jar\WHATEVER.jar  -c   
-GUI: java -jar out\artifacts\WHATEVER_jar\WHATEVER.jar
+We create it with Maven Shade Plugin
+For server ...  java -jar deliveries\JARfull\artifacts\softend-GC02-server.jar (you can choose also the port with -p [])
+For client-> cli: java -jar deliveries\JARfull\artifacts\softend-GC02-client  -c   
+GUI: java -jar java -jar deliveries\JARfull\artifacts\softend-GC02-client
+  
 https://taylorial.com/cs1021/Jar.htm
 
 ## Test coverage (on Server):
-Controller: ~73%  
+Controller: ~73%  (methods that regards the communication are tested playing )
 Model: ~88%
   
   
