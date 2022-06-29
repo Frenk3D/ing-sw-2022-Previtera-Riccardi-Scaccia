@@ -16,8 +16,6 @@ public class Bag {
     private List<Student> studentsList;
     private final Logger logger = Logger.getLogger(getClass().getName());
 
-    //Methods
-    //constructor
      /** Constructor Bag creates a new Bag instance. */
     public Bag(){
         studentsList = new ArrayList<>(); //removed argument from <> as Intellij suggests
@@ -88,21 +86,4 @@ public class Bag {
     public int getRemainingStudents(){
         return studentsList.size();
     }
-
-
-    //for test purposes
-  /*  @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Bag)) return false;
-        Bag bag = (Bag) o;
-        return getStudentsList().equals(bag.getStudentsList());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getStudentsList());
-    }
-
-   */
 }

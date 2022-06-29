@@ -109,9 +109,4 @@ public interface ViewObserver {
     void onSendUseCharacter(MessageCharacterParameters params);
 
 
-//    /**
-//     * Handles a disconnection wanted by the user.
-//     */
-//    void onAskDisconnection(); from the view we can choose to close the game ?
-
 }

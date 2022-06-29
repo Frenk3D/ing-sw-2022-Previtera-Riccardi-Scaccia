@@ -289,17 +289,6 @@ public class Island {
         Island island = (Island) o;
         return getForbidCards() == island.getForbidCards() && getWeight() == island.getWeight() && getTowersList().equals(island.getTowersList()) && getStudentsList().equals(island.getStudentsList());
     }
-
-    /* @Override
-    public int hashCode() {
-        return Objects.hash(getForbidCard(), getWeight(), getTowersList(), getStudentsList());
-    }
-
-    public void setTower(Tower tower){
-        towersList.add(tower);
-    }
-
-     */
 }
 
 

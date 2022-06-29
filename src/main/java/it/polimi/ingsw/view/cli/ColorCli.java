@@ -20,6 +20,7 @@ public enum ColorCli {
     PINK_BOLD("\033[0;35m"),
     BLUE_BOLD("\033[1;34m"),
 
+    //background colors
     YELLOW_BG("\033[43m"),
     RED_BG("\033[41m"),
     GREEN_BG("\033[42m"),
@@ -32,8 +33,6 @@ public enum ColorCli {
 
 
     private final String code;
-    private static final String UPPER_INSIDE_LVL_2 = "┌───────────────────┐";
-    private static final String LOWER_INSIDE_LVL_2 = "└───────────────────┘";
 
     ColorCli(String code) {
         this.code = code;

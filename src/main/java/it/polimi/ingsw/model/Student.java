@@ -44,11 +44,5 @@ public class   Student {
         return getColor() == student.getColor();
     }
 
-  /* @Override
-    public int hashCode() {
-        return Objects.hash(getColor());
-    }
-
-   */
 }
 

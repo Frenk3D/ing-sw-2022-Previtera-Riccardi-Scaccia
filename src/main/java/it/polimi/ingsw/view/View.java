@@ -33,11 +33,6 @@ public abstract class View extends ViewObservable implements ModelObserver {
     @Override
     public abstract void onSendChooseLobby(List<Lobby> lobbyList);
 
-    /*@Override
-    public abstract void onSendNewLobbyRequest();
-
-    @Override
-    public abstract void onSendLobbiesRequest();*/
     @Override
     public abstract void onSendChooseTeam(Map<String,Integer> availablePlayers);
 

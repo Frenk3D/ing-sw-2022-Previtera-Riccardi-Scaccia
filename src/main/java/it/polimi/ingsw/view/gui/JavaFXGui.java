@@ -52,15 +52,8 @@ public class JavaFXGui extends Application {
         stage.setWidth(900);
         stage.setHeight(600);
         stage.setResizable(true);
-        //stage.setMaximized(true);
-        //stage.setFullScreen(true);
-        //stage.setFullScreenExitHint("");
-        //stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setTitle("Eriantys Board Game");
         stage.show();
-
-
-
     }
 
     /**

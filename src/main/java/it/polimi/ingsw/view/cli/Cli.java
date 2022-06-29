@@ -80,8 +80,6 @@ public class Cli extends View {
         out.flush();
     }
 
-
-
     /**
      * Asks the server address and port to the user.
      *
@@ -153,9 +151,7 @@ public class Cli extends View {
 
 
     public void sendNewLobbyRequest(){
-        out.println("Enter Lobby name: (we prefer to avoid bad words)");
-        out.println("After a space enter number of players allowed: (from 2 to 4)");
-        out.println("After another space enter 'true' for expert mode, or false for normal mode (check the caps-lock)");
+        out.println("Enter [Lobby name] [Number of players] [Expert mode]");
 
     }
 
@@ -171,7 +167,6 @@ public class Cli extends View {
             counter ++;
         }
         keyboardManager.setLobbiesList(lobbylist);
-        return;
     }
 
     @Override
@@ -181,12 +176,7 @@ public class Cli extends View {
         for(Map.Entry<String,Integer> entry : availablePlayers.entrySet()){
             out.println( "Name: " + entry.getKey() + ", Id: " + entry.getValue());
         }
-        //String input = null;
-        //input = readLine();
         keyboardManager.setAvailablePlayers(availablePlayers);
-
-        return;
-
     }
 
     @Override
@@ -197,8 +187,6 @@ public class Cli extends View {
             out.println( "Color: " + c );
         }
         keyboardManager.setAvailableTowerColors(availableTowerColors);
-        return;
-
     }
 
     @Override
@@ -209,39 +197,35 @@ public class Cli extends View {
             out.println( "Wizard: " + wizard);
         }
         keyboardManager.setAvailableWizards(availableWizards);
-        return;
     }
 
     @Override
     public void onSendSelectAssistant() {
-        out.println("Choose an Assistant id from the list: ");
-        return;
+        out.print("Choose an Assistant id from the list: ");
     }
 
     @Override
     public void onAskWhereToMoveStudent() {
-        out.println("Type d to move a student in the dashboard, or type i to move the student on an island");
+        out.print("Type d to move a student in the dashboard, or type i to move the student on an island: ");
     }
 
     public void sendMoveStudentDashboard(){
-        out.println("Select a student (index) from your entrance list: (pay attention to the color)");
+        out.print("Select a student (index) from your entrance list: ");
     }
 
-    public void sendMoveStudentIsland(){out.println("Select a student index from your entrance list and a island index where to put: ");
-        out.println("Use a space to split the chosen index");
+    public void sendMoveStudentIsland(){
+        out.print("Select a student index from your entrance list and a island index where to put: ");
     }
-
 
     @Override
     public void onSendMoveMotherNature() {
-        out.println("Choose the island index where to move mother nature, pay attention of the admitted moves");
+        out.print("Choose the island index where to move mother nature: ");
 
     }
 
-
     @Override
     public void onSendChooseCloud() {
-        out.println("Choose the cloud index where do you want to pick the students, choose a valid cloud(not empty)");
+        out.print("Choose the cloud index where do you want to pick the students: ");
 
     }
 

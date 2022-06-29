@@ -35,7 +35,7 @@ public class GamePrinter {
         }
         */
 
-        //String[] canvas = generateCanvas(130,20," ");
+
         String[] canvas = generateSquare(189,50);
 
         boolean motherNatureHere = false;
@@ -384,18 +384,6 @@ public class GamePrinter {
                         result[i]+=" ";
                     }
                 }
-            }
-        }
-        return result;
-    }
-
-    private String[] generateCanvas(int x, int y, String filler){
-        String result[] = new String[y];
-        int i,j;
-        for (i=0; i<y; i++){
-            result[i]="";
-            for (j=0;j<x;j++){
-            result[i]+=filler;
             }
         }
         return result;

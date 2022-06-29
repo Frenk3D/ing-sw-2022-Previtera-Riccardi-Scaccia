@@ -8,10 +8,7 @@ import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.client.ClientState;
 import it.polimi.ingsw.network.server.Lobby;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * It is the class that manage the user input. It implements {@link Runnable}
@@ -39,10 +36,16 @@ public class KeyboardManager implements Runnable{
         Scanner scanInput = new Scanner(System.in);
         while (!Thread.currentThread().isInterrupted()) {  //everytime active to receive input
             scanInput.reset();
-            userInput = scanInput.nextLine(); //whenever the player presses enter this line gets executed
+            try {
+                userInput = scanInput.nextLine(); //whenever the player presses enter this line gets executed
+            }
+            catch (NoSuchElementException e){
+                System.out.println("Exiting application...");
+                System.exit(0);
+            }
+
             scanInput.reset();
-            //scanInput.next();
-            System.out.println("login: " + userInput + " state: " + controller.getClientState()); //only for debug
+            System.out.println("input: " + userInput + " state: " + controller.getClientState()); //only for debug
             String[] splittedInput = userInput.split(" ");
             if (splittedInput.length==2 && splittedInput[0].equals("use_character") && controller.getClientState() != ClientState.WAITING_FOR_YOUR_TURN && controller.getClientState() != ClientState.USING_CHARACTER   && clientGameModel.getRoundState() == RoundState.ACTION_STATE ) {
                 try {

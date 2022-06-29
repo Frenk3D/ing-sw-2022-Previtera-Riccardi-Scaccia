@@ -17,11 +17,7 @@ import javafx.application.Application;
 // It is used for both the {@link CLI} and the {@link GUI}
 public class ClientApp {
 
-    private static final String CLI_ARGUMENT = "--cli";
-    private static final String HELP_ARGUMENT = "-help";
-
     public static void main(String[] args) {
-        //THIS IS THE REAL CLIENT-APP
         boolean cliParam = false; // default value
 
         for (String arg : args) {
@@ -31,39 +27,16 @@ public class ClientApp {
             }
         }
 
-        if (cliParam) {
-
+        if (cliParam) { //launch the cli
             ClientController clientController = new ClientController();
-
             Cli view = new Cli(clientController);
-
-
             clientController.getClientGameModel().addObserver(view);
             view.addObserver(clientController);
             view.init();
-        } else {
+        } else { //launch the gui
             Application.launch(JavaFXGui.class);
         }
 
 
     }
 }
-
-
-//------------------------------------------------------------------------------------------------------------
-
-//THIS IS ONLY FOR THE TESTCLIENT
-        /*
-        TestClient client = new TestClient("127.0.0.1", 3333);
-        try{
-            client.run();
-        }catch (IOException e){
-            System.err.println(e.getMessage());
-        }
-
-
-         */
-
-
-
-

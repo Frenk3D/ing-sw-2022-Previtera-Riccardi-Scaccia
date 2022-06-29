@@ -32,7 +32,7 @@ public class SocketServerManager implements Runnable{
         try {
             serverSocket = new ServerSocket(port);
             logger.log(Level.INFO,"Server created on port "+port);
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.log(Level.SEVERE,"Server could not start!");
             return;
         }
@@ -41,7 +41,7 @@ public class SocketServerManager implements Runnable{
             try {
                 Socket client = serverSocket.accept();
                 SocketClientManager clientManager = new SocketClientManager(server, client);
-                Thread thread = new Thread(clientManager, "ss_manager" + client.getInetAddress());
+                Thread thread = new Thread(clientManager, "client_manager" + client.getInetAddress());
                 thread.start();
             } catch (IOException e) {
                 logger.log(Level.SEVERE,"Connection dropped");

@@ -26,8 +26,6 @@ public class Dashboard {
     private List<Professor> professorsList;
 
 
-    //Methods
-    //constructor
 
     /**
      * default constructor
@@ -197,21 +195,4 @@ public class Dashboard {
         }
         return entranceList.get(studentIndex);
     }
-
-
-    //for test purposes
-  /*  @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Dashboard)) return false;
-        Dashboard dashboard = (Dashboard) o;
-        return redStudentsList.equals(dashboard.redStudentsList) && greenStudentsList.equals(dashboard.greenStudentsList) && yellowStudentsList.equals(dashboard.yellowStudentsList) && pinkStudentsList.equals(dashboard.pinkStudentsList) && blueStudentsList.equals(dashboard.blueStudentsList) && getEntranceList().equals(dashboard.getEntranceList()) && getTowersList().equals(dashboard.getTowersList()) && getProfessorsList().equals(dashboard.getProfessorsList());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(redStudentsList, greenStudentsList, yellowStudentsList, pinkStudentsList, blueStudentsList, getEntranceList(), getTowersList(), getProfessorsList());
-    }
-
-   */
 }

@@ -12,11 +12,22 @@ import java.io.IOException;
 
 public class ServerApp
 {
-    public static void main( String[] args )
-    {
-        Server server;
+    public static void main( String[] args ) {
+        int port = 3333;
+        for(int i = 0; i < args.length; i++) {
+            if(args[i].equals("--port") || args[i].equals("-p")){
+                try {
+                    port = Integer.parseInt(args[i+1]);
+                }
+                catch (Exception e){
+                    System.out.println("Wrong parameters, use --port [port] or -p [port] to choose the port");
+                    return;
+                }
+            }
+        }
+
         try {
-            server = new Server(3333);
+            new Server(port);
         } catch (Exception e) {
             System.err.println("Impossible to initialize the server: " + e.getMessage() + "!");
         }

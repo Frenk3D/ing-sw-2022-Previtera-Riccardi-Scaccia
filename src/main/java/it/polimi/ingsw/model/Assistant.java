@@ -10,8 +10,6 @@ public class Assistant {
     private int motherNaturePosShift;
 
 
-    //Methods
-    //constructor
 
     /**
      * default constructor
@@ -23,7 +21,6 @@ public class Assistant {
         this.motherNaturePosShift= motherNaturePosShift;
     }
 
-    //getter
 
     /**
      *

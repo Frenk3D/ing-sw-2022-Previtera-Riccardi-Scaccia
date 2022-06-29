@@ -488,7 +488,7 @@ public class ClientController implements ViewObserver {
         System.exit(0);
     }
 
-    //UTILS METHODS
+    //UTILITY METHODS
 
     /**
      * this method manages ok reply messages for each client state
@@ -504,17 +504,14 @@ public class ClientController implements ViewObserver {
             case CHOSEN_TEAM:
                 teamLeader = true; //for security, I set it true
                 clientGameModel.showChosenTeam("Ok, you are the leader of the team, \nyou can choose tower color"); //they can choose if communicate outside the game
-                teamId = client.getClientId(); //for security, I set it, the team Id is mine
-                //clientState = ClientState.CHOOSING_TOWER_COLOR; //and now I will wait for available ... send
+                teamId = client.getClientId(); //set mine team id
                 break;
 
             case CHOSEN_TOWER_COLOR:
                 clientGameModel.show("Color chosen, waiting for other players to choose color");
-                //clientState = ClientState.CHOOSING_WIZARD; //and now I will wait for available ... send
                 break;
             case CHOSEN_WIZARD:
                 clientGameModel.show("Wizard chosen, waiting for other players to choose wizard");
-                //clientState = ClientState.GAME_START;
                 break;
             default:
                 break;
@@ -573,8 +570,6 @@ public class ClientController implements ViewObserver {
             case USED_CHARACTER:
                 clientState= prevClientState;
                 usedCharacter = -1;
-                //clientGameModel.show("Retry to use character or continue playing"); //for clarity
-                //only the print of the string is ok and reset to the prev clientState
                 break;
 
             default:

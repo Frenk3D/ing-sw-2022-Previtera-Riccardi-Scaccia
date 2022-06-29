@@ -16,15 +16,12 @@ import javafx.application.*;
 import it.polimi.ingsw.view.gui.scene.*;
 
 
-
-
 /**
  * This class implements all methods of View. Is used for the Graphic User Interface. It is an implementation of the {@link View}.
  */
 public class Gui extends View {
 
-    private static final String STR_ERROR = "ERROR";
-    private static final String MENU_SCENE_FXML = "menu_scene.fxml";
+
     private ClientController clientController;
 
     public Gui(ClientController clientController){
