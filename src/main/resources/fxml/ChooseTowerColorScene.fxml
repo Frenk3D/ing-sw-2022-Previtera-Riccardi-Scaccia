@@ -15,9 +15,9 @@
    <children>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="500.0" text="Choose a tower color from the available:" textFill="#16836f" wrapText="true">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="500.0" text="Choose a tower from the available:" textFill="#16836f" wrapText="true">
                <font>
-                  <Font size="17.0" />
+                  <Font name="System Bold Italic" size="21.0" />
                </font>
             </Label>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" styleClass="imageView" stylesheets="@../css/login-scene.css">

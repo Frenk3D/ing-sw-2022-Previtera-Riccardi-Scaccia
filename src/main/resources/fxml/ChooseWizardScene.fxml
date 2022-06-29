@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DisplacementMap?>
@@ -18,7 +19,7 @@
    <children>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0">
          <children>
-            <Label prefHeight="41.0" prefWidth="350.0" text="Choose a wizard from the available:">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="500.0" text="Choose a wizard from the available:">
                <textFill>
                   <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                      <stops>
@@ -36,8 +37,11 @@
                   </RadialGradient>
                </textFill>
                <font>
-                  <Font name="Times Roman" size="21.0" />
+                  <Font name="System Bold Italic" size="21.0" />
                </font>
+               <padding>
+                  <Insets bottom="15.0" />
+               </padding>
             </Label>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" styleClass="imageView" stylesheets="@../css/login-scene.css">
                <children>
