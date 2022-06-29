@@ -17,73 +17,71 @@ import java.util.List;
 
 public class CharacterSceneController {
 
-    @FXML private ImageView characterDetailImageView;
-    @FXML private Button buttonPlayCharacter;
-    @FXML private GridPane characterGridPane;
-    @FXML private ImageView imageViewUsedMoney;
+    @FXML
+    private ImageView characterDetailImageView;
+    @FXML
+    private Button buttonPlayCharacter;
+    @FXML
+    private GridPane characterGridPane;
+    @FXML
+    private ImageView imageViewUsedMoney;
 
 
     private ReducedCharacter character;
     private Stage stage;
     private boolean chooseUse = false; //set true if I choose to use the character
 
-    private List<Integer> selectedStudentResult; //result of the selection
+    private final List<Integer> selectedStudentResult; //result of the selection
     private PawnColor selectedProfessorResult; //result of the selection
-    private int selectedStudents=0;
-    private boolean selectionMode=false;
-    private boolean selectionSuccess=false;
+    private int selectedStudents = 0;
+    private boolean selectionMode = false;
+    private boolean selectionSuccess = false;
 
-    public CharacterSceneController(){
+    public CharacterSceneController() {
         selectedStudentResult = new ArrayList<>();
     }
 
     @FXML
     public void initialize() {
-        buttonPlayCharacter.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onUseClick);
+        buttonPlayCharacter.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onUseClick);
 
     }
 
 
     /**
      * laad selected character on the graphics
+     *
      * @param character
      */
-    public void loadCharacter(ReducedCharacter character, boolean enabled){
-        this.character=character;
+    public void loadCharacter(ReducedCharacter character, boolean enabled) {
+        this.character = character;
         buttonPlayCharacter.setVisible(enabled);
-        getCharacterImage(character.getId(),characterDetailImageView);
-        if(character.isUsed()){
-            imageViewUsedMoney.setVisible(true);
-        }
-        else {
-            imageViewUsedMoney.setVisible(false);
-        }
+        getCharacterImage(character.getId(), characterDetailImageView);
+        imageViewUsedMoney.setVisible(character.isUsed());
 
-        if(character.getId() == 1 || character.getId() == 7 || character.getId() == 11){
+        if (character.getId() == 1 || character.getId() == 7 || character.getId() == 11) {
             int index = 0;
             for (int j = 0; j < 3; j++) {
                 for (int i = 0; i < 2; i++) {
                     if (index < character.getCardStudentsList().size()) {
                         ImageView pawnImage = getPawnImage(character.getCardStudentsList().get(index));
-                        pawnImage.setOnMouseEntered((e)->{
+                        pawnImage.setOnMouseEntered((e) -> {
                             pawnImage.setFitWidth(46);
                             pawnImage.setFitHeight(46);
                         });
 
-                        pawnImage.setOnMouseExited((e)->{
+                        pawnImage.setOnMouseExited((e) -> {
                             pawnImage.setFitWidth(44);
                             pawnImage.setFitHeight(44);
                         });
                         pawnImage.setUserData(index);
-                        pawnImage.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onStudentClicked);
+                        pawnImage.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onStudentClicked);
                         characterGridPane.add(pawnImage, i, j);
                         index++;
                     }
                 }
             }
-        }
-
-        else if(character.getId() == 5){
+        } else if (character.getId() == 5) {
             int index = 0;
             for (int j = 0; j < 3; j++) {
                 for (int i = 0; i < 2; i++) {
@@ -104,12 +102,12 @@ public class CharacterSceneController {
     /**
      * enters the character in selection mode to choose its pawn
      */
-    public void selectionMode(){
-        selectionMode=true;
+    public void selectionMode() {
+        selectionMode = true;
         buttonPlayCharacter.setText("Select");
         buttonPlayCharacter.setVisible(false);
 
-        if(character.getId()==9 || character.getId()==12){
+        if (character.getId() == 9 || character.getId() == 12) {
             PawnColor[] pawnColors = PawnColor.values();
 
             int index = 0;
@@ -118,17 +116,17 @@ public class CharacterSceneController {
                     if (index < pawnColors.length) {
                         ImageView professorImage = getProfessorImage(pawnColors[index]);
                         professorImage.setRotate(-90);
-                        professorImage.setOnMouseEntered((e)->{
+                        professorImage.setOnMouseEntered((e) -> {
                             professorImage.setFitWidth(46);
                             professorImage.setFitHeight(46);
                         });
 
-                        professorImage.setOnMouseExited((e)->{
+                        professorImage.setOnMouseExited((e) -> {
                             professorImage.setFitWidth(44);
                             professorImage.setFitHeight(44);
                         });
                         professorImage.setUserData(pawnColors[index]);
-                        professorImage.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onProfessorClicked);
+                        professorImage.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onProfessorClicked);
                         characterGridPane.add(professorImage, i, j);
                         index++;
                     }
@@ -141,9 +139,10 @@ public class CharacterSceneController {
     /**
      * executed when clicking the use button
      * closes the stage
+     *
      * @param e
      */
-    private void onUseClick(Event e){
+    private void onUseClick(Event e) {
         chooseUse = true;
         selectionSuccess = true;
         stage.close();
@@ -151,29 +150,30 @@ public class CharacterSceneController {
 
     /**
      * executed when clicking on one student on the card
+     *
      * @param e
      */
-    private void onStudentClicked(Event e){
-        ImageView pawnImg = (ImageView)e.getSource();
+    private void onStudentClicked(Event e) {
+        ImageView pawnImg = (ImageView) e.getSource();
         int studentId = (int) pawnImg.getUserData();
 
-        if (selectionMode){
-            if(character.getId()==1||character.getId()==11){
+        if (selectionMode) {
+            if (character.getId() == 1 || character.getId() == 11) {
                 selectedStudentResult.add(studentId);
                 selectionSuccess = true;
                 stage.close();
                 return;
             }
-            if(character.getId()==7){
+            if (character.getId() == 7) {
                 selectedStudentResult.add(studentId);
                 selectedStudents++;
                 pawnImg.setDisable(true);
                 pawnImg.setOpacity(0.35);
-                if(selectedStudents==3){
+                if (selectedStudents == 3) {
                     selectionSuccess = true;
                     stage.close();
                 }
-                if(selectedStudents>=1){
+                if (selectedStudents >= 1) {
                     buttonPlayCharacter.setVisible(true); //enable the selection button for choosing less than 3 students
                 }
             }
@@ -182,19 +182,19 @@ public class CharacterSceneController {
 
     /**
      * executed when clicking on one professor on the card
+     *
      * @param e
      */
-    private void onProfessorClicked(Event e){
-        PawnColor pawnColor = (PawnColor) ((ImageView)e.getSource()).getUserData();
-        if(selectionMode){
+    private void onProfessorClicked(Event e) {
+        PawnColor pawnColor = (PawnColor) ((ImageView) e.getSource()).getUserData();
+        if (selectionMode) {
             selectedProfessorResult = pawnColor;
-            selectionSuccess=true;
+            selectionSuccess = true;
             stage.close();
         }
     }
 
     /**
-     *
      * @return true if play button was clicked
      */
     public boolean isChooseUse() {
@@ -203,6 +203,7 @@ public class CharacterSceneController {
 
     /**
      * Give reference of current stage
+     *
      * @param stage
      */
     public void setStage(Stage stage) {
@@ -210,7 +211,6 @@ public class CharacterSceneController {
     }
 
     /**
-     *
      * @return true if selection was successful
      */
     public boolean isSelectionSuccess() {
@@ -218,7 +218,6 @@ public class CharacterSceneController {
     }
 
     /**
-     *
      * @return selected PawnColor
      */
     public PawnColor getSelectedProfessorResult() {
@@ -226,7 +225,6 @@ public class CharacterSceneController {
     }
 
     /**
-     *
      * @return list of selected students
      */
     public List<Integer> getSelectedStudentResult() {
@@ -235,11 +233,12 @@ public class CharacterSceneController {
 
     /**
      * loads selected character on imageView
+     *
      * @param id
      * @param imageView
      */
-    private void getCharacterImage(int id, ImageView imageView){
-        String path = "/images/char"+id+".jpg";
+    private void getCharacterImage(int id, ImageView imageView) {
+        String path = "/images/char" + id + ".jpg";
         imageView.setImage(new Image(getClass().getResourceAsStream(path)));
         imageView.setFitWidth(329);
         imageView.setFitHeight(500);
@@ -247,27 +246,28 @@ public class CharacterSceneController {
 
     /**
      * gives imageview of selected student
+     *
      * @param color
      * @return imageView
      */
-    private ImageView getPawnImage(PawnColor color){
+    private ImageView getPawnImage(PawnColor color) {
         ImageView imageView = new ImageView();
         String path = "/images/";
-        switch (color){
+        switch (color) {
             case RED:
-                path+="redStudent3D.png";
+                path += "redStudent3D.png";
                 break;
             case BLUE:
-                path+="blueStudent3D.png";
+                path += "blueStudent3D.png";
                 break;
             case YELLOW:
-                path+="yellowStudent3D.png";
+                path += "yellowStudent3D.png";
                 break;
             case PINK:
-                path+="pinkStudent3D.png";
+                path += "pinkStudent3D.png";
                 break;
             case GREEN:
-                path+="greenStudent3D.png";
+                path += "greenStudent3D.png";
                 break;
         }
         imageView.setImage(new Image(getClass().getResourceAsStream(path)));
@@ -278,27 +278,28 @@ public class CharacterSceneController {
 
     /**
      * gives ImageView of selected professor
+     *
      * @param color
      * @return imageView
      */
-    private ImageView getProfessorImage(PawnColor color){
+    private ImageView getProfessorImage(PawnColor color) {
         ImageView imageView = new ImageView();
         String path = "/images/";
-        switch (color){
+        switch (color) {
             case RED:
-                path+="teacher_red.png";
+                path += "teacher_red.png";
                 break;
             case BLUE:
-                path+="teacher_blue.png";
+                path += "teacher_blue.png";
                 break;
             case YELLOW:
-                path+="teacher_yellow.png";
+                path += "teacher_yellow.png";
                 break;
             case PINK:
-                path+="teacher_pink.png";
+                path += "teacher_pink.png";
                 break;
             case GREEN:
-                path+="teacher_green.png";
+                path += "teacher_green.png";
                 break;
         }
         imageView.setImage(new Image(getClass().getResourceAsStream(path)));

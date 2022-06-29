@@ -14,29 +14,30 @@ import java.util.List;
  * This class implements the {@link it.polimi.ingsw.client.ClientGameModel} object Reduced Character
  */
 public class ReducedCharacter implements Serializable {
-    private boolean used;
-    private int id;
-    private int initialCost;
-    private List<PawnColor> cardStudentsList;
     int numOfForbidCards;
+    private final boolean used;
+    private final int id;
+    private final int initialCost;
+    private final List<PawnColor> cardStudentsList;
 
     /**
      * Sets character's used status,character's id,initial cost and the students list
      * depending on which character is passed card students or forbid cards are added
+     *
      * @param character is a Character
      */
-    public ReducedCharacter(Character character){
+    public ReducedCharacter(Character character) {
         used = character.isUsed();
         id = character.getId();
         initialCost = character.getInitialCost();
         cardStudentsList = new ArrayList<>();
 
-        switch (id){
+        switch (id) {
             case 1:
             case 7:
             case 11:
                 Characters1and7and11 characters1and7and11 = (Characters1and7and11) character;
-                for (Student s : characters1and7and11.getCardStudentsList()){
+                for (Student s : characters1and7and11.getCardStudentsList()) {
                     cardStudentsList.add(s.getColor());
                 }
                 break;
@@ -48,7 +49,6 @@ public class ReducedCharacter implements Serializable {
     }
 
     /**
-     *
      * @return true if the character is used
      * @return false if the character is not used
      */
@@ -57,7 +57,6 @@ public class ReducedCharacter implements Serializable {
     }
 
     /**
-     *
      * @return the character's id
      */
     public int getId() {
@@ -65,7 +64,6 @@ public class ReducedCharacter implements Serializable {
     }
 
     /**
-     *
      * @return the character's initial cost
      */
     public int getInitialCost() {
@@ -73,7 +71,6 @@ public class ReducedCharacter implements Serializable {
     }
 
     /**
-     *
      * @return the list of students on the character
      */
     public List<PawnColor> getCardStudentsList() {
@@ -81,7 +78,6 @@ public class ReducedCharacter implements Serializable {
     }
 
     /**
-     *
      * @return the number of forbid cards on the character
      */
     public int getNumOfForbidCards() {

@@ -12,12 +12,13 @@ import java.util.logging.Logger;
  * A player is defined by name and id
  * If the game is 4 players game the player can choose a team
  * The player also chooses his tower color and his wizard
- *At the beginning of each round the player also chooses an assistant
+ * At the beginning of each round the player also chooses an assistant
  */
 public class Player {
     //attributes
     private final String name;
     private final int id;
+    private final Logger logger = Logger.getLogger(getClass().getName());
     private int team;
     private Integer numOfMoney;
     private AssistantDeck assistantDeck;
@@ -25,7 +26,6 @@ public class Player {
     private TowerColor playerTowerColor;
     private Dashboard dashboard;
     private boolean hasTower;
-    private final Logger logger = Logger.getLogger(getClass().getName());
 
     //constructor
 
@@ -33,12 +33,13 @@ public class Player {
      * team is set to -1 by default
      * numOfMoney is set to null
      * the rest is a default constructor
+     *
      * @param name the player's name
-     * @param id the player's id
+     * @param id   the player's id
      */
-    public Player(String name, int id){
-        numOfMoney=null; //if numOfMoney is null we are in normal mode
-        this.name= name;
+    public Player(String name, int id) {
+        numOfMoney = null; //if numOfMoney is null we are in normal mode
+        this.name = name;
         assistantDeck = new AssistantDeck();
         dashboard = new Dashboard();
         hasTower = true;
@@ -49,92 +50,15 @@ public class Player {
     //getter
 
     /**
-     *
      * @return the player's team
      */
-    public int getTeam(){
+    public int getTeam() {
         return team;
     }
 
     /**
-     *
-     * @return the player's name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     *
-     * @return the player's dashboard
-     */
-    public Dashboard getDashboard() {
-        return dashboard;
-    }
-
-    /**
-     *
-     * @return the player's assistant deck
-     */
-    public AssistantDeck getAssistantDeck() {
-        return assistantDeck;
-    }
-
-    /**
-     *
-     * @return the selected assistant
-     */
-    public Assistant getSelectedAssistant(){
-        return selectedAssistant;
-    }
-
-    /**
-     * Sets the selected assistant
-     * @param selectedAssistant the selected assistant
-     */
-    public void setSelectedAssistant(Assistant selectedAssistant) {
-        this.selectedAssistant = selectedAssistant;
-    }
-
-    /**
-     *
-     * @return the player's tower color
-     */
-    public TowerColor getTowerColor(){
-        return playerTowerColor;
-    }
-
-    /**
-     *
-     * @return the player's money
-     */
-    public int getMoney() {
-        if (numOfMoney==null){
-            return -1;
-        }
-        return numOfMoney;
-    }
-
-    /**
-     *
-     * @return the player's id
-     */
-    public int getId() {
-        return id;
-    }
-
-    //setter
-
-    /**
-     * Sets if the player has the tower (in a 4 players game)
-     * @param tower the tower
-     */
-    public void setHasTower(boolean tower){
-        this.hasTower = tower;
-    } //for 4 players game
-
-    /**
      * Sets the player's team
+     *
      * @param team the team
      */
     public void setTeam(int team) {
@@ -142,7 +66,90 @@ public class Player {
     }
 
     /**
+     * @return the player's name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @return the player's dashboard
+     */
+    public Dashboard getDashboard() {
+        return dashboard;
+    }
+
+    /**
+     * @return the player's assistant deck
+     */
+    public AssistantDeck getAssistantDeck() {
+        return assistantDeck;
+    }
+
+    /**
+     * @return the selected assistant
+     */
+    public Assistant getSelectedAssistant() {
+        return selectedAssistant;
+    }
+
+    /**
+     * Sets the selected assistant
+     *
+     * @param selectedAssistant the selected assistant
+     */
+    public void setSelectedAssistant(Assistant selectedAssistant) {
+        this.selectedAssistant = selectedAssistant;
+    }
+
+    /**
+     * Sets the selected assistant
+     *
+     * @param selAssistantId the selected assistant id
+     */
+    public void setSelectedAssistant(int selAssistantId) {
+        selectedAssistant = assistantDeck.getAssistantById(selAssistantId);
+        assistantDeck.getAssistantsList().remove(assistantDeck.getAssistantById(selAssistantId));
+    }
+
+    /**
+     * @return the player's tower color
+     */
+    public TowerColor getTowerColor() {
+        return playerTowerColor;
+    }
+
+    //setter
+
+    /**
+     * @return the player's money
+     */
+    public int getMoney() {
+        if (numOfMoney == null) {
+            return -1;
+        }
+        return numOfMoney;
+    }
+
+    /**
+     * @return the player's id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Sets if the player has the tower (in a 4 players game)
+     *
+     * @param tower the tower
+     */
+    public void setHasTower(boolean tower) {
+        this.hasTower = tower;
+    } //for 4 players game
+
+    /**
      * sets the player's tower color
+     *
      * @param playerTowerColor the player's tower color
      */
     public void setPlayerTowerColor(TowerColor playerTowerColor) {
@@ -150,32 +157,23 @@ public class Player {
     }
 
     /**
-     * Sets the selected assistant
-     * @param selAssistantId the selected assistant id
-     */
-    public void setSelectedAssistant(int selAssistantId){
-        selectedAssistant = assistantDeck.getAssistantById(selAssistantId);
-        assistantDeck.getAssistantsList().remove(assistantDeck.getAssistantById(selAssistantId));
-    }
-
-    /**
      * Modifies the player's money
      * overloaded for the use of characters
-     * @param num the number of money
+     *
+     * @param num        the number of money
      * @param tableMoney the table money
-     * @param isUsed if it's used
+     * @param isUsed     if it's used
      */
-    public void modifyMoney(int num, AtomicInteger tableMoney, boolean isUsed){ //we have this overload for the use of character
-        if((numOfMoney + num) < 0 || num > 0){
-            logger.log(Level.SEVERE,"wrong money number");
+    public void modifyMoney(int num, AtomicInteger tableMoney, boolean isUsed) { //we have this overload for the use of character
+        if ((numOfMoney + num) < 0 || num > 0) {
+            logger.log(Level.SEVERE, "wrong money number");
             return;
         }
 
-        if (num <0 && isUsed == false) { //we decrease players money
+        if (num < 0 && isUsed == false) { //we decrease players money
             numOfMoney = numOfMoney + num; //this is for the use of the character
             tableMoney.set(tableMoney.get() - (num + 1)); //we put one money on the character card
-        }
-        else if(num <0 && isUsed){
+        } else if (num < 0 && isUsed) {
             numOfMoney = numOfMoney + num; //this is for the use of the character
             tableMoney.set(tableMoney.get() - (num));
         }
@@ -183,25 +181,24 @@ public class Player {
 
     /**
      * standard modifyMoney method
-     * @param num the number
+     *
+     * @param num        the number
      * @param tableMoney the money on the table
      */
-    public void modifyMoney(int num, AtomicInteger tableMoney){ //this function works both with positive and negative numbers, for now we call only with positive numbers
-        if(numOfMoney == null){ //initialize the variable at first call
-            numOfMoney=0;
+    public void modifyMoney(int num, AtomicInteger tableMoney) { //this function works both with positive and negative numbers, for now we call only with positive numbers
+        if (numOfMoney == null) { //initialize the variable at first call
+            numOfMoney = 0;
         }
 
-        if((tableMoney.get() - num) < 0 || (numOfMoney + num) < 0){
-            logger.log(Level.SEVERE,"Out of money!");
+        if ((tableMoney.get() - num) < 0 || (numOfMoney + num) < 0) {
+            logger.log(Level.SEVERE, "Out of money!");
             return;
         }
 
-        if (num>0) { //we increase players money
+        if (num > 0) { //we increase players money
             numOfMoney = numOfMoney + num;
             tableMoney.set(tableMoney.get() - num);
-        }
-
-        else if(num <0){
+        } else if (num < 0) {
             numOfMoney = numOfMoney + num; //this is for the use of the character
             tableMoney.set(tableMoney.get() - (num));
         }
@@ -211,21 +208,19 @@ public class Player {
     //methods
 
     /**
-     *
      * @return if the player has the tower
      */
-    public boolean hasTower(){
+    public boolean hasTower() {
         return hasTower;
     } //to check which player of a given team has the towers in his dashboard
 
     /**
-     *
      * @param playersList the list of players
      * @return the team player
      */
-    public Player getTeamPlayer(List<Player> playersList){
-        for(Player p : playersList){
-            if(p.getTeam()==team && p != this){
+    public Player getTeamPlayer(List<Player> playersList) {
+        for (Player p : playersList) {
+            if (p.getTeam() == team && p != this) {
                 return p;
             }
         }
@@ -235,10 +230,10 @@ public class Player {
     /**
      * called when the game has to be restarted (disconnection or game end)
      */
-    public void reset(){
+    public void reset() {
         playerTowerColor = null;
         selectedAssistant = null;
-        numOfMoney=null;
+        numOfMoney = null;
         assistantDeck = new AssistantDeck();
         dashboard = new Dashboard();
         hasTower = true;

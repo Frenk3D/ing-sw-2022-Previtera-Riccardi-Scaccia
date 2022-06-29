@@ -2,8 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enumerations.TowerColor;
 
-import java.util.Objects;
-
 /**
  * implements the game object tower
  */
@@ -16,19 +14,19 @@ public class Tower {
 
     /**
      * default constructor
+     *
      * @param color the tower color
      */
-    public Tower(TowerColor color){
-        this.color= color;
+    public Tower(TowerColor color) {
+        this.color = color;
     }
 
     //getter
 
     /**
-     *
      * @return the tower's color
      */
-    public TowerColor getColor(){
+    public TowerColor getColor() {
         return color;
     }
 

@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model;
+
 import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,8 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static it.polimi.ingsw.model.enumerations.TowerColor.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static it.polimi.ingsw.model.enumerations.TowerColor.BLACK;
+import static it.polimi.ingsw.model.enumerations.TowerColor.WHITE;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class DashboardTest {
     Dashboard dashboard;
@@ -31,11 +34,11 @@ class DashboardTest {
         bag = new Bag();
         dashboard = new Dashboard();
         s = new Student(PawnColor.RED);
-        dashboard.addStudentHall(s,player,tableMoney);
+        dashboard.addStudentHall(s, player, tableMoney);
         player = new Player("Pippo", 1);
         player.setPlayerTowerColor(towerColor);
         player.setTeam(1);
-        player.modifyMoney(3,tableMoney);
+        player.modifyMoney(3, tableMoney);
         professor = new Professor(PawnColor.RED);
         entranceList = new ArrayList<>();
         tower = new Tower(TowerColor.WHITE);
@@ -47,60 +50,61 @@ class DashboardTest {
     void getHallStudentsListByColor() {
 
 
-        assertEquals(s,dashboard.getHallStudentsListByColor(PawnColor.RED).get(0));
-        assertEquals(3,player.getMoney());
+        assertEquals(s, dashboard.getHallStudentsListByColor(PawnColor.RED).get(0));
+        assertEquals(3, player.getMoney());
     }
 
     @Test
     void getProfessorByColor() {
         dashboard.getProfessorsList().add(professor);
-        assertEquals(professor,dashboard.getProfessorByColor(PawnColor.RED));
+        assertEquals(professor, dashboard.getProfessorByColor(PawnColor.RED));
     }
 
     @Test
     void placeStudentEntrance() {
         bag.addAllStudents(); //we use add all students because when we fill the dashboard the bag has already been used with initialBagFill()
         List<Student> tmpList = new ArrayList<>();
-        for(int i=0;i<7;i++){
+        for (int i = 0; i < 7; i++) {
             tmpList.add(bag.extractStudents(7).get(i));
         }
-       // dashboard.setEntranceList(entranceList);
-        dashboard.placeStudentEntrance(2,bag);
-        assertEquals(tmpList.size(),dashboard.getEntranceList().size());
-        assertNotEquals(tmpList,dashboard.getEntranceList()); //because the extracted students are random
+        // dashboard.setEntranceList(entranceList);
+        dashboard.placeStudentEntrance(2, bag);
+        assertEquals(tmpList.size(), dashboard.getEntranceList().size());
+        assertNotEquals(tmpList, dashboard.getEntranceList()); //because the extracted students are random
     }
 
-   //we use jupiter
-    @RepeatedTest(2) //we try multiple tests
+    //we use jupiter
+    @RepeatedTest(2)
+    //we try multiple tests
     void generateTower() {
         List<Tower> towerList = new ArrayList<>();
-        for(int i=0;i<8;i++) {
+        for (int i = 0; i < 8; i++) {
             towerList.add(tower);
         }
 
-        dashboard.generateTower(2,WHITE);
-        assertEquals(towerList,dashboard.getTowersList());
+        dashboard.generateTower(2, WHITE);
+        assertEquals(towerList, dashboard.getTowersList());
     }
 
     @Test
     void addStudentHall() {
         hallList.add(s);
-        dashboard.addStudentHall(s,player,tableMoney);
-        assertEquals(hallList.get(0),dashboard.getHallStudentsListByColor(PawnColor.RED).get(0));
+        dashboard.addStudentHall(s, player, tableMoney);
+        assertEquals(hallList.get(0), dashboard.getHallStudentsListByColor(PawnColor.RED).get(0));
     }
 
     @Test
     void setTowersList() {
         towerList.add(tower);
         dashboard.setTowersList(towerList);
-        assertEquals(towerList,dashboard.getTowersList());
+        assertEquals(towerList, dashboard.getTowersList());
     }
 
     @Test
-    void getEntranceStudentByIndex(){
-        assertEquals(null,dashboard.getEntranceStudentByIndex(99));
+    void getEntranceStudentByIndex() {
+        assertEquals(null, dashboard.getEntranceStudentByIndex(99));
     }
 
 }
 
-    //other useless tests (getter and setters)
+//other useless tests (getter and setters)

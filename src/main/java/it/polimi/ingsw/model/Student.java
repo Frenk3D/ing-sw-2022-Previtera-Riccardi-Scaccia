@@ -2,13 +2,11 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enumerations.PawnColor;
 
-import java.util.Objects;
-
 /**
  * This class implements the game object Student
  * A student is defined by its color
  */
-public class   Student {
+public class Student {
     //attributes
     private final PawnColor color;
 
@@ -16,16 +14,16 @@ public class   Student {
 
     /**
      * default constructor
+     *
      * @param color the pawn color
      */
-    public Student(PawnColor color){
+    public Student(PawnColor color) {
         this.color = color;
     }
 
     //getter
 
     /**
-     *
      * @return the student's color
      */
     public PawnColor getColor() {
@@ -33,10 +31,9 @@ public class   Student {
     } //never used for now, but used outside of here
 
 
-
     //only for tests purposes
 
-   @Override
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Student)) return false;

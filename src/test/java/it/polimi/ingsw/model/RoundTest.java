@@ -1,17 +1,15 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.enumerations.GameState;
-import it.polimi.ingsw.model.enumerations.PawnColor;
 import it.polimi.ingsw.model.enumerations.RoundState;
 import it.polimi.ingsw.model.enumerations.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-//import java.util.function.BooleanSupplier;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class RoundTest {
     Round round;
@@ -34,13 +32,12 @@ class RoundTest {
     Player tmpPlayer;
 
 
-
     @BeforeEach
     void setUp() {
-        p = new Player("Giggio",1);
+        p = new Player("Giggio", 1);
         p.setTeam(1);
         p.setPlayerTowerColor(TowerColor.WHITE);
-        p1 = new Player("Scooby Doo",2);
+        p1 = new Player("Scooby Doo", 2);
         p.setTeam(2);
         p.setPlayerTowerColor(TowerColor.BLACK);
         bag = new Bag();
@@ -54,14 +51,13 @@ class RoundTest {
         p1.setSelectedAssistant(1);
         Cloud c = new Cloud();
         bag.addAllStudents();
-        c.fillCloud(bag,2);
+        c.fillCloud(bag, 2);
         playersList.add(p);
         playersList.add(p1);
         cloudsList.add(c);
         stage = RoundState.PLANNING_STATE;
         planningPhasePlayer = 0;
         numOfAssistantThrows = 0;
-
 
 
     }
@@ -74,15 +70,15 @@ class RoundTest {
         tmpRound.setNumOfAssistantThrows(1);
         tmpRound.resetRound();
         round.resetRound();
-        assertEquals(round.getStage(),tmpRound.getStage());
-        assertEquals(round.getNumOfAssistantThrows(),tmpRound.getNumOfAssistantThrows());
-        assertEquals(RoundState.PLANNING_STATE,round.getStage());
+        assertEquals(round.getStage(), tmpRound.getStage());
+        assertEquals(round.getNumOfAssistantThrows(), tmpRound.getNumOfAssistantThrows());
+        assertEquals(RoundState.PLANNING_STATE, round.getStage());
     }
 
     @Test
     void initRound() {
         round.initRound(playersList);
-        assertEquals(3,cloudsList.get(0).getStudents().size());
+        assertEquals(3, cloudsList.get(0).getStudents().size());
         assertEquals(p1.getId(), round.getCurrTurn().getCurrPlayer().getId());
         assertEquals(p.getId(), round.getPlayersOrder().get(0).getId()); //because init round has next turn inside and it suddenly removes the first players
         round.nextTurn();
@@ -100,7 +96,7 @@ class RoundTest {
         assertEquals(true, thrown);
 
         round.nextTurn();
-        assertEquals(RoundState.PLANNING_STATE,round.getStage());
+        assertEquals(RoundState.PLANNING_STATE, round.getStage());
 
 
     }
@@ -111,6 +107,6 @@ class RoundTest {
         round.randomStartingPlayer(playersList);
         tmpPlayer = round.getPlanningPhasePlayer(playersList);
         round.setNextPlayerPlanning(2);
-        assertNotEquals(tmpPlayer,round.getNextPlayer());
+        assertNotEquals(tmpPlayer, round.getNextPlayer());
     }
 }

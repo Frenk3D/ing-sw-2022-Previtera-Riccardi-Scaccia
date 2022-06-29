@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view.gui.scene;
 
-import it.polimi.ingsw.observer.ViewObserver;
-
 /**
  * Marker interface used to define all the scene controllers.
  * used to change root pane with a single static method in scene controller

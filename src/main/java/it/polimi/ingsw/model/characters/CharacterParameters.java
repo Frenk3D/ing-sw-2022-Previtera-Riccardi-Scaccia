@@ -48,7 +48,6 @@ public class CharacterParameters implements Serializable {
     }
 
     /**
-     *
      * @return an island
      */
     public Island getIsland() {
@@ -56,7 +55,15 @@ public class CharacterParameters implements Serializable {
     }
 
     /**
+     * Sets an island
      *
+     * @param island the island
+     */
+    public void setIsland(Island island) {
+        this.island = island;
+    }
+
+    /**
      * @return the card player
      */
     public Player getPlayer() {
@@ -64,7 +71,15 @@ public class CharacterParameters implements Serializable {
     }
 
     /**
+     * Sets a player
      *
+     * @param player the player
+     */
+    public void setPlayer(Player player) {
+        this.cardPlayer = player;
+    }
+
+    /**
      * @return the players list
      */
     public List<Player> getPlayersList() {
@@ -72,7 +87,15 @@ public class CharacterParameters implements Serializable {
     }
 
     /**
+     * Sets the players list
      *
+     * @param playersList the playerslist
+     */
+    public void setPlayersList(List<Player> playersList) {
+        this.playersList = playersList;
+    }
+
+    /**
      * @return the selected color
      */
     public PawnColor getSelectedColor() {
@@ -80,53 +103,31 @@ public class CharacterParameters implements Serializable {
     }
 
     /**
-     *
-     * @return the second selected color
-     */
-    public PawnColor getSelectedColor2() { return selectedColor2;}
-
-    /**
-     * Sets an island
-     * @param island
-     */
-    public void setIsland(Island island) {
-        this.island = island;
-    }
-
-    /**
-     * Sets a player
-     * @param player
-     */
-    public void setPlayer(Player player) {
-        this.cardPlayer = player;
-    }
-
-    /**
-     * Sets the players list
-     * @param playersList
-     */
-    public void setPlayersList(List<Player> playersList) {
-        this.playersList = playersList;
-    }
-
-    /**
      * Sets the selected color
-     * @param selectedColor
+     *
+     * @param selectedColor the selected color
      */
     public void setSelectedColor(PawnColor selectedColor) {
         this.selectedColor = selectedColor;
     }
 
     /**
+     * @return the second selected color
+     */
+    public PawnColor getSelectedColor2() {
+        return selectedColor2;
+    }
+
+    /**
      * Sets the second selected color
-     * @param selectedColor2
+     *
+     * @param selectedColor2 the second selected color
      */
     public void setSelectedColor2(PawnColor selectedColor2) {
         this.selectedColor2 = selectedColor2;
     }
 
     /**
-     *
      * @return the list of students' indexes
      */
     public List<Integer> getStudentsIndexList() {
@@ -135,14 +136,14 @@ public class CharacterParameters implements Serializable {
 
     /**
      * Sets the list of student indexes
-     * @param studentsIndexList
+     *
+     * @param studentsIndexList the list of student indexes
      */
     public void setStudentsIndexList(List<Integer> studentsIndexList) {
         this.studentsIndexList = studentsIndexList;
     }
 
     /**
-     *
      * @return the forbid character
      */
     public Characters3and4and5 getForbidCharacter() {
@@ -151,14 +152,14 @@ public class CharacterParameters implements Serializable {
 
     /**
      * Sets the forbid character
-     * @param forbidCharacter
+     *
+     * @param forbidCharacter the forbid character
      */
     public void setForbidCharacter(Characters3and4and5 forbidCharacter) {
         this.forbidCharacter = forbidCharacter;
     }
 
     /**
-     *
      * @return the student index
      */
     public int getStudentIndex() {
@@ -167,14 +168,14 @@ public class CharacterParameters implements Serializable {
 
     /**
      * Sets the student index
-     * @param studentIndex
+     *
+     * @param studentIndex the student index
      */
     public void setStudentIndex(int studentIndex) {
         this.studentIndex = studentIndex;
     }
 
     /**
-     *
      * @return the list of the entrance list students' indexes
      */
     public List<Integer> getStudentsIndexEntranceList() {
@@ -183,14 +184,14 @@ public class CharacterParameters implements Serializable {
 
     /**
      * Sets the list of the entrance list students' indexes
-     * @param studentsIndexEntranceList
+     *
+     * @param studentsIndexEntranceList the list of the entrance list students' indexes
      */
     public void setStudentsIndexEntranceList(List<Integer> studentsIndexEntranceList) {
         this.studentsIndexEntranceList = studentsIndexEntranceList;
     }
 
     /**
-     *
      * @return the bag
      */
     public Bag getBag() {
@@ -199,14 +200,14 @@ public class CharacterParameters implements Serializable {
 
     /**
      * Sets the bag
-     * @param bag
+     *
+     * @param bag the bag
      */
     public void setBag(Bag bag) {
         this.bag = bag;
     }
 
     /**
-     *
      * @return the list of professors on the table
      */
     public List<Professor> getTableProfessorsList() {
@@ -215,16 +216,23 @@ public class CharacterParameters implements Serializable {
 
     /**
      * Sets the list of professors in the table
-     * @param tableProfessorsList
+     *
+     * @param tableProfessorsList the list of professors in the table
      */
     public void setTableProfessorsList(List<Professor> tableProfessorsList) {
         this.tableProfessorsList = tableProfessorsList;
     }
 
+    /**
+     * @return the variable table money
+     */
     public AtomicInteger getTableMoney() {
         return tableMoney;
     }
 
+    /**
+     * @param tableMoney money of the table
+     */
     public void setTableMoney(AtomicInteger tableMoney) {
         this.tableMoney = tableMoney;
     }

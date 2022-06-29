@@ -35,7 +35,7 @@ public enum ClientState {  //Specifies every state for the single client
     WAITING_FOR_YOUR_TURN,
 
     //WAITING_FOR_RESPONSE,
-    GAME_FINISHED;
+    GAME_FINISHED
 
     //NEVER CHECKED STATE...?
 }

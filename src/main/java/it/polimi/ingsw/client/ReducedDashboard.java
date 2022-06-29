@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.Dashboard;
 import it.polimi.ingsw.model.Professor;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.enumerations.PawnColor;
-import it.polimi.ingsw.model.enumerations.TowerColor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,37 +16,37 @@ import java.util.Map;
  */
 public class ReducedDashboard implements Serializable {
 
-    private Map<PawnColor,Integer> studentsHall;
-    private List<PawnColor> entranceList;
-    private List<PawnColor> professorsList;
-    private int towerNumber;
+    private final Map<PawnColor, Integer> studentsHall;
+    private final List<PawnColor> entranceList;
+    private final List<PawnColor> professorsList;
+    private final int towerNumber;
 
     /**
      * fills the reduced dashboard using the game model's dashboard
+     *
      * @param dashboard the game model's dashboard
      */
-    public ReducedDashboard(Dashboard dashboard){
+    public ReducedDashboard(Dashboard dashboard) {
         studentsHall = new HashMap<>();
-        studentsHall.put(PawnColor.RED,dashboard.getNumOfHallStudents(PawnColor.RED));
-        studentsHall.put(PawnColor.GREEN,dashboard.getNumOfHallStudents(PawnColor.GREEN));
-        studentsHall.put(PawnColor.YELLOW,dashboard.getNumOfHallStudents(PawnColor.YELLOW));
-        studentsHall.put(PawnColor.PINK,dashboard.getNumOfHallStudents(PawnColor.PINK));
-        studentsHall.put(PawnColor.BLUE,dashboard.getNumOfHallStudents(PawnColor.BLUE));
+        studentsHall.put(PawnColor.RED, dashboard.getNumOfHallStudents(PawnColor.RED));
+        studentsHall.put(PawnColor.GREEN, dashboard.getNumOfHallStudents(PawnColor.GREEN));
+        studentsHall.put(PawnColor.YELLOW, dashboard.getNumOfHallStudents(PawnColor.YELLOW));
+        studentsHall.put(PawnColor.PINK, dashboard.getNumOfHallStudents(PawnColor.PINK));
+        studentsHall.put(PawnColor.BLUE, dashboard.getNumOfHallStudents(PawnColor.BLUE));
 
         entranceList = new ArrayList<>();
-        for(Student s : dashboard.getEntranceList()){
+        for (Student s : dashboard.getEntranceList()) {
             entranceList.add(s.getColor());
         }
 
         professorsList = new ArrayList<>();
-        for (Professor p: dashboard.getProfessorsList()){
+        for (Professor p : dashboard.getProfessorsList()) {
             professorsList.add(p.getColor());
         }
         towerNumber = dashboard.getTowersList().size();
     }
 
     /**
-     *
      * @return the students hall's pawn color and index map
      */
     public Map<PawnColor, Integer> getStudentsHall() {
@@ -55,7 +54,6 @@ public class ReducedDashboard implements Serializable {
     }
 
     /**
-     *
      * @return the entrance list of students
      */
     public List<PawnColor> getEntranceList() {
@@ -63,7 +61,6 @@ public class ReducedDashboard implements Serializable {
     }
 
     /**
-     *
      * @return the list of professors
      */
     public List<PawnColor> getProfessorsList() {
@@ -71,7 +68,6 @@ public class ReducedDashboard implements Serializable {
     }
 
     /**
-     *
      * @return the number of towers
      */
     public int getTowerNumber() {

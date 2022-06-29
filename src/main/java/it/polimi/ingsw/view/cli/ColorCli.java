@@ -26,7 +26,7 @@ public enum ColorCli {
     GREEN_BG("\033[42m"),
     PINK_BG("\033[45m"),
     BLUE_BG("\033[44m"),
-    
+
     BLACK_BOLD("\033[1;30m"),
     WHITE_BOLD("\033[37;1m"),
     GRAY_BOLD("\033[30;1m");  //bright black

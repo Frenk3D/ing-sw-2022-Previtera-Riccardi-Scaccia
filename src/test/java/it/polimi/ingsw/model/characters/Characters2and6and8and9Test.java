@@ -7,11 +7,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class Characters2and6and8and9Test {
     Character c2;
@@ -40,7 +40,7 @@ class Characters2and6and8and9Test {
         p = new Player("Ciccio", 1);
         p.setTeam(1);
         p.setPlayerTowerColor(TowerColor.WHITE);
-        p1= new Player("Carmelo", 2);
+        p1 = new Player("Carmelo", 2);
         p1.setTeam(2);
         p1.setPlayerTowerColor(TowerColor.BLACK);
         bag.addAllStudents();
@@ -52,7 +52,7 @@ class Characters2and6and8and9Test {
         c6.initCharacter(characterParameters);
         c8.initCharacter(characterParameters);
         c9.initCharacter(characterParameters);
-        game= new GameModel();
+        game = new GameModel();
         game.setNumOfPlayers(2);
         game.setExpertMode(true);
         game.init();
@@ -63,13 +63,12 @@ class Characters2and6and8and9Test {
     }
 
 
-
     @RepeatedTest(20)
     void updateIslandDomainCharacter() {
         p.getDashboard().getProfessorsList().add(new Professor(PawnColor.RED));
         p1.getDashboard().getProfessorsList().add(new Professor(PawnColor.GREEN));
-        p.getDashboard().generateTower(2,TowerColor.WHITE);
-        p1.getDashboard().generateTower(2,TowerColor.BLACK);
+        p.getDashboard().generateTower(2, TowerColor.WHITE);
+        p1.getDashboard().generateTower(2, TowerColor.BLACK);
         game.getIslandByIndex(0).addStudent(new Student(PawnColor.RED));
         game.getIslandByIndex(0).addStudent(new Student(PawnColor.RED));
         game.getIslandByIndex(0).addStudent(new Student(PawnColor.RED));
@@ -78,26 +77,24 @@ class Characters2and6and8and9Test {
         game.getIslandByIndex(0).addStudent(new Student(PawnColor.GREEN));
         game.getIslandByIndex(0).addTower(p1.getDashboard().getTowersList().get(0));
         game.getIslandByIndex(0).setWeight(6);
-        game.getIslandByIndex(0).updateIslandDomainExpert(game.getPlayersList(),null);
-        assertEquals(TowerColor.BLACK,game.getIslandByIndex(0).getTowerColor());
+        game.getIslandByIndex(0).updateIslandDomainExpert(game.getPlayersList(), null);
+        assertEquals(TowerColor.BLACK, game.getIslandByIndex(0).getTowerColor());
 
         //test for character 6
-        ((Characters2and6and8and9) c6).updateIslandDomainCharacter(game.getCurrPlayer(),game.getIslandByIndex(0),game.getPlayersList(),game.getForbidCharacter());
-        assertEquals(TowerColor.WHITE,game.getIslandByIndex(0).getTowerColor());
+        ((Characters2and6and8and9) c6).updateIslandDomainCharacter(game.getCurrPlayer(), game.getIslandByIndex(0), game.getPlayersList(), game.getForbidCharacter());
+        assertEquals(TowerColor.WHITE, game.getIslandByIndex(0).getTowerColor());
 
         //test for character 8
-        game.getIslandByIndex(0).updateIslandDomainExpert(game.getPlayersList(),null);
+        game.getIslandByIndex(0).updateIslandDomainExpert(game.getPlayersList(), null);
         game.getIslandByIndex(0).setWeight(1);
-        ((Characters2and6and8and9) c8).updateIslandDomainCharacter(p1,game.getIslandByIndex(0),game.getPlayersList(),game.getForbidCharacter());
-        assertEquals(TowerColor.WHITE,game.getIslandByIndex(0).getTowerColor());
+        ((Characters2and6and8and9) c8).updateIslandDomainCharacter(p1, game.getIslandByIndex(0), game.getPlayersList(), game.getForbidCharacter());
+        assertEquals(TowerColor.WHITE, game.getIslandByIndex(0).getTowerColor());
 
         //test for character 9
         characterParameters.setSelectedColor(PawnColor.RED);
         c9.applyEffect(characterParameters);
-        ((Characters2and6and8and9) c9).updateIslandDomainCharacter(game.getCurrPlayer(),game.getIslandByIndex(0),game.getPlayersList(),game.getForbidCharacter());
-        assertEquals(TowerColor.BLACK,game.getIslandByIndex(0).getTowerColor());
-
-
+        ((Characters2and6and8and9) c9).updateIslandDomainCharacter(game.getCurrPlayer(), game.getIslandByIndex(0), game.getPlayersList(), game.getForbidCharacter());
+        assertEquals(TowerColor.BLACK, game.getIslandByIndex(0).getTowerColor());
 
 
     }
@@ -105,23 +102,23 @@ class Characters2and6and8and9Test {
 
     @Test
     void applyEffect() {
-        game.getPlayersList().get(0).getDashboard().addStudentHall(new Student(PawnColor.RED),game.getPlayersList().get(0),null);
-        game.getPlayersList().get(1).getDashboard().addStudentHall(new Student(PawnColor.GREEN),game.getPlayersList().get(0),null);
+        game.getPlayersList().get(0).getDashboard().addStudentHall(new Student(PawnColor.RED), game.getPlayersList().get(0), null);
+        game.getPlayersList().get(1).getDashboard().addStudentHall(new Student(PawnColor.GREEN), game.getPlayersList().get(0), null);
         tmpProfessorList = new ArrayList<>(game.getTableProfessorsList());
-        assertEquals(tmpProfessorList,game.getTableProfessorsList());
+        assertEquals(tmpProfessorList, game.getTableProfessorsList());
         characterParameters.setPlayersList(game.getPlayersList());
         characterParameters.setTableProfessorsList(game.getTableProfessorsList());
         c2.applyEffect(characterParameters);
-        assertNotEquals(tmpProfessorList,game.getTableProfessorsList());
+        assertNotEquals(tmpProfessorList, game.getTableProfessorsList());
         assertEquals(3, game.getTableProfessorsList().size());
         assertEquals(PawnColor.GREEN, p1.getDashboard().getProfessorByColor(PawnColor.GREEN).getColor());
-        game.getPlayersList().get(0).getDashboard().addStudentHall(new Student(PawnColor.GREEN),game.getPlayersList().get(0),null);
+        game.getPlayersList().get(0).getDashboard().addStudentHall(new Student(PawnColor.GREEN), game.getPlayersList().get(0), null);
         //test for character 2
         c2.applyEffect(characterParameters); //the check of the modified use is in the controller
         assertEquals(PawnColor.GREEN, p.getDashboard().getProfessorByColor(PawnColor.GREEN).getColor());
 
 
-    //other tests are in updateIslandDomainCharacter
+        //other tests are in updateIslandDomainCharacter
         assertEquals(true, c6.applyEffect(characterParameters));
         assertEquals(true, c8.applyEffect(characterParameters));
         assertEquals(true, c9.applyEffect(characterParameters));

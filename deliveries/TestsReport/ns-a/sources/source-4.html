@@ -1,0 +1,204 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ModelObserver</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.observer</a>
+</div>
+
+<h1>Coverage Summary for Class: ModelObserver (it.polimi.ingsw.observer)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ModelObserver</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.observer;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;//view (CLI OR GUI) is the model observer and the model is the model observable, all methods are public
+<i class="no-highlight">4</i>&nbsp;/*(it has more prototypes of ViewObserver but with fewer parameters)*/
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;import it.polimi.ingsw.client.ClientGameModel;
+<i class="no-highlight">7</i>&nbsp;import it.polimi.ingsw.model.enumerations.TowerColor;
+<i class="no-highlight">8</i>&nbsp;import it.polimi.ingsw.model.enumerations.Wizard;
+<i class="no-highlight">9</i>&nbsp;import it.polimi.ingsw.network.server.Lobby;
+<i class="no-highlight">10</i>&nbsp;import it.polimi.ingsw.view.View;
+<i class="no-highlight">11</i>&nbsp;
+<i class="no-highlight">12</i>&nbsp;import java.util.List;
+<i class="no-highlight">13</i>&nbsp;import java.util.Map;
+<i class="no-highlight">14</i>&nbsp;//import java.util.concurrent.ExecutionException;
+<i class="no-highlight">15</i>&nbsp;
+<i class="no-highlight">16</i>&nbsp;/**
+<i class="no-highlight">17</i>&nbsp; * Custom observer interface for views. It supports different types of notification. ). {@link View}  extends this.
+<i class="no-highlight">18</i>&nbsp; */
+<i class="no-highlight">19</i>&nbsp;public interface ModelObserver {
+<i class="no-highlight">20</i>&nbsp;
+<i class="no-highlight">21</i>&nbsp;    void onAskServerInfo();
+<i class="no-highlight">22</i>&nbsp;
+<i class="no-highlight">23</i>&nbsp;    /**
+<i class="no-highlight">24</i>&nbsp;     * Notify to the view the login request and asks for a nickname
+<i class="no-highlight">25</i>&nbsp;     */
+<i class="no-highlight">26</i>&nbsp;    void onSendLoginRequest();
+<i class="no-highlight">27</i>&nbsp;
+<i class="no-highlight">28</i>&nbsp;    /**
+<i class="no-highlight">29</i>&nbsp;     * Notify the view to ask for create or join lobby
+<i class="no-highlight">30</i>&nbsp;     */
+<i class="no-highlight">31</i>&nbsp;    void onAskCreateOrJoin();
+<i class="no-highlight">32</i>&nbsp;
+<i class="no-highlight">33</i>&nbsp;    /**
+<i class="no-highlight">34</i>&nbsp;     * Notify the view to choose a lobby from the lobby list
+<i class="no-highlight">35</i>&nbsp;     *
+<i class="no-highlight">36</i>&nbsp;     * @param lobbyList the lobby list
+<i class="no-highlight">37</i>&nbsp;     */
+<i class="no-highlight">38</i>&nbsp;    void onSendChooseLobby(List&lt;Lobby&gt; lobbyList);
+<i class="no-highlight">39</i>&nbsp;
+<i class="no-highlight">40</i>&nbsp;   /* void onSendNewLobbyRequest();
+<i class="no-highlight">41</i>&nbsp;
+<i class="no-highlight">42</i>&nbsp;    void onSendLobbiesRequest();
+<i class="no-highlight">43</i>&nbsp;*/
+<i class="no-highlight">44</i>&nbsp;
+<i class="no-highlight">45</i>&nbsp;    /**
+<i class="no-highlight">46</i>&nbsp;     * Notify the view to choose the team player from the available players map
+<i class="no-highlight">47</i>&nbsp;     *
+<i class="no-highlight">48</i>&nbsp;     * @param availablePlayers the available players map
+<i class="no-highlight">49</i>&nbsp;     */
+<i class="no-highlight">50</i>&nbsp;    void onSendChooseTeam(Map&lt;String, Integer&gt; availablePlayers);
+<i class="no-highlight">51</i>&nbsp;
+<i class="no-highlight">52</i>&nbsp;    /**
+<i class="no-highlight">53</i>&nbsp;     * Notify the view to choose the tower color from the available tower colors
+<i class="no-highlight">54</i>&nbsp;     *
+<i class="no-highlight">55</i>&nbsp;     * @param availableTowerColors the available tower colors
+<i class="no-highlight">56</i>&nbsp;     */
+<i class="no-highlight">57</i>&nbsp;    void onSendChooseTowerColor(List&lt;TowerColor&gt; availableTowerColors);
+<i class="no-highlight">58</i>&nbsp;
+<i class="no-highlight">59</i>&nbsp;    /**
+<i class="no-highlight">60</i>&nbsp;     * Notify the view to choose the wizard from the available wizards
+<i class="no-highlight">61</i>&nbsp;     *
+<i class="no-highlight">62</i>&nbsp;     * @param availableWizards the available wizards
+<i class="no-highlight">63</i>&nbsp;     */
+<i class="no-highlight">64</i>&nbsp;    void onSendChooseWizard(List&lt;Wizard&gt; availableWizards);
+<i class="no-highlight">65</i>&nbsp;
+<i class="no-highlight">66</i>&nbsp;    /**
+<i class="no-highlight">67</i>&nbsp;     * Notify the view to select an Assistant from the available assistant
+<i class="no-highlight">68</i>&nbsp;     */
+<i class="no-highlight">69</i>&nbsp;    void onSendSelectAssistant();
+<i class="no-highlight">70</i>&nbsp;
+<i class="no-highlight">71</i>&nbsp;    /**
+<i class="no-highlight">72</i>&nbsp;     * Notify the view to ask where to move the student (island or dashboard)
+<i class="no-highlight">73</i>&nbsp;     */
+<i class="no-highlight">74</i>&nbsp;    void onAskWhereToMoveStudent();
+<i class="no-highlight">75</i>&nbsp;
+<i class="no-highlight">76</i>&nbsp;    /**
+<i class="no-highlight">77</i>&nbsp;     * Notify the view to choose mother nature&#39;s position
+<i class="no-highlight">78</i>&nbsp;     */
+<i class="no-highlight">79</i>&nbsp;    void onSendMoveMotherNature();
+<i class="no-highlight">80</i>&nbsp;
+<i class="no-highlight">81</i>&nbsp;    /**
+<i class="no-highlight">82</i>&nbsp;     * Notify the view to choose a cloud from the available clouds
+<i class="no-highlight">83</i>&nbsp;     */
+<i class="no-highlight">84</i>&nbsp;    void onSendChooseCloud();
+<i class="no-highlight">85</i>&nbsp;
+<i class="no-highlight">86</i>&nbsp;    /**
+<i class="no-highlight">87</i>&nbsp;     * Notify the view to ask character parameters to the player
+<i class="no-highlight">88</i>&nbsp;     *
+<i class="no-highlight">89</i>&nbsp;     * @param characterId the id of the character
+<i class="no-highlight">90</i>&nbsp;     */
+<i class="no-highlight">91</i>&nbsp;    void onAskCharacterParameters(int characterId);
+<i class="no-highlight">92</i>&nbsp;
+<i class="no-highlight">93</i>&nbsp;
+<i class="no-highlight">94</i>&nbsp;//    /**
+<i class="no-highlight">95</i>&nbsp;//     * Handles a disconnection wanted by the user.
+<i class="no-highlight">96</i>&nbsp;//     */
+<i class="no-highlight">97</i>&nbsp;//    void onAskDisconnection();
+<i class="no-highlight">98</i>&nbsp;//
+<i class="no-highlight">99</i>&nbsp;
+<i class="no-highlight">100</i>&nbsp;    /**
+<i class="no-highlight">101</i>&nbsp;     * Shows a certain object
+<i class="no-highlight">102</i>&nbsp;     *
+<i class="no-highlight">103</i>&nbsp;     * @param toShow the object to show
+<i class="no-highlight">104</i>&nbsp;     */
+<i class="no-highlight">105</i>&nbsp;    void onShow(Object toShow);
+<i class="no-highlight">106</i>&nbsp;
+<i class="no-highlight">107</i>&nbsp;    /**
+<i class="no-highlight">108</i>&nbsp;     * Show the modified player list when a player joins
+<i class="no-highlight">109</i>&nbsp;     *
+<i class="no-highlight">110</i>&nbsp;     * @param playersList the players list
+<i class="no-highlight">111</i>&nbsp;     */
+<i class="no-highlight">112</i>&nbsp;    void onShowPlayerJoin(List&lt;String&gt; playersList);
+<i class="no-highlight">113</i>&nbsp;
+<i class="no-highlight">114</i>&nbsp;    /**
+<i class="no-highlight">115</i>&nbsp;     * Updates client game model info
+<i class="no-highlight">116</i>&nbsp;     *
+<i class="no-highlight">117</i>&nbsp;     * @param clientGameModel the client game model
+<i class="no-highlight">118</i>&nbsp;     */
+<i class="no-highlight">119</i>&nbsp;    void updateClientGameModel(ClientGameModel clientGameModel);
+<i class="no-highlight">120</i>&nbsp;
+<i class="no-highlight">121</i>&nbsp;    /**
+<i class="no-highlight">122</i>&nbsp;     * Shows the client game model info
+<i class="no-highlight">123</i>&nbsp;     *
+<i class="no-highlight">124</i>&nbsp;     * @param clientGameModel the client game model
+<i class="no-highlight">125</i>&nbsp;     */
+<i class="no-highlight">126</i>&nbsp;    void onShowGame(ClientGameModel clientGameModel);
+<i class="no-highlight">127</i>&nbsp;
+<i class="no-highlight">128</i>&nbsp;    /**
+<i class="no-highlight">129</i>&nbsp;     * Shows a chosen team warning
+<i class="no-highlight">130</i>&nbsp;     *
+<i class="no-highlight">131</i>&nbsp;     * @param toShow the chosen team warning
+<i class="no-highlight">132</i>&nbsp;     */
+<i class="no-highlight">133</i>&nbsp;    void onShowChosenTeam(String toShow);
+<i class="no-highlight">134</i>&nbsp;
+<i class="no-highlight">135</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-29 20:56</div>
+</div>
+</body>
+</html>

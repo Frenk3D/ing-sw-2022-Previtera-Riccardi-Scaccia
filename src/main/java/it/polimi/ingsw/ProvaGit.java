@@ -23,23 +23,23 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class ProvaGit {
 
-    public static void main( String[] args ) throws IOException {
+    public static void main(String[] args) throws IOException {
         runPrintTest();
         //runControllerTest();
     }
 
-    private static void runPrintTest(){
+    private static void runPrintTest() {
         ClientGameModel gameModel = generateClientGameModel();
         GamePrinter printer = new GamePrinter();
         printer.print(gameModel);
     }
 
-    public static ClientGameModel generateClientGameModel(){
+    public static ClientGameModel generateClientGameModel() {
         ClientGameModel clientGameModel = new ClientGameModel();
 
         clientGameModel.setExpertMode(true);
         Island island = new Island();
-        List<Student> studentsList= island.getStudentsList();
+        List<Student> studentsList = island.getStudentsList();
         studentsList.add(new Student(PawnColor.RED));
         studentsList.add(new Student(PawnColor.RED));
         studentsList.add(new Student(PawnColor.BLUE));
@@ -56,7 +56,7 @@ public class ProvaGit {
         islands.add(reducedIsland1);
         island.setWeight(1);
 
-        for(int i = 2; i<12;i++){
+        for (int i = 2; i < 12; i++) {
             ReducedIsland reducedIsland = new ReducedIsland(island);
             islands.add(reducedIsland);
         }
@@ -70,7 +70,7 @@ public class ProvaGit {
         studentList.add(new Student(PawnColor.YELLOW));
 
         List<ReducedCloud> clouds = new ArrayList<>();
-        for(int i = 0; i<4;i++){
+        for (int i = 0; i < 4; i++) {
             ReducedCloud reducedCloud = new ReducedCloud(cloud);
             clouds.add(reducedCloud);
         }
@@ -81,7 +81,7 @@ public class ProvaGit {
         p1.setPlayerTowerColor(TowerColor.BLACK);
         p1.getAssistantDeck().setWizard(Wizard.ASIATIC);
         p1.setSelectedAssistant(5);
-        p1.modifyMoney(6,new AtomicInteger(10));
+        p1.modifyMoney(6, new AtomicInteger(10));
 
         Dashboard dashboard = p1.getDashboard();
         List<Student> redList = dashboard.getHallStudentsListByColor(PawnColor.RED);
@@ -111,7 +111,7 @@ public class ProvaGit {
         towerList.add(new Tower(TowerColor.BLACK));
 
         List<ReducedPlayer> players = new ArrayList<>();
-        for (int i=0;i<2;i++){
+        for (int i = 0; i < 2; i++) {
             ReducedPlayer reducedPlayer = new ReducedPlayer(p1);
             players.add(reducedPlayer);
         }
@@ -123,7 +123,7 @@ public class ProvaGit {
         character.setUsed();
 
         List<ReducedCharacter> characters = new ArrayList<>();
-        for (int i=0;i<3;i++){
+        for (int i = 0; i < 3; i++) {
             ReducedCharacter reducedCharacter = new ReducedCharacter(character);
             characters.add(reducedCharacter);
         }
@@ -132,12 +132,12 @@ public class ProvaGit {
         return clientGameModel;
     }
 
-    private static void runControllerTest(){
+    private static void runControllerTest() {
         Controller controller = new Controller();
         GameModel game = controller.getGame();
 
 
-        controller.configure(2,false);
+        controller.configure(2, false);
 
         Player p1 = new Player("Pippo", 1); //the players will be stored in the server class
         Player p2 = new Player("Topolino", 2);
@@ -145,39 +145,38 @@ public class ProvaGit {
         controller.addPlayer(p1);
         controller.addPlayer(p2);
 
-        controller.chooseTowerColor(1,TowerColor.WHITE);
-        controller.chooseTowerColor(2,TowerColor.BLACK);
+        controller.chooseTowerColor(1, TowerColor.WHITE);
+        controller.chooseTowerColor(2, TowerColor.BLACK);
 
         controller.chooseWizard(1, Wizard.SAGE);
-        controller.chooseWizard(2,Wizard.WITCH);
+        controller.chooseWizard(2, Wizard.WITCH);
 
         printIslands(game);
         printDashboards(game);
 
         printClouds(game);
 
-        System.out.println("------------------------Started phase:"+ game.getCurrRound().getStage()+"----------------------------------------------");
+        System.out.println("------------------------Started phase:" + game.getCurrRound().getStage() + "----------------------------------------------");
 
         controller.selectAssistant(2);
         controller.selectAssistant(4);
 
-        if(game.getCurrRound().getStage() == RoundState.ACTION_STATE){
+        if (game.getCurrRound().getStage() == RoundState.ACTION_STATE) {
             System.out.println("The turn is of " + game.getCurrPlayer().getName());
-        }
-        else return;
+        } else return;
 
-        System.out.println("------------------------Started phase:"+ game.getCurrRound().getCurrTurn().getStage()+"----------------------------------------------");
+        System.out.println("------------------------Started phase:" + game.getCurrRound().getCurrTurn().getStage() + "----------------------------------------------");
         controller.moveStudentDashboard(1);
         controller.moveStudentDashboard(4);
-        controller.moveStudentIsland(1,7);
+        controller.moveStudentIsland(1, 7);
 
         printDashboards(game);
         printIslands(game);
 
-        System.out.println("--------------------------Started phase:"+ game.getCurrRound().getCurrTurn().getStage()+"---------------------------------------------");
+        System.out.println("--------------------------Started phase:" + game.getCurrRound().getCurrTurn().getStage() + "---------------------------------------------");
         controller.moveMotherNature(7);
 
-        System.out.println("--------------------------Started phase:"+ game.getCurrRound().getCurrTurn().getStage()+"----------------------------------------------");
+        System.out.println("--------------------------Started phase:" + game.getCurrRound().getCurrTurn().getStage() + "----------------------------------------------");
         printDashboards(game);
         printIslands(game);
 
@@ -187,25 +186,25 @@ public class ProvaGit {
         printDashboards(game);
     }
 
-    private static void printIslands(GameModel game){
-        for (int i=0; i<12;i++){
+    private static void printIslands(GameModel game) {
+        for (int i = 0; i < 12; i++) {
             Island island = game.getIslandByIndex(i);
-            System.out.print("----------ISOLA "+i+"---------- ");
-            System.out.println("Dimensione: " +island.getWeight()+" Forbid card: "+island.getForbidCards());
-            if(game.getMotherNaturePos()==i){
+            System.out.print("----------ISOLA " + i + "---------- ");
+            System.out.println("Dimensione: " + island.getWeight() + " Forbid card: " + island.getForbidCards());
+            if (game.getMotherNaturePos() == i) {
                 System.out.println("****MOTHER NATURE");
             }
-            for(Student s : island.getStudentsList()){
-                System.out.println("Studente: "+s.getColor());
+            for (Student s : island.getStudentsList()) {
+                System.out.println("Studente: " + s.getColor());
             }
-            for (Tower t : island.getTowersList()){
-                System.out.println("Torre "+t.getColor());
+            for (Tower t : island.getTowersList()) {
+                System.out.println("Torre " + t.getColor());
             }
         }
 
         ClientGameModel clientGameModel = generateClientGameModel();
         List<ReducedIsland> islands = new ArrayList<>();
-        for(Island i : game.getIslandsList()){
+        for (Island i : game.getIslandsList()) {
             islands.add(new ReducedIsland(i));
         }
         clientGameModel.setIslandList(islands);
@@ -214,26 +213,26 @@ public class ProvaGit {
         printer.print(clientGameModel);
     }
 
-    private static void printDashboards(GameModel game){
-        for (Player p : game.getPlayersList()){
-            System.out.println("\n-----------Player "+p.getName()+"----------");
+    private static void printDashboards(GameModel game) {
+        for (Player p : game.getPlayersList()) {
+            System.out.println("\n-----------Player " + p.getName() + "----------");
 
-            for(Student s : p.getDashboard().getEntranceList()){
-                System.out.println("Studente: "+s.getColor());
+            for (Student s : p.getDashboard().getEntranceList()) {
+                System.out.println("Studente: " + s.getColor());
             }
 
-            for(PawnColor c: PawnColor.values()){
-                System.out.println("Colore "+c+ " "+p.getDashboard().getHallStudentsListByColor(c).size()+" Professore: "+p.getDashboard().getProfessorByColor(c));
+            for (PawnColor c : PawnColor.values()) {
+                System.out.println("Colore " + c + " " + p.getDashboard().getHallStudentsListByColor(c).size() + " Professore: " + p.getDashboard().getProfessorByColor(c));
             }
         }
     }
 
-    private static void printClouds(GameModel game){
-        for (int i=0; i<2; i++){
+    private static void printClouds(GameModel game) {
+        for (int i = 0; i < 2; i++) {
             Cloud c = game.getCloudByIndex(i);
-            System.out.println("----------NUVOLA "+i+"---------- ");
-            for (Student student : c.getStudents()){
-                System.out.println("Studente "+student.getColor());
+            System.out.println("----------NUVOLA " + i + "---------- ");
+            for (Student student : c.getStudents()) {
+                System.out.println("Studente " + student.getColor());
             }
         }
     }

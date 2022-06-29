@@ -4,7 +4,8 @@ package it.polimi.ingsw.observer;
 /*(it has more prototypes of ViewObserver but with fewer parameters)*/
 
 import it.polimi.ingsw.client.ClientGameModel;
-import it.polimi.ingsw.model.enumerations.*;
+import it.polimi.ingsw.model.enumerations.TowerColor;
+import it.polimi.ingsw.model.enumerations.Wizard;
 import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.view.View;
 
@@ -17,21 +18,21 @@ import java.util.Map;
  */
 public interface ModelObserver {
 
-    void onAskServerInfo() ;
+    void onAskServerInfo();
+
     /**
      * Notify to the view the login request and asks for a nickname
-     *
      */
     void onSendLoginRequest();
 
     /**
      * Notify the view to ask for create or join lobby
-     *
      */
     void onAskCreateOrJoin();
 
     /**
      * Notify the view to choose a lobby from the lobby list
+     *
      * @param lobbyList the lobby list
      */
     void onSendChooseLobby(List<Lobby> lobbyList);
@@ -43,18 +44,21 @@ public interface ModelObserver {
 
     /**
      * Notify the view to choose the team player from the available players map
+     *
      * @param availablePlayers the available players map
      */
-    void onSendChooseTeam(Map<String,Integer> availablePlayers);
+    void onSendChooseTeam(Map<String, Integer> availablePlayers);
 
     /**
      * Notify the view to choose the tower color from the available tower colors
+     *
      * @param availableTowerColors the available tower colors
      */
     void onSendChooseTowerColor(List<TowerColor> availableTowerColors);
 
     /**
      * Notify the view to choose the wizard from the available wizards
+     *
      * @param availableWizards the available wizards
      */
     void onSendChooseWizard(List<Wizard> availableWizards);
@@ -81,11 +85,10 @@ public interface ModelObserver {
 
     /**
      * Notify the view to ask character parameters to the player
+     *
      * @param characterId the id of the character
      */
     void onAskCharacterParameters(int characterId);
-
-
 
 
 //    /**
@@ -96,30 +99,35 @@ public interface ModelObserver {
 
     /**
      * Shows a certain object
+     *
      * @param toShow the object to show
      */
     void onShow(Object toShow);
 
     /**
      * Show the modified player list when a player joins
+     *
      * @param playersList the players list
      */
     void onShowPlayerJoin(List<String> playersList);
 
     /**
      * Updates client game model info
+     *
      * @param clientGameModel the client game model
      */
     void updateClientGameModel(ClientGameModel clientGameModel);
 
     /**
      * Shows the client game model info
+     *
      * @param clientGameModel the client game model
      */
     void onShowGame(ClientGameModel clientGameModel);
 
     /**
      * Shows a chosen team warning
+     *
      * @param toShow the chosen team warning
      */
     void onShowChosenTeam(String toShow);

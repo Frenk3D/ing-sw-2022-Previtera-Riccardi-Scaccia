@@ -1,10 +1,12 @@
 package it.polimi.ingsw.client;
 
 
-import it.polimi.ingsw.model.enumerations.*;
-import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.model.enumerations.RoundState;
+import it.polimi.ingsw.model.enumerations.TowerColor;
+import it.polimi.ingsw.model.enumerations.Wizard;
+import it.polimi.ingsw.network.message.AllGameMessage;
 import it.polimi.ingsw.network.server.Lobby;
-import it.polimi.ingsw.observer.*;
+import it.polimi.ingsw.observer.ModelObservable;
 
 import java.util.List;
 import java.util.Map;
@@ -12,10 +14,11 @@ import java.util.Map;
 /**
  * It is a reduced {@link it.polimi.ingsw.model.GameModel}
  * It extends {@link ModelObservable}
+ *
  * @see it.polimi.ingsw.observer.ModelObservable
  */
 public class ClientGameModel extends ModelObservable {
-    private Map<String,Integer> availableTeamPlayers;
+    private Map<String, Integer> availableTeamPlayers;
     private List<TowerColor> availableTowerColors;
     private List<Wizard> availableWizards;
 
@@ -35,10 +38,11 @@ public class ClientGameModel extends ModelObservable {
 
     /**
      * this constructor gets the game model lists through the use of the allGameMessage
+     *
      * @param allGameMessage allGameMessage is network message that contains all the info about the game model
      */
-    public void initClientGameModel(AllGameMessage allGameMessage){
-        islandList= allGameMessage.getIslandsList();
+    public void initClientGameModel(AllGameMessage allGameMessage) {
+        islandList = allGameMessage.getIslandsList();
         assistantList = allGameMessage.getAssistantsList();
         cloudList = allGameMessage.getCloudsList();
         playersList = allGameMessage.getPlayersList();
@@ -52,7 +56,31 @@ public class ClientGameModel extends ModelObservable {
     }
 
     /**
+     * @return the position of mother nature
+     */
+    public int getMotherNaturePos() {
+        return motherNaturePos;
+    }
+
+    /**
+     * Sets the position of mother nature for the client
+     *
+     * @param motherNaturePos motherNaturePos is mother nature's position
+     */
+    public void setMotherNaturePos(int motherNaturePos) {
+        this.motherNaturePos = motherNaturePos;
+    }
+
+    /**
+     * @return the list of reduced islands
+     */
+    public List<ReducedIsland> getIslandList() {
+        return islandList;
+    }
+
+    /**
      * Sets the list of islands for the client
+     *
      * @param islandList islandList is the list of Islands of the game model
      */
     public void setIslandList(List<ReducedIsland> islandList) {
@@ -60,7 +88,15 @@ public class ClientGameModel extends ModelObservable {
     }
 
     /**
+     * @return the list of reduced assistants
+     */
+    public List<ReducedAssistant> getAssistantList() {
+        return assistantList;
+    }
+
+    /**
      * Sets the list of assistants for the client
+     *
      * @param assistantList assistantLIst is the list of Assistants of the game model
      */
     public void setAssistantList(List<ReducedAssistant> assistantList) {
@@ -68,7 +104,15 @@ public class ClientGameModel extends ModelObservable {
     }
 
     /**
+     * @return the list of reduced clouds
+     */
+    public List<ReducedCloud> getCloudList() {
+        return cloudList;
+    }
+
+    /**
      * Sets the list of clouds for the client
+     *
      * @param cloudList cloudList is the list of clouds of the game model
      */
     public void setCloudList(List<ReducedCloud> cloudList) {
@@ -76,7 +120,15 @@ public class ClientGameModel extends ModelObservable {
     }
 
     /**
+     * @return the list of reduced players
+     */
+    public List<ReducedPlayer> getPlayersList() {
+        return playersList;
+    }
+
+    /**
      * Sets the list of players for the client
+     *
      * @param playersList is the list of players of the game model
      */
     public void setPlayersList(List<ReducedPlayer> playersList) {
@@ -85,87 +137,6 @@ public class ClientGameModel extends ModelObservable {
     }
 
     /**
-     * Sets the money on the table
-     * @param tableMoney tableMoney is the money of the game model
-     */
-    public void setTableMoney(int tableMoney) {
-        this.tableMoney = tableMoney;
-    }
-
-    /**
-     * Sets the player id
-     * @param myPlayerId myPlayerId is the id of the client player
-     */
-    public void setMyPlayerId(int myPlayerId) {
-        this.myPlayerId = myPlayerId;
-    }
-
-    /**
-     * Sets the characters list for the client
-     * @param charactersList charactersList is the list of characters taken from the game model
-     */
-    public void setCharactersList(List<ReducedCharacter> charactersList) {
-        this.charactersList = charactersList;
-    }
-
-    /**
-     * Sets expert mode
-     * @param expertMode expertMode is the game mode
-     */
-    public void setExpertMode(boolean expertMode) {
-        this.expertMode = expertMode;
-    }
-
-    /**
-     * Sets the position of mother nature for the client
-     * @param motherNaturePos motherNaturePos is mother nature's position
-     */
-    public void setMotherNaturePos(int motherNaturePos){
-        this.motherNaturePos = motherNaturePos;
-    }
-
-    /**
-     *
-     * @return the position of mother nature
-     */
-    public int getMotherNaturePos() {
-        return motherNaturePos;
-    }
-
-    /**
-     *
-     * @return the list of reduced islands
-     */
-    public List<ReducedIsland> getIslandList() {
-        return islandList;
-    }
-
-    /**
-     *
-     * @return the list of reduced assistants
-     */
-    public List<ReducedAssistant> getAssistantList() {
-        return assistantList;
-    }
-
-    /**
-     *
-     * @return the list of reduced clouds
-     */
-    public List<ReducedCloud> getCloudList() {
-        return cloudList;
-    }
-
-    /**
-     *
-     * @return the list of reduced players
-     */
-    public List<ReducedPlayer> getPlayersList() {
-        return playersList;
-    }
-
-    /**
-     *
      * @return the money on the table
      */
     public int getTableMoney() {
@@ -173,7 +144,15 @@ public class ClientGameModel extends ModelObservable {
     }
 
     /**
+     * Sets the money on the table
      *
+     * @param tableMoney tableMoney is the money of the game model
+     */
+    public void setTableMoney(int tableMoney) {
+        this.tableMoney = tableMoney;
+    }
+
+    /**
      * @return your player id
      */
     public int getMyPlayerId() {
@@ -181,7 +160,15 @@ public class ClientGameModel extends ModelObservable {
     }
 
     /**
+     * Sets the player id
      *
+     * @param myPlayerId myPlayerId is the id of the client player
+     */
+    public void setMyPlayerId(int myPlayerId) {
+        this.myPlayerId = myPlayerId;
+    }
+
+    /**
      * @return the reduced list of characters
      */
     public List<ReducedCharacter> getCharactersList() {
@@ -189,7 +176,15 @@ public class ClientGameModel extends ModelObservable {
     }
 
     /**
+     * Sets the characters list for the client
      *
+     * @param charactersList charactersList is the list of characters taken from the game model
+     */
+    public void setCharactersList(List<ReducedCharacter> charactersList) {
+        this.charactersList = charactersList;
+    }
+
+    /**
      * @return true if the game is in expert mode
      * @return false if the game is in normal mode
      */
@@ -198,7 +193,15 @@ public class ClientGameModel extends ModelObservable {
     }
 
     /**
+     * Sets expert mode
      *
+     * @param expertMode expertMode is the game mode
+     */
+    public void setExpertMode(boolean expertMode) {
+        this.expertMode = expertMode;
+    }
+
+    /**
      * @return a map of available team players' names and ids
      */
     public Map<String, Integer> getAvailableTeamPlayers() {
@@ -207,6 +210,7 @@ public class ClientGameModel extends ModelObservable {
 
     /**
      * sets the map of available team players
+     *
      * @param availableTeamPlayers availableTeamPlayers is a map of the players' names and ids
      */
     public void setAvailableTeamPlayers(Map<String, Integer> availableTeamPlayers) {
@@ -214,7 +218,6 @@ public class ClientGameModel extends ModelObservable {
     }
 
     /**
-     *
      * @return the list of available tower colors
      */
     public List<TowerColor> getAvailableTowerColors() {
@@ -223,6 +226,7 @@ public class ClientGameModel extends ModelObservable {
 
     /**
      * sets the list of available tower colors
+     *
      * @param availableTowerColors availableTowerColors is the list of available tower colors
      */
     public void setAvailableTowerColors(List<TowerColor> availableTowerColors) {
@@ -230,7 +234,6 @@ public class ClientGameModel extends ModelObservable {
     }
 
     /**
-     *
      * @return the list of available wizards
      */
     public List<Wizard> getAvailableWizards() {
@@ -239,6 +242,7 @@ public class ClientGameModel extends ModelObservable {
 
     /**
      * Sets the list of available wizards
+     *
      * @param availableWizards availableWizards is the list of available wizards
      */
     public void setAvailableWizards(List<Wizard> availableWizards) {
@@ -246,7 +250,6 @@ public class ClientGameModel extends ModelObservable {
     }
 
     /**
-     *
      * @return the number of players
      */
     public int getNumOfPlayers() {
@@ -255,14 +258,15 @@ public class ClientGameModel extends ModelObservable {
 
     /**
      * Sets the number of players
+     *
      * @param numOfPlayers
      */
     public void setNumOfPlayers(int numOfPlayers) {
         this.numOfPlayers = numOfPlayers;
     }
 
-    public ReducedPlayer findPlayerById(int id){
-        for(ReducedPlayer rp : playersList) {
+    public ReducedPlayer findPlayerById(int id) {
+        for (ReducedPlayer rp : playersList) {
             if (rp.getId() == id) {
                 return rp;
             }
@@ -273,16 +277,16 @@ public class ClientGameModel extends ModelObservable {
     //NOW THERE ARE METHODS THAT CONTROLLER CALLS WHEN HE RECEIVE A MESSAGE FROM THE SOCKET
 
     /**
-     *Sends a request to obtain needed server info
+     * Sends a request to obtain needed server info
      */
-    public void sendServerInfoRequest()   {
+    public void sendServerInfoRequest() {
         notifyObserver(obs -> obs.onAskServerInfo());
     }
 
     /**
      * sends a request to login
      */
-    public void sendLoginRequest(){
+    public void sendLoginRequest() {
         notifyObserver(obs -> obs.onSendLoginRequest());
 
     }
@@ -290,110 +294,120 @@ public class ClientGameModel extends ModelObservable {
     /**
      * Asks if the player wants to create a new lobby or join an existing one
      */
-    public void askCreateOrJoin(){
+    public void askCreateOrJoin() {
         notifyObserver(obs -> obs.onAskCreateOrJoin());
     }
 
     /**
      * Sends a request to choose from the available lobbies
+     *
      * @param lobbylist
      */
-   public void sendChooseLobby(List<Lobby> lobbylist){
-       notifyObserver(obs -> obs.onSendChooseLobby(lobbylist));
-   }
+    public void sendChooseLobby(List<Lobby> lobbylist) {
+        notifyObserver(obs -> obs.onSendChooseLobby(lobbylist));
+    }
 
     /**
      * sends a request to choose from the available teams
+     *
      * @param availablePlayers availablePlayers is the map of the available players
      */
-   public void sendChooseTeam(Map<String,Integer> availablePlayers){
-       notifyObserver(obs -> obs.onSendChooseTeam(availablePlayers));
-   }
+    public void sendChooseTeam(Map<String, Integer> availablePlayers) {
+        notifyObserver(obs -> obs.onSendChooseTeam(availablePlayers));
+    }
 
     /**
      * sends a request to choose from the available tower colors
+     *
      * @param availableTowerColors availableTowerColors is the list of the available tower colors
      */
-    public void sendChooseTowerColor(List<TowerColor> availableTowerColors){
-       notifyObserver(obs -> obs.onSendChooseTowerColor(availableTowerColors));
+    public void sendChooseTowerColor(List<TowerColor> availableTowerColors) {
+        notifyObserver(obs -> obs.onSendChooseTowerColor(availableTowerColors));
     }
 
     /**
      * sends a request to choose from the available wizards
+     *
      * @param availableWizards availableWizards is the list of the available wizards
      */
-    public void sendChooseWizard(List<Wizard> availableWizards){
+    public void sendChooseWizard(List<Wizard> availableWizards) {
         notifyObserver(obs -> obs.onSendChooseWizard(availableWizards));
     }
 
     /**
      * sends a request to choose from the available assistants
      */
-    public void sendSelectAssistant(){
-       notifyObserver(obs -> obs.onSendSelectAssistant());
+    public void sendSelectAssistant() {
+        notifyObserver(obs -> obs.onSendSelectAssistant());
     }
 
     /**
      * sends a request to select the desired movement for the student
      */
-    public void askWhereToMoveStudent(){
-       notifyObserver(obs -> obs.onAskWhereToMoveStudent());
+    public void askWhereToMoveStudent() {
+        notifyObserver(obs -> obs.onAskWhereToMoveStudent());
     }
 
     /**
      * sends a request to move mother nature
      */
-    public void sendMoveMotherNature(){
-       notifyObserver(obs -> obs.onSendMoveMotherNature());
-   }
+    public void sendMoveMotherNature() {
+        notifyObserver(obs -> obs.onSendMoveMotherNature());
+    }
+
     /**
      * sends a request to choose from the available clouds
      */
-   public void sendChooseCloud(){
-       notifyObserver(obs -> obs.onSendChooseCloud());
-   }
+    public void sendChooseCloud() {
+        notifyObserver(obs -> obs.onSendChooseCloud());
+    }
 
     /**
      * Asks the selected character parameters
+     *
      * @param characterId
      */
-   public void askCharacterParameters(int characterId){
-       notifyObserver(obs -> obs.onAskCharacterParameters(characterId));
-   }
+    public void askCharacterParameters(int characterId) {
+        notifyObserver(obs -> obs.onAskCharacterParameters(characterId));
+    }
 
     //only show methods
 
     /**
      * shows the desired object
+     *
      * @param toShow toShow is the object to be shown
      */
-    public void show(Object toShow){  //it is a generic function to print or show some info on view, Object can be everything also null
+    public void show(Object toShow) {  //it is a generic function to print or show some info on view, Object can be everything also null
         notifyObserver(obs -> obs.onShow(toShow));
     }
 
     /**
      * show the list of players in the lobby
+     *
      * @param playersList list of players in the lobby
      */
-    public void showPlayerJoin(List<String> playersList){
+    public void showPlayerJoin(List<String> playersList) {
         notifyObserver(obs -> obs.onShowPlayerJoin(playersList));
     }
 
     /**
      * generic function to print or show some info on view, Object can be everything also null
      */
-    public void showGame(){  //it is a generic function to print or show some info on view, Object can be everything also null
+    public void showGame() {  //it is a generic function to print or show some info on view, Object can be everything also null
         notifyObserver(obs -> obs.onShowGame(this));
     }
 
     /**
      * Shows the chosen team
+     *
      * @param toShow toShow is a string that indicates the chosen team
      */
-    public void showChosenTeam(String toShow){notifyObserver(obs -> obs.onShowChosenTeam(toShow));}
+    public void showChosenTeam(String toShow) {
+        notifyObserver(obs -> obs.onShowChosenTeam(toShow));
+    }
 
     /**
-     *
      * @return the round state
      */
     public RoundState getRoundState() {
@@ -402,6 +416,7 @@ public class ClientGameModel extends ModelObservable {
 
     /**
      * Sets the round state
+     *
      * @param roundState
      */
     public void setRoundState(RoundState roundState) {
@@ -411,7 +426,7 @@ public class ClientGameModel extends ModelObservable {
     /**
      * Resets the client game model
      */
-    public void reset(){
+    public void reset() {
         availableTeamPlayers = null;
         availableTowerColors = null;
         availableWizards = null;

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.scene;
 
-import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.observer.ViewObservable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,32 +29,33 @@ public class ChooseTeamSceneController extends ViewObservable implements Generic
 
     @FXML
     public void initialize() {
-        playersListView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickListView);
+        playersListView.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onClickListView);
     }
 
-    /** Update the list of players without a team.
-     *
+    /**
+     * Update the list of players without a team.
      *
      * @param availablePlayers the available players
      */
-    public void updateList(Map<String,Integer> availablePlayers){
-            availablePlayersId = new ArrayList<>();
-            ObservableList<String> playersNames = FXCollections.observableArrayList();
-            for (Map.Entry<String,Integer> entry : availablePlayers.entrySet()){
-                playersNames.add(entry.getKey());
-                availablePlayersId.add(entry.getValue());
-            }
-            playersListView.setItems(playersNames);
-            playersListView.setPrefHeight(playersListView.getItems().size() * LIST_CELL_HEIGHT);
+    public void updateList(Map<String, Integer> availablePlayers) {
+        availablePlayersId = new ArrayList<>();
+        ObservableList<String> playersNames = FXCollections.observableArrayList();
+        for (Map.Entry<String, Integer> entry : availablePlayers.entrySet()) {
+            playersNames.add(entry.getKey());
+            availablePlayersId.add(entry.getValue());
+        }
+        playersListView.setItems(playersNames);
+        playersListView.setPrefHeight(playersListView.getItems().size() * LIST_CELL_HEIGHT);
     }
 
     /**
      * Handle the choose event
+     *
      * @param event click.
      */
-    public void onClickListView(Event event){
+    public void onClickListView(Event event) {
         int index = playersListView.getSelectionModel().getSelectedIndex();
-        if(availablePlayersId!=null&&!availablePlayersId.isEmpty()){
+        if (availablePlayersId != null && !availablePlayersId.isEmpty()) {
             int id = availablePlayersId.get(index);
             new Thread(() -> notifyObserver(obs -> obs.onSendChooseTeam(id))).start();
         }
@@ -64,9 +64,10 @@ public class ChooseTeamSceneController extends ViewObservable implements Generic
 
     /**
      * After chosen or being chosen.
+     *
      * @param toShow the message to show
      */
-    public void disableChoice(String toShow){
+    public void disableChoice(String toShow) {
         playersListView.setVisible(false);
         chosenMessageLabel.setText(toShow);
 

@@ -3,17 +3,16 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.client.ClientGameModel;
 import it.polimi.ingsw.controllers.ClientController;
-import it.polimi.ingsw.model.enumerations.*;
+import it.polimi.ingsw.model.enumerations.TowerColor;
+import it.polimi.ingsw.model.enumerations.Wizard;
 import it.polimi.ingsw.network.client.ClientState;
 import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.gui.scene.*;
+import javafx.application.Platform;
 
 import java.util.List;
 import java.util.Map;
-
-//For javaFX used SceneBuilder
-import javafx.application.*;
-import it.polimi.ingsw.view.gui.scene.*;
 
 
 /**
@@ -22,10 +21,10 @@ import it.polimi.ingsw.view.gui.scene.*;
 public class Gui extends View {
 
 
-    private ClientController clientController;
+    private final ClientController clientController;
 
-    public Gui(ClientController clientController){
-        this.clientController=clientController;
+    public Gui(ClientController clientController) {
+        this.clientController = clientController;
     }
 
     @Override
@@ -34,14 +33,14 @@ public class Gui extends View {
         Platform.runLater(controller::errorInServer);
         SceneController.showMessage("Error in connection, try again");
     }
+
     @Override
     public void onSendLoginRequest() {
         Platform.runLater(() -> {
-            if(SceneController.getCurrFxml().equals("NicknameScene.fxml")){
+            if (SceneController.getCurrFxml().equals("NicknameScene.fxml")) {
                 NicknameSceneController controller = (NicknameSceneController) SceneController.getActiveController();
                 controller.setError();
-            }
-            else {
+            } else {
                 SceneController.changeRootPane(observers, "NicknameScene.fxml");
             }
         });
@@ -58,9 +57,9 @@ public class Gui extends View {
     }
 
     @Override
-    public void onSendChooseLobby(List<Lobby> lobbylist){
+    public void onSendChooseLobby(List<Lobby> lobbylist) {
         Platform.runLater(() -> {
-            if(!SceneController.getCurrFxml().equals("JoinScene.fxml")){
+            if (!SceneController.getCurrFxml().equals("JoinScene.fxml")) {
                 SceneController.changeRootPane(observers, "JoinScene.fxml");
             }
             JoinSceneController controller = (JoinSceneController) SceneController.getActiveController();
@@ -69,9 +68,9 @@ public class Gui extends View {
     }
 
     @Override
-    public void onSendChooseTeam(Map<String,Integer> availablePlayers){
+    public void onSendChooseTeam(Map<String, Integer> availablePlayers) {
         Platform.runLater(() -> {
-            if(!SceneController.getCurrFxml().equals("ChooseTeamScene.fxml")){
+            if (!SceneController.getCurrFxml().equals("ChooseTeamScene.fxml")) {
                 SceneController.changeRootPane(observers, "ChooseTeamScene.fxml");
             }
             ChooseTeamSceneController controller = (ChooseTeamSceneController) SceneController.getActiveController();
@@ -81,9 +80,9 @@ public class Gui extends View {
     }
 
     @Override
-    public void onSendChooseTowerColor(List<TowerColor> availableTowerColors){
+    public void onSendChooseTowerColor(List<TowerColor> availableTowerColors) {
         Platform.runLater(() -> {
-            if(!SceneController.getCurrFxml().equals("ChooseTowerColorScene.fxml")){
+            if (!SceneController.getCurrFxml().equals("ChooseTowerColorScene.fxml")) {
                 SceneController.changeRootPane(observers, "ChooseTowerColorScene.fxml");
             }
             ChooseTowerColorSceneController controller = (ChooseTowerColorSceneController) SceneController.getActiveController();
@@ -92,9 +91,9 @@ public class Gui extends View {
     }
 
     @Override
-    public void onSendChooseWizard(List<Wizard> availableWizards){
+    public void onSendChooseWizard(List<Wizard> availableWizards) {
         Platform.runLater(() -> {
-            if(!SceneController.getCurrFxml().equals("ChooseWizardScene.fxml")){
+            if (!SceneController.getCurrFxml().equals("ChooseWizardScene.fxml")) {
                 SceneController.changeRootPane(observers, "ChooseWizardScene.fxml");
             }
             ChooseWizardSceneController controller = (ChooseWizardSceneController) SceneController.getActiveController();
@@ -103,7 +102,7 @@ public class Gui extends View {
     }
 
     @Override
-    public void onSendSelectAssistant(){
+    public void onSendSelectAssistant() {
         Platform.runLater(() -> {
             if (SceneController.getCurrFxml().equals("TableScene.fxml")) {
                 TableSceneController controller = (TableSceneController) SceneController.getActiveController();
@@ -161,10 +160,9 @@ public class Gui extends View {
     @Override
     public void onShow(Object toShow) {
         ClientState state = clientController.getClientState();
-        if(state != ClientState.WAITING_FOR_YOUR_TURN){
+        if (state != ClientState.WAITING_FOR_YOUR_TURN) {
             SceneController.showMessage((String) toShow);
-        }
-        else {
+        } else {
             Platform.runLater(() -> {
                 if (SceneController.getCurrFxml().equals("TableScene.fxml")) {
                     TableSceneController controller = (TableSceneController) SceneController.getActiveController();
@@ -185,20 +183,21 @@ public class Gui extends View {
     }
 
     @Override
-    public void onShowGame(ClientGameModel clientGameModel){
-        if(clientGameModel.getIslandList()!=null){
-        Platform.runLater(() -> {
-            if (SceneController.getCurrFxml().equals("TableScene.fxml")) {
-                TableSceneController controller = (TableSceneController) SceneController.getActiveController();
-                controller.updateGraphics(clientGameModel);
-            }
-        }); }
+    public void onShowGame(ClientGameModel clientGameModel) {
+        if (clientGameModel.getIslandList() != null) {
+            Platform.runLater(() -> {
+                if (SceneController.getCurrFxml().equals("TableScene.fxml")) {
+                    TableSceneController controller = (TableSceneController) SceneController.getActiveController();
+                    controller.updateGraphics(clientGameModel);
+                }
+            });
+        }
     }
 
     @Override
     public void onShowPlayerJoin(List<String> playersList) {
         Platform.runLater(() -> {
-            if(!SceneController.getCurrFxml().equals("LobbyScene.fxml")){
+            if (!SceneController.getCurrFxml().equals("LobbyScene.fxml")) {
                 SceneController.changeRootPane(observers, "LobbyScene.fxml");
             }
             LobbySceneController controller = (LobbySceneController) SceneController.getActiveController();
@@ -209,7 +208,7 @@ public class Gui extends View {
     @Override
     public void onShowChosenTeam(String toShow) {
         Platform.runLater(() -> {
-            if(SceneController.getCurrFxml().equals("ChooseTeamScene.fxml")) {
+            if (SceneController.getCurrFxml().equals("ChooseTeamScene.fxml")) {
                 ChooseTeamSceneController controller = (ChooseTeamSceneController) SceneController.getActiveController();
                 controller.disableChoice(toShow);
             }

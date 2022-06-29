@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  * this class implements the Characters 3,4 and 5
  */
 
-public class Characters3and4and5 extends Character{
+public class Characters3and4and5 extends Character {
     private final Logger logger = Logger.getLogger(getClass().getName());
     //attributes
     private int forbidCards;
@@ -20,76 +20,77 @@ public class Characters3and4and5 extends Character{
 
     /**
      * default constructor
-     * @param id
-     * @param initialCost
+     *
+     * @param id          the id of the char
+     * @param initialCost the initial cost of the char
      */
     public Characters3and4and5(int id, int initialCost) {
-        this.id=id;
-        this.initialCost=initialCost;
+        this.id = id;
+        this.initialCost = initialCost;
     }
 
     /**
      * initializes the forbid cards for Character 5
      */
-    private void initForbidCards5(){
-        forbidCards=4;
+    private void initForbidCards5() {
+        forbidCards = 4;
     }
 
     //methods
 
     /**
      * modified version of classic updateIslandDomain method for character 3
-     * @param island
-     * @param playersList
-     * @param forbidCharacter
+     *
+     * @param island          the island chosen
+     * @param playersList     the playerslist
+     * @param forbidCharacter the forbid character (if exists)
      * @return false if an exception is detected
      * @return true otherwise
      */
-    private boolean updateIslandDomain3(Island island, List<Player> playersList, Characters3and4and5 forbidCharacter){
+    private boolean updateIslandDomain3(Island island, List<Player> playersList, Characters3and4and5 forbidCharacter) {
         try {
-            island.updateIslandDomainExpert(playersList,forbidCharacter);
+            island.updateIslandDomainExpert(playersList, forbidCharacter);
             return true;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
 
     /**
      * Modifies the number of positions mother nature can move,using the 4th character effect
-     * @param cardPlayer
+     *
+     * @param cardPlayer the card player
      * @return false if an exception is detected
      * @return true otherwise
      */
-    private boolean modifyMotherNaturePosShift4(Player cardPlayer){
+    private boolean modifyMotherNaturePosShift4(Player cardPlayer) {
         try {
-            int prevPosShift=cardPlayer.getSelectedAssistant().getMotherNaturePosShift();
-            cardPlayer.getSelectedAssistant().setMotherNaturePosShift(prevPosShift+2);
+            int prevPosShift = cardPlayer.getSelectedAssistant().getMotherNaturePosShift();
+            cardPlayer.getSelectedAssistant().setMotherNaturePosShift(prevPosShift + 2);
             return true;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
 
     /**
      * Moves a forbid card from character 5 to an island
-     * @param island
+     *
+     * @param island the island chosen
      * @return false if an exception is detected or if there aren't available forbid cards
      * @return true otherwise
      */
     private boolean moveForbidCard5(Island island) {
-        if(forbidCards <= 0){
-            logger.log(Level.SEVERE,"Forbid cards finished!");
+        if (forbidCards <= 0) {
+            logger.log(Level.SEVERE, "Forbid cards finished!");
             return false;
         }
 
         try {
             forbidCards--;
-            island.setForbidCards(island.getForbidCards()+1);
+            island.setForbidCards(island.getForbidCards() + 1);
             return true;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
 
@@ -98,9 +99,9 @@ public class Characters3and4and5 extends Character{
     /**
      * Adds a forbid card to character 5
      */
-    public void addForbidCard5(){
-        if(forbidCards>=4){
-            logger.log(Level.SEVERE,"Too many forbid cards on the card");
+    public void addForbidCard5() {
+        if (forbidCards >= 4) {
+            logger.log(Level.SEVERE, "Too many forbid cards on the card");
             return;
         }
         forbidCards++;
@@ -109,9 +110,9 @@ public class Characters3and4and5 extends Character{
     @Override
     public boolean applyEffect(CharacterParameters params) {
 
-        switch (id){
+        switch (id) {
             case 3:
-                return updateIslandDomain3(params.getIsland(),params.getPlayersList(), params.getForbidCharacter());
+                return updateIslandDomain3(params.getIsland(), params.getPlayersList(), params.getForbidCharacter());
             case 4:
                 return modifyMotherNaturePosShift4(params.getPlayer());
             case 5:
@@ -123,7 +124,7 @@ public class Characters3and4and5 extends Character{
 
     @Override
     public void initCharacter(CharacterParameters params) {
-        if(id==5){
+        if (id == 5) {
             initForbidCards5();
         }
     }
@@ -131,7 +132,6 @@ public class Characters3and4and5 extends Character{
     //for test purposes
 
     /**
-     *
      * @return the character's forbid cards
      */
     public int getForbidCards() {
@@ -140,7 +140,8 @@ public class Characters3and4and5 extends Character{
 
     /**
      * sets the character's forbid cards
-     * @param forbidCards
+     *
+     * @param forbidCards the forbid cards available
      */
     public void setForbidCards(int forbidCards) {
         this.forbidCards = forbidCards;

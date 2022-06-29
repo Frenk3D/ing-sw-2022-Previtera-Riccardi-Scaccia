@@ -20,6 +20,7 @@ public class JavaFXGui extends Application {
 
     /**
      * Starts the JavaFXGui instance
+     *
      * @param stage the stage
      */
     @Override

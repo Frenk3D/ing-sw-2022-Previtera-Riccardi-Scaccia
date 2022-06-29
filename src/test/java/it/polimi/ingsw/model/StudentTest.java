@@ -5,7 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class StudentTest {
     Student student;
@@ -23,6 +23,6 @@ class StudentTest {
 
     @Test
     void getColor() {
-        assertEquals(student.getColor(),tmpStudent.getColor());
+        assertEquals(student.getColor(), tmpStudent.getColor());
     }
 }

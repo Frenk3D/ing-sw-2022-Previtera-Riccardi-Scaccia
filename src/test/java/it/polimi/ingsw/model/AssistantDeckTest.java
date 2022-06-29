@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.enumerations.Wizard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AssistantDeckTest {
 
@@ -23,21 +23,22 @@ class AssistantDeckTest {
     @Test
     void setWizard() {
         assistantDeck.setWizard(Wizard.KING);
-        assertEquals(Wizard.KING,assistantDeck.getWizard());
+        assertEquals(Wizard.KING, assistantDeck.getWizard());
     }
 
     @Test
     void getAssistantsList() {
-        assertEquals(3,assistantDeck.getAssistantsList().get(3-1).getValue());
-        assertEquals(1,assistantDeck.getAssistantsList().get(0).getValue());
-        assertEquals(10,assistantDeck.getAssistantsList().get(9).getValue());
+        assertEquals(3, assistantDeck.getAssistantsList().get(3 - 1).getValue());
+        assertEquals(1, assistantDeck.getAssistantsList().get(0).getValue());
+        assertEquals(10, assistantDeck.getAssistantsList().get(9).getValue());
 
     }
 
     @Test
     void getAssistantById() {
-        assertEquals(3,assistantDeck.getAssistantById(3).getValue());
+        assertEquals(3, assistantDeck.getAssistantById(3).getValue());
     }
+
     @Test
     void removeAssistantById() {
         assistantDeck.removeAssistantById(1);

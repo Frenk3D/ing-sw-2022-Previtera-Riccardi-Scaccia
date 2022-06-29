@@ -3,23 +3,20 @@ package it.polimi.ingsw;
 /**
  * This is the class that runs the server
  * Game: Eryantis
- * @author Francesco Riccardi, Nicolò Scaccia, Marco Luca Previtera
  *
+ * @author Francesco Riccardi, Nicolò Scaccia, Marco Luca Previtera
  */
-import it.polimi.ingsw.network.server.*;
 
-import java.io.IOException;
+import it.polimi.ingsw.network.server.Server;
 
-public class ServerApp
-{
-    public static void main( String[] args ) {
+public class ServerApp {
+    public static void main(String[] args) {
         int port = 3333;
-        for(int i = 0; i < args.length; i++) {
-            if(args[i].equals("--port") || args[i].equals("-p")){
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equals("--port") || args[i].equals("-p")) {
                 try {
-                    port = Integer.parseInt(args[i+1]);
-                }
-                catch (Exception e){
+                    port = Integer.parseInt(args[i + 1]);
+                } catch (Exception e) {
                     System.out.println("Wrong parameters, use --port [port] or -p [port] to choose the port");
                     return;
                 }

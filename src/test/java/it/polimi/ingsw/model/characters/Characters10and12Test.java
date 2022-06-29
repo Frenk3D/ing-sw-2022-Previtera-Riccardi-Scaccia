@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class Characters10and12Test {
     Character c10;
@@ -33,7 +33,7 @@ class Characters10and12Test {
         p = new Player("Ciccio", 1);
         p.setTeam(1);
         p.setPlayerTowerColor(TowerColor.WHITE);
-        p1= new Player("Carmelo", 2);
+        p1 = new Player("Carmelo", 2);
         p1.setTeam(2);
         p1.setPlayerTowerColor(TowerColor.GRAY); //ONLY BECAUSE IT'S A TEST, GRAY IS ONLY FOR 3 PLAYERS GAME
         bag.addAllStudents();
@@ -44,7 +44,7 @@ class Characters10and12Test {
         p.getDashboard().getEntranceList().add(new Student(PawnColor.BLUE));
         c10.initCharacter(characterParameters);
         c12.initCharacter(characterParameters);
-        game= new GameModel();
+        game = new GameModel();
         game.setNumOfPlayers(2);
         game.setExpertMode(true);
         game.init();
@@ -64,7 +64,7 @@ class Characters10and12Test {
     @RepeatedTest(1)
     void applyEffect() {
         //to test character 10
-      p.getDashboard().getEntranceList().removeAll(p.getDashboard().getEntranceList());
+        p.getDashboard().getEntranceList().removeAll(p.getDashboard().getEntranceList());
         p.getDashboard().getEntranceList().add(new Student(PawnColor.PINK));
         p.getDashboard().getEntranceList().add(new Student(PawnColor.BLUE));
         p.getDashboard().getEntranceList().add(new Student(PawnColor.YELLOW));
@@ -80,14 +80,13 @@ class Characters10and12Test {
 
         c10.applyEffect(characterParameters);
 
-        if(tmp1.getColor()!=characterParameters.getSelectedColor() || tmp1.getColor() != characterParameters.getSelectedColor2() && tmp1.getColor() != tmp2.getColor() ) {
+        if (tmp1.getColor() != characterParameters.getSelectedColor() || tmp1.getColor() != characterParameters.getSelectedColor2() && tmp1.getColor() != tmp2.getColor()) {
             assertEquals(oldHallColorListSize1, p.getDashboard().getHallStudentsListByColor(tmp1.getColor()).size());
-            assertEquals(oldHallColorListSize2+1, p.getDashboard().getHallStudentsListByColor(tmp2.getColor()).size());
-            assertEquals(characterParameters.getSelectedColor2(), p.getDashboard().getEntranceList().get(p.getDashboard().getEntranceList().size()-1).getColor() );
-            assertEquals(characterParameters.getSelectedColor(), p.getDashboard().getEntranceList().get(p.getDashboard().getEntranceList().size()-2).getColor() );
-        }
-
-     else {} //there are too many cases to
+            assertEquals(oldHallColorListSize2 + 1, p.getDashboard().getHallStudentsListByColor(tmp2.getColor()).size());
+            assertEquals(characterParameters.getSelectedColor2(), p.getDashboard().getEntranceList().get(p.getDashboard().getEntranceList().size() - 1).getColor());
+            assertEquals(characterParameters.getSelectedColor(), p.getDashboard().getEntranceList().get(p.getDashboard().getEntranceList().size() - 2).getColor());
+        } else {
+        } //there are too many cases to
 
         p.getDashboard().getEntranceList().removeAll(p.getDashboard().getEntranceList());
         p.getDashboard().getEntranceList().add(new Student(PawnColor.PINK));
@@ -95,15 +94,14 @@ class Characters10and12Test {
         p.getDashboard().getEntranceList().add(new Student(PawnColor.PINK));
 
 
-
-         tmp1 = p.getDashboard().getEntranceList().get(1);
+        tmp1 = p.getDashboard().getEntranceList().get(1);
         assertEquals(PawnColor.BLUE, p.getDashboard().getEntranceList().get(1).getColor());
-         tmp2 = p.getDashboard().getEntranceList().get(2);
+        tmp2 = p.getDashboard().getEntranceList().get(2);
         assertEquals(PawnColor.PINK, p.getDashboard().getEntranceList().get(2).getColor());
-         oldHallColorListSize1 = p.getDashboard().getHallStudentsListByColor(tmp1.getColor()).size();
-         oldHallColorListSize2 = p.getDashboard().getHallStudentsListByColor(tmp2.getColor()).size();
+        oldHallColorListSize1 = p.getDashboard().getHallStudentsListByColor(tmp1.getColor()).size();
+        oldHallColorListSize2 = p.getDashboard().getHallStudentsListByColor(tmp2.getColor()).size();
         c10.applyEffect(characterParameters);
-        if(tmp1.getColor()==characterParameters.getSelectedColor() && tmp2.getColor() == characterParameters.getSelectedColor2() ) {
+        if (tmp1.getColor() == characterParameters.getSelectedColor() && tmp2.getColor() == characterParameters.getSelectedColor2()) {
             assertEquals(oldHallColorListSize1, p.getDashboard().getHallStudentsListByColor(tmp1.getColor()).size());
             assertEquals(oldHallColorListSize2, p.getDashboard().getHallStudentsListByColor(tmp2.getColor()).size());
 
@@ -130,6 +128,6 @@ class Characters10and12Test {
 
     @Test
     void initCharacter() {
-        assertEquals(bag, ((Characters10and12)c12).getBag());
+        assertEquals(bag, ((Characters10and12) c12).getBag());
     }
 }

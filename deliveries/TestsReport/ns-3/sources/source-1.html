@@ -1,0 +1,837 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ClientController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientController (it.polimi.ingsw.controllers)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/27)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/299)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ClientController$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/303)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.controllers;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.client.ClientGameModel;
+<i class="no-highlight">5</i>&nbsp;import it.polimi.ingsw.client.ReducedPlayer;
+<i class="no-highlight">6</i>&nbsp;import it.polimi.ingsw.model.characters.MessageCharacterParameters;
+<i class="no-highlight">7</i>&nbsp;import it.polimi.ingsw.model.enumerations.*;
+<i class="no-highlight">8</i>&nbsp;import it.polimi.ingsw.network.client.ClientSocket;
+<i class="no-highlight">9</i>&nbsp;import it.polimi.ingsw.network.client.ClientState;
+<i class="no-highlight">10</i>&nbsp;import it.polimi.ingsw.network.message.*;
+<i class="no-highlight">11</i>&nbsp;import it.polimi.ingsw.network.server.Lobby;
+<i class="no-highlight">12</i>&nbsp;import it.polimi.ingsw.observer.ViewObserver;
+<i class="no-highlight">13</i>&nbsp;
+<i class="no-highlight">14</i>&nbsp;import java.io.IOException;
+<i class="no-highlight">15</i>&nbsp;import java.net.URI;
+<i class="no-highlight">16</i>&nbsp;import java.util.List;
+<i class="no-highlight">17</i>&nbsp;import java.util.Map;
+<i class="no-highlight">18</i>&nbsp;
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;/**
+<i class="no-highlight">21</i>&nbsp; * This class is part of the client side.
+<i class="no-highlight">22</i>&nbsp; * It is an interpreter between the network and a generic view (which in this case can be CLI or GUI).
+<i class="no-highlight">23</i>&nbsp; * It receives the messages, wraps/unwraps and pass them to the network/view.
+<i class="no-highlight">24</i>&nbsp; * Implements {@link ViewObserver}
+<i class="no-highlight">25</i>&nbsp; */
+<i class="no-highlight">26</i>&nbsp;public class ClientController implements ViewObserver {
+<i class="no-highlight">27</i>&nbsp;
+<i class="no-highlight">28</i>&nbsp;    private final ClientGameModel clientGameModel;
+<i class="no-highlight">29</i>&nbsp;    private ClientSocket client;
+<i class="no-highlight">30</i>&nbsp;    private String nickname;
+<i class="no-highlight">31</i>&nbsp;    private ClientState clientState;
+<i class="no-highlight">32</i>&nbsp;    private int teamId;  //if there are no teams it is the clientId, or it&#39;s the leaderId
+<i class="no-highlight">33</i>&nbsp;    private boolean teamLeader; //he is who requested the teamPlayer and who will choose the tower color
+<i class="no-highlight">34</i>&nbsp;    //my player id is in clientGameModel and in client
+<i class="no-highlight">35</i>&nbsp;    private ClientState prevClientState;
+<i class="no-highlight">36</i>&nbsp;
+<i class="no-highlight">37</i>&nbsp;    private int usedCharacter; //this is for the input verifier
+<i class="no-highlight">38</i>&nbsp;
+<i class="no-highlight">39</i>&nbsp;    /**
+<i class="no-highlight">40</i>&nbsp;     * Constructs Client Controller.
+<i class="no-highlight">41</i>&nbsp;     */
+<b class="nc"><i class="no-highlight">42</i>&nbsp;    public ClientController() {</b>
+<b class="nc"><i class="no-highlight">43</i>&nbsp;        teamLeader = true;</b>
+<b class="nc"><i class="no-highlight">44</i>&nbsp;        clientState = ClientState.APPLICATION_START;</b>
+<b class="nc"><i class="no-highlight">45</i>&nbsp;        clientGameModel = new ClientGameModel();</b>
+<b class="nc"><i class="no-highlight">46</i>&nbsp;        nickname = null;</b>
+<b class="nc"><i class="no-highlight">47</i>&nbsp;        usedCharacter = -1;</b>
+<i class="no-highlight">48</i>&nbsp;
+<i class="no-highlight">49</i>&nbsp;
+<i class="no-highlight">50</i>&nbsp;    }
+<i class="no-highlight">51</i>&nbsp;
+<i class="no-highlight">52</i>&nbsp;    /**
+<i class="no-highlight">53</i>&nbsp;     * Validates the given IPv4 address by using a regex.
+<i class="no-highlight">54</i>&nbsp;     *
+<i class="no-highlight">55</i>&nbsp;     * @param ip the string of the ip address to be validated
+<i class="no-highlight">56</i>&nbsp;     * @return {@code true} if the ip is valid, {@code false} otherwise.
+<i class="no-highlight">57</i>&nbsp;     */
+<i class="no-highlight">58</i>&nbsp;    public static boolean isValidIpAddress(String ip) {
+<b class="nc"><i class="no-highlight">59</i>&nbsp;        String regex = &quot;^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.&quot; +</b>
+<i class="no-highlight">60</i>&nbsp;                &quot;([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.&quot; +
+<i class="no-highlight">61</i>&nbsp;                &quot;([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.&quot; +
+<i class="no-highlight">62</i>&nbsp;                &quot;([01]?\\d\\d?|2[0-4]\\d|25[0-5])$&quot;;
+<i class="no-highlight">63</i>&nbsp;
+<b class="nc"><i class="no-highlight">64</i>&nbsp;        if (ip.matches(regex)) {</b>
+<b class="nc"><i class="no-highlight">65</i>&nbsp;            return true;</b>
+<i class="no-highlight">66</i>&nbsp;        } else {
+<i class="no-highlight">67</i>&nbsp;            try {
+<b class="nc"><i class="no-highlight">68</i>&nbsp;                new URI(ip);</b>
+<b class="nc"><i class="no-highlight">69</i>&nbsp;                return true;</b>
+<i class="no-highlight">70</i>&nbsp;            }
+<i class="no-highlight">71</i>&nbsp;            // If there was an Exception
+<i class="no-highlight">72</i>&nbsp;            // while creating URL object
+<b class="nc"><i class="no-highlight">73</i>&nbsp;            catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">74</i>&nbsp;                return false;</b>
+<i class="no-highlight">75</i>&nbsp;            }
+<i class="no-highlight">76</i>&nbsp;
+<i class="no-highlight">77</i>&nbsp;        }
+<i class="no-highlight">78</i>&nbsp;
+<i class="no-highlight">79</i>&nbsp;    }
+<i class="no-highlight">80</i>&nbsp;
+<i class="no-highlight">81</i>&nbsp;
+<i class="no-highlight">82</i>&nbsp;    //NOW THERE ARE UTILS METHOD FOR THE SOCKET
+<i class="no-highlight">83</i>&nbsp;
+<i class="no-highlight">84</i>&nbsp;    /**
+<i class="no-highlight">85</i>&nbsp;     * Checks if the given port string is in the range of allowed ports.
+<i class="no-highlight">86</i>&nbsp;     *
+<i class="no-highlight">87</i>&nbsp;     * @param portStr the ports to be checked.
+<i class="no-highlight">88</i>&nbsp;     * @return {@code true} if the port is valid, {@code false} otherwise.
+<i class="no-highlight">89</i>&nbsp;     */
+<i class="no-highlight">90</i>&nbsp;    public static boolean isValidPort(String portStr) {
+<i class="no-highlight">91</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">92</i>&nbsp;            int port = Integer.parseInt(portStr);</b>
+<b class="nc"><i class="no-highlight">93</i>&nbsp;            return port &gt;= 1 &amp;&amp; port &lt;= 65535;</b>
+<b class="nc"><i class="no-highlight">94</i>&nbsp;        } catch (NumberFormatException e) {</b>
+<b class="nc"><i class="no-highlight">95</i>&nbsp;            return false;</b>
+<i class="no-highlight">96</i>&nbsp;        }
+<i class="no-highlight">97</i>&nbsp;    }
+<i class="no-highlight">98</i>&nbsp;
+<i class="no-highlight">99</i>&nbsp;    /**
+<i class="no-highlight">100</i>&nbsp;     * Takes action based on the message type received from the server.
+<i class="no-highlight">101</i>&nbsp;     *
+<i class="no-highlight">102</i>&nbsp;     * @param message the message received from the server.
+<i class="no-highlight">103</i>&nbsp;     */
+<i class="no-highlight">104</i>&nbsp;    //this is the command (like an update) from the clientSocket
+<i class="no-highlight">105</i>&nbsp;    public void onMessageReceived(Message message) {
+<i class="no-highlight">106</i>&nbsp;
+<b class="nc"><i class="no-highlight">107</i>&nbsp;        switch (message.getMessageType()) {</b>
+<i class="no-highlight">108</i>&nbsp;            case LOGIN_REPLY: //we can use notifyObserver of the clientGameModel because we have it, empty
+<b class="nc"><i class="no-highlight">109</i>&nbsp;                clientState = ClientState.CHOOSING_JOIN_CREATE;</b>
+<b class="nc"><i class="no-highlight">110</i>&nbsp;                StringMessage loginReply = (StringMessage) message;</b>
+<b class="nc"><i class="no-highlight">111</i>&nbsp;                client.setClientId(Integer.parseInt(loginReply.getString())); //we need this in the ClientSocket class</b>
+<b class="nc"><i class="no-highlight">112</i>&nbsp;                clientGameModel.setMyPlayerId(client.getClientId());</b>
+<b class="nc"><i class="no-highlight">113</i>&nbsp;                teamId = client.getClientId(); //for now, I&#39;m my team player</b>
+<b class="nc"><i class="no-highlight">114</i>&nbsp;                clientGameModel.askCreateOrJoin();</b>
+<b class="nc"><i class="no-highlight">115</i>&nbsp;                break;</b>
+<i class="no-highlight">116</i>&nbsp;            case AVAILABLE_LOBBIES:
+<b class="nc"><i class="no-highlight">117</i>&nbsp;                clientState = ClientState.CHOOSING_LOBBY;</b>
+<b class="nc"><i class="no-highlight">118</i>&nbsp;                LobbyMessage lobbyMessage = (LobbyMessage) message;</b>
+<b class="nc"><i class="no-highlight">119</i>&nbsp;                clientGameModel.sendChooseLobby(lobbyMessage.getLobbiesList());</b>
+<b class="nc"><i class="no-highlight">120</i>&nbsp;                break;</b>
+<i class="no-highlight">121</i>&nbsp;            case PLAYER_JOIN:
+<b class="nc"><i class="no-highlight">122</i>&nbsp;                clientState = ClientState.WAITING_IN_LOBBY;</b>
+<b class="nc"><i class="no-highlight">123</i>&nbsp;                clientGameModel.reset();</b>
+<b class="nc"><i class="no-highlight">124</i>&nbsp;                PlayerJoinMessage playerJoinMessage = (PlayerJoinMessage) message;</b>
+<b class="nc"><i class="no-highlight">125</i>&nbsp;                clientGameModel.showPlayerJoin(playerJoinMessage.getPlayersList());</b>
+<b class="nc"><i class="no-highlight">126</i>&nbsp;                break;</b>
+<i class="no-highlight">127</i>&nbsp;
+<i class="no-highlight">128</i>&nbsp;            case AVAILABLE_TEAM_SEND:
+<b class="nc"><i class="no-highlight">129</i>&nbsp;                SyncInitMessage teamMessage = (SyncInitMessage) message;</b>
+<b class="nc"><i class="no-highlight">130</i>&nbsp;                Map&lt;String, Integer&gt; availableTeamPlayers = teamMessage.getAvailableTeamPlayers();</b>
+<b class="nc"><i class="no-highlight">131</i>&nbsp;                clientGameModel.setAvailableTeamPlayers(availableTeamPlayers);</b>
+<i class="no-highlight">132</i>&nbsp;
+<b class="nc"><i class="no-highlight">133</i>&nbsp;                for (Map.Entry&lt;String, Integer&gt; entry : availableTeamPlayers.entrySet()) {  //saving my nickname, the first available team send will have every nickname</b>
+<b class="nc"><i class="no-highlight">134</i>&nbsp;                    if (entry.getValue() == client.getClientId())</b>
+<b class="nc"><i class="no-highlight">135</i>&nbsp;                        setNickname(entry.getKey());</b>
+<i class="no-highlight">136</i>&nbsp;
+<b class="nc"><i class="no-highlight">137</i>&nbsp;                }</b>
+<i class="no-highlight">138</i>&nbsp;
+<b class="nc"><i class="no-highlight">139</i>&nbsp;                if (availableTeamPlayers.containsKey(nickname)) {  //it means that I still have to choose</b>
+<b class="nc"><i class="no-highlight">140</i>&nbsp;                    clientState = ClientState.CHOOSING_TEAM;</b>
+<b class="nc"><i class="no-highlight">141</i>&nbsp;                    availableTeamPlayers.remove(nickname);</b>
+<b class="nc"><i class="no-highlight">142</i>&nbsp;                    clientGameModel.sendChooseTeam(availableTeamPlayers);</b>
+<i class="no-highlight">143</i>&nbsp;                }
+<i class="no-highlight">144</i>&nbsp;
+<i class="no-highlight">145</i>&nbsp;                break;
+<i class="no-highlight">146</i>&nbsp;            case AVAILABLE_TOWER_SEND:
+<b class="nc"><i class="no-highlight">147</i>&nbsp;                SyncInitMessage towerMessage = (SyncInitMessage) message;</b>
+<b class="nc"><i class="no-highlight">148</i>&nbsp;                List&lt;TowerColor&gt; availableTowerColors = towerMessage.getAvailableTowerColors();</b>
+<b class="nc"><i class="no-highlight">149</i>&nbsp;                clientGameModel.setAvailableTowerColors(availableTowerColors);</b>
+<b class="nc"><i class="no-highlight">150</i>&nbsp;                if (teamLeader &amp;&amp; (clientState == ClientState.CHOOSING_TOWER_COLOR)) {</b>
+<b class="nc"><i class="no-highlight">151</i>&nbsp;                    clientGameModel.sendChooseTowerColor(availableTowerColors);</b>
+<i class="no-highlight">152</i>&nbsp;                }
+<i class="no-highlight">153</i>&nbsp;                break;
+<i class="no-highlight">154</i>&nbsp;            case AVAILABLE_WIZARD_SEND:
+<b class="nc"><i class="no-highlight">155</i>&nbsp;                SyncInitMessage wizardMessage = (SyncInitMessage) message;</b>
+<b class="nc"><i class="no-highlight">156</i>&nbsp;                List&lt;Wizard&gt; availableWizards = wizardMessage.getAvailableWizards();</b>
+<b class="nc"><i class="no-highlight">157</i>&nbsp;                clientGameModel.setAvailableWizards(availableWizards);</b>
+<i class="no-highlight">158</i>&nbsp;
+<b class="nc"><i class="no-highlight">159</i>&nbsp;                if (clientState == ClientState.CHOOSING_WIZARD) {</b>
+<b class="nc"><i class="no-highlight">160</i>&nbsp;                    clientGameModel.sendChooseWizard(availableWizards);</b>
+<i class="no-highlight">161</i>&nbsp;                }
+<i class="no-highlight">162</i>&nbsp;                break;
+<i class="no-highlight">163</i>&nbsp;
+<i class="no-highlight">164</i>&nbsp;            case INIT_SEND:
+<b class="nc"><i class="no-highlight">165</i>&nbsp;                clientState = ClientState.GAME_START;</b>
+<b class="nc"><i class="no-highlight">166</i>&nbsp;                AllGameMessage allGameMessage = (AllGameMessage) message;</b>
+<b class="nc"><i class="no-highlight">167</i>&nbsp;                clientGameModel.initClientGameModel(allGameMessage);</b>
+<b class="nc"><i class="no-highlight">168</i>&nbsp;                setNickname(clientGameModel.findPlayerById(client.getClientId()).getName());</b>
+<b class="nc"><i class="no-highlight">169</i>&nbsp;                teamId = clientGameModel.findPlayerById(client.getClientId()).getTeam();</b>
+<b class="nc"><i class="no-highlight">170</i>&nbsp;                break;</b>
+<i class="no-highlight">171</i>&nbsp;
+<i class="no-highlight">172</i>&nbsp;
+<i class="no-highlight">173</i>&nbsp;            case SYNC_STATE:
+<b class="nc"><i class="no-highlight">174</i>&nbsp;                SyncStateMessage syncStateMessage = (SyncStateMessage) message;</b>
+<b class="nc"><i class="no-highlight">175</i>&nbsp;                manageSyncStateMessage(syncStateMessage);</b>
+<b class="nc"><i class="no-highlight">176</i>&nbsp;                break;</b>
+<i class="no-highlight">177</i>&nbsp;
+<i class="no-highlight">178</i>&nbsp;            case TABLE:
+<b class="nc"><i class="no-highlight">179</i>&nbsp;                TableMessage tableMessage = (TableMessage) message;</b>
+<b class="nc"><i class="no-highlight">180</i>&nbsp;                clientGameModel.setIslandList(tableMessage.getIslandList());</b>
+<b class="nc"><i class="no-highlight">181</i>&nbsp;                clientGameModel.setCloudList(tableMessage.getCloudList());</b>
+<b class="nc"><i class="no-highlight">182</i>&nbsp;                clientGameModel.setMotherNaturePos(tableMessage.getMotherNaturePos());</b>
+<b class="nc"><i class="no-highlight">183</i>&nbsp;                break;</b>
+<i class="no-highlight">184</i>&nbsp;            case THROWN_ASSISTANT:
+<b class="nc"><i class="no-highlight">185</i>&nbsp;                ThrownAssistantMessage thrownAssistantMessage = (ThrownAssistantMessage) message;</b>
+<b class="nc"><i class="no-highlight">186</i>&nbsp;                ReducedPlayer thrownAssistantPlayer = clientGameModel.findPlayerById(thrownAssistantMessage.getPlayerId());</b>
+<b class="nc"><i class="no-highlight">187</i>&nbsp;                thrownAssistantPlayer.setSelectedAssistant(thrownAssistantMessage.getAssistant());</b>
+<b class="nc"><i class="no-highlight">188</i>&nbsp;                break;</b>
+<i class="no-highlight">189</i>&nbsp;            case DASHBOARD:
+<b class="nc"><i class="no-highlight">190</i>&nbsp;                DashboardMessage dashboardMessage = (DashboardMessage) message;</b>
+<b class="nc"><i class="no-highlight">191</i>&nbsp;                ReducedPlayer dashboardPlayer = clientGameModel.findPlayerById(dashboardMessage.getPlayerId());</b>
+<b class="nc"><i class="no-highlight">192</i>&nbsp;                dashboardPlayer.setDashboard(dashboardMessage.getDashboard());</b>
+<b class="nc"><i class="no-highlight">193</i>&nbsp;                break;</b>
+<i class="no-highlight">194</i>&nbsp;            case CHARACTER_TABLE:
+<b class="nc"><i class="no-highlight">195</i>&nbsp;                CharacterTableMessage characterTableMessage = (CharacterTableMessage) message;</b>
+<b class="nc"><i class="no-highlight">196</i>&nbsp;                clientGameModel.setCharactersList(characterTableMessage.getCharactersList());</b>
+<b class="nc"><i class="no-highlight">197</i>&nbsp;                clientGameModel.setTableMoney(characterTableMessage.getTableMoney());</b>
+<b class="nc"><i class="no-highlight">198</i>&nbsp;                for (Map.Entry&lt;Integer, Integer&gt; entry : characterTableMessage.getNumOfMoneyMap().entrySet()) {</b>
+<b class="nc"><i class="no-highlight">199</i>&nbsp;                    ReducedPlayer moneyPlayer = clientGameModel.findPlayerById(entry.getKey());</b>
+<b class="nc"><i class="no-highlight">200</i>&nbsp;                    moneyPlayer.setNumOfMoney(entry.getValue());</b>
+<b class="nc"><i class="no-highlight">201</i>&nbsp;                }</b>
+<b class="nc"><i class="no-highlight">202</i>&nbsp;                break;</b>
+<i class="no-highlight">203</i>&nbsp;            case ASSISTANTS_SEND:
+<b class="nc"><i class="no-highlight">204</i>&nbsp;                AssistantsSendMessage assistantsSendMessage = (AssistantsSendMessage) message;</b>
+<b class="nc"><i class="no-highlight">205</i>&nbsp;                clientGameModel.setAssistantList(assistantsSendMessage.getAssistantsList());</b>
+<b class="nc"><i class="no-highlight">206</i>&nbsp;                break;</b>
+<i class="no-highlight">207</i>&nbsp;
+<i class="no-highlight">208</i>&nbsp;            case THROWN_CHARACTER:
+<b class="nc"><i class="no-highlight">209</i>&nbsp;                ThrownCharacterMessage thrownCharacterMessage = (ThrownCharacterMessage) message;</b>
+<b class="nc"><i class="no-highlight">210</i>&nbsp;                if (thrownCharacterMessage.getPlayerId() != clientGameModel.getMyPlayerId()) {</b>
+<b class="nc"><i class="no-highlight">211</i>&nbsp;                    String nameP = clientGameModel.findPlayerById(thrownCharacterMessage.getPlayerId()).getName();</b>
+<b class="nc"><i class="no-highlight">212</i>&nbsp;                    clientGameModel.show(nameP + &quot; threw character: &quot; + thrownCharacterMessage.getCharacterId());</b>
+<b class="nc"><i class="no-highlight">213</i>&nbsp;                }</b>
+<i class="no-highlight">214</i>&nbsp;                break;
+<i class="no-highlight">215</i>&nbsp;
+<i class="no-highlight">216</i>&nbsp;            case WIN: //we decided that we can restart a new game after finished one
+<b class="nc"><i class="no-highlight">217</i>&nbsp;                StringMessage stringMessage = (StringMessage) message;</b>
+<b class="nc"><i class="no-highlight">218</i>&nbsp;                clientState = ClientState.GAME_FINISHED;</b>
+<b class="nc"><i class="no-highlight">219</i>&nbsp;                if (clientGameModel.getNumOfPlayers() == 4) {</b>
+<b class="nc"><i class="no-highlight">220</i>&nbsp;                    clientGameModel.show(&quot;The winners are: &quot; + stringMessage.getString() + &quot; \nYou can play again if you want!&quot;);</b>
+<i class="no-highlight">221</i>&nbsp;                } else {
+<b class="nc"><i class="no-highlight">222</i>&nbsp;                    clientGameModel.show(&quot;The winner is: &quot; + stringMessage.getString() + &quot; \n|You can play again if you want!|&quot;);</b>
+<i class="no-highlight">223</i>&nbsp;                }
+<i class="no-highlight">224</i>&nbsp;
+<i class="no-highlight">225</i>&nbsp;                //clientGameModel.show(&quot;&#39;Restarting&#39;...&quot;);
+<b class="nc"><i class="no-highlight">226</i>&nbsp;                clientState = ClientState.CHOOSING_JOIN_CREATE;</b>
+<b class="nc"><i class="no-highlight">227</i>&nbsp;                teamLeader = true;</b>
+<b class="nc"><i class="no-highlight">228</i>&nbsp;                teamId = client.getClientId();</b>
+<b class="nc"><i class="no-highlight">229</i>&nbsp;                clientGameModel.askCreateOrJoin();</b>
+<b class="nc"><i class="no-highlight">230</i>&nbsp;                break;</b>
+<i class="no-highlight">231</i>&nbsp;
+<i class="no-highlight">232</i>&nbsp;
+<i class="no-highlight">233</i>&nbsp;            case OK_REPLY: //used also like a state sync message
+<b class="nc"><i class="no-highlight">234</i>&nbsp;                manageOkReplyMessage();//we use a private method to have more order</b>
+<b class="nc"><i class="no-highlight">235</i>&nbsp;                break;</b>
+<i class="no-highlight">236</i>&nbsp;
+<i class="no-highlight">237</i>&nbsp;
+<i class="no-highlight">238</i>&nbsp;            case ERROR_REPLY: //It will show the error and reset the previous state, it will interrupt the current thread?
+<b class="nc"><i class="no-highlight">239</i>&nbsp;                StringMessage errorReply = (StringMessage) message;</b>
+<b class="nc"><i class="no-highlight">240</i>&nbsp;                clientGameModel.show(errorReply.getString());</b>
+<b class="nc"><i class="no-highlight">241</i>&nbsp;                manageErrorReplyMessage();</b>
+<b class="nc"><i class="no-highlight">242</i>&nbsp;                break;</b>
+<i class="no-highlight">243</i>&nbsp;
+<i class="no-highlight">244</i>&nbsp;
+<i class="no-highlight">245</i>&nbsp;            case DISCONNECTION:  //when someone else disconnected
+<b class="nc"><i class="no-highlight">246</i>&nbsp;                StringMessage disconnectionMessage = (StringMessage) message;</b>
+<b class="nc"><i class="no-highlight">247</i>&nbsp;                clientState = ClientState.CHOOSING_JOIN_CREATE;</b>
+<b class="nc"><i class="no-highlight">248</i>&nbsp;                clientGameModel.show(disconnectionMessage.getString() + &quot; disconnected... returning to home\n&quot;);</b>
+<b class="nc"><i class="no-highlight">249</i>&nbsp;                teamLeader = true;</b>
+<b class="nc"><i class="no-highlight">250</i>&nbsp;                teamId = client.getClientId();</b>
+<b class="nc"><i class="no-highlight">251</i>&nbsp;                clientGameModel.askCreateOrJoin();</b>
+<b class="nc"><i class="no-highlight">252</i>&nbsp;                break;</b>
+<i class="no-highlight">253</i>&nbsp;
+<i class="no-highlight">254</i>&nbsp;            default: // Should never reach this condition
+<i class="no-highlight">255</i>&nbsp;                break;
+<i class="no-highlight">256</i>&nbsp;        }
+<i class="no-highlight">257</i>&nbsp;    }
+<i class="no-highlight">258</i>&nbsp;
+<i class="no-highlight">259</i>&nbsp;    /**
+<i class="no-highlight">260</i>&nbsp;     * //     * Create a new Socket Connection to the server with the updated info.
+<i class="no-highlight">261</i>&nbsp;     * //     * An error view is shown if connection cannot be established.
+<i class="no-highlight">262</i>&nbsp;     * //     *
+<i class="no-highlight">263</i>&nbsp;     * //     * @param serverInfo a map of server address and server port.
+<i class="no-highlight">264</i>&nbsp;     * //
+<i class="no-highlight">265</i>&nbsp;     */
+<i class="no-highlight">266</i>&nbsp;    //from now there are the override of the ViewObserver interface
+<i class="no-highlight">267</i>&nbsp;    @Override
+<i class="no-highlight">268</i>&nbsp;    public void onAskServerInfo(Map&lt;String, String&gt; serverInfo) {
+<i class="no-highlight">269</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">270</i>&nbsp;            client = new ClientSocket(serverInfo.get(&quot;address&quot;), Integer.parseInt(serverInfo.get(&quot;port&quot;)), this);</b>
+<b class="nc"><i class="no-highlight">271</i>&nbsp;            clientState = ClientState.REQUESTING_LOGIN;</b>
+<b class="nc"><i class="no-highlight">272</i>&nbsp;            client.readMessage(); // Starts an asynchronous reading from the server.</b>
+<b class="nc"><i class="no-highlight">273</i>&nbsp;            clientGameModel.sendLoginRequest();</b>
+<b class="nc"><i class="no-highlight">274</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i class="no-highlight">275</i>&nbsp;            clientState = ClientState.APPLICATION_START;</b>
+<b class="nc"><i class="no-highlight">276</i>&nbsp;            clientGameModel.sendServerInfoRequest();</b>
+<b class="nc"><i class="no-highlight">277</i>&nbsp;        }</b>
+<i class="no-highlight">278</i>&nbsp;    }
+<i class="no-highlight">279</i>&nbsp;
+<i class="no-highlight">280</i>&nbsp;    /**
+<i class="no-highlight">281</i>&nbsp;     * Request of the client to login containing the desired name
+<i class="no-highlight">282</i>&nbsp;     *
+<i class="no-highlight">283</i>&nbsp;     * @param input the player&#39;s desired name
+<i class="no-highlight">284</i>&nbsp;     */
+<i class="no-highlight">285</i>&nbsp;    @Override
+<i class="no-highlight">286</i>&nbsp;    public void onSendLoginRequest(String input) {
+<b class="nc"><i class="no-highlight">287</i>&nbsp;        StringMessage loginRequest = new StringMessage(MessageType.LOGIN_REQUEST, client.getClientId(), true, input);</b>
+<b class="nc"><i class="no-highlight">288</i>&nbsp;        clientState = ClientState.LOGIN_ACCEPTED;</b>
+<b class="nc"><i class="no-highlight">289</i>&nbsp;        client.sendMessage(loginRequest);</b>
+<i class="no-highlight">290</i>&nbsp;    }
+<i class="no-highlight">291</i>&nbsp;
+<i class="no-highlight">292</i>&nbsp;    /**
+<i class="no-highlight">293</i>&nbsp;     * Request containing the name,number of players and game mode of a lobby to be created by the client
+<i class="no-highlight">294</i>&nbsp;     *
+<i class="no-highlight">295</i>&nbsp;     * @param input        the name of the lobby
+<i class="no-highlight">296</i>&nbsp;     * @param numOfPlayers the number of players of the lobby
+<i class="no-highlight">297</i>&nbsp;     * @param expertMode   the game mode of the lobby
+<i class="no-highlight">298</i>&nbsp;     */
+<i class="no-highlight">299</i>&nbsp;    @Override
+<i class="no-highlight">300</i>&nbsp;    public void onSendNewLobbyRequest(String input, int numOfPlayers, boolean expertMode) {
+<b class="nc"><i class="no-highlight">301</i>&nbsp;        Lobby lobby = new Lobby(numOfPlayers, 0, expertMode, input);</b>
+<b class="nc"><i class="no-highlight">302</i>&nbsp;        NewLobbyMessage message = new NewLobbyMessage(client.getClientId(), lobby);</b>
+<b class="nc"><i class="no-highlight">303</i>&nbsp;        clientState = ClientState.CHOSEN_LOBBY;</b>
+<b class="nc"><i class="no-highlight">304</i>&nbsp;        client.sendMessage(message);</b>
+<i class="no-highlight">305</i>&nbsp;    }
+<i class="no-highlight">306</i>&nbsp;
+<i class="no-highlight">307</i>&nbsp;    /**
+<i class="no-highlight">308</i>&nbsp;     * Request to showcase the list of available lobbies,at this point the client is choosing a lobby
+<i class="no-highlight">309</i>&nbsp;     */
+<i class="no-highlight">310</i>&nbsp;    @Override
+<i class="no-highlight">311</i>&nbsp;    public void onSendLobbiesRequest() {
+<b class="nc"><i class="no-highlight">312</i>&nbsp;        GenericMessage message = new GenericMessage(MessageType.LOBBIES_REQUEST, client.getClientId(), true);</b>
+<b class="nc"><i class="no-highlight">313</i>&nbsp;        clientState = ClientState.CHOOSING_LOBBY;</b>
+<b class="nc"><i class="no-highlight">314</i>&nbsp;        client.sendMessage(message);</b>
+<i class="no-highlight">315</i>&nbsp;    }
+<i class="no-highlight">316</i>&nbsp;
+<i class="no-highlight">317</i>&nbsp;    /**
+<i class="no-highlight">318</i>&nbsp;     * The client sends a message containing the chosen lobby from the available lobbies
+<i class="no-highlight">319</i>&nbsp;     *
+<i class="no-highlight">320</i>&nbsp;     * @param chosenLobby the lobby selected by the player
+<i class="no-highlight">321</i>&nbsp;     */
+<i class="no-highlight">322</i>&nbsp;    @Override
+<i class="no-highlight">323</i>&nbsp;    public void onSendChooseLobby(String chosenLobby) {
+<b class="nc"><i class="no-highlight">324</i>&nbsp;        StringMessage message = new StringMessage(MessageType.CHOOSE_LOBBY, client.getClientId(), true, chosenLobby);</b>
+<b class="nc"><i class="no-highlight">325</i>&nbsp;        clientState = ClientState.CHOSEN_LOBBY;</b>
+<b class="nc"><i class="no-highlight">326</i>&nbsp;        client.sendMessage(message);</b>
+<i class="no-highlight">327</i>&nbsp;    }
+<i class="no-highlight">328</i>&nbsp;
+<i class="no-highlight">329</i>&nbsp;    /**
+<i class="no-highlight">330</i>&nbsp;     * The client sends a message containing the chosen team player from the available players
+<i class="no-highlight">331</i>&nbsp;     *
+<i class="no-highlight">332</i>&nbsp;     * @param chosenTeamPlayerId the id of the selected team player
+<i class="no-highlight">333</i>&nbsp;     */
+<i class="no-highlight">334</i>&nbsp;    @Override
+<i class="no-highlight">335</i>&nbsp;    public void onSendChooseTeam(int chosenTeamPlayerId) {
+<b class="nc"><i class="no-highlight">336</i>&nbsp;        ChooseTeamMessage message = new ChooseTeamMessage(client.getClientId(), chosenTeamPlayerId);</b>
+<b class="nc"><i class="no-highlight">337</i>&nbsp;        clientState = ClientState.CHOSEN_TEAM;</b>
+<b class="nc"><i class="no-highlight">338</i>&nbsp;        client.sendMessage(message);</b>
+<i class="no-highlight">339</i>&nbsp;    }
+<i class="no-highlight">340</i>&nbsp;
+<i class="no-highlight">341</i>&nbsp;    /**
+<i class="no-highlight">342</i>&nbsp;     * The client sends a message containing the chosen tower color from the available tower colors
+<i class="no-highlight">343</i>&nbsp;     *
+<i class="no-highlight">344</i>&nbsp;     * @param color the tower color selected by the player
+<i class="no-highlight">345</i>&nbsp;     */
+<i class="no-highlight">346</i>&nbsp;    @Override
+<i class="no-highlight">347</i>&nbsp;    public void onSendChooseTowerColor(TowerColor color) {
+<b class="nc"><i class="no-highlight">348</i>&nbsp;        ChooseTowerColorMessage message = new ChooseTowerColorMessage(client.getClientId(), color);</b>
+<b class="nc"><i class="no-highlight">349</i>&nbsp;        clientState = ClientState.CHOSEN_TOWER_COLOR;</b>
+<b class="nc"><i class="no-highlight">350</i>&nbsp;        client.sendMessage(message);</b>
+<i class="no-highlight">351</i>&nbsp;    }
+<i class="no-highlight">352</i>&nbsp;
+<i class="no-highlight">353</i>&nbsp;    /**
+<i class="no-highlight">354</i>&nbsp;     * The client sends a message containing the chosen wizard from the available wizards
+<i class="no-highlight">355</i>&nbsp;     *
+<i class="no-highlight">356</i>&nbsp;     * @param wizard the wizard selected by the player
+<i class="no-highlight">357</i>&nbsp;     */
+<i class="no-highlight">358</i>&nbsp;    @Override
+<i class="no-highlight">359</i>&nbsp;    public void onSendChooseWizard(Wizard wizard) {
+<b class="nc"><i class="no-highlight">360</i>&nbsp;        ChooseWizardMessage message = new ChooseWizardMessage(client.getClientId(), wizard);</b>
+<b class="nc"><i class="no-highlight">361</i>&nbsp;        clientState = ClientState.CHOSEN_WIZARD;</b>
+<b class="nc"><i class="no-highlight">362</i>&nbsp;        client.sendMessage(message);</b>
+<i class="no-highlight">363</i>&nbsp;    }
+<i class="no-highlight">364</i>&nbsp;
+<i class="no-highlight">365</i>&nbsp;    /**
+<i class="no-highlight">366</i>&nbsp;     * The client sends a message containing the chosen assistant&#39;s id from the available assistants
+<i class="no-highlight">367</i>&nbsp;     *
+<i class="no-highlight">368</i>&nbsp;     * @param selectedAssistantId the assistant&#39;s id selected by the player
+<i class="no-highlight">369</i>&nbsp;     */
+<i class="no-highlight">370</i>&nbsp;    @Override
+<i class="no-highlight">371</i>&nbsp;    public void onSendSelectAssistant(int selectedAssistantId) {
+<b class="nc"><i class="no-highlight">372</i>&nbsp;        if (ClientInputVerifier.verifyAssistant(clientGameModel, selectedAssistantId)) {</b>
+<b class="nc"><i class="no-highlight">373</i>&nbsp;            SelectAssistantMessage selectAssistantMessage = new SelectAssistantMessage(client.getClientId(), selectedAssistantId);</b>
+<b class="nc"><i class="no-highlight">374</i>&nbsp;            clientState = ClientState.SELECTED_ASSISTANT;</b>
+<b class="nc"><i class="no-highlight">375</i>&nbsp;            client.sendMessage(selectAssistantMessage);</b>
+<b class="nc"><i class="no-highlight">376</i>&nbsp;        } else {</b>
+<b class="nc"><i class="no-highlight">377</i>&nbsp;            clientGameModel.show(&quot;The selected assistant isn&#39;t available,try again!&quot;);</b>
+<i class="no-highlight">378</i>&nbsp;        }
+<i class="no-highlight">379</i>&nbsp;    }
+<i class="no-highlight">380</i>&nbsp;
+<i class="no-highlight">381</i>&nbsp;    /**
+<i class="no-highlight">382</i>&nbsp;     * The player sends a message containing the selected student&#39;s index and the island&#39;s index where the student has to be moved
+<i class="no-highlight">383</i>&nbsp;     *
+<i class="no-highlight">384</i>&nbsp;     * @param selectedStudentIndex the index of the chosen student
+<i class="no-highlight">385</i>&nbsp;     * @param selectedIslandIndex  the index of the island where the student has to be moved
+<i class="no-highlight">386</i>&nbsp;     */
+<i class="no-highlight">387</i>&nbsp;    @Override
+<i class="no-highlight">388</i>&nbsp;    public void onSendMoveAStudentIsland(int selectedStudentIndex, int selectedIslandIndex) {
+<b class="nc"><i class="no-highlight">389</i>&nbsp;        if (ClientInputVerifier.verifyStudentIsland(clientGameModel, selectedStudentIndex, selectedIslandIndex)) {</b>
+<b class="nc"><i class="no-highlight">390</i>&nbsp;            MoveStudentIslandMessage message = new MoveStudentIslandMessage(client.getClientId(), selectedStudentIndex, selectedIslandIndex);</b>
+<b class="nc"><i class="no-highlight">391</i>&nbsp;            clientState = ClientState.MOVED_STUDENT;</b>
+<b class="nc"><i class="no-highlight">392</i>&nbsp;            client.sendMessage(message);</b>
+<b class="nc"><i class="no-highlight">393</i>&nbsp;        } else {</b>
+<b class="nc"><i class="no-highlight">394</i>&nbsp;            clientGameModel.show(&quot;The selected student or island aren&#39;t available,try again!&quot;);</b>
+<i class="no-highlight">395</i>&nbsp;        }
+<i class="no-highlight">396</i>&nbsp;    }
+<i class="no-highlight">397</i>&nbsp;
+<i class="no-highlight">398</i>&nbsp;    /**
+<i class="no-highlight">399</i>&nbsp;     * The player chooses a student to be moved to the dashboard,where it&#39;s added to the hall based on its color
+<i class="no-highlight">400</i>&nbsp;     * the client then sends a message containing the information
+<i class="no-highlight">401</i>&nbsp;     *
+<i class="no-highlight">402</i>&nbsp;     * @param selectedStudentIndex
+<i class="no-highlight">403</i>&nbsp;     */
+<i class="no-highlight">404</i>&nbsp;    @Override
+<i class="no-highlight">405</i>&nbsp;    public void onSendMoveAStudentDashboard(int selectedStudentIndex) {
+<b class="nc"><i class="no-highlight">406</i>&nbsp;        if (ClientInputVerifier.verifyStudentDashboard(clientGameModel, selectedStudentIndex)) {</b>
+<b class="nc"><i class="no-highlight">407</i>&nbsp;            MoveStudentDashboardMessage message = new MoveStudentDashboardMessage(client.getClientId(), selectedStudentIndex);</b>
+<b class="nc"><i class="no-highlight">408</i>&nbsp;            clientState = ClientState.MOVED_STUDENT;</b>
+<b class="nc"><i class="no-highlight">409</i>&nbsp;            client.sendMessage(message);</b>
+<b class="nc"><i class="no-highlight">410</i>&nbsp;        } else {</b>
+<b class="nc"><i class="no-highlight">411</i>&nbsp;            clientGameModel.show(&quot;The selected student isn&#39;t available,try again!&quot;);</b>
+<i class="no-highlight">412</i>&nbsp;        }
+<i class="no-highlight">413</i>&nbsp;    }
+<i class="no-highlight">414</i>&nbsp;
+<i class="no-highlight">415</i>&nbsp;    /**
+<i class="no-highlight">416</i>&nbsp;     * The player choose the island where mother nature has to be moved
+<i class="no-highlight">417</i>&nbsp;     * the client sends a message containing the info
+<i class="no-highlight">418</i>&nbsp;     *
+<i class="no-highlight">419</i>&nbsp;     * @param selectedIslandIndex
+<i class="no-highlight">420</i>&nbsp;     */
+<i class="no-highlight">421</i>&nbsp;    @Override
+<i class="no-highlight">422</i>&nbsp;    public void onSendMoveMotherNature(int selectedIslandIndex) {
+<b class="nc"><i class="no-highlight">423</i>&nbsp;        if (ClientInputVerifier.verifyMotherNaturePos(clientGameModel, selectedIslandIndex, usedCharacter)) {</b>
+<b class="nc"><i class="no-highlight">424</i>&nbsp;            MoveMotherNatureMessage message = new MoveMotherNatureMessage(client.getClientId(), selectedIslandIndex);</b>
+<b class="nc"><i class="no-highlight">425</i>&nbsp;            clientState = ClientState.MOVED_MOTHER_NATURE;</b>
+<b class="nc"><i class="no-highlight">426</i>&nbsp;            client.sendMessage(message);</b>
+<b class="nc"><i class="no-highlight">427</i>&nbsp;        } else {</b>
+<b class="nc"><i class="no-highlight">428</i>&nbsp;            clientGameModel.show(&quot;You can&#39;t do this move,try again!&quot;);</b>
+<i class="no-highlight">429</i>&nbsp;        }
+<i class="no-highlight">430</i>&nbsp;    }
+<i class="no-highlight">431</i>&nbsp;
+<i class="no-highlight">432</i>&nbsp;
+<i class="no-highlight">433</i>&nbsp;    /**
+<i class="no-highlight">434</i>&nbsp;     * the player chooses a cloud
+<i class="no-highlight">435</i>&nbsp;     * the client sends a message containing the chosen cloud index
+<i class="no-highlight">436</i>&nbsp;     *
+<i class="no-highlight">437</i>&nbsp;     * @param selectedCloudIndex
+<i class="no-highlight">438</i>&nbsp;     */
+<i class="no-highlight">439</i>&nbsp;    @Override
+<i class="no-highlight">440</i>&nbsp;    public void onSendChooseCloud(int selectedCloudIndex) {
+<b class="nc"><i class="no-highlight">441</i>&nbsp;        if (ClientInputVerifier.verifyCloud(clientGameModel, selectedCloudIndex)) {</b>
+<b class="nc"><i class="no-highlight">442</i>&nbsp;            TakeFromCloudMessage message = new TakeFromCloudMessage(client.getClientId(), selectedCloudIndex);</b>
+<b class="nc"><i class="no-highlight">443</i>&nbsp;            clientState = ClientState.CHOSEN_CLOUD;</b>
+<b class="nc"><i class="no-highlight">444</i>&nbsp;            client.sendMessage(message);</b>
+<b class="nc"><i class="no-highlight">445</i>&nbsp;        } else {</b>
+<b class="nc"><i class="no-highlight">446</i>&nbsp;            clientGameModel.show(&quot;The selected cloud isn&#39;t available,try again!&quot;);</b>
+<i class="no-highlight">447</i>&nbsp;        }
+<i class="no-highlight">448</i>&nbsp;    }
+<i class="no-highlight">449</i>&nbsp;
+<i class="no-highlight">450</i>&nbsp;    /**
+<i class="no-highlight">451</i>&nbsp;     * The player chooses a character to be used
+<i class="no-highlight">452</i>&nbsp;     * The client sends a message containing the character id
+<i class="no-highlight">453</i>&nbsp;     *
+<i class="no-highlight">454</i>&nbsp;     * @param characterId
+<i class="no-highlight">455</i>&nbsp;     */
+<i class="no-highlight">456</i>&nbsp;    @Override
+<i class="no-highlight">457</i>&nbsp;    public void onAskCharacter(int characterId) {
+<b class="nc"><i class="no-highlight">458</i>&nbsp;        if (ClientInputVerifier.verifyCharacter(clientGameModel, characterId)) {</b>
+<b class="nc"><i class="no-highlight">459</i>&nbsp;            prevClientState = clientState;</b>
+<b class="nc"><i class="no-highlight">460</i>&nbsp;            usedCharacter = characterId;</b>
+<b class="nc"><i class="no-highlight">461</i>&nbsp;            if (characterId == 1 || characterId == 3 || characterId == 5 || characterId == 7 || characterId == 9 || characterId == 10 || characterId == 11 || characterId == 12) {</b>
+<b class="nc"><i class="no-highlight">462</i>&nbsp;                clientState = ClientState.USING_CHARACTER;</b>
+<b class="nc"><i class="no-highlight">463</i>&nbsp;                clientGameModel.askCharacterParameters(characterId);</b>
+<i class="no-highlight">464</i>&nbsp;            } else {
+<b class="nc"><i class="no-highlight">465</i>&nbsp;                MessageCharacterParameters params = new MessageCharacterParameters();</b>
+<b class="nc"><i class="no-highlight">466</i>&nbsp;                params.setCharacterId(characterId);</b>
+<b class="nc"><i class="no-highlight">467</i>&nbsp;                UseCharacterMessage message = new UseCharacterMessage(client.getClientId(), params);</b>
+<b class="nc"><i class="no-highlight">468</i>&nbsp;                clientState = ClientState.USED_CHARACTER;</b>
+<b class="nc"><i class="no-highlight">469</i>&nbsp;                client.sendMessage(message);</b>
+<b class="nc"><i class="no-highlight">470</i>&nbsp;            }</b>
+<i class="no-highlight">471</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">472</i>&nbsp;            clientGameModel.show(&quot;The chosen character is not available&quot;);</b>
+<i class="no-highlight">473</i>&nbsp;        }
+<i class="no-highlight">474</i>&nbsp;    }
+<i class="no-highlight">475</i>&nbsp;
+<i class="no-highlight">476</i>&nbsp;    /**
+<i class="no-highlight">477</i>&nbsp;     * The player uses a character
+<i class="no-highlight">478</i>&nbsp;     * the client sends a message containing the character parameters
+<i class="no-highlight">479</i>&nbsp;     *
+<i class="no-highlight">480</i>&nbsp;     * @param params
+<i class="no-highlight">481</i>&nbsp;     */
+<i class="no-highlight">482</i>&nbsp;    @Override
+<i class="no-highlight">483</i>&nbsp;    public void onSendUseCharacter(MessageCharacterParameters params) {
+<b class="nc"><i class="no-highlight">484</i>&nbsp;        if (ClientInputVerifier.verifyCharacterParams(params, clientGameModel)) {</b>
+<b class="nc"><i class="no-highlight">485</i>&nbsp;            UseCharacterMessage message = new UseCharacterMessage(client.getClientId(), params);</b>
+<b class="nc"><i class="no-highlight">486</i>&nbsp;            clientState = ClientState.USED_CHARACTER;</b>
+<b class="nc"><i class="no-highlight">487</i>&nbsp;            client.sendMessage(message);</b>
+<b class="nc"><i class="no-highlight">488</i>&nbsp;        } else {</b>
+<b class="nc"><i class="no-highlight">489</i>&nbsp;            clientGameModel.show(&quot;The params are not correct&quot;);</b>
+<i class="no-highlight">490</i>&nbsp;        }
+<i class="no-highlight">491</i>&nbsp;    }
+<i class="no-highlight">492</i>&nbsp;
+<i class="no-highlight">493</i>&nbsp;    /**
+<i class="no-highlight">494</i>&nbsp;     * A text message notifies that a client lost connection,the game is automatically ended
+<i class="no-highlight">495</i>&nbsp;     */
+<i class="no-highlight">496</i>&nbsp;    public void onSocketDisconnect() {   //this happens only when there is a mine critical problem
+<b class="nc"><i class="no-highlight">497</i>&nbsp;        clientGameModel.show(&quot;\nConnection lost, disconnecting...&quot;);</b>
+<b class="nc"><i class="no-highlight">498</i>&nbsp;        clientState = ClientState.GAME_FINISHED;</b>
+<b class="nc"><i class="no-highlight">499</i>&nbsp;        System.exit(0);</b>
+<i class="no-highlight">500</i>&nbsp;    }
+<i class="no-highlight">501</i>&nbsp;
+<i class="no-highlight">502</i>&nbsp;    //UTILITY METHODS
+<i class="no-highlight">503</i>&nbsp;
+<i class="no-highlight">504</i>&nbsp;    /**
+<i class="no-highlight">505</i>&nbsp;     * this method manages ok reply messages for each client state
+<i class="no-highlight">506</i>&nbsp;     */
+<i class="no-highlight">507</i>&nbsp;    private void manageOkReplyMessage() { //if we don&#39;t receive error we suppose that everything is ok
+<b class="nc"><i class="no-highlight">508</i>&nbsp;        switch (clientState) {</b>
+<i class="no-highlight">509</i>&nbsp;            case CHOOSING_TEAM:
+<b class="nc"><i class="no-highlight">510</i>&nbsp;                teamLeader = false; //and with init send I will receive my teamPlayer</b>
+<b class="nc"><i class="no-highlight">511</i>&nbsp;                clientGameModel.showChosenTeam(&quot;Chosen, now you are not the leader, \nyou can&#39;t choose tower color&quot;);</b>
+<b class="nc"><i class="no-highlight">512</i>&nbsp;                clientState = ClientState.CHOSEN_TEAM;</b>
+<b class="nc"><i class="no-highlight">513</i>&nbsp;                break;</b>
+<i class="no-highlight">514</i>&nbsp;
+<i class="no-highlight">515</i>&nbsp;            case CHOSEN_TEAM:
+<b class="nc"><i class="no-highlight">516</i>&nbsp;                teamLeader = true; //for security, I set it true</b>
+<b class="nc"><i class="no-highlight">517</i>&nbsp;                clientGameModel.showChosenTeam(&quot;Ok, you are the leader of the team, \nyou can choose tower color&quot;); //they can choose if communicate outside the game</b>
+<b class="nc"><i class="no-highlight">518</i>&nbsp;                teamId = client.getClientId(); //set mine team id</b>
+<b class="nc"><i class="no-highlight">519</i>&nbsp;                break;</b>
+<i class="no-highlight">520</i>&nbsp;
+<i class="no-highlight">521</i>&nbsp;            case CHOSEN_TOWER_COLOR:
+<b class="nc"><i class="no-highlight">522</i>&nbsp;                clientGameModel.show(&quot;Color chosen, waiting for other players to choose color&quot;);</b>
+<b class="nc"><i class="no-highlight">523</i>&nbsp;                break;</b>
+<i class="no-highlight">524</i>&nbsp;            case CHOSEN_WIZARD:
+<b class="nc"><i class="no-highlight">525</i>&nbsp;                clientGameModel.show(&quot;Wizard chosen, waiting for other players to choose wizard&quot;);</b>
+<b class="nc"><i class="no-highlight">526</i>&nbsp;                break;</b>
+<i class="no-highlight">527</i>&nbsp;            default:
+<i class="no-highlight">528</i>&nbsp;                break;
+<i class="no-highlight">529</i>&nbsp;        }
+<i class="no-highlight">530</i>&nbsp;    }
+<i class="no-highlight">531</i>&nbsp;
+<i class="no-highlight">532</i>&nbsp;    /**
+<i class="no-highlight">533</i>&nbsp;     * This method manages error replies for each client state
+<i class="no-highlight">534</i>&nbsp;     */
+<i class="no-highlight">535</i>&nbsp;    private void manageErrorReplyMessage() {
+<b class="nc"><i class="no-highlight">536</i>&nbsp;        switch (clientState) {</b>
+<i class="no-highlight">537</i>&nbsp;            case LOGIN_ACCEPTED:
+<b class="nc"><i class="no-highlight">538</i>&nbsp;                clientState = ClientState.REQUESTING_LOGIN;</b>
+<b class="nc"><i class="no-highlight">539</i>&nbsp;                clientGameModel.sendLoginRequest();</b>
+<b class="nc"><i class="no-highlight">540</i>&nbsp;                break;</b>
+<i class="no-highlight">541</i>&nbsp;
+<i class="no-highlight">542</i>&nbsp;            case CHOSEN_LOBBY:
+<b class="nc"><i class="no-highlight">543</i>&nbsp;                clientState = ClientState.CHOOSING_JOIN_CREATE;</b>
+<b class="nc"><i class="no-highlight">544</i>&nbsp;                clientGameModel.askCreateOrJoin();</b>
+<b class="nc"><i class="no-highlight">545</i>&nbsp;                break;</b>
+<i class="no-highlight">546</i>&nbsp;
+<i class="no-highlight">547</i>&nbsp;            case CHOSEN_TEAM:
+<b class="nc"><i class="no-highlight">548</i>&nbsp;                clientState = ClientState.CHOOSING_TEAM;</b>
+<b class="nc"><i class="no-highlight">549</i>&nbsp;                clientGameModel.sendChooseTeam(clientGameModel.getAvailableTeamPlayers());</b>
+<b class="nc"><i class="no-highlight">550</i>&nbsp;                break;</b>
+<i class="no-highlight">551</i>&nbsp;
+<i class="no-highlight">552</i>&nbsp;            case CHOSEN_TOWER_COLOR:
+<b class="nc"><i class="no-highlight">553</i>&nbsp;                clientState = ClientState.CHOOSING_TOWER_COLOR;</b>
+<b class="nc"><i class="no-highlight">554</i>&nbsp;                clientGameModel.sendChooseTowerColor(clientGameModel.getAvailableTowerColors());</b>
+<b class="nc"><i class="no-highlight">555</i>&nbsp;                break;</b>
+<i class="no-highlight">556</i>&nbsp;
+<i class="no-highlight">557</i>&nbsp;            case CHOSEN_WIZARD:
+<b class="nc"><i class="no-highlight">558</i>&nbsp;                clientState = ClientState.CHOOSING_WIZARD;</b>
+<b class="nc"><i class="no-highlight">559</i>&nbsp;                clientGameModel.sendChooseWizard(clientGameModel.getAvailableWizards());</b>
+<b class="nc"><i class="no-highlight">560</i>&nbsp;                break;</b>
+<i class="no-highlight">561</i>&nbsp;
+<i class="no-highlight">562</i>&nbsp;            case SELECTED_ASSISTANT:
+<b class="nc"><i class="no-highlight">563</i>&nbsp;                clientState = ClientState.THROWING_ASSISTANT;</b>
+<b class="nc"><i class="no-highlight">564</i>&nbsp;                clientGameModel.sendSelectAssistant();</b>
+<b class="nc"><i class="no-highlight">565</i>&nbsp;                break;</b>
+<i class="no-highlight">566</i>&nbsp;
+<i class="no-highlight">567</i>&nbsp;            case MOVED_STUDENT: //moved in dashboard or island you have to retry!
+<b class="nc"><i class="no-highlight">568</i>&nbsp;                clientState = ClientState.CHOOSING_WHERE_TO_MOVE_STUDENT;</b>
+<b class="nc"><i class="no-highlight">569</i>&nbsp;                clientGameModel.askWhereToMoveStudent();</b>
+<b class="nc"><i class="no-highlight">570</i>&nbsp;                break;</b>
+<i class="no-highlight">571</i>&nbsp;
+<i class="no-highlight">572</i>&nbsp;            case MOVED_MOTHER_NATURE:
+<b class="nc"><i class="no-highlight">573</i>&nbsp;                clientState = ClientState.MOVING_MOTHER_NATURE;</b>
+<b class="nc"><i class="no-highlight">574</i>&nbsp;                clientGameModel.sendMoveMotherNature();</b>
+<b class="nc"><i class="no-highlight">575</i>&nbsp;                break;</b>
+<i class="no-highlight">576</i>&nbsp;
+<i class="no-highlight">577</i>&nbsp;            case CHOSEN_CLOUD:
+<b class="nc"><i class="no-highlight">578</i>&nbsp;                clientState = ClientState.CHOOSING_CLOUD;</b>
+<b class="nc"><i class="no-highlight">579</i>&nbsp;                clientGameModel.sendChooseCloud();</b>
+<b class="nc"><i class="no-highlight">580</i>&nbsp;                break;</b>
+<i class="no-highlight">581</i>&nbsp;            case USED_CHARACTER:
+<b class="nc"><i class="no-highlight">582</i>&nbsp;                clientState = prevClientState;</b>
+<b class="nc"><i class="no-highlight">583</i>&nbsp;                usedCharacter = -1;</b>
+<b class="nc"><i class="no-highlight">584</i>&nbsp;                break;</b>
+<i class="no-highlight">585</i>&nbsp;
+<i class="no-highlight">586</i>&nbsp;            default:
+<i class="no-highlight">587</i>&nbsp;                break;
+<i class="no-highlight">588</i>&nbsp;        }
+<i class="no-highlight">589</i>&nbsp;    }
+<i class="no-highlight">590</i>&nbsp;
+<i class="no-highlight">591</i>&nbsp;    /**
+<i class="no-highlight">592</i>&nbsp;     * This method manages sync state message for each game state
+<i class="no-highlight">593</i>&nbsp;     *
+<i class="no-highlight">594</i>&nbsp;     * @param syncStateMessage the message used to sync states
+<i class="no-highlight">595</i>&nbsp;     */
+<i class="no-highlight">596</i>&nbsp;    private void manageSyncStateMessage(SyncStateMessage syncStateMessage) {
+<b class="nc"><i class="no-highlight">597</i>&nbsp;        GameState gameState = syncStateMessage.getGameState();</b>
+<b class="nc"><i class="no-highlight">598</i>&nbsp;        SettingState settingState = syncStateMessage.getSettingState();</b>
+<b class="nc"><i class="no-highlight">599</i>&nbsp;        RoundState roundState = syncStateMessage.getRoundState();</b>
+<b class="nc"><i class="no-highlight">600</i>&nbsp;        TurnState turnState = syncStateMessage.getTurnState();</b>
+<b class="nc"><i class="no-highlight">601</i>&nbsp;        int currPlayerId = syncStateMessage.getCurrPlayerId();</b>
+<i class="no-highlight">602</i>&nbsp;
+<i class="no-highlight">603</i>&nbsp;
+<b class="nc"><i class="no-highlight">604</i>&nbsp;        if (gameState == GameState.SETTING_STATE) {</b>
+<b class="nc"><i class="no-highlight">605</i>&nbsp;            switch (settingState) {</b>
+<i class="no-highlight">606</i>&nbsp;                case CHOOSE_TEAM_STATE:
+<b class="nc"><i class="no-highlight">607</i>&nbsp;                    clientState = ClientState.CHOOSING_TEAM;</b>
+<b class="nc"><i class="no-highlight">608</i>&nbsp;                    break;</b>
+<i class="no-highlight">609</i>&nbsp;                case CHOOSE_TOWER_COLOR_STATE:
+<b class="nc"><i class="no-highlight">610</i>&nbsp;                    clientState = ClientState.CHOOSING_TOWER_COLOR;</b>
+<b class="nc"><i class="no-highlight">611</i>&nbsp;                    break;</b>
+<i class="no-highlight">612</i>&nbsp;                case CHOOSE_WIZARD_STATE:
+<b class="nc"><i class="no-highlight">613</i>&nbsp;                    clientState = ClientState.CHOOSING_WIZARD;</b>
+<i class="no-highlight">614</i>&nbsp;                default:
+<b class="nc"><i class="no-highlight">615</i>&nbsp;                    break;</b>
+<i class="no-highlight">616</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">617</i>&nbsp;        } else if (gameState == GameState.INGAME_STATE &amp;&amp; roundState == RoundState.PLANNING_STATE) {</b>
+<b class="nc"><i class="no-highlight">618</i>&nbsp;            if (clientGameModel.getRoundState() != RoundState.PLANNING_STATE) {</b>
+<b class="nc"><i class="no-highlight">619</i>&nbsp;                for (ReducedPlayer p : clientGameModel.getPlayersList()) {</b>
+<b class="nc"><i class="no-highlight">620</i>&nbsp;                    p.setSelectedAssistant(null);</b>
+<b class="nc"><i class="no-highlight">621</i>&nbsp;                }</b>
+<b class="nc"><i class="no-highlight">622</i>&nbsp;                usedCharacter = -1;</b>
+<b class="nc"><i class="no-highlight">623</i>&nbsp;                clientGameModel.setRoundState(roundState);</b>
+<i class="no-highlight">624</i>&nbsp;            }
+<i class="no-highlight">625</i>&nbsp;
+<b class="nc"><i class="no-highlight">626</i>&nbsp;            if (currPlayerId == client.getClientId()) {</b>
+<b class="nc"><i class="no-highlight">627</i>&nbsp;                clientState = ClientState.THROWING_ASSISTANT;</b>
+<b class="nc"><i class="no-highlight">628</i>&nbsp;                clientGameModel.showGame();</b>
+<b class="nc"><i class="no-highlight">629</i>&nbsp;                clientGameModel.sendSelectAssistant();</b>
+<i class="no-highlight">630</i>&nbsp;            } else {
+<b class="nc"><i class="no-highlight">631</i>&nbsp;                clientState = ClientState.WAITING_FOR_YOUR_TURN;</b>
+<b class="nc"><i class="no-highlight">632</i>&nbsp;                String playerName = clientGameModel.findPlayerById(currPlayerId).getName();</b>
+<b class="nc"><i class="no-highlight">633</i>&nbsp;                clientGameModel.showGame();</b>
+<b class="nc"><i class="no-highlight">634</i>&nbsp;                clientGameModel.show(playerName + &quot; is throwing an assistant...&quot;);</b>
+<i class="no-highlight">635</i>&nbsp;
+<b class="nc"><i class="no-highlight">636</i>&nbsp;            }</b>
+<b class="nc"><i class="no-highlight">637</i>&nbsp;        } else if (gameState == GameState.INGAME_STATE &amp;&amp; roundState == RoundState.ACTION_STATE) {</b>
+<b class="nc"><i class="no-highlight">638</i>&nbsp;            clientGameModel.setRoundState(roundState);</b>
+<b class="nc"><i class="no-highlight">639</i>&nbsp;            clientGameModel.showGame();</b>
+<b class="nc"><i class="no-highlight">640</i>&nbsp;            if (currPlayerId == client.getClientId()) {</b>
+<b class="nc"><i class="no-highlight">641</i>&nbsp;                switch (turnState) {</b>
+<i class="no-highlight">642</i>&nbsp;                    case MOVE_STUDENT_STATE:
+<b class="nc"><i class="no-highlight">643</i>&nbsp;                        clientState = ClientState.CHOOSING_WHERE_TO_MOVE_STUDENT; //in case of used character we have to choose again where to move</b>
+<b class="nc"><i class="no-highlight">644</i>&nbsp;                        clientGameModel.askWhereToMoveStudent();  //server will resend me syncStateMessage until I finished moving all the students</b>
+<b class="nc"><i class="no-highlight">645</i>&nbsp;                        break;</b>
+<i class="no-highlight">646</i>&nbsp;                    case MOVE_MOTHER_NATURE_STATE:
+<b class="nc"><i class="no-highlight">647</i>&nbsp;                        clientState = ClientState.MOVING_MOTHER_NATURE;</b>
+<b class="nc"><i class="no-highlight">648</i>&nbsp;                        clientGameModel.sendMoveMotherNature();</b>
+<b class="nc"><i class="no-highlight">649</i>&nbsp;                        break;</b>
+<i class="no-highlight">650</i>&nbsp;                    case CHOOSE_CLOUD_STATE:
+<b class="nc"><i class="no-highlight">651</i>&nbsp;                        clientState = ClientState.CHOOSING_CLOUD;</b>
+<b class="nc"><i class="no-highlight">652</i>&nbsp;                        clientGameModel.sendChooseCloud();</b>
+<b class="nc"><i class="no-highlight">653</i>&nbsp;                        break;</b>
+<i class="no-highlight">654</i>&nbsp;                }
+<i class="no-highlight">655</i>&nbsp;            } else {
+<b class="nc"><i class="no-highlight">656</i>&nbsp;                clientState = ClientState.WAITING_FOR_YOUR_TURN;</b>
+<b class="nc"><i class="no-highlight">657</i>&nbsp;                if (turnState == TurnState.MOVE_STUDENT_STATE) {</b>
+<b class="nc"><i class="no-highlight">658</i>&nbsp;                    String playerName = clientGameModel.findPlayerById(currPlayerId).getName();</b>
+<b class="nc"><i class="no-highlight">659</i>&nbsp;                    clientGameModel.show(playerName + &quot; is moving a student...&quot;);</b>
+<i class="no-highlight">660</i>&nbsp;
+<b class="nc"><i class="no-highlight">661</i>&nbsp;                } else if (turnState == TurnState.MOVE_MOTHER_NATURE_STATE) {</b>
+<b class="nc"><i class="no-highlight">662</i>&nbsp;                    String playerName = clientGameModel.findPlayerById(currPlayerId).getName();</b>
+<b class="nc"><i class="no-highlight">663</i>&nbsp;                    clientGameModel.show(playerName + &quot; is moving mother nature...&quot;);</b>
+<i class="no-highlight">664</i>&nbsp;
+<b class="nc"><i class="no-highlight">665</i>&nbsp;                } else if (turnState == TurnState.CHOOSE_CLOUD_STATE) {</b>
+<b class="nc"><i class="no-highlight">666</i>&nbsp;                    String playerName = clientGameModel.findPlayerById(currPlayerId).getName();</b>
+<b class="nc"><i class="no-highlight">667</i>&nbsp;                    clientGameModel.show(playerName + &quot; is choosing a cloud...&quot;);</b>
+<i class="no-highlight">668</i>&nbsp;                }
+<i class="no-highlight">669</i>&nbsp;
+<i class="no-highlight">670</i>&nbsp;            }
+<i class="no-highlight">671</i>&nbsp;        }
+<i class="no-highlight">672</i>&nbsp;
+<i class="no-highlight">673</i>&nbsp;    }
+<i class="no-highlight">674</i>&nbsp;
+<i class="no-highlight">675</i>&nbsp;    /**
+<i class="no-highlight">676</i>&nbsp;     * @return the client game model
+<i class="no-highlight">677</i>&nbsp;     */
+<i class="no-highlight">678</i>&nbsp;    public ClientGameModel getClientGameModel() {
+<b class="nc"><i class="no-highlight">679</i>&nbsp;        return clientGameModel;</b>
+<i class="no-highlight">680</i>&nbsp;    }
+<i class="no-highlight">681</i>&nbsp;
+<i class="no-highlight">682</i>&nbsp;    /**
+<i class="no-highlight">683</i>&nbsp;     * Sets the nickname
+<i class="no-highlight">684</i>&nbsp;     *
+<i class="no-highlight">685</i>&nbsp;     * @param nickname the name of the player
+<i class="no-highlight">686</i>&nbsp;     */
+<i class="no-highlight">687</i>&nbsp;    public void setNickname(String nickname) {
+<b class="nc"><i class="no-highlight">688</i>&nbsp;        this.nickname = nickname;</b>
+<i class="no-highlight">689</i>&nbsp;    }
+<i class="no-highlight">690</i>&nbsp;
+<i class="no-highlight">691</i>&nbsp;    /**
+<i class="no-highlight">692</i>&nbsp;     * @return the client state
+<i class="no-highlight">693</i>&nbsp;     */
+<i class="no-highlight">694</i>&nbsp;    public ClientState getClientState() {
+<b class="nc"><i class="no-highlight">695</i>&nbsp;        return clientState;</b>
+<i class="no-highlight">696</i>&nbsp;    }
+<i class="no-highlight">697</i>&nbsp;
+<i class="no-highlight">698</i>&nbsp;    /**
+<i class="no-highlight">699</i>&nbsp;     * Sets the client state
+<i class="no-highlight">700</i>&nbsp;     *
+<i class="no-highlight">701</i>&nbsp;     * @param clientState the current state of the client
+<i class="no-highlight">702</i>&nbsp;     */
+<i class="no-highlight">703</i>&nbsp;    public void setClientState(ClientState clientState) {
+<b class="nc"><i class="no-highlight">704</i>&nbsp;        this.clientState = clientState;</b>
+<i class="no-highlight">705</i>&nbsp;    }
+<i class="no-highlight">706</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-29 20:56</div>
+</div>
+</body>
+</html>

@@ -3,8 +3,10 @@ package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.client.ClientGameModel;
 import it.polimi.ingsw.controllers.ClientController;
 import it.polimi.ingsw.model.characters.MessageCharacterParameters;
-import it.polimi.ingsw.client.*;
-import it.polimi.ingsw.model.enumerations.*;
+import it.polimi.ingsw.model.enumerations.PawnColor;
+import it.polimi.ingsw.model.enumerations.RoundState;
+import it.polimi.ingsw.model.enumerations.TowerColor;
+import it.polimi.ingsw.model.enumerations.Wizard;
 import it.polimi.ingsw.network.client.ClientState;
 import it.polimi.ingsw.network.server.Lobby;
 
@@ -13,20 +15,19 @@ import java.util.*;
 /**
  * It is the class that manage the user input. It implements {@link Runnable}
  */
-public class KeyboardManager implements Runnable{
-    private ClientController controller; //only to check the state
-    private Cli cli;
-    private String userInput;
+public class KeyboardManager implements Runnable {
     private static final String STR_INPUT_FAILED = "User input failed.";
-
+    private final ClientController controller; //only to check the state
+    private final Cli cli;
+    private String userInput;
     private List<Lobby> lobbiesList = null;
-    private Map<String, Integer> availablePlayers= null;
+    private Map<String, Integer> availablePlayers = null;
     private List<TowerColor> availableTowerColors = null;
     private List<Wizard> availableWizards = null;
     private ClientGameModel clientGameModel = null;  //from now on we take the lists from here
     private int usedCharacter = -1;    //this is for the control of the parameters
 
-    public KeyboardManager(ClientController controller, Cli cli){
+    public KeyboardManager(ClientController controller, Cli cli) {
         this.controller = controller;
         this.cli = cli;
     }
@@ -38,8 +39,7 @@ public class KeyboardManager implements Runnable{
             scanInput.reset();
             try {
                 userInput = scanInput.nextLine(); //whenever the player presses enter this line gets executed
-            }
-            catch (NoSuchElementException e){
+            } catch (NoSuchElementException e) {
                 System.out.println("Exiting application...");
                 System.exit(0);
             }
@@ -47,7 +47,7 @@ public class KeyboardManager implements Runnable{
             scanInput.reset();
             System.out.println("input: " + userInput + " state: " + controller.getClientState()); //only for debug
             String[] splittedInput = userInput.split(" ");
-            if (splittedInput.length==2 && splittedInput[0].equals("use_character") && controller.getClientState() != ClientState.WAITING_FOR_YOUR_TURN && controller.getClientState() != ClientState.USING_CHARACTER   && clientGameModel.getRoundState() == RoundState.ACTION_STATE ) {
+            if (splittedInput.length == 2 && splittedInput[0].equals("use_character") && controller.getClientState() != ClientState.WAITING_FOR_YOUR_TURN && controller.getClientState() != ClientState.USING_CHARACTER && clientGameModel.getRoundState() == RoundState.ACTION_STATE) {
                 try {
                     if (clientGameModel.getCharactersList().isEmpty() || clientGameModel.getCharactersList() == null) {
                         System.out.println("Characters not available");
@@ -57,12 +57,10 @@ public class KeyboardManager implements Runnable{
                         //manage the characters now with the parameters
                         //outside the switch we can use character everytime, checking the charactersList and choosing the id, after send a message
                     }
-                }
-                catch(Exception e){
+                } catch (Exception e) {
                     System.out.println("User input failed");
                 }
-            }
-            else if(controller.getClientState() != ClientState.WAITING_FOR_YOUR_TURN){
+            } else if (controller.getClientState() != ClientState.WAITING_FOR_YOUR_TURN) {
                 switch (controller.getClientState()) {
                     case REQUESTING_LOGIN:
                         cli.notifyObserver(obs -> obs.onSendLoginRequest(userInput));
@@ -84,7 +82,7 @@ public class KeyboardManager implements Runnable{
 
                     case CREATING_LOBBY:
                         try {
-                            String params[] = userInput.split(" ");
+                            String[] params = userInput.split(" ");
 
                             int numOfPlayers = Integer.parseInt(params[1]);
 
@@ -138,8 +136,7 @@ public class KeyboardManager implements Runnable{
                             } else {
                                 System.out.println("This player doesn't exist!, choose again");
                             }
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             System.out.println("Input failed, retry");
                         }
 
@@ -148,20 +145,19 @@ public class KeyboardManager implements Runnable{
                     case CHOOSING_TOWER_COLOR:
                         TowerColor chosenTowerColor = null;
                         userInput = userInput.toUpperCase(); //we transform in upper case
-                        if(availableTowerColors!=null){
-                        for (TowerColor c : availableTowerColors) {
-                            if (userInput.equals(c.toString())) {
-                                chosenTowerColor = c;
-                                break;
+                        if (availableTowerColors != null) {
+                            for (TowerColor c : availableTowerColors) {
+                                if (userInput.equals(c.toString())) {
+                                    chosenTowerColor = c;
+                                    break;
+                                }
                             }
-                        }
-                        }
-                        else{
+                        } else {
                             System.out.println("You can't choose tower color");
                             break;
                         }
 
-                        if (chosenTowerColor != null && availableTowerColors!=null) {
+                        if (chosenTowerColor != null && availableTowerColors != null) {
                             TowerColor finalTowerColor = chosenTowerColor;
                             cli.notifyObserver(obs -> obs.onSendChooseTowerColor(finalTowerColor));
                         } else {
@@ -191,8 +187,7 @@ public class KeyboardManager implements Runnable{
                         try {
                             int selectedAssistantId = Integer.parseInt(userInput); //why don't need try catch because if the input is incorrect,nothing is returned
                             cli.notifyObserver(obs -> obs.onSendSelectAssistant(selectedAssistantId));
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             System.out.println("Input failed, retry");
                         }
                         break;
@@ -216,21 +211,20 @@ public class KeyboardManager implements Runnable{
                             int parsedInputStud = Integer.parseInt(userInput); //we need try-catch because if the input is incorrect, there is an exception
                             int selectedStudentIndex = parsedInputStud - 1;
                             cli.notifyObserver(obs -> obs.onSendMoveAStudentDashboard(selectedStudentIndex));
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             System.out.println("Input failed, retry");
                         }
                         break;
 
                     case MOVING_A_STUDENT_ISLAND:
                         try {
-                            String paramsstud[] = userInput.split(" ");
+                            String[] paramsstud = userInput.split(" ");
                             int parsedInputStudIsl = Integer.parseInt(paramsstud[0]);
-                            int selectedStudentIslIndex = parsedInputStudIsl-1; //-1 is an error
+                            int selectedStudentIslIndex = parsedInputStudIsl - 1; //-1 is an error
 
                             int parsedInputIsl = Integer.parseInt(paramsstud[1]); //we need try-catch because if the input is incorrect, there is an exception
-                            int selectedIslandIndex = parsedInputIsl-1; //-1 is an error
-                            cli.notifyObserver(obs -> obs.onSendMoveAStudentIsland(selectedStudentIslIndex,selectedIslandIndex));
+                            int selectedIslandIndex = parsedInputIsl - 1; //-1 is an error
+                            cli.notifyObserver(obs -> obs.onSendMoveAStudentIsland(selectedStudentIslIndex, selectedIslandIndex));
                         } catch (Exception e) {
                             System.out.println("Input failed, retry");
                         }
@@ -239,10 +233,9 @@ public class KeyboardManager implements Runnable{
                     case MOVING_MOTHER_NATURE:
                         try {
                             int parsedInputMN = Integer.parseInt(userInput); //we need try-catch because if the input is incorrect, there is an exception
-                            int selectedMNPos = parsedInputMN-1;
+                            int selectedMNPos = parsedInputMN - 1;
                             cli.notifyObserver(obs -> obs.onSendMoveMotherNature(selectedMNPos));
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             System.out.println("Input failed, retry");
                         }
                         break;
@@ -250,10 +243,9 @@ public class KeyboardManager implements Runnable{
                     case CHOOSING_CLOUD:
                         try {
                             int parsedInputCloud = Integer.parseInt(userInput); //we need try-catch because if the input is incorrect, there is an exception
-                            int selectedCloudIndex = parsedInputCloud-1;
+                            int selectedCloudIndex = parsedInputCloud - 1;
                             cli.notifyObserver(obs -> obs.onSendChooseCloud(selectedCloudIndex));
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             System.out.println("Input failed, retry");
                         }
                         break;
@@ -265,8 +257,7 @@ public class KeyboardManager implements Runnable{
                         System.out.println("Error in the application"); //it should never happen
                         break;
                 }
-            }
-            else{
+            } else {
                 System.out.println("It's not your turn");
             }
 
@@ -275,6 +266,7 @@ public class KeyboardManager implements Runnable{
 
     /**
      * Sets the lobbies list
+     *
      * @param lobbiesList the list of lobbies
      */
     public void setLobbiesList(List<Lobby> lobbiesList) {
@@ -283,6 +275,7 @@ public class KeyboardManager implements Runnable{
 
     /**
      * Sets the available players' map
+     *
      * @param availablePlayers the available players map
      */
     public void setAvailablePlayers(Map<String, Integer> availablePlayers) {
@@ -291,6 +284,7 @@ public class KeyboardManager implements Runnable{
 
     /**
      * Sets the available tower colors
+     *
      * @param availableTowerColors the available tower colors
      */
     public void setAvailableTowerColors(List<TowerColor> availableTowerColors) {
@@ -299,6 +293,7 @@ public class KeyboardManager implements Runnable{
 
     /**
      * Sets the available wizards
+     *
      * @param availableWizards the available wizards
      */
     public void setAvailableWizards(List<Wizard> availableWizards) {
@@ -307,6 +302,7 @@ public class KeyboardManager implements Runnable{
 
     /**
      * Sets the client game model
+     *
      * @param clientGameModel the client game model
      */
     public void setClientGameModel(ClientGameModel clientGameModel) {
@@ -315,6 +311,7 @@ public class KeyboardManager implements Runnable{
 
     /**
      * Sets the used character
+     *
      * @param usedCharacter the used character
      */
     public void setUsedCharacter(int usedCharacter) {
@@ -323,13 +320,14 @@ public class KeyboardManager implements Runnable{
 
     /**
      * Manages user input character parameters
+     *
      * @param userInput input character parameters in string form
      */
-    private void manageCharacterParameters(String userInput){
+    private void manageCharacterParameters(String userInput) {
         try {
             String[] splitted = userInput.split(" ");
             List<Integer> parsedSplitted = new ArrayList<>();
-            if(usedCharacter!= 9 && usedCharacter!=10 && usedCharacter !=12) {
+            if (usedCharacter != 9 && usedCharacter != 10 && usedCharacter != 12) {
                 for (int i = 0; i < splitted.length; i++) {
                     parsedSplitted.add(Integer.parseInt(splitted[i]) - 1);
                 }
@@ -338,54 +336,50 @@ public class KeyboardManager implements Runnable{
             params.setCharacterId(usedCharacter);
             switch (usedCharacter) {
                 case 1:
-                    if (parsedSplitted.size() == 2){
+                    if (parsedSplitted.size() == 2) {
                         params.setStudentIndex(parsedSplitted.get(0));
                         params.setIslandIndex(parsedSplitted.get(1));
-                    }
-                    else{
+                    } else {
                         System.out.println("Params not correct, try again to write the params");
                         return;
                     }
-                        break;
+                    break;
                 case 3:
-                    if(parsedSplitted.size() == 1){
+                    if (parsedSplitted.size() == 1) {
                         params.setIslandIndex(parsedSplitted.get(0));
-                    }
-                    else{
+                    } else {
                         System.out.println("Params not correct, try again");
                         return;
                     }
                     break;
                 case 5:
-                    if(parsedSplitted.size() == 1){
+                    if (parsedSplitted.size() == 1) {
                         params.setIslandIndex(parsedSplitted.get(0));
-                    }
-                    else{
+                    } else {
                         System.out.println("Params not correct, try again");
                         return;
                     }
                     break;
                 case 7:
-                    if(parsedSplitted.size() <=6 && parsedSplitted.size()%2 == 0){
-                        int listsize = parsedSplitted.size()/2;
+                    if (parsedSplitted.size() <= 6 && parsedSplitted.size() % 2 == 0) {
+                        int listsize = parsedSplitted.size() / 2;
                         List<Integer> studentsList = new ArrayList<>();
                         List<Integer> studentsEntranceList = new ArrayList<>();
-                        for(int i = 0; i<listsize ; i++){
+                        for (int i = 0; i < listsize; i++) {
                             studentsList.add(parsedSplitted.get(i));
                         }
-                        for(int i = listsize ; i< parsedSplitted.size() ; i++){
+                        for (int i = listsize; i < parsedSplitted.size(); i++) {
                             studentsEntranceList.add(parsedSplitted.get(i));
                         }
                         params.setStudentsIndexList(studentsList);
                         params.setStudentsIndexEntranceList(studentsEntranceList);
-                    }
-                    else{
+                    } else {
                         System.out.println("Params not correct, try again");
                         return;
                     }
                     break;
                 case 9:
-                    if(splitted.length == 1){
+                    if (splitted.length == 1) {
                         PawnColor selectedColor = null;
                         splitted[0] = splitted[0].toUpperCase(); //we transform in upper case
                         for (PawnColor c : PawnColor.values()) {
@@ -394,33 +388,37 @@ public class KeyboardManager implements Runnable{
                                 break;
                             }
                         }
-                        if(selectedColor!= null){
-                        params.setSelectedColor(selectedColor);}
-                        else{System.out.println("Params not correct, try again");
-                        return;}
+                        if (selectedColor != null) {
+                            params.setSelectedColor(selectedColor);
+                        } else {
+                            System.out.println("Params not correct, try again");
+                            return;
+                        }
                     }
                     break;
                 case 10:
-                    if(splitted.length <=4 && splitted.length%2 == 0){
-                        int listsize2 = splitted.length/2;
+                    if (splitted.length <= 4 && splitted.length % 2 == 0) {
+                        int listsize2 = splitted.length / 2;
                         PawnColor selectedColor1;
                         PawnColor selectedColor2 = null;
                         List<Integer> studentsEntranceList2 = new ArrayList<>();
 
 
                         selectedColor1 = parsePawnColor(splitted[0]);
-                        if(selectedColor1==null) {
+                        if (selectedColor1 == null) {
                             System.out.println("Params not correct, try again");
-                            return;}
-
-                        if(listsize2 ==2){
-                            selectedColor2=parsePawnColor(splitted[1]);
-                            if(selectedColor2==null) {
-                                System.out.println("Params not correct, try again");
-                                return;}
+                            return;
                         }
 
-                        for(int i = listsize2 ; i< splitted.length ; i++){
+                        if (listsize2 == 2) {
+                            selectedColor2 = parsePawnColor(splitted[1]);
+                            if (selectedColor2 == null) {
+                                System.out.println("Params not correct, try again");
+                                return;
+                            }
+                        }
+
+                        for (int i = listsize2; i < splitted.length; i++) {
                             int parsed = Integer.parseInt(splitted[i]) - 1;
                             studentsEntranceList2.add(parsed);
                         }
@@ -428,29 +426,29 @@ public class KeyboardManager implements Runnable{
                         params.setSelectedColor(selectedColor1);
                         params.setSelectedColor2(selectedColor2);
                         params.setStudentsIndexEntranceList(studentsEntranceList2);
-                    }
-                    else{
+                    } else {
                         System.out.println("Params not correct, try again");
                         return;
                     }
 
                     break;
                 case 11:
-                    if(parsedSplitted.size() == 1){
+                    if (parsedSplitted.size() == 1) {
                         params.setStudentIndex(parsedSplitted.get(0));
-                    }
-                    else{
+                    } else {
                         System.out.println("Params not correct, try again");
                         return;
                     }
                     break;
                 case 12:
-                    if(splitted.length == 1){
+                    if (splitted.length == 1) {
                         PawnColor selectedColor = parsePawnColor(splitted[0]);
-                        if(selectedColor!= null){
-                            params.setSelectedColor(selectedColor);}
-                        else{System.out.println("Params not correct, try again");
-                            return;}
+                        if (selectedColor != null) {
+                            params.setSelectedColor(selectedColor);
+                        } else {
+                            System.out.println("Params not correct, try again");
+                            return;
+                        }
                     }
                     break;
                 default: //it will never happen
@@ -458,17 +456,18 @@ public class KeyboardManager implements Runnable{
                     return;
             }
             cli.notifyObserver(obs -> obs.onSendUseCharacter(params));
+        } catch (Exception e) {
+            System.out.println("User input failed, try again");
         }
-        catch (Exception e){
-        System.out.println("User input failed, try again");}
     }
 
     /**
      * Parses an input string into a Pawn Color
+     *
      * @param toParse string to be parsed
      * @return the pawn color
      */
-    private PawnColor parsePawnColor(String toParse){
+    private PawnColor parsePawnColor(String toParse) {
         toParse = toParse.toUpperCase(); //we transform in upper case
         for (PawnColor c : PawnColor.values()) {
             if (toParse.equals(c.toString())) {

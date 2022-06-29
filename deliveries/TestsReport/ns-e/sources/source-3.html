@@ -1,0 +1,441 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CharacterSceneController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view.gui.scene</a>
+</div>
+
+<h1>Coverage Summary for Class: CharacterSceneController (it.polimi.ingsw.view.gui.scene)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CharacterSceneController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/125)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CharacterSceneController$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/126)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.view.gui.scene;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.client.ReducedCharacter;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.model.enumerations.PawnColor;
+<i class="no-highlight">5</i>&nbsp;import javafx.event.Event;
+<i class="no-highlight">6</i>&nbsp;import javafx.fxml.FXML;
+<i class="no-highlight">7</i>&nbsp;import javafx.scene.control.Button;
+<i class="no-highlight">8</i>&nbsp;import javafx.scene.image.Image;
+<i class="no-highlight">9</i>&nbsp;import javafx.scene.image.ImageView;
+<i class="no-highlight">10</i>&nbsp;import javafx.scene.input.MouseEvent;
+<i class="no-highlight">11</i>&nbsp;import javafx.scene.layout.GridPane;
+<i class="no-highlight">12</i>&nbsp;import javafx.stage.Stage;
+<i class="no-highlight">13</i>&nbsp;
+<i class="no-highlight">14</i>&nbsp;import java.util.ArrayList;
+<i class="no-highlight">15</i>&nbsp;import java.util.List;
+<i class="no-highlight">16</i>&nbsp;
+<i class="no-highlight">17</i>&nbsp;
+<i class="no-highlight">18</i>&nbsp;public class CharacterSceneController {
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;    @FXML
+<i class="no-highlight">21</i>&nbsp;    private ImageView characterDetailImageView;
+<i class="no-highlight">22</i>&nbsp;    @FXML
+<i class="no-highlight">23</i>&nbsp;    private Button buttonPlayCharacter;
+<i class="no-highlight">24</i>&nbsp;    @FXML
+<i class="no-highlight">25</i>&nbsp;    private GridPane characterGridPane;
+<i class="no-highlight">26</i>&nbsp;    @FXML
+<i class="no-highlight">27</i>&nbsp;    private ImageView imageViewUsedMoney;
+<i class="no-highlight">28</i>&nbsp;
+<i class="no-highlight">29</i>&nbsp;
+<i class="no-highlight">30</i>&nbsp;    private ReducedCharacter character;
+<i class="no-highlight">31</i>&nbsp;    private Stage stage;
+<b class="nc"><i class="no-highlight">32</i>&nbsp;    private boolean chooseUse = false; //set true if I choose to use the character</b>
+<i class="no-highlight">33</i>&nbsp;
+<i class="no-highlight">34</i>&nbsp;    private final List&lt;Integer&gt; selectedStudentResult; //result of the selection
+<i class="no-highlight">35</i>&nbsp;    private PawnColor selectedProfessorResult; //result of the selection
+<b class="nc"><i class="no-highlight">36</i>&nbsp;    private int selectedStudents = 0;</b>
+<b class="nc"><i class="no-highlight">37</i>&nbsp;    private boolean selectionMode = false;</b>
+<b class="nc"><i class="no-highlight">38</i>&nbsp;    private boolean selectionSuccess = false;</b>
+<i class="no-highlight">39</i>&nbsp;
+<b class="nc"><i class="no-highlight">40</i>&nbsp;    public CharacterSceneController() {</b>
+<b class="nc"><i class="no-highlight">41</i>&nbsp;        selectedStudentResult = new ArrayList&lt;&gt;();</b>
+<i class="no-highlight">42</i>&nbsp;    }
+<i class="no-highlight">43</i>&nbsp;
+<i class="no-highlight">44</i>&nbsp;    @FXML
+<i class="no-highlight">45</i>&nbsp;    public void initialize() {
+<b class="nc"><i class="no-highlight">46</i>&nbsp;        buttonPlayCharacter.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onUseClick);</b>
+<i class="no-highlight">47</i>&nbsp;
+<i class="no-highlight">48</i>&nbsp;    }
+<i class="no-highlight">49</i>&nbsp;
+<i class="no-highlight">50</i>&nbsp;
+<i class="no-highlight">51</i>&nbsp;    /**
+<i class="no-highlight">52</i>&nbsp;     * laad selected character on the graphics
+<i class="no-highlight">53</i>&nbsp;     *
+<i class="no-highlight">54</i>&nbsp;     * @param character
+<i class="no-highlight">55</i>&nbsp;     */
+<i class="no-highlight">56</i>&nbsp;    public void loadCharacter(ReducedCharacter character, boolean enabled) {
+<b class="nc"><i class="no-highlight">57</i>&nbsp;        this.character = character;</b>
+<b class="nc"><i class="no-highlight">58</i>&nbsp;        buttonPlayCharacter.setVisible(enabled);</b>
+<b class="nc"><i class="no-highlight">59</i>&nbsp;        getCharacterImage(character.getId(), characterDetailImageView);</b>
+<b class="nc"><i class="no-highlight">60</i>&nbsp;        imageViewUsedMoney.setVisible(character.isUsed());</b>
+<i class="no-highlight">61</i>&nbsp;
+<b class="nc"><i class="no-highlight">62</i>&nbsp;        if (character.getId() == 1 || character.getId() == 7 || character.getId() == 11) {</b>
+<b class="nc"><i class="no-highlight">63</i>&nbsp;            int index = 0;</b>
+<b class="nc"><i class="no-highlight">64</i>&nbsp;            for (int j = 0; j &lt; 3; j++) {</b>
+<b class="nc"><i class="no-highlight">65</i>&nbsp;                for (int i = 0; i &lt; 2; i++) {</b>
+<b class="nc"><i class="no-highlight">66</i>&nbsp;                    if (index &lt; character.getCardStudentsList().size()) {</b>
+<b class="nc"><i class="no-highlight">67</i>&nbsp;                        ImageView pawnImage = getPawnImage(character.getCardStudentsList().get(index));</b>
+<b class="nc"><i class="no-highlight">68</i>&nbsp;                        pawnImage.setOnMouseEntered((e) -&gt; {</b>
+<b class="nc"><i class="no-highlight">69</i>&nbsp;                            pawnImage.setFitWidth(46);</b>
+<b class="nc"><i class="no-highlight">70</i>&nbsp;                            pawnImage.setFitHeight(46);</b>
+<i class="no-highlight">71</i>&nbsp;                        });
+<i class="no-highlight">72</i>&nbsp;
+<b class="nc"><i class="no-highlight">73</i>&nbsp;                        pawnImage.setOnMouseExited((e) -&gt; {</b>
+<b class="nc"><i class="no-highlight">74</i>&nbsp;                            pawnImage.setFitWidth(44);</b>
+<b class="nc"><i class="no-highlight">75</i>&nbsp;                            pawnImage.setFitHeight(44);</b>
+<i class="no-highlight">76</i>&nbsp;                        });
+<b class="nc"><i class="no-highlight">77</i>&nbsp;                        pawnImage.setUserData(index);</b>
+<b class="nc"><i class="no-highlight">78</i>&nbsp;                        pawnImage.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onStudentClicked);</b>
+<b class="nc"><i class="no-highlight">79</i>&nbsp;                        characterGridPane.add(pawnImage, i, j);</b>
+<b class="nc"><i class="no-highlight">80</i>&nbsp;                        index++;</b>
+<i class="no-highlight">81</i>&nbsp;                    }
+<i class="no-highlight">82</i>&nbsp;                }
+<i class="no-highlight">83</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">84</i>&nbsp;        } else if (character.getId() == 5) {</b>
+<b class="nc"><i class="no-highlight">85</i>&nbsp;            int index = 0;</b>
+<b class="nc"><i class="no-highlight">86</i>&nbsp;            for (int j = 0; j &lt; 3; j++) {</b>
+<b class="nc"><i class="no-highlight">87</i>&nbsp;                for (int i = 0; i &lt; 2; i++) {</b>
+<b class="nc"><i class="no-highlight">88</i>&nbsp;                    if (index &lt; character.getNumOfForbidCards()) {</b>
+<b class="nc"><i class="no-highlight">89</i>&nbsp;                        ImageView imageView = new ImageView();</b>
+<b class="nc"><i class="no-highlight">90</i>&nbsp;                        imageView.setImage(new Image(getClass().getResourceAsStream(&quot;/images/forbidCircle.png&quot;)));</b>
+<b class="nc"><i class="no-highlight">91</i>&nbsp;                        imageView.setFitWidth(44);</b>
+<b class="nc"><i class="no-highlight">92</i>&nbsp;                        imageView.setFitHeight(44);</b>
+<b class="nc"><i class="no-highlight">93</i>&nbsp;                        characterGridPane.add(imageView, i, j);</b>
+<b class="nc"><i class="no-highlight">94</i>&nbsp;                        index++;</b>
+<i class="no-highlight">95</i>&nbsp;                    }
+<i class="no-highlight">96</i>&nbsp;                }
+<i class="no-highlight">97</i>&nbsp;            }
+<i class="no-highlight">98</i>&nbsp;        }
+<i class="no-highlight">99</i>&nbsp;
+<i class="no-highlight">100</i>&nbsp;    }
+<i class="no-highlight">101</i>&nbsp;
+<i class="no-highlight">102</i>&nbsp;    /**
+<i class="no-highlight">103</i>&nbsp;     * enters the character in selection mode to choose its pawn
+<i class="no-highlight">104</i>&nbsp;     */
+<i class="no-highlight">105</i>&nbsp;    public void selectionMode() {
+<b class="nc"><i class="no-highlight">106</i>&nbsp;        selectionMode = true;</b>
+<b class="nc"><i class="no-highlight">107</i>&nbsp;        buttonPlayCharacter.setText(&quot;Select&quot;);</b>
+<b class="nc"><i class="no-highlight">108</i>&nbsp;        buttonPlayCharacter.setVisible(false);</b>
+<i class="no-highlight">109</i>&nbsp;
+<b class="nc"><i class="no-highlight">110</i>&nbsp;        if (character.getId() == 9 || character.getId() == 12) {</b>
+<b class="nc"><i class="no-highlight">111</i>&nbsp;            PawnColor[] pawnColors = PawnColor.values();</b>
+<i class="no-highlight">112</i>&nbsp;
+<b class="nc"><i class="no-highlight">113</i>&nbsp;            int index = 0;</b>
+<b class="nc"><i class="no-highlight">114</i>&nbsp;            for (int j = 0; j &lt; 3; j++) {</b>
+<b class="nc"><i class="no-highlight">115</i>&nbsp;                for (int i = 0; i &lt; 2; i++) {</b>
+<b class="nc"><i class="no-highlight">116</i>&nbsp;                    if (index &lt; pawnColors.length) {</b>
+<b class="nc"><i class="no-highlight">117</i>&nbsp;                        ImageView professorImage = getProfessorImage(pawnColors[index]);</b>
+<b class="nc"><i class="no-highlight">118</i>&nbsp;                        professorImage.setRotate(-90);</b>
+<b class="nc"><i class="no-highlight">119</i>&nbsp;                        professorImage.setOnMouseEntered((e) -&gt; {</b>
+<b class="nc"><i class="no-highlight">120</i>&nbsp;                            professorImage.setFitWidth(46);</b>
+<b class="nc"><i class="no-highlight">121</i>&nbsp;                            professorImage.setFitHeight(46);</b>
+<i class="no-highlight">122</i>&nbsp;                        });
+<i class="no-highlight">123</i>&nbsp;
+<b class="nc"><i class="no-highlight">124</i>&nbsp;                        professorImage.setOnMouseExited((e) -&gt; {</b>
+<b class="nc"><i class="no-highlight">125</i>&nbsp;                            professorImage.setFitWidth(44);</b>
+<b class="nc"><i class="no-highlight">126</i>&nbsp;                            professorImage.setFitHeight(44);</b>
+<i class="no-highlight">127</i>&nbsp;                        });
+<b class="nc"><i class="no-highlight">128</i>&nbsp;                        professorImage.setUserData(pawnColors[index]);</b>
+<b class="nc"><i class="no-highlight">129</i>&nbsp;                        professorImage.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onProfessorClicked);</b>
+<b class="nc"><i class="no-highlight">130</i>&nbsp;                        characterGridPane.add(professorImage, i, j);</b>
+<b class="nc"><i class="no-highlight">131</i>&nbsp;                        index++;</b>
+<i class="no-highlight">132</i>&nbsp;                    }
+<i class="no-highlight">133</i>&nbsp;                }
+<i class="no-highlight">134</i>&nbsp;            }
+<i class="no-highlight">135</i>&nbsp;
+<i class="no-highlight">136</i>&nbsp;        }
+<i class="no-highlight">137</i>&nbsp;    }
+<i class="no-highlight">138</i>&nbsp;
+<i class="no-highlight">139</i>&nbsp;    /**
+<i class="no-highlight">140</i>&nbsp;     * executed when clicking the use button
+<i class="no-highlight">141</i>&nbsp;     * closes the stage
+<i class="no-highlight">142</i>&nbsp;     *
+<i class="no-highlight">143</i>&nbsp;     * @param e
+<i class="no-highlight">144</i>&nbsp;     */
+<i class="no-highlight">145</i>&nbsp;    private void onUseClick(Event e) {
+<b class="nc"><i class="no-highlight">146</i>&nbsp;        chooseUse = true;</b>
+<b class="nc"><i class="no-highlight">147</i>&nbsp;        selectionSuccess = true;</b>
+<b class="nc"><i class="no-highlight">148</i>&nbsp;        stage.close();</b>
+<i class="no-highlight">149</i>&nbsp;    }
+<i class="no-highlight">150</i>&nbsp;
+<i class="no-highlight">151</i>&nbsp;    /**
+<i class="no-highlight">152</i>&nbsp;     * executed when clicking on one student on the card
+<i class="no-highlight">153</i>&nbsp;     *
+<i class="no-highlight">154</i>&nbsp;     * @param e
+<i class="no-highlight">155</i>&nbsp;     */
+<i class="no-highlight">156</i>&nbsp;    private void onStudentClicked(Event e) {
+<b class="nc"><i class="no-highlight">157</i>&nbsp;        ImageView pawnImg = (ImageView) e.getSource();</b>
+<b class="nc"><i class="no-highlight">158</i>&nbsp;        int studentId = (int) pawnImg.getUserData();</b>
+<i class="no-highlight">159</i>&nbsp;
+<b class="nc"><i class="no-highlight">160</i>&nbsp;        if (selectionMode) {</b>
+<b class="nc"><i class="no-highlight">161</i>&nbsp;            if (character.getId() == 1 || character.getId() == 11) {</b>
+<b class="nc"><i class="no-highlight">162</i>&nbsp;                selectedStudentResult.add(studentId);</b>
+<b class="nc"><i class="no-highlight">163</i>&nbsp;                selectionSuccess = true;</b>
+<b class="nc"><i class="no-highlight">164</i>&nbsp;                stage.close();</b>
+<i class="no-highlight">165</i>&nbsp;                return;
+<i class="no-highlight">166</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">167</i>&nbsp;            if (character.getId() == 7) {</b>
+<b class="nc"><i class="no-highlight">168</i>&nbsp;                selectedStudentResult.add(studentId);</b>
+<b class="nc"><i class="no-highlight">169</i>&nbsp;                selectedStudents++;</b>
+<b class="nc"><i class="no-highlight">170</i>&nbsp;                pawnImg.setDisable(true);</b>
+<b class="nc"><i class="no-highlight">171</i>&nbsp;                pawnImg.setOpacity(0.35);</b>
+<b class="nc"><i class="no-highlight">172</i>&nbsp;                if (selectedStudents == 3) {</b>
+<b class="nc"><i class="no-highlight">173</i>&nbsp;                    selectionSuccess = true;</b>
+<b class="nc"><i class="no-highlight">174</i>&nbsp;                    stage.close();</b>
+<i class="no-highlight">175</i>&nbsp;                }
+<b class="nc"><i class="no-highlight">176</i>&nbsp;                if (selectedStudents &gt;= 1) {</b>
+<b class="nc"><i class="no-highlight">177</i>&nbsp;                    buttonPlayCharacter.setVisible(true); //enable the selection button for choosing less than 3 students</b>
+<i class="no-highlight">178</i>&nbsp;                }
+<i class="no-highlight">179</i>&nbsp;            }
+<i class="no-highlight">180</i>&nbsp;        }
+<i class="no-highlight">181</i>&nbsp;    }
+<i class="no-highlight">182</i>&nbsp;
+<i class="no-highlight">183</i>&nbsp;    /**
+<i class="no-highlight">184</i>&nbsp;     * executed when clicking on one professor on the card
+<i class="no-highlight">185</i>&nbsp;     *
+<i class="no-highlight">186</i>&nbsp;     * @param e
+<i class="no-highlight">187</i>&nbsp;     */
+<i class="no-highlight">188</i>&nbsp;    private void onProfessorClicked(Event e) {
+<b class="nc"><i class="no-highlight">189</i>&nbsp;        PawnColor pawnColor = (PawnColor) ((ImageView) e.getSource()).getUserData();</b>
+<b class="nc"><i class="no-highlight">190</i>&nbsp;        if (selectionMode) {</b>
+<b class="nc"><i class="no-highlight">191</i>&nbsp;            selectedProfessorResult = pawnColor;</b>
+<b class="nc"><i class="no-highlight">192</i>&nbsp;            selectionSuccess = true;</b>
+<b class="nc"><i class="no-highlight">193</i>&nbsp;            stage.close();</b>
+<i class="no-highlight">194</i>&nbsp;        }
+<i class="no-highlight">195</i>&nbsp;    }
+<i class="no-highlight">196</i>&nbsp;
+<i class="no-highlight">197</i>&nbsp;    /**
+<i class="no-highlight">198</i>&nbsp;     * @return true if play button was clicked
+<i class="no-highlight">199</i>&nbsp;     */
+<i class="no-highlight">200</i>&nbsp;    public boolean isChooseUse() {
+<b class="nc"><i class="no-highlight">201</i>&nbsp;        return chooseUse;</b>
+<i class="no-highlight">202</i>&nbsp;    }
+<i class="no-highlight">203</i>&nbsp;
+<i class="no-highlight">204</i>&nbsp;    /**
+<i class="no-highlight">205</i>&nbsp;     * Give reference of current stage
+<i class="no-highlight">206</i>&nbsp;     *
+<i class="no-highlight">207</i>&nbsp;     * @param stage
+<i class="no-highlight">208</i>&nbsp;     */
+<i class="no-highlight">209</i>&nbsp;    public void setStage(Stage stage) {
+<b class="nc"><i class="no-highlight">210</i>&nbsp;        this.stage = stage;</b>
+<i class="no-highlight">211</i>&nbsp;    }
+<i class="no-highlight">212</i>&nbsp;
+<i class="no-highlight">213</i>&nbsp;    /**
+<i class="no-highlight">214</i>&nbsp;     * @return true if selection was successful
+<i class="no-highlight">215</i>&nbsp;     */
+<i class="no-highlight">216</i>&nbsp;    public boolean isSelectionSuccess() {
+<b class="nc"><i class="no-highlight">217</i>&nbsp;        return selectionSuccess;</b>
+<i class="no-highlight">218</i>&nbsp;    }
+<i class="no-highlight">219</i>&nbsp;
+<i class="no-highlight">220</i>&nbsp;    /**
+<i class="no-highlight">221</i>&nbsp;     * @return selected PawnColor
+<i class="no-highlight">222</i>&nbsp;     */
+<i class="no-highlight">223</i>&nbsp;    public PawnColor getSelectedProfessorResult() {
+<b class="nc"><i class="no-highlight">224</i>&nbsp;        return selectedProfessorResult;</b>
+<i class="no-highlight">225</i>&nbsp;    }
+<i class="no-highlight">226</i>&nbsp;
+<i class="no-highlight">227</i>&nbsp;    /**
+<i class="no-highlight">228</i>&nbsp;     * @return list of selected students
+<i class="no-highlight">229</i>&nbsp;     */
+<i class="no-highlight">230</i>&nbsp;    public List&lt;Integer&gt; getSelectedStudentResult() {
+<b class="nc"><i class="no-highlight">231</i>&nbsp;        return selectedStudentResult;</b>
+<i class="no-highlight">232</i>&nbsp;    }
+<i class="no-highlight">233</i>&nbsp;
+<i class="no-highlight">234</i>&nbsp;    /**
+<i class="no-highlight">235</i>&nbsp;     * loads selected character on imageView
+<i class="no-highlight">236</i>&nbsp;     *
+<i class="no-highlight">237</i>&nbsp;     * @param id
+<i class="no-highlight">238</i>&nbsp;     * @param imageView
+<i class="no-highlight">239</i>&nbsp;     */
+<i class="no-highlight">240</i>&nbsp;    private void getCharacterImage(int id, ImageView imageView) {
+<b class="nc"><i class="no-highlight">241</i>&nbsp;        String path = &quot;/images/char&quot; + id + &quot;.jpg&quot;;</b>
+<b class="nc"><i class="no-highlight">242</i>&nbsp;        imageView.setImage(new Image(getClass().getResourceAsStream(path)));</b>
+<b class="nc"><i class="no-highlight">243</i>&nbsp;        imageView.setFitWidth(329);</b>
+<b class="nc"><i class="no-highlight">244</i>&nbsp;        imageView.setFitHeight(500);</b>
+<i class="no-highlight">245</i>&nbsp;    }
+<i class="no-highlight">246</i>&nbsp;
+<i class="no-highlight">247</i>&nbsp;    /**
+<i class="no-highlight">248</i>&nbsp;     * gives imageview of selected student
+<i class="no-highlight">249</i>&nbsp;     *
+<i class="no-highlight">250</i>&nbsp;     * @param color
+<i class="no-highlight">251</i>&nbsp;     * @return imageView
+<i class="no-highlight">252</i>&nbsp;     */
+<i class="no-highlight">253</i>&nbsp;    private ImageView getPawnImage(PawnColor color) {
+<b class="nc"><i class="no-highlight">254</i>&nbsp;        ImageView imageView = new ImageView();</b>
+<b class="nc"><i class="no-highlight">255</i>&nbsp;        String path = &quot;/images/&quot;;</b>
+<b class="nc"><i class="no-highlight">256</i>&nbsp;        switch (color) {</b>
+<i class="no-highlight">257</i>&nbsp;            case RED:
+<b class="nc"><i class="no-highlight">258</i>&nbsp;                path += &quot;redStudent3D.png&quot;;</b>
+<b class="nc"><i class="no-highlight">259</i>&nbsp;                break;</b>
+<i class="no-highlight">260</i>&nbsp;            case BLUE:
+<b class="nc"><i class="no-highlight">261</i>&nbsp;                path += &quot;blueStudent3D.png&quot;;</b>
+<b class="nc"><i class="no-highlight">262</i>&nbsp;                break;</b>
+<i class="no-highlight">263</i>&nbsp;            case YELLOW:
+<b class="nc"><i class="no-highlight">264</i>&nbsp;                path += &quot;yellowStudent3D.png&quot;;</b>
+<b class="nc"><i class="no-highlight">265</i>&nbsp;                break;</b>
+<i class="no-highlight">266</i>&nbsp;            case PINK:
+<b class="nc"><i class="no-highlight">267</i>&nbsp;                path += &quot;pinkStudent3D.png&quot;;</b>
+<b class="nc"><i class="no-highlight">268</i>&nbsp;                break;</b>
+<i class="no-highlight">269</i>&nbsp;            case GREEN:
+<b class="nc"><i class="no-highlight">270</i>&nbsp;                path += &quot;greenStudent3D.png&quot;;</b>
+<i class="no-highlight">271</i>&nbsp;                break;
+<i class="no-highlight">272</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">273</i>&nbsp;        imageView.setImage(new Image(getClass().getResourceAsStream(path)));</b>
+<b class="nc"><i class="no-highlight">274</i>&nbsp;        imageView.setFitWidth(44);</b>
+<b class="nc"><i class="no-highlight">275</i>&nbsp;        imageView.setFitHeight(44);</b>
+<b class="nc"><i class="no-highlight">276</i>&nbsp;        return imageView;</b>
+<i class="no-highlight">277</i>&nbsp;    }
+<i class="no-highlight">278</i>&nbsp;
+<i class="no-highlight">279</i>&nbsp;    /**
+<i class="no-highlight">280</i>&nbsp;     * gives ImageView of selected professor
+<i class="no-highlight">281</i>&nbsp;     *
+<i class="no-highlight">282</i>&nbsp;     * @param color
+<i class="no-highlight">283</i>&nbsp;     * @return imageView
+<i class="no-highlight">284</i>&nbsp;     */
+<i class="no-highlight">285</i>&nbsp;    private ImageView getProfessorImage(PawnColor color) {
+<b class="nc"><i class="no-highlight">286</i>&nbsp;        ImageView imageView = new ImageView();</b>
+<b class="nc"><i class="no-highlight">287</i>&nbsp;        String path = &quot;/images/&quot;;</b>
+<b class="nc"><i class="no-highlight">288</i>&nbsp;        switch (color) {</b>
+<i class="no-highlight">289</i>&nbsp;            case RED:
+<b class="nc"><i class="no-highlight">290</i>&nbsp;                path += &quot;teacher_red.png&quot;;</b>
+<b class="nc"><i class="no-highlight">291</i>&nbsp;                break;</b>
+<i class="no-highlight">292</i>&nbsp;            case BLUE:
+<b class="nc"><i class="no-highlight">293</i>&nbsp;                path += &quot;teacher_blue.png&quot;;</b>
+<b class="nc"><i class="no-highlight">294</i>&nbsp;                break;</b>
+<i class="no-highlight">295</i>&nbsp;            case YELLOW:
+<b class="nc"><i class="no-highlight">296</i>&nbsp;                path += &quot;teacher_yellow.png&quot;;</b>
+<b class="nc"><i class="no-highlight">297</i>&nbsp;                break;</b>
+<i class="no-highlight">298</i>&nbsp;            case PINK:
+<b class="nc"><i class="no-highlight">299</i>&nbsp;                path += &quot;teacher_pink.png&quot;;</b>
+<b class="nc"><i class="no-highlight">300</i>&nbsp;                break;</b>
+<i class="no-highlight">301</i>&nbsp;            case GREEN:
+<b class="nc"><i class="no-highlight">302</i>&nbsp;                path += &quot;teacher_green.png&quot;;</b>
+<i class="no-highlight">303</i>&nbsp;                break;
+<i class="no-highlight">304</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">305</i>&nbsp;        imageView.setImage(new Image(getClass().getResourceAsStream(path)));</b>
+<b class="nc"><i class="no-highlight">306</i>&nbsp;        imageView.setFitWidth(44);</b>
+<b class="nc"><i class="no-highlight">307</i>&nbsp;        imageView.setFitHeight(44);</b>
+<b class="nc"><i class="no-highlight">308</i>&nbsp;        return imageView;</b>
+<i class="no-highlight">309</i>&nbsp;    }
+<i class="no-highlight">310</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-29 20:56</div>
+</div>
+</body>
+</html>

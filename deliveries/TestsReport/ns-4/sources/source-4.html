@@ -1,0 +1,182 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Cloud</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Cloud (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Cloud</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.model;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import java.util.ArrayList;
+<i class="no-highlight">4</i>&nbsp;import java.util.List;
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;/**
+<i class="no-highlight">7</i>&nbsp; * this class implements the game object cloud
+<i class="no-highlight">8</i>&nbsp; * the clouds are filled with students at the beginning of each round
+<i class="no-highlight">9</i>&nbsp; */
+<i class="no-highlight">10</i>&nbsp;public class Cloud {
+<i class="no-highlight">11</i>&nbsp;    //attributes
+<i class="no-highlight">12</i>&nbsp;    private List&lt;Student&gt; studentsList;
+<i class="no-highlight">13</i>&nbsp;
+<i class="no-highlight">14</i>&nbsp;
+<i class="no-highlight">15</i>&nbsp;    //Methods
+<i class="no-highlight">16</i>&nbsp;    //constructor
+<i class="no-highlight">17</i>&nbsp;
+<i class="no-highlight">18</i>&nbsp;    /**
+<i class="no-highlight">19</i>&nbsp;     * default constructor
+<i class="no-highlight">20</i>&nbsp;     */
+<b class="fc"><i class="no-highlight">21</i>&nbsp;    public Cloud() {</b>
+<b class="fc"><i class="no-highlight">22</i>&nbsp;        studentsList = new ArrayList&lt;Student&gt;();</b>
+<i class="no-highlight">23</i>&nbsp;    }
+<i class="no-highlight">24</i>&nbsp;
+<i class="no-highlight">25</i>&nbsp;    //getter
+<i class="no-highlight">26</i>&nbsp;
+<i class="no-highlight">27</i>&nbsp;    /**
+<i class="no-highlight">28</i>&nbsp;     * generates the list of clouds
+<i class="no-highlight">29</i>&nbsp;     *
+<i class="no-highlight">30</i>&nbsp;     * @param numOfPlayers the number of players
+<i class="no-highlight">31</i>&nbsp;     * @return the generated clouds list
+<i class="no-highlight">32</i>&nbsp;     */
+<i class="no-highlight">33</i>&nbsp;    public static List&lt;Cloud&gt; generateCloudsList(int numOfPlayers) {
+<b class="fc"><i class="no-highlight">34</i>&nbsp;        List&lt;Cloud&gt; cloudsList = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">35</i>&nbsp;        for (int i = 0; i &lt; numOfPlayers; i++) {</b>
+<b class="fc"><i class="no-highlight">36</i>&nbsp;            cloudsList.add(new Cloud());</b>
+<i class="no-highlight">37</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">38</i>&nbsp;        return cloudsList;</b>
+<i class="no-highlight">39</i>&nbsp;    }
+<i class="no-highlight">40</i>&nbsp;
+<i class="no-highlight">41</i>&nbsp;    //setter
+<i class="no-highlight">42</i>&nbsp;
+<i class="no-highlight">43</i>&nbsp;    /**
+<i class="no-highlight">44</i>&nbsp;     * @return the list of students on the cloud
+<i class="no-highlight">45</i>&nbsp;     */
+<i class="no-highlight">46</i>&nbsp;    public List&lt;Student&gt; getStudents() {
+<b class="fc"><i class="no-highlight">47</i>&nbsp;        return studentsList;</b>
+<i class="no-highlight">48</i>&nbsp;    }
+<i class="no-highlight">49</i>&nbsp;
+<i class="no-highlight">50</i>&nbsp;    /**
+<i class="no-highlight">51</i>&nbsp;     * sets the list of students on the cloud
+<i class="no-highlight">52</i>&nbsp;     *
+<i class="no-highlight">53</i>&nbsp;     * @param studentsList the cloud&#39;s students list
+<i class="no-highlight">54</i>&nbsp;     */
+<i class="no-highlight">55</i>&nbsp;    public void setStudentsList(List&lt;Student&gt; studentsList) {
+<b class="fc"><i class="no-highlight">56</i>&nbsp;        this.studentsList = studentsList;</b>
+<i class="no-highlight">57</i>&nbsp;    }
+<i class="no-highlight">58</i>&nbsp;
+<i class="no-highlight">59</i>&nbsp;    /**
+<i class="no-highlight">60</i>&nbsp;     * fills the cloud with a random list of students
+<i class="no-highlight">61</i>&nbsp;     * the number of students generated varies based on the number of players of the game
+<i class="no-highlight">62</i>&nbsp;     *
+<i class="no-highlight">63</i>&nbsp;     * @param bag         the bag
+<i class="no-highlight">64</i>&nbsp;     * @param numOfPlayer the number of players
+<i class="no-highlight">65</i>&nbsp;     */
+<i class="no-highlight">66</i>&nbsp;    public void fillCloud(Bag bag, int numOfPlayer) {
+<i class="no-highlight">67</i>&nbsp;        int numOfStudents;
+<b class="fc"><i class="no-highlight">68</i>&nbsp;        if (numOfPlayer == 3) {</b>
+<b class="fc"><i class="no-highlight">69</i>&nbsp;            numOfStudents = 4;</b>
+<i class="no-highlight">70</i>&nbsp;        } else {
+<b class="fc"><i class="no-highlight">71</i>&nbsp;            numOfStudents = 3;</b>
+<i class="no-highlight">72</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">73</i>&nbsp;        studentsList = bag.extractStudents(numOfStudents);</b>
+<i class="no-highlight">74</i>&nbsp;    }
+<i class="no-highlight">75</i>&nbsp;
+<i class="no-highlight">76</i>&nbsp;
+<i class="no-highlight">77</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-29 20:56</div>
+</div>
+</body>
+</html>

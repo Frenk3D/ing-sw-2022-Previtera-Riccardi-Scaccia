@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.enumerations.TowerColor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -15,25 +14,24 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Dashboard {
     //attributes
-    private List<Student> redStudentsList;
-    private List<Student> greenStudentsList;
-    private List<Student> yellowStudentsList;
-    private List<Student> pinkStudentsList;
-    private List<Student> blueStudentsList;
+    private final List<Student> redStudentsList;
+    private final List<Student> greenStudentsList;
+    private final List<Student> yellowStudentsList;
+    private final List<Student> pinkStudentsList;
+    private final List<Student> blueStudentsList;
 
     private List<Student> entranceList;
     private List<Tower> towersList;
-    private List<Professor> professorsList;
-
+    private final List<Professor> professorsList;
 
 
     /**
      * default constructor
      */
-    public Dashboard(){
+    public Dashboard() {
         entranceList = new ArrayList<>(); //intellij suggests to remove Student from <>
         towersList = new ArrayList<>();
-        professorsList= new ArrayList<>();
+        professorsList = new ArrayList<>();
         redStudentsList = new ArrayList<>();
         greenStudentsList = new ArrayList<>();
         yellowStudentsList = new ArrayList<>();
@@ -42,12 +40,11 @@ public class Dashboard {
     }
 
     /**
-     *
      * @param color the pawn color
      * @return the list of students in the hall of the selected color
      */
-    public List<Student> getHallStudentsListByColor(PawnColor color){
-        switch (color){
+    public List<Student> getHallStudentsListByColor(PawnColor color) {
+        switch (color) {
             case RED:
                 return redStudentsList;
             case GREEN:
@@ -63,13 +60,12 @@ public class Dashboard {
     }
 
     /**
-     *
      * @param color the pawn color
      * @return a professor of the selected color
      */
-    public Professor getProfessorByColor(PawnColor color){
-        for(Professor p : professorsList){
-            if(p.getColor().equals(color)){
+    public Professor getProfessorByColor(PawnColor color) {
+        for (Professor p : professorsList) {
+            if (p.getColor().equals(color)) {
                 return p;
             }
         }
@@ -79,17 +75,17 @@ public class Dashboard {
     /**
      * places the students on the entrance
      * the number of students placed varies based on the number of players in the game
+     *
      * @param numOfPlayers the number of players
-     * @param bag the bag
+     * @param bag          the bag
      */
-    public void placeStudentEntrance(int numOfPlayers, Bag bag){ //init function, we can't add to many students for the entrance's size
+    public void placeStudentEntrance(int numOfPlayers, Bag bag) { //init function, we can't add to many students for the entrance's size
         List<Student> entranceList;
         entranceList = new ArrayList<>();
         int numOfStudents;
-        if(numOfPlayers==2 || numOfPlayers==4){
+        if (numOfPlayers == 2 || numOfPlayers == 4) {
             numOfStudents = 7;
-        }
-        else{
+        } else {
             numOfStudents = 9;
         }
         entranceList = bag.extractStudents(numOfStudents);
@@ -99,52 +95,42 @@ public class Dashboard {
     /**
      * generates the player's (or the team's) towers
      * the number of towers generated varies based on the number of players in the game
-     * @param numOfPlayers the number of players
+     *
+     * @param numOfPlayers     the number of players
      * @param playerTowerColor the player's tower color
      */
-    public void generateTower(int numOfPlayers, TowerColor playerTowerColor){ //number of players is needed
+    public void generateTower(int numOfPlayers, TowerColor playerTowerColor) { //number of players is needed
         int towersToGenerate;
-        if(numOfPlayers==2 || numOfPlayers==4) {
+        if (numOfPlayers == 2 || numOfPlayers == 4) {
             towersToGenerate = 8;
-        }
-        else {
+        } else {
             towersToGenerate = 6;
         }
         List<Tower> towers = new ArrayList<>();
-        for(int i=0;i<towersToGenerate;i++){
+        for (int i = 0; i < towersToGenerate; i++) {
             towers.add(new Tower(playerTowerColor));
         }
         setTowersList(towers);
     }
 
     /**
-     *
-     * @param student the student
+     * @param student    the student
      * @param currPlayer the current player
      * @param tableMoney the money on the table
      * @return adds a student in the hall
      */
-    public boolean addStudentHall(Student student, Player currPlayer, AtomicInteger tableMoney){
-        if (getHallStudentsListByColor(student.getColor()).size()==10){
+    public boolean addStudentHall(Student student, Player currPlayer, AtomicInteger tableMoney) {
+        if (getHallStudentsListByColor(student.getColor()).size() == 10) {
             return false;
         }
         getHallStudentsListByColor(student.getColor()).add(student);
-        if ((getHallStudentsListByColor(student.getColor()).size() % 3)==0 && tableMoney != null){ // if null it's not expert mode
-            currPlayer.modifyMoney(1,tableMoney);
+        if ((getHallStudentsListByColor(student.getColor()).size() % 3) == 0 && tableMoney != null) { // if null it's not expert mode
+            currPlayer.modifyMoney(1, tableMoney);
         }
         return true;
     }
 
     /**
-     * sets the list of towers
-     * @param towersList the list of towers
-     */
-    public void setTowersList(List<Tower> towersList) {
-        this.towersList = towersList;
-    }
-
-    /**
-     *
      * @return the list of towers
      */
     public List<Tower> getTowersList() {
@@ -152,15 +138,15 @@ public class Dashboard {
     }
 
     /**
-     * sets the list of students in the entrance
-     * @param entranceList the entrance list
+     * sets the list of towers
+     *
+     * @param towersList the list of towers
      */
-    public void setEntranceList(List<Student> entranceList) {
-        this.entranceList = entranceList;
+    public void setTowersList(List<Tower> towersList) {
+        this.towersList = towersList;
     }
 
     /**
-     *
      * @return the list of students in the entrance
      */
     public List<Student> getEntranceList() {
@@ -168,7 +154,15 @@ public class Dashboard {
     }
 
     /**
+     * sets the list of students in the entrance
      *
+     * @param entranceList the entrance list
+     */
+    public void setEntranceList(List<Student> entranceList) {
+        this.entranceList = entranceList;
+    }
+
+    /**
      * @return the list of professors
      */
     public List<Professor> getProfessorsList() {
@@ -176,21 +170,19 @@ public class Dashboard {
     }
 
     /**
-     *
      * @param color the pawn color
      * @return the number of hall students of the selected color
      */
-    public int getNumOfHallStudents(PawnColor color){
+    public int getNumOfHallStudents(PawnColor color) {
         return getHallStudentsListByColor(color).size();
     }
 
     /**
-     *
      * @param studentIndex the index of the student
      * @return a student in the entrance student list selected by index
      */
-    public Student getEntranceStudentByIndex(int studentIndex){
-        if(studentIndex >= entranceList.size() || studentIndex<0){
+    public Student getEntranceStudentByIndex(int studentIndex) {
+        if (studentIndex >= entranceList.size() || studentIndex < 0) {
             return null;
         }
         return entranceList.get(studentIndex);

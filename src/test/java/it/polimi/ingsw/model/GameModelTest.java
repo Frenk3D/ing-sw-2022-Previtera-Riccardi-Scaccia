@@ -7,10 +7,12 @@ import it.polimi.ingsw.model.enumerations.TowerColor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.List;
-import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class GameModelTest {
     GameModel game1;
@@ -32,16 +34,16 @@ class GameModelTest {
         game2 = new GameModel();
         game2.setNumOfPlayers(3);
         game2.setExpertMode(false);
-        p1 = new Player("Jorginho",1);
+        p1 = new Player("Jorginho", 1);
         p1.setPlayerTowerColor(TowerColor.WHITE);
         p1.setTeam(1);
-        p2 = new Player("Ronaldinho",2);
+        p2 = new Player("Ronaldinho", 2);
         p2.setPlayerTowerColor(TowerColor.WHITE);
         p2.setTeam(1);
-        p3 = new Player("Messi",3);
+        p3 = new Player("Messi", 3);
         p3.setPlayerTowerColor(TowerColor.BLACK);
         p3.setTeam(2);
-        p4 = new Player("Ronaldo",4);
+        p4 = new Player("Ronaldo", 4);
         p4.setPlayerTowerColor(TowerColor.BLACK);
         p4.setTeam(2);
         game1.addPlayer(p1);
@@ -55,7 +57,7 @@ class GameModelTest {
         game2.start();
         islandsList = new ArrayList<>();
         cloudsList = new ArrayList<>();
-        charactersList= new ArrayList<it.polimi.ingsw.model.characters.Character>();
+        charactersList = new ArrayList<it.polimi.ingsw.model.characters.Character>();
         charactersList.add(Factory.newCharacter(1));
         charactersList.add(Factory.newCharacter(5));
         game1.setCharactersList(charactersList);
@@ -68,14 +70,14 @@ class GameModelTest {
 
     @Test
     void addPlayer() {
-        assertEquals(p1,game1.getPlayerById(1));
-        assertEquals(p4,game1.getPlayersList().get(3));
-        assertEquals(false,game1.addPlayer(p1));
+        assertEquals(p1, game1.getPlayerById(1));
+        assertEquals(p4, game1.getPlayersList().get(3));
+        assertEquals(false, game1.addPlayer(p1));
     }
 
     @Test
     void start() {
-        assertEquals(GameState.INGAME_STATE,game1.getGameState());
+        assertEquals(GameState.INGAME_STATE, game1.getGameState());
 
     }
 
@@ -83,7 +85,7 @@ class GameModelTest {
     void getIslandByIndex() {
         islandsList = Island.generateIslandsList();
         game1.setIslandsList(islandsList);
-        assertEquals(islandsList.get(2),game1.getIslandByIndex(2));
+        assertEquals(islandsList.get(2), game1.getIslandByIndex(2));
 
     }
 
@@ -91,14 +93,14 @@ class GameModelTest {
     void getCloudByIndex() {
         cloudsList = Cloud.generateCloudsList(4);
         game1.setCloudsList(cloudsList);
-        assertEquals(cloudsList.get(2),game1.getCloudByIndex(2));
+        assertEquals(cloudsList.get(2), game1.getCloudByIndex(2));
     }
 
     @Test
     void getCharacterByIndex() {
-         tmpCharactersList = game1.getCharactersList();
-         assertEquals(tmpCharactersList.get(1),game1.getCharacterByIndex(1));
-         assertNotEquals(null,game1.getCharacterByIndex(1));
+        tmpCharactersList = game1.getCharactersList();
+        assertEquals(tmpCharactersList.get(1), game1.getCharacterByIndex(1));
+        assertNotEquals(null, game1.getCharacterByIndex(1));
 
     }
 
@@ -106,16 +108,17 @@ class GameModelTest {
     void checkWin() {
         //tested in real games
     }
+
     @Test
-    void setNumOfPlayers(){
+    void setNumOfPlayers() {
         game2.setNumOfPlayers(4);
-        assertEquals(game1.getNumOfPlayers(),game2.getNumOfPlayers() );
+        assertEquals(game1.getNumOfPlayers(), game2.getNumOfPlayers());
     }
 
     @Test
     void aLotOfTests() {
         assertEquals(5, game1.getForbidCharacter().getId());
-        assertEquals(true,game1.isExpertMode());
+        assertEquals(true, game1.isExpertMode());
         assertEquals(4, game1.getCloudsList().size());
         assertNotEquals(93, game1.getBag().getStudentsList().size());
         assertEquals(81, game2.getBag().getStudentsList().size());

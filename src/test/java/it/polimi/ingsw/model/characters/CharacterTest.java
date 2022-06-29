@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class CharacterTest {
     Character character;
@@ -23,26 +24,25 @@ class CharacterTest {
     @Test
     void isUsed() {
         character.setUsed();
-        assertEquals(true,character.isUsed());
+        assertEquals(true, character.isUsed());
 
     }
 
     @Test
     void getId() {
-        assertEquals(2,character.getId());
+        assertEquals(2, character.getId());
     }
 
     @Test
     void getInitialCost() {
-        assertEquals(2,character.getInitialCost());
+        assertEquals(2, character.getInitialCost());
     }
+
     @Test
     void extractCharacters() {
         charactersList = character.extractCharacters();
-        assertEquals(3,charactersList.size());
-        assertNotEquals(charactersList.get(0),charactersList.get(1));
-
-
+        assertEquals(3, charactersList.size());
+        assertNotEquals(charactersList.get(0), charactersList.get(1));
 
 
     }

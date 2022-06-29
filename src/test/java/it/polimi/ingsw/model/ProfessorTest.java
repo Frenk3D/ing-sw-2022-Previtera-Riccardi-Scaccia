@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProfessorTest {
     Professor professor;
@@ -30,7 +30,7 @@ class ProfessorTest {
     void generateProfessorsList() {
         professorsList = Professor.generateProfessorsList();
         tmpProfessorList = Professor.generateProfessorsList();
-        assertEquals(professorsList,tmpProfessorList);
+        assertEquals(professorsList, tmpProfessorList);
 
     }
 }

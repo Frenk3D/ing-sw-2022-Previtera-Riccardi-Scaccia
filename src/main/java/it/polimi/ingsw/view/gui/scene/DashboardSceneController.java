@@ -17,82 +17,88 @@ import java.util.List;
 
 public class DashboardSceneController {
 
-    @FXML private GridPane entranceGridPane;
-    @FXML private GridPane hallGridPane;
-    @FXML private GridPane towersGridPane;
-    @FXML private Button buttonSelectDashboard;
+    @FXML
+    private GridPane entranceGridPane;
+    @FXML
+    private GridPane hallGridPane;
+    @FXML
+    private GridPane towersGridPane;
+    @FXML
+    private Button buttonSelectDashboard;
 
-    private List<Integer> entranceChoiceList;
-    private List<PawnColor> hallChoiceList;
-    private boolean selectionMode=false;
+    private final List<Integer> entranceChoiceList;
+    private final List<PawnColor> hallChoiceList;
+    private boolean selectionMode = false;
     private boolean isCharacter10 = false;
-    private boolean selectionSuccess=false;
+    private boolean selectionSuccess = false;
     private int selectedStudent;
     private int selectedRequest;
     private Stage stage;
 
-    @FXML
-    public void initialize() {
-        buttonSelectDashboard.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onSelectButtonClick);
-
-    }
-
     /**
      * Default constructor
      */
-    public DashboardSceneController(){
+    public DashboardSceneController() {
         entranceChoiceList = new ArrayList<>();
         hallChoiceList = new ArrayList<>();
     }
 
+    @FXML
+    public void initialize() {
+        buttonSelectDashboard.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onSelectButtonClick);
+
+    }
+
     /**
      * click on select button for character 10
+     *
      * @param e
      */
-    private void onSelectButtonClick(Event e){
-        selectionSuccess=true;
+    private void onSelectButtonClick(Event e) {
+        selectionSuccess = true;
         stage.close();
     }
 
     /**
      * loads the dashboard on the graphics
+     *
      * @param dashboard
-     * @param color tower color
+     * @param color     tower color
      */
-    public void loadDashboard(ReducedDashboard dashboard, TowerColor color){
+    public void loadDashboard(ReducedDashboard dashboard, TowerColor color) {
         clearDashboard();
 
         //load entrance
         ImageView firstPawn = getPawnImage(dashboard.getEntranceList().get(0));
-        firstPawn.setOnMouseEntered((e)->{
+        firstPawn.setOnMouseEntered((e) -> {
             firstPawn.setFitWidth(46);
             firstPawn.setFitHeight(46);
         });
 
-        firstPawn.setOnMouseExited((e)->{
+        firstPawn.setOnMouseExited((e) -> {
             firstPawn.setFitWidth(43);
             firstPawn.setFitHeight(43);
         });
         firstPawn.setUserData(0);
-        firstPawn.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onStudentClicked);
+        firstPawn.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onStudentClicked);
         entranceGridPane.add(firstPawn, 1, 0);
 
-        int index=1;
-        for (int j=1;j<5;j++){
-            for (int i = 0; i<2;i++){
-                if(index < dashboard.getEntranceList().size()) {
+        int index = 1;
+        for (int j = 1; j < 5; j++) {
+            for (int i = 0; i < 2; i++) {
+                if (index < dashboard.getEntranceList().size()) {
                     ImageView pawnImage = getPawnImage(dashboard.getEntranceList().get(index));
-                    pawnImage.setOnMouseEntered((e)->{
+                    pawnImage.setOnMouseEntered((e) -> {
                         pawnImage.setFitWidth(46);
                         pawnImage.setFitHeight(46);
                     });
 
-                    pawnImage.setOnMouseExited((e)->{
+                    pawnImage.setOnMouseExited((e) -> {
                         pawnImage.setFitWidth(44);
                         pawnImage.setFitHeight(44);
                     });
                     pawnImage.setUserData(index);
-                    pawnImage.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onStudentClicked);
+                    pawnImage.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onStudentClicked);
                     entranceGridPane.add(pawnImage, i, j);
                     index++;
                 }
@@ -100,25 +106,25 @@ public class DashboardSceneController {
         }
 
         //load hall and professors
-        int row=0;
-        for (PawnColor pawnColor : PawnColor.values()){
+        int row = 0;
+        for (PawnColor pawnColor : PawnColor.values()) {
             int number = dashboard.getStudentsHall().get(pawnColor);
-            for (int i=0;i<number;i++){
+            for (int i = 0; i < number; i++) {
                 ImageView pawnImage = getPawnImage(pawnColor);
-                pawnImage.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onStudentHallClicked);
+                pawnImage.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onStudentHallClicked);
                 pawnImage.setUserData(pawnColor);
                 hallGridPane.add(pawnImage, i, row);
             }
 
-            if(dashboard.getProfessorsList().contains(pawnColor)){
+            if (dashboard.getProfessorsList().contains(pawnColor)) {
                 ImageView professorImage = getProfessorImage(pawnColor);
-                hallGridPane.add(professorImage,11,row);
+                hallGridPane.add(professorImage, 11, row);
             }
             row++;
         }
 
         //load towers
-        if(color!=null) {
+        if (color != null) {
             index = 0;
             for (int j = 0; j < 5; j++) {
                 for (int i = 0; i < 2; i++) {
@@ -132,12 +138,12 @@ public class DashboardSceneController {
         }
     }
 
-    private void onStudentClicked(Event e){
-        ImageView pawnImg = (ImageView)e.getSource();
-        int studentIndex = (int)pawnImg.getUserData();
-        if (selectionMode){
-            if(isCharacter10){
-                if(selectedStudent<selectedRequest){
+    private void onStudentClicked(Event e) {
+        ImageView pawnImg = (ImageView) e.getSource();
+        int studentIndex = (int) pawnImg.getUserData();
+        if (selectionMode) {
+            if (isCharacter10) {
+                if (selectedStudent < selectedRequest) {
                     buttonSelectDashboard.setVisible(false);
                     entranceChoiceList.add(studentIndex);
                     selectedStudent++;
@@ -152,8 +158,8 @@ public class DashboardSceneController {
             pawnImg.setOpacity(0.35);
             pawnImg.setDisable(true);
 
-            if(selectedStudent>=selectedRequest){
-                selectionSuccess=true;
+            if (selectedStudent >= selectedRequest) {
+                selectionSuccess = true;
                 stage.close();
                 return;
             }
@@ -162,16 +168,17 @@ public class DashboardSceneController {
 
     /**
      * click on one student in the hall
+     *
      * @param e
      */
-    private void onStudentHallClicked(Event e){
-        ImageView pawnImg = (ImageView)e.getSource();
+    private void onStudentHallClicked(Event e) {
+        ImageView pawnImg = (ImageView) e.getSource();
         PawnColor color = (PawnColor) pawnImg.getUserData();
-        if (selectionMode&&isCharacter10&&hallChoiceList.size()<selectedStudent){
+        if (selectionMode && isCharacter10 && hallChoiceList.size() < selectedStudent) {
             hallChoiceList.add(color);
             pawnImg.setOpacity(0.35);
             pawnImg.setDisable(true);
-            if(hallChoiceList.size()==entranceChoiceList.size()){
+            if (hallChoiceList.size() == entranceChoiceList.size()) {
                 buttonSelectDashboard.setVisible(true);
             }
         }
@@ -179,6 +186,7 @@ public class DashboardSceneController {
 
     /**
      * set the stage for allowing to close it
+     *
      * @param stage
      */
     public void setStage(Stage stage) {
@@ -187,18 +195,18 @@ public class DashboardSceneController {
 
     /**
      * enter in selection mode
+     *
      * @param entranceChoice
-     * @param isCharacter10 true if we must use character 10
+     * @param isCharacter10  true if we must use character 10
      */
-    public void selectionMode(int entranceChoice, boolean isCharacter10){
-        selectionMode=true;
-        selectedStudent=0;
-        selectedRequest=entranceChoice;
-        this.isCharacter10=isCharacter10;
+    public void selectionMode(int entranceChoice, boolean isCharacter10) {
+        selectionMode = true;
+        selectedStudent = 0;
+        selectedRequest = entranceChoice;
+        this.isCharacter10 = isCharacter10;
     }
 
     /**
-     *
      * @return selection in the entrance
      */
     public List<Integer> getEntranceChoiceSelection() {
@@ -206,7 +214,6 @@ public class DashboardSceneController {
     }
 
     /**
-     *
      * @return selection in the hall
      */
     public List<PawnColor> getHallChoiceSelection() {
@@ -214,9 +221,8 @@ public class DashboardSceneController {
     }
 
     /**
-     *
      * @return true if selection was successful, false if window was closed
-     * */
+     */
     public boolean isSelectionSuccess() {
         return selectionSuccess;
     }
@@ -224,43 +230,44 @@ public class DashboardSceneController {
     /**
      * restores all grid panes before loading new data
      */
-    private void clearDashboard(){
-        for (int i = entranceGridPane.getChildren().size()-1 ; i>=0 ;i--) {
-                entranceGridPane.getChildren().remove(i);
+    private void clearDashboard() {
+        for (int i = entranceGridPane.getChildren().size() - 1; i >= 0; i--) {
+            entranceGridPane.getChildren().remove(i);
         }
 
-        for (int i = hallGridPane.getChildren().size()-1 ; i>=0 ;i--) {
+        for (int i = hallGridPane.getChildren().size() - 1; i >= 0; i--) {
             hallGridPane.getChildren().remove(i);
         }
 
-        for (int i = towersGridPane.getChildren().size()-1 ; i>=0 ;i--) {
+        for (int i = towersGridPane.getChildren().size() - 1; i >= 0; i--) {
             towersGridPane.getChildren().remove(i);
         }
     }
 
     /**
      * get imageview with selected image
+     *
      * @param color
      * @return imageView
      */
-    private ImageView getPawnImage(PawnColor color){
+    private ImageView getPawnImage(PawnColor color) {
         ImageView imageView = new ImageView();
         String path = "/images/";
-        switch (color){
+        switch (color) {
             case RED:
-                path+="redStudent3D.png";
+                path += "redStudent3D.png";
                 break;
             case BLUE:
-                path+="blueStudent3D.png";
+                path += "blueStudent3D.png";
                 break;
             case YELLOW:
-                path+="yellowStudent3D.png";
+                path += "yellowStudent3D.png";
                 break;
             case PINK:
-                path+="pinkStudent3D.png";
+                path += "pinkStudent3D.png";
                 break;
             case GREEN:
-                path+="greenStudent3D.png";
+                path += "greenStudent3D.png";
                 break;
         }
         imageView.setImage(new Image(getClass().getResourceAsStream(path)));
@@ -271,27 +278,28 @@ public class DashboardSceneController {
 
     /**
      * get imageview with selected professor
+     *
      * @param color
      * @return imageView
      */
-    private ImageView getProfessorImage(PawnColor color){
+    private ImageView getProfessorImage(PawnColor color) {
         ImageView imageView = new ImageView();
         String path = "/images/";
-        switch (color){
+        switch (color) {
             case RED:
-                path+="teacher_red.png";
+                path += "teacher_red.png";
                 break;
             case BLUE:
-                path+="teacher_blue.png";
+                path += "teacher_blue.png";
                 break;
             case YELLOW:
-                path+="teacher_yellow.png";
+                path += "teacher_yellow.png";
                 break;
             case PINK:
-                path+="teacher_pink.png";
+                path += "teacher_pink.png";
                 break;
             case GREEN:
-                path+="teacher_green.png";
+                path += "teacher_green.png";
                 break;
         }
         imageView.setImage(new Image(getClass().getResourceAsStream(path)));
@@ -302,21 +310,22 @@ public class DashboardSceneController {
 
     /**
      * returns imageView with selected tower
+     *
      * @param color
      * @return imageView
      */
-    private ImageView getTowerImage(TowerColor color){
+    private ImageView getTowerImage(TowerColor color) {
         ImageView imageView = new ImageView();
         String path = "/images/";
-        switch (color){
+        switch (color) {
             case BLACK:
-                path+="black_tower.png";
+                path += "black_tower.png";
                 break;
             case WHITE:
-                path+="white_tower.png";
+                path += "white_tower.png";
                 break;
             case GRAY:
-                path+="grey_tower.png";
+                path += "grey_tower.png";
                 break;
         }
         imageView.setImage(new Image(getClass().getResourceAsStream(path)));

@@ -1,0 +1,168 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Lobby</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.network.server</a>
+</div>
+
+<h1>Coverage Summary for Class: Lobby (it.polimi.ingsw.network.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Lobby</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.network.server;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import java.io.Serializable;
+<i class="no-highlight">4</i>&nbsp;
+<i class="no-highlight">5</i>&nbsp;/**
+<i class="no-highlight">6</i>&nbsp; * This class implements the object Lobby
+<i class="no-highlight">7</i>&nbsp; * each lobby contains a variable number of player and once it is filled with the actual number of players it becomes a game
+<i class="no-highlight">8</i>&nbsp; * each lobby has a name and a game mode (normal or expert)
+<i class="no-highlight">9</i>&nbsp; */
+<i class="no-highlight">10</i>&nbsp;public class Lobby implements Serializable {
+<i class="no-highlight">11</i>&nbsp;    private final int numOfPlayers;
+<i class="no-highlight">12</i>&nbsp;    private final int actualNumOfPlayers;
+<i class="no-highlight">13</i>&nbsp;    private final boolean expertMode;
+<i class="no-highlight">14</i>&nbsp;    private final String name;
+<i class="no-highlight">15</i>&nbsp;
+<i class="no-highlight">16</i>&nbsp;    /**
+<i class="no-highlight">17</i>&nbsp;     * Default constructor
+<i class="no-highlight">18</i>&nbsp;     *
+<i class="no-highlight">19</i>&nbsp;     * @param numOfPlayers       the number of players in the lobby
+<i class="no-highlight">20</i>&nbsp;     * @param actualNumOfPlayers the player&#39;s capacity of the lobby
+<i class="no-highlight">21</i>&nbsp;     * @param expertMode         the game mode
+<i class="no-highlight">22</i>&nbsp;     * @param name               the lobby&#39;s name
+<i class="no-highlight">23</i>&nbsp;     */
+<b class="nc"><i class="no-highlight">24</i>&nbsp;    public Lobby(int numOfPlayers, int actualNumOfPlayers, boolean expertMode, String name) {</b>
+<b class="nc"><i class="no-highlight">25</i>&nbsp;        this.numOfPlayers = numOfPlayers;</b>
+<b class="nc"><i class="no-highlight">26</i>&nbsp;        this.actualNumOfPlayers = actualNumOfPlayers;</b>
+<b class="nc"><i class="no-highlight">27</i>&nbsp;        this.expertMode = expertMode;</b>
+<b class="nc"><i class="no-highlight">28</i>&nbsp;        this.name = name;</b>
+<i class="no-highlight">29</i>&nbsp;    }
+<i class="no-highlight">30</i>&nbsp;
+<i class="no-highlight">31</i>&nbsp;    /**
+<i class="no-highlight">32</i>&nbsp;     * @return the number of players
+<i class="no-highlight">33</i>&nbsp;     */
+<i class="no-highlight">34</i>&nbsp;    public int getNumOfPlayers() {
+<b class="nc"><i class="no-highlight">35</i>&nbsp;        return numOfPlayers;</b>
+<i class="no-highlight">36</i>&nbsp;    }
+<i class="no-highlight">37</i>&nbsp;
+<i class="no-highlight">38</i>&nbsp;    /**
+<i class="no-highlight">39</i>&nbsp;     * @return the actual number of players
+<i class="no-highlight">40</i>&nbsp;     */
+<i class="no-highlight">41</i>&nbsp;    public int getActualNumOfPlayers() {
+<b class="nc"><i class="no-highlight">42</i>&nbsp;        return actualNumOfPlayers;</b>
+<i class="no-highlight">43</i>&nbsp;    }
+<i class="no-highlight">44</i>&nbsp;
+<i class="no-highlight">45</i>&nbsp;    /**
+<i class="no-highlight">46</i>&nbsp;     * @return {@code true} if the game is in expert mode {@code false} if it is in normal mode
+<i class="no-highlight">47</i>&nbsp;     */
+<i class="no-highlight">48</i>&nbsp;    public boolean isExpertMode() {
+<b class="nc"><i class="no-highlight">49</i>&nbsp;        return expertMode;</b>
+<i class="no-highlight">50</i>&nbsp;    }
+<i class="no-highlight">51</i>&nbsp;
+<i class="no-highlight">52</i>&nbsp;    /**
+<i class="no-highlight">53</i>&nbsp;     * @return the lobby&#39;s name
+<i class="no-highlight">54</i>&nbsp;     */
+<i class="no-highlight">55</i>&nbsp;    public String getName() {
+<b class="nc"><i class="no-highlight">56</i>&nbsp;        return name;</b>
+<i class="no-highlight">57</i>&nbsp;    }
+<i class="no-highlight">58</i>&nbsp;
+<i class="no-highlight">59</i>&nbsp;    @Override
+<i class="no-highlight">60</i>&nbsp;    public String toString() {
+<b class="nc"><i class="no-highlight">61</i>&nbsp;        return &quot;Name: &quot; + name + &quot; NumOfPlayers: &quot; + numOfPlayers + &quot; Actual NumOfPlayers: &quot; + actualNumOfPlayers + &quot; Expert Mode: &quot; + expertMode;</b>
+<i class="no-highlight">62</i>&nbsp;    }
+<i class="no-highlight">63</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-29 20:56</div>
+</div>
+</body>
+</html>

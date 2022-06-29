@@ -9,27 +9,27 @@ import java.util.Map;
  * This class implements the CharacterTableMessage,it extends {@link it.polimi.ingsw.network.message.Message}
  * the character table message contains the table money,the reduced character's list and the map of player id and money
  */
-public class CharacterTableMessage extends Message{
-    private int tableMoney;
-    private List<ReducedCharacter> charactersList;
-    private Map<Integer,Integer> numOfMoneyMap; //playerid - numOfMoney
+public class CharacterTableMessage extends Message {
+    private final int tableMoney;
+    private final List<ReducedCharacter> charactersList;
+    private final Map<Integer, Integer> numOfMoneyMap; //playerid - numOfMoney
 
     /**
      * Default constructor
-     * @param senderId the id of the sender
-     * @param tableMoney the money on the table
+     *
+     * @param senderId       the id of the sender
+     * @param tableMoney     the money on the table
      * @param charactersList the list of reduced characters
-     * @param numOfMoneyMap the map of player id and money
+     * @param numOfMoneyMap  the map of player id and money
      */
-    public CharacterTableMessage(int senderId,int tableMoney, List<ReducedCharacter> charactersList, Map<Integer,Integer> numOfMoneyMap){
-        super(MessageType.CHARACTER_TABLE,senderId,false);
+    public CharacterTableMessage(int senderId, int tableMoney, List<ReducedCharacter> charactersList, Map<Integer, Integer> numOfMoneyMap) {
+        super(MessageType.CHARACTER_TABLE, senderId, false);
         this.tableMoney = tableMoney;
         this.charactersList = charactersList;
         this.numOfMoneyMap = numOfMoneyMap;
     }
 
     /**
-     *
      * @return the money on the table
      */
     public int getTableMoney() {
@@ -37,7 +37,6 @@ public class CharacterTableMessage extends Message{
     }
 
     /**
-     *
      * @return the list of reduced characters
      */
     public List<ReducedCharacter> getCharactersList() {
@@ -45,7 +44,6 @@ public class CharacterTableMessage extends Message{
     }
 
     /**
-     *
      * @return the map of player id and money
      */
     public Map<Integer, Integer> getNumOfMoneyMap() {

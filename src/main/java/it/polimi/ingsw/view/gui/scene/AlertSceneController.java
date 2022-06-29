@@ -15,13 +15,15 @@ import javafx.stage.Stage;
 public class AlertSceneController {
 
     private final Stage stage;
-    @FXML private Label messageBoxLabel;
-    @FXML private Button okBtnMessageBox;
+    @FXML
+    private Label messageBoxLabel;
+    @FXML
+    private Button okBtnMessageBox;
 
     /**
      * Constructor of the controller and the stage
      */
-    public AlertSceneController(){
+    public AlertSceneController() {
         stage = new Stage();
         stage.setWidth(550);
         stage.setHeight(250);
@@ -32,33 +34,33 @@ public class AlertSceneController {
 
 
     @FXML
-    public void initialize(){
-        okBtnMessageBox.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onOkClick);
+    public void initialize() {
+        okBtnMessageBox.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onOkClick);
     }
 
     /**
      * Closes the modal window if press ok.
+     *
      * @param e mouse click
      */
-    private void onOkClick(Event e){
+    private void onOkClick(Event e) {
         stage.close();
     }
 
     /**
      * @param message the message to show
      */
-    public void setMessage(String message){
+    public void setMessage(String message) {
         messageBoxLabel.setText(message);
     }
 
     /**
      * Show the pop-up with the message blocking the window below.
      */
-    public void showAlert(){
-        try{
-        stage.showAndWait();
-        }
-        catch (NullPointerException e){
+    public void showAlert() {
+        try {
+            stage.showAndWait();
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
 

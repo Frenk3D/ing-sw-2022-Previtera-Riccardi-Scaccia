@@ -7,5 +7,5 @@ public enum Wizard {
     SAGE, //or OLD
     KING,
     WITCH,  //or GIRL
-    ASIATIC;
+    ASIATIC
 }

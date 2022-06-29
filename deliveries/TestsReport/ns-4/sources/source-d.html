@@ -1,0 +1,329 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Turn</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Turn (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Turn</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81.6%
+  </span>
+  <span class="absValue">
+    (62/76)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.model;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.model.characters.Character;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.model.enumerations.PawnColor;
+<i class="no-highlight">5</i>&nbsp;import it.polimi.ingsw.model.enumerations.TurnState;
+<i class="no-highlight">6</i>&nbsp;
+<i class="no-highlight">7</i>&nbsp;import java.util.List;
+<i class="no-highlight">8</i>&nbsp;
+<i class="no-highlight">9</i>&nbsp;/**
+<i class="no-highlight">10</i>&nbsp; * implement the game object Turn
+<i class="no-highlight">11</i>&nbsp; * A turn is the sets of action the a player can make inside a round
+<i class="no-highlight">12</i>&nbsp; */
+<i class="no-highlight">13</i>&nbsp;public class Turn {
+<i class="no-highlight">14</i>&nbsp;    //attributes
+<i class="no-highlight">15</i>&nbsp;    private TurnState stage;
+<i class="no-highlight">16</i>&nbsp;    private int movedStudentNumber;
+<i class="no-highlight">17</i>&nbsp;    private Player currPlayer;
+<i class="no-highlight">18</i>&nbsp;    private Character usedCharacter;
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;    /**
+<i class="no-highlight">21</i>&nbsp;     * default constructor
+<i class="no-highlight">22</i>&nbsp;     */
+<b class="fc"><i class="no-highlight">23</i>&nbsp;    public Turn() {</b>
+<b class="fc"><i class="no-highlight">24</i>&nbsp;        currPlayer = null;</b>
+<i class="no-highlight">25</i>&nbsp;    }
+<i class="no-highlight">26</i>&nbsp;
+<i class="no-highlight">27</i>&nbsp;    //methods
+<i class="no-highlight">28</i>&nbsp;
+<i class="no-highlight">29</i>&nbsp;    /**
+<i class="no-highlight">30</i>&nbsp;     * @return the current player
+<i class="no-highlight">31</i>&nbsp;     */
+<i class="no-highlight">32</i>&nbsp;    public Player getCurrPlayer() {
+<b class="fc"><i class="no-highlight">33</i>&nbsp;        return currPlayer;</b>
+<i class="no-highlight">34</i>&nbsp;    }
+<i class="no-highlight">35</i>&nbsp;
+<i class="no-highlight">36</i>&nbsp;    /**
+<i class="no-highlight">37</i>&nbsp;     * Sets the current player
+<i class="no-highlight">38</i>&nbsp;     *
+<i class="no-highlight">39</i>&nbsp;     * @param name the player&#39;s name
+<i class="no-highlight">40</i>&nbsp;     */
+<i class="no-highlight">41</i>&nbsp;    public void setCurrPlayer(Player name) {
+<b class="fc"><i class="no-highlight">42</i>&nbsp;        this.currPlayer = name;</b>
+<i class="no-highlight">43</i>&nbsp;    }
+<i class="no-highlight">44</i>&nbsp;
+<i class="no-highlight">45</i>&nbsp;    /**
+<i class="no-highlight">46</i>&nbsp;     * @return the used character
+<i class="no-highlight">47</i>&nbsp;     */
+<i class="no-highlight">48</i>&nbsp;    public Character getUsedCharacter() {
+<b class="fc"><i class="no-highlight">49</i>&nbsp;        return usedCharacter;</b>
+<i class="no-highlight">50</i>&nbsp;    }
+<i class="no-highlight">51</i>&nbsp;
+<i class="no-highlight">52</i>&nbsp;    /**
+<i class="no-highlight">53</i>&nbsp;     * Sets the number of used students
+<i class="no-highlight">54</i>&nbsp;     *
+<i class="no-highlight">55</i>&nbsp;     * @param usedCharacter the used character
+<i class="no-highlight">56</i>&nbsp;     */
+<i class="no-highlight">57</i>&nbsp;    public void setUsedCharacter(Character usedCharacter) {
+<b class="fc"><i class="no-highlight">58</i>&nbsp;        this.usedCharacter = usedCharacter;</b>
+<i class="no-highlight">59</i>&nbsp;    }
+<i class="no-highlight">60</i>&nbsp;
+<i class="no-highlight">61</i>&nbsp;    /**
+<i class="no-highlight">62</i>&nbsp;     * @return the turn stage
+<i class="no-highlight">63</i>&nbsp;     */
+<i class="no-highlight">64</i>&nbsp;    public TurnState getStage() {
+<b class="fc"><i class="no-highlight">65</i>&nbsp;        return stage;</b>
+<i class="no-highlight">66</i>&nbsp;    }
+<i class="no-highlight">67</i>&nbsp;
+<i class="no-highlight">68</i>&nbsp;    /**
+<i class="no-highlight">69</i>&nbsp;     * Sets the turn stage
+<i class="no-highlight">70</i>&nbsp;     *
+<i class="no-highlight">71</i>&nbsp;     * @param stage the turn stage
+<i class="no-highlight">72</i>&nbsp;     */
+<i class="no-highlight">73</i>&nbsp;    public void setStage(TurnState stage) {
+<b class="fc"><i class="no-highlight">74</i>&nbsp;        this.stage = stage;</b>
+<i class="no-highlight">75</i>&nbsp;    }
+<i class="no-highlight">76</i>&nbsp;
+<i class="no-highlight">77</i>&nbsp;    /**
+<i class="no-highlight">78</i>&nbsp;     * Initializes the turn
+<i class="no-highlight">79</i>&nbsp;     */
+<i class="no-highlight">80</i>&nbsp;    public void initTurn() {
+<b class="fc"><i class="no-highlight">81</i>&nbsp;        usedCharacter = null;</b>
+<b class="fc"><i class="no-highlight">82</i>&nbsp;        movedStudentNumber = 0;</b>
+<b class="fc"><i class="no-highlight">83</i>&nbsp;        stage = TurnState.MOVE_STUDENT_STATE;</b>
+<i class="no-highlight">84</i>&nbsp;    }
+<i class="no-highlight">85</i>&nbsp;
+<i class="no-highlight">86</i>&nbsp;    /**
+<i class="no-highlight">87</i>&nbsp;     * Updates the list of professors
+<i class="no-highlight">88</i>&nbsp;     *
+<i class="no-highlight">89</i>&nbsp;     * @param playersList         the list of players
+<i class="no-highlight">90</i>&nbsp;     * @param tableProfessorsList the list of professors on the table
+<i class="no-highlight">91</i>&nbsp;     * @return the professor id
+<i class="no-highlight">92</i>&nbsp;     */
+<i class="no-highlight">93</i>&nbsp;    public int updateProfessorsLists(List&lt;Player&gt; playersList, List&lt;Professor&gt; tableProfessorsList) {
+<b class="fc"><i class="no-highlight">94</i>&nbsp;        for (PawnColor currColor : PawnColor.values()) { //scan of all colors</b>
+<b class="fc"><i class="no-highlight">95</i>&nbsp;            Player tmpPlayer = null; //temp variable to store the player that has to receive the professor</b>
+<b class="fc"><i class="no-highlight">96</i>&nbsp;            Player currentProfessorPlayer = null; //temp variable to store the player that hold the professor</b>
+<i class="no-highlight">97</i>&nbsp;
+<b class="fc"><i class="no-highlight">98</i>&nbsp;            for (Player p : playersList) { //we have to check if someone have to receive the currColorProfessor</b>
+<b class="fc"><i class="no-highlight">99</i>&nbsp;                if (p.getDashboard().getHallStudentsListByColor(currColor).size() &gt; 0) {</b>
+<b class="fc"><i class="no-highlight">100</i>&nbsp;                    tmpPlayer = p;</b>
+<b class="fc"><i class="no-highlight">101</i>&nbsp;                    break;</b>
+<i class="no-highlight">102</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">103</i>&nbsp;            }</b>
+<b class="fc"><i class="no-highlight">104</i>&nbsp;            if (tmpPlayer != null) {</b>
+<b class="fc"><i class="no-highlight">105</i>&nbsp;                for (Player p : playersList) { //for each color we check every player dashboard</b>
+<b class="fc"><i class="no-highlight">106</i>&nbsp;                    if (p.getDashboard().getProfessorByColor(currColor) != null) { //when we find the player which already hold the professor we store in the temp variable</b>
+<b class="nc"><i class="no-highlight">107</i>&nbsp;                        currentProfessorPlayer = p;</b>
+<i class="no-highlight">108</i>&nbsp;                    }
+<i class="no-highlight">109</i>&nbsp;                    //search the player with more students of that color
+<b class="fc"><i class="no-highlight">110</i>&nbsp;                    if (p.getDashboard().getHallStudentsListByColor(currColor).size() &gt; tmpPlayer.getDashboard().getHallStudentsListByColor(currColor).size()) { //if we find a player that has more students than tmp player we update the variable</b>
+<b class="nc"><i class="no-highlight">111</i>&nbsp;                        tmpPlayer = p;</b>
+<b class="fc"><i class="no-highlight">112</i>&nbsp;                    } else if (p.getDashboard().getHallStudentsListByColor(currColor).size() == tmpPlayer.getDashboard().getHallStudentsListByColor(currColor).size()) { //if the players have the same number of student the professor must remain to the old holder</b>
+<b class="fc"><i class="no-highlight">113</i>&nbsp;                        if (p.getDashboard().getProfessorByColor(currColor) != null) {</b>
+<b class="nc"><i class="no-highlight">114</i>&nbsp;                            tmpPlayer = p;</b>
+<i class="no-highlight">115</i>&nbsp;                        }
+<i class="no-highlight">116</i>&nbsp;                    }
+<b class="fc"><i class="no-highlight">117</i>&nbsp;                }</b>
+<i class="no-highlight">118</i>&nbsp;
+<b class="fc"><i class="no-highlight">119</i>&nbsp;                if (tmpPlayer.getDashboard().getProfessorByColor(currColor) == null) { //if the player that should have the professor doesn t have it we must give it</b>
+<b class="fc"><i class="no-highlight">120</i>&nbsp;                    Professor professorToMove = null;</b>
+<i class="no-highlight">121</i>&nbsp;
+<b class="fc"><i class="no-highlight">122</i>&nbsp;                    for (Professor tableProfessor : tableProfessorsList) { //check if the professor is on the table and remove it if it is found</b>
+<b class="fc"><i class="no-highlight">123</i>&nbsp;                        if (tableProfessor.getColor().equals(currColor)) {</b>
+<b class="fc"><i class="no-highlight">124</i>&nbsp;                            professorToMove = tableProfessor;</b>
+<b class="fc"><i class="no-highlight">125</i>&nbsp;                            tableProfessorsList.remove(tableProfessor);</b>
+<b class="fc"><i class="no-highlight">126</i>&nbsp;                            break;</b>
+<i class="no-highlight">127</i>&nbsp;                        }
+<b class="nc"><i class="no-highlight">128</i>&nbsp;                    }</b>
+<i class="no-highlight">129</i>&nbsp;
+<b class="fc"><i class="no-highlight">130</i>&nbsp;                    if (professorToMove == null) { //the professor is in currentProfessorPlayer, else professor is on the table</b>
+<b class="nc"><i class="no-highlight">131</i>&nbsp;                        professorToMove = currentProfessorPlayer.getDashboard().getProfessorByColor(currColor);</b>
+<b class="nc"><i class="no-highlight">132</i>&nbsp;                        currentProfessorPlayer.getDashboard().getProfessorsList().remove(professorToMove);</b>
+<b class="nc"><i class="no-highlight">133</i>&nbsp;                        tmpPlayer.getDashboard().getProfessorsList().add(professorToMove);</b>
+<b class="nc"><i class="no-highlight">134</i>&nbsp;                        return currentProfessorPlayer.getId();</b>
+<i class="no-highlight">135</i>&nbsp;                    }
+<i class="no-highlight">136</i>&nbsp;
+<i class="no-highlight">137</i>&nbsp;
+<b class="fc"><i class="no-highlight">138</i>&nbsp;                    tmpPlayer.getDashboard().getProfessorsList().add(professorToMove);</b>
+<i class="no-highlight">139</i>&nbsp;                }
+<i class="no-highlight">140</i>&nbsp;            }
+<i class="no-highlight">141</i>&nbsp;
+<i class="no-highlight">142</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">143</i>&nbsp;        return -1;</b>
+<i class="no-highlight">144</i>&nbsp;    }
+<i class="no-highlight">145</i>&nbsp;
+<i class="no-highlight">146</i>&nbsp;    /**
+<i class="no-highlight">147</i>&nbsp;     * @param playersList         the list of players
+<i class="no-highlight">148</i>&nbsp;     * @param tableProfessorsList the list of professors on the table
+<i class="no-highlight">149</i>&nbsp;     */
+<i class="no-highlight">150</i>&nbsp;    public void returnProfessorsToTable(List&lt;Player&gt; playersList, List&lt;Professor&gt; tableProfessorsList) {
+<b class="fc"><i class="no-highlight">151</i>&nbsp;        for (PawnColor currColor : PawnColor.values()) {</b>
+<b class="fc"><i class="no-highlight">152</i>&nbsp;            for (Player p : playersList) {</b>
+<b class="fc"><i class="no-highlight">153</i>&nbsp;                Professor currProfessor = p.getDashboard().getProfessorByColor(currColor);</b>
+<b class="fc"><i class="no-highlight">154</i>&nbsp;                if (currProfessor != null &amp;&amp; p.getDashboard().getNumOfHallStudents(currColor) == 0) {</b>
+<b class="nc"><i class="no-highlight">155</i>&nbsp;                    p.getDashboard().getProfessorsList().remove(currProfessor);</b>
+<b class="nc"><i class="no-highlight">156</i>&nbsp;                    tableProfessorsList.add(currProfessor);</b>
+<i class="no-highlight">157</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">158</i>&nbsp;            }</b>
+<i class="no-highlight">159</i>&nbsp;
+<i class="no-highlight">160</i>&nbsp;        }
+<i class="no-highlight">161</i>&nbsp;    }
+<i class="no-highlight">162</i>&nbsp;
+<i class="no-highlight">163</i>&nbsp;    /**
+<i class="no-highlight">164</i>&nbsp;     * Updates the list of islands
+<i class="no-highlight">165</i>&nbsp;     *
+<i class="no-highlight">166</i>&nbsp;     * @param islandsList the list of islands
+<i class="no-highlight">167</i>&nbsp;     * @return the updated mother nature
+<i class="no-highlight">168</i>&nbsp;     */
+<i class="no-highlight">169</i>&nbsp;    public int updateIslandList(List&lt;Island&gt; islandsList) {
+<b class="fc"><i class="no-highlight">170</i>&nbsp;        int updatedMotherNature = -1;</b>
+<b class="fc"><i class="no-highlight">171</i>&nbsp;        boolean merged = false;</b>
+<i class="no-highlight">172</i>&nbsp;
+<b class="fc"><i class="no-highlight">173</i>&nbsp;        for (int i = 0; i &lt; islandsList.size() - 1; i++) {</b>
+<b class="fc"><i class="no-highlight">174</i>&nbsp;            int j = islandsList.size() - 1;</b>
+<b class="fc"><i class="no-highlight">175</i>&nbsp;            if (j == islandsList.size() - 1) { //we are at the last island of the list</b>
+<b class="fc"><i class="no-highlight">176</i>&nbsp;                if (islandsList.get(0).mergeIsland(islandsList.get(j))) { //this is the opposite of the next because of the recursion</b>
+<b class="nc"><i class="no-highlight">177</i>&nbsp;                    islandsList.remove(j);</b>
+<b class="nc"><i class="no-highlight">178</i>&nbsp;                    updatedMotherNature = 0;</b>
+<b class="nc"><i class="no-highlight">179</i>&nbsp;                    merged = true;</b>
+<b class="nc"><i class="no-highlight">180</i>&nbsp;                    break;</b>
+<i class="no-highlight">181</i>&nbsp;                }
+<i class="no-highlight">182</i>&nbsp;            }
+<i class="no-highlight">183</i>&nbsp;            //else { //we are in the middle of the list
+<b class="fc"><i class="no-highlight">184</i>&nbsp;            if (islandsList.get(i).mergeIsland(islandsList.get(i + 1))) {</b>
+<b class="fc"><i class="no-highlight">185</i>&nbsp;                islandsList.remove(i + 1);</b>
+<b class="fc"><i class="no-highlight">186</i>&nbsp;                updatedMotherNature = i;</b>
+<b class="fc"><i class="no-highlight">187</i>&nbsp;                merged = true;</b>
+<b class="fc"><i class="no-highlight">188</i>&nbsp;                break;</b>
+<i class="no-highlight">189</i>&nbsp;            }
+<i class="no-highlight">190</i>&nbsp;            // }
+<i class="no-highlight">191</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">192</i>&nbsp;        if (!merged) {</b>
+<b class="fc"><i class="no-highlight">193</i>&nbsp;            return updatedMotherNature;</b>
+<i class="no-highlight">194</i>&nbsp;        } else {
+<b class="fc"><i class="no-highlight">195</i>&nbsp;            updateIslandList(islandsList); //when it will be false (after almost one true) the recursion will return -1, but it will be not assigned and it will return the real updateMotherNaturePos to the controller</b>
+<b class="fc"><i class="no-highlight">196</i>&nbsp;            return updatedMotherNature;</b>
+<i class="no-highlight">197</i>&nbsp;        }
+<i class="no-highlight">198</i>&nbsp;
+<i class="no-highlight">199</i>&nbsp;    }
+<i class="no-highlight">200</i>&nbsp;
+<i class="no-highlight">201</i>&nbsp;    /**
+<i class="no-highlight">202</i>&nbsp;     * increments the number of moved students
+<i class="no-highlight">203</i>&nbsp;     *
+<i class="no-highlight">204</i>&nbsp;     * @param numOfPlayers the number of players
+<i class="no-highlight">205</i>&nbsp;     * @return the incremented number of moved students
+<i class="no-highlight">206</i>&nbsp;     */
+<i class="no-highlight">207</i>&nbsp;    public boolean incrementMovedStudents(int numOfPlayers) {
+<b class="fc"><i class="no-highlight">208</i>&nbsp;        movedStudentNumber++;</b>
+<b class="fc"><i class="no-highlight">209</i>&nbsp;        if ((movedStudentNumber == 3 &amp;&amp; numOfPlayers != 3) || (movedStudentNumber == 4 &amp;&amp; numOfPlayers == 3)) {</b>
+<b class="fc"><i class="no-highlight">210</i>&nbsp;            stage = TurnState.MOVE_MOTHER_NATURE_STATE;</b>
+<b class="fc"><i class="no-highlight">211</i>&nbsp;            return false;</b>
+<i class="no-highlight">212</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">213</i>&nbsp;        return true;</b>
+<i class="no-highlight">214</i>&nbsp;    }
+<i class="no-highlight">215</i>&nbsp;
+<i class="no-highlight">216</i>&nbsp;    /**
+<i class="no-highlight">217</i>&nbsp;     * @return the number of moved students
+<i class="no-highlight">218</i>&nbsp;     */
+<i class="no-highlight">219</i>&nbsp;    public int getMovedStudentsNumber() {
+<b class="fc"><i class="no-highlight">220</i>&nbsp;        return movedStudentNumber;</b>
+<i class="no-highlight">221</i>&nbsp;    }
+<i class="no-highlight">222</i>&nbsp;
+<i class="no-highlight">223</i>&nbsp;
+<i class="no-highlight">224</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-29 20:56</div>
+</div>
+</body>
+</html>

@@ -1,37 +1,39 @@
 package it.polimi.ingsw.network.client;
+
 import it.polimi.ingsw.controllers.ClientController;
 import it.polimi.ingsw.network.message.Message;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- *This class is used to implement and manage the client side socket
+ * This class is used to implement and manage the client side socket
  */
 
-public class ClientSocket  {
-    private String ip;
-    private int port;
-    private Socket socket;
+public class ClientSocket {
     private final ObjectOutputStream outputStm;
     private final ObjectInputStream inputStm;
     private final ExecutorService readExecutionQueue;
+    private final String ip;
+    private final int port;
+    private final Socket socket;
     private int clientId;
-    private ClientController clientController;
+    private final ClientController clientController;
 
     /**
      * Constructor that initializes the socket and creates the socket's output stream,input stream and the read execution queue
-     * @param ip the client ip
-     * @param port the client port
+     *
+     * @param ip               the client ip
+     * @param port             the client port
      * @param clientController the client controller
-     * @throws IOException
+     * @throws IOException ex
      */
-    public ClientSocket(String ip, int port, ClientController clientController) throws IOException{
+    public ClientSocket(String ip, int port, ClientController clientController) throws IOException {
         this.ip = ip;
         this.port = port;
         this.socket = new Socket();
@@ -42,7 +44,6 @@ public class ClientSocket  {
         clientId = 8888;
         this.clientController = clientController;
     }
-
 
 
     /**
@@ -69,11 +70,12 @@ public class ClientSocket  {
     /**
      * This method handles the sending of messages through the socket's output stream
      * If an IOException is detected the socket is disconnected
+     *
      * @param message the message to be sent
      */
     public synchronized void sendMessage(Message message) {
         try {
-            System.out.println("--SENT MESSAGE: "+message.getMessageType());
+            System.out.println("--SENT MESSAGE: " + message.getMessageType());
             outputStm.writeObject(message);
             outputStm.flush();
             outputStm.reset();
@@ -102,7 +104,6 @@ public class ClientSocket  {
     }
 
     /**
-     *
      * @return the client's id
      */
     public int getClientId() {
@@ -111,6 +112,7 @@ public class ClientSocket  {
 
     /**
      * Sets the client id
+     *
      * @param clientId the client id
      */
     public void setClientId(int clientId) {

@@ -1,11 +1,11 @@
 package it.polimi.ingsw.controllers; //well connected to Game, need to Observ, with strategy or with checks
 
+import it.polimi.ingsw.client.ReducedAssistant;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.characters.Character;
 import it.polimi.ingsw.model.characters.CharacterParameters;
 import it.polimi.ingsw.model.characters.Characters2and6and8and9;
 import it.polimi.ingsw.model.characters.MessageCharacterParameters;
-import it.polimi.ingsw.client.ReducedAssistant;
 import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.Server;
@@ -23,104 +23,79 @@ import static it.polimi.ingsw.network.server.Server.SERVERID;
  * This is the main controller of the game rules in the server. It implements {@link Observer}
  */
 public class Controller implements Observer {
-    //attributes
-    private GameModel game;  //intellij says it should be final,but it actually changes so it's not
-    private Server server;
     private final Logger logger = Logger.getLogger(getClass().getName());
+    //attributes
+    private final GameModel game;  //intellij says it should be final,but it actually changes so it's not
+    private Server server;
 
     //constructor
 
     /**
      * default controller
      */
-    public Controller(){
+    public Controller() {
         game = new GameModel();
     }
 
     /**
-     * Sets the server
-     * @param server the server
+     * @return the game
      */
-    public void setServer(Server server){
-        this.server = server;
+    public GameModel getGame() {
+        return game;
     }
 
     /**
-     *
-     * @return the game
+     * @return the number of players of the game
      */
-    public GameModel getGame(){
-        return game;
+    public int getNumOfPlayer() {
+        return game.getNumOfPlayers();
     }
 
     //----------------functions for lobby display on server----------------------
 
     /**
-     *
-     * @return the number of players of the game
-     */
-    public int getNumOfPlayer(){
-        return game.getNumOfPlayers();
-    }
-
-    /**
-     *
      * @return the size of the game's players list
      */
-    public int getActualNumOfPlayers(){
+    public int getActualNumOfPlayers() {
         return game.getPlayersList().size();
     }
 
     /**
-     *
      * @return {@code true} if the game is in expert mode {@code false} if the game is in normal mode
      */
-    public boolean getExpertMode(){
+    public boolean getExpertMode() {
         return game.isExpertMode();
     }
 
     /**
-     *
      * @return {@code true} if the game is in login state {@code false} otherwise
      */
-    public boolean isOpen(){
-        if(game.getGameState()==GameState.LOGIN_STATE){
-            return true;
-        }
-        else {
-            return false;
-        }
+    public boolean isOpen() {
+        return game.getGameState() == GameState.LOGIN_STATE;
     }
 
     /**
-     *
      * @return {@code true} if the game is in finished state {@code false} otherwise
      */
-    public boolean isFinished(){
-        if(game.getGameState()==GameState.FINISHED_STATE){
-            return true;
-        }
-        else {
-            return false;
-        }
+    public boolean isFinished() {
+        return game.getGameState() == GameState.FINISHED_STATE;
     }
 
     @Override
-    public void update(Message message){ //the controller observes the view
-        switch (getGameState()){
+    public void update(Message message) { //the controller observes the view
+        switch (getGameState()) {
             case SETTING_STATE:
                 settingState(message);
                 break;
             case INGAME_STATE:
-                if(checkUser(message)){ //check if the user is the right sender
+                if (checkUser(message)) { //check if the user is the right sender
                     inGameState(message);
-                }
-                else {
+                } else {
                     sendError(message.getSenderId(), "It is not your turn");
                 }
                 break;
             default:
-                logger.log(Level.SEVERE,"reached default in switch");
+                logger.log(Level.SEVERE, "reached default in switch");
                 sendError(message.getSenderId(), "The game is not active");
                 break;
         }
@@ -128,10 +103,11 @@ public class Controller implements Observer {
 
     /**
      * This method manages the setting state,the stage in which the player chooses team,tower color and wizard
+     *
      * @param receivedMessage the message received by the server
      */
-    private void settingState(Message receivedMessage){
-        switch (receivedMessage.getMessageType()){
+    private void settingState(Message receivedMessage) {
+        switch (receivedMessage.getMessageType()) {
             case CHOOSE_TEAM:
                 ChooseTeamMessage chooseTeamMessage = (ChooseTeamMessage) receivedMessage;
                 chooseTeam(chooseTeamMessage.getSenderId(), chooseTeamMessage.getRequestedPlayerId());
@@ -139,16 +115,16 @@ public class Controller implements Observer {
 
             case CHOOSE_TOWER_COLOR:
                 ChooseTowerColorMessage chooseTowerColorMessage = (ChooseTowerColorMessage) receivedMessage;
-                chooseTowerColor(chooseTowerColorMessage.getSenderId(),chooseTowerColorMessage.getSelectedColor());
+                chooseTowerColor(chooseTowerColorMessage.getSenderId(), chooseTowerColorMessage.getSelectedColor());
                 break;
 
             case CHOOSE_WIZARD:
                 ChooseWizardMessage chooseWizardMessage = (ChooseWizardMessage) receivedMessage;
-                chooseWizard(chooseWizardMessage.getSenderId(),chooseWizardMessage.getSelectedWizard());
+                chooseWizard(chooseWizardMessage.getSenderId(), chooseWizardMessage.getSelectedWizard());
                 break;
 
             default:
-                logger.log(Level.SEVERE,"reached default in switch");
+                logger.log(Level.SEVERE, "reached default in switch");
                 sendError(receivedMessage.getSenderId(), "Forbidden command");
                 break;
         }
@@ -156,18 +132,19 @@ public class Controller implements Observer {
 
     /**
      * This method manages the in game state,in which the player can make every move allowed in the game
+     *
      * @param receivedMessage the message received by the server
      */
-    private void inGameState(Message receivedMessage){
-        switch (receivedMessage.getMessageType()){
+    private void inGameState(Message receivedMessage) {
+        switch (receivedMessage.getMessageType()) {
             case SELECT_ASSISTANT:
-                SelectAssistantMessage selectAssistantMessage = (SelectAssistantMessage)receivedMessage;
+                SelectAssistantMessage selectAssistantMessage = (SelectAssistantMessage) receivedMessage;
                 selectAssistant(selectAssistantMessage.getSelectedAssistant());
                 break;
 
             case MOVE_STUDENT_ISLAND:
-                MoveStudentIslandMessage moveStudentIslandMessage = (MoveStudentIslandMessage)receivedMessage;
-                moveStudentIsland(moveStudentIslandMessage.getEntranceListIndex(),moveStudentIslandMessage.getIslandIndex());
+                MoveStudentIslandMessage moveStudentIslandMessage = (MoveStudentIslandMessage) receivedMessage;
+                moveStudentIsland(moveStudentIslandMessage.getEntranceListIndex(), moveStudentIslandMessage.getIslandIndex());
                 break;
 
             case MOVE_STUDENT_DASHBOARD:
@@ -203,11 +180,11 @@ public class Controller implements Observer {
                 parameters.setSelectedColor2(messageParams.getSelectedColor2());
                 parameters.setTableMoney(game.getTableMoney());
 
-                useCharacter(messageParams.getCharacterId(),parameters);
+                useCharacter(messageParams.getCharacterId(), parameters);
                 break;
 
             default:
-                logger.log(Level.SEVERE,"reached default in switch");
+                logger.log(Level.SEVERE, "reached default in switch");
                 sendError(receivedMessage.getSenderId(), "Forbidden command");
                 break;
         }
@@ -215,73 +192,71 @@ public class Controller implements Observer {
 
     /**
      * This method configures expert mode and number of players
+     *
      * @param numOfPlayers number of players in the game
-     * @param expertMode the game mode
+     * @param expertMode   the game mode
      */
-    public void configure(int numOfPlayers, boolean expertMode){
+    public void configure(int numOfPlayers, boolean expertMode) {
         boolean result = game.setNumOfPlayers(numOfPlayers);
-        if(!result){
-            logger.log(Level.SEVERE,"wrong parameters");
+        if (!result) {
+            logger.log(Level.SEVERE, "wrong parameters");
             return;
         }
         game.setExpertMode(expertMode);
     }
 
-    //LOGIN STATE
-
     /**
      * This method adds a player to the game
+     *
      * @param player the player to be added
      */
-    public synchronized void addPlayer(Player player){
-        if(getGameState() == GameState.LOGIN_STATE || game.getNumOfPlayers() == 0) {
+    public synchronized void addPlayer(Player player) {
+        if (getGameState() == GameState.LOGIN_STATE || game.getNumOfPlayers() == 0) {
             boolean result = game.addPlayer(player);
             if (!result) {
-                logger.log(Level.SEVERE,"addPlayer: too many players");
+                logger.log(Level.SEVERE, "addPlayer: too many players");
                 return;
             }
             if (game.getNumOfPlayers() != 4) {
                 player.setTeam(player.getId());
             }
-            if (game.getPlayersList().size() == game.getNumOfPlayers()){
+            if (game.getPlayersList().size() == game.getNumOfPlayers()) {
                 game.init();
-                logger.log(Level.INFO,"GAME INITALIZED!");
+                logger.log(Level.INFO, "GAME INITALIZED!");
             }
-        }
-        else {
-            logger.log(Level.SEVERE,"not in login state or game not configured");
+        } else {
+            logger.log(Level.SEVERE, "not in login state or game not configured");
         }
     }
 
-    //SETTING PHASE 1
+    //LOGIN STATE
 
     /**
      * This method chooses a team for the requesting player
-     * @param playerId the requesting player id
+     *
+     * @param playerId          the requesting player id
      * @param requestedPlayerId the requested player id
      */
-    public synchronized void chooseTeam(int playerId, int requestedPlayerId){
-        if(game.getNumOfPlayers() == 4 && game.getSettingState() == SettingState.CHOOSE_TEAM_STATE) {
+    public synchronized void chooseTeam(int playerId, int requestedPlayerId) {
+        if (game.getNumOfPlayers() == 4 && game.getSettingState() == SettingState.CHOOSE_TEAM_STATE) {
             Player requestingPlayer = game.getPlayerById(playerId);
             Player requestedTeamPlayer = game.getPlayerById(requestedPlayerId);
 
-            if(requestingPlayer==null || requestedTeamPlayer==null){
-                logger.log(Level.SEVERE,"wrong parameters");
+            if (requestingPlayer == null || requestedTeamPlayer == null) {
+                logger.log(Level.SEVERE, "wrong parameters");
                 sendError(playerId, "Wrong parameters");
-            }
-            else if(requestingPlayer.getTeam() != -1 || requestedTeamPlayer.getTeam()!=-1){
-                logger.log(Level.SEVERE,"you already have a team or requested player already has a team");
+            } else if (requestingPlayer.getTeam() != -1 || requestedTeamPlayer.getTeam() != -1) {
+                logger.log(Level.SEVERE, "you already have a team or requested player already has a team");
                 sendError(playerId, "You already have a team or requested player already has a team");
-            }
-            else {
+            } else {
                 requestingPlayer.setTeam(requestingPlayer.getId());  //the teamId is the teamLeaderId
                 requestedTeamPlayer.setTeam(requestingPlayer.getId());
                 requestedTeamPlayer.setHasTower(false);
                 sendOk(playerId);
                 sendOk(requestedPlayerId); //we send ok to requested player to inform that he doesn't have to choose a team player
 
-                for (Player p : game.getPlayersList()){ //check if all player choose team player
-                    if(p.getTeam()==-1){
+                for (Player p : game.getPlayersList()) { //check if all player choose team player
+                    if (p.getTeam() == -1) {
                         game.sendAvailableTeamPlayers(); //send to all clients the remaining people to choose
                         return;
                     }
@@ -289,43 +264,42 @@ public class Controller implements Observer {
                 game.setSettingState(SettingState.CHOOSE_TOWER_COLOR_STATE); //set and sends the current setting state
                 game.sendAvailableTowerColors();
             }
-        }
-        else {
-            logger.log(Level.SEVERE,"forbidden move");
+        } else {
+            logger.log(Level.SEVERE, "forbidden move");
             sendError(playerId, "Forbidden command");
         }
     }
 
-    //SETTING PHASE 2
+    //SETTING PHASE 1
 
     /**
      * This method chooses a tower color for the requesting player
-     * @param playerId the requesting player id
+     *
+     * @param playerId      the requesting player id
      * @param selectedColor the selected tower color
      */
-    public synchronized void chooseTowerColor(int playerId, TowerColor selectedColor){
-        if(game.getSettingState()==SettingState.CHOOSE_TOWER_COLOR_STATE) {
+    public synchronized void chooseTowerColor(int playerId, TowerColor selectedColor) {
+        if (game.getSettingState() == SettingState.CHOOSE_TOWER_COLOR_STATE) {
             Player requestingPlayer = game.getPlayerById(playerId);
             List<TowerColor> availableColors = game.getChooseTowerColorList();
             if (requestingPlayer == null) {
-                logger.log(Level.SEVERE,"wrong parameters");
+                logger.log(Level.SEVERE, "wrong parameters");
             } else if (!requestingPlayer.hasTower()) {
-                logger.log(Level.SEVERE,"player isn't tower holder");
+                logger.log(Level.SEVERE, "player isn't tower holder");
                 sendError(playerId, "You aren't the tower holder");
             } else if (!availableColors.contains(selectedColor)) {
-                logger.log(Level.SEVERE,"already chosen color");
+                logger.log(Level.SEVERE, "already chosen color");
                 sendError(playerId, "Already chosen color");
-            } else if(requestingPlayer.getTowerColor() != null){
-                logger.log(Level.SEVERE,"player already choose color");
+            } else if (requestingPlayer.getTowerColor() != null) {
+                logger.log(Level.SEVERE, "player already choose color");
                 sendError(playerId, "You already chosen color");
-            }
-            else {
+            } else {
                 requestingPlayer.setPlayerTowerColor(selectedColor);
                 availableColors.remove(selectedColor);
                 sendOk(playerId);
 
-                for (Player p : game.getPlayersList()){ //check if all players chose the color
-                    if(p.getTowerColor() == null && p.hasTower()){
+                for (Player p : game.getPlayersList()) { //check if all players chose the color
+                    if (p.getTowerColor() == null && p.hasTower()) {
                         game.sendAvailableTowerColors();
                         return;
                     }
@@ -333,9 +307,49 @@ public class Controller implements Observer {
                 game.setSettingState(SettingState.CHOOSE_WIZARD_STATE);
                 game.sendAvailableWizards();
             }
+        } else {
+            logger.log(Level.SEVERE, "forbidden move");
+            sendError(playerId, "Forbidden command");
         }
-        else {
-            logger.log(Level.SEVERE,"forbidden move");
+    }
+
+    //SETTING PHASE 2
+
+    /**
+     * This method chooses a wizard for the requesting player
+     *
+     * @param playerId       the requesting player id
+     * @param selectedWizard the selected wizard
+     */
+    public synchronized void chooseWizard(int playerId, Wizard selectedWizard) {
+        if (game.getSettingState() == SettingState.CHOOSE_WIZARD_STATE) {
+            Player requestingPlayer = game.getPlayerById(playerId);
+            List<Wizard> availableWizards = game.getWizardList();
+            if (requestingPlayer == null) {
+                logger.log(Level.SEVERE, "wrong parameters");
+            } else if (!availableWizards.contains(selectedWizard)) {
+                logger.log(Level.SEVERE, "already chosen wizard");
+                sendError(playerId, "Already chosen wizard");
+            } else if (requestingPlayer.getAssistantDeck().getWizard() != null) {
+                logger.log(Level.SEVERE, "player already choose wizard");
+                sendError(playerId, "You already choose wizard");
+            } else {
+                requestingPlayer.getAssistantDeck().setWizard(selectedWizard);
+                availableWizards.remove(selectedWizard);
+                sendOk(playerId);
+
+                for (Player p : game.getPlayersList()) {
+                    if (p.getAssistantDeck().getWizard() == null) {
+                        game.sendAvailableWizards();
+                        return;
+                    }
+                }
+                game.setSettingState(SettingState.NOT_SETTING_STATE);
+                game.start();
+                logger.log(Level.INFO, "GAME STARTED!");
+            }
+        } else {
+            logger.log(Level.SEVERE, "forbidden move");
             sendError(playerId, "Forbidden command");
         }
     }
@@ -343,60 +357,16 @@ public class Controller implements Observer {
     //SETTING PHASE 3
 
     /**
-     * This method chooses a wizard for the requesting player
-     * @param playerId the requesting player id
-     * @param selectedWizard the selected wizard
-     */
-    public synchronized void chooseWizard(int playerId, Wizard selectedWizard){
-        if(game.getSettingState()==SettingState.CHOOSE_WIZARD_STATE) {
-            Player requestingPlayer = game.getPlayerById(playerId);
-            List<Wizard> availableWizards = game.getWizardList();
-            if (requestingPlayer == null) {
-                logger.log(Level.SEVERE,"wrong parameters");
-            } else if (!availableWizards.contains(selectedWizard)) {
-                logger.log(Level.SEVERE,"already chosen wizard");
-                sendError(playerId, "Already chosen wizard");
-            } else if(requestingPlayer.getAssistantDeck().getWizard()!=null){
-                logger.log(Level.SEVERE,"player already choose wizard");
-                sendError(playerId, "You already choose wizard");
-            }
-            else {
-                requestingPlayer.getAssistantDeck().setWizard(selectedWizard);
-                availableWizards.remove(selectedWizard);
-                sendOk(playerId);
-
-                for (Player p : game.getPlayersList()){
-                    if (p.getAssistantDeck().getWizard()==null){
-                        game.sendAvailableWizards();
-                        return;
-                    }
-                }
-                game.setSettingState(SettingState.NOT_SETTING_STATE);
-                game.start();
-                logger.log(Level.INFO,"GAME STARTED!");
-            }
-        }
-        else {
-            logger.log(Level.SEVERE,"forbidden move");
-            sendError(playerId, "Forbidden command");
-        }
-    }
-
-
-
-    //methods
-    //ACTION PHASE 1
-
-    /**
      * This method moves a student to an island for the current player
+     *
      * @param entranceListIndex list of indexes of the entrance list
-     * @param islandIndex list of indexes of the islands list
+     * @param islandIndex       list of indexes of the islands list
      */
-    public synchronized void moveStudentIsland(int entranceListIndex,int islandIndex){
-        if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.MOVE_STUDENT_STATE) {
+    public synchronized void moveStudentIsland(int entranceListIndex, int islandIndex) {
+        if (game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.MOVE_STUDENT_STATE) {
             Player currPlayer = game.getCurrPlayer();
-            if(currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex)==null||game.getIslandByIndex(islandIndex)==null){
-                logger.log(Level.SEVERE,"wrong parameters");
+            if (currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex) == null || game.getIslandByIndex(islandIndex) == null) {
+                logger.log(Level.SEVERE, "wrong parameters");
                 sendError(game.getCurrPlayer().getId(), "Wrong parameters");
                 return;
             }
@@ -409,9 +379,57 @@ public class Controller implements Observer {
             game.sendTable();
             game.sendDashboard();
             game.sendInGameState();
+        } else {
+            logger.log(Level.SEVERE, "forbidden move");
+            sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
-        else {
-            logger.log(Level.SEVERE,"forbidden move");
+    }
+
+
+    //methods
+    //ACTION PHASE 1
+
+    /**
+     * This method moves a student to the hall based on its color for the current player
+     *
+     * @param entranceListIndex list of indexes of the entrance list
+     */
+    public synchronized void moveStudentDashboard(int entranceListIndex) {
+        if (game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.MOVE_STUDENT_STATE) {
+            Player currPlayer = game.getCurrPlayer();
+            if (currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex) == null) {
+                logger.log(Level.SEVERE, "wrong parameters");
+                sendError(game.getCurrPlayer().getId(), "Wrong parameters");
+                return;
+            }
+
+            Student studentToMove = currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex);
+            boolean result = currPlayer.getDashboard().addStudentHall(studentToMove, currPlayer, game.getTableMoney());
+            if (!result) {
+                logger.log(Level.SEVERE, "too many students");
+                sendError(game.getCurrPlayer().getId(), "Too many students");
+                return;
+            }
+
+            currPlayer.getDashboard().getEntranceList().remove(studentToMove);
+
+            if (game.isExpertMode() && game.getCurrRound().getCurrTurn().getUsedCharacter() != null && game.getCurrRound().getCurrTurn().getUsedCharacter().getId() == 2) {
+                ((Characters2and6and8and9) game.getCurrRound().getCurrTurn().getUsedCharacter()).modifiedUpdateProfessorsLists2(game.getPlayersList(), game.getCurrPlayer(), game.getTableProfessorsList());
+            } else {
+                int updatedPlayer = game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(), game.getTableProfessorsList());
+                if (updatedPlayer != -1) {
+                    game.sendDashboard(updatedPlayer); //send the updated dashboard of other player
+                }
+            }
+
+            game.getCurrRound().getCurrTurn().incrementMovedStudents(game.getNumOfPlayers());
+            game.sendDashboard(); //update the dashboard in clients
+            if (game.isExpertMode()) {//update the money in players if expert mode
+                game.sendCharacterTable();
+            }
+            game.sendInGameState();
+        } else {
+            logger.log(Level.SEVERE, "forbidden move");
             sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
     }
@@ -419,103 +437,50 @@ public class Controller implements Observer {
     //ACTION PHASE 1
 
     /**
-     * This method moves a student to the hall based on its color for the current player
-     * @param entranceListIndex list of indexes of the entrance list
-     */
-    public synchronized void moveStudentDashboard(int entranceListIndex){
-        if(game.getCurrRound().getStage()== RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.MOVE_STUDENT_STATE){
-            Player currPlayer = game.getCurrPlayer();
-            if(currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex)==null){
-                logger.log(Level.SEVERE,"wrong parameters");
-                sendError(game.getCurrPlayer().getId(), "Wrong parameters");
-                return;
-            }
-
-            Student studentToMove = currPlayer.getDashboard().getEntranceStudentByIndex(entranceListIndex);
-            boolean result = currPlayer.getDashboard().addStudentHall(studentToMove,currPlayer,game.getTableMoney());
-            if(!result){
-                logger.log(Level.SEVERE,"too many students");
-                sendError(game.getCurrPlayer().getId(), "Too many students");
-                return;
-            }
-
-            currPlayer.getDashboard().getEntranceList().remove(studentToMove);
-
-            if(game.isExpertMode() && game.getCurrRound().getCurrTurn().getUsedCharacter()!= null && game.getCurrRound().getCurrTurn().getUsedCharacter().getId()==2){
-                ((Characters2and6and8and9)game.getCurrRound().getCurrTurn().getUsedCharacter()).modifiedUpdateProfessorsLists2(game.getPlayersList(), game.getCurrPlayer(), game.getTableProfessorsList());
-            }
-            else {
-                int updatedPlayer = game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(),game.getTableProfessorsList());
-                if(updatedPlayer!=-1){
-                    game.sendDashboard(updatedPlayer); //send the updated dashboard of other player
-                }
-            }
-
-            game.getCurrRound().getCurrTurn().incrementMovedStudents(game.getNumOfPlayers());
-            game.sendDashboard(); //update the dashboard in clients
-            if(game.isExpertMode()){//update the money in players if expert mode
-                game.sendCharacterTable();
-            }
-            game.sendInGameState();
-        }
-
-        else {
-            logger.log(Level.SEVERE,"forbidden move");
-            sendError(game.getCurrPlayer().getId(), "Forbidden command");
-        }
-    }
-
-    //ACTION PHASE 2
-
-    /**
      * This method moves mother nature for the current player
+     *
      * @param islandIndex index of the selected island
      */
-    public synchronized void moveMotherNature(int islandIndex){
-        if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage()== TurnState.MOVE_MOTHER_NATURE_STATE){
+    public synchronized void moveMotherNature(int islandIndex) {
+        if (game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.MOVE_MOTHER_NATURE_STATE) {
 
             int prevMotherNaturePos = game.getMotherNaturePos();
 
-            if(game.getIslandByIndex(islandIndex)==null || islandIndex == prevMotherNaturePos){
-                logger.log(Level.SEVERE,"wrong parameters");
+            if (game.getIslandByIndex(islandIndex) == null || islandIndex == prevMotherNaturePos) {
+                logger.log(Level.SEVERE, "wrong parameters");
                 sendError(game.getCurrPlayer().getId(), "Wrong parameters");
                 return;
-            }
-            else if((islandIndex - prevMotherNaturePos > 0) && (islandIndex - prevMotherNaturePos > game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift())){
-                logger.log(Level.SEVERE,"moved mother nature too far");
+            } else if ((islandIndex - prevMotherNaturePos > 0) && (islandIndex - prevMotherNaturePos > game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift())) {
+                logger.log(Level.SEVERE, "moved mother nature too far");
                 sendError(game.getCurrPlayer().getId(), "Mother nature moved too far");
                 return;
-            }
-            else if((islandIndex - prevMotherNaturePos < 0) && ((game.getIslandsList().size()-prevMotherNaturePos+islandIndex) > game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift())){
-                logger.log(Level.SEVERE,"moved mother nature too far");
+            } else if ((islandIndex - prevMotherNaturePos < 0) && ((game.getIslandsList().size() - prevMotherNaturePos + islandIndex) > game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift())) {
+                logger.log(Level.SEVERE, "moved mother nature too far");
                 sendError(game.getCurrPlayer().getId(), "Mother nature moved too far");
                 return;
             }
 
             game.setMotherNaturePosition(islandIndex);
 
-            if(game.isExpertMode()) { //we apply the character effect if it's used, or we remove forbid card if present
-                if( game.getCurrRound().getCurrTurn().getUsedCharacter()!=null){
+            if (game.isExpertMode()) { //we apply the character effect if it's used, or we remove forbid card if present
+                if (game.getCurrRound().getCurrTurn().getUsedCharacter() != null) {
                     int usedCharacterId = game.getCurrRound().getCurrTurn().getUsedCharacter().getId();
-                    if(usedCharacterId==6||usedCharacterId==8||usedCharacterId==9) {
-                    Characters2and6and8and9 character = (Characters2and6and8and9) game.getCurrRound().getCurrTurn().getUsedCharacter();
-                    character.updateIslandDomainCharacter(game.getCurrPlayer(),game.getIslandByIndex(islandIndex),game.getPlayersList(),game.getForbidCharacter());
-                    }
-                    else { //simply remove forbid card if none of characters 6/8/9 was used in this turn (if there is)
+                    if (usedCharacterId == 6 || usedCharacterId == 8 || usedCharacterId == 9) {
+                        Characters2and6and8and9 character = (Characters2and6and8and9) game.getCurrRound().getCurrTurn().getUsedCharacter();
+                        character.updateIslandDomainCharacter(game.getCurrPlayer(), game.getIslandByIndex(islandIndex), game.getPlayersList(), game.getForbidCharacter());
+                    } else { //simply remove forbid card if none of characters 6/8/9 was used in this turn (if there is)
                         game.getIslandByIndex(islandIndex).updateIslandDomainExpert(game.getPlayersList(), game.getForbidCharacter());
                     }
-                }
-                else{ //simply remove forbid card if no character was used in this turn (if there is)
+                } else { //simply remove forbid card if no character was used in this turn (if there is)
                     game.getIslandByIndex(islandIndex).updateIslandDomainExpert(game.getPlayersList(), game.getForbidCharacter());
                 }
                 game.sendCharacterTable(); //update the number of forbid cards on the character
-            }
-            else {
+            } else {
                 game.getIslandByIndex(islandIndex).updateIslandDomain(game.getPlayersList());
             }
 
             int newMotherNaturePos = game.getCurrRound().getCurrTurn().updateIslandList(game.getIslandsList());
-            if(newMotherNaturePos != -1){
+            if (newMotherNaturePos != -1) {
                 game.setMotherNaturePosition(newMotherNaturePos);
             }
 
@@ -524,37 +489,35 @@ public class Controller implements Observer {
             game.sendTable();
             game.getCurrRound().getCurrTurn().setStage(TurnState.CHOOSE_CLOUD_STATE);
 
-            if(game.getCurrRound().isLastRound() && !game.getCurrRound().nextTurn()){ //if it is the last round because students in the bag finished we jump to next turn (without take from cloud), if turn is the last we find the winner
+            if (game.getCurrRound().isLastRound() && !game.getCurrRound().nextTurn()) { //if it is the last round because students in the bag finished we jump to next turn (without take from cloud), if turn is the last we find the winner
                 game.sendWin(getWinner());
                 game.setState(GameState.FINISHED_STATE);
                 return;
-            }
-            else if(checkWin(false)){
+            } else if (checkWin(false)) {
                 game.sendWin(getWinner());
                 game.setState(GameState.FINISHED_STATE);
                 return;
-            }
-            else {
+            } else {
                 game.sendInGameState();
             }
 
-        }
-        else {
-            logger.log(Level.SEVERE,"forbidden move");
+        } else {
+            logger.log(Level.SEVERE, "forbidden move");
             sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
     }
 
-    //ACTION PHASE 3
+    //ACTION PHASE 2
 
     /**
      * This methods takes the students of the selected cloud and gives them to the current player
+     *
      * @param cloudIndex index of the selected cloud
      */
-    public synchronized void takeFromCloud(int cloudIndex){ //they go in the entranceList
-        if(game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.CHOOSE_CLOUD_STATE){
-            if(game.getCloudByIndex(cloudIndex)==null || game.getCloudByIndex(cloudIndex).getStudents().isEmpty()){
-                logger.log(Level.SEVERE,"wrong parameters");
+    public synchronized void takeFromCloud(int cloudIndex) { //they go in the entranceList
+        if (game.getCurrRound().getStage() == RoundState.ACTION_STATE && game.getCurrRound().getCurrTurn().getStage() == TurnState.CHOOSE_CLOUD_STATE) {
+            if (game.getCloudByIndex(cloudIndex) == null || game.getCloudByIndex(cloudIndex).getStudents().isEmpty()) {
+                logger.log(Level.SEVERE, "wrong parameters");
                 sendError(game.getCurrPlayer().getId(), "Wrong parameters");
                 return;
             }
@@ -564,55 +527,57 @@ public class Controller implements Observer {
             game.sendDashboard();
 
             boolean result = game.getCurrRound().nextTurn();
-            if(!result){ //the round is ended and we fill the clouds again
+            if (!result) { //the round is ended and we fill the clouds again
                 if (checkWin(true)) {
                     game.sendWin(getWinner());
                     game.setState(GameState.FINISHED_STATE);
                     return;
                 }
 
-                for (Player p : game.getPlayersList()){
+                for (Player p : game.getPlayersList()) {
                     p.setSelectedAssistant(null);
                 }
-                game.getCurrRound().fillClouds(game.getCloudsList(),game.getBag(),game.getNumOfPlayers());
+                game.getCurrRound().fillClouds(game.getCloudsList(), game.getBag(), game.getNumOfPlayers());
             }
             game.sendTable();
             game.sendInGameState();
-        }
-        else {
-            logger.log(Level.SEVERE,"forbidden move");
+        } else {
+            logger.log(Level.SEVERE, "forbidden move");
             sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
 
     }
 
+    //ACTION PHASE 3
+
     /**
      * This method selects an assistant for the current player
+     *
      * @param assistantId id of the selected assistant
      */
-    public synchronized void selectAssistant(int assistantId){
-        if(game.getCurrRound().getStage() == RoundState.PLANNING_STATE) {
+    public synchronized void selectAssistant(int assistantId) {
+        if (game.getCurrRound().getStage() == RoundState.PLANNING_STATE) {
             Round round = game.getCurrRound();
             Player player = round.getPlanningPhasePlayer(game.getPlayersList());
-            if(player.getAssistantDeck().getAssistantById(assistantId)==null){
-                logger.log(Level.SEVERE,"wrong parameters");
+            if (player.getAssistantDeck().getAssistantById(assistantId) == null) {
+                logger.log(Level.SEVERE, "wrong parameters");
                 sendError(player.getId(), "Assistant not available");
                 return;
             }
 
             List<Integer> thrownAssistants = new ArrayList<>();
             List<Integer> myAssistants = new ArrayList<>();
-            for (Player p : game.getPlayersList()){
-                if(p.getSelectedAssistant()!=null) {
+            for (Player p : game.getPlayersList()) {
+                if (p.getSelectedAssistant() != null) {
                     thrownAssistants.add(p.getSelectedAssistant().getId());
                 }
             }
-            for (Assistant a : player.getAssistantDeck().getAssistantsList()){
+            for (Assistant a : player.getAssistantDeck().getAssistantsList()) {
                 myAssistants.add(a.getId());
             }
 
-            if(thrownAssistants.contains(assistantId) && !thrownAssistants.containsAll(myAssistants)){ //my assistant was already thrown, and it is false that all my assistants were already thrown
-                logger.log(Level.SEVERE,"same id of other players");
+            if (thrownAssistants.contains(assistantId) && !thrownAssistants.containsAll(myAssistants)) { //my assistant was already thrown, and it is false that all my assistants were already thrown
+                logger.log(Level.SEVERE, "same id of other players");
                 sendError(player.getId(), "Assistant not available");
                 return;
             }
@@ -629,23 +594,23 @@ public class Controller implements Observer {
                 round.initRound(game.getPlayersList());
             }
             game.sendInGameState();
-        }
-        else {
-            logger.log(Level.SEVERE,"forbidden move");
+        } else {
+            logger.log(Level.SEVERE, "forbidden move");
             sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
     }
 
     /**
      * this method uses a character for the current player
+     *
      * @param characterId id of the selected character
-     * @param parameters the selected character's parameters
+     * @param parameters  the selected character's parameters
      */
-    public synchronized void useCharacter(int characterId, CharacterParameters parameters){
-        if(game.getCurrRound().getStage() == RoundState.ACTION_STATE) {
+    public synchronized void useCharacter(int characterId, CharacterParameters parameters) {
+        if (game.getCurrRound().getStage() == RoundState.ACTION_STATE) {
             Character usedCharacter = game.getCharacterById(characterId);
-            if(usedCharacter==null){
-                logger.log(Level.SEVERE,"wrong parameters");
+            if (usedCharacter == null) {
+                logger.log(Level.SEVERE, "wrong parameters");
                 sendError(game.getCurrPlayer().getId(), "Wrong parameters");
                 return;
             }
@@ -660,18 +625,18 @@ public class Controller implements Observer {
                 Island prevIsl = game.getIslandByIndex(game.getMotherNaturePos());
                 int prevIslListsize = game.getIslandsList().size();
                 int newMotherNaturePos = game.getCurrRound().getCurrTurn().updateIslandList(game.getIslandsList());
-                int diff = prevIslListsize- game.getIslandsList().size();
-                if(newMotherNaturePos != -1 && (!game.getIslandsList().contains(prevIsl)  || parameters.getIsland() == prevIsl )){
+                int diff = prevIslListsize - game.getIslandsList().size();
+                if (newMotherNaturePos != -1 && (!game.getIslandsList().contains(prevIsl) || parameters.getIsland() == prevIsl)) {
                     game.setMotherNaturePosition(newMotherNaturePos);
                 }  //we update islands because some characters calculate the influence
-                else if(diff !=0 && newMotherNaturePos<game.getMotherNaturePos()){
+                else if (diff != 0 && newMotherNaturePos < game.getMotherNaturePos()) {
                     game.setMotherNaturePosition((game.getMotherNaturePos()) - diff);
                 }
                 game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(), game.getTableProfessorsList());
                 game.getCurrRound().getCurrTurn().returnProfessorsToTable(game.getPlayersList(), game.getTableProfessorsList());
 
-                if(!result) {
-                    logger.log(Level.SEVERE,"error in character use");
+                if (!result) {
+                    logger.log(Level.SEVERE, "error in character use");
                     sendError(game.getCurrPlayer().getId(), "Error, retry to use character or continue playing");
                     game.sendInGameState();
                     return;
@@ -685,19 +650,17 @@ public class Controller implements Observer {
                 game.sendInGameState(); //orders the update of the views
                 game.sendThrownCharacter(characterId);
 
-                if(checkWin(false)){
+                if (checkWin(false)) {
                     game.sendWin(getWinner());
                     game.setState(GameState.FINISHED_STATE);
                     return;
                 }
-            }
-            else {
-                logger.log(Level.SEVERE,"Not enough money");
+            } else {
+                logger.log(Level.SEVERE, "Not enough money");
                 sendError(game.getCurrPlayer().getId(), "Not enough money");
             }
-        }
-        else {
-            logger.log(Level.SEVERE,"forbidden move");
+        } else {
+            logger.log(Level.SEVERE, "forbidden move");
             sendError(game.getCurrPlayer().getId(), "Forbidden command");
         }
     }
@@ -710,28 +673,26 @@ public class Controller implements Observer {
     }
 
     /**
-     *
      * @param finishedRound
      * @return {@code true} if someone won {@code false} if not
      */
-    public boolean checkWin(boolean finishedRound){
-        if(finishedRound){
-            for (Player p : game.getPlayersList()){ //one player finished assistants, the check on the bag is done in the method movemothernature
-                if(p.getAssistantDeck().getAssistantsList().isEmpty()){
-                    logger.log(Level.INFO,"win on finished assistants");
+    public boolean checkWin(boolean finishedRound) {
+        if (finishedRound) {
+            for (Player p : game.getPlayersList()) { //one player finished assistants, the check on the bag is done in the method movemothernature
+                if (p.getAssistantDeck().getAssistantsList().isEmpty()) {
+                    logger.log(Level.INFO, "win on finished assistants");
                     return true;
                 }
             }
-        }
-        else{
-            for(Player p : game.getPlayersList()) {
+        } else {
+            for (Player p : game.getPlayersList()) {
                 if (p.hasTower() && p.getDashboard().getTowersList().isEmpty()) { //a player finished the towers
                     logger.log(Level.INFO, "win on finished towers");
                     return true;
                 }
             }
-            if (game.getIslandsList().size()<=3){//there are only three islands on the table
-                logger.log(Level.INFO,"win on 3 island remained");
+            if (game.getIslandsList().size() <= 3) {//there are only three islands on the table
+                logger.log(Level.INFO, "win on 3 island remained");
                 return true;
             }
         }
@@ -739,14 +700,13 @@ public class Controller implements Observer {
     }
 
     /**
-     *
      * @return the player who won the game
      */
     public int getWinner() {  //it was private, but we have to put it public for the tests
         int winnerId = -1;
-        Player tmpPlayer = null ;
-        for(int i = 0; i<game.getPlayersList().size(); i++){
-            if(game.getPlayersList().get(i).hasTower()==true){ //it is impossible that tmpPlayer is not set here
+        Player tmpPlayer = null;
+        for (int i = 0; i < game.getPlayersList().size(); i++) {
+            if (game.getPlayersList().get(i).hasTower() == true) { //it is impossible that tmpPlayer is not set here
                 tmpPlayer = game.getPlayersList().get(i); //tmpPlayer is the current winner player,
                 break;
             }
@@ -755,9 +715,8 @@ public class Controller implements Observer {
             if (p.hasTower()) {
                 if (p.getDashboard().getTowersList().size() < tmpPlayer.getDashboard().getTowersList().size()) {
                     tmpPlayer = p;
-                }
-                else if(p.getDashboard().getTowersList().size() == tmpPlayer.getDashboard().getTowersList().size()){
-                    if(p.getDashboard().getProfessorsList().size()> tmpPlayer.getDashboard().getProfessorsList().size()){ //if also professors are the same number it will win the first checked by the loop (pseudo-randomly)
+                } else if (p.getDashboard().getTowersList().size() == tmpPlayer.getDashboard().getTowersList().size()) {
+                    if (p.getDashboard().getProfessorsList().size() > tmpPlayer.getDashboard().getProfessorsList().size()) { //if also professors are the same number it will win the first checked by the loop (pseudo-randomly)
                         tmpPlayer = p;
                     }
                 }
@@ -768,23 +727,22 @@ public class Controller implements Observer {
 
     /**
      * This method checks if the sender of the message is the current player
+     *
      * @param message the received message
      * @return {@code true} if the sender of the message is the current player {@code false} otherwise
-      */
-    private boolean checkUser(Message message){
-        if((game.getCurrRound().getStage()==RoundState.ACTION_STATE && message.getSenderId()==game.getCurrPlayer().getId()) || (game.getCurrRound().getStage() == RoundState.PLANNING_STATE && message.getSenderId()==game.getCurrRound().getPlanningPhasePlayer(game.getPlayersList()).getId())){
-            return true;
-        }
-        return false;
+     */
+    private boolean checkUser(Message message) {
+        return (game.getCurrRound().getStage() == RoundState.ACTION_STATE && message.getSenderId() == game.getCurrPlayer().getId()) || (game.getCurrRound().getStage() == RoundState.PLANNING_STATE && message.getSenderId() == game.getCurrRound().getPlanningPhasePlayer(game.getPlayersList()).getId());
     }
 
     /**
      * This method sends an error message to a player
+     *
      * @param playerId id of the player
-     * @param message the message received
+     * @param message  the message received
      */
-    private void sendError(int playerId, String message){
-        if(server != null) {
+    private void sendError(int playerId, String message) {
+        if (server != null) {
             RemoteView remoteView = server.getRemoteViewByPlayerId(playerId);
             remoteView.sendToClient(new StringMessage(MessageType.ERROR_REPLY, SERVERID, false, message));
         }
@@ -792,35 +750,45 @@ public class Controller implements Observer {
 
     /**
      * This method sends an ok message to a player
+     *
      * @param playerId id of the player
      */
-    private void sendOk(int playerId){
-        if(server != null) {
+    private void sendOk(int playerId) {
+        if (server != null) {
             RemoteView remoteView = server.getRemoteViewByPlayerId(playerId);
-            remoteView.sendToClient(new GenericMessage(MessageType.OK_REPLY, SERVERID,false));
+            remoteView.sendToClient(new GenericMessage(MessageType.OK_REPLY, SERVERID, false));
         }
     }
 
     /**
      * Sends the assistants to a player
-     * @param playerId id of the player
+     *
+     * @param playerId      id of the player
      * @param assistantList list of the sent assistants
      */
-    private void sendAssistantsToClient(int playerId, List<ReducedAssistant> assistantList){
-        if(server != null) {
+    private void sendAssistantsToClient(int playerId, List<ReducedAssistant> assistantList) {
+        if (server != null) {
             RemoteView remoteView = server.getRemoteViewByPlayerId(playerId);
-            remoteView.sendToClient(new AssistantsSendMessage( SERVERID,assistantList));
+            remoteView.sendToClient(new AssistantsSendMessage(SERVERID, assistantList));
         }
+    }
+
+    /**
+     * @return the server
+     */
+    public Server getServer() {
+        return server;
     }
 
 
     //ONLY TO TEST METHOD
 
     /**
+     * Sets the server
      *
-     * @return the server
+     * @param server the server
      */
-    public Server getServer() {
-        return server;
+    public void setServer(Server server) {
+        this.server = server;
     }
 }

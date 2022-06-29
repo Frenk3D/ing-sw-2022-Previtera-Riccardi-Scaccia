@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.scene;
 
-import it.polimi.ingsw.model.enumerations.TowerColor;
 import it.polimi.ingsw.model.enumerations.Wizard;
 import it.polimi.ingsw.observer.ViewObservable;
 import javafx.event.Event;
@@ -13,7 +12,7 @@ import java.util.List;
 /**
  * This class implements the controller of the scene where users choose a wizard (all the assistant decks are equals...)
  */
-public class ChooseWizardSceneController extends ViewObservable implements GenericSceneController{
+public class ChooseWizardSceneController extends ViewObservable implements GenericSceneController {
 
     @FXML
     private ImageView oldWizardImgView;
@@ -27,43 +26,43 @@ public class ChooseWizardSceneController extends ViewObservable implements Gener
     @FXML
     private ImageView asiaticWizardImgView;
 
-    public void initialize(){
-        oldWizardImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickOldWizardImgView);
-        kingWizardImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickKingWizardImgView);
-        girlWizardImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickGirlWizardImgView);
-        asiaticWizardImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickAsiaticWizardImgView);
+    public void initialize() {
+        oldWizardImgView.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onClickOldWizardImgView);
+        kingWizardImgView.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onClickKingWizardImgView);
+        girlWizardImgView.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onClickGirlWizardImgView);
+        asiaticWizardImgView.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onClickAsiaticWizardImgView);
 
-        oldWizardImgView.setOnMouseEntered((e)->{
+        oldWizardImgView.setOnMouseEntered((e) -> {
             oldWizardImgView.setScaleX(1.04);
             oldWizardImgView.setScaleY(1.04);
         });
-        oldWizardImgView.setOnMouseExited((e)->{
+        oldWizardImgView.setOnMouseExited((e) -> {
             oldWizardImgView.setScaleX(1);
             oldWizardImgView.setScaleY(1);
         });
-        kingWizardImgView.setOnMouseEntered((e)->{
+        kingWizardImgView.setOnMouseEntered((e) -> {
             kingWizardImgView.setScaleX(1.04);
             kingWizardImgView.setScaleY(1.04);
         });
-        kingWizardImgView.setOnMouseExited((e)->{
+        kingWizardImgView.setOnMouseExited((e) -> {
             kingWizardImgView.setScaleX(1);
             kingWizardImgView.setScaleY(1);
         });
-        girlWizardImgView.setOnMouseEntered((e)->{
+        girlWizardImgView.setOnMouseEntered((e) -> {
             girlWizardImgView.setScaleX(1.04);
             girlWizardImgView.setScaleY(1.04);
         });
-        girlWizardImgView.setOnMouseExited((e)->{
+        girlWizardImgView.setOnMouseExited((e) -> {
             girlWizardImgView.setScaleX(1);
             girlWizardImgView.setScaleY(1);
         });
 
-        asiaticWizardImgView.setOnMouseEntered((e)->{
+        asiaticWizardImgView.setOnMouseEntered((e) -> {
             asiaticWizardImgView.setScaleX(1.04);
             asiaticWizardImgView.setScaleY(1.04);
         });
 
-        asiaticWizardImgView.setOnMouseExited((e)->{
+        asiaticWizardImgView.setOnMouseExited((e) -> {
             asiaticWizardImgView.setScaleX(1);
             asiaticWizardImgView.setScaleY(1);
         });
@@ -72,9 +71,10 @@ public class ChooseWizardSceneController extends ViewObservable implements Gener
 
     /**
      * Handle onClickSageWizard event.
+     *
      * @param event mouse click event.
      */
-    public void onClickOldWizardImgView(Event event){
+    public void onClickOldWizardImgView(Event event) {
         setAllDisable(true);
         setAllFaded(true);
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseWizard(Wizard.SAGE))).start();
@@ -82,9 +82,10 @@ public class ChooseWizardSceneController extends ViewObservable implements Gener
 
     /**
      * Handle onClickKingWizard event.
+     *
      * @param event mouse click event.
      */
-    public void onClickKingWizardImgView(Event event){
+    public void onClickKingWizardImgView(Event event) {
         setAllDisable(true);
         setAllFaded(true);
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseWizard(Wizard.KING))).start();
@@ -92,9 +93,10 @@ public class ChooseWizardSceneController extends ViewObservable implements Gener
 
     /**
      * Handle onClickWitchWizard event.
+     *
      * @param event mouse click event.
      */
-    public void onClickGirlWizardImgView(Event event){
+    public void onClickGirlWizardImgView(Event event) {
         setAllDisable(true);
         setAllFaded(true);
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseWizard(Wizard.WITCH))).start();
@@ -102,20 +104,21 @@ public class ChooseWizardSceneController extends ViewObservable implements Gener
 
     /**
      * Handle onClickAsiaticWizard event.
+     *
      * @param event mouse click event.
      */
-    public void onClickAsiaticWizardImgView(Event event){
+    public void onClickAsiaticWizardImgView(Event event) {
         setAllDisable(true);
         setAllFaded(true);
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseWizard(Wizard.ASIATIC))).start();
     }
 
-    /** Update the list of wizards not yet chosen.
-     *
+    /**
+     * Update the list of wizards not yet chosen.
      *
      * @param availableWizards the available wizards for the choice
      */
-    public void updateList(List<Wizard> availableWizards){
+    public void updateList(List<Wizard> availableWizards) {
         setAllDisable(false);
         setAllFaded(false);
         if (!availableWizards.contains(Wizard.SAGE)) {
@@ -138,9 +141,10 @@ public class ChooseWizardSceneController extends ViewObservable implements Gener
 
     /**
      * To disable the choices not available.
+     *
      * @param state if available (false) or not (true)
      */
-    private void setAllDisable(boolean state){
+    private void setAllDisable(boolean state) {
         oldWizardImgView.setDisable(state);
         kingWizardImgView.setDisable(state);
         girlWizardImgView.setDisable(state);
@@ -149,16 +153,16 @@ public class ChooseWizardSceneController extends ViewObservable implements Gener
 
     /**
      * To set the opacity at the choices not available.
+     *
      * @param state if available (false) or not (true)
      */
-    private void setAllFaded(boolean state){
-        if(state) {
+    private void setAllFaded(boolean state) {
+        if (state) {
             oldWizardImgView.setOpacity(0.2);
             kingWizardImgView.setOpacity(0.2);
             girlWizardImgView.setOpacity(0.2);
             asiaticWizardImgView.setOpacity(0.2);
-        }
-        else {
+        } else {
             oldWizardImgView.setOpacity(1);
             kingWizardImgView.setOpacity(1);
             girlWizardImgView.setOpacity(1);

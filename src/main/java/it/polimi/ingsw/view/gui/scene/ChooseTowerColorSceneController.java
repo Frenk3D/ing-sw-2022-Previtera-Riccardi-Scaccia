@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * This class implements the controller of the scene where users choose a tower color (only the team leaders)
  */
-public class ChooseTowerColorSceneController extends ViewObservable implements GenericSceneController{
+public class ChooseTowerColorSceneController extends ViewObservable implements GenericSceneController {
 
     @FXML
     private ImageView whiteTowerImgView;
@@ -23,43 +23,44 @@ public class ChooseTowerColorSceneController extends ViewObservable implements G
     @FXML
     private ImageView greyTowerImgView; //gray
 
-    public void initialize(){
-        whiteTowerImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickWhiteTowerImgView);
-        blackTowerImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickBlackTowerImgView);
-        greyTowerImgView.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onClickGreyTowerImgView);
+    public void initialize() {
+        whiteTowerImgView.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onClickWhiteTowerImgView);
+        blackTowerImgView.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onClickBlackTowerImgView);
+        greyTowerImgView.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onClickGreyTowerImgView);
 
-        whiteTowerImgView.setOnMouseEntered((e)->{
+        whiteTowerImgView.setOnMouseEntered((e) -> {
             whiteTowerImgView.setScaleX(1.04);
             whiteTowerImgView.setScaleY(1.04);
         });
-        whiteTowerImgView.setOnMouseExited((e)->{
+        whiteTowerImgView.setOnMouseExited((e) -> {
             whiteTowerImgView.setScaleX(1);
             whiteTowerImgView.setScaleY(1);
         });
-        blackTowerImgView.setOnMouseEntered((e)->{
+        blackTowerImgView.setOnMouseEntered((e) -> {
             blackTowerImgView.setScaleX(1.04);
             blackTowerImgView.setScaleY(1.04);
         });
-        blackTowerImgView.setOnMouseExited((e)->{
+        blackTowerImgView.setOnMouseExited((e) -> {
             blackTowerImgView.setScaleX(1);
             blackTowerImgView.setScaleY(1);
         });
-        greyTowerImgView.setOnMouseEntered((e)->{
+        greyTowerImgView.setOnMouseEntered((e) -> {
             greyTowerImgView.setScaleX(1.04);
             greyTowerImgView.setScaleY(1.04);
         });
-        greyTowerImgView.setOnMouseExited((e)->{
+        greyTowerImgView.setOnMouseExited((e) -> {
             greyTowerImgView.setScaleX(1);
             greyTowerImgView.setScaleY(1);
         });
-        
+
     }
 
     /**
      * Handle onClickWhiteTower event.
+     *
      * @param event mouse click event.
      */
-    public void onClickWhiteTowerImgView(Event event){
+    public void onClickWhiteTowerImgView(Event event) {
         setAllDisabled(true);
         setAllFaded(true);
         TowerColor tc = TowerColor.WHITE;
@@ -68,9 +69,10 @@ public class ChooseTowerColorSceneController extends ViewObservable implements G
 
     /**
      * Handle onClickBlackTower event.
+     *
      * @param event mouse click event.
      */
-    public void onClickBlackTowerImgView(Event event){
+    public void onClickBlackTowerImgView(Event event) {
         setAllDisabled(true);
         setAllFaded(true);
         TowerColor tc = TowerColor.BLACK;
@@ -79,21 +81,22 @@ public class ChooseTowerColorSceneController extends ViewObservable implements G
 
     /**
      * Handle onClickGreyTower event.
+     *
      * @param event mouse click event.
      */
-    public void onClickGreyTowerImgView(Event event){
+    public void onClickGreyTowerImgView(Event event) {
         setAllDisabled(true);
         setAllFaded(true);
         TowerColor tc = TowerColor.GRAY;
         new Thread(() -> notifyObserver(obs -> obs.onSendChooseTowerColor(tc))).start();
     }
 
-    /** Update the list of tower colors not yet chosen.
-     *
+    /**
+     * Update the list of tower colors not yet chosen.
      *
      * @param availableTowerColors the available tower colors for the choice
      */ //not still...
-    public void updateList(List<TowerColor> availableTowerColors){
+    public void updateList(List<TowerColor> availableTowerColors) {
         setAllDisabled(false);
         setAllFaded(false);
         if (!availableTowerColors.contains(TowerColor.BLACK)) {
@@ -113,9 +116,10 @@ public class ChooseTowerColorSceneController extends ViewObservable implements G
 
     /**
      * To disable the choices not available.
+     *
      * @param state if available (false) or not (true)
      */
-    private void setAllDisabled(boolean state){
+    private void setAllDisabled(boolean state) {
         greyTowerImgView.setDisable(state);
         blackTowerImgView.setDisable(state);
         whiteTowerImgView.setDisable(state);
@@ -123,15 +127,15 @@ public class ChooseTowerColorSceneController extends ViewObservable implements G
 
     /**
      * To set the opacity at the choices not available.
+     *
      * @param state if available (false) or not (true)
      */
-    private void setAllFaded(boolean state){
-        if(state) {
+    private void setAllFaded(boolean state) {
+        if (state) {
             greyTowerImgView.setOpacity(0.2);
             blackTowerImgView.setOpacity(0.2);
             whiteTowerImgView.setOpacity(0.2);
-        }
-        else {
+        } else {
             greyTowerImgView.setOpacity(1);
             blackTowerImgView.setOpacity(1);
             whiteTowerImgView.setOpacity(1);

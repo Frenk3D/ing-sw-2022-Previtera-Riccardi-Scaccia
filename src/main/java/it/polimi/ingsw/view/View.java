@@ -1,12 +1,12 @@
 package it.polimi.ingsw.view;
 
 
-
 import it.polimi.ingsw.client.ClientGameModel;
-import it.polimi.ingsw.client.*;
-import it.polimi.ingsw.model.enumerations.*;
-import it.polimi.ingsw.network.server.*;
-import it.polimi.ingsw.observer.*;
+import it.polimi.ingsw.model.enumerations.TowerColor;
+import it.polimi.ingsw.model.enumerations.Wizard;
+import it.polimi.ingsw.network.server.Lobby;
+import it.polimi.ingsw.observer.ModelObserver;
+import it.polimi.ingsw.observer.ViewObservable;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +22,7 @@ public abstract class View extends ViewObservable implements ModelObserver {
      * Asks the user to write a Nickname.
      */
     @Override
-    public abstract void onSendLoginRequest ();
+    public abstract void onSendLoginRequest();
 
     @Override
     public abstract void onAskServerInfo();
@@ -34,7 +34,7 @@ public abstract class View extends ViewObservable implements ModelObserver {
     public abstract void onSendChooseLobby(List<Lobby> lobbyList);
 
     @Override
-    public abstract void onSendChooseTeam(Map<String,Integer> availablePlayers);
+    public abstract void onSendChooseTeam(Map<String, Integer> availablePlayers);
 
     @Override
     public abstract void onSendChooseTowerColor(List<TowerColor> availableTowerColors);
@@ -46,32 +46,33 @@ public abstract class View extends ViewObservable implements ModelObserver {
     public abstract void onSendSelectAssistant();
 
     @Override
-    public abstract void onAskWhereToMoveStudent() ;
+    public abstract void onAskWhereToMoveStudent();
 
     @Override
     public abstract void onSendMoveMotherNature();
 
 
     @Override
-    public abstract void onSendChooseCloud() ;
+    public abstract void onSendChooseCloud();
 
     @Override
     public abstract void onAskCharacterParameters(int characterId);
 
     /**
-      * Shows  message.
-      *
-      * @param toShow It depends on the message: it's the nickname of the winner in case of win, it's the error string in case of error,
-        *               it's a disconnection string in case of disconnection of a client in my lobby/game...
-      */
+     * Shows  message.
+     *
+     * @param toShow It depends on the message: it's the nickname of the winner in case of win, it's the error string in case of error,
+     *               it's a disconnection string in case of disconnection of a client in my lobby/game...
+     */
 
     @Override
-    public abstract void onShow(Object toShow) ;  //generic to show everything in base to the type...
-    @Override
-    public abstract  void onShowPlayerJoin(List<String> playersList) ;
+    public abstract void onShow(Object toShow);  //generic to show everything in base to the type...
 
     @Override
-    public abstract void updateClientGameModel(ClientGameModel clientGameModel) ;
+    public abstract void onShowPlayerJoin(List<String> playersList);
+
+    @Override
+    public abstract void updateClientGameModel(ClientGameModel clientGameModel);
 
     @Override
     public abstract void onShowGame(ClientGameModel clientGameModel);

@@ -10,9 +10,8 @@ import javafx.scene.input.MouseEvent;
 
 /**
  * This class implements the scene where users choose their nicknames.
- *
  */
-public class NicknameSceneController extends ViewObservable implements GenericSceneController{
+public class NicknameSceneController extends ViewObservable implements GenericSceneController {
 
     @FXML
     private TextField textNickname;
@@ -24,11 +23,12 @@ public class NicknameSceneController extends ViewObservable implements GenericSc
      */
     @FXML
     public void initialize() {
-        buttonSubmitNickname.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onLoginBtnClick);
+        buttonSubmitNickname.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onLoginBtnClick);
     }
 
     /**
      * The event handler that will notify to send the nickname
+     *
      * @param event the click event
      */
     @FXML
@@ -40,7 +40,7 @@ public class NicknameSceneController extends ViewObservable implements GenericSc
     /**
      * If there is an error it will reset the text field
      */
-    public void setError(){
+    public void setError() {
         textNickname.setText("");
     }
 }

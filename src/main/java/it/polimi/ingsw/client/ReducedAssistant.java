@@ -13,16 +13,16 @@ public class ReducedAssistant implements Serializable {
 
     /**
      * gets the assistant id and the related number of moves mother nature can do
+     *
      * @param assistant is an Assistant
      */
-    public ReducedAssistant(Assistant assistant){
-        if(assistant == null) return;
+    public ReducedAssistant(Assistant assistant) {
+        if (assistant == null) return;
         id = assistant.getValue();
         motherNaturePosShift = assistant.getMotherNaturePosShift();
     }
 
     /**
-     *
      * @return the reduced assistant id
      */
     public int getId() {
@@ -30,7 +30,6 @@ public class ReducedAssistant implements Serializable {
     }
 
     /**
-     *
      * @return the number of moves mother nature can make
      */
     public int getMotherNaturePosShift() {

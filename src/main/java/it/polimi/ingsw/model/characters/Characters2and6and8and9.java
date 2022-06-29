@@ -17,22 +17,24 @@ public class Characters2and6and8and9 extends Character {
     /**
      * Default constructor
      * selected color 9 is set to null
-     * @param id
-     * @param initialCost
+     *
+     * @param id          the id of the char
+     * @param initialCost the initial cost of the char
      */
     public Characters2and6and8and9(int id, int initialCost) {
-        this.id=id;
-        this.initialCost=initialCost;
-        selectedColor9=null;
+        this.id = id;
+        this.initialCost = initialCost;
+        selectedColor9 = null;
     }
 
     //methods
 
     /**
      * This method implements the effect of the character 2,which consist in a variation of the updateProfessorsLists method
-     * @param playersList
-     * @param cardPlayer
-     * @param tableProfessorsList
+     *
+     * @param playersList         the players list
+     * @param cardPlayer          the player who plays the card
+     * @param tableProfessorsList the initial table professors list
      * @return false if an exception is detected
      * @return true if the effect is applied
      */
@@ -63,7 +65,7 @@ public class Characters2and6and8and9 extends Character {
                         }
                     }
 
-                    if (cardPlayer.getDashboard().getHallStudentsListByColor(currColor).size()==tmpPlayer.getDashboard().getHallStudentsListByColor(currColor).size()){
+                    if (cardPlayer.getDashboard().getHallStudentsListByColor(currColor).size() == tmpPlayer.getDashboard().getHallStudentsListByColor(currColor).size()) {
                         tmpPlayer = cardPlayer;
                     }
 
@@ -92,8 +94,7 @@ public class Characters2and6and8and9 extends Character {
 
             }
             return true;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
@@ -101,11 +102,12 @@ public class Characters2and6and8and9 extends Character {
 
     /**
      * This method implements the effect of the 6th character,which is a variation of the updateIslandDomain method
-     * @param island
-     * @param playersList
-     * @param forbidCharacter
+     *
+     * @param island          the island chosen
+     * @param playersList     the players list
+     * @param forbidCharacter the forbid char
      */
-    private void updateIslandDomain6(Island island,List<Player> playersList, Characters3and4and5 forbidCharacter) {
+    private void updateIslandDomain6(Island island, List<Player> playersList, Characters3and4and5 forbidCharacter) {
         if (island.getForbidCards() > 0) {
             island.setForbidCards(island.getForbidCards() - 1);
             forbidCharacter.addForbidCard5();
@@ -113,9 +115,9 @@ public class Characters2and6and8and9 extends Character {
         }
 
         Player oldDominatingPlayer = null;
-        Player tmpPlayer = null ;
-        for(int i = 0; i<playersList.size(); i++){
-            if(playersList.get(i).hasTower()==true){ //it is impossible that tmpPlayer is not set here
+        Player tmpPlayer = null;
+        for (int i = 0; i < playersList.size(); i++) {
+            if (playersList.get(i).hasTower() == true) { //it is impossible that tmpPlayer is not set here
                 tmpPlayer = playersList.get(i); //tmpPlayer is the current dominating player, and allParity blocks if there is none that has to receive domain
                 break;
             }
@@ -123,52 +125,53 @@ public class Characters2and6and8and9 extends Character {
         boolean allParity = true;
 
 
-            for (Player p : playersList) {
-                if (island.getTowerColor()!= null && island.getTowerColor().equals(p.getTowerColor()) && p.hasTower()) { //check on hasTower for 4 players
-                    oldDominatingPlayer = p;
-                }
-
-                if (modifiedCalculateInfluence6(island, p, playersList) > modifiedCalculateInfluence6(island, tmpPlayer, playersList) && p.hasTower()) {
-                    tmpPlayer = p;
-                    allParity = false;
-                }
-                if (modifiedCalculateInfluence6(island, p, playersList) < modifiedCalculateInfluence6(island, tmpPlayer, playersList) && p.hasTower()) {
-                    allParity=false;
-                }
+        for (Player p : playersList) {
+            if (island.getTowerColor() != null && island.getTowerColor().equals(p.getTowerColor()) && p.hasTower()) { //check on hasTower for 4 players
+                oldDominatingPlayer = p;
             }
 
-        for(Player p : playersList){
-            if(p!=tmpPlayer && p.hasTower() && modifiedCalculateInfluence6(island, p, playersList) == modifiedCalculateInfluence6(island, tmpPlayer, playersList))
+            if (modifiedCalculateInfluence6(island, p, playersList) > modifiedCalculateInfluence6(island, tmpPlayer, playersList) && p.hasTower()) {
+                tmpPlayer = p;
+                allParity = false;
+            }
+            if (modifiedCalculateInfluence6(island, p, playersList) < modifiedCalculateInfluence6(island, tmpPlayer, playersList) && p.hasTower()) {
+                allParity = false;
+            }
+        }
+
+        for (Player p : playersList) {
+            if (p != tmpPlayer && p.hasTower() && modifiedCalculateInfluence6(island, p, playersList) == modifiedCalculateInfluence6(island, tmpPlayer, playersList))
                 allParity = true;
         }
 
-            if (allParity == false) { //if the var is false there is a change of domain, or else we do nothing
-                if (tmpPlayer != oldDominatingPlayer) { //if we have to change the tower
-                    for (Tower t: island.getTowersList()) {
-                        oldDominatingPlayer.getDashboard().getTowersList().add(t);
-                    }
-                    int towersListSize = island.getTowersList().size();
-                    for (int i =0; i<towersListSize; i++ ) {
-                        island.getTowersList().remove(0);
-                    }
-                    for (int i = 0; i < island.getWeight(); i++) {
-                        try {
-                            Tower movedTower = tmpPlayer.getDashboard().getTowersList().remove(0);
-                            island.getTowersList().add(movedTower);
-                        } catch (IndexOutOfBoundsException e) {
-                            //win I can't add other towers, the controller will catch this todo
-                        }
+        if (allParity == false) { //if the var is false there is a change of domain, or else we do nothing
+            if (tmpPlayer != oldDominatingPlayer) { //if we have to change the tower
+                for (Tower t : island.getTowersList()) {
+                    oldDominatingPlayer.getDashboard().getTowersList().add(t);
+                }
+                int towersListSize = island.getTowersList().size();
+                for (int i = 0; i < towersListSize; i++) {
+                    island.getTowersList().remove(0);
+                }
+                for (int i = 0; i < island.getWeight(); i++) {
+                    try {
+                        Tower movedTower = tmpPlayer.getDashboard().getTowersList().remove(0);
+                        island.getTowersList().add(movedTower);
+                    } catch (IndexOutOfBoundsException e) {
+                        //win I can't add other towers, the controller will catch this
                     }
                 }
             }
-
         }
+
+    }
 
     /**
      * this method is supplementary to the updateIslandDomain6 method
-     * @param island
-     * @param currPlayer
-     * @param playersList
+     *
+     * @param island      the island chosen
+     * @param currPlayer  the current player that we are calculating the influence
+     * @param playersList the players list
      * @return the player's influence
      */
     private int modifiedCalculateInfluence6(Island island, Player currPlayer, List<Player> playersList) {
@@ -192,13 +195,14 @@ public class Characters2and6and8and9 extends Character {
     }
 
     /**
-     *This method implements the effect of the 8th character,which is a variation of the updateIslandDomain method
-     * @param cardPlayer
-     * @param island
-     * @param playersList
-     * @param forbidCharacter
+     * This method implements the effect of the 8th character,which is a variation of the updateIslandDomain method
+     *
+     * @param cardPlayer      the card player
+     * @param island          the island chosen
+     * @param playersList     the players list
+     * @param forbidCharacter the forbid char
      */
-    private void updateIslandDomain8(Player cardPlayer,Island island,List<Player> playersList, Characters3and4and5 forbidCharacter) {
+    private void updateIslandDomain8(Player cardPlayer, Island island, List<Player> playersList, Characters3and4and5 forbidCharacter) {
         if (island.getForbidCards() > 0) {
             island.setForbidCards(island.getForbidCards() - 1);
             forbidCharacter.addForbidCard5();
@@ -206,9 +210,9 @@ public class Characters2and6and8and9 extends Character {
         }
 
         Player oldDominatingPlayer = null;
-        Player tmpPlayer = null ;
-        for(int i = 0; i<playersList.size(); i++){
-            if(playersList.get(i).hasTower()==true){ //it is impossible that tmpPlayer is not set here
+        Player tmpPlayer = null;
+        for (int i = 0; i < playersList.size(); i++) {
+            if (playersList.get(i).hasTower() == true) { //it is impossible that tmpPlayer is not set here
                 tmpPlayer = playersList.get(i); //tmpPlayer is the current dominating player, and allParity blocks if there is none that has to receive domain
                 break;
             }
@@ -216,87 +220,88 @@ public class Characters2and6and8and9 extends Character {
         boolean allParity = true;
 
 
-
-            for (Player p : playersList) {
-                if (island.getTowerColor()!=null && island.getTowerColor().equals(p.getTowerColor()) && p.hasTower()) { //check on hasTower for 4 players
-                    oldDominatingPlayer = p;
-                }
-
-                if (modifiedCalculateInfluence8(island, p, cardPlayer, playersList) > modifiedCalculateInfluence8(island, tmpPlayer, cardPlayer, playersList) && p.hasTower()) {
-                    tmpPlayer = p;
-                    allParity = false;
-                }
-                if (modifiedCalculateInfluence8(island, p, cardPlayer, playersList) < modifiedCalculateInfluence8(island, tmpPlayer, cardPlayer, playersList) && p.hasTower()) {
-                    allParity=false;
-                }
+        for (Player p : playersList) {
+            if (island.getTowerColor() != null && island.getTowerColor().equals(p.getTowerColor()) && p.hasTower()) { //check on hasTower for 4 players
+                oldDominatingPlayer = p;
             }
-        for(Player p : playersList){
-            if(p!=tmpPlayer && p.hasTower() && modifiedCalculateInfluence8(island, p,cardPlayer, playersList) == modifiedCalculateInfluence8(island, tmpPlayer,cardPlayer, playersList))
+
+            if (modifiedCalculateInfluence8(island, p, cardPlayer, playersList) > modifiedCalculateInfluence8(island, tmpPlayer, cardPlayer, playersList) && p.hasTower()) {
+                tmpPlayer = p;
+                allParity = false;
+            }
+            if (modifiedCalculateInfluence8(island, p, cardPlayer, playersList) < modifiedCalculateInfluence8(island, tmpPlayer, cardPlayer, playersList) && p.hasTower()) {
+                allParity = false;
+            }
+        }
+        for (Player p : playersList) {
+            if (p != tmpPlayer && p.hasTower() && modifiedCalculateInfluence8(island, p, cardPlayer, playersList) == modifiedCalculateInfluence8(island, tmpPlayer, cardPlayer, playersList))
                 allParity = true;
         }
 
-            if (allParity == false) { //if the var is false there is a change of domain, or else we do nothing
-                if (tmpPlayer != oldDominatingPlayer) { //if we have to change the tower
-                    for (Tower t: island.getTowersList()) {
-                        oldDominatingPlayer.getDashboard().getTowersList().add(t);
-                    }
-                    int towersListSize = island.getTowersList().size();
-                    for (int i =0; i<towersListSize; i++ ) {
-                        island.getTowersList().remove(0);
-                    }
-                    for (int i = 0; i < island.getWeight(); i++) {
-                        try {
-                            Tower movedTower = tmpPlayer.getDashboard().getTowersList().remove(0);
-                            island.getTowersList().add(movedTower);
-                        } catch (IndexOutOfBoundsException e) {
-                            //win I can't add other towers, the controller will catch this todo
-                        }
+        if (allParity == false) { //if the var is false there is a change of domain, or else we do nothing
+            if (tmpPlayer != oldDominatingPlayer) { //if we have to change the tower
+                for (Tower t : island.getTowersList()) {
+                    oldDominatingPlayer.getDashboard().getTowersList().add(t);
+                }
+                int towersListSize = island.getTowersList().size();
+                for (int i = 0; i < towersListSize; i++) {
+                    island.getTowersList().remove(0);
+                }
+                for (int i = 0; i < island.getWeight(); i++) {
+                    try {
+                        Tower movedTower = tmpPlayer.getDashboard().getTowersList().remove(0);
+                        island.getTowersList().add(movedTower);
+                    } catch (IndexOutOfBoundsException e) {
+                        //win I can't add other towers, the controller will catch this
                     }
                 }
             }
         }
+    }
 
     /**
      * this method is supplementary to the updateIslandDomain8 method
-     * @param island
-     * @param currPlayer
-     * @param cardPlayer
-     * @param playersList
-     * @return
+     *
+     * @param island      the island chosen
+     * @param currPlayer  the current player that we are calculating the influence
+     * @param playersList the players list
+     * @param cardPlayer  the player who played the card
+     * @return the player's influence
      */
-    private int modifiedCalculateInfluence8(Island island, Player currPlayer, Player cardPlayer, List<Player> playersList){
+    private int modifiedCalculateInfluence8(Island island, Player currPlayer, Player cardPlayer, List<Player> playersList) {
         int influence = 0;
         Player teamPlayer = currPlayer.getTeamPlayer(playersList);
-        PawnColor[] colors = {PawnColor.RED,PawnColor.GREEN,PawnColor.BLUE,PawnColor.YELLOW, PawnColor.PINK};
+        PawnColor[] colors = {PawnColor.RED, PawnColor.GREEN, PawnColor.BLUE, PawnColor.YELLOW, PawnColor.PINK};
 
-        for(PawnColor c : colors){
+        for (PawnColor c : colors) {
             int numOfThatColor = 0;
-            for(Student s : island.getStudentsList()){
-                if(s.getColor() == c){
+            for (Student s : island.getStudentsList()) {
+                if (s.getColor() == c) {
                     numOfThatColor++;
                 }
             }
-            if(currPlayer.getDashboard().getProfessorByColor(c) != null || teamPlayer.getDashboard().getProfessorByColor(c) != null){
+            if (currPlayer.getDashboard().getProfessorByColor(c) != null || teamPlayer.getDashboard().getProfessorByColor(c) != null) {
                 influence = influence + numOfThatColor;
             }
         }
-        if (island.getTowerColor()!=null && island.getTowerColor().equals(currPlayer.getTowerColor())){
+        if (island.getTowerColor() != null && island.getTowerColor().equals(currPlayer.getTowerColor())) {
             influence = influence + island.getWeight();
         }
-        if(currPlayer == cardPlayer){
+        if (currPlayer == cardPlayer) {
             influence = influence + 2;
         }
         return influence;
     }
 
     /**
-     * 
-     * @param island
-     * @param playersList
-     * @param selectedColor
-     * @param forbidCharacter
+     * This method implements the effect of the 9th character, which is a variation of the updateIslandDomain method
+     *
+     * @param selectedColor   the selected color
+     * @param island          the island chosen
+     * @param playersList     the players list
+     * @param forbidCharacter the forbid char
      */
-    private void updateIslandDomain9(Island island,List<Player> playersList,PawnColor selectedColor, Characters3and4and5 forbidCharacter) {
+    private void updateIslandDomain9(Island island, List<Player> playersList, PawnColor selectedColor, Characters3and4and5 forbidCharacter) {
         if (island.getForbidCards() > 0) {
             island.setForbidCards(island.getForbidCards() - 1);
             forbidCharacter.addForbidCard5();
@@ -304,9 +309,9 @@ public class Characters2and6and8and9 extends Character {
         }
 
         Player oldDominatingPlayer = null;
-        Player tmpPlayer = null ;
-        for(int i = 0; i<playersList.size(); i++){
-            if(playersList.get(i).hasTower()==true){ //it is impossible that tmpPlayer is not set here
+        Player tmpPlayer = null;
+        for (int i = 0; i < playersList.size(); i++) {
+            if (playersList.get(i).hasTower() == true) { //it is impossible that tmpPlayer is not set here
                 tmpPlayer = playersList.get(i); //tmpPlayer is the current dominating player, and allParity blocks if there is none that has to receive domain
                 break;
             }
@@ -315,55 +320,63 @@ public class Characters2and6and8and9 extends Character {
         boolean allParity = true;
 
 
-            for (Player p : playersList) {
-                if (island.getTowerColor()!=null && island.getTowerColor().equals(p.getTowerColor()) && p.hasTower()) { //check on hasTower for 4 players
-                    oldDominatingPlayer = p;
-                }
-
-                if (modifiedCalculateInfluence9(island, p, selectedColor, playersList) > modifiedCalculateInfluence9(island, tmpPlayer, selectedColor, playersList) && p.hasTower()) {
-                    tmpPlayer = p;
-                    allParity = false;
-                }
-                if (modifiedCalculateInfluence9(island, p, selectedColor, playersList) < modifiedCalculateInfluence9(island, tmpPlayer, selectedColor, playersList) && p.hasTower()) {
-                    allParity = false;
-                }
+        for (Player p : playersList) {
+            if (island.getTowerColor() != null && island.getTowerColor().equals(p.getTowerColor()) && p.hasTower()) { //check on hasTower for 4 players
+                oldDominatingPlayer = p;
             }
 
-        for(Player p : playersList){
-            if(p!=tmpPlayer && p.hasTower() && modifiedCalculateInfluence9(island, p,selectedColor, playersList) == modifiedCalculateInfluence9(island, tmpPlayer,selectedColor, playersList))
+            if (modifiedCalculateInfluence9(island, p, selectedColor, playersList) > modifiedCalculateInfluence9(island, tmpPlayer, selectedColor, playersList) && p.hasTower()) {
+                tmpPlayer = p;
+                allParity = false;
+            }
+            if (modifiedCalculateInfluence9(island, p, selectedColor, playersList) < modifiedCalculateInfluence9(island, tmpPlayer, selectedColor, playersList) && p.hasTower()) {
+                allParity = false;
+            }
+        }
+
+        for (Player p : playersList) {
+            if (p != tmpPlayer && p.hasTower() && modifiedCalculateInfluence9(island, p, selectedColor, playersList) == modifiedCalculateInfluence9(island, tmpPlayer, selectedColor, playersList))
                 allParity = true;
         }
 
-            if (allParity == false) { //if the var is false there is a change of domain, or else we do nothing
-                if (tmpPlayer != oldDominatingPlayer) { //if we have to change the tower
-                    for (Tower t: island.getTowersList()) {
-                        oldDominatingPlayer.getDashboard().getTowersList().add(t);
-                    }
-                    int towersListSize = island.getTowersList().size();
-                    for (int i =0; i<towersListSize; i++ ) {
-                        island.getTowersList().remove(0);
-                    }
-                    for (int i = 0; i < island.getWeight(); i++) {
-                        try {
-                            Tower movedTower = tmpPlayer.getDashboard().getTowersList().remove(0);
-                            island.getTowersList().add(movedTower);
-                        } catch (IndexOutOfBoundsException e) {
-                            //win I can't add other towers, the controller will catch this todo
-                        }
+        if (allParity == false) { //if the var is false there is a change of domain, or else we do nothing
+            if (tmpPlayer != oldDominatingPlayer) { //if we have to change the tower
+                for (Tower t : island.getTowersList()) {
+                    oldDominatingPlayer.getDashboard().getTowersList().add(t);
+                }
+                int towersListSize = island.getTowersList().size();
+                for (int i = 0; i < towersListSize; i++) {
+                    island.getTowersList().remove(0);
+                }
+                for (int i = 0; i < island.getWeight(); i++) {
+                    try {
+                        Tower movedTower = tmpPlayer.getDashboard().getTowersList().remove(0);
+                        island.getTowersList().add(movedTower);
+                    } catch (IndexOutOfBoundsException e) {
+                        //win I can't add other towers, the controller will catch this
                     }
                 }
             }
         }
+    }
 
 
-
-    private int modifiedCalculateInfluence9(Island island, Player currPlayer, PawnColor selectedColor, List<Player> playersList){
+    /**
+     * this method is supplementary to the updateIslandDomain9 method
+     *
+     * @param selectedColor the selected color
+     * @param island        the island chosen
+     * @param currPlayer    the current player that we are calculating the influence
+     * @param playersList   the players list
+     * @return the player's influence
+     */
+    private int modifiedCalculateInfluence9(Island island, Player currPlayer, PawnColor selectedColor, List<Player> playersList) {
         int influence = 0;
         Player teamPlayer = currPlayer.getTeamPlayer(playersList);
         PawnColor[] colors = {PawnColor.RED, PawnColor.GREEN, PawnColor.BLUE, PawnColor.YELLOW, PawnColor.PINK};
 
         for (PawnColor c : colors) {
-            if(c != selectedColor) {
+            if (c != selectedColor) {
                 int numOfThatColor = 0;
                 for (Student s : island.getStudentsList()) {
                     if (s.getColor() == c) {
@@ -375,23 +388,31 @@ public class Characters2and6and8and9 extends Character {
                 }
             }
         }
-        if (island.getTowerColor()!=null && island.getTowerColor().equals(currPlayer.getTowerColor())){
+        if (island.getTowerColor() != null && island.getTowerColor().equals(currPlayer.getTowerColor())) {
             influence = influence + island.getWeight();
         }
         return influence;
     }
 
 
-    public void updateIslandDomainCharacter(Player cardPlayer,Island island,List<Player> playersList, Characters3and4and5 forbidCharacter){
-        switch (id){
+    /**
+     * The update island domain of the characters that modify it
+     *
+     * @param cardPlayer      the card player
+     * @param island          the island chosen
+     * @param playersList     the players list
+     * @param forbidCharacter the forbid char
+     */
+    public void updateIslandDomainCharacter(Player cardPlayer, Island island, List<Player> playersList, Characters3and4and5 forbidCharacter) {
+        switch (id) {
             case 6:
-                updateIslandDomain6(island,playersList,forbidCharacter);
+                updateIslandDomain6(island, playersList, forbidCharacter);
                 break;
             case 8:
-                updateIslandDomain8(cardPlayer,island,playersList,forbidCharacter);
+                updateIslandDomain8(cardPlayer, island, playersList, forbidCharacter);
                 break;
             case 9:
-                updateIslandDomain9(island,playersList,selectedColor9,forbidCharacter);
+                updateIslandDomain9(island, playersList, selectedColor9, forbidCharacter);
                 break;
         }
     }
@@ -399,7 +420,7 @@ public class Characters2and6and8and9 extends Character {
 
     @Override
     public boolean applyEffect(CharacterParameters params) {
-        switch (id){
+        switch (id) {
             case 2:
                 return modifiedUpdateProfessorsLists2(params.getPlayersList(), params.getPlayer(), params.getTableProfessorsList());
             case 6:
@@ -407,7 +428,7 @@ public class Characters2and6and8and9 extends Character {
             case 8:
                 return true;
             case 9:
-                selectedColor9=params.getSelectedColor();
+                selectedColor9 = params.getSelectedColor();
                 return true;
             default:
                 return false;

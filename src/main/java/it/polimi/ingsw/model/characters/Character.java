@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model.characters;
 
-import it.polimi.ingsw.view.View;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +20,25 @@ public abstract class Character {
     //getter prototypes
 
     /**
-     *
+     * @return randomly generated characters list
+     */
+    public static List<Character> extractCharacters() {
+        List<Character> returnList = new ArrayList<>();
+        List<Integer> idList = new ArrayList<>(); //we use integers to avoid generating useless characters
+
+        for (int i = 1; i <= 12; i++) {
+            idList.add(i);
+        }
+
+        Collections.shuffle(idList);
+
+        returnList.add(Factory.newCharacter(idList.get(0))); //we can force them leaving the shuffle, it's id-1
+        returnList.add(Factory.newCharacter(idList.get(5))); //or 1
+        returnList.add(Factory.newCharacter(idList.get(2))); //
+        return returnList;
+    }
+
+    /**
      * @return true if the character is used
      * @return false if it is not
      */
@@ -31,22 +47,29 @@ public abstract class Character {
     }
 
     /**
-     *
      * @return the character's id
      */
     public int getId() {
         return id;
     }
 
+    //setter prototypes
+
     /**
+     * Sets the character's id
      *
+     * @param id id of the char
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
      * @return the character's initial cost
      */
     public int getInitialCost() {
         return initialCost;
     }
-
-    //setter prototypes
 
     /**
      * Sets the character as used
@@ -57,47 +80,21 @@ public abstract class Character {
 
     /**
      * class used for the pattern factory
-     * @param params
+     *
+     * @param params the class that contains the params
      * @return true if the effect is applied
      */
     public abstract boolean applyEffect(CharacterParameters params);
-
-    /**
-     * initializes the character
-     * @param params
-     */
-    public abstract void initCharacter(CharacterParameters params);
-
-    /**
-     *
-     * @return randomly generated characters list
-     */
-    public static List<Character> extractCharacters(){
-        List<Character> returnList = new ArrayList<>();
-        List<Integer> idList = new ArrayList<>(); //we use integers to avoid generating useless characters
-
-        for (int i=1;i<=12;i++){
-            idList.add(i);
-        }
-
-        //Collections.shuffle(idList);
-
-        returnList.add(Factory.newCharacter(idList.get(9))); //we can force them leaving the shuffle, it's id-1
-        returnList.add(Factory.newCharacter(idList.get(10))); //or 1
-        returnList.add(Factory.newCharacter(idList.get(11))); //
-        return returnList;
-    }
 
 
     // only for tests purposes
 
     /**
-     * Sets the character's id
-     * @param id
+     * initializes the character
+     *
+     * @param params the class that contains the params
      */
-    public void setId(int id) {
-        this.id = id;
-    }
+    public abstract void initCharacter(CharacterParameters params);
 
     @Override
     public boolean equals(Object o) {

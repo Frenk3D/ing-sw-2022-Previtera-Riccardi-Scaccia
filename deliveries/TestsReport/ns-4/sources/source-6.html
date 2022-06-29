@@ -1,0 +1,739 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GameModel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: GameModel (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96.4%
+  </span>
+  <span class="absValue">
+    (54/56)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92%
+  </span>
+  <span class="absValue">
+    (172/187)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.model;
+<i class="no-highlight">2</i>&nbsp;/*Like &quot;main&quot; connected to Round : Game supervisor with data and Round operator with actions (Controller) (Model the others classes, view to do);
+<i class="no-highlight">3</i>&nbsp;many warnings on unused things because yet to be implemented or other else.
+<i class="no-highlight">4</i>&nbsp;? :  operator ok but better if
+<i class="no-highlight">5</i>&nbsp;exceptions a bit from view, but also here
+<i class="no-highlight">6</i>&nbsp;passing simple parameters in the network, objects will be copied
+<i class="no-highlight">7</i>&nbsp;we use a lot of concatenated methods, asked, not a problem for Cugola, passing the var Game is not good
+<i class="no-highlight">8</i>&nbsp;client has an easier model
+<i class="no-highlight">9</i>&nbsp;Comment with block doesn&#39;t work with javadoc
+<i class="no-highlight">10</i>&nbsp;
+<i class="no-highlight">11</i>&nbsp;*/
+<i class="no-highlight">12</i>&nbsp;
+<i class="no-highlight">13</i>&nbsp;import it.polimi.ingsw.client.*;
+<i class="no-highlight">14</i>&nbsp;import it.polimi.ingsw.model.characters.Character;
+<i class="no-highlight">15</i>&nbsp;import it.polimi.ingsw.model.characters.CharacterParameters;
+<i class="no-highlight">16</i>&nbsp;import it.polimi.ingsw.model.characters.Characters3and4and5;
+<i class="no-highlight">17</i>&nbsp;import it.polimi.ingsw.model.enumerations.*;
+<i class="no-highlight">18</i>&nbsp;import it.polimi.ingsw.network.message.*;
+<i class="no-highlight">19</i>&nbsp;import it.polimi.ingsw.observer.Observable;
+<i class="no-highlight">20</i>&nbsp;
+<i class="no-highlight">21</i>&nbsp;import java.util.*;
+<i class="no-highlight">22</i>&nbsp;import java.util.concurrent.atomic.AtomicInteger;
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;import static it.polimi.ingsw.network.server.Server.SERVERID;
+<i class="no-highlight">25</i>&nbsp;
+<i class="no-highlight">26</i>&nbsp;/**
+<i class="no-highlight">27</i>&nbsp; * this is the main class of the game
+<i class="no-highlight">28</i>&nbsp; * it contains the logic of the game itself
+<i class="no-highlight">29</i>&nbsp; * the structure and all the info of the game is collected here
+<i class="no-highlight">30</i>&nbsp; * &lt;p&gt;
+<i class="no-highlight">31</i>&nbsp; * It is an {@link Observable}.
+<i class="no-highlight">32</i>&nbsp; */
+<i class="no-highlight">33</i>&nbsp;public class GameModel extends Observable {
+<i class="no-highlight">34</i>&nbsp;    private final List&lt;Player&gt; playersList;
+<i class="no-highlight">35</i>&nbsp;    //attributes
+<i class="no-highlight">36</i>&nbsp;    private int numOfPlayers;
+<i class="no-highlight">37</i>&nbsp;    private int motherNaturePos;
+<i class="no-highlight">38</i>&nbsp;    private boolean expertMode;
+<i class="no-highlight">39</i>&nbsp;    private List&lt;Cloud&gt; cloudsList;
+<i class="no-highlight">40</i>&nbsp;    private final List&lt;Wizard&gt; wizardList;
+<i class="no-highlight">41</i>&nbsp;    private final List&lt;TowerColor&gt; chooseTowerColorList;
+<i class="no-highlight">42</i>&nbsp;    private final Bag bag;
+<i class="no-highlight">43</i>&nbsp;    private List&lt;Character&gt; charactersList;
+<i class="no-highlight">44</i>&nbsp;    private final List&lt;Professor&gt; tableProfessorsList;
+<i class="no-highlight">45</i>&nbsp;    private final Round currRound;
+<i class="no-highlight">46</i>&nbsp;    private GameState state;
+<i class="no-highlight">47</i>&nbsp;    private SettingState settingState;
+<i class="no-highlight">48</i>&nbsp;    private List&lt;Island&gt; islandsList; //doesn&#39;t change even when you group islands, attrib in Island class
+<i class="no-highlight">49</i>&nbsp;    private AtomicInteger tableMoney;
+<i class="no-highlight">50</i>&nbsp;
+<i class="no-highlight">51</i>&nbsp;    //constructor
+<i class="no-highlight">52</i>&nbsp;
+<i class="no-highlight">53</i>&nbsp;    /**
+<i class="no-highlight">54</i>&nbsp;     * number of players set by default to -1
+<i class="no-highlight">55</i>&nbsp;     * expert mode set to false
+<i class="no-highlight">56</i>&nbsp;     * the game state is initially set to LOGIN_STATE
+<i class="no-highlight">57</i>&nbsp;     * the setting state is set to NOT_SETTING_STATE
+<i class="no-highlight">58</i>&nbsp;     * the rest is a default constructor
+<i class="no-highlight">59</i>&nbsp;     */
+<b class="fc"><i class="no-highlight">60</i>&nbsp;    public GameModel() {</b>
+<b class="fc"><i class="no-highlight">61</i>&nbsp;        numOfPlayers = -1;</b>
+<b class="fc"><i class="no-highlight">62</i>&nbsp;        expertMode = false;</b>
+<b class="fc"><i class="no-highlight">63</i>&nbsp;        currRound = new Round();</b>
+<b class="fc"><i class="no-highlight">64</i>&nbsp;        bag = new Bag();</b>
+<b class="fc"><i class="no-highlight">65</i>&nbsp;        wizardList = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">66</i>&nbsp;        chooseTowerColorList = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">67</i>&nbsp;        playersList = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">68</i>&nbsp;        cloudsList = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">69</i>&nbsp;        tableProfessorsList = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">70</i>&nbsp;        state = GameState.LOGIN_STATE;</b>
+<b class="fc"><i class="no-highlight">71</i>&nbsp;        settingState = SettingState.NOT_SETTING_STATE;</b>
+<b class="fc"><i class="no-highlight">72</i>&nbsp;        tableMoney = null;</b>
+<i class="no-highlight">73</i>&nbsp;    }
+<i class="no-highlight">74</i>&nbsp;
+<i class="no-highlight">75</i>&nbsp;    /**
+<i class="no-highlight">76</i>&nbsp;     * Initializes the game model
+<i class="no-highlight">77</i>&nbsp;     *
+<i class="no-highlight">78</i>&nbsp;     * @return {@code false} if the size of the players list is different from the number of players {@code true} otherwise
+<i class="no-highlight">79</i>&nbsp;     */
+<i class="no-highlight">80</i>&nbsp;    public boolean init() {
+<b class="fc"><i class="no-highlight">81</i>&nbsp;        if (playersList.size() != numOfPlayers) {</b>
+<b class="fc"><i class="no-highlight">82</i>&nbsp;            return false;</b>
+<i class="no-highlight">83</i>&nbsp;        }
+<i class="no-highlight">84</i>&nbsp;
+<b class="fc"><i class="no-highlight">85</i>&nbsp;        Collections.addAll(wizardList, Wizard.values());</b>
+<i class="no-highlight">86</i>&nbsp;
+<b class="fc"><i class="no-highlight">87</i>&nbsp;        if (numOfPlayers == 3) {</b>
+<b class="nc"><i class="no-highlight">88</i>&nbsp;            Collections.addAll(chooseTowerColorList, TowerColor.values());</b>
+<i class="no-highlight">89</i>&nbsp;        } else {
+<b class="fc"><i class="no-highlight">90</i>&nbsp;            chooseTowerColorList.add(TowerColor.BLACK);</b>
+<b class="fc"><i class="no-highlight">91</i>&nbsp;            chooseTowerColorList.add(TowerColor.WHITE);</b>
+<i class="no-highlight">92</i>&nbsp;        }
+<i class="no-highlight">93</i>&nbsp;
+<b class="fc"><i class="no-highlight">94</i>&nbsp;        state = GameState.SETTING_STATE;</b>
+<b class="fc"><i class="no-highlight">95</i>&nbsp;        if (numOfPlayers == 4) {</b>
+<b class="fc"><i class="no-highlight">96</i>&nbsp;            settingState = SettingState.CHOOSE_TEAM_STATE;</b>
+<b class="fc"><i class="no-highlight">97</i>&nbsp;            sendSettingState();</b>
+<b class="fc"><i class="no-highlight">98</i>&nbsp;            sendAvailableTeamPlayers();</b>
+<i class="no-highlight">99</i>&nbsp;        } else {
+<b class="fc"><i class="no-highlight">100</i>&nbsp;            settingState = SettingState.CHOOSE_TOWER_COLOR_STATE;</b>
+<b class="fc"><i class="no-highlight">101</i>&nbsp;            sendSettingState();</b>
+<b class="fc"><i class="no-highlight">102</i>&nbsp;            sendAvailableTowerColors();</b>
+<i class="no-highlight">103</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">104</i>&nbsp;        return true;</b>
+<i class="no-highlight">105</i>&nbsp;    }
+<i class="no-highlight">106</i>&nbsp;
+<i class="no-highlight">107</i>&nbsp;    /**
+<i class="no-highlight">108</i>&nbsp;     * Starts the game
+<i class="no-highlight">109</i>&nbsp;     *
+<i class="no-highlight">110</i>&nbsp;     * @return {@code false} if the number of players is different from the players list size {@code true} otherwise
+<i class="no-highlight">111</i>&nbsp;     */
+<i class="no-highlight">112</i>&nbsp;    public boolean start() {
+<b class="fc"><i class="no-highlight">113</i>&nbsp;        if (playersList.size() != numOfPlayers) {</b>
+<b class="nc"><i class="no-highlight">114</i>&nbsp;            return false;</b>
+<i class="no-highlight">115</i>&nbsp;        }
+<i class="no-highlight">116</i>&nbsp;        //initialization of the game
+<b class="fc"><i class="no-highlight">117</i>&nbsp;        currRound.randomStartingPlayer(playersList);</b>
+<b class="fc"><i class="no-highlight">118</i>&nbsp;        bag.initialBagFill();</b>
+<b class="fc"><i class="no-highlight">119</i>&nbsp;        initMotherNaturePos();</b>
+<b class="fc"><i class="no-highlight">120</i>&nbsp;        islandsList = Island.generateIslandsList();</b>
+<b class="fc"><i class="no-highlight">121</i>&nbsp;        Island.initStudentIsland(islandsList, motherNaturePos, bag);</b>
+<i class="no-highlight">122</i>&nbsp;
+<b class="fc"><i class="no-highlight">123</i>&nbsp;        bag.addAllStudents();</b>
+<b class="fc"><i class="no-highlight">124</i>&nbsp;        cloudsList = Cloud.generateCloudsList(numOfPlayers);</b>
+<b class="fc"><i class="no-highlight">125</i>&nbsp;        currRound.fillClouds(cloudsList, bag, numOfPlayers);</b>
+<i class="no-highlight">126</i>&nbsp;
+<b class="fc"><i class="no-highlight">127</i>&nbsp;        for (PawnColor c : PawnColor.values()) {</b>
+<b class="fc"><i class="no-highlight">128</i>&nbsp;            Professor p = new Professor(c);</b>
+<b class="fc"><i class="no-highlight">129</i>&nbsp;            tableProfessorsList.add(p);</b>
+<i class="no-highlight">130</i>&nbsp;        }
+<i class="no-highlight">131</i>&nbsp;
+<b class="fc"><i class="no-highlight">132</i>&nbsp;        for (Player p : playersList) {</b>
+<b class="fc"><i class="no-highlight">133</i>&nbsp;            p.getDashboard().placeStudentEntrance(numOfPlayers, bag);</b>
+<b class="fc"><i class="no-highlight">134</i>&nbsp;            p.getDashboard().generateTower(numOfPlayers, p.getTowerColor());</b>
+<b class="fc"><i class="no-highlight">135</i>&nbsp;        }</b>
+<i class="no-highlight">136</i>&nbsp;
+<b class="fc"><i class="no-highlight">137</i>&nbsp;        if (expertMode) {</b>
+<b class="fc"><i class="no-highlight">138</i>&nbsp;            charactersList = Character.extractCharacters();</b>
+<b class="fc"><i class="no-highlight">139</i>&nbsp;            tableMoney = new AtomicInteger();</b>
+<b class="fc"><i class="no-highlight">140</i>&nbsp;            tableMoney.set(20);</b>
+<b class="fc"><i class="no-highlight">141</i>&nbsp;            for (Player p : playersList) {</b>
+<b class="fc"><i class="no-highlight">142</i>&nbsp;                p.modifyMoney(1, tableMoney);</b>
+<b class="fc"><i class="no-highlight">143</i>&nbsp;            }</b>
+<b class="fc"><i class="no-highlight">144</i>&nbsp;            CharacterParameters parameters = new CharacterParameters();</b>
+<b class="fc"><i class="no-highlight">145</i>&nbsp;            parameters.setBag(bag);</b>
+<i class="no-highlight">146</i>&nbsp;
+<b class="fc"><i class="no-highlight">147</i>&nbsp;            for (Character c : charactersList) {</b>
+<b class="fc"><i class="no-highlight">148</i>&nbsp;                c.initCharacter(parameters);</b>
+<i class="no-highlight">149</i>&nbsp;                //the method getForbidCharacter search if there is id 5 otherwise return null
+<b class="fc"><i class="no-highlight">150</i>&nbsp;            }</b>
+<i class="no-highlight">151</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">152</i>&nbsp;        state = GameState.INGAME_STATE;</b>
+<b class="fc"><i class="no-highlight">153</i>&nbsp;        sendInitGame();</b>
+<b class="fc"><i class="no-highlight">154</i>&nbsp;        sendInGameState(); //give information about current state and prints the game</b>
+<b class="fc"><i class="no-highlight">155</i>&nbsp;        return true;</b>
+<i class="no-highlight">156</i>&nbsp;    }
+<i class="no-highlight">157</i>&nbsp;
+<i class="no-highlight">158</i>&nbsp;    /**
+<i class="no-highlight">159</i>&nbsp;     * sets the chosen number of players
+<i class="no-highlight">160</i>&nbsp;     *
+<i class="no-highlight">161</i>&nbsp;     * @param chosenNumOfPlayers the chosen number of players
+<i class="no-highlight">162</i>&nbsp;     * @return true if the chosen number is between 0 and 4
+<i class="no-highlight">163</i>&nbsp;     * @return false otherwise
+<i class="no-highlight">164</i>&nbsp;     */
+<i class="no-highlight">165</i>&nbsp;    public boolean setNumOfPlayers(int chosenNumOfPlayers) {
+<b class="fc"><i class="no-highlight">166</i>&nbsp;        if (chosenNumOfPlayers &gt; 0 &amp;&amp; chosenNumOfPlayers &lt;= 4) {</b>
+<b class="fc"><i class="no-highlight">167</i>&nbsp;            numOfPlayers = chosenNumOfPlayers;</b>
+<b class="fc"><i class="no-highlight">168</i>&nbsp;            return true;</b>
+<i class="no-highlight">169</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">170</i>&nbsp;        return false;</b>
+<i class="no-highlight">171</i>&nbsp;    }
+<i class="no-highlight">172</i>&nbsp;
+<i class="no-highlight">173</i>&nbsp;    /**
+<i class="no-highlight">174</i>&nbsp;     * adds a player to the player list
+<i class="no-highlight">175</i>&nbsp;     *
+<i class="no-highlight">176</i>&nbsp;     * @param player the added player
+<i class="no-highlight">177</i>&nbsp;     * @return {@code true} if the number of players is different from -1 and the players list size is inferior to the number of players {@code false} otherwise
+<i class="no-highlight">178</i>&nbsp;     */
+<i class="no-highlight">179</i>&nbsp;    public boolean addPlayer(Player player) {
+<b class="fc"><i class="no-highlight">180</i>&nbsp;        if (numOfPlayers != -1 &amp;&amp; playersList.size() &lt; numOfPlayers) {</b>
+<b class="fc"><i class="no-highlight">181</i>&nbsp;            playersList.add(player);</b>
+<b class="fc"><i class="no-highlight">182</i>&nbsp;            sendPlayerJoin();</b>
+<b class="fc"><i class="no-highlight">183</i>&nbsp;            return true;</b>
+<i class="no-highlight">184</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">185</i>&nbsp;        return false;</b>
+<i class="no-highlight">186</i>&nbsp;    }
+<i class="no-highlight">187</i>&nbsp;
+<i class="no-highlight">188</i>&nbsp;    /**
+<i class="no-highlight">189</i>&nbsp;     * sets mother nature position(only if its different from the current position and inferior to 12)
+<i class="no-highlight">190</i>&nbsp;     *
+<i class="no-highlight">191</i>&nbsp;     * @param pos the mother nature&#39;s position
+<i class="no-highlight">192</i>&nbsp;     */
+<i class="no-highlight">193</i>&nbsp;    public void setMotherNaturePosition(int pos) {
+<b class="fc"><i class="no-highlight">194</i>&nbsp;        if (motherNaturePos != pos &amp;&amp; pos &gt;= 0 &amp;&amp; pos &lt; 12) { //mother nature has to move at least of 1 pos, but we have to manage illegal back moves</b>
+<b class="fc"><i class="no-highlight">195</i>&nbsp;            motherNaturePos = pos;</b>
+<i class="no-highlight">196</i>&nbsp;        }
+<i class="no-highlight">197</i>&nbsp;    }
+<i class="no-highlight">198</i>&nbsp;
+<i class="no-highlight">199</i>&nbsp;    /**
+<i class="no-highlight">200</i>&nbsp;     * random set of the initial position of mother nature
+<i class="no-highlight">201</i>&nbsp;     */
+<i class="no-highlight">202</i>&nbsp;    private void initMotherNaturePos() {
+<b class="fc"><i class="no-highlight">203</i>&nbsp;        int randomInt = (int) (Math.random() * (12));</b>
+<b class="fc"><i class="no-highlight">204</i>&nbsp;        motherNaturePos = randomInt;</b>
+<i class="no-highlight">205</i>&nbsp;    }
+<i class="no-highlight">206</i>&nbsp;
+<i class="no-highlight">207</i>&nbsp;    public int getMotherNaturePos() {
+<b class="fc"><i class="no-highlight">208</i>&nbsp;        return motherNaturePos;</b>
+<i class="no-highlight">209</i>&nbsp;    }
+<i class="no-highlight">210</i>&nbsp;
+<i class="no-highlight">211</i>&nbsp;    /**
+<i class="no-highlight">212</i>&nbsp;     * @param playerId the id of the player
+<i class="no-highlight">213</i>&nbsp;     * @return a player chosen by id
+<i class="no-highlight">214</i>&nbsp;     */
+<i class="no-highlight">215</i>&nbsp;    public Player getPlayerById(int playerId) {
+<b class="fc"><i class="no-highlight">216</i>&nbsp;        for (Player p : playersList) {</b>
+<b class="fc"><i class="no-highlight">217</i>&nbsp;            if (p.getId() == playerId) {</b>
+<b class="fc"><i class="no-highlight">218</i>&nbsp;                return p;</b>
+<i class="no-highlight">219</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">220</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">221</i>&nbsp;        return null;</b>
+<i class="no-highlight">222</i>&nbsp;    }
+<i class="no-highlight">223</i>&nbsp;
+<i class="no-highlight">224</i>&nbsp;    /**
+<i class="no-highlight">225</i>&nbsp;     * @param islandIndex the index of the island
+<i class="no-highlight">226</i>&nbsp;     * @return an island chosen by index
+<i class="no-highlight">227</i>&nbsp;     */
+<i class="no-highlight">228</i>&nbsp;    public Island getIslandByIndex(int islandIndex) {
+<b class="fc"><i class="no-highlight">229</i>&nbsp;        if (islandIndex &gt; islandsList.size() || islandIndex &lt; 0) {</b>
+<b class="fc"><i class="no-highlight">230</i>&nbsp;            return null;</b>
+<i class="no-highlight">231</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">232</i>&nbsp;        return islandsList.get(islandIndex);</b>
+<i class="no-highlight">233</i>&nbsp;    }
+<i class="no-highlight">234</i>&nbsp;
+<i class="no-highlight">235</i>&nbsp;    /**
+<i class="no-highlight">236</i>&nbsp;     * @param cloudIndex the index of the cloud
+<i class="no-highlight">237</i>&nbsp;     * @return a cloud chosen by index
+<i class="no-highlight">238</i>&nbsp;     */
+<i class="no-highlight">239</i>&nbsp;    public Cloud getCloudByIndex(int cloudIndex) {
+<b class="fc"><i class="no-highlight">240</i>&nbsp;        if (cloudIndex &gt;= cloudsList.size() || cloudIndex &lt; 0) {</b>
+<b class="nc"><i class="no-highlight">241</i>&nbsp;            return null;</b>
+<i class="no-highlight">242</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">243</i>&nbsp;        return cloudsList.get(cloudIndex);</b>
+<i class="no-highlight">244</i>&nbsp;    }
+<i class="no-highlight">245</i>&nbsp;
+<i class="no-highlight">246</i>&nbsp;    /**
+<i class="no-highlight">247</i>&nbsp;     * @param characterIndex the index of the character
+<i class="no-highlight">248</i>&nbsp;     * @return a character chosen by index
+<i class="no-highlight">249</i>&nbsp;     */
+<i class="no-highlight">250</i>&nbsp;    public Character getCharacterByIndex(int characterIndex) {
+<b class="fc"><i class="no-highlight">251</i>&nbsp;        if (characterIndex &gt;= charactersList.size() || characterIndex &lt; 0) {</b>
+<b class="nc"><i class="no-highlight">252</i>&nbsp;            return null;</b>
+<i class="no-highlight">253</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">254</i>&nbsp;        return charactersList.get(characterIndex);</b>
+<i class="no-highlight">255</i>&nbsp;    }
+<i class="no-highlight">256</i>&nbsp;
+<i class="no-highlight">257</i>&nbsp;    /**
+<i class="no-highlight">258</i>&nbsp;     * @param characterId the id of the character
+<i class="no-highlight">259</i>&nbsp;     * @return a character chosen by id
+<i class="no-highlight">260</i>&nbsp;     */
+<i class="no-highlight">261</i>&nbsp;    public Character getCharacterById(int characterId) {
+<b class="fc"><i class="no-highlight">262</i>&nbsp;        for (Character c : charactersList) {</b>
+<b class="fc"><i class="no-highlight">263</i>&nbsp;            if (c.getId() == characterId) {</b>
+<b class="fc"><i class="no-highlight">264</i>&nbsp;                return c;</b>
+<i class="no-highlight">265</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">266</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">267</i>&nbsp;        return null;</b>
+<i class="no-highlight">268</i>&nbsp;    }
+<i class="no-highlight">269</i>&nbsp;
+<i class="no-highlight">270</i>&nbsp;    /**
+<i class="no-highlight">271</i>&nbsp;     * @return the fifth character (forbid character)
+<i class="no-highlight">272</i>&nbsp;     */
+<i class="no-highlight">273</i>&nbsp;    public Characters3and4and5 getForbidCharacter() {
+<b class="fc"><i class="no-highlight">274</i>&nbsp;        for (Character c : charactersList) {</b>
+<b class="fc"><i class="no-highlight">275</i>&nbsp;            if (c.getId() == 5) {</b>
+<b class="fc"><i class="no-highlight">276</i>&nbsp;                return (Characters3and4and5) c;</b>
+<i class="no-highlight">277</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">278</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">279</i>&nbsp;        return null;</b>
+<i class="no-highlight">280</i>&nbsp;    }
+<i class="no-highlight">281</i>&nbsp;
+<i class="no-highlight">282</i>&nbsp;    /**
+<i class="no-highlight">283</i>&nbsp;     * @return the number of players
+<i class="no-highlight">284</i>&nbsp;     */
+<i class="no-highlight">285</i>&nbsp;    public int getNumOfPlayers() {
+<b class="fc"><i class="no-highlight">286</i>&nbsp;        return numOfPlayers;</b>
+<i class="no-highlight">287</i>&nbsp;    }
+<i class="no-highlight">288</i>&nbsp;
+<i class="no-highlight">289</i>&nbsp;    /**
+<i class="no-highlight">290</i>&nbsp;     * @return the current round
+<i class="no-highlight">291</i>&nbsp;     */
+<i class="no-highlight">292</i>&nbsp;    public Round getCurrRound() {
+<b class="fc"><i class="no-highlight">293</i>&nbsp;        return currRound;</b>
+<i class="no-highlight">294</i>&nbsp;    }
+<i class="no-highlight">295</i>&nbsp;
+<i class="no-highlight">296</i>&nbsp;    /**
+<i class="no-highlight">297</i>&nbsp;     * @return the list of players
+<i class="no-highlight">298</i>&nbsp;     */
+<i class="no-highlight">299</i>&nbsp;    public List&lt;Player&gt; getPlayersList() {
+<b class="fc"><i class="no-highlight">300</i>&nbsp;        return playersList;</b>
+<i class="no-highlight">301</i>&nbsp;    }
+<i class="no-highlight">302</i>&nbsp;
+<i class="no-highlight">303</i>&nbsp;    /**
+<i class="no-highlight">304</i>&nbsp;     * @return the current player
+<i class="no-highlight">305</i>&nbsp;     */
+<i class="no-highlight">306</i>&nbsp;    public Player getCurrPlayer() {
+<b class="fc"><i class="no-highlight">307</i>&nbsp;        return getCurrRound().getCurrTurn().getCurrPlayer();</b>
+<i class="no-highlight">308</i>&nbsp;    }
+<i class="no-highlight">309</i>&nbsp;
+<i class="no-highlight">310</i>&nbsp;    /**
+<i class="no-highlight">311</i>&nbsp;     * @return the money on the table
+<i class="no-highlight">312</i>&nbsp;     */
+<i class="no-highlight">313</i>&nbsp;    public AtomicInteger getTableMoney() {
+<b class="fc"><i class="no-highlight">314</i>&nbsp;        return tableMoney;</b>
+<i class="no-highlight">315</i>&nbsp;    }
+<i class="no-highlight">316</i>&nbsp;
+<i class="no-highlight">317</i>&nbsp;    /**
+<i class="no-highlight">318</i>&nbsp;     * @return the bag
+<i class="no-highlight">319</i>&nbsp;     */
+<i class="no-highlight">320</i>&nbsp;    public Bag getBag() {
+<b class="fc"><i class="no-highlight">321</i>&nbsp;        return bag;</b>
+<i class="no-highlight">322</i>&nbsp;    }
+<i class="no-highlight">323</i>&nbsp;
+<i class="no-highlight">324</i>&nbsp;    /**
+<i class="no-highlight">325</i>&nbsp;     * @return the list of clouds
+<i class="no-highlight">326</i>&nbsp;     */
+<i class="no-highlight">327</i>&nbsp;    public List&lt;Cloud&gt; getCloudsList() {
+<b class="fc"><i class="no-highlight">328</i>&nbsp;        return cloudsList;</b>
+<i class="no-highlight">329</i>&nbsp;    }
+<i class="no-highlight">330</i>&nbsp;
+<i class="no-highlight">331</i>&nbsp;    public void setCloudsList(List&lt;Cloud&gt; cloudsList) {
+<b class="fc"><i class="no-highlight">332</i>&nbsp;        this.cloudsList = cloudsList;</b>
+<i class="no-highlight">333</i>&nbsp;    }
+<i class="no-highlight">334</i>&nbsp;
+<i class="no-highlight">335</i>&nbsp;    /**
+<i class="no-highlight">336</i>&nbsp;     * @return the state of the game
+<i class="no-highlight">337</i>&nbsp;     */
+<i class="no-highlight">338</i>&nbsp;    public GameState getGameState() {
+<b class="fc"><i class="no-highlight">339</i>&nbsp;        return state;</b>
+<i class="no-highlight">340</i>&nbsp;    }
+<i class="no-highlight">341</i>&nbsp;
+<i class="no-highlight">342</i>&nbsp;    /**
+<i class="no-highlight">343</i>&nbsp;     * @return true if the game is in expert mode
+<i class="no-highlight">344</i>&nbsp;     * @return false otherwise
+<i class="no-highlight">345</i>&nbsp;     */
+<i class="no-highlight">346</i>&nbsp;    public boolean isExpertMode() {
+<b class="fc"><i class="no-highlight">347</i>&nbsp;        return expertMode;</b>
+<i class="no-highlight">348</i>&nbsp;    }
+<i class="no-highlight">349</i>&nbsp;
+<i class="no-highlight">350</i>&nbsp;    /**
+<i class="no-highlight">351</i>&nbsp;     * sets expert mode
+<i class="no-highlight">352</i>&nbsp;     *
+<i class="no-highlight">353</i>&nbsp;     * @param expertMode the game mode
+<i class="no-highlight">354</i>&nbsp;     */
+<i class="no-highlight">355</i>&nbsp;    public void setExpertMode(boolean expertMode) {
+<b class="fc"><i class="no-highlight">356</i>&nbsp;        this.expertMode = expertMode;</b>
+<i class="no-highlight">357</i>&nbsp;    }
+<i class="no-highlight">358</i>&nbsp;
+<i class="no-highlight">359</i>&nbsp;    /**
+<i class="no-highlight">360</i>&nbsp;     * @return the list of professors on the table
+<i class="no-highlight">361</i>&nbsp;     */
+<i class="no-highlight">362</i>&nbsp;    public List&lt;Professor&gt; getTableProfessorsList() {
+<b class="fc"><i class="no-highlight">363</i>&nbsp;        return tableProfessorsList;</b>
+<i class="no-highlight">364</i>&nbsp;    }
+<i class="no-highlight">365</i>&nbsp;
+<i class="no-highlight">366</i>&nbsp;    /**
+<i class="no-highlight">367</i>&nbsp;     * @return the list of wizards
+<i class="no-highlight">368</i>&nbsp;     */
+<i class="no-highlight">369</i>&nbsp;    public List&lt;Wizard&gt; getWizardList() {
+<b class="fc"><i class="no-highlight">370</i>&nbsp;        return wizardList;</b>
+<i class="no-highlight">371</i>&nbsp;    }
+<i class="no-highlight">372</i>&nbsp;
+<i class="no-highlight">373</i>&nbsp;    /**
+<i class="no-highlight">374</i>&nbsp;     * @return the list of chosen tower colors
+<i class="no-highlight">375</i>&nbsp;     */
+<i class="no-highlight">376</i>&nbsp;    public List&lt;TowerColor&gt; getChooseTowerColorList() {
+<b class="fc"><i class="no-highlight">377</i>&nbsp;        return chooseTowerColorList;</b>
+<i class="no-highlight">378</i>&nbsp;    }
+<i class="no-highlight">379</i>&nbsp;
+<i class="no-highlight">380</i>&nbsp;    /**
+<i class="no-highlight">381</i>&nbsp;     * @return setting state
+<i class="no-highlight">382</i>&nbsp;     */
+<i class="no-highlight">383</i>&nbsp;    public SettingState getSettingState() {
+<b class="fc"><i class="no-highlight">384</i>&nbsp;        return settingState;</b>
+<i class="no-highlight">385</i>&nbsp;    }
+<i class="no-highlight">386</i>&nbsp;
+<i class="no-highlight">387</i>&nbsp;    /**
+<i class="no-highlight">388</i>&nbsp;     * sets the state in settingState
+<i class="no-highlight">389</i>&nbsp;     *
+<i class="no-highlight">390</i>&nbsp;     * @param settingState the setting state
+<i class="no-highlight">391</i>&nbsp;     */
+<i class="no-highlight">392</i>&nbsp;    public void setSettingState(SettingState settingState) {
+<b class="fc"><i class="no-highlight">393</i>&nbsp;        this.settingState = settingState;</b>
+<b class="fc"><i class="no-highlight">394</i>&nbsp;        if (settingState != SettingState.NOT_SETTING_STATE) {</b>
+<b class="fc"><i class="no-highlight">395</i>&nbsp;            sendSettingState();</b>
+<i class="no-highlight">396</i>&nbsp;        }
+<i class="no-highlight">397</i>&nbsp;    }
+<i class="no-highlight">398</i>&nbsp;
+<i class="no-highlight">399</i>&nbsp;    //-------------------------------------------------------------------MESSAGES MANAGEMENT---------------------------------------------------------------
+<i class="no-highlight">400</i>&nbsp;    /**
+<i class="no-highlight">401</i>&nbsp;     * the following classes are used for message management,they notify the observer with the needed info
+<i class="no-highlight">402</i>&nbsp;     */
+<i class="no-highlight">403</i>&nbsp;
+<i class="no-highlight">404</i>&nbsp;    /**
+<i class="no-highlight">405</i>&nbsp;     * @return the list of islands
+<i class="no-highlight">406</i>&nbsp;     */
+<i class="no-highlight">407</i>&nbsp;    public List&lt;Island&gt; getIslandsList() {
+<b class="fc"><i class="no-highlight">408</i>&nbsp;        return islandsList;</b>
+<i class="no-highlight">409</i>&nbsp;    }
+<i class="no-highlight">410</i>&nbsp;
+<i class="no-highlight">411</i>&nbsp;    //-------------------------------------------------------------------for test purposes-----------------------------------------------------------------------------
+<i class="no-highlight">412</i>&nbsp;    public void setIslandsList(List&lt;Island&gt; islandsList) {
+<b class="fc"><i class="no-highlight">413</i>&nbsp;        this.islandsList = islandsList;</b>
+<i class="no-highlight">414</i>&nbsp;    }
+<i class="no-highlight">415</i>&nbsp;
+<i class="no-highlight">416</i>&nbsp;    /**
+<i class="no-highlight">417</i>&nbsp;     * sends the message that notifies that a player has joined
+<i class="no-highlight">418</i>&nbsp;     */
+<i class="no-highlight">419</i>&nbsp;    public void sendPlayerJoin() {
+<b class="fc"><i class="no-highlight">420</i>&nbsp;        List&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">421</i>&nbsp;        for (Player p : playersList) {</b>
+<b class="fc"><i class="no-highlight">422</i>&nbsp;            result.add(p.getName());</b>
+<b class="fc"><i class="no-highlight">423</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">424</i>&nbsp;        notifyObserver(new PlayerJoinMessage(SERVERID, result));</b>
+<i class="no-highlight">425</i>&nbsp;    }
+<i class="no-highlight">426</i>&nbsp;
+<i class="no-highlight">427</i>&nbsp;    /**
+<i class="no-highlight">428</i>&nbsp;     * sends the message containing the table
+<i class="no-highlight">429</i>&nbsp;     */
+<i class="no-highlight">430</i>&nbsp;    public void sendTable() {
+<b class="fc"><i class="no-highlight">431</i>&nbsp;        notifyObserver(new TableMessage(SERVERID, getReducedIslandsList(), getReducedCloudsList(), motherNaturePos));</b>
+<i class="no-highlight">432</i>&nbsp;    }
+<i class="no-highlight">433</i>&nbsp;
+<i class="no-highlight">434</i>&nbsp;    /**
+<i class="no-highlight">435</i>&nbsp;     * sends the message containing the available team players
+<i class="no-highlight">436</i>&nbsp;     */
+<i class="no-highlight">437</i>&nbsp;    public void sendAvailableTeamPlayers() {
+<b class="fc"><i class="no-highlight">438</i>&nbsp;        notifyObserver(new SyncInitMessage(MessageType.AVAILABLE_TEAM_SEND, SERVERID, getPlayersWithoutTeamMap(), null, null));</b>
+<i class="no-highlight">439</i>&nbsp;    }
+<i class="no-highlight">440</i>&nbsp;
+<i class="no-highlight">441</i>&nbsp;    /**
+<i class="no-highlight">442</i>&nbsp;     * sends the message containing the available tower colors
+<i class="no-highlight">443</i>&nbsp;     */
+<i class="no-highlight">444</i>&nbsp;    public void sendAvailableTowerColors() {
+<b class="fc"><i class="no-highlight">445</i>&nbsp;        notifyObserver(new SyncInitMessage(MessageType.AVAILABLE_TOWER_SEND, SERVERID, null, chooseTowerColorList, null));</b>
+<i class="no-highlight">446</i>&nbsp;    }
+<i class="no-highlight">447</i>&nbsp;
+<i class="no-highlight">448</i>&nbsp;    /**
+<i class="no-highlight">449</i>&nbsp;     * sends the message containing the available wizards
+<i class="no-highlight">450</i>&nbsp;     */
+<i class="no-highlight">451</i>&nbsp;    public void sendAvailableWizards() {
+<b class="fc"><i class="no-highlight">452</i>&nbsp;        notifyObserver(new SyncInitMessage(MessageType.AVAILABLE_WIZARD_SEND, SERVERID, null, null, wizardList));</b>
+<i class="no-highlight">453</i>&nbsp;    }
+<i class="no-highlight">454</i>&nbsp;
+<i class="no-highlight">455</i>&nbsp;    /**
+<i class="no-highlight">456</i>&nbsp;     * sends a sync state message,setting it to setting state
+<i class="no-highlight">457</i>&nbsp;     */
+<i class="no-highlight">458</i>&nbsp;    public void sendSettingState() {
+<b class="fc"><i class="no-highlight">459</i>&nbsp;        notifyObserver(new SyncStateMessage(SERVERID, state, settingState));</b>
+<i class="no-highlight">460</i>&nbsp;    }
+<i class="no-highlight">461</i>&nbsp;
+<i class="no-highlight">462</i>&nbsp;    /**
+<i class="no-highlight">463</i>&nbsp;     * sends a sync state message,setting it to in game state
+<i class="no-highlight">464</i>&nbsp;     */
+<i class="no-highlight">465</i>&nbsp;    public void sendInGameState() {
+<b class="fc"><i class="no-highlight">466</i>&nbsp;        if (currRound.getStage() == RoundState.PLANNING_STATE) {</b>
+<b class="fc"><i class="no-highlight">467</i>&nbsp;            notifyObserver(new SyncStateMessage(SERVERID, state, currRound.getStage(), currRound.getCurrTurn().getStage(), currRound.getPlanningPhasePlayer(playersList).getId()));</b>
+<i class="no-highlight">468</i>&nbsp;        } else {
+<b class="fc"><i class="no-highlight">469</i>&nbsp;            notifyObserver(new SyncStateMessage(SERVERID, state, currRound.getStage(), currRound.getCurrTurn().getStage(), getCurrPlayer().getId()));</b>
+<i class="no-highlight">470</i>&nbsp;        }
+<i class="no-highlight">471</i>&nbsp;
+<i class="no-highlight">472</i>&nbsp;    }
+<i class="no-highlight">473</i>&nbsp;
+<i class="no-highlight">474</i>&nbsp;    /**
+<i class="no-highlight">475</i>&nbsp;     * sends game initialization message
+<i class="no-highlight">476</i>&nbsp;     */
+<i class="no-highlight">477</i>&nbsp;    public void sendInitGame() {
+<b class="fc"><i class="no-highlight">478</i>&nbsp;        if (expertMode) {</b>
+<b class="fc"><i class="no-highlight">479</i>&nbsp;            notifyObserver(new AllGameMessage(SERVERID, getReducedPlayersList(), expertMode, getReducedIslandsList(), getReducedCloudsList(), playersList.get(0).getAssistantDeck().getReducedAssistantsList(), motherNaturePos, tableMoney.get(), getReducedCharacterList()));</b>
+<i class="no-highlight">480</i>&nbsp;        } else {
+<b class="fc"><i class="no-highlight">481</i>&nbsp;            notifyObserver(new AllGameMessage(SERVERID, getReducedPlayersList(), expertMode, getReducedIslandsList(), getReducedCloudsList(), playersList.get(0).getAssistantDeck().getReducedAssistantsList(), motherNaturePos, -1, null));</b>
+<i class="no-highlight">482</i>&nbsp;        }
+<i class="no-highlight">483</i>&nbsp;    }
+<i class="no-highlight">484</i>&nbsp;
+<i class="no-highlight">485</i>&nbsp;    /**
+<i class="no-highlight">486</i>&nbsp;     * sends a message notifying the observer with the selected assistant
+<i class="no-highlight">487</i>&nbsp;     */
+<i class="no-highlight">488</i>&nbsp;    public void sendSelectedAssistant() {
+<b class="fc"><i class="no-highlight">489</i>&nbsp;        Player currPlayer = currRound.getPlanningPhasePlayer(playersList);</b>
+<b class="fc"><i class="no-highlight">490</i>&nbsp;        notifyObserver(new ThrownAssistantMessage(SERVERID, new ReducedAssistant(currPlayer.getSelectedAssistant()), currPlayer.getId()));</b>
+<i class="no-highlight">491</i>&nbsp;    }
+<i class="no-highlight">492</i>&nbsp;
+<i class="no-highlight">493</i>&nbsp;    /**
+<i class="no-highlight">494</i>&nbsp;     * sends the dashboard of the current player
+<i class="no-highlight">495</i>&nbsp;     */
+<i class="no-highlight">496</i>&nbsp;    public void sendDashboard() {
+<b class="fc"><i class="no-highlight">497</i>&nbsp;        notifyObserver(new DashboardMessage(SERVERID, new ReducedDashboard(getCurrPlayer().getDashboard()), getCurrPlayer().getId()));</b>
+<i class="no-highlight">498</i>&nbsp;    }
+<i class="no-highlight">499</i>&nbsp;
+<i class="no-highlight">500</i>&nbsp;    /**
+<i class="no-highlight">501</i>&nbsp;     * sends the dashboard of a player chosen by id
+<i class="no-highlight">502</i>&nbsp;     *
+<i class="no-highlight">503</i>&nbsp;     * @param playerId the id of the player
+<i class="no-highlight">504</i>&nbsp;     */
+<i class="no-highlight">505</i>&nbsp;    public void sendDashboard(int playerId) {
+<b class="nc"><i class="no-highlight">506</i>&nbsp;        notifyObserver(new DashboardMessage(SERVERID, new ReducedDashboard(getPlayerById(playerId).getDashboard()), playerId));</b>
+<i class="no-highlight">507</i>&nbsp;    }
+<i class="no-highlight">508</i>&nbsp;
+<i class="no-highlight">509</i>&nbsp;    /**
+<i class="no-highlight">510</i>&nbsp;     * sends the dashboards of all players
+<i class="no-highlight">511</i>&nbsp;     */
+<i class="no-highlight">512</i>&nbsp;    public void sendAllDashboards() {
+<b class="fc"><i class="no-highlight">513</i>&nbsp;        for (Player p : playersList) {</b>
+<b class="fc"><i class="no-highlight">514</i>&nbsp;            notifyObserver(new DashboardMessage(SERVERID, new ReducedDashboard(p.getDashboard()), p.getId()));</b>
+<b class="fc"><i class="no-highlight">515</i>&nbsp;        }</b>
+<i class="no-highlight">516</i>&nbsp;    }
+<i class="no-highlight">517</i>&nbsp;
+<i class="no-highlight">518</i>&nbsp;    /**
+<i class="no-highlight">519</i>&nbsp;     * sends the list of characters,the table money,and the map number of money
+<i class="no-highlight">520</i>&nbsp;     */
+<i class="no-highlight">521</i>&nbsp;    public void sendCharacterTable() {
+<b class="fc"><i class="no-highlight">522</i>&nbsp;        notifyObserver(new CharacterTableMessage(SERVERID, tableMoney.get(), getReducedCharacterList(), getNumOfMoneyMap()));</b>
+<i class="no-highlight">523</i>&nbsp;    }
+<i class="no-highlight">524</i>&nbsp;
+<i class="no-highlight">525</i>&nbsp;    //----------------------------------------------------------------REDUCED LIST GENERATORS-------------------------------------------------------------------------
+<i class="no-highlight">526</i>&nbsp;
+<i class="no-highlight">527</i>&nbsp;    /**
+<i class="no-highlight">528</i>&nbsp;     * sends the thrown character chosen by id
+<i class="no-highlight">529</i>&nbsp;     *
+<i class="no-highlight">530</i>&nbsp;     * @param characterId the id of the character
+<i class="no-highlight">531</i>&nbsp;     */
+<i class="no-highlight">532</i>&nbsp;    public void sendThrownCharacter(int characterId) {
+<b class="fc"><i class="no-highlight">533</i>&nbsp;        notifyObserver(new ThrownCharacterMessage(SERVERID, characterId, getCurrPlayer().getId()));</b>
+<i class="no-highlight">534</i>&nbsp;    }
+<i class="no-highlight">535</i>&nbsp;
+<i class="no-highlight">536</i>&nbsp;    /**
+<i class="no-highlight">537</i>&nbsp;     * sends a message that notifies the end of the game,and the player who won
+<i class="no-highlight">538</i>&nbsp;     *
+<i class="no-highlight">539</i>&nbsp;     * @param winnerId the id of the winner
+<i class="no-highlight">540</i>&nbsp;     */
+<i class="no-highlight">541</i>&nbsp;    public void sendWin(int winnerId) {
+<b class="nc"><i class="no-highlight">542</i>&nbsp;        StringBuilder names = new StringBuilder();</b>
+<b class="nc"><i class="no-highlight">543</i>&nbsp;        if (numOfPlayers == 4) {</b>
+<b class="nc"><i class="no-highlight">544</i>&nbsp;            for (Player p : playersList) {</b>
+<b class="nc"><i class="no-highlight">545</i>&nbsp;                if (p.getTeam() == winnerId) {</b>
+<b class="nc"><i class="no-highlight">546</i>&nbsp;                    names.append(&quot; &quot; + p.getName());</b>
+<i class="no-highlight">547</i>&nbsp;                }
+<b class="nc"><i class="no-highlight">548</i>&nbsp;            }</b>
+<b class="nc"><i class="no-highlight">549</i>&nbsp;            notifyObserver(new StringMessage(MessageType.WIN, SERVERID, false, names.toString()));</b>
+<i class="no-highlight">550</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">551</i>&nbsp;            notifyObserver(new StringMessage(MessageType.WIN, SERVERID, false, getPlayerById(winnerId).getName()));</b>
+<i class="no-highlight">552</i>&nbsp;        }
+<i class="no-highlight">553</i>&nbsp;    }
+<i class="no-highlight">554</i>&nbsp;
+<i class="no-highlight">555</i>&nbsp;    /**
+<i class="no-highlight">556</i>&nbsp;     * @return the list of reduced islands
+<i class="no-highlight">557</i>&nbsp;     */
+<i class="no-highlight">558</i>&nbsp;    public List&lt;ReducedIsland&gt; getReducedIslandsList() {
+<b class="fc"><i class="no-highlight">559</i>&nbsp;        List&lt;ReducedIsland&gt; reducedIslands = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">560</i>&nbsp;        for (Island i : islandsList) {</b>
+<b class="fc"><i class="no-highlight">561</i>&nbsp;            reducedIslands.add(new ReducedIsland(i));</b>
+<b class="fc"><i class="no-highlight">562</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">563</i>&nbsp;        return reducedIslands;</b>
+<i class="no-highlight">564</i>&nbsp;    }
+<i class="no-highlight">565</i>&nbsp;
+<i class="no-highlight">566</i>&nbsp;    /**
+<i class="no-highlight">567</i>&nbsp;     * @return the list of reduced clouds
+<i class="no-highlight">568</i>&nbsp;     */
+<i class="no-highlight">569</i>&nbsp;    public List&lt;ReducedCloud&gt; getReducedCloudsList() {
+<b class="fc"><i class="no-highlight">570</i>&nbsp;        List&lt;ReducedCloud&gt; reducedClouds = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">571</i>&nbsp;        for (Cloud c : cloudsList) {</b>
+<b class="fc"><i class="no-highlight">572</i>&nbsp;            reducedClouds.add(new ReducedCloud(c));</b>
+<b class="fc"><i class="no-highlight">573</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">574</i>&nbsp;        return reducedClouds;</b>
+<i class="no-highlight">575</i>&nbsp;    }
+<i class="no-highlight">576</i>&nbsp;
+<i class="no-highlight">577</i>&nbsp;    /**
+<i class="no-highlight">578</i>&nbsp;     * @return the list of reduced characters
+<i class="no-highlight">579</i>&nbsp;     */
+<i class="no-highlight">580</i>&nbsp;    public List&lt;ReducedCharacter&gt; getReducedCharacterList() {
+<b class="fc"><i class="no-highlight">581</i>&nbsp;        List&lt;ReducedCharacter&gt; reducedCharacters = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">582</i>&nbsp;        for (Character c : charactersList) {</b>
+<b class="fc"><i class="no-highlight">583</i>&nbsp;            reducedCharacters.add(new ReducedCharacter(c));</b>
+<b class="fc"><i class="no-highlight">584</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">585</i>&nbsp;        return reducedCharacters;</b>
+<i class="no-highlight">586</i>&nbsp;    }
+<i class="no-highlight">587</i>&nbsp;
+<i class="no-highlight">588</i>&nbsp;    /**
+<i class="no-highlight">589</i>&nbsp;     * @return the list of reduced players
+<i class="no-highlight">590</i>&nbsp;     */
+<i class="no-highlight">591</i>&nbsp;    public List&lt;ReducedPlayer&gt; getReducedPlayersList() {
+<b class="fc"><i class="no-highlight">592</i>&nbsp;        List&lt;ReducedPlayer&gt; reducedPlayers = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">593</i>&nbsp;        for (Player p : playersList) {</b>
+<b class="fc"><i class="no-highlight">594</i>&nbsp;            reducedPlayers.add(new ReducedPlayer(p));</b>
+<b class="fc"><i class="no-highlight">595</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">596</i>&nbsp;        return reducedPlayers;</b>
+<i class="no-highlight">597</i>&nbsp;    }
+<i class="no-highlight">598</i>&nbsp;
+<i class="no-highlight">599</i>&nbsp;    /**
+<i class="no-highlight">600</i>&nbsp;     * @return the map containing players without a team
+<i class="no-highlight">601</i>&nbsp;     */
+<i class="no-highlight">602</i>&nbsp;    public Map&lt;String, Integer&gt; getPlayersWithoutTeamMap() {
+<b class="fc"><i class="no-highlight">603</i>&nbsp;        Map&lt;String, Integer&gt; result = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">604</i>&nbsp;        for (Player p : playersList) { //check if all player choose team player</b>
+<b class="fc"><i class="no-highlight">605</i>&nbsp;            if (p.getTeam() == -1) {</b>
+<b class="fc"><i class="no-highlight">606</i>&nbsp;                result.put(p.getName(), p.getId());</b>
+<i class="no-highlight">607</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">608</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">609</i>&nbsp;        return result;</b>
+<i class="no-highlight">610</i>&nbsp;    }
+<i class="no-highlight">611</i>&nbsp;
+<i class="no-highlight">612</i>&nbsp;    /**
+<i class="no-highlight">613</i>&nbsp;     * @return the map containing the number of money of each player
+<i class="no-highlight">614</i>&nbsp;     */
+<i class="no-highlight">615</i>&nbsp;    public Map&lt;Integer, Integer&gt; getNumOfMoneyMap() {
+<b class="fc"><i class="no-highlight">616</i>&nbsp;        Map&lt;Integer, Integer&gt; result = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">617</i>&nbsp;        for (Player p : playersList) {</b>
+<b class="fc"><i class="no-highlight">618</i>&nbsp;            result.put(p.getId(), p.getMoney());</b>
+<b class="fc"><i class="no-highlight">619</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">620</i>&nbsp;        return result;</b>
+<i class="no-highlight">621</i>&nbsp;    }
+<i class="no-highlight">622</i>&nbsp;
+<i class="no-highlight">623</i>&nbsp;    public List&lt;Character&gt; getCharactersList() {
+<b class="fc"><i class="no-highlight">624</i>&nbsp;        return charactersList;</b>
+<i class="no-highlight">625</i>&nbsp;    }
+<i class="no-highlight">626</i>&nbsp;
+<i class="no-highlight">627</i>&nbsp;    public void setCharactersList(List&lt;Character&gt; charactersList) {
+<b class="fc"><i class="no-highlight">628</i>&nbsp;        this.charactersList = charactersList;</b>
+<i class="no-highlight">629</i>&nbsp;    }
+<i class="no-highlight">630</i>&nbsp;
+<i class="no-highlight">631</i>&nbsp;    public void setState(GameState state) {
+<b class="fc"><i class="no-highlight">632</i>&nbsp;        this.state = state;</b>
+<i class="no-highlight">633</i>&nbsp;    }
+<i class="no-highlight">634</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-29 20:56</div>
+</div>
+</body>
+</html>

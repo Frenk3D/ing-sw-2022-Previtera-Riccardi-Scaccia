@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.enumerations.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class Characters3and4and5Test {
     Character c3;
@@ -32,7 +32,7 @@ class Characters3and4and5Test {
         p = new Player("Ciccio", 1);
         p.setTeam(1);
         p.setPlayerTowerColor(TowerColor.WHITE);
-        p1= new Player("Carmelo", 2);
+        p1 = new Player("Carmelo", 2);
         p1.setTeam(2);
         p1.setPlayerTowerColor(TowerColor.BLACK);
         bag.addAllStudents();
@@ -42,7 +42,7 @@ class Characters3and4and5Test {
         c3.initCharacter(characterParameters);
         c4.initCharacter(characterParameters);
         c5.initCharacter(characterParameters);
-        game= new GameModel();
+        game = new GameModel();
         game.setNumOfPlayers(2);
         game.setExpertMode(true);
         game.init();
@@ -69,8 +69,8 @@ class Characters3and4and5Test {
         //test for character 3
         p.getDashboard().getProfessorsList().add(new Professor(PawnColor.RED));
         p1.getDashboard().getProfessorsList().add(new Professor(PawnColor.GREEN));
-        p.getDashboard().generateTower(2,TowerColor.WHITE);
-        p1.getDashboard().generateTower(2,TowerColor.BLACK);
+        p.getDashboard().generateTower(2, TowerColor.WHITE);
+        p1.getDashboard().generateTower(2, TowerColor.BLACK);
         game.getIslandByIndex(0).addStudent(new Student(PawnColor.RED));
         game.getIslandByIndex(0).addStudent(new Student(PawnColor.RED));
         game.getIslandByIndex(0).addStudent(new Student(PawnColor.RED));
@@ -79,7 +79,7 @@ class Characters3and4and5Test {
         game.getIslandByIndex(0).addTower(p1.getDashboard().getTowersList().get(0));
         game.getIslandByIndex(0).setWeight(5);
         c3.applyEffect(characterParameters);
-        assertEquals(TowerColor.BLACK,game.getIslandByIndex(0).getTowerColor());
+        assertEquals(TowerColor.BLACK, game.getIslandByIndex(0).getTowerColor());
 
         //test for character 4
         p.setSelectedAssistant(1);
@@ -93,10 +93,8 @@ class Characters3and4and5Test {
         assertEquals(1, game.getIslandByIndex(0).getForbidCards());
 
 
-
-
         //validation tests
-                    //assertNotEquals(false, c3.applyEffect(characterParameters));
+        //assertNotEquals(false, c3.applyEffect(characterParameters));
         ((Characters3and4and5) c3).setId(20);
         assertEquals(false, c3.applyEffect(characterParameters));
     }

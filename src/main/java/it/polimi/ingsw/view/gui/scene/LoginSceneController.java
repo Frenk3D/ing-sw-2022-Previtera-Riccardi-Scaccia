@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+
 import java.util.Map;
 
 /**
@@ -15,6 +16,7 @@ import java.util.Map;
  */
 public class LoginSceneController extends ViewObservable implements GenericSceneController {
 
+    private final PseudoClass ERROR_PSEUDO_CLASS = PseudoClass.getPseudoClass("error");
     @FXML
     private TextField serverAddressField;
     @FXML
@@ -22,12 +24,9 @@ public class LoginSceneController extends ViewObservable implements GenericScene
     @FXML
     private Button connectBtn;
 
-
-    private final PseudoClass ERROR_PSEUDO_CLASS = PseudoClass.getPseudoClass("error");
-
     @FXML
     public void initialize() {
-        connectBtn.addEventHandler(MouseEvent.MOUSE_PRESSED,this::onConnectBtnClick);
+        connectBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onConnectBtnClick);
     }
 
 
@@ -37,7 +36,7 @@ public class LoginSceneController extends ViewObservable implements GenericScene
      * @param event the mouse click event
      */
     @FXML
-    private void onConnectBtnClick(Event event){
+    private void onConnectBtnClick(Event event) {
         String address = serverAddressField.getText();
         String port = serverPortField.getText();
 
@@ -60,7 +59,7 @@ public class LoginSceneController extends ViewObservable implements GenericScene
      * This is the handler if the client receive an error linked to this scene
      */
     @FXML
-    public void errorInServer(){
+    public void errorInServer() {
         connectBtn.setDisable(false);
         serverAddressField.setDisable(false);
         serverPortField.setDisable(false);

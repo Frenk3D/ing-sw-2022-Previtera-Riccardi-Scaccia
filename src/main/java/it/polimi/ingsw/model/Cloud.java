@@ -18,58 +18,59 @@ public class Cloud {
     /**
      * default constructor
      */
-    public Cloud(){
+    public Cloud() {
         studentsList = new ArrayList<Student>();
     }
 
     //getter
 
     /**
-     *
-     * @return the list of students on the cloud
-     */
-    public List<Student> getStudents(){
-        return studentsList;
-    }
-
-    //setter
-
-    /**
-     * sets the list of students on the cloud
-     * @param studentsList the cloud's students list
-     */
-    public void setStudentsList(List<Student> studentsList) {
-        this.studentsList=studentsList;
-    }
-
-    /**
      * generates the list of clouds
+     *
      * @param numOfPlayers the number of players
      * @return the generated clouds list
      */
-    public static List<Cloud> generateCloudsList(int numOfPlayers){
+    public static List<Cloud> generateCloudsList(int numOfPlayers) {
         List<Cloud> cloudsList = new ArrayList<>();
-        for(int i=0; i<numOfPlayers; i++){
+        for (int i = 0; i < numOfPlayers; i++) {
             cloudsList.add(new Cloud());
         }
         return cloudsList;
     }
 
+    //setter
+
+    /**
+     * @return the list of students on the cloud
+     */
+    public List<Student> getStudents() {
+        return studentsList;
+    }
+
+    /**
+     * sets the list of students on the cloud
+     *
+     * @param studentsList the cloud's students list
+     */
+    public void setStudentsList(List<Student> studentsList) {
+        this.studentsList = studentsList;
+    }
+
     /**
      * fills the cloud with a random list of students
      * the number of students generated varies based on the number of players of the game
-     * @param bag the bag
+     *
+     * @param bag         the bag
      * @param numOfPlayer the number of players
      */
-    public void fillCloud(Bag bag, int numOfPlayer){
+    public void fillCloud(Bag bag, int numOfPlayer) {
         int numOfStudents;
-        if(numOfPlayer==3){
-            numOfStudents=4;
+        if (numOfPlayer == 3) {
+            numOfStudents = 4;
+        } else {
+            numOfStudents = 3;
         }
-        else {
-            numOfStudents=3;
-        }
-        studentsList=bag.extractStudents(numOfStudents);
+        studentsList = bag.extractStudents(numOfStudents);
     }
 
 

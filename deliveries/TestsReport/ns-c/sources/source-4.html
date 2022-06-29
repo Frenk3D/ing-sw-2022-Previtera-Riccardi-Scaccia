@@ -1,0 +1,611 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > KeyboardManager</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view.cli</a>
+</div>
+
+<h1>Coverage Summary for Class: KeyboardManager (it.polimi.ingsw.view.cli)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">KeyboardManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/247)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">KeyboardManager$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/248)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.view.cli;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.client.ClientGameModel;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.controllers.ClientController;
+<i class="no-highlight">5</i>&nbsp;import it.polimi.ingsw.model.characters.MessageCharacterParameters;
+<i class="no-highlight">6</i>&nbsp;import it.polimi.ingsw.model.enumerations.PawnColor;
+<i class="no-highlight">7</i>&nbsp;import it.polimi.ingsw.model.enumerations.RoundState;
+<i class="no-highlight">8</i>&nbsp;import it.polimi.ingsw.model.enumerations.TowerColor;
+<i class="no-highlight">9</i>&nbsp;import it.polimi.ingsw.model.enumerations.Wizard;
+<i class="no-highlight">10</i>&nbsp;import it.polimi.ingsw.network.client.ClientState;
+<i class="no-highlight">11</i>&nbsp;import it.polimi.ingsw.network.server.Lobby;
+<i class="no-highlight">12</i>&nbsp;
+<i class="no-highlight">13</i>&nbsp;import java.util.*;
+<i class="no-highlight">14</i>&nbsp;
+<i class="no-highlight">15</i>&nbsp;/**
+<i class="no-highlight">16</i>&nbsp; * It is the class that manage the user input. It implements {@link Runnable}
+<i class="no-highlight">17</i>&nbsp; */
+<i class="no-highlight">18</i>&nbsp;public class KeyboardManager implements Runnable {
+<i class="no-highlight">19</i>&nbsp;    private static final String STR_INPUT_FAILED = &quot;User input failed.&quot;;
+<i class="no-highlight">20</i>&nbsp;    private final ClientController controller; //only to check the state
+<i class="no-highlight">21</i>&nbsp;    private final Cli cli;
+<i class="no-highlight">22</i>&nbsp;    private String userInput;
+<b class="nc"><i class="no-highlight">23</i>&nbsp;    private List&lt;Lobby&gt; lobbiesList = null;</b>
+<b class="nc"><i class="no-highlight">24</i>&nbsp;    private Map&lt;String, Integer&gt; availablePlayers = null;</b>
+<b class="nc"><i class="no-highlight">25</i>&nbsp;    private List&lt;TowerColor&gt; availableTowerColors = null;</b>
+<b class="nc"><i class="no-highlight">26</i>&nbsp;    private List&lt;Wizard&gt; availableWizards = null;</b>
+<b class="nc"><i class="no-highlight">27</i>&nbsp;    private ClientGameModel clientGameModel = null;  //from now on we take the lists from here</b>
+<b class="nc"><i class="no-highlight">28</i>&nbsp;    private int usedCharacter = -1;    //this is for the control of the parameters</b>
+<i class="no-highlight">29</i>&nbsp;
+<b class="nc"><i class="no-highlight">30</i>&nbsp;    public KeyboardManager(ClientController controller, Cli cli) {</b>
+<b class="nc"><i class="no-highlight">31</i>&nbsp;        this.controller = controller;</b>
+<b class="nc"><i class="no-highlight">32</i>&nbsp;        this.cli = cli;</b>
+<i class="no-highlight">33</i>&nbsp;    }
+<i class="no-highlight">34</i>&nbsp;
+<i class="no-highlight">35</i>&nbsp;    @Override
+<i class="no-highlight">36</i>&nbsp;    public void run() {
+<b class="nc"><i class="no-highlight">37</i>&nbsp;        Scanner scanInput = new Scanner(System.in);</b>
+<b class="nc"><i class="no-highlight">38</i>&nbsp;        while (!Thread.currentThread().isInterrupted()) {  //everytime active to receive input</b>
+<b class="nc"><i class="no-highlight">39</i>&nbsp;            scanInput.reset();</b>
+<i class="no-highlight">40</i>&nbsp;            try {
+<b class="nc"><i class="no-highlight">41</i>&nbsp;                userInput = scanInput.nextLine(); //whenever the player presses enter this line gets executed</b>
+<b class="nc"><i class="no-highlight">42</i>&nbsp;            } catch (NoSuchElementException e) {</b>
+<b class="nc"><i class="no-highlight">43</i>&nbsp;                System.out.println(&quot;Exiting application...&quot;);</b>
+<b class="nc"><i class="no-highlight">44</i>&nbsp;                System.exit(0);</b>
+<b class="nc"><i class="no-highlight">45</i>&nbsp;            }</b>
+<i class="no-highlight">46</i>&nbsp;
+<b class="nc"><i class="no-highlight">47</i>&nbsp;            scanInput.reset();</b>
+<b class="nc"><i class="no-highlight">48</i>&nbsp;            System.out.println(&quot;input: &quot; + userInput + &quot; state: &quot; + controller.getClientState()); //only for debug</b>
+<b class="nc"><i class="no-highlight">49</i>&nbsp;            String[] splittedInput = userInput.split(&quot; &quot;);</b>
+<b class="nc"><i class="no-highlight">50</i>&nbsp;            if (splittedInput.length == 2 &amp;&amp; splittedInput[0].equals(&quot;use_character&quot;) &amp;&amp; controller.getClientState() != ClientState.WAITING_FOR_YOUR_TURN &amp;&amp; controller.getClientState() != ClientState.USING_CHARACTER &amp;&amp; clientGameModel.getRoundState() == RoundState.ACTION_STATE) {</b>
+<i class="no-highlight">51</i>&nbsp;                try {
+<b class="nc"><i class="no-highlight">52</i>&nbsp;                    if (clientGameModel.getCharactersList().isEmpty() || clientGameModel.getCharactersList() == null) {</b>
+<b class="nc"><i class="no-highlight">53</i>&nbsp;                        System.out.println(&quot;Characters not available&quot;);</b>
+<i class="no-highlight">54</i>&nbsp;                    } else {
+<b class="nc"><i class="no-highlight">55</i>&nbsp;                        int characterId = Integer.parseInt(splittedInput[1]);</b>
+<b class="nc"><i class="no-highlight">56</i>&nbsp;                        cli.notifyObserver(obs -&gt; obs.onAskCharacter(characterId));</b>
+<i class="no-highlight">57</i>&nbsp;                        //manage the characters now with the parameters
+<i class="no-highlight">58</i>&nbsp;                        //outside the switch we can use character everytime, checking the charactersList and choosing the id, after send a message
+<i class="no-highlight">59</i>&nbsp;                    }
+<b class="nc"><i class="no-highlight">60</i>&nbsp;                } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">61</i>&nbsp;                    System.out.println(&quot;User input failed&quot;);</b>
+<b class="nc"><i class="no-highlight">62</i>&nbsp;                }</b>
+<b class="nc"><i class="no-highlight">63</i>&nbsp;            } else if (controller.getClientState() != ClientState.WAITING_FOR_YOUR_TURN) {</b>
+<b class="nc"><i class="no-highlight">64</i>&nbsp;                switch (controller.getClientState()) {</b>
+<i class="no-highlight">65</i>&nbsp;                    case REQUESTING_LOGIN:
+<b class="nc"><i class="no-highlight">66</i>&nbsp;                        cli.notifyObserver(obs -&gt; obs.onSendLoginRequest(userInput));</b>
+<b class="nc"><i class="no-highlight">67</i>&nbsp;                        break;</b>
+<i class="no-highlight">68</i>&nbsp;
+<i class="no-highlight">69</i>&nbsp;                    case CHOOSING_JOIN_CREATE:
+<b class="nc"><i class="no-highlight">70</i>&nbsp;                        if (userInput.equals(&quot;c&quot;)) {</b>
+<b class="nc"><i class="no-highlight">71</i>&nbsp;                            controller.setClientState(ClientState.CREATING_LOBBY);</b>
+<b class="nc"><i class="no-highlight">72</i>&nbsp;                            cli.sendNewLobbyRequest();</b>
+<i class="no-highlight">73</i>&nbsp;
+<b class="nc"><i class="no-highlight">74</i>&nbsp;                        } else if (userInput.equals(&quot;j&quot;)) {</b>
+<b class="nc"><i class="no-highlight">75</i>&nbsp;                            cli.notifyObserver(obs -&gt; obs.onSendLobbiesRequest());</b>
+<i class="no-highlight">76</i>&nbsp;                        } else {
+<b class="nc"><i class="no-highlight">77</i>&nbsp;                            System.out.println(&quot;Incorrect input,try again!&quot;);</b>
+<b class="nc"><i class="no-highlight">78</i>&nbsp;                            cli.onAskCreateOrJoin();</b>
+<b class="nc"><i class="no-highlight">79</i>&nbsp;                            break;</b>
+<i class="no-highlight">80</i>&nbsp;                        }
+<i class="no-highlight">81</i>&nbsp;                        break;
+<i class="no-highlight">82</i>&nbsp;
+<i class="no-highlight">83</i>&nbsp;                    case CREATING_LOBBY:
+<i class="no-highlight">84</i>&nbsp;                        try {
+<b class="nc"><i class="no-highlight">85</i>&nbsp;                            String[] params = userInput.split(&quot; &quot;);</b>
+<i class="no-highlight">86</i>&nbsp;
+<b class="nc"><i class="no-highlight">87</i>&nbsp;                            int numOfPlayers = Integer.parseInt(params[1]);</b>
+<i class="no-highlight">88</i>&nbsp;
+<b class="nc"><i class="no-highlight">89</i>&nbsp;                            if (numOfPlayers &lt; 2 || numOfPlayers &gt; 4) {</b>
+<b class="nc"><i class="no-highlight">90</i>&nbsp;                                System.out.println(&quot;Invalid num of players, retry to create a lobby&quot;);</b>
+<b class="nc"><i class="no-highlight">91</i>&nbsp;                                cli.sendNewLobbyRequest();</b>
+<b class="nc"><i class="no-highlight">92</i>&nbsp;                                break;</b>
+<i class="no-highlight">93</i>&nbsp;                            }
+<i class="no-highlight">94</i>&nbsp;
+<b class="nc"><i class="no-highlight">95</i>&nbsp;                            if (!params[2].equals(&quot;true&quot;) &amp;&amp; !params[2].equals(&quot;false&quot;)) {</b>
+<b class="nc"><i class="no-highlight">96</i>&nbsp;                                System.out.println(&quot;Invalid mode selected, retry to create a lobby&quot;);</b>
+<b class="nc"><i class="no-highlight">97</i>&nbsp;                                cli.sendNewLobbyRequest();</b>
+<b class="nc"><i class="no-highlight">98</i>&nbsp;                                break;</b>
+<i class="no-highlight">99</i>&nbsp;                            }
+<b class="nc"><i class="no-highlight">100</i>&nbsp;                            boolean expertMode = Boolean.parseBoolean(params[2]);</b>
+<b class="nc"><i class="no-highlight">101</i>&nbsp;                            cli.notifyObserver(obs -&gt; obs.onSendNewLobbyRequest(params[0], numOfPlayers, expertMode));</b>
+<b class="nc"><i class="no-highlight">102</i>&nbsp;                        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">103</i>&nbsp;                            System.out.println(&quot;Input failed, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">104</i>&nbsp;                        }</b>
+<b class="nc"><i class="no-highlight">105</i>&nbsp;                        break;</b>
+<i class="no-highlight">106</i>&nbsp;
+<i class="no-highlight">107</i>&nbsp;                    case CHOOSING_LOBBY:
+<b class="nc"><i class="no-highlight">108</i>&nbsp;                        Lobby chosenLobby = null;</b>
+<b class="nc"><i class="no-highlight">109</i>&nbsp;                        for (Lobby lobby : lobbiesList) {</b>
+<b class="nc"><i class="no-highlight">110</i>&nbsp;                            if (userInput.equals(lobby.getName())) {</b>
+<b class="nc"><i class="no-highlight">111</i>&nbsp;                                chosenLobby = lobby;</b>
+<b class="nc"><i class="no-highlight">112</i>&nbsp;                                break;</b>
+<i class="no-highlight">113</i>&nbsp;                            }
+<b class="nc"><i class="no-highlight">114</i>&nbsp;                        }</b>
+<i class="no-highlight">115</i>&nbsp;
+<b class="nc"><i class="no-highlight">116</i>&nbsp;                        if (chosenLobby != null) {</b>
+<b class="nc"><i class="no-highlight">117</i>&nbsp;                            cli.notifyObserver(obs -&gt; obs.onSendChooseLobby(userInput));</b>
+<i class="no-highlight">118</i>&nbsp;                        } else {
+<b class="nc"><i class="no-highlight">119</i>&nbsp;                            System.out.println(&quot;This lobby doesn&#39;t exist! Choose again!&quot;);</b>
+<i class="no-highlight">120</i>&nbsp;                        }
+<b class="nc"><i class="no-highlight">121</i>&nbsp;                        break;</b>
+<i class="no-highlight">122</i>&nbsp;
+<i class="no-highlight">123</i>&nbsp;                    case CHOOSING_TEAM:
+<i class="no-highlight">124</i>&nbsp;                        try {
+<b class="nc"><i class="no-highlight">125</i>&nbsp;                            int chosenPlayer = -1;</b>
+<b class="nc"><i class="no-highlight">126</i>&nbsp;                            for (Integer entry : availablePlayers.values()) {</b>
+<b class="nc"><i class="no-highlight">127</i>&nbsp;                                if (userInput.equals(entry.toString())) {</b>
+<b class="nc"><i class="no-highlight">128</i>&nbsp;                                    chosenPlayer = Integer.parseInt(userInput);</b>
+<b class="nc"><i class="no-highlight">129</i>&nbsp;                                    break;</b>
+<i class="no-highlight">130</i>&nbsp;                                }
+<b class="nc"><i class="no-highlight">131</i>&nbsp;                            }</b>
+<i class="no-highlight">132</i>&nbsp;
+<b class="nc"><i class="no-highlight">133</i>&nbsp;                            if (chosenPlayer != -1) {</b>
+<b class="nc"><i class="no-highlight">134</i>&nbsp;                                int finalInput = chosenPlayer;</b>
+<b class="nc"><i class="no-highlight">135</i>&nbsp;                                cli.notifyObserver(obs -&gt; obs.onSendChooseTeam(finalInput));</b>
+<b class="nc"><i class="no-highlight">136</i>&nbsp;                            } else {</b>
+<b class="nc"><i class="no-highlight">137</i>&nbsp;                                System.out.println(&quot;This player doesn&#39;t exist!, choose again&quot;);</b>
+<i class="no-highlight">138</i>&nbsp;                            }
+<b class="nc"><i class="no-highlight">139</i>&nbsp;                        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">140</i>&nbsp;                            System.out.println(&quot;Input failed, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">141</i>&nbsp;                        }</b>
+<i class="no-highlight">142</i>&nbsp;
+<b class="nc"><i class="no-highlight">143</i>&nbsp;                        break;</b>
+<i class="no-highlight">144</i>&nbsp;
+<i class="no-highlight">145</i>&nbsp;                    case CHOOSING_TOWER_COLOR:
+<b class="nc"><i class="no-highlight">146</i>&nbsp;                        TowerColor chosenTowerColor = null;</b>
+<b class="nc"><i class="no-highlight">147</i>&nbsp;                        userInput = userInput.toUpperCase(); //we transform in upper case</b>
+<b class="nc"><i class="no-highlight">148</i>&nbsp;                        if (availableTowerColors != null) {</b>
+<b class="nc"><i class="no-highlight">149</i>&nbsp;                            for (TowerColor c : availableTowerColors) {</b>
+<b class="nc"><i class="no-highlight">150</i>&nbsp;                                if (userInput.equals(c.toString())) {</b>
+<b class="nc"><i class="no-highlight">151</i>&nbsp;                                    chosenTowerColor = c;</b>
+<b class="nc"><i class="no-highlight">152</i>&nbsp;                                    break;</b>
+<i class="no-highlight">153</i>&nbsp;                                }
+<b class="nc"><i class="no-highlight">154</i>&nbsp;                            }</b>
+<i class="no-highlight">155</i>&nbsp;                        } else {
+<b class="nc"><i class="no-highlight">156</i>&nbsp;                            System.out.println(&quot;You can&#39;t choose tower color&quot;);</b>
+<b class="nc"><i class="no-highlight">157</i>&nbsp;                            break;</b>
+<i class="no-highlight">158</i>&nbsp;                        }
+<i class="no-highlight">159</i>&nbsp;
+<b class="nc"><i class="no-highlight">160</i>&nbsp;                        if (chosenTowerColor != null &amp;&amp; availableTowerColors != null) {</b>
+<b class="nc"><i class="no-highlight">161</i>&nbsp;                            TowerColor finalTowerColor = chosenTowerColor;</b>
+<b class="nc"><i class="no-highlight">162</i>&nbsp;                            cli.notifyObserver(obs -&gt; obs.onSendChooseTowerColor(finalTowerColor));</b>
+<b class="nc"><i class="no-highlight">163</i>&nbsp;                        } else {</b>
+<b class="nc"><i class="no-highlight">164</i>&nbsp;                            System.out.println(&quot;This color isn&#39;t available!, choose again &quot;);</b>
+<i class="no-highlight">165</i>&nbsp;                        }
+<b class="nc"><i class="no-highlight">166</i>&nbsp;                        break;</b>
+<i class="no-highlight">167</i>&nbsp;
+<i class="no-highlight">168</i>&nbsp;                    case CHOOSING_WIZARD:
+<b class="nc"><i class="no-highlight">169</i>&nbsp;                        Wizard chosenWizard = null;</b>
+<b class="nc"><i class="no-highlight">170</i>&nbsp;                        userInput = userInput.toUpperCase();</b>
+<b class="nc"><i class="no-highlight">171</i>&nbsp;                        for (Wizard wizard : availableWizards) {</b>
+<b class="nc"><i class="no-highlight">172</i>&nbsp;                            if (userInput.equals(wizard.toString())) {</b>
+<b class="nc"><i class="no-highlight">173</i>&nbsp;                                chosenWizard = wizard;</b>
+<b class="nc"><i class="no-highlight">174</i>&nbsp;                                break;</b>
+<i class="no-highlight">175</i>&nbsp;                            }
+<b class="nc"><i class="no-highlight">176</i>&nbsp;                        }</b>
+<b class="nc"><i class="no-highlight">177</i>&nbsp;                        if (chosenWizard != null) {</b>
+<b class="nc"><i class="no-highlight">178</i>&nbsp;                            Wizard finalChosenWizard = chosenWizard;</b>
+<b class="nc"><i class="no-highlight">179</i>&nbsp;                            cli.notifyObserver(obs -&gt; obs.onSendChooseWizard(finalChosenWizard));</b>
+<b class="nc"><i class="no-highlight">180</i>&nbsp;                        } else {</b>
+<b class="nc"><i class="no-highlight">181</i>&nbsp;                            System.out.println(&quot;This wizard isn&#39;t available!, try to choose again &quot;);</b>
+<i class="no-highlight">182</i>&nbsp;                        }
+<b class="nc"><i class="no-highlight">183</i>&nbsp;                        break;</b>
+<i class="no-highlight">184</i>&nbsp;
+<i class="no-highlight">185</i>&nbsp;                    case THROWING_ASSISTANT:
+<i class="no-highlight">186</i>&nbsp;                        //usedCharacter = -1;
+<i class="no-highlight">187</i>&nbsp;                        try {
+<b class="nc"><i class="no-highlight">188</i>&nbsp;                            int selectedAssistantId = Integer.parseInt(userInput); //why don&#39;t need try catch because if the input is incorrect,nothing is returned</b>
+<b class="nc"><i class="no-highlight">189</i>&nbsp;                            cli.notifyObserver(obs -&gt; obs.onSendSelectAssistant(selectedAssistantId));</b>
+<b class="nc"><i class="no-highlight">190</i>&nbsp;                        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">191</i>&nbsp;                            System.out.println(&quot;Input failed, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">192</i>&nbsp;                        }</b>
+<b class="nc"><i class="no-highlight">193</i>&nbsp;                        break;</b>
+<i class="no-highlight">194</i>&nbsp;
+<i class="no-highlight">195</i>&nbsp;                    case CHOOSING_WHERE_TO_MOVE_STUDENT:
+<b class="nc"><i class="no-highlight">196</i>&nbsp;                        if (userInput.equals(&quot;d&quot;)) {</b>
+<b class="nc"><i class="no-highlight">197</i>&nbsp;                            controller.setClientState(ClientState.MOVING_A_STUDENT_DASHBOARD);</b>
+<b class="nc"><i class="no-highlight">198</i>&nbsp;                            cli.sendMoveStudentDashboard();</b>
+<i class="no-highlight">199</i>&nbsp;
+<b class="nc"><i class="no-highlight">200</i>&nbsp;                        } else if (userInput.equals(&quot;i&quot;)) {</b>
+<b class="nc"><i class="no-highlight">201</i>&nbsp;                            controller.setClientState(ClientState.MOVING_A_STUDENT_ISLAND);</b>
+<b class="nc"><i class="no-highlight">202</i>&nbsp;                            cli.sendMoveStudentIsland();</b>
+<i class="no-highlight">203</i>&nbsp;                        } else {
+<b class="nc"><i class="no-highlight">204</i>&nbsp;                            System.out.println(&quot;Incorrect input,try again!&quot;);</b>
+<b class="nc"><i class="no-highlight">205</i>&nbsp;                            cli.onAskWhereToMoveStudent();</b>
+<i class="no-highlight">206</i>&nbsp;                        }
+<b class="nc"><i class="no-highlight">207</i>&nbsp;                        break;</b>
+<i class="no-highlight">208</i>&nbsp;
+<i class="no-highlight">209</i>&nbsp;                    case MOVING_A_STUDENT_DASHBOARD:
+<i class="no-highlight">210</i>&nbsp;                        try {
+<b class="nc"><i class="no-highlight">211</i>&nbsp;                            int parsedInputStud = Integer.parseInt(userInput); //we need try-catch because if the input is incorrect, there is an exception</b>
+<b class="nc"><i class="no-highlight">212</i>&nbsp;                            int selectedStudentIndex = parsedInputStud - 1;</b>
+<b class="nc"><i class="no-highlight">213</i>&nbsp;                            cli.notifyObserver(obs -&gt; obs.onSendMoveAStudentDashboard(selectedStudentIndex));</b>
+<b class="nc"><i class="no-highlight">214</i>&nbsp;                        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">215</i>&nbsp;                            System.out.println(&quot;Input failed, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">216</i>&nbsp;                        }</b>
+<b class="nc"><i class="no-highlight">217</i>&nbsp;                        break;</b>
+<i class="no-highlight">218</i>&nbsp;
+<i class="no-highlight">219</i>&nbsp;                    case MOVING_A_STUDENT_ISLAND:
+<i class="no-highlight">220</i>&nbsp;                        try {
+<b class="nc"><i class="no-highlight">221</i>&nbsp;                            String[] paramsstud = userInput.split(&quot; &quot;);</b>
+<b class="nc"><i class="no-highlight">222</i>&nbsp;                            int parsedInputStudIsl = Integer.parseInt(paramsstud[0]);</b>
+<b class="nc"><i class="no-highlight">223</i>&nbsp;                            int selectedStudentIslIndex = parsedInputStudIsl - 1; //-1 is an error</b>
+<i class="no-highlight">224</i>&nbsp;
+<b class="nc"><i class="no-highlight">225</i>&nbsp;                            int parsedInputIsl = Integer.parseInt(paramsstud[1]); //we need try-catch because if the input is incorrect, there is an exception</b>
+<b class="nc"><i class="no-highlight">226</i>&nbsp;                            int selectedIslandIndex = parsedInputIsl - 1; //-1 is an error</b>
+<b class="nc"><i class="no-highlight">227</i>&nbsp;                            cli.notifyObserver(obs -&gt; obs.onSendMoveAStudentIsland(selectedStudentIslIndex, selectedIslandIndex));</b>
+<b class="nc"><i class="no-highlight">228</i>&nbsp;                        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">229</i>&nbsp;                            System.out.println(&quot;Input failed, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">230</i>&nbsp;                        }</b>
+<b class="nc"><i class="no-highlight">231</i>&nbsp;                        break;</b>
+<i class="no-highlight">232</i>&nbsp;
+<i class="no-highlight">233</i>&nbsp;                    case MOVING_MOTHER_NATURE:
+<i class="no-highlight">234</i>&nbsp;                        try {
+<b class="nc"><i class="no-highlight">235</i>&nbsp;                            int parsedInputMN = Integer.parseInt(userInput); //we need try-catch because if the input is incorrect, there is an exception</b>
+<b class="nc"><i class="no-highlight">236</i>&nbsp;                            int selectedMNPos = parsedInputMN - 1;</b>
+<b class="nc"><i class="no-highlight">237</i>&nbsp;                            cli.notifyObserver(obs -&gt; obs.onSendMoveMotherNature(selectedMNPos));</b>
+<b class="nc"><i class="no-highlight">238</i>&nbsp;                        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">239</i>&nbsp;                            System.out.println(&quot;Input failed, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">240</i>&nbsp;                        }</b>
+<b class="nc"><i class="no-highlight">241</i>&nbsp;                        break;</b>
+<i class="no-highlight">242</i>&nbsp;
+<i class="no-highlight">243</i>&nbsp;                    case CHOOSING_CLOUD:
+<i class="no-highlight">244</i>&nbsp;                        try {
+<b class="nc"><i class="no-highlight">245</i>&nbsp;                            int parsedInputCloud = Integer.parseInt(userInput); //we need try-catch because if the input is incorrect, there is an exception</b>
+<b class="nc"><i class="no-highlight">246</i>&nbsp;                            int selectedCloudIndex = parsedInputCloud - 1;</b>
+<b class="nc"><i class="no-highlight">247</i>&nbsp;                            cli.notifyObserver(obs -&gt; obs.onSendChooseCloud(selectedCloudIndex));</b>
+<b class="nc"><i class="no-highlight">248</i>&nbsp;                        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">249</i>&nbsp;                            System.out.println(&quot;Input failed, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">250</i>&nbsp;                        }</b>
+<b class="nc"><i class="no-highlight">251</i>&nbsp;                        break;</b>
+<i class="no-highlight">252</i>&nbsp;
+<i class="no-highlight">253</i>&nbsp;                    case USING_CHARACTER:
+<b class="nc"><i class="no-highlight">254</i>&nbsp;                        manageCharacterParameters(userInput);</b>
+<b class="nc"><i class="no-highlight">255</i>&nbsp;                        break;</b>
+<i class="no-highlight">256</i>&nbsp;                    default:
+<b class="nc"><i class="no-highlight">257</i>&nbsp;                        System.out.println(&quot;Error in the application&quot;); //it should never happen</b>
+<b class="nc"><i class="no-highlight">258</i>&nbsp;                        break;</b>
+<i class="no-highlight">259</i>&nbsp;                }
+<i class="no-highlight">260</i>&nbsp;            } else {
+<b class="nc"><i class="no-highlight">261</i>&nbsp;                System.out.println(&quot;It&#39;s not your turn&quot;);</b>
+<i class="no-highlight">262</i>&nbsp;            }
+<i class="no-highlight">263</i>&nbsp;
+<b class="nc"><i class="no-highlight">264</i>&nbsp;        }</b>
+<i class="no-highlight">265</i>&nbsp;    }
+<i class="no-highlight">266</i>&nbsp;
+<i class="no-highlight">267</i>&nbsp;    /**
+<i class="no-highlight">268</i>&nbsp;     * Sets the lobbies list
+<i class="no-highlight">269</i>&nbsp;     *
+<i class="no-highlight">270</i>&nbsp;     * @param lobbiesList the list of lobbies
+<i class="no-highlight">271</i>&nbsp;     */
+<i class="no-highlight">272</i>&nbsp;    public void setLobbiesList(List&lt;Lobby&gt; lobbiesList) {
+<b class="nc"><i class="no-highlight">273</i>&nbsp;        this.lobbiesList = lobbiesList;</b>
+<i class="no-highlight">274</i>&nbsp;    }
+<i class="no-highlight">275</i>&nbsp;
+<i class="no-highlight">276</i>&nbsp;    /**
+<i class="no-highlight">277</i>&nbsp;     * Sets the available players&#39; map
+<i class="no-highlight">278</i>&nbsp;     *
+<i class="no-highlight">279</i>&nbsp;     * @param availablePlayers the available players map
+<i class="no-highlight">280</i>&nbsp;     */
+<i class="no-highlight">281</i>&nbsp;    public void setAvailablePlayers(Map&lt;String, Integer&gt; availablePlayers) {
+<b class="nc"><i class="no-highlight">282</i>&nbsp;        this.availablePlayers = availablePlayers;</b>
+<i class="no-highlight">283</i>&nbsp;    }
+<i class="no-highlight">284</i>&nbsp;
+<i class="no-highlight">285</i>&nbsp;    /**
+<i class="no-highlight">286</i>&nbsp;     * Sets the available tower colors
+<i class="no-highlight">287</i>&nbsp;     *
+<i class="no-highlight">288</i>&nbsp;     * @param availableTowerColors the available tower colors
+<i class="no-highlight">289</i>&nbsp;     */
+<i class="no-highlight">290</i>&nbsp;    public void setAvailableTowerColors(List&lt;TowerColor&gt; availableTowerColors) {
+<b class="nc"><i class="no-highlight">291</i>&nbsp;        this.availableTowerColors = availableTowerColors;</b>
+<i class="no-highlight">292</i>&nbsp;    }
+<i class="no-highlight">293</i>&nbsp;
+<i class="no-highlight">294</i>&nbsp;    /**
+<i class="no-highlight">295</i>&nbsp;     * Sets the available wizards
+<i class="no-highlight">296</i>&nbsp;     *
+<i class="no-highlight">297</i>&nbsp;     * @param availableWizards the available wizards
+<i class="no-highlight">298</i>&nbsp;     */
+<i class="no-highlight">299</i>&nbsp;    public void setAvailableWizards(List&lt;Wizard&gt; availableWizards) {
+<b class="nc"><i class="no-highlight">300</i>&nbsp;        this.availableWizards = availableWizards;</b>
+<i class="no-highlight">301</i>&nbsp;    }
+<i class="no-highlight">302</i>&nbsp;
+<i class="no-highlight">303</i>&nbsp;    /**
+<i class="no-highlight">304</i>&nbsp;     * Sets the client game model
+<i class="no-highlight">305</i>&nbsp;     *
+<i class="no-highlight">306</i>&nbsp;     * @param clientGameModel the client game model
+<i class="no-highlight">307</i>&nbsp;     */
+<i class="no-highlight">308</i>&nbsp;    public void setClientGameModel(ClientGameModel clientGameModel) {
+<b class="nc"><i class="no-highlight">309</i>&nbsp;        this.clientGameModel = clientGameModel;</b>
+<i class="no-highlight">310</i>&nbsp;    }
+<i class="no-highlight">311</i>&nbsp;
+<i class="no-highlight">312</i>&nbsp;    /**
+<i class="no-highlight">313</i>&nbsp;     * Sets the used character
+<i class="no-highlight">314</i>&nbsp;     *
+<i class="no-highlight">315</i>&nbsp;     * @param usedCharacter the used character
+<i class="no-highlight">316</i>&nbsp;     */
+<i class="no-highlight">317</i>&nbsp;    public void setUsedCharacter(int usedCharacter) {
+<b class="nc"><i class="no-highlight">318</i>&nbsp;        this.usedCharacter = usedCharacter;</b>
+<i class="no-highlight">319</i>&nbsp;    }
+<i class="no-highlight">320</i>&nbsp;
+<i class="no-highlight">321</i>&nbsp;    /**
+<i class="no-highlight">322</i>&nbsp;     * Manages user input character parameters
+<i class="no-highlight">323</i>&nbsp;     *
+<i class="no-highlight">324</i>&nbsp;     * @param userInput input character parameters in string form
+<i class="no-highlight">325</i>&nbsp;     */
+<i class="no-highlight">326</i>&nbsp;    private void manageCharacterParameters(String userInput) {
+<i class="no-highlight">327</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">328</i>&nbsp;            String[] splitted = userInput.split(&quot; &quot;);</b>
+<b class="nc"><i class="no-highlight">329</i>&nbsp;            List&lt;Integer&gt; parsedSplitted = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">330</i>&nbsp;            if (usedCharacter != 9 &amp;&amp; usedCharacter != 10 &amp;&amp; usedCharacter != 12) {</b>
+<b class="nc"><i class="no-highlight">331</i>&nbsp;                for (int i = 0; i &lt; splitted.length; i++) {</b>
+<b class="nc"><i class="no-highlight">332</i>&nbsp;                    parsedSplitted.add(Integer.parseInt(splitted[i]) - 1);</b>
+<i class="no-highlight">333</i>&nbsp;                }
+<i class="no-highlight">334</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">335</i>&nbsp;            MessageCharacterParameters params = new MessageCharacterParameters();</b>
+<b class="nc"><i class="no-highlight">336</i>&nbsp;            params.setCharacterId(usedCharacter);</b>
+<b class="nc"><i class="no-highlight">337</i>&nbsp;            switch (usedCharacter) {</b>
+<i class="no-highlight">338</i>&nbsp;                case 1:
+<b class="nc"><i class="no-highlight">339</i>&nbsp;                    if (parsedSplitted.size() == 2) {</b>
+<b class="nc"><i class="no-highlight">340</i>&nbsp;                        params.setStudentIndex(parsedSplitted.get(0));</b>
+<b class="nc"><i class="no-highlight">341</i>&nbsp;                        params.setIslandIndex(parsedSplitted.get(1));</b>
+<i class="no-highlight">342</i>&nbsp;                    } else {
+<b class="nc"><i class="no-highlight">343</i>&nbsp;                        System.out.println(&quot;Params not correct, try again to write the params&quot;);</b>
+<i class="no-highlight">344</i>&nbsp;                        return;
+<i class="no-highlight">345</i>&nbsp;                    }
+<i class="no-highlight">346</i>&nbsp;                    break;
+<i class="no-highlight">347</i>&nbsp;                case 3:
+<b class="nc"><i class="no-highlight">348</i>&nbsp;                    if (parsedSplitted.size() == 1) {</b>
+<b class="nc"><i class="no-highlight">349</i>&nbsp;                        params.setIslandIndex(parsedSplitted.get(0));</b>
+<i class="no-highlight">350</i>&nbsp;                    } else {
+<b class="nc"><i class="no-highlight">351</i>&nbsp;                        System.out.println(&quot;Params not correct, try again&quot;);</b>
+<i class="no-highlight">352</i>&nbsp;                        return;
+<i class="no-highlight">353</i>&nbsp;                    }
+<i class="no-highlight">354</i>&nbsp;                    break;
+<i class="no-highlight">355</i>&nbsp;                case 5:
+<b class="nc"><i class="no-highlight">356</i>&nbsp;                    if (parsedSplitted.size() == 1) {</b>
+<b class="nc"><i class="no-highlight">357</i>&nbsp;                        params.setIslandIndex(parsedSplitted.get(0));</b>
+<i class="no-highlight">358</i>&nbsp;                    } else {
+<b class="nc"><i class="no-highlight">359</i>&nbsp;                        System.out.println(&quot;Params not correct, try again&quot;);</b>
+<i class="no-highlight">360</i>&nbsp;                        return;
+<i class="no-highlight">361</i>&nbsp;                    }
+<i class="no-highlight">362</i>&nbsp;                    break;
+<i class="no-highlight">363</i>&nbsp;                case 7:
+<b class="nc"><i class="no-highlight">364</i>&nbsp;                    if (parsedSplitted.size() &lt;= 6 &amp;&amp; parsedSplitted.size() % 2 == 0) {</b>
+<b class="nc"><i class="no-highlight">365</i>&nbsp;                        int listsize = parsedSplitted.size() / 2;</b>
+<b class="nc"><i class="no-highlight">366</i>&nbsp;                        List&lt;Integer&gt; studentsList = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">367</i>&nbsp;                        List&lt;Integer&gt; studentsEntranceList = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">368</i>&nbsp;                        for (int i = 0; i &lt; listsize; i++) {</b>
+<b class="nc"><i class="no-highlight">369</i>&nbsp;                            studentsList.add(parsedSplitted.get(i));</b>
+<i class="no-highlight">370</i>&nbsp;                        }
+<b class="nc"><i class="no-highlight">371</i>&nbsp;                        for (int i = listsize; i &lt; parsedSplitted.size(); i++) {</b>
+<b class="nc"><i class="no-highlight">372</i>&nbsp;                            studentsEntranceList.add(parsedSplitted.get(i));</b>
+<i class="no-highlight">373</i>&nbsp;                        }
+<b class="nc"><i class="no-highlight">374</i>&nbsp;                        params.setStudentsIndexList(studentsList);</b>
+<b class="nc"><i class="no-highlight">375</i>&nbsp;                        params.setStudentsIndexEntranceList(studentsEntranceList);</b>
+<b class="nc"><i class="no-highlight">376</i>&nbsp;                    } else {</b>
+<b class="nc"><i class="no-highlight">377</i>&nbsp;                        System.out.println(&quot;Params not correct, try again&quot;);</b>
+<i class="no-highlight">378</i>&nbsp;                        return;
+<i class="no-highlight">379</i>&nbsp;                    }
+<i class="no-highlight">380</i>&nbsp;                    break;
+<i class="no-highlight">381</i>&nbsp;                case 9:
+<b class="nc"><i class="no-highlight">382</i>&nbsp;                    if (splitted.length == 1) {</b>
+<b class="nc"><i class="no-highlight">383</i>&nbsp;                        PawnColor selectedColor = null;</b>
+<b class="nc"><i class="no-highlight">384</i>&nbsp;                        splitted[0] = splitted[0].toUpperCase(); //we transform in upper case</b>
+<b class="nc"><i class="no-highlight">385</i>&nbsp;                        for (PawnColor c : PawnColor.values()) {</b>
+<b class="nc"><i class="no-highlight">386</i>&nbsp;                            if (splitted[0].equals(c.toString())) {</b>
+<b class="nc"><i class="no-highlight">387</i>&nbsp;                                selectedColor = c;</b>
+<b class="nc"><i class="no-highlight">388</i>&nbsp;                                break;</b>
+<i class="no-highlight">389</i>&nbsp;                            }
+<i class="no-highlight">390</i>&nbsp;                        }
+<b class="nc"><i class="no-highlight">391</i>&nbsp;                        if (selectedColor != null) {</b>
+<b class="nc"><i class="no-highlight">392</i>&nbsp;                            params.setSelectedColor(selectedColor);</b>
+<i class="no-highlight">393</i>&nbsp;                        } else {
+<b class="nc"><i class="no-highlight">394</i>&nbsp;                            System.out.println(&quot;Params not correct, try again&quot;);</b>
+<i class="no-highlight">395</i>&nbsp;                            return;
+<i class="no-highlight">396</i>&nbsp;                        }
+<b class="nc"><i class="no-highlight">397</i>&nbsp;                    }</b>
+<i class="no-highlight">398</i>&nbsp;                    break;
+<i class="no-highlight">399</i>&nbsp;                case 10:
+<b class="nc"><i class="no-highlight">400</i>&nbsp;                    if (splitted.length &lt;= 4 &amp;&amp; splitted.length % 2 == 0) {</b>
+<b class="nc"><i class="no-highlight">401</i>&nbsp;                        int listsize2 = splitted.length / 2;</b>
+<i class="no-highlight">402</i>&nbsp;                        PawnColor selectedColor1;
+<b class="nc"><i class="no-highlight">403</i>&nbsp;                        PawnColor selectedColor2 = null;</b>
+<b class="nc"><i class="no-highlight">404</i>&nbsp;                        List&lt;Integer&gt; studentsEntranceList2 = new ArrayList&lt;&gt;();</b>
+<i class="no-highlight">405</i>&nbsp;
+<i class="no-highlight">406</i>&nbsp;
+<b class="nc"><i class="no-highlight">407</i>&nbsp;                        selectedColor1 = parsePawnColor(splitted[0]);</b>
+<b class="nc"><i class="no-highlight">408</i>&nbsp;                        if (selectedColor1 == null) {</b>
+<b class="nc"><i class="no-highlight">409</i>&nbsp;                            System.out.println(&quot;Params not correct, try again&quot;);</b>
+<i class="no-highlight">410</i>&nbsp;                            return;
+<i class="no-highlight">411</i>&nbsp;                        }
+<i class="no-highlight">412</i>&nbsp;
+<b class="nc"><i class="no-highlight">413</i>&nbsp;                        if (listsize2 == 2) {</b>
+<b class="nc"><i class="no-highlight">414</i>&nbsp;                            selectedColor2 = parsePawnColor(splitted[1]);</b>
+<b class="nc"><i class="no-highlight">415</i>&nbsp;                            if (selectedColor2 == null) {</b>
+<b class="nc"><i class="no-highlight">416</i>&nbsp;                                System.out.println(&quot;Params not correct, try again&quot;);</b>
+<i class="no-highlight">417</i>&nbsp;                                return;
+<i class="no-highlight">418</i>&nbsp;                            }
+<i class="no-highlight">419</i>&nbsp;                        }
+<i class="no-highlight">420</i>&nbsp;
+<b class="nc"><i class="no-highlight">421</i>&nbsp;                        for (int i = listsize2; i &lt; splitted.length; i++) {</b>
+<b class="nc"><i class="no-highlight">422</i>&nbsp;                            int parsed = Integer.parseInt(splitted[i]) - 1;</b>
+<b class="nc"><i class="no-highlight">423</i>&nbsp;                            studentsEntranceList2.add(parsed);</b>
+<i class="no-highlight">424</i>&nbsp;                        }
+<i class="no-highlight">425</i>&nbsp;
+<b class="nc"><i class="no-highlight">426</i>&nbsp;                        params.setSelectedColor(selectedColor1);</b>
+<b class="nc"><i class="no-highlight">427</i>&nbsp;                        params.setSelectedColor2(selectedColor2);</b>
+<b class="nc"><i class="no-highlight">428</i>&nbsp;                        params.setStudentsIndexEntranceList(studentsEntranceList2);</b>
+<b class="nc"><i class="no-highlight">429</i>&nbsp;                    } else {</b>
+<b class="nc"><i class="no-highlight">430</i>&nbsp;                        System.out.println(&quot;Params not correct, try again&quot;);</b>
+<i class="no-highlight">431</i>&nbsp;                        return;
+<i class="no-highlight">432</i>&nbsp;                    }
+<i class="no-highlight">433</i>&nbsp;
+<i class="no-highlight">434</i>&nbsp;                    break;
+<i class="no-highlight">435</i>&nbsp;                case 11:
+<b class="nc"><i class="no-highlight">436</i>&nbsp;                    if (parsedSplitted.size() == 1) {</b>
+<b class="nc"><i class="no-highlight">437</i>&nbsp;                        params.setStudentIndex(parsedSplitted.get(0));</b>
+<i class="no-highlight">438</i>&nbsp;                    } else {
+<b class="nc"><i class="no-highlight">439</i>&nbsp;                        System.out.println(&quot;Params not correct, try again&quot;);</b>
+<i class="no-highlight">440</i>&nbsp;                        return;
+<i class="no-highlight">441</i>&nbsp;                    }
+<i class="no-highlight">442</i>&nbsp;                    break;
+<i class="no-highlight">443</i>&nbsp;                case 12:
+<b class="nc"><i class="no-highlight">444</i>&nbsp;                    if (splitted.length == 1) {</b>
+<b class="nc"><i class="no-highlight">445</i>&nbsp;                        PawnColor selectedColor = parsePawnColor(splitted[0]);</b>
+<b class="nc"><i class="no-highlight">446</i>&nbsp;                        if (selectedColor != null) {</b>
+<b class="nc"><i class="no-highlight">447</i>&nbsp;                            params.setSelectedColor(selectedColor);</b>
+<i class="no-highlight">448</i>&nbsp;                        } else {
+<b class="nc"><i class="no-highlight">449</i>&nbsp;                            System.out.println(&quot;Params not correct, try again&quot;);</b>
+<i class="no-highlight">450</i>&nbsp;                            return;
+<i class="no-highlight">451</i>&nbsp;                        }
+<b class="nc"><i class="no-highlight">452</i>&nbsp;                    }</b>
+<i class="no-highlight">453</i>&nbsp;                    break;
+<i class="no-highlight">454</i>&nbsp;                default: //it will never happen
+<b class="nc"><i class="no-highlight">455</i>&nbsp;                    System.out.println(&quot;Error in the application&quot;);</b>
+<i class="no-highlight">456</i>&nbsp;                    return;
+<i class="no-highlight">457</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">458</i>&nbsp;            cli.notifyObserver(obs -&gt; obs.onSendUseCharacter(params));</b>
+<b class="nc"><i class="no-highlight">459</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">460</i>&nbsp;            System.out.println(&quot;User input failed, try again&quot;);</b>
+<b class="nc"><i class="no-highlight">461</i>&nbsp;        }</b>
+<i class="no-highlight">462</i>&nbsp;    }
+<i class="no-highlight">463</i>&nbsp;
+<i class="no-highlight">464</i>&nbsp;    /**
+<i class="no-highlight">465</i>&nbsp;     * Parses an input string into a Pawn Color
+<i class="no-highlight">466</i>&nbsp;     *
+<i class="no-highlight">467</i>&nbsp;     * @param toParse string to be parsed
+<i class="no-highlight">468</i>&nbsp;     * @return the pawn color
+<i class="no-highlight">469</i>&nbsp;     */
+<i class="no-highlight">470</i>&nbsp;    private PawnColor parsePawnColor(String toParse) {
+<b class="nc"><i class="no-highlight">471</i>&nbsp;        toParse = toParse.toUpperCase(); //we transform in upper case</b>
+<b class="nc"><i class="no-highlight">472</i>&nbsp;        for (PawnColor c : PawnColor.values()) {</b>
+<b class="nc"><i class="no-highlight">473</i>&nbsp;            if (toParse.equals(c.toString())) {</b>
+<b class="nc"><i class="no-highlight">474</i>&nbsp;                return c;</b>
+<i class="no-highlight">475</i>&nbsp;            }
+<i class="no-highlight">476</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">477</i>&nbsp;        return null;</b>
+<i class="no-highlight">478</i>&nbsp;    }
+<i class="no-highlight">479</i>&nbsp;}
+<i class="no-highlight">480</i>&nbsp;
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-29 20:56</div>
+</div>
+</body>
+</html>

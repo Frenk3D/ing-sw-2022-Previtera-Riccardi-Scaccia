@@ -1,0 +1,539 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Server</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.network.server</a>
+</div>
+
+<h1>Coverage Summary for Class: Server (it.polimi.ingsw.network.server)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Server</td>
+<td class="coverageStat">
+  <span class="percent">
+    5.3%
+  </span>
+  <span class="absValue">
+    (1/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    8.1%
+  </span>
+  <span class="absValue">
+    (13/161)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Server$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    5%
+  </span>
+  <span class="absValue">
+    (1/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    8%
+  </span>
+  <span class="absValue">
+    (13/162)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.network.server;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.controllers.Controller;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.model.Player;
+<i class="no-highlight">5</i>&nbsp;import it.polimi.ingsw.network.message.*;
+<i class="no-highlight">6</i>&nbsp;import it.polimi.ingsw.view.RemoteView;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;import java.util.ArrayList;
+<i class="no-highlight">9</i>&nbsp;import java.util.HashMap;
+<i class="no-highlight">10</i>&nbsp;import java.util.List;
+<i class="no-highlight">11</i>&nbsp;import java.util.Map;
+<i class="no-highlight">12</i>&nbsp;import java.util.logging.Level;
+<i class="no-highlight">13</i>&nbsp;import java.util.logging.Logger;
+<i class="no-highlight">14</i>&nbsp;
+<i class="no-highlight">15</i>&nbsp;/**
+<i class="no-highlight">16</i>&nbsp; * This class implements the server object
+<i class="no-highlight">17</i>&nbsp; * it handles the connections of the clients
+<i class="no-highlight">18</i>&nbsp; * it is also used to manage the creation and join of the lobbies
+<i class="no-highlight">19</i>&nbsp; */
+<i class="no-highlight">20</i>&nbsp;public class Server {
+<i class="no-highlight">21</i>&nbsp;    public static final int SERVERID = 9999;
+<b class="fc"><i class="no-highlight">22</i>&nbsp;    private final Logger logger = Logger.getLogger(getClass().getName());</b>
+<i class="no-highlight">23</i>&nbsp;    private final Map&lt;Integer, RemoteView&gt; remoteViewMap; //player id - remote view
+<i class="no-highlight">24</i>&nbsp;    private final Map&lt;Integer, SocketClientManager&gt; idSocketMap; //player id - socket
+<i class="no-highlight">25</i>&nbsp;    private final Map&lt;SocketClientManager, Integer&gt; socketIdMap; //socket - player id
+<i class="no-highlight">26</i>&nbsp;    private final Map&lt;Integer, Controller&gt; playerControllerMap; //player id - associated controller
+<i class="no-highlight">27</i>&nbsp;    private final Map&lt;String, Controller&gt; controllersMap; //controller name - controller
+<i class="no-highlight">28</i>&nbsp;    private final List&lt;Player&gt; allPlayersList;
+<i class="no-highlight">29</i>&nbsp;    private final List&lt;Player&gt; watchingLobbiesPlayersList;
+<b class="fc"><i class="no-highlight">30</i>&nbsp;    private int playersIdCounter = 0;</b>
+<i class="no-highlight">31</i>&nbsp;
+<i class="no-highlight">32</i>&nbsp;    /**
+<i class="no-highlight">33</i>&nbsp;     * Default constructor
+<i class="no-highlight">34</i>&nbsp;     *
+<i class="no-highlight">35</i>&nbsp;     * @param port the port on witch the server will listen
+<i class="no-highlight">36</i>&nbsp;     */
+<b class="fc"><i class="no-highlight">37</i>&nbsp;    public Server(int port) {</b>
+<b class="fc"><i class="no-highlight">38</i>&nbsp;        remoteViewMap = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">39</i>&nbsp;        idSocketMap = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">40</i>&nbsp;        socketIdMap = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">41</i>&nbsp;        playerControllerMap = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">42</i>&nbsp;        controllersMap = new HashMap&lt;&gt;();</b>
+<i class="no-highlight">43</i>&nbsp;
+<b class="fc"><i class="no-highlight">44</i>&nbsp;        allPlayersList = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">45</i>&nbsp;        watchingLobbiesPlayersList = new ArrayList&lt;&gt;();</b>
+<i class="no-highlight">46</i>&nbsp;
+<b class="fc"><i class="no-highlight">47</i>&nbsp;        SocketServerManager serverManager = new SocketServerManager(this, port);</b>
+<b class="fc"><i class="no-highlight">48</i>&nbsp;        Thread thread = new Thread(serverManager, &quot;server&quot;);</b>
+<b class="fc"><i class="no-highlight">49</i>&nbsp;        thread.start();</b>
+<i class="no-highlight">50</i>&nbsp;    }
+<i class="no-highlight">51</i>&nbsp;
+<i class="no-highlight">52</i>&nbsp;    /**
+<i class="no-highlight">53</i>&nbsp;     * Called from a client thread when arrives a message of initialization
+<i class="no-highlight">54</i>&nbsp;     * it gives the message to the correct function
+<i class="no-highlight">55</i>&nbsp;     *
+<i class="no-highlight">56</i>&nbsp;     * @param message       received init message
+<i class="no-highlight">57</i>&nbsp;     * @param socketManager reference of the socketManager that received the message
+<i class="no-highlight">58</i>&nbsp;     */
+<i class="no-highlight">59</i>&nbsp;    public synchronized void onInitMessageReceived(Message message, SocketClientManager socketManager) {
+<b class="nc"><i class="no-highlight">60</i>&nbsp;        logger.log(Level.INFO, message.getMessageType() + &quot; received from client &quot; + message.getSenderId());</b>
+<i class="no-highlight">61</i>&nbsp;
+<b class="nc"><i class="no-highlight">62</i>&nbsp;        switch (message.getMessageType()) {</b>
+<i class="no-highlight">63</i>&nbsp;            case LOGIN_REQUEST:
+<b class="nc"><i class="no-highlight">64</i>&nbsp;                StringMessage stringMessage = (StringMessage) message;</b>
+<b class="nc"><i class="no-highlight">65</i>&nbsp;                createPlayer(stringMessage.getString(), socketManager);</b>
+<b class="nc"><i class="no-highlight">66</i>&nbsp;                break;</b>
+<i class="no-highlight">67</i>&nbsp;            case NEW_LOBBY_REQUEST:
+<b class="nc"><i class="no-highlight">68</i>&nbsp;                NewLobbyMessage newLobbyMessage = (NewLobbyMessage) message;</b>
+<b class="nc"><i class="no-highlight">69</i>&nbsp;                newLobby(newLobbyMessage.getSenderId(), newLobbyMessage.getLobby());</b>
+<b class="nc"><i class="no-highlight">70</i>&nbsp;                break;</b>
+<i class="no-highlight">71</i>&nbsp;            case LOBBIES_REQUEST:
+<b class="nc"><i class="no-highlight">72</i>&nbsp;                sendAvailableLobbies(message.getSenderId());</b>
+<b class="nc"><i class="no-highlight">73</i>&nbsp;                break;</b>
+<i class="no-highlight">74</i>&nbsp;            case CHOOSE_LOBBY:
+<b class="nc"><i class="no-highlight">75</i>&nbsp;                StringMessage stringMessage1 = (StringMessage) message;</b>
+<b class="nc"><i class="no-highlight">76</i>&nbsp;                addToLobby(stringMessage1.getSenderId(), stringMessage1.getString());</b>
+<i class="no-highlight">77</i>&nbsp;                break;
+<i class="no-highlight">78</i>&nbsp;        }
+<i class="no-highlight">79</i>&nbsp;
+<i class="no-highlight">80</i>&nbsp;    }
+<i class="no-highlight">81</i>&nbsp;
+<i class="no-highlight">82</i>&nbsp;    /**
+<i class="no-highlight">83</i>&nbsp;     * creates and stores a player
+<i class="no-highlight">84</i>&nbsp;     * it assigns a new id to the created player
+<i class="no-highlight">85</i>&nbsp;     * check if the name is valid
+<i class="no-highlight">86</i>&nbsp;     *
+<i class="no-highlight">87</i>&nbsp;     * @param name          player name
+<i class="no-highlight">88</i>&nbsp;     * @param socketManager reference of the socketManager that received the message
+<i class="no-highlight">89</i>&nbsp;     */
+<i class="no-highlight">90</i>&nbsp;    private void createPlayer(String name, SocketClientManager socketManager) {
+<b class="nc"><i class="no-highlight">91</i>&nbsp;        if (checkName(name) &amp;&amp; socketIdMap.get(socketManager) == null) {</b>
+<b class="nc"><i class="no-highlight">92</i>&nbsp;            playersIdCounter++;</b>
+<b class="nc"><i class="no-highlight">93</i>&nbsp;            Player player = new Player(name, playersIdCounter);</b>
+<b class="nc"><i class="no-highlight">94</i>&nbsp;            allPlayersList.add(player);</b>
+<b class="nc"><i class="no-highlight">95</i>&nbsp;            idSocketMap.put(playersIdCounter, socketManager);</b>
+<b class="nc"><i class="no-highlight">96</i>&nbsp;            socketIdMap.put(socketManager, playersIdCounter);</b>
+<b class="nc"><i class="no-highlight">97</i>&nbsp;            RemoteView remoteView = new RemoteView(socketManager);</b>
+<b class="nc"><i class="no-highlight">98</i>&nbsp;            socketManager.setRemoteView(remoteView);</b>
+<b class="nc"><i class="no-highlight">99</i>&nbsp;            remoteViewMap.put(playersIdCounter, remoteView);</b>
+<i class="no-highlight">100</i>&nbsp;
+<b class="nc"><i class="no-highlight">101</i>&nbsp;            socketManager.sendMessage(new StringMessage(MessageType.LOGIN_REPLY, SERVERID, true, playersIdCounter + &quot;&quot;));</b>
+<b class="nc"><i class="no-highlight">102</i>&nbsp;            logger.log(Level.INFO, &quot;added new player &quot; + name + &quot; id: &quot; + playersIdCounter);</b>
+<b class="nc"><i class="no-highlight">103</i>&nbsp;        } else {</b>
+<b class="nc"><i class="no-highlight">104</i>&nbsp;            socketManager.sendMessage(new StringMessage(MessageType.ERROR_REPLY, SERVERID, true, &quot;Nickname already used or empty&quot;));</b>
+<i class="no-highlight">105</i>&nbsp;        }
+<i class="no-highlight">106</i>&nbsp;    }
+<i class="no-highlight">107</i>&nbsp;
+<i class="no-highlight">108</i>&nbsp;    /**
+<i class="no-highlight">109</i>&nbsp;     * send the available lobbies to the player
+<i class="no-highlight">110</i>&nbsp;     * called when player choose join
+<i class="no-highlight">111</i>&nbsp;     *
+<i class="no-highlight">112</i>&nbsp;     * @param senderId id of the player
+<i class="no-highlight">113</i>&nbsp;     */
+<i class="no-highlight">114</i>&nbsp;    private void sendAvailableLobbies(int senderId) { //the player requested join game, so he remains waiting for a lobby to play
+<b class="nc"><i class="no-highlight">115</i>&nbsp;        SocketClientManager destSocket = idSocketMap.get(senderId);</b>
+<b class="nc"><i class="no-highlight">116</i>&nbsp;        Player player = getPlayerById(senderId);</b>
+<b class="nc"><i class="no-highlight">117</i>&nbsp;        if (watchingLobbiesPlayersList.contains(player)) {</b>
+<b class="nc"><i class="no-highlight">118</i>&nbsp;            sendError(senderId, &quot;Command not available in this moment&quot;);</b>
+<b class="nc"><i class="no-highlight">119</i>&nbsp;        } else if (playerControllerMap.get(senderId) != null) {</b>
+<b class="nc"><i class="no-highlight">120</i>&nbsp;            sendError(senderId, &quot;Command not available in this moment&quot;);</b>
+<i class="no-highlight">121</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">122</i>&nbsp;            watchingLobbiesPlayersList.add(player);</b>
+<b class="nc"><i class="no-highlight">123</i>&nbsp;            LobbyMessage lobbyMessage = new LobbyMessage(SERVERID, getAvailableLobbiesList());</b>
+<b class="nc"><i class="no-highlight">124</i>&nbsp;            destSocket.sendMessage(lobbyMessage);</b>
+<i class="no-highlight">125</i>&nbsp;        }
+<i class="no-highlight">126</i>&nbsp;    }
+<i class="no-highlight">127</i>&nbsp;
+<i class="no-highlight">128</i>&nbsp;    /**
+<i class="no-highlight">129</i>&nbsp;     * creates a new lobby and its controller
+<i class="no-highlight">130</i>&nbsp;     * add the player which created the lobby
+<i class="no-highlight">131</i>&nbsp;     *
+<i class="no-highlight">132</i>&nbsp;     * @param senderId id of the player
+<i class="no-highlight">133</i>&nbsp;     * @param lobby    lobby object
+<i class="no-highlight">134</i>&nbsp;     */
+<i class="no-highlight">135</i>&nbsp;    private void newLobby(int senderId, Lobby lobby) {
+<b class="nc"><i class="no-highlight">136</i>&nbsp;        if (playerControllerMap.get(senderId) != null) { //player already associated to a controller</b>
+<b class="nc"><i class="no-highlight">137</i>&nbsp;            sendError(senderId, &quot;Command not available in this moment&quot;);</b>
+<b class="nc"><i class="no-highlight">138</i>&nbsp;        } else if (!checkControllerName(lobby.getName())) { //name already used</b>
+<b class="nc"><i class="no-highlight">139</i>&nbsp;            sendError(senderId, &quot;The requested name is already used&quot;);</b>
+<b class="nc"><i class="no-highlight">140</i>&nbsp;        } else if (watchingLobbiesPlayersList.contains(getPlayerById(senderId))) { //the user is in choose lobby mode</b>
+<b class="nc"><i class="no-highlight">141</i>&nbsp;            sendError(senderId, &quot;Command not available in this moment&quot;);</b>
+<b class="nc"><i class="no-highlight">142</i>&nbsp;        } else if (lobby.getNumOfPlayers() &lt; 2 || lobby.getNumOfPlayers() &gt; 4) { //wrong parameters</b>
+<b class="nc"><i class="no-highlight">143</i>&nbsp;            sendError(senderId, &quot;The parameters are not correct&quot;);</b>
+<i class="no-highlight">144</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">145</i>&nbsp;            Controller controller = new Controller();</b>
+<b class="nc"><i class="no-highlight">146</i>&nbsp;            controller.setServer(this);</b>
+<b class="nc"><i class="no-highlight">147</i>&nbsp;            controller.configure(lobby.getNumOfPlayers(), lobby.isExpertMode());</b>
+<b class="nc"><i class="no-highlight">148</i>&nbsp;            controllersMap.put(lobby.getName(), controller);</b>
+<i class="no-highlight">149</i>&nbsp;
+<b class="nc"><i class="no-highlight">150</i>&nbsp;            addToLobby(senderId, lobby.getName());</b>
+<i class="no-highlight">151</i>&nbsp;        }
+<i class="no-highlight">152</i>&nbsp;    }
+<i class="no-highlight">153</i>&nbsp;
+<i class="no-highlight">154</i>&nbsp;    /**
+<i class="no-highlight">155</i>&nbsp;     * add a player that choose join to the selected lobby
+<i class="no-highlight">156</i>&nbsp;     *
+<i class="no-highlight">157</i>&nbsp;     * @param senderId  id of the player
+<i class="no-highlight">158</i>&nbsp;     * @param lobbyName name of the lobby
+<i class="no-highlight">159</i>&nbsp;     */
+<i class="no-highlight">160</i>&nbsp;    private void addToLobby(int senderId, String lobbyName) {
+<b class="nc"><i class="no-highlight">161</i>&nbsp;        Player player = getPlayerById(senderId);</b>
+<b class="nc"><i class="no-highlight">162</i>&nbsp;        Controller controller = getLobbyByName(lobbyName);</b>
+<i class="no-highlight">163</i>&nbsp;
+<b class="nc"><i class="no-highlight">164</i>&nbsp;        if (playerControllerMap.get(senderId) != null) {</b>
+<b class="nc"><i class="no-highlight">165</i>&nbsp;            sendError(senderId, &quot;Command not available in this moment&quot;);</b>
+<b class="nc"><i class="no-highlight">166</i>&nbsp;        } else if (controller == null) {</b>
+<b class="nc"><i class="no-highlight">167</i>&nbsp;            sendError(senderId, &quot;The requested controller does not exist&quot;);</b>
+<b class="nc"><i class="no-highlight">168</i>&nbsp;        } else if (!controller.isOpen()) {</b>
+<b class="nc"><i class="no-highlight">169</i>&nbsp;            sendError(senderId, &quot;The selected controller is closed&quot;);</b>
+<i class="no-highlight">170</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">171</i>&nbsp;            playerControllerMap.put(senderId, controller);</b>
+<b class="nc"><i class="no-highlight">172</i>&nbsp;            RemoteView remoteView = getRemoteViewByPlayerId(senderId);</b>
+<b class="nc"><i class="no-highlight">173</i>&nbsp;            controller.getGame().addObserver(remoteView);</b>
+<b class="nc"><i class="no-highlight">174</i>&nbsp;            remoteView.addObserver(controller);</b>
+<b class="nc"><i class="no-highlight">175</i>&nbsp;            controller.addPlayer(player);</b>
+<b class="nc"><i class="no-highlight">176</i>&nbsp;            watchingLobbiesPlayersList.remove(player); //if the player choose new game the method applies no changes on the list</b>
+<i class="no-highlight">177</i>&nbsp;
+<b class="nc"><i class="no-highlight">178</i>&nbsp;            logger.log(Level.INFO, &quot;added player &quot; + senderId + &quot; to lobby &quot; + lobbyName);</b>
+<i class="no-highlight">179</i>&nbsp;
+<i class="no-highlight">180</i>&nbsp;            //if a user entered a lobby we update the list for everybody waiting
+<b class="nc"><i class="no-highlight">181</i>&nbsp;            broadcastAvailableLobbies();</b>
+<i class="no-highlight">182</i>&nbsp;        }
+<i class="no-highlight">183</i>&nbsp;    }
+<i class="no-highlight">184</i>&nbsp;
+<i class="no-highlight">185</i>&nbsp;    /**
+<i class="no-highlight">186</i>&nbsp;     * handle disconnection of a client
+<i class="no-highlight">187</i>&nbsp;     * closes the open game if exist
+<i class="no-highlight">188</i>&nbsp;     * send the disconnection message to the other clients
+<i class="no-highlight">189</i>&nbsp;     *
+<i class="no-highlight">190</i>&nbsp;     * @param client socket which disconnected
+<i class="no-highlight">191</i>&nbsp;     */
+<i class="no-highlight">192</i>&nbsp;    public synchronized void onDisconnect(SocketClientManager client) {
+<b class="nc"><i class="no-highlight">193</i>&nbsp;        Integer playerId = socketIdMap.get(client);</b>
+<i class="no-highlight">194</i>&nbsp;
+<b class="nc"><i class="no-highlight">195</i>&nbsp;        if (playerId != null) {</b>
+<b class="nc"><i class="no-highlight">196</i>&nbsp;            Player disconnectedPlayer = getPlayerById(playerId);</b>
+<b class="nc"><i class="no-highlight">197</i>&nbsp;            Controller controller = playerControllerMap.get(disconnectedPlayer.getId());</b>
+<i class="no-highlight">198</i>&nbsp;
+<b class="nc"><i class="no-highlight">199</i>&nbsp;            if (controller != null) {</b>
+<b class="nc"><i class="no-highlight">200</i>&nbsp;                broadcastDisconnectionToLobby(controller, disconnectedPlayer);</b>
+<b class="nc"><i class="no-highlight">201</i>&nbsp;                deleteLobby(controller);</b>
+<i class="no-highlight">202</i>&nbsp;            }
+<i class="no-highlight">203</i>&nbsp;
+<b class="nc"><i class="no-highlight">204</i>&nbsp;            socketIdMap.remove(client);</b>
+<b class="nc"><i class="no-highlight">205</i>&nbsp;            idSocketMap.remove(disconnectedPlayer.getId());</b>
+<b class="nc"><i class="no-highlight">206</i>&nbsp;            remoteViewMap.remove(disconnectedPlayer.getId());</b>
+<b class="nc"><i class="no-highlight">207</i>&nbsp;            allPlayersList.remove(disconnectedPlayer);</b>
+<b class="nc"><i class="no-highlight">208</i>&nbsp;            watchingLobbiesPlayersList.remove(disconnectedPlayer);</b>
+<i class="no-highlight">209</i>&nbsp;
+<b class="nc"><i class="no-highlight">210</i>&nbsp;            if (controller != null &amp;&amp; controller.isOpen()) {</b>
+<b class="nc"><i class="no-highlight">211</i>&nbsp;                broadcastAvailableLobbies();</b>
+<i class="no-highlight">212</i>&nbsp;            }
+<i class="no-highlight">213</i>&nbsp;
+<b class="nc"><i class="no-highlight">214</i>&nbsp;            logger.log(Level.INFO, &quot;removed disconnected player &quot; + disconnectedPlayer.getName());</b>
+<i class="no-highlight">215</i>&nbsp;        }
+<i class="no-highlight">216</i>&nbsp;
+<i class="no-highlight">217</i>&nbsp;    }
+<i class="no-highlight">218</i>&nbsp;
+<i class="no-highlight">219</i>&nbsp;    /**
+<i class="no-highlight">220</i>&nbsp;     * send the disconnection message to all clients in a lobby
+<i class="no-highlight">221</i>&nbsp;     *
+<i class="no-highlight">222</i>&nbsp;     * @param controller         closed controller
+<i class="no-highlight">223</i>&nbsp;     * @param disconnectedPlayer player that disconnected
+<i class="no-highlight">224</i>&nbsp;     */
+<i class="no-highlight">225</i>&nbsp;    private void broadcastDisconnectionToLobby(Controller controller, Player disconnectedPlayer) {
+<b class="nc"><i class="no-highlight">226</i>&nbsp;        for (Integer playerId : playerControllerMap.keySet()) {</b>
+<b class="nc"><i class="no-highlight">227</i>&nbsp;            if (playerControllerMap.get(playerId) == controller &amp;&amp; playerId != disconnectedPlayer.getId()) {</b>
+<b class="nc"><i class="no-highlight">228</i>&nbsp;                idSocketMap.get(playerId).sendMessage(new StringMessage(MessageType.DISCONNECTION, SERVERID, true, disconnectedPlayer.getName()));</b>
+<i class="no-highlight">229</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">230</i>&nbsp;        }</b>
+<i class="no-highlight">231</i>&nbsp;    }
+<i class="no-highlight">232</i>&nbsp;
+<i class="no-highlight">233</i>&nbsp;
+<i class="no-highlight">234</i>&nbsp;    /**
+<i class="no-highlight">235</i>&nbsp;     * check for finished game and remove that
+<i class="no-highlight">236</i>&nbsp;     */
+<i class="no-highlight">237</i>&nbsp;    public synchronized void removeFinishedController() {
+<b class="nc"><i class="no-highlight">238</i>&nbsp;        List&lt;String&gt; controllersToRemove = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">239</i>&nbsp;        for (String s : controllersMap.keySet()) {</b>
+<b class="nc"><i class="no-highlight">240</i>&nbsp;            if (controllersMap.get(s).isFinished()) {</b>
+<b class="nc"><i class="no-highlight">241</i>&nbsp;                controllersToRemove.add(s);</b>
+<i class="no-highlight">242</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">243</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">244</i>&nbsp;        for (String name : controllersToRemove) {</b>
+<b class="nc"><i class="no-highlight">245</i>&nbsp;            deleteLobby(controllersMap.get(name));</b>
+<b class="nc"><i class="no-highlight">246</i>&nbsp;        }</b>
+<i class="no-highlight">247</i>&nbsp;    }
+<i class="no-highlight">248</i>&nbsp;
+<i class="no-highlight">249</i>&nbsp;    /**
+<i class="no-highlight">250</i>&nbsp;     * delete a lobby
+<i class="no-highlight">251</i>&nbsp;     * removes controller and all observers
+<i class="no-highlight">252</i>&nbsp;     *
+<i class="no-highlight">253</i>&nbsp;     * @param controller controller to close
+<i class="no-highlight">254</i>&nbsp;     */
+<i class="no-highlight">255</i>&nbsp;    public void deleteLobby(Controller controller) {
+<b class="nc"><i class="no-highlight">256</i>&nbsp;        List&lt;Integer&gt; playersToRemove = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">257</i>&nbsp;        String controllerToRemove = null;</b>
+<i class="no-highlight">258</i>&nbsp;
+<i class="no-highlight">259</i>&nbsp;
+<b class="nc"><i class="no-highlight">260</i>&nbsp;        for (Integer playerId : playerControllerMap.keySet()) { //finds the player in the controller</b>
+<b class="nc"><i class="no-highlight">261</i>&nbsp;            if (playerControllerMap.get(playerId) == controller) {</b>
+<b class="nc"><i class="no-highlight">262</i>&nbsp;                playersToRemove.add(playerId);</b>
+<i class="no-highlight">263</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">264</i>&nbsp;        }</b>
+<i class="no-highlight">265</i>&nbsp;
+<b class="nc"><i class="no-highlight">266</i>&nbsp;        for (String controllerName : controllersMap.keySet()) { //finds the name of the controller</b>
+<b class="nc"><i class="no-highlight">267</i>&nbsp;            if (controllersMap.get(controllerName) == controller) {</b>
+<b class="nc"><i class="no-highlight">268</i>&nbsp;                controllerToRemove = controllerName;</b>
+<b class="nc"><i class="no-highlight">269</i>&nbsp;                break;</b>
+<i class="no-highlight">270</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">271</i>&nbsp;        }</b>
+<i class="no-highlight">272</i>&nbsp;
+<i class="no-highlight">273</i>&nbsp;        //remove the players from player-controller association map
+<b class="nc"><i class="no-highlight">274</i>&nbsp;        for (Integer id : playersToRemove) {</b>
+<b class="nc"><i class="no-highlight">275</i>&nbsp;            RemoteView remoteView = getRemoteViewByPlayerId(id);</b>
+<b class="nc"><i class="no-highlight">276</i>&nbsp;            remoteView.removeObserver(controller);</b>
+<b class="nc"><i class="no-highlight">277</i>&nbsp;            controller.getGame().removeObserver(remoteView);</b>
+<b class="nc"><i class="no-highlight">278</i>&nbsp;            playerControllerMap.remove(id);</b>
+<b class="nc"><i class="no-highlight">279</i>&nbsp;            getPlayerById(id).reset();</b>
+<b class="nc"><i class="no-highlight">280</i>&nbsp;        }</b>
+<i class="no-highlight">281</i>&nbsp;
+<i class="no-highlight">282</i>&nbsp;        //remove the controller from the controllers map
+<b class="nc"><i class="no-highlight">283</i>&nbsp;        controllersMap.remove(controllerToRemove);</b>
+<b class="nc"><i class="no-highlight">284</i>&nbsp;        logger.log(Level.INFO, &quot;removed controller &quot; + controllerToRemove);</b>
+<i class="no-highlight">285</i>&nbsp;    }
+<i class="no-highlight">286</i>&nbsp;
+<i class="no-highlight">287</i>&nbsp;    /**
+<i class="no-highlight">288</i>&nbsp;     * get the player object with requested id
+<i class="no-highlight">289</i>&nbsp;     *
+<i class="no-highlight">290</i>&nbsp;     * @param id
+<i class="no-highlight">291</i>&nbsp;     * @return a player chosen by id
+<i class="no-highlight">292</i>&nbsp;     */
+<i class="no-highlight">293</i>&nbsp;    private Player getPlayerById(int id) {
+<b class="nc"><i class="no-highlight">294</i>&nbsp;        for (Player p : allPlayersList) {</b>
+<b class="nc"><i class="no-highlight">295</i>&nbsp;            if (p.getId() == id) {</b>
+<b class="nc"><i class="no-highlight">296</i>&nbsp;                return p;</b>
+<i class="no-highlight">297</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">298</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">299</i>&nbsp;        return null;</b>
+<i class="no-highlight">300</i>&nbsp;    }
+<i class="no-highlight">301</i>&nbsp;
+<i class="no-highlight">302</i>&nbsp;    /**
+<i class="no-highlight">303</i>&nbsp;     * check if the selected name is valid
+<i class="no-highlight">304</i>&nbsp;     *
+<i class="no-highlight">305</i>&nbsp;     * @param name
+<i class="no-highlight">306</i>&nbsp;     * @return true if valid, false if not valid
+<i class="no-highlight">307</i>&nbsp;     */
+<i class="no-highlight">308</i>&nbsp;    private boolean checkName(String name) {
+<b class="nc"><i class="no-highlight">309</i>&nbsp;        if (name == null || name.isEmpty()) {</b>
+<b class="nc"><i class="no-highlight">310</i>&nbsp;            return false;</b>
+<i class="no-highlight">311</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">312</i>&nbsp;        for (Player p : allPlayersList) {</b>
+<b class="nc"><i class="no-highlight">313</i>&nbsp;            if (p.getName().equals(name)) {</b>
+<b class="nc"><i class="no-highlight">314</i>&nbsp;                return false;</b>
+<i class="no-highlight">315</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">316</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">317</i>&nbsp;        return true;</b>
+<i class="no-highlight">318</i>&nbsp;    }
+<i class="no-highlight">319</i>&nbsp;
+<i class="no-highlight">320</i>&nbsp;    /**
+<i class="no-highlight">321</i>&nbsp;     * check if the choosen name for the controller is valid
+<i class="no-highlight">322</i>&nbsp;     *
+<i class="no-highlight">323</i>&nbsp;     * @param name
+<i class="no-highlight">324</i>&nbsp;     * @return true if valid, false if not valid
+<i class="no-highlight">325</i>&nbsp;     */
+<i class="no-highlight">326</i>&nbsp;    private boolean checkControllerName(String name) {
+<b class="nc"><i class="no-highlight">327</i>&nbsp;        if (name == null || name.isEmpty()) {</b>
+<b class="nc"><i class="no-highlight">328</i>&nbsp;            return false;</b>
+<i class="no-highlight">329</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">330</i>&nbsp;        for (String controllerName : controllersMap.keySet()) {</b>
+<b class="nc"><i class="no-highlight">331</i>&nbsp;            if (controllerName.equals(name)) {</b>
+<b class="nc"><i class="no-highlight">332</i>&nbsp;                return false;</b>
+<i class="no-highlight">333</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">334</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">335</i>&nbsp;        return true;</b>
+<i class="no-highlight">336</i>&nbsp;    }
+<i class="no-highlight">337</i>&nbsp;
+<i class="no-highlight">338</i>&nbsp;    /**
+<i class="no-highlight">339</i>&nbsp;     * get the RemoteView object with requested id
+<i class="no-highlight">340</i>&nbsp;     *
+<i class="no-highlight">341</i>&nbsp;     * @param id
+<i class="no-highlight">342</i>&nbsp;     * @return requested RemoteView or null if not exist
+<i class="no-highlight">343</i>&nbsp;     */
+<i class="no-highlight">344</i>&nbsp;    public RemoteView getRemoteViewByPlayerId(int id) {
+<b class="nc"><i class="no-highlight">345</i>&nbsp;        return remoteViewMap.get(id);</b>
+<i class="no-highlight">346</i>&nbsp;    }
+<i class="no-highlight">347</i>&nbsp;
+<i class="no-highlight">348</i>&nbsp;    /**
+<i class="no-highlight">349</i>&nbsp;     * get the lobby by name
+<i class="no-highlight">350</i>&nbsp;     *
+<i class="no-highlight">351</i>&nbsp;     * @param lobby
+<i class="no-highlight">352</i>&nbsp;     * @return requested controller or null if not exist
+<i class="no-highlight">353</i>&nbsp;     */
+<i class="no-highlight">354</i>&nbsp;    private Controller getLobbyByName(String lobby) {
+<b class="nc"><i class="no-highlight">355</i>&nbsp;        return controllersMap.get(lobby);</b>
+<i class="no-highlight">356</i>&nbsp;    }
+<i class="no-highlight">357</i>&nbsp;
+<i class="no-highlight">358</i>&nbsp;    /**
+<i class="no-highlight">359</i>&nbsp;     * @return list of the open lobbies
+<i class="no-highlight">360</i>&nbsp;     */
+<i class="no-highlight">361</i>&nbsp;    private List&lt;Lobby&gt; getAvailableLobbiesList() {
+<b class="nc"><i class="no-highlight">362</i>&nbsp;        List&lt;Lobby&gt; availableLobbiesList = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">363</i>&nbsp;        for (String s : controllersMap.keySet()) {</b>
+<b class="nc"><i class="no-highlight">364</i>&nbsp;            Controller c = controllersMap.get(s);</b>
+<b class="nc"><i class="no-highlight">365</i>&nbsp;            if (c.isOpen()) {</b>
+<b class="nc"><i class="no-highlight">366</i>&nbsp;                availableLobbiesList.add(new Lobby(c.getNumOfPlayer(), c.getActualNumOfPlayers(), c.getExpertMode(), s));</b>
+<i class="no-highlight">367</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">368</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">369</i>&nbsp;        return availableLobbiesList;</b>
+<i class="no-highlight">370</i>&nbsp;    }
+<i class="no-highlight">371</i>&nbsp;
+<i class="no-highlight">372</i>&nbsp;    /**
+<i class="no-highlight">373</i>&nbsp;     * check for network security if the id is correctly associated with the socketManager
+<i class="no-highlight">374</i>&nbsp;     *
+<i class="no-highlight">375</i>&nbsp;     * @param message
+<i class="no-highlight">376</i>&nbsp;     * @param socketManager
+<i class="no-highlight">377</i>&nbsp;     * @return true if found, false if not found
+<i class="no-highlight">378</i>&nbsp;     */
+<i class="no-highlight">379</i>&nbsp;    public boolean checkIdSocket(Message message, SocketClientManager socketManager) {
+<b class="nc"><i class="no-highlight">380</i>&nbsp;        if (message.getMessageType() != MessageType.LOGIN_REQUEST &amp;&amp; idSocketMap.get(message.getSenderId()) != socketManager) {</b>
+<b class="nc"><i class="no-highlight">381</i>&nbsp;            logger.log(Level.SEVERE, &quot;Received message with invalid id&quot;);</b>
+<b class="nc"><i class="no-highlight">382</i>&nbsp;            return false;</b>
+<i class="no-highlight">383</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">384</i>&nbsp;        return true;</b>
+<i class="no-highlight">385</i>&nbsp;    }
+<i class="no-highlight">386</i>&nbsp;
+<i class="no-highlight">387</i>&nbsp;    /**
+<i class="no-highlight">388</i>&nbsp;     * send error message to a specific client
+<i class="no-highlight">389</i>&nbsp;     *
+<i class="no-highlight">390</i>&nbsp;     * @param clientId client that generated the error
+<i class="no-highlight">391</i>&nbsp;     * @param error    text of the error
+<i class="no-highlight">392</i>&nbsp;     */
+<i class="no-highlight">393</i>&nbsp;    private void sendError(int clientId, String error) {
+<b class="nc"><i class="no-highlight">394</i>&nbsp;        idSocketMap.get(clientId).sendMessage(new StringMessage(MessageType.ERROR_REPLY, SERVERID, true, error));</b>
+<i class="no-highlight">395</i>&nbsp;    }
+<i class="no-highlight">396</i>&nbsp;
+<i class="no-highlight">397</i>&nbsp;
+<i class="no-highlight">398</i>&nbsp;    /**
+<i class="no-highlight">399</i>&nbsp;     * sends to all players in pre-lobby an update of the available lobbies
+<i class="no-highlight">400</i>&nbsp;     */
+<i class="no-highlight">401</i>&nbsp;    private void broadcastAvailableLobbies() {
+<b class="nc"><i class="no-highlight">402</i>&nbsp;        for (Player waitingPlayer : watchingLobbiesPlayersList) {</b>
+<b class="nc"><i class="no-highlight">403</i>&nbsp;            SocketClientManager destSocket = idSocketMap.get(waitingPlayer.getId());</b>
+<b class="nc"><i class="no-highlight">404</i>&nbsp;            LobbyMessage lobbyMessage = new LobbyMessage(SERVERID, getAvailableLobbiesList());</b>
+<b class="nc"><i class="no-highlight">405</i>&nbsp;            destSocket.sendMessage(lobbyMessage);</b>
+<b class="nc"><i class="no-highlight">406</i>&nbsp;        }</b>
+<i class="no-highlight">407</i>&nbsp;    }
+<i class="no-highlight">408</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-29 20:56</div>
+</div>
+</body>
+</html>

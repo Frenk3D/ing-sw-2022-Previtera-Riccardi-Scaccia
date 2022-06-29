@@ -1,0 +1,150 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ColorCli</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view.cli</a>
+</div>
+
+<h1>Coverage Summary for Class: ColorCli (it.polimi.ingsw.view.cli)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ColorCli</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.view.cli;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;/**
+<i class="no-highlight">4</i>&nbsp; * This enum class contains all colors used in Cli.
+<i class="no-highlight">5</i>&nbsp; */
+<b class="nc"><i class="no-highlight">6</i>&nbsp;public enum ColorCli {</b>
+<i class="no-highlight">7</i>&nbsp;    //Color end string, color reset
+<b class="nc"><i class="no-highlight">8</i>&nbsp;    RESET(&quot;\033[0m&quot;),</b>
+<b class="nc"><i class="no-highlight">9</i>&nbsp;    CLEAR(&quot;\033[H\033[2J&quot;),</b>
+<i class="no-highlight">10</i>&nbsp;
+<i class="no-highlight">11</i>&nbsp;    // Regular Colors. Normal color, no bold, background color etc., for the islands etc...
+<b class="nc"><i class="no-highlight">12</i>&nbsp;    RED(&quot;\033[0;31m&quot;),      // RED</b>
+<b class="nc"><i class="no-highlight">13</i>&nbsp;    GREEN(&quot;\033[0;32m&quot;),    // GREEN  &quot;\u001B[32m&quot;</b>
+<b class="nc"><i class="no-highlight">14</i>&nbsp;    BLUE(&quot;\033[0;34m&quot;),     // BLUE</b>
+<i class="no-highlight">15</i>&nbsp;
+<i class="no-highlight">16</i>&nbsp;    // Bold for pawns and towers
+<b class="nc"><i class="no-highlight">17</i>&nbsp;    YELLOW_BOLD(&quot;\033[1;33m&quot;), // YELLOW</b>
+<b class="nc"><i class="no-highlight">18</i>&nbsp;    RED_BOLD(&quot;\033[1;31m&quot;),</b>
+<b class="nc"><i class="no-highlight">19</i>&nbsp;    GREEN_BOLD(&quot;\033[1;32m&quot;),</b>
+<b class="nc"><i class="no-highlight">20</i>&nbsp;    PINK_BOLD(&quot;\033[0;35m&quot;),</b>
+<b class="nc"><i class="no-highlight">21</i>&nbsp;    BLUE_BOLD(&quot;\033[1;34m&quot;),</b>
+<i class="no-highlight">22</i>&nbsp;
+<i class="no-highlight">23</i>&nbsp;    //background colors
+<b class="nc"><i class="no-highlight">24</i>&nbsp;    YELLOW_BG(&quot;\033[43m&quot;),</b>
+<b class="nc"><i class="no-highlight">25</i>&nbsp;    RED_BG(&quot;\033[41m&quot;),</b>
+<b class="nc"><i class="no-highlight">26</i>&nbsp;    GREEN_BG(&quot;\033[42m&quot;),</b>
+<b class="nc"><i class="no-highlight">27</i>&nbsp;    PINK_BG(&quot;\033[45m&quot;),</b>
+<b class="nc"><i class="no-highlight">28</i>&nbsp;    BLUE_BG(&quot;\033[44m&quot;),</b>
+<i class="no-highlight">29</i>&nbsp;
+<b class="nc"><i class="no-highlight">30</i>&nbsp;    BLACK_BOLD(&quot;\033[1;30m&quot;),</b>
+<b class="nc"><i class="no-highlight">31</i>&nbsp;    WHITE_BOLD(&quot;\033[37;1m&quot;),</b>
+<b class="nc"><i class="no-highlight">32</i>&nbsp;    GRAY_BOLD(&quot;\033[30;1m&quot;);  //bright black</b>
+<i class="no-highlight">33</i>&nbsp;
+<i class="no-highlight">34</i>&nbsp;
+<i class="no-highlight">35</i>&nbsp;    private final String code;
+<i class="no-highlight">36</i>&nbsp;
+<b class="nc"><i class="no-highlight">37</i>&nbsp;    ColorCli(String code) {</b>
+<b class="nc"><i class="no-highlight">38</i>&nbsp;        this.code = code;</b>
+<i class="no-highlight">39</i>&nbsp;    }
+<i class="no-highlight">40</i>&nbsp;
+<i class="no-highlight">41</i>&nbsp;    @Override
+<i class="no-highlight">42</i>&nbsp;    public String toString() {
+<b class="nc"><i class="no-highlight">43</i>&nbsp;        return code;</b>
+<i class="no-highlight">44</i>&nbsp;    }
+<i class="no-highlight">45</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-29 20:56</div>
+</div>
+</body>
+</html>
