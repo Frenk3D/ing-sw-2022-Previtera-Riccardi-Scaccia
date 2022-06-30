@@ -415,6 +415,7 @@ public class Controller implements Observer {
 
             if (game.isExpertMode() && game.getCurrRound().getCurrTurn().getUsedCharacter() != null && game.getCurrRound().getCurrTurn().getUsedCharacter().getId() == 2) {
                 ((Characters2and6and8and9) game.getCurrRound().getCurrTurn().getUsedCharacter()).modifiedUpdateProfessorsLists2(game.getPlayersList(), game.getCurrPlayer(), game.getTableProfessorsList());
+                game.sendAllDashboards();
             } else {
                 int updatedPlayer = game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(), game.getTableProfessorsList());
                 if (updatedPlayer != -1) {
