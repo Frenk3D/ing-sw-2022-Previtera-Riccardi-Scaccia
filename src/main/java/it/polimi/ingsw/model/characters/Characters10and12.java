@@ -38,15 +38,21 @@ public class Characters10and12 extends Character {
      */
     private boolean swapStudents10(Player cardPlayer, List<Integer> studentsIndexEntranceList, PawnColor hallStudentColor1, PawnColor hallStudentColor2, AtomicInteger tableMoney) {
         //if we swap students of the same colors, the ref of the students swapped are not right, but the colors yes, it's ok
-
         try {
+            int[] checkArray=new int[10];
             //check if selected students exist
             for (Integer i : studentsIndexEntranceList) {
                 if (cardPlayer.getDashboard().getEntranceStudentByIndex(i) == null) {
                     logger.log(Level.SEVERE, "selected entrance students does not exist");
                     return false;
                 }
+                checkArray[i]++;
+                if(checkArray[i]>1){
+                    logger.log(Level.SEVERE, "repeated entrance student");
+                    return false;
+                }
             }
+
             if (cardPlayer.getDashboard().getNumOfHallStudents(hallStudentColor1) == 0 || (hallStudentColor2 != null && cardPlayer.getDashboard().getNumOfHallStudents(hallStudentColor2) == 0) || (hallStudentColor1 == hallStudentColor2) && cardPlayer.getDashboard().getNumOfHallStudents(hallStudentColor1) == 1) {
                 logger.log(Level.SEVERE, "selected hall color not enough");
                 return false;
@@ -54,9 +60,7 @@ public class Characters10and12 extends Character {
 
             //add selected students to the hall
             List<Student> studentsToRemove = new ArrayList<>();
-            for (Integer i : studentsIndexEntranceList) {
-                PawnColor selectedColor = cardPlayer.getDashboard().getEntranceList().get(i).getColor(); //the ref of the students are different, but they are the same colors
-                //cardPlayer.getDashboard().getHallStudentsListByColor(selectedColor).add(cardPlayer.getDashboard().getEntranceList().get(i));
+            for (Integer i : studentsIndexEntranceList) { //the ref of the students are different, but they are the same colors
                 cardPlayer.getDashboard().addStudentHall(cardPlayer.getDashboard().getEntranceList().get(i), cardPlayer, tableMoney);
                 studentsToRemove.add(cardPlayer.getDashboard().getEntranceList().get(i));
             }

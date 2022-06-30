@@ -100,18 +100,29 @@ public class Characters1and7and11 extends Character {
      */
     private boolean moveStudent7(Player cardPlayer, List<Integer> studentsIndexList, List<Integer> studentsIndexEntranceList) {
         try {
-
+            int[] checkArray=new int[10];
             //check if selected students exist
             for (Integer i : studentsIndexEntranceList) {
                 if (cardPlayer.getDashboard().getEntranceStudentByIndex(i) == null) {
                     logger.log(Level.SEVERE, "selected entrance students does not exist");
                     return false;
                 }
+                checkArray[i]++;
+                if(checkArray[i]>1){
+                    logger.log(Level.SEVERE, "repeated entrance student");
+                    return false;
+                }
             }
 
+            checkArray = new int[10];
             for (Integer i : studentsIndexList) {
                 if (cardStudentsList.size() <= i || i < 0) {
                     logger.log(Level.SEVERE, "selected students from the card does not exist");
+                    return false;
+                }
+                checkArray[i]++;
+                if(checkArray[i]>1){
+                    logger.log(Level.SEVERE, "repeated card student");
                     return false;
                 }
             }
