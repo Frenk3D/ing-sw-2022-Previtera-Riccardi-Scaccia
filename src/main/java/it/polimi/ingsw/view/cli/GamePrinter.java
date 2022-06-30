@@ -27,17 +27,6 @@ public class GamePrinter {
      * @param clientGameModel the client's game model
      */
     public void print(ClientGameModel clientGameModel) { //this class is called by the Cli
-        /*
-        try {
-            new ProcessBuilder("cmd","/c","chcp 65001").inheritIO().start().waitFor();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
-
-
         String[] canvas = generateSquare(189, 50);
 
         boolean motherNatureHere = false;
