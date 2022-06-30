@@ -4,16 +4,15 @@
 
 ![alt text](src/main/resources/images/Eriantys_scatola3Dombra-600x600.png)
 
-![LOGO CRANIO CREATIONS_bianco](https://user-images.githubusercontent.com/61878014/175766658-f4e66d89-24ae-4f88-8744-b84a20189bfc.png)
   
 The game is playable starting a ServerApp and after using ClientApp CLI or GUI, the game is auto-guided to help the player to play.
 
 
 ## Gruppo GC02
 
-- ###  10651584  Francesco Riccardi Email: <br>francesco3.riccardi@mail.polimi.it / Cell. : +39 3313051309
-- ###  10724922  Nicolò Scaccia Email: <br>nicolo.scaccia@mail.polimi.it / Cell. : +39 3662607385
-- ###  10682248  Marco Luca Previtera Email: <br>marcoluca.previtera@mail.polimi.it / Cell. : +39 3466776801
+- ###  10651584  [Francesco Riccardi](https://github.com/Frenk3D) <br>Email: francesco3.riccardi@mail.polimi.it / Cell. : +39 3313051309
+- ###  10724922  [Nicolò Scaccia](https://github.com/NicoScaccia) <br>Email: nicolo.scaccia@mail.polimi.it / Cell. : +39 3662607385
+- ###  10682248  [Marco Luca Previtera](https://github.com/MarcoLucaPrevitera) <br>Email: marcoluca.previtera@mail.polimi.it / Cell. : +39 3466776801
 
   
   
@@ -45,9 +44,9 @@ The game is playable starting a ServerApp and after using ClientApp CLI or GUI, 
 
 ### How to use JARs (in the [deliverables folder](https://github.com/Frenk3D/ing-sw-2022-Previtera-Riccardi-Scaccia/tree/main/deliveries) ):
 We create it with Maven Shade Plugin  
-For server ...  java -jar deliveries\JARfull\artifacts\softend-GC02-server.jar (you can choose also the port with -p [])  
-For client-> cli: java -jar deliveries\JARfull\artifacts\softend-GC02-client  -c     
-GUI: java -jar java -jar deliveries\JARfull\artifacts\softend-GC02-client or with double-click on the file.
+For server     ``` java -jar deliveries\JARfull\artifacts\softend-GC02-server.jar [-p <port_number>] ```  
+For client-> cli: ``` java -jar deliveries\JARfull\artifacts\softend-GC02-client  -c   ```  
+GUI: java  ``` -jar deliveries\JARfull\artifacts\softend-GC02-client ```  or with double-click on the file.
 
 
 ### JavaDoc
@@ -59,12 +58,12 @@ Controller: ~73%  (methods that regards the communication are tested playing )
 Model: ~88%
   
   
-### Librerie e Plugins (utilizzati e consigliati dal corso)
-|Libreria/Plugin| Descrizione                                                                              |
-|---------------|------------------------------------------------------------------------------------------|
-|__Maven__| Strumento di automazione della compilazione utilizzato principalmente per progetti Java. |
-|__JavaFx__| Libreria grafica per realizzare interfacce utente (più innovativo di Swing).             |
-|__JUnit__| Framework di unit testing (consigliato dal corso).                                       |    
+### Libraries and Plugins (used and recommended by the course)
+| Library/Plugin | Description                                                                              |
+|----------------|------------------------------------------------------------------------------------------|
+| __Maven__      | Build automation tool used primarily for Java projects. |
+| __JavaFx__     | Graphic library to create user interfaces (more innovative than Swing).            |
+| __JUnit__      | Unit testing framework (recommended by the course).                                       |    
 
 ### Other useful info/links:
 Peer-reviews, JavaDoc (generable from intellij) and network protocol messages are in the deliverables folder.

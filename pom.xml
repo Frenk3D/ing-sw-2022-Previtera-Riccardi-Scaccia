@@ -10,7 +10,7 @@
 
 
     <name>softend-GC02</name>
-    <!-- <url>http://www.example.com</url> -->
+    <url>https://github.com/Frenk3D/ing-sw-2022-Previtera-Riccardi-Scaccia</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
