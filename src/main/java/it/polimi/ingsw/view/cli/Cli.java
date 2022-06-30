@@ -131,7 +131,7 @@ public class Cli extends View {
             scanner.reset();
         }
         catch (NoSuchElementException e) {
-            System.out.println("Exiting application...");
+            System.out.println("\nClosing connection...");
             System.exit(0);
         }
     }

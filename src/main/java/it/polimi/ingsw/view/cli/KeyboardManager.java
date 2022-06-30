@@ -40,7 +40,7 @@ public class KeyboardManager implements Runnable {
             try {
                 userInput = scanInput.nextLine(); //whenever the player presses enter this line gets executed
             } catch (NoSuchElementException e) {
-                System.out.println("Exiting application...");
+                System.out.println("\nClosing connection...");
                 System.exit(0);
             }
 
