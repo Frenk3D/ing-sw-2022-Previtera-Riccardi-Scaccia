@@ -9,10 +9,7 @@ import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.view.View;
 
 import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 //for CLI representation, we don't need some parameters because we have the instance of clientGameModel in keyboardManager and we have the GamePrinter, but the interface for GUI need?
 
@@ -84,53 +81,59 @@ public class Cli extends View {
      */
     @Override
     public void onAskServerInfo() {
-        //serverInfo is a map with ip and port, they are String, but we parse the port into an Integer
-        Map<String, String> serverInfo = new HashMap<>();
-        String defaultAddress = "localhost";
-        String defaultPort = "3333";
-        boolean validInput;
-        Scanner scanner = new Scanner(System.in);
+        try {
+            //serverInfo is a map with ip and port, they are String, but we parse the port into an Integer
+            Map<String, String> serverInfo = new HashMap<>();
+            String defaultAddress = "localhost";
+            String defaultPort = "3333";
+            boolean validInput;
+            Scanner scanner = new Scanner(System.in);
 
-        out.println("Please specify the following settings. The default value is shown between brackets.");
+            out.println("Please specify the following settings. The default value is shown between brackets.");
 
-        do {
-            out.print("Enter the server address [" + defaultAddress + "]: ");
-            String address = scanner.nextLine();
-            scanner.reset();
-            if (address.equals("") || address.equals(" ") || address.equals("\n")) {
-                serverInfo.put("address", defaultAddress);
-                validInput = true;
-            } else if (ClientController.isValidIpAddress(address)) {
-                serverInfo.put("address", address);
-                validInput = true;
-            } else {
-                out.println("Invalid address!");
-                clearCli();
-                validInput = false;
-            }
-        } while (!validInput);
-
-        do {
-            out.print("Enter the server port [" + defaultPort + "]: ");
-            String port = scanner.nextLine();
-            scanner.reset();
-
-            if (port.equals("") || port.equals(" ") || port.equals("\n")) {
-                serverInfo.put("port", defaultPort);
-                validInput = true;
-            } else {
-                if (ClientController.isValidPort(port)) {
-                    serverInfo.put("port", port);
+            do {
+                out.print("Enter the server address [" + defaultAddress + "]: ");
+                String address = scanner.nextLine();
+                scanner.reset();
+                if (address.equals("") || address.equals(" ") || address.equals("\n")) {
+                    serverInfo.put("address", defaultAddress);
+                    validInput = true;
+                } else if (ClientController.isValidIpAddress(address)) {
+                    serverInfo.put("address", address);
                     validInput = true;
                 } else {
-                    out.println("Invalid port!");
+                    out.println("Invalid address!");
+                    clearCli();
                     validInput = false;
                 }
-            }
-        } while (!validInput);
+            } while (!validInput);
 
-        notifyObserver(obs -> obs.onAskServerInfo(serverInfo));
-        scanner.reset();
+            do {
+                out.print("Enter the server port [" + defaultPort + "]: ");
+                String port = scanner.nextLine();
+                scanner.reset();
+
+                if (port.equals("") || port.equals(" ") || port.equals("\n")) {
+                    serverInfo.put("port", defaultPort);
+                    validInput = true;
+                } else {
+                    if (ClientController.isValidPort(port)) {
+                        serverInfo.put("port", port);
+                        validInput = true;
+                    } else {
+                        out.println("Invalid port!");
+                        validInput = false;
+                    }
+                }
+            } while (!validInput);
+
+            notifyObserver(obs -> obs.onAskServerInfo(serverInfo));
+            scanner.reset();
+        }
+        catch (NoSuchElementException e) {
+            System.out.println("Exiting application...");
+            System.exit(0);
+        }
     }
 
     @Override
