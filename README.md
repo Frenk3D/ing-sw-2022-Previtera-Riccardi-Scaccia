@@ -1,6 +1,6 @@
 ### ing-sw-2022-Previtera-Riccardi-Scaccia  
 
-# BoardGame [Eriantys](http://www.craniocreations.it/prodotto/santorini/).
+# BoardGame [Eriantys](http://www.craniocreations.it/prodotto/santorini/)
 
 ![alt text](src/main/resources/images/Eriantys_scatola3Dombra-600x600.png)
 
