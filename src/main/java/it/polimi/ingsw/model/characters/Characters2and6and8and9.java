@@ -287,7 +287,7 @@ public class Characters2and6and8and9 extends Character {
         if (island.getTowerColor() != null && island.getTowerColor().equals(currPlayer.getTowerColor())) {
             influence = influence + island.getWeight();
         }
-        if (currPlayer == cardPlayer) {
+        if (currPlayer == cardPlayer || teamPlayer == cardPlayer) {
             influence = influence + 2;
         }
         return influence;

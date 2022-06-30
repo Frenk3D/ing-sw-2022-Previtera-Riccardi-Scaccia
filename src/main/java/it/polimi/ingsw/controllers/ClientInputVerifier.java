@@ -159,6 +159,6 @@ public class ClientInputVerifier {
             }
         }
         return params.getIslandIndex() == -1 || clientGameModel.getIslandList().size() > params.getIslandIndex();
-        //if studentindexlist etc depends on characterId, and selected color check if available
+        //other checks of the specific char in the server
     }
 }
