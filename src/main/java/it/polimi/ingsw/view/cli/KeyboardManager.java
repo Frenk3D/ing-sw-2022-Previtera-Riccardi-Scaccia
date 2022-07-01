@@ -45,7 +45,6 @@ public class KeyboardManager implements Runnable {
             }
 
             scanInput.reset();
-            System.out.println("input: " + userInput + " state: " + controller.getClientState()); //only for debug
             String[] splittedInput = userInput.split(" ");
             if (splittedInput.length == 2 && splittedInput[0].equals("use_character") && controller.getClientState() != ClientState.WAITING_FOR_YOUR_TURN && controller.getClientState() != ClientState.USING_CHARACTER && clientGameModel.getRoundState() == RoundState.ACTION_STATE) {
                 try {

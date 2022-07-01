@@ -99,7 +99,6 @@ public class SceneController {
             FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/" + fxml));
             Parent root = loader.load();
             ViewObservable controller = loader.getController();
-            System.out.println(controller);
             controller.addAllObservers(observerList);
             activeController = (GenericSceneController) controller;
             activeScene.setRoot(root);

@@ -152,8 +152,8 @@ public class Cli extends View {
 
 
     public void sendNewLobbyRequest() {
+        clearCli();
         out.println("Enter [Lobby name] [Number of players] [Expert mode: true or false]");
-
     }
 
     @Override

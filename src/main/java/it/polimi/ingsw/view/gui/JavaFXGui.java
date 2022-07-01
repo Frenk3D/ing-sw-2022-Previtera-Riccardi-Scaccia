@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
 import java.io.IOException;
 
@@ -52,8 +53,11 @@ public class JavaFXGui extends Application {
         stage.setScene(scene);
         stage.setWidth(900);
         stage.setHeight(600);
+        stage.setMinWidth(900);
+        stage.setMinHeight(600);
         stage.setResizable(true);
         stage.setTitle("Eriantys Board Game");
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/mother_nature.png")));
         stage.show();
     }
 

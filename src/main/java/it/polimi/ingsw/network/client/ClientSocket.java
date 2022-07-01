@@ -57,7 +57,6 @@ public class ClientSocket {
                 Message message;
                 try {
                     message = (Message) inputStm.readObject();
-                    System.out.println("Received: " + message.getMessageType()); //only for debug
                     clientController.onMessageReceived(message);
                 } catch (IOException | ClassNotFoundException e) {
                     //e.printStackTrace();
@@ -75,7 +74,6 @@ public class ClientSocket {
      */
     public synchronized void sendMessage(Message message) {
         try {
-            System.out.println("--SENT MESSAGE: " + message.getMessageType());
             outputStm.writeObject(message);
             outputStm.flush();
             outputStm.reset();
