@@ -58,10 +58,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    77.1%
+    75%
   </span>
   <span class="absValue">
-    (37/48)
+    (39/52)
   </span>
 </td>
 </tr>
@@ -113,98 +113,102 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">38</i>&nbsp;     */
 <i class="no-highlight">39</i>&nbsp;    private boolean swapStudents10(Player cardPlayer, List&lt;Integer&gt; studentsIndexEntranceList, PawnColor hallStudentColor1, PawnColor hallStudentColor2, AtomicInteger tableMoney) {
 <i class="no-highlight">40</i>&nbsp;        //if we swap students of the same colors, the ref of the students swapped are not right, but the colors yes, it&#39;s ok
-<i class="no-highlight">41</i>&nbsp;
-<i class="no-highlight">42</i>&nbsp;        try {
+<i class="no-highlight">41</i>&nbsp;        try {
+<b class="fc"><i class="no-highlight">42</i>&nbsp;            int[] checkArray=new int[10];</b>
 <i class="no-highlight">43</i>&nbsp;            //check if selected students exist
 <b class="fc"><i class="no-highlight">44</i>&nbsp;            for (Integer i : studentsIndexEntranceList) {</b>
 <b class="fc"><i class="no-highlight">45</i>&nbsp;                if (cardPlayer.getDashboard().getEntranceStudentByIndex(i) == null) {</b>
 <b class="nc"><i class="no-highlight">46</i>&nbsp;                    logger.log(Level.SEVERE, &quot;selected entrance students does not exist&quot;);</b>
 <b class="nc"><i class="no-highlight">47</i>&nbsp;                    return false;</b>
 <i class="no-highlight">48</i>&nbsp;                }
-<b class="fc"><i class="no-highlight">49</i>&nbsp;            }</b>
-<b class="fc"><i class="no-highlight">50</i>&nbsp;            if (cardPlayer.getDashboard().getNumOfHallStudents(hallStudentColor1) == 0 || (hallStudentColor2 != null &amp;&amp; cardPlayer.getDashboard().getNumOfHallStudents(hallStudentColor2) == 0) || (hallStudentColor1 == hallStudentColor2) &amp;&amp; cardPlayer.getDashboard().getNumOfHallStudents(hallStudentColor1) == 1) {</b>
-<b class="fc"><i class="no-highlight">51</i>&nbsp;                logger.log(Level.SEVERE, &quot;selected hall color not enough&quot;);</b>
-<b class="fc"><i class="no-highlight">52</i>&nbsp;                return false;</b>
-<i class="no-highlight">53</i>&nbsp;            }
-<i class="no-highlight">54</i>&nbsp;
-<i class="no-highlight">55</i>&nbsp;            //add selected students to the hall
-<b class="fc"><i class="no-highlight">56</i>&nbsp;            List&lt;Student&gt; studentsToRemove = new ArrayList&lt;&gt;();</b>
-<b class="fc"><i class="no-highlight">57</i>&nbsp;            for (Integer i : studentsIndexEntranceList) {</b>
-<b class="fc"><i class="no-highlight">58</i>&nbsp;                PawnColor selectedColor = cardPlayer.getDashboard().getEntranceList().get(i).getColor(); //the ref of the students are different, but they are the same colors</b>
-<i class="no-highlight">59</i>&nbsp;                //cardPlayer.getDashboard().getHallStudentsListByColor(selectedColor).add(cardPlayer.getDashboard().getEntranceList().get(i));
-<b class="fc"><i class="no-highlight">60</i>&nbsp;                cardPlayer.getDashboard().addStudentHall(cardPlayer.getDashboard().getEntranceList().get(i), cardPlayer, tableMoney);</b>
-<b class="fc"><i class="no-highlight">61</i>&nbsp;                studentsToRemove.add(cardPlayer.getDashboard().getEntranceList().get(i));</b>
-<b class="fc"><i class="no-highlight">62</i>&nbsp;            }</b>
-<i class="no-highlight">63</i>&nbsp;            //remove selected students from the entrance
-<b class="fc"><i class="no-highlight">64</i>&nbsp;            for (Student s : studentsToRemove) {</b>
-<b class="fc"><i class="no-highlight">65</i>&nbsp;                cardPlayer.getDashboard().getEntranceList().remove(s);</b>
+<b class="fc"><i class="no-highlight">49</i>&nbsp;                checkArray[i]++;</b>
+<b class="fc"><i class="no-highlight">50</i>&nbsp;                if(checkArray[i]&gt;1){</b>
+<b class="nc"><i class="no-highlight">51</i>&nbsp;                    logger.log(Level.SEVERE, &quot;repeated entrance student&quot;);</b>
+<b class="nc"><i class="no-highlight">52</i>&nbsp;                    return false;</b>
+<i class="no-highlight">53</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">54</i>&nbsp;            }</b>
+<i class="no-highlight">55</i>&nbsp;
+<b class="fc"><i class="no-highlight">56</i>&nbsp;            if (cardPlayer.getDashboard().getNumOfHallStudents(hallStudentColor1) == 0 || (hallStudentColor2 != null &amp;&amp; cardPlayer.getDashboard().getNumOfHallStudents(hallStudentColor2) == 0) || (hallStudentColor1 == hallStudentColor2) &amp;&amp; cardPlayer.getDashboard().getNumOfHallStudents(hallStudentColor1) == 1) {</b>
+<b class="fc"><i class="no-highlight">57</i>&nbsp;                logger.log(Level.SEVERE, &quot;selected hall color not enough&quot;);</b>
+<b class="fc"><i class="no-highlight">58</i>&nbsp;                return false;</b>
+<i class="no-highlight">59</i>&nbsp;            }
+<i class="no-highlight">60</i>&nbsp;
+<i class="no-highlight">61</i>&nbsp;            //add selected students to the hall
+<b class="fc"><i class="no-highlight">62</i>&nbsp;            List&lt;Student&gt; studentsToRemove = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">63</i>&nbsp;            for (Integer i : studentsIndexEntranceList) { //the ref of the students are different, but they are the same colors</b>
+<b class="fc"><i class="no-highlight">64</i>&nbsp;                cardPlayer.getDashboard().addStudentHall(cardPlayer.getDashboard().getEntranceList().get(i), cardPlayer, tableMoney);</b>
+<b class="fc"><i class="no-highlight">65</i>&nbsp;                studentsToRemove.add(cardPlayer.getDashboard().getEntranceList().get(i));</b>
 <b class="fc"><i class="no-highlight">66</i>&nbsp;            }</b>
-<i class="no-highlight">67</i>&nbsp;            //add selected students to the entrance and remove from the hall
-<b class="fc"><i class="no-highlight">68</i>&nbsp;            cardPlayer.getDashboard().getEntranceList().add(cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor1).remove(0));</b>
-<b class="fc"><i class="no-highlight">69</i>&nbsp;            if (studentsIndexEntranceList.size() == 2) {</b>
-<b class="fc"><i class="no-highlight">70</i>&nbsp;                cardPlayer.getDashboard().getEntranceList().add(cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor2).remove(0)); //we add students at the end of the list</b>
-<i class="no-highlight">71</i>&nbsp;            }
-<b class="fc"><i class="no-highlight">72</i>&nbsp;            return true;</b>
-<b class="nc"><i class="no-highlight">73</i>&nbsp;        } catch (Exception e) {</b>
-<b class="nc"><i class="no-highlight">74</i>&nbsp;            e.printStackTrace();</b>
-<b class="nc"><i class="no-highlight">75</i>&nbsp;            logger.log(Level.SEVERE, &quot;Error in the swap&quot;);</b>
-<b class="nc"><i class="no-highlight">76</i>&nbsp;            return false;</b>
-<i class="no-highlight">77</i>&nbsp;        }
-<i class="no-highlight">78</i>&nbsp;    }
-<i class="no-highlight">79</i>&nbsp;
-<i class="no-highlight">80</i>&nbsp;    /**
-<i class="no-highlight">81</i>&nbsp;     * This method implements the 12th character effect,which is adding students to the bag from the hall
-<i class="no-highlight">82</i>&nbsp;     *
-<i class="no-highlight">83</i>&nbsp;     * @param hallColor   the hall to choose
-<i class="no-highlight">84</i>&nbsp;     * @param playersList the list of players
-<i class="no-highlight">85</i>&nbsp;     * @return false if an exception is detected
-<i class="no-highlight">86</i>&nbsp;     * @return true otherwise
-<i class="no-highlight">87</i>&nbsp;     */
-<i class="no-highlight">88</i>&nbsp;    private boolean fillBagFromHall12(PawnColor hallColor, List&lt;Player&gt; playersList) {
-<i class="no-highlight">89</i>&nbsp;        try {
-<b class="fc"><i class="no-highlight">90</i>&nbsp;            for (Player p : playersList) {</b>
-<b class="fc"><i class="no-highlight">91</i>&nbsp;                for (int i = 0; i &lt; 3; i++) {</b>
-<i class="no-highlight">92</i>&nbsp;                    try {
-<b class="fc"><i class="no-highlight">93</i>&nbsp;                        int size = p.getDashboard().getNumOfHallStudents(hallColor);</b>
-<b class="fc"><i class="no-highlight">94</i>&nbsp;                        if (size != 0) {</b>
-<b class="fc"><i class="no-highlight">95</i>&nbsp;                            Student s = p.getDashboard().getHallStudentsListByColor(hallColor).remove(size - 1);</b>
-<b class="fc"><i class="no-highlight">96</i>&nbsp;                            bag.getStudentsList().add(s);</b>
-<i class="no-highlight">97</i>&nbsp;                        }
-<b class="nc"><i class="no-highlight">98</i>&nbsp;                    } catch (IndexOutOfBoundsException e) {</b>
-<b class="nc"><i class="no-highlight">99</i>&nbsp;                        logger.log(Level.SEVERE, &quot;No more students of this color&quot;);</b>
-<b class="fc"><i class="no-highlight">100</i>&nbsp;                    }</b>
-<i class="no-highlight">101</i>&nbsp;
-<i class="no-highlight">102</i>&nbsp;                }
-<b class="fc"><i class="no-highlight">103</i>&nbsp;            }</b>
-<b class="fc"><i class="no-highlight">104</i>&nbsp;            return true;</b>
-<b class="nc"><i class="no-highlight">105</i>&nbsp;        } catch (Exception e) {</b>
-<b class="nc"><i class="no-highlight">106</i>&nbsp;            return false;</b>
-<i class="no-highlight">107</i>&nbsp;        }
-<i class="no-highlight">108</i>&nbsp;
-<i class="no-highlight">109</i>&nbsp;    }
-<i class="no-highlight">110</i>&nbsp;
-<i class="no-highlight">111</i>&nbsp;    @Override
-<i class="no-highlight">112</i>&nbsp;    public boolean applyEffect(CharacterParameters params) {
-<b class="fc"><i class="no-highlight">113</i>&nbsp;        switch (id) {</b>
-<i class="no-highlight">114</i>&nbsp;            case 10:
-<b class="fc"><i class="no-highlight">115</i>&nbsp;                return swapStudents10(params.getPlayer(), params.getStudentsIndexEntranceList(), params.getSelectedColor(), params.getSelectedColor2(), params.getTableMoney());</b>
-<i class="no-highlight">116</i>&nbsp;            case 12:
-<b class="fc"><i class="no-highlight">117</i>&nbsp;                return fillBagFromHall12(params.getSelectedColor(), params.getPlayersList());</b>
-<i class="no-highlight">118</i>&nbsp;            default:
-<b class="nc"><i class="no-highlight">119</i>&nbsp;                return false;</b>
-<i class="no-highlight">120</i>&nbsp;        }
-<i class="no-highlight">121</i>&nbsp;    }
-<i class="no-highlight">122</i>&nbsp;
-<i class="no-highlight">123</i>&nbsp;    @Override
-<i class="no-highlight">124</i>&nbsp;    public void initCharacter(CharacterParameters params) {
-<b class="fc"><i class="no-highlight">125</i>&nbsp;        bag = params.getBag();</b>
-<i class="no-highlight">126</i>&nbsp;    }
-<i class="no-highlight">127</i>&nbsp;
-<i class="no-highlight">128</i>&nbsp;    //for tests purposes
-<i class="no-highlight">129</i>&nbsp;    public Bag getBag() {
-<b class="fc"><i class="no-highlight">130</i>&nbsp;        return bag;</b>
-<i class="no-highlight">131</i>&nbsp;    }
-<i class="no-highlight">132</i>&nbsp;}
+<i class="no-highlight">67</i>&nbsp;            //remove selected students from the entrance
+<b class="fc"><i class="no-highlight">68</i>&nbsp;            for (Student s : studentsToRemove) {</b>
+<b class="fc"><i class="no-highlight">69</i>&nbsp;                cardPlayer.getDashboard().getEntranceList().remove(s);</b>
+<b class="fc"><i class="no-highlight">70</i>&nbsp;            }</b>
+<i class="no-highlight">71</i>&nbsp;            //add selected students to the entrance and remove from the hall
+<b class="fc"><i class="no-highlight">72</i>&nbsp;            cardPlayer.getDashboard().getEntranceList().add(cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor1).remove(0));</b>
+<b class="fc"><i class="no-highlight">73</i>&nbsp;            if (studentsIndexEntranceList.size() == 2) {</b>
+<b class="fc"><i class="no-highlight">74</i>&nbsp;                cardPlayer.getDashboard().getEntranceList().add(cardPlayer.getDashboard().getHallStudentsListByColor(hallStudentColor2).remove(0)); //we add students at the end of the list</b>
+<i class="no-highlight">75</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">76</i>&nbsp;            return true;</b>
+<b class="nc"><i class="no-highlight">77</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">78</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">79</i>&nbsp;            logger.log(Level.SEVERE, &quot;Error in the swap&quot;);</b>
+<b class="nc"><i class="no-highlight">80</i>&nbsp;            return false;</b>
+<i class="no-highlight">81</i>&nbsp;        }
+<i class="no-highlight">82</i>&nbsp;    }
+<i class="no-highlight">83</i>&nbsp;
+<i class="no-highlight">84</i>&nbsp;    /**
+<i class="no-highlight">85</i>&nbsp;     * This method implements the 12th character effect,which is adding students to the bag from the hall
+<i class="no-highlight">86</i>&nbsp;     *
+<i class="no-highlight">87</i>&nbsp;     * @param hallColor   the hall to choose
+<i class="no-highlight">88</i>&nbsp;     * @param playersList the list of players
+<i class="no-highlight">89</i>&nbsp;     * @return false if an exception is detected
+<i class="no-highlight">90</i>&nbsp;     * @return true otherwise
+<i class="no-highlight">91</i>&nbsp;     */
+<i class="no-highlight">92</i>&nbsp;    private boolean fillBagFromHall12(PawnColor hallColor, List&lt;Player&gt; playersList) {
+<i class="no-highlight">93</i>&nbsp;        try {
+<b class="fc"><i class="no-highlight">94</i>&nbsp;            for (Player p : playersList) {</b>
+<b class="fc"><i class="no-highlight">95</i>&nbsp;                for (int i = 0; i &lt; 3; i++) {</b>
+<i class="no-highlight">96</i>&nbsp;                    try {
+<b class="fc"><i class="no-highlight">97</i>&nbsp;                        int size = p.getDashboard().getNumOfHallStudents(hallColor);</b>
+<b class="fc"><i class="no-highlight">98</i>&nbsp;                        if (size != 0) {</b>
+<b class="fc"><i class="no-highlight">99</i>&nbsp;                            Student s = p.getDashboard().getHallStudentsListByColor(hallColor).remove(size - 1);</b>
+<b class="fc"><i class="no-highlight">100</i>&nbsp;                            bag.getStudentsList().add(s);</b>
+<i class="no-highlight">101</i>&nbsp;                        }
+<b class="nc"><i class="no-highlight">102</i>&nbsp;                    } catch (IndexOutOfBoundsException e) {</b>
+<b class="nc"><i class="no-highlight">103</i>&nbsp;                        logger.log(Level.SEVERE, &quot;No more students of this color&quot;);</b>
+<b class="fc"><i class="no-highlight">104</i>&nbsp;                    }</b>
+<i class="no-highlight">105</i>&nbsp;
+<i class="no-highlight">106</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">107</i>&nbsp;            }</b>
+<b class="fc"><i class="no-highlight">108</i>&nbsp;            return true;</b>
+<b class="nc"><i class="no-highlight">109</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">110</i>&nbsp;            return false;</b>
+<i class="no-highlight">111</i>&nbsp;        }
+<i class="no-highlight">112</i>&nbsp;
+<i class="no-highlight">113</i>&nbsp;    }
+<i class="no-highlight">114</i>&nbsp;
+<i class="no-highlight">115</i>&nbsp;    @Override
+<i class="no-highlight">116</i>&nbsp;    public boolean applyEffect(CharacterParameters params) {
+<b class="fc"><i class="no-highlight">117</i>&nbsp;        switch (id) {</b>
+<i class="no-highlight">118</i>&nbsp;            case 10:
+<b class="fc"><i class="no-highlight">119</i>&nbsp;                return swapStudents10(params.getPlayer(), params.getStudentsIndexEntranceList(), params.getSelectedColor(), params.getSelectedColor2(), params.getTableMoney());</b>
+<i class="no-highlight">120</i>&nbsp;            case 12:
+<b class="fc"><i class="no-highlight">121</i>&nbsp;                return fillBagFromHall12(params.getSelectedColor(), params.getPlayersList());</b>
+<i class="no-highlight">122</i>&nbsp;            default:
+<b class="nc"><i class="no-highlight">123</i>&nbsp;                return false;</b>
+<i class="no-highlight">124</i>&nbsp;        }
+<i class="no-highlight">125</i>&nbsp;    }
+<i class="no-highlight">126</i>&nbsp;
+<i class="no-highlight">127</i>&nbsp;    @Override
+<i class="no-highlight">128</i>&nbsp;    public void initCharacter(CharacterParameters params) {
+<b class="fc"><i class="no-highlight">129</i>&nbsp;        bag = params.getBag();</b>
+<i class="no-highlight">130</i>&nbsp;    }
+<i class="no-highlight">131</i>&nbsp;
+<i class="no-highlight">132</i>&nbsp;    //for tests purposes
+<i class="no-highlight">133</i>&nbsp;    public Bag getBag() {
+<b class="fc"><i class="no-highlight">134</i>&nbsp;        return bag;</b>
+<i class="no-highlight">135</i>&nbsp;    }
+<i class="no-highlight">136</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -231,7 +235,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-29 20:56</div>
+    <div style="float:right;">generated on 2022-07-01 13:15</div>
 </div>
 </body>
 </html>

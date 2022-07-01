@@ -61,7 +61,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/26)
+    (0/29)
   </span>
 </td>
 </tr>
@@ -83,64 +83,68 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">8</i>&nbsp;import javafx.scene.Parent;
 <i class="no-highlight">9</i>&nbsp;import javafx.scene.Scene;
 <i class="no-highlight">10</i>&nbsp;import javafx.stage.Stage;
-<i class="no-highlight">11</i>&nbsp;
-<i class="no-highlight">12</i>&nbsp;import java.io.IOException;
-<i class="no-highlight">13</i>&nbsp;
-<i class="no-highlight">14</i>&nbsp;/**
-<i class="no-highlight">15</i>&nbsp; * Main JavaFX class which starts the main stage and scene.
-<i class="no-highlight">16</i>&nbsp; * we have to choose between swing or javafx
-<i class="no-highlight">17</i>&nbsp; * It extends {@link Application}
-<i class="no-highlight">18</i>&nbsp; */
-<b class="nc"><i class="no-highlight">19</i>&nbsp;public class JavaFXGui extends Application {</b>
-<i class="no-highlight">20</i>&nbsp;
-<i class="no-highlight">21</i>&nbsp;    /**
-<i class="no-highlight">22</i>&nbsp;     * Starts the JavaFXGui instance
-<i class="no-highlight">23</i>&nbsp;     *
-<i class="no-highlight">24</i>&nbsp;     * @param stage the stage
-<i class="no-highlight">25</i>&nbsp;     */
-<i class="no-highlight">26</i>&nbsp;    @Override
-<i class="no-highlight">27</i>&nbsp;    public void start(Stage stage) {
-<i class="no-highlight">28</i>&nbsp;
-<b class="nc"><i class="no-highlight">29</i>&nbsp;        ClientController clientController = new ClientController();</b>
-<b class="nc"><i class="no-highlight">30</i>&nbsp;        Gui view = new Gui(clientController);</b>
-<i class="no-highlight">31</i>&nbsp;
-<b class="nc"><i class="no-highlight">32</i>&nbsp;        view.addObserver(clientController);</b>
-<b class="nc"><i class="no-highlight">33</i>&nbsp;        clientController.getClientGameModel().addObserver(view);</b>
-<i class="no-highlight">34</i>&nbsp;
-<b class="nc"><i class="no-highlight">35</i>&nbsp;        FXMLLoader loader = new FXMLLoader();</b>
-<b class="nc"><i class="no-highlight">36</i>&nbsp;        loader.setLocation(getClass().getResource(&quot;/fxml/LoginScene.fxml&quot;));</b>
-<b class="nc"><i class="no-highlight">37</i>&nbsp;        Parent rootLayout = null;</b>
-<i class="no-highlight">38</i>&nbsp;        try {
-<b class="nc"><i class="no-highlight">39</i>&nbsp;            rootLayout = loader.load();</b>
-<b class="nc"><i class="no-highlight">40</i>&nbsp;        } catch (IOException e) {</b>
-<b class="nc"><i class="no-highlight">41</i>&nbsp;            System.exit(1);</b>
-<b class="nc"><i class="no-highlight">42</i>&nbsp;        }</b>
-<i class="no-highlight">43</i>&nbsp;
-<b class="nc"><i class="no-highlight">44</i>&nbsp;        LoginSceneController controller = loader.getController();</b>
-<b class="nc"><i class="no-highlight">45</i>&nbsp;        controller.addObserver(clientController);</b>
-<i class="no-highlight">46</i>&nbsp;
-<i class="no-highlight">47</i>&nbsp;        // Show the scene containing the root layout.
-<b class="nc"><i class="no-highlight">48</i>&nbsp;        Scene scene = new Scene(rootLayout);</b>
-<b class="nc"><i class="no-highlight">49</i>&nbsp;        SceneController.setActiveScene(scene);</b>
-<b class="nc"><i class="no-highlight">50</i>&nbsp;        SceneController.setActiveController(controller);</b>
-<b class="nc"><i class="no-highlight">51</i>&nbsp;        SceneController.setMainStage(stage);</b>
-<b class="nc"><i class="no-highlight">52</i>&nbsp;        stage.setScene(scene);</b>
-<b class="nc"><i class="no-highlight">53</i>&nbsp;        stage.setWidth(900);</b>
-<b class="nc"><i class="no-highlight">54</i>&nbsp;        stage.setHeight(600);</b>
-<b class="nc"><i class="no-highlight">55</i>&nbsp;        stage.setResizable(true);</b>
-<b class="nc"><i class="no-highlight">56</i>&nbsp;        stage.setTitle(&quot;Eriantys Board Game&quot;);</b>
-<b class="nc"><i class="no-highlight">57</i>&nbsp;        stage.show();</b>
-<i class="no-highlight">58</i>&nbsp;    }
-<i class="no-highlight">59</i>&nbsp;
-<i class="no-highlight">60</i>&nbsp;    /**
-<i class="no-highlight">61</i>&nbsp;     * Stops the ongoing instance
-<i class="no-highlight">62</i>&nbsp;     */
-<i class="no-highlight">63</i>&nbsp;    @Override
-<i class="no-highlight">64</i>&nbsp;    public void stop() {
-<b class="nc"><i class="no-highlight">65</i>&nbsp;        Platform.exit();</b>
-<b class="nc"><i class="no-highlight">66</i>&nbsp;        System.exit(0);</b>
-<i class="no-highlight">67</i>&nbsp;    }
-<i class="no-highlight">68</i>&nbsp;}
+<i class="no-highlight">11</i>&nbsp;import javafx.scene.image.Image;
+<i class="no-highlight">12</i>&nbsp;
+<i class="no-highlight">13</i>&nbsp;import java.io.IOException;
+<i class="no-highlight">14</i>&nbsp;
+<i class="no-highlight">15</i>&nbsp;/**
+<i class="no-highlight">16</i>&nbsp; * Main JavaFX class which starts the main stage and scene.
+<i class="no-highlight">17</i>&nbsp; * we have to choose between swing or javafx
+<i class="no-highlight">18</i>&nbsp; * It extends {@link Application}
+<i class="no-highlight">19</i>&nbsp; */
+<b class="nc"><i class="no-highlight">20</i>&nbsp;public class JavaFXGui extends Application {</b>
+<i class="no-highlight">21</i>&nbsp;
+<i class="no-highlight">22</i>&nbsp;    /**
+<i class="no-highlight">23</i>&nbsp;     * Starts the JavaFXGui instance
+<i class="no-highlight">24</i>&nbsp;     *
+<i class="no-highlight">25</i>&nbsp;     * @param stage the stage
+<i class="no-highlight">26</i>&nbsp;     */
+<i class="no-highlight">27</i>&nbsp;    @Override
+<i class="no-highlight">28</i>&nbsp;    public void start(Stage stage) {
+<i class="no-highlight">29</i>&nbsp;
+<b class="nc"><i class="no-highlight">30</i>&nbsp;        ClientController clientController = new ClientController();</b>
+<b class="nc"><i class="no-highlight">31</i>&nbsp;        Gui view = new Gui(clientController);</b>
+<i class="no-highlight">32</i>&nbsp;
+<b class="nc"><i class="no-highlight">33</i>&nbsp;        view.addObserver(clientController);</b>
+<b class="nc"><i class="no-highlight">34</i>&nbsp;        clientController.getClientGameModel().addObserver(view);</b>
+<i class="no-highlight">35</i>&nbsp;
+<b class="nc"><i class="no-highlight">36</i>&nbsp;        FXMLLoader loader = new FXMLLoader();</b>
+<b class="nc"><i class="no-highlight">37</i>&nbsp;        loader.setLocation(getClass().getResource(&quot;/fxml/LoginScene.fxml&quot;));</b>
+<b class="nc"><i class="no-highlight">38</i>&nbsp;        Parent rootLayout = null;</b>
+<i class="no-highlight">39</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">40</i>&nbsp;            rootLayout = loader.load();</b>
+<b class="nc"><i class="no-highlight">41</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i class="no-highlight">42</i>&nbsp;            System.exit(1);</b>
+<b class="nc"><i class="no-highlight">43</i>&nbsp;        }</b>
+<i class="no-highlight">44</i>&nbsp;
+<b class="nc"><i class="no-highlight">45</i>&nbsp;        LoginSceneController controller = loader.getController();</b>
+<b class="nc"><i class="no-highlight">46</i>&nbsp;        controller.addObserver(clientController);</b>
+<i class="no-highlight">47</i>&nbsp;
+<i class="no-highlight">48</i>&nbsp;        // Show the scene containing the root layout.
+<b class="nc"><i class="no-highlight">49</i>&nbsp;        Scene scene = new Scene(rootLayout);</b>
+<b class="nc"><i class="no-highlight">50</i>&nbsp;        SceneController.setActiveScene(scene);</b>
+<b class="nc"><i class="no-highlight">51</i>&nbsp;        SceneController.setActiveController(controller);</b>
+<b class="nc"><i class="no-highlight">52</i>&nbsp;        SceneController.setMainStage(stage);</b>
+<b class="nc"><i class="no-highlight">53</i>&nbsp;        stage.setScene(scene);</b>
+<b class="nc"><i class="no-highlight">54</i>&nbsp;        stage.setWidth(900);</b>
+<b class="nc"><i class="no-highlight">55</i>&nbsp;        stage.setHeight(600);</b>
+<b class="nc"><i class="no-highlight">56</i>&nbsp;        stage.setMinWidth(900);</b>
+<b class="nc"><i class="no-highlight">57</i>&nbsp;        stage.setMinHeight(600);</b>
+<b class="nc"><i class="no-highlight">58</i>&nbsp;        stage.setResizable(true);</b>
+<b class="nc"><i class="no-highlight">59</i>&nbsp;        stage.setTitle(&quot;Eriantys Board Game&quot;);</b>
+<b class="nc"><i class="no-highlight">60</i>&nbsp;        stage.getIcons().add(new Image(getClass().getResourceAsStream(&quot;/images/mother_nature.png&quot;)));</b>
+<b class="nc"><i class="no-highlight">61</i>&nbsp;        stage.show();</b>
+<i class="no-highlight">62</i>&nbsp;    }
+<i class="no-highlight">63</i>&nbsp;
+<i class="no-highlight">64</i>&nbsp;    /**
+<i class="no-highlight">65</i>&nbsp;     * Stops the ongoing instance
+<i class="no-highlight">66</i>&nbsp;     */
+<i class="no-highlight">67</i>&nbsp;    @Override
+<i class="no-highlight">68</i>&nbsp;    public void stop() {
+<b class="nc"><i class="no-highlight">69</i>&nbsp;        Platform.exit();</b>
+<b class="nc"><i class="no-highlight">70</i>&nbsp;        System.exit(0);</b>
+<i class="no-highlight">71</i>&nbsp;    }
+<i class="no-highlight">72</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -167,7 +171,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-29 20:56</div>
+    <div style="float:right;">generated on 2022-07-01 13:15</div>
 </div>
 </body>
 </html>

@@ -47,10 +47,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    73.2%
+    80.9%
   </span>
   <span class="absValue">
-    (268/366)
+    (297/367)
   </span>
 </td>
 </tr>
@@ -85,10 +85,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    73.4%
+    81%
   </span>
   <span class="absValue">
-    (270/368)
+    (299/369)
   </span>
 </td>
 </tr>
@@ -126,7 +126,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">25</i>&nbsp;public class Controller implements Observer {
 <b class="fc"><i class="no-highlight">26</i>&nbsp;    private final Logger logger = Logger.getLogger(getClass().getName());</b>
 <i class="no-highlight">27</i>&nbsp;    //attributes
-<i class="no-highlight">28</i>&nbsp;    private final GameModel game;  //intellij says it should be final,but it actually changes so it&#39;s not
+<i class="no-highlight">28</i>&nbsp;    private final GameModel game;  //intellij says it should be final
 <i class="no-highlight">29</i>&nbsp;    private Server server;
 <i class="no-highlight">30</i>&nbsp;
 <i class="no-highlight">31</i>&nbsp;    //constructor
@@ -220,13 +220,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc"><i class="no-highlight">119</i>&nbsp;                break;</b>
 <i class="no-highlight">120</i>&nbsp;
 <i class="no-highlight">121</i>&nbsp;            case CHOOSE_WIZARD:
-<b class="nc"><i class="no-highlight">122</i>&nbsp;                ChooseWizardMessage chooseWizardMessage = (ChooseWizardMessage) receivedMessage;</b>
-<b class="nc"><i class="no-highlight">123</i>&nbsp;                chooseWizard(chooseWizardMessage.getSenderId(), chooseWizardMessage.getSelectedWizard());</b>
-<b class="nc"><i class="no-highlight">124</i>&nbsp;                break;</b>
+<b class="fc"><i class="no-highlight">122</i>&nbsp;                ChooseWizardMessage chooseWizardMessage = (ChooseWizardMessage) receivedMessage;</b>
+<b class="fc"><i class="no-highlight">123</i>&nbsp;                chooseWizard(chooseWizardMessage.getSenderId(), chooseWizardMessage.getSelectedWizard());</b>
+<b class="fc"><i class="no-highlight">124</i>&nbsp;                break;</b>
 <i class="no-highlight">125</i>&nbsp;
 <i class="no-highlight">126</i>&nbsp;            default:
-<b class="nc"><i class="no-highlight">127</i>&nbsp;                logger.log(Level.SEVERE, &quot;reached default in switch&quot;);</b>
-<b class="nc"><i class="no-highlight">128</i>&nbsp;                sendError(receivedMessage.getSenderId(), &quot;Forbidden command&quot;);</b>
+<b class="fc"><i class="no-highlight">127</i>&nbsp;                logger.log(Level.SEVERE, &quot;reached default in switch&quot;);</b>
+<b class="fc"><i class="no-highlight">128</i>&nbsp;                sendError(receivedMessage.getSenderId(), &quot;Forbidden command&quot;);</b>
 <i class="no-highlight">129</i>&nbsp;                break;
 <i class="no-highlight">130</i>&nbsp;        }
 <i class="no-highlight">131</i>&nbsp;    }
@@ -239,9 +239,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">138</i>&nbsp;    private void inGameState(Message receivedMessage) {
 <b class="fc"><i class="no-highlight">139</i>&nbsp;        switch (receivedMessage.getMessageType()) {</b>
 <i class="no-highlight">140</i>&nbsp;            case SELECT_ASSISTANT:
-<b class="nc"><i class="no-highlight">141</i>&nbsp;                SelectAssistantMessage selectAssistantMessage = (SelectAssistantMessage) receivedMessage;</b>
-<b class="nc"><i class="no-highlight">142</i>&nbsp;                selectAssistant(selectAssistantMessage.getSelectedAssistant());</b>
-<b class="nc"><i class="no-highlight">143</i>&nbsp;                break;</b>
+<b class="fc"><i class="no-highlight">141</i>&nbsp;                SelectAssistantMessage selectAssistantMessage = (SelectAssistantMessage) receivedMessage;</b>
+<b class="fc"><i class="no-highlight">142</i>&nbsp;                selectAssistant(selectAssistantMessage.getSelectedAssistant());</b>
+<b class="fc"><i class="no-highlight">143</i>&nbsp;                break;</b>
 <i class="no-highlight">144</i>&nbsp;
 <i class="no-highlight">145</i>&nbsp;            case MOVE_STUDENT_ISLAND:
 <b class="fc"><i class="no-highlight">146</i>&nbsp;                MoveStudentIslandMessage moveStudentIslandMessage = (MoveStudentIslandMessage) receivedMessage;</b>
@@ -254,9 +254,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc"><i class="no-highlight">153</i>&nbsp;                break;</b>
 <i class="no-highlight">154</i>&nbsp;
 <i class="no-highlight">155</i>&nbsp;            case MOVE_MOTHER_NATURE:
-<b class="nc"><i class="no-highlight">156</i>&nbsp;                MoveMotherNatureMessage moveMotherNatureMessage = (MoveMotherNatureMessage) receivedMessage;</b>
-<b class="nc"><i class="no-highlight">157</i>&nbsp;                moveMotherNature(moveMotherNatureMessage.getIslandIndex());</b>
-<b class="nc"><i class="no-highlight">158</i>&nbsp;                break;</b>
+<b class="fc"><i class="no-highlight">156</i>&nbsp;                MoveMotherNatureMessage moveMotherNatureMessage = (MoveMotherNatureMessage) receivedMessage;</b>
+<b class="fc"><i class="no-highlight">157</i>&nbsp;                moveMotherNature(moveMotherNatureMessage.getIslandIndex());</b>
+<b class="fc"><i class="no-highlight">158</i>&nbsp;                break;</b>
 <i class="no-highlight">159</i>&nbsp;
 <i class="no-highlight">160</i>&nbsp;            case TAKE_FROM_CLOUD:
 <b class="fc"><i class="no-highlight">161</i>&nbsp;                TakeFromCloudMessage takeFromCloudMessage = (TakeFromCloudMessage) receivedMessage;</b>
@@ -285,8 +285,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc"><i class="no-highlight">184</i>&nbsp;                break;</b>
 <i class="no-highlight">185</i>&nbsp;
 <i class="no-highlight">186</i>&nbsp;            default:
-<b class="nc"><i class="no-highlight">187</i>&nbsp;                logger.log(Level.SEVERE, &quot;reached default in switch&quot;);</b>
-<b class="nc"><i class="no-highlight">188</i>&nbsp;                sendError(receivedMessage.getSenderId(), &quot;Forbidden command&quot;);</b>
+<b class="fc"><i class="no-highlight">187</i>&nbsp;                logger.log(Level.SEVERE, &quot;reached default in switch&quot;);</b>
+<b class="fc"><i class="no-highlight">188</i>&nbsp;                sendError(receivedMessage.getSenderId(), &quot;Forbidden command&quot;);</b>
 <i class="no-highlight">189</i>&nbsp;                break;
 <i class="no-highlight">190</i>&nbsp;        }
 <i class="no-highlight">191</i>&nbsp;    }
@@ -450,8 +450,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc"><i class="no-highlight">349</i>&nbsp;                logger.log(Level.INFO, &quot;GAME STARTED!&quot;);</b>
 <i class="no-highlight">350</i>&nbsp;            }
 <b class="fc"><i class="no-highlight">351</i>&nbsp;        } else {</b>
-<b class="nc"><i class="no-highlight">352</i>&nbsp;            logger.log(Level.SEVERE, &quot;forbidden move&quot;);</b>
-<b class="nc"><i class="no-highlight">353</i>&nbsp;            sendError(playerId, &quot;Forbidden command&quot;);</b>
+<b class="fc"><i class="no-highlight">352</i>&nbsp;            logger.log(Level.SEVERE, &quot;forbidden move&quot;);</b>
+<b class="fc"><i class="no-highlight">353</i>&nbsp;            sendError(playerId, &quot;Forbidden command&quot;);</b>
 <i class="no-highlight">354</i>&nbsp;        }
 <i class="no-highlight">355</i>&nbsp;    }
 <i class="no-highlight">356</i>&nbsp;
@@ -516,371 +516,371 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">415</i>&nbsp;
 <b class="fc"><i class="no-highlight">416</i>&nbsp;            if (game.isExpertMode() &amp;&amp; game.getCurrRound().getCurrTurn().getUsedCharacter() != null &amp;&amp; game.getCurrRound().getCurrTurn().getUsedCharacter().getId() == 2) {</b>
 <b class="fc"><i class="no-highlight">417</i>&nbsp;                ((Characters2and6and8and9) game.getCurrRound().getCurrTurn().getUsedCharacter()).modifiedUpdateProfessorsLists2(game.getPlayersList(), game.getCurrPlayer(), game.getTableProfessorsList());</b>
-<i class="no-highlight">418</i>&nbsp;            } else {
-<b class="nc"><i class="no-highlight">419</i>&nbsp;                int updatedPlayer = game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(), game.getTableProfessorsList());</b>
-<b class="nc"><i class="no-highlight">420</i>&nbsp;                if (updatedPlayer != -1) {</b>
-<b class="nc"><i class="no-highlight">421</i>&nbsp;                    game.sendDashboard(updatedPlayer); //send the updated dashboard of other player</b>
-<i class="no-highlight">422</i>&nbsp;                }
-<i class="no-highlight">423</i>&nbsp;            }
-<i class="no-highlight">424</i>&nbsp;
-<b class="fc"><i class="no-highlight">425</i>&nbsp;            game.getCurrRound().getCurrTurn().incrementMovedStudents(game.getNumOfPlayers());</b>
-<b class="fc"><i class="no-highlight">426</i>&nbsp;            game.sendDashboard(); //update the dashboard in clients</b>
-<b class="fc"><i class="no-highlight">427</i>&nbsp;            if (game.isExpertMode()) {//update the money in players if expert mode</b>
-<b class="fc"><i class="no-highlight">428</i>&nbsp;                game.sendCharacterTable();</b>
-<i class="no-highlight">429</i>&nbsp;            }
-<b class="fc"><i class="no-highlight">430</i>&nbsp;            game.sendInGameState();</b>
-<b class="fc"><i class="no-highlight">431</i>&nbsp;        } else {</b>
-<b class="fc"><i class="no-highlight">432</i>&nbsp;            logger.log(Level.SEVERE, &quot;forbidden move&quot;);</b>
-<b class="fc"><i class="no-highlight">433</i>&nbsp;            sendError(game.getCurrPlayer().getId(), &quot;Forbidden command&quot;);</b>
-<i class="no-highlight">434</i>&nbsp;        }
-<i class="no-highlight">435</i>&nbsp;    }
-<i class="no-highlight">436</i>&nbsp;
-<i class="no-highlight">437</i>&nbsp;    //ACTION PHASE 1
-<i class="no-highlight">438</i>&nbsp;
-<i class="no-highlight">439</i>&nbsp;    /**
-<i class="no-highlight">440</i>&nbsp;     * This method moves mother nature for the current player
-<i class="no-highlight">441</i>&nbsp;     *
-<i class="no-highlight">442</i>&nbsp;     * @param islandIndex index of the selected island
-<i class="no-highlight">443</i>&nbsp;     */
-<i class="no-highlight">444</i>&nbsp;    public synchronized void moveMotherNature(int islandIndex) {
-<b class="fc"><i class="no-highlight">445</i>&nbsp;        if (game.getCurrRound().getStage() == RoundState.ACTION_STATE &amp;&amp; game.getCurrRound().getCurrTurn().getStage() == TurnState.MOVE_MOTHER_NATURE_STATE) {</b>
-<i class="no-highlight">446</i>&nbsp;
-<b class="fc"><i class="no-highlight">447</i>&nbsp;            int prevMotherNaturePos = game.getMotherNaturePos();</b>
-<i class="no-highlight">448</i>&nbsp;
-<b class="fc"><i class="no-highlight">449</i>&nbsp;            if (game.getIslandByIndex(islandIndex) == null || islandIndex == prevMotherNaturePos) {</b>
-<b class="nc"><i class="no-highlight">450</i>&nbsp;                logger.log(Level.SEVERE, &quot;wrong parameters&quot;);</b>
-<b class="nc"><i class="no-highlight">451</i>&nbsp;                sendError(game.getCurrPlayer().getId(), &quot;Wrong parameters&quot;);</b>
-<i class="no-highlight">452</i>&nbsp;                return;
-<b class="fc"><i class="no-highlight">453</i>&nbsp;            } else if ((islandIndex - prevMotherNaturePos &gt; 0) &amp;&amp; (islandIndex - prevMotherNaturePos &gt; game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift())) {</b>
-<b class="fc"><i class="no-highlight">454</i>&nbsp;                logger.log(Level.SEVERE, &quot;moved mother nature too far&quot;);</b>
-<b class="fc"><i class="no-highlight">455</i>&nbsp;                sendError(game.getCurrPlayer().getId(), &quot;Mother nature moved too far&quot;);</b>
-<i class="no-highlight">456</i>&nbsp;                return;
-<b class="fc"><i class="no-highlight">457</i>&nbsp;            } else if ((islandIndex - prevMotherNaturePos &lt; 0) &amp;&amp; ((game.getIslandsList().size() - prevMotherNaturePos + islandIndex) &gt; game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift())) {</b>
-<b class="nc"><i class="no-highlight">458</i>&nbsp;                logger.log(Level.SEVERE, &quot;moved mother nature too far&quot;);</b>
-<b class="nc"><i class="no-highlight">459</i>&nbsp;                sendError(game.getCurrPlayer().getId(), &quot;Mother nature moved too far&quot;);</b>
-<i class="no-highlight">460</i>&nbsp;                return;
-<i class="no-highlight">461</i>&nbsp;            }
-<i class="no-highlight">462</i>&nbsp;
-<b class="fc"><i class="no-highlight">463</i>&nbsp;            game.setMotherNaturePosition(islandIndex);</b>
-<i class="no-highlight">464</i>&nbsp;
-<b class="fc"><i class="no-highlight">465</i>&nbsp;            if (game.isExpertMode()) { //we apply the character effect if it&#39;s used, or we remove forbid card if present</b>
-<b class="fc"><i class="no-highlight">466</i>&nbsp;                if (game.getCurrRound().getCurrTurn().getUsedCharacter() != null) {</b>
-<b class="fc"><i class="no-highlight">467</i>&nbsp;                    int usedCharacterId = game.getCurrRound().getCurrTurn().getUsedCharacter().getId();</b>
-<b class="fc"><i class="no-highlight">468</i>&nbsp;                    if (usedCharacterId == 6 || usedCharacterId == 8 || usedCharacterId == 9) {</b>
-<b class="fc"><i class="no-highlight">469</i>&nbsp;                        Characters2and6and8and9 character = (Characters2and6and8and9) game.getCurrRound().getCurrTurn().getUsedCharacter();</b>
-<b class="fc"><i class="no-highlight">470</i>&nbsp;                        character.updateIslandDomainCharacter(game.getCurrPlayer(), game.getIslandByIndex(islandIndex), game.getPlayersList(), game.getForbidCharacter());</b>
-<b class="fc"><i class="no-highlight">471</i>&nbsp;                    } else { //simply remove forbid card if none of characters 6/8/9 was used in this turn (if there is)</b>
-<b class="fc"><i class="no-highlight">472</i>&nbsp;                        game.getIslandByIndex(islandIndex).updateIslandDomainExpert(game.getPlayersList(), game.getForbidCharacter());</b>
-<i class="no-highlight">473</i>&nbsp;                    }
-<b class="fc"><i class="no-highlight">474</i>&nbsp;                } else { //simply remove forbid card if no character was used in this turn (if there is)</b>
-<b class="nc"><i class="no-highlight">475</i>&nbsp;                    game.getIslandByIndex(islandIndex).updateIslandDomainExpert(game.getPlayersList(), game.getForbidCharacter());</b>
-<i class="no-highlight">476</i>&nbsp;                }
-<b class="fc"><i class="no-highlight">477</i>&nbsp;                game.sendCharacterTable(); //update the number of forbid cards on the character</b>
-<i class="no-highlight">478</i>&nbsp;            } else {
-<b class="fc"><i class="no-highlight">479</i>&nbsp;                game.getIslandByIndex(islandIndex).updateIslandDomain(game.getPlayersList());</b>
-<i class="no-highlight">480</i>&nbsp;            }
-<i class="no-highlight">481</i>&nbsp;
-<b class="fc"><i class="no-highlight">482</i>&nbsp;            int newMotherNaturePos = game.getCurrRound().getCurrTurn().updateIslandList(game.getIslandsList());</b>
-<b class="fc"><i class="no-highlight">483</i>&nbsp;            if (newMotherNaturePos != -1) {</b>
-<b class="nc"><i class="no-highlight">484</i>&nbsp;                game.setMotherNaturePosition(newMotherNaturePos);</b>
-<i class="no-highlight">485</i>&nbsp;            }
-<i class="no-highlight">486</i>&nbsp;
+<b class="fc"><i class="no-highlight">418</i>&nbsp;                game.sendAllDashboards();</b>
+<i class="no-highlight">419</i>&nbsp;            } else {
+<b class="fc"><i class="no-highlight">420</i>&nbsp;                int updatedPlayer = game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(), game.getTableProfessorsList());</b>
+<b class="fc"><i class="no-highlight">421</i>&nbsp;                if (updatedPlayer != -1) {</b>
+<b class="nc"><i class="no-highlight">422</i>&nbsp;                    game.sendDashboard(updatedPlayer); //send the updated dashboard of other player</b>
+<i class="no-highlight">423</i>&nbsp;                }
+<i class="no-highlight">424</i>&nbsp;            }
+<i class="no-highlight">425</i>&nbsp;
+<b class="fc"><i class="no-highlight">426</i>&nbsp;            game.getCurrRound().getCurrTurn().incrementMovedStudents(game.getNumOfPlayers());</b>
+<b class="fc"><i class="no-highlight">427</i>&nbsp;            game.sendDashboard(); //update the dashboard in clients</b>
+<b class="fc"><i class="no-highlight">428</i>&nbsp;            if (game.isExpertMode()) {//update the money in players if expert mode</b>
+<b class="fc"><i class="no-highlight">429</i>&nbsp;                game.sendCharacterTable();</b>
+<i class="no-highlight">430</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">431</i>&nbsp;            game.sendInGameState();</b>
+<b class="fc"><i class="no-highlight">432</i>&nbsp;        } else {</b>
+<b class="fc"><i class="no-highlight">433</i>&nbsp;            logger.log(Level.SEVERE, &quot;forbidden move&quot;);</b>
+<b class="fc"><i class="no-highlight">434</i>&nbsp;            sendError(game.getCurrPlayer().getId(), &quot;Forbidden command&quot;);</b>
+<i class="no-highlight">435</i>&nbsp;        }
+<i class="no-highlight">436</i>&nbsp;    }
+<i class="no-highlight">437</i>&nbsp;
+<i class="no-highlight">438</i>&nbsp;    //ACTION PHASE 1
+<i class="no-highlight">439</i>&nbsp;
+<i class="no-highlight">440</i>&nbsp;    /**
+<i class="no-highlight">441</i>&nbsp;     * This method moves mother nature for the current player
+<i class="no-highlight">442</i>&nbsp;     *
+<i class="no-highlight">443</i>&nbsp;     * @param islandIndex index of the selected island
+<i class="no-highlight">444</i>&nbsp;     */
+<i class="no-highlight">445</i>&nbsp;    public synchronized void moveMotherNature(int islandIndex) {
+<b class="fc"><i class="no-highlight">446</i>&nbsp;        if (game.getCurrRound().getStage() == RoundState.ACTION_STATE &amp;&amp; game.getCurrRound().getCurrTurn().getStage() == TurnState.MOVE_MOTHER_NATURE_STATE) {</b>
+<i class="no-highlight">447</i>&nbsp;
+<b class="fc"><i class="no-highlight">448</i>&nbsp;            int prevMotherNaturePos = game.getMotherNaturePos();</b>
+<i class="no-highlight">449</i>&nbsp;
+<b class="fc"><i class="no-highlight">450</i>&nbsp;            if (game.getIslandByIndex(islandIndex) == null || islandIndex == prevMotherNaturePos) {</b>
+<b class="nc"><i class="no-highlight">451</i>&nbsp;                logger.log(Level.SEVERE, &quot;wrong parameters&quot;);</b>
+<b class="nc"><i class="no-highlight">452</i>&nbsp;                sendError(game.getCurrPlayer().getId(), &quot;Wrong parameters&quot;);</b>
+<i class="no-highlight">453</i>&nbsp;                return;
+<b class="fc"><i class="no-highlight">454</i>&nbsp;            } else if ((islandIndex - prevMotherNaturePos &gt; 0) &amp;&amp; (islandIndex - prevMotherNaturePos &gt; game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift())) {</b>
+<b class="fc"><i class="no-highlight">455</i>&nbsp;                logger.log(Level.SEVERE, &quot;moved mother nature too far&quot;);</b>
+<b class="fc"><i class="no-highlight">456</i>&nbsp;                sendError(game.getCurrPlayer().getId(), &quot;Mother nature moved too far&quot;);</b>
+<i class="no-highlight">457</i>&nbsp;                return;
+<b class="fc"><i class="no-highlight">458</i>&nbsp;            } else if ((islandIndex - prevMotherNaturePos &lt; 0) &amp;&amp; ((game.getIslandsList().size() - prevMotherNaturePos + islandIndex) &gt; game.getCurrPlayer().getSelectedAssistant().getMotherNaturePosShift())) {</b>
+<b class="nc"><i class="no-highlight">459</i>&nbsp;                logger.log(Level.SEVERE, &quot;moved mother nature too far&quot;);</b>
+<b class="nc"><i class="no-highlight">460</i>&nbsp;                sendError(game.getCurrPlayer().getId(), &quot;Mother nature moved too far&quot;);</b>
+<i class="no-highlight">461</i>&nbsp;                return;
+<i class="no-highlight">462</i>&nbsp;            }
+<i class="no-highlight">463</i>&nbsp;
+<b class="fc"><i class="no-highlight">464</i>&nbsp;            game.setMotherNaturePosition(islandIndex);</b>
+<i class="no-highlight">465</i>&nbsp;
+<b class="fc"><i class="no-highlight">466</i>&nbsp;            if (game.isExpertMode()) { //we apply the character effect if it&#39;s used, or we remove forbid card if present</b>
+<b class="fc"><i class="no-highlight">467</i>&nbsp;                if (game.getCurrRound().getCurrTurn().getUsedCharacter() != null) {</b>
+<b class="fc"><i class="no-highlight">468</i>&nbsp;                    int usedCharacterId = game.getCurrRound().getCurrTurn().getUsedCharacter().getId();</b>
+<b class="fc"><i class="no-highlight">469</i>&nbsp;                    if (usedCharacterId == 6 || usedCharacterId == 8 || usedCharacterId == 9) {</b>
+<b class="fc"><i class="no-highlight">470</i>&nbsp;                        Characters2and6and8and9 character = (Characters2and6and8and9) game.getCurrRound().getCurrTurn().getUsedCharacter();</b>
+<b class="fc"><i class="no-highlight">471</i>&nbsp;                        character.updateIslandDomainCharacter(game.getCurrPlayer(), game.getIslandByIndex(islandIndex), game.getPlayersList(), game.getForbidCharacter());</b>
+<b class="fc"><i class="no-highlight">472</i>&nbsp;                    } else { //simply remove forbid card if none of characters 6/8/9 was used in this turn (if there is)</b>
+<b class="fc"><i class="no-highlight">473</i>&nbsp;                        game.getIslandByIndex(islandIndex).updateIslandDomainExpert(game.getPlayersList(), game.getForbidCharacter());</b>
+<i class="no-highlight">474</i>&nbsp;                    }
+<b class="fc"><i class="no-highlight">475</i>&nbsp;                } else { //simply remove forbid card if no character was used in this turn (if there is)</b>
+<b class="nc"><i class="no-highlight">476</i>&nbsp;                    game.getIslandByIndex(islandIndex).updateIslandDomainExpert(game.getPlayersList(), game.getForbidCharacter());</b>
+<i class="no-highlight">477</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">478</i>&nbsp;                game.sendCharacterTable(); //update the number of forbid cards on the character</b>
+<i class="no-highlight">479</i>&nbsp;            } else {
+<b class="fc"><i class="no-highlight">480</i>&nbsp;                game.getIslandByIndex(islandIndex).updateIslandDomain(game.getPlayersList());</b>
+<i class="no-highlight">481</i>&nbsp;            }
+<i class="no-highlight">482</i>&nbsp;
+<b class="fc"><i class="no-highlight">483</i>&nbsp;            int newMotherNaturePos = game.getCurrRound().getCurrTurn().updateIslandList(game.getIslandsList());</b>
+<b class="fc"><i class="no-highlight">484</i>&nbsp;            if (newMotherNaturePos != -1) {</b>
+<b class="nc"><i class="no-highlight">485</i>&nbsp;                game.setMotherNaturePosition(newMotherNaturePos);</b>
+<i class="no-highlight">486</i>&nbsp;            }
 <i class="no-highlight">487</i>&nbsp;
-<b class="fc"><i class="no-highlight">488</i>&nbsp;            game.sendAllDashboards();</b>
-<b class="fc"><i class="no-highlight">489</i>&nbsp;            game.sendTable();</b>
-<b class="fc"><i class="no-highlight">490</i>&nbsp;            game.getCurrRound().getCurrTurn().setStage(TurnState.CHOOSE_CLOUD_STATE);</b>
-<i class="no-highlight">491</i>&nbsp;
-<b class="fc"><i class="no-highlight">492</i>&nbsp;            if (game.getCurrRound().isLastRound() &amp;&amp; !game.getCurrRound().nextTurn()) { //if it is the last round because students in the bag finished we jump to next turn (without take from cloud), if turn is the last we find the winner</b>
-<b class="nc"><i class="no-highlight">493</i>&nbsp;                game.sendWin(getWinner());</b>
-<b class="nc"><i class="no-highlight">494</i>&nbsp;                game.setState(GameState.FINISHED_STATE);</b>
-<i class="no-highlight">495</i>&nbsp;                return;
-<b class="fc"><i class="no-highlight">496</i>&nbsp;            } else if (checkWin(false)) {</b>
-<b class="nc"><i class="no-highlight">497</i>&nbsp;                game.sendWin(getWinner());</b>
-<b class="nc"><i class="no-highlight">498</i>&nbsp;                game.setState(GameState.FINISHED_STATE);</b>
-<i class="no-highlight">499</i>&nbsp;                return;
-<i class="no-highlight">500</i>&nbsp;            } else {
-<b class="fc"><i class="no-highlight">501</i>&nbsp;                game.sendInGameState();</b>
-<i class="no-highlight">502</i>&nbsp;            }
-<i class="no-highlight">503</i>&nbsp;
-<b class="fc"><i class="no-highlight">504</i>&nbsp;        } else {</b>
-<b class="fc"><i class="no-highlight">505</i>&nbsp;            logger.log(Level.SEVERE, &quot;forbidden move&quot;);</b>
-<b class="fc"><i class="no-highlight">506</i>&nbsp;            sendError(game.getCurrPlayer().getId(), &quot;Forbidden command&quot;);</b>
-<i class="no-highlight">507</i>&nbsp;        }
-<i class="no-highlight">508</i>&nbsp;    }
-<i class="no-highlight">509</i>&nbsp;
-<i class="no-highlight">510</i>&nbsp;    //ACTION PHASE 2
-<i class="no-highlight">511</i>&nbsp;
-<i class="no-highlight">512</i>&nbsp;    /**
-<i class="no-highlight">513</i>&nbsp;     * This methods takes the students of the selected cloud and gives them to the current player
-<i class="no-highlight">514</i>&nbsp;     *
-<i class="no-highlight">515</i>&nbsp;     * @param cloudIndex index of the selected cloud
-<i class="no-highlight">516</i>&nbsp;     */
-<i class="no-highlight">517</i>&nbsp;    public synchronized void takeFromCloud(int cloudIndex) { //they go in the entranceList
-<b class="fc"><i class="no-highlight">518</i>&nbsp;        if (game.getCurrRound().getStage() == RoundState.ACTION_STATE &amp;&amp; game.getCurrRound().getCurrTurn().getStage() == TurnState.CHOOSE_CLOUD_STATE) {</b>
-<b class="fc"><i class="no-highlight">519</i>&nbsp;            if (game.getCloudByIndex(cloudIndex) == null || game.getCloudByIndex(cloudIndex).getStudents().isEmpty()) {</b>
-<b class="nc"><i class="no-highlight">520</i>&nbsp;                logger.log(Level.SEVERE, &quot;wrong parameters&quot;);</b>
-<b class="nc"><i class="no-highlight">521</i>&nbsp;                sendError(game.getCurrPlayer().getId(), &quot;Wrong parameters&quot;);</b>
-<i class="no-highlight">522</i>&nbsp;                return;
-<i class="no-highlight">523</i>&nbsp;            }
-<i class="no-highlight">524</i>&nbsp;
-<b class="fc"><i class="no-highlight">525</i>&nbsp;            game.getCurrPlayer().getDashboard().getEntranceList().addAll(game.getCloudByIndex(cloudIndex).getStudents());</b>
-<b class="fc"><i class="no-highlight">526</i>&nbsp;            game.getCloudByIndex(cloudIndex).getStudents().clear();</b>
-<b class="fc"><i class="no-highlight">527</i>&nbsp;            game.sendDashboard();</b>
-<i class="no-highlight">528</i>&nbsp;
-<b class="fc"><i class="no-highlight">529</i>&nbsp;            boolean result = game.getCurrRound().nextTurn();</b>
-<b class="fc"><i class="no-highlight">530</i>&nbsp;            if (!result) { //the round is ended and we fill the clouds again</b>
-<b class="nc"><i class="no-highlight">531</i>&nbsp;                if (checkWin(true)) {</b>
-<b class="nc"><i class="no-highlight">532</i>&nbsp;                    game.sendWin(getWinner());</b>
-<b class="nc"><i class="no-highlight">533</i>&nbsp;                    game.setState(GameState.FINISHED_STATE);</b>
-<i class="no-highlight">534</i>&nbsp;                    return;
-<i class="no-highlight">535</i>&nbsp;                }
-<i class="no-highlight">536</i>&nbsp;
-<b class="nc"><i class="no-highlight">537</i>&nbsp;                for (Player p : game.getPlayersList()) {</b>
-<b class="nc"><i class="no-highlight">538</i>&nbsp;                    p.setSelectedAssistant(null);</b>
-<b class="nc"><i class="no-highlight">539</i>&nbsp;                }</b>
-<b class="nc"><i class="no-highlight">540</i>&nbsp;                game.getCurrRound().fillClouds(game.getCloudsList(), game.getBag(), game.getNumOfPlayers());</b>
-<i class="no-highlight">541</i>&nbsp;            }
-<b class="fc"><i class="no-highlight">542</i>&nbsp;            game.sendTable();</b>
-<b class="fc"><i class="no-highlight">543</i>&nbsp;            game.sendInGameState();</b>
-<b class="fc"><i class="no-highlight">544</i>&nbsp;        } else {</b>
-<b class="fc"><i class="no-highlight">545</i>&nbsp;            logger.log(Level.SEVERE, &quot;forbidden move&quot;);</b>
-<b class="fc"><i class="no-highlight">546</i>&nbsp;            sendError(game.getCurrPlayer().getId(), &quot;Forbidden command&quot;);</b>
-<i class="no-highlight">547</i>&nbsp;        }
-<i class="no-highlight">548</i>&nbsp;
-<i class="no-highlight">549</i>&nbsp;    }
-<i class="no-highlight">550</i>&nbsp;
-<i class="no-highlight">551</i>&nbsp;    //ACTION PHASE 3
-<i class="no-highlight">552</i>&nbsp;
-<i class="no-highlight">553</i>&nbsp;    /**
-<i class="no-highlight">554</i>&nbsp;     * This method selects an assistant for the current player
-<i class="no-highlight">555</i>&nbsp;     *
-<i class="no-highlight">556</i>&nbsp;     * @param assistantId id of the selected assistant
-<i class="no-highlight">557</i>&nbsp;     */
-<i class="no-highlight">558</i>&nbsp;    public synchronized void selectAssistant(int assistantId) {
-<b class="fc"><i class="no-highlight">559</i>&nbsp;        if (game.getCurrRound().getStage() == RoundState.PLANNING_STATE) {</b>
-<b class="fc"><i class="no-highlight">560</i>&nbsp;            Round round = game.getCurrRound();</b>
-<b class="fc"><i class="no-highlight">561</i>&nbsp;            Player player = round.getPlanningPhasePlayer(game.getPlayersList());</b>
-<b class="fc"><i class="no-highlight">562</i>&nbsp;            if (player.getAssistantDeck().getAssistantById(assistantId) == null) {</b>
-<b class="nc"><i class="no-highlight">563</i>&nbsp;                logger.log(Level.SEVERE, &quot;wrong parameters&quot;);</b>
-<b class="nc"><i class="no-highlight">564</i>&nbsp;                sendError(player.getId(), &quot;Assistant not available&quot;);</b>
-<i class="no-highlight">565</i>&nbsp;                return;
-<i class="no-highlight">566</i>&nbsp;            }
-<i class="no-highlight">567</i>&nbsp;
-<b class="fc"><i class="no-highlight">568</i>&nbsp;            List&lt;Integer&gt; thrownAssistants = new ArrayList&lt;&gt;();</b>
-<b class="fc"><i class="no-highlight">569</i>&nbsp;            List&lt;Integer&gt; myAssistants = new ArrayList&lt;&gt;();</b>
-<b class="fc"><i class="no-highlight">570</i>&nbsp;            for (Player p : game.getPlayersList()) {</b>
-<b class="fc"><i class="no-highlight">571</i>&nbsp;                if (p.getSelectedAssistant() != null) {</b>
-<b class="fc"><i class="no-highlight">572</i>&nbsp;                    thrownAssistants.add(p.getSelectedAssistant().getId());</b>
-<i class="no-highlight">573</i>&nbsp;                }
-<b class="fc"><i class="no-highlight">574</i>&nbsp;            }</b>
-<b class="fc"><i class="no-highlight">575</i>&nbsp;            for (Assistant a : player.getAssistantDeck().getAssistantsList()) {</b>
-<b class="fc"><i class="no-highlight">576</i>&nbsp;                myAssistants.add(a.getId());</b>
-<b class="fc"><i class="no-highlight">577</i>&nbsp;            }</b>
-<i class="no-highlight">578</i>&nbsp;
-<b class="fc"><i class="no-highlight">579</i>&nbsp;            if (thrownAssistants.contains(assistantId) &amp;&amp; !thrownAssistants.containsAll(myAssistants)) { //my assistant was already thrown, and it is false that all my assistants were already thrown</b>
-<b class="nc"><i class="no-highlight">580</i>&nbsp;                logger.log(Level.SEVERE, &quot;same id of other players&quot;);</b>
-<b class="nc"><i class="no-highlight">581</i>&nbsp;                sendError(player.getId(), &quot;Assistant not available&quot;);</b>
-<i class="no-highlight">582</i>&nbsp;                return;
-<i class="no-highlight">583</i>&nbsp;            }
-<i class="no-highlight">584</i>&nbsp;
-<b class="fc"><i class="no-highlight">585</i>&nbsp;            player.setSelectedAssistant(assistantId);</b>
-<b class="fc"><i class="no-highlight">586</i>&nbsp;            player.getAssistantDeck().removeAssistantById(assistantId);</b>
-<i class="no-highlight">587</i>&nbsp;
-<b class="fc"><i class="no-highlight">588</i>&nbsp;            sendAssistantsToClient(player.getId(), player.getAssistantDeck().getReducedAssistantsList()); //send the remaining assistants only to the current player</b>
-<b class="fc"><i class="no-highlight">589</i>&nbsp;            game.sendSelectedAssistant(); //send selected assistant to all players before setting the next player of planning phase</b>
-<i class="no-highlight">590</i>&nbsp;
-<b class="fc"><i class="no-highlight">591</i>&nbsp;            round.setNextPlayerPlanning(game.getNumOfPlayers());</b>
-<i class="no-highlight">592</i>&nbsp;
-<b class="fc"><i class="no-highlight">593</i>&nbsp;            if (round.getNumOfAssistantThrows() == game.getNumOfPlayers()) {</b>
-<b class="fc"><i class="no-highlight">594</i>&nbsp;                round.initRound(game.getPlayersList());</b>
-<i class="no-highlight">595</i>&nbsp;            }
-<b class="fc"><i class="no-highlight">596</i>&nbsp;            game.sendInGameState();</b>
-<b class="fc"><i class="no-highlight">597</i>&nbsp;        } else {</b>
-<b class="nc"><i class="no-highlight">598</i>&nbsp;            logger.log(Level.SEVERE, &quot;forbidden move&quot;);</b>
-<b class="nc"><i class="no-highlight">599</i>&nbsp;            sendError(game.getCurrPlayer().getId(), &quot;Forbidden command&quot;);</b>
-<i class="no-highlight">600</i>&nbsp;        }
-<i class="no-highlight">601</i>&nbsp;    }
-<i class="no-highlight">602</i>&nbsp;
-<i class="no-highlight">603</i>&nbsp;    /**
-<i class="no-highlight">604</i>&nbsp;     * this method uses a character for the current player
-<i class="no-highlight">605</i>&nbsp;     *
-<i class="no-highlight">606</i>&nbsp;     * @param characterId id of the selected character
-<i class="no-highlight">607</i>&nbsp;     * @param parameters  the selected character&#39;s parameters
-<i class="no-highlight">608</i>&nbsp;     */
-<i class="no-highlight">609</i>&nbsp;    public synchronized void useCharacter(int characterId, CharacterParameters parameters) {
-<b class="fc"><i class="no-highlight">610</i>&nbsp;        if (game.getCurrRound().getStage() == RoundState.ACTION_STATE) {</b>
-<b class="fc"><i class="no-highlight">611</i>&nbsp;            Character usedCharacter = game.getCharacterById(characterId);</b>
-<b class="fc"><i class="no-highlight">612</i>&nbsp;            if (usedCharacter == null) {</b>
-<b class="fc"><i class="no-highlight">613</i>&nbsp;                logger.log(Level.SEVERE, &quot;wrong parameters&quot;);</b>
-<b class="fc"><i class="no-highlight">614</i>&nbsp;                sendError(game.getCurrPlayer().getId(), &quot;Wrong parameters&quot;);</b>
-<i class="no-highlight">615</i>&nbsp;                return;
-<i class="no-highlight">616</i>&nbsp;            }
-<i class="no-highlight">617</i>&nbsp;
-<i class="no-highlight">618</i>&nbsp;            //calculate true character cost
-<b class="fc"><i class="no-highlight">619</i>&nbsp;            int characterCost = usedCharacter.getInitialCost();</b>
-<b class="fc"><i class="no-highlight">620</i>&nbsp;            if (usedCharacter.isUsed()) { //increment character cost if already used</b>
-<b class="nc"><i class="no-highlight">621</i>&nbsp;                characterCost++;</b>
-<i class="no-highlight">622</i>&nbsp;            }
-<b class="fc"><i class="no-highlight">623</i>&nbsp;            if (game.getCurrPlayer().getMoney() &gt;= characterCost) { //check if the player has enough money to pay the character</b>
-<b class="fc"><i class="no-highlight">624</i>&nbsp;                boolean result = usedCharacter.applyEffect(parameters);</b>
-<b class="fc"><i class="no-highlight">625</i>&nbsp;                Island prevIsl = game.getIslandByIndex(game.getMotherNaturePos());</b>
-<b class="fc"><i class="no-highlight">626</i>&nbsp;                int prevIslListsize = game.getIslandsList().size();</b>
-<b class="fc"><i class="no-highlight">627</i>&nbsp;                int newMotherNaturePos = game.getCurrRound().getCurrTurn().updateIslandList(game.getIslandsList());</b>
-<b class="fc"><i class="no-highlight">628</i>&nbsp;                int diff = prevIslListsize - game.getIslandsList().size();</b>
-<b class="fc"><i class="no-highlight">629</i>&nbsp;                if (newMotherNaturePos != -1 &amp;&amp; (!game.getIslandsList().contains(prevIsl) || parameters.getIsland() == prevIsl)) {</b>
-<b class="nc"><i class="no-highlight">630</i>&nbsp;                    game.setMotherNaturePosition(newMotherNaturePos);</b>
-<i class="no-highlight">631</i>&nbsp;                }  //we update islands because some characters calculate the influence
-<b class="fc"><i class="no-highlight">632</i>&nbsp;                else if (diff != 0 &amp;&amp; newMotherNaturePos &lt; game.getMotherNaturePos()) {</b>
-<b class="nc"><i class="no-highlight">633</i>&nbsp;                    game.setMotherNaturePosition((game.getMotherNaturePos()) - diff);</b>
-<i class="no-highlight">634</i>&nbsp;                }
-<b class="fc"><i class="no-highlight">635</i>&nbsp;                game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(), game.getTableProfessorsList());</b>
-<b class="fc"><i class="no-highlight">636</i>&nbsp;                game.getCurrRound().getCurrTurn().returnProfessorsToTable(game.getPlayersList(), game.getTableProfessorsList());</b>
-<i class="no-highlight">637</i>&nbsp;
-<b class="fc"><i class="no-highlight">638</i>&nbsp;                if (!result) {</b>
-<b class="nc"><i class="no-highlight">639</i>&nbsp;                    logger.log(Level.SEVERE, &quot;error in character use&quot;);</b>
-<b class="nc"><i class="no-highlight">640</i>&nbsp;                    sendError(game.getCurrPlayer().getId(), &quot;Error, retry to use character or continue playing&quot;);</b>
-<b class="nc"><i class="no-highlight">641</i>&nbsp;                    game.sendInGameState();</b>
-<i class="no-highlight">642</i>&nbsp;                    return;
-<i class="no-highlight">643</i>&nbsp;                }
-<b class="fc"><i class="no-highlight">644</i>&nbsp;                game.getCurrPlayer().modifyMoney(-(characterCost), game.getTableMoney(), usedCharacter.isUsed());</b>
-<b class="fc"><i class="no-highlight">645</i>&nbsp;                usedCharacter.setUsed();</b>
-<b class="fc"><i class="no-highlight">646</i>&nbsp;                game.getCurrRound().getCurrTurn().setUsedCharacter(game.getCharacterById(characterId));</b>
-<b class="fc"><i class="no-highlight">647</i>&nbsp;                game.sendCharacterTable(); //update the characters on the table</b>
-<b class="fc"><i class="no-highlight">648</i>&nbsp;                game.sendTable();//update the table</b>
-<b class="fc"><i class="no-highlight">649</i>&nbsp;                game.sendAllDashboards(); //update the dashboards of all users</b>
-<b class="fc"><i class="no-highlight">650</i>&nbsp;                game.sendInGameState(); //orders the update of the views</b>
-<b class="fc"><i class="no-highlight">651</i>&nbsp;                game.sendThrownCharacter(characterId);</b>
-<i class="no-highlight">652</i>&nbsp;
-<b class="fc"><i class="no-highlight">653</i>&nbsp;                if (checkWin(false)) {</b>
-<b class="nc"><i class="no-highlight">654</i>&nbsp;                    game.sendWin(getWinner());</b>
-<b class="nc"><i class="no-highlight">655</i>&nbsp;                    game.setState(GameState.FINISHED_STATE);</b>
-<i class="no-highlight">656</i>&nbsp;                    return;
-<i class="no-highlight">657</i>&nbsp;                }
-<b class="fc"><i class="no-highlight">658</i>&nbsp;            } else {</b>
-<b class="nc"><i class="no-highlight">659</i>&nbsp;                logger.log(Level.SEVERE, &quot;Not enough money&quot;);</b>
-<b class="nc"><i class="no-highlight">660</i>&nbsp;                sendError(game.getCurrPlayer().getId(), &quot;Not enough money&quot;);</b>
-<i class="no-highlight">661</i>&nbsp;            }
-<b class="fc"><i class="no-highlight">662</i>&nbsp;        } else {</b>
-<b class="nc"><i class="no-highlight">663</i>&nbsp;            logger.log(Level.SEVERE, &quot;forbidden move&quot;);</b>
-<b class="nc"><i class="no-highlight">664</i>&nbsp;            sendError(game.getCurrPlayer().getId(), &quot;Forbidden command&quot;);</b>
-<i class="no-highlight">665</i>&nbsp;        }
-<i class="no-highlight">666</i>&nbsp;    }
-<i class="no-highlight">667</i>&nbsp;
-<i class="no-highlight">668</i>&nbsp;    /**
-<i class="no-highlight">669</i>&nbsp;     * @return the state of the game
-<i class="no-highlight">670</i>&nbsp;     */
-<i class="no-highlight">671</i>&nbsp;    private GameState getGameState() {
-<b class="fc"><i class="no-highlight">672</i>&nbsp;        return game.getGameState();</b>
-<i class="no-highlight">673</i>&nbsp;    }
-<i class="no-highlight">674</i>&nbsp;
-<i class="no-highlight">675</i>&nbsp;    /**
-<i class="no-highlight">676</i>&nbsp;     * @param finishedRound
-<i class="no-highlight">677</i>&nbsp;     * @return {@code true} if someone won {@code false} if not
-<i class="no-highlight">678</i>&nbsp;     */
-<i class="no-highlight">679</i>&nbsp;    public boolean checkWin(boolean finishedRound) {
-<b class="fc"><i class="no-highlight">680</i>&nbsp;        if (finishedRound) {</b>
-<b class="fc"><i class="no-highlight">681</i>&nbsp;            for (Player p : game.getPlayersList()) { //one player finished assistants, the check on the bag is done in the method movemothernature</b>
-<b class="fc"><i class="no-highlight">682</i>&nbsp;                if (p.getAssistantDeck().getAssistantsList().isEmpty()) {</b>
-<b class="nc"><i class="no-highlight">683</i>&nbsp;                    logger.log(Level.INFO, &quot;win on finished assistants&quot;);</b>
-<b class="nc"><i class="no-highlight">684</i>&nbsp;                    return true;</b>
-<i class="no-highlight">685</i>&nbsp;                }
-<b class="fc"><i class="no-highlight">686</i>&nbsp;            }</b>
-<i class="no-highlight">687</i>&nbsp;        } else {
-<b class="fc"><i class="no-highlight">688</i>&nbsp;            for (Player p : game.getPlayersList()) {</b>
-<b class="fc"><i class="no-highlight">689</i>&nbsp;                if (p.hasTower() &amp;&amp; p.getDashboard().getTowersList().isEmpty()) { //a player finished the towers</b>
-<b class="nc"><i class="no-highlight">690</i>&nbsp;                    logger.log(Level.INFO, &quot;win on finished towers&quot;);</b>
-<b class="nc"><i class="no-highlight">691</i>&nbsp;                    return true;</b>
-<i class="no-highlight">692</i>&nbsp;                }
-<b class="fc"><i class="no-highlight">693</i>&nbsp;            }</b>
-<b class="fc"><i class="no-highlight">694</i>&nbsp;            if (game.getIslandsList().size() &lt;= 3) {//there are only three islands on the table</b>
-<b class="nc"><i class="no-highlight">695</i>&nbsp;                logger.log(Level.INFO, &quot;win on 3 island remained&quot;);</b>
-<b class="nc"><i class="no-highlight">696</i>&nbsp;                return true;</b>
-<i class="no-highlight">697</i>&nbsp;            }
-<i class="no-highlight">698</i>&nbsp;        }
-<b class="fc"><i class="no-highlight">699</i>&nbsp;        return false;</b>
-<i class="no-highlight">700</i>&nbsp;    }
-<i class="no-highlight">701</i>&nbsp;
-<i class="no-highlight">702</i>&nbsp;    /**
-<i class="no-highlight">703</i>&nbsp;     * @return the player who won the game
-<i class="no-highlight">704</i>&nbsp;     */
-<i class="no-highlight">705</i>&nbsp;    public int getWinner() {  //it was private, but we have to put it public for the tests
-<b class="fc"><i class="no-highlight">706</i>&nbsp;        int winnerId = -1;</b>
-<b class="fc"><i class="no-highlight">707</i>&nbsp;        Player tmpPlayer = null;</b>
-<b class="fc"><i class="no-highlight">708</i>&nbsp;        for (int i = 0; i &lt; game.getPlayersList().size(); i++) {</b>
-<b class="fc"><i class="no-highlight">709</i>&nbsp;            if (game.getPlayersList().get(i).hasTower() == true) { //it is impossible that tmpPlayer is not set here</b>
-<b class="fc"><i class="no-highlight">710</i>&nbsp;                tmpPlayer = game.getPlayersList().get(i); //tmpPlayer is the current winner player,</b>
-<b class="fc"><i class="no-highlight">711</i>&nbsp;                break;</b>
-<i class="no-highlight">712</i>&nbsp;            }
-<i class="no-highlight">713</i>&nbsp;        }
-<b class="fc"><i class="no-highlight">714</i>&nbsp;        for (Player p : game.getPlayersList()) {</b>
-<b class="fc"><i class="no-highlight">715</i>&nbsp;            if (p.hasTower()) {</b>
-<b class="fc"><i class="no-highlight">716</i>&nbsp;                if (p.getDashboard().getTowersList().size() &lt; tmpPlayer.getDashboard().getTowersList().size()) {</b>
-<b class="nc"><i class="no-highlight">717</i>&nbsp;                    tmpPlayer = p;</b>
-<b class="fc"><i class="no-highlight">718</i>&nbsp;                } else if (p.getDashboard().getTowersList().size() == tmpPlayer.getDashboard().getTowersList().size()) {</b>
-<b class="fc"><i class="no-highlight">719</i>&nbsp;                    if (p.getDashboard().getProfessorsList().size() &gt; tmpPlayer.getDashboard().getProfessorsList().size()) { //if also professors are the same number it will win the first checked by the loop (pseudo-randomly)</b>
-<b class="nc"><i class="no-highlight">720</i>&nbsp;                        tmpPlayer = p;</b>
-<i class="no-highlight">721</i>&nbsp;                    }
-<i class="no-highlight">722</i>&nbsp;                }
-<i class="no-highlight">723</i>&nbsp;            }
-<b class="fc"><i class="no-highlight">724</i>&nbsp;        }</b>
-<b class="fc"><i class="no-highlight">725</i>&nbsp;        return tmpPlayer.getId();</b>
-<i class="no-highlight">726</i>&nbsp;    }
-<i class="no-highlight">727</i>&nbsp;
-<i class="no-highlight">728</i>&nbsp;    /**
-<i class="no-highlight">729</i>&nbsp;     * This method checks if the sender of the message is the current player
-<i class="no-highlight">730</i>&nbsp;     *
-<i class="no-highlight">731</i>&nbsp;     * @param message the received message
-<i class="no-highlight">732</i>&nbsp;     * @return {@code true} if the sender of the message is the current player {@code false} otherwise
-<i class="no-highlight">733</i>&nbsp;     */
-<i class="no-highlight">734</i>&nbsp;    private boolean checkUser(Message message) {
-<b class="fc"><i class="no-highlight">735</i>&nbsp;        return (game.getCurrRound().getStage() == RoundState.ACTION_STATE &amp;&amp; message.getSenderId() == game.getCurrPlayer().getId()) || (game.getCurrRound().getStage() == RoundState.PLANNING_STATE &amp;&amp; message.getSenderId() == game.getCurrRound().getPlanningPhasePlayer(game.getPlayersList()).getId());</b>
-<i class="no-highlight">736</i>&nbsp;    }
-<i class="no-highlight">737</i>&nbsp;
-<i class="no-highlight">738</i>&nbsp;    /**
-<i class="no-highlight">739</i>&nbsp;     * This method sends an error message to a player
-<i class="no-highlight">740</i>&nbsp;     *
-<i class="no-highlight">741</i>&nbsp;     * @param playerId id of the player
-<i class="no-highlight">742</i>&nbsp;     * @param message  the message received
-<i class="no-highlight">743</i>&nbsp;     */
-<i class="no-highlight">744</i>&nbsp;    private void sendError(int playerId, String message) {
-<b class="fc"><i class="no-highlight">745</i>&nbsp;        if (server != null) {</b>
-<b class="nc"><i class="no-highlight">746</i>&nbsp;            RemoteView remoteView = server.getRemoteViewByPlayerId(playerId);</b>
-<b class="nc"><i class="no-highlight">747</i>&nbsp;            remoteView.sendToClient(new StringMessage(MessageType.ERROR_REPLY, SERVERID, false, message));</b>
-<i class="no-highlight">748</i>&nbsp;        }
-<i class="no-highlight">749</i>&nbsp;    }
-<i class="no-highlight">750</i>&nbsp;
-<i class="no-highlight">751</i>&nbsp;    /**
-<i class="no-highlight">752</i>&nbsp;     * This method sends an ok message to a player
-<i class="no-highlight">753</i>&nbsp;     *
-<i class="no-highlight">754</i>&nbsp;     * @param playerId id of the player
-<i class="no-highlight">755</i>&nbsp;     */
-<i class="no-highlight">756</i>&nbsp;    private void sendOk(int playerId) {
-<b class="fc"><i class="no-highlight">757</i>&nbsp;        if (server != null) {</b>
-<b class="nc"><i class="no-highlight">758</i>&nbsp;            RemoteView remoteView = server.getRemoteViewByPlayerId(playerId);</b>
-<b class="nc"><i class="no-highlight">759</i>&nbsp;            remoteView.sendToClient(new GenericMessage(MessageType.OK_REPLY, SERVERID, false));</b>
-<i class="no-highlight">760</i>&nbsp;        }
-<i class="no-highlight">761</i>&nbsp;    }
-<i class="no-highlight">762</i>&nbsp;
-<i class="no-highlight">763</i>&nbsp;    /**
-<i class="no-highlight">764</i>&nbsp;     * Sends the assistants to a player
-<i class="no-highlight">765</i>&nbsp;     *
-<i class="no-highlight">766</i>&nbsp;     * @param playerId      id of the player
-<i class="no-highlight">767</i>&nbsp;     * @param assistantList list of the sent assistants
-<i class="no-highlight">768</i>&nbsp;     */
-<i class="no-highlight">769</i>&nbsp;    private void sendAssistantsToClient(int playerId, List&lt;ReducedAssistant&gt; assistantList) {
-<b class="fc"><i class="no-highlight">770</i>&nbsp;        if (server != null) {</b>
-<b class="nc"><i class="no-highlight">771</i>&nbsp;            RemoteView remoteView = server.getRemoteViewByPlayerId(playerId);</b>
-<b class="nc"><i class="no-highlight">772</i>&nbsp;            remoteView.sendToClient(new AssistantsSendMessage(SERVERID, assistantList));</b>
-<i class="no-highlight">773</i>&nbsp;        }
-<i class="no-highlight">774</i>&nbsp;    }
-<i class="no-highlight">775</i>&nbsp;
-<i class="no-highlight">776</i>&nbsp;    /**
-<i class="no-highlight">777</i>&nbsp;     * @return the server
-<i class="no-highlight">778</i>&nbsp;     */
-<i class="no-highlight">779</i>&nbsp;    public Server getServer() {
-<b class="fc"><i class="no-highlight">780</i>&nbsp;        return server;</b>
-<i class="no-highlight">781</i>&nbsp;    }
-<i class="no-highlight">782</i>&nbsp;
+<i class="no-highlight">488</i>&nbsp;
+<b class="fc"><i class="no-highlight">489</i>&nbsp;            game.sendAllDashboards();</b>
+<b class="fc"><i class="no-highlight">490</i>&nbsp;            game.sendTable();</b>
+<b class="fc"><i class="no-highlight">491</i>&nbsp;            game.getCurrRound().getCurrTurn().setStage(TurnState.CHOOSE_CLOUD_STATE);</b>
+<i class="no-highlight">492</i>&nbsp;
+<b class="fc"><i class="no-highlight">493</i>&nbsp;            if (game.getCurrRound().isLastRound() &amp;&amp; !game.getCurrRound().nextTurn()) { //if it is the last round because students in the bag finished we jump to next turn (without take from cloud), if turn is the last we find the winner</b>
+<b class="nc"><i class="no-highlight">494</i>&nbsp;                game.sendWin(getWinner());</b>
+<b class="nc"><i class="no-highlight">495</i>&nbsp;                game.setState(GameState.FINISHED_STATE);</b>
+<i class="no-highlight">496</i>&nbsp;                return;
+<b class="fc"><i class="no-highlight">497</i>&nbsp;            } else if (checkWin(false)) {</b>
+<b class="nc"><i class="no-highlight">498</i>&nbsp;                game.sendWin(getWinner());</b>
+<b class="nc"><i class="no-highlight">499</i>&nbsp;                game.setState(GameState.FINISHED_STATE);</b>
+<i class="no-highlight">500</i>&nbsp;                return;
+<i class="no-highlight">501</i>&nbsp;            } else {
+<b class="fc"><i class="no-highlight">502</i>&nbsp;                game.sendInGameState();</b>
+<i class="no-highlight">503</i>&nbsp;            }
+<i class="no-highlight">504</i>&nbsp;
+<b class="fc"><i class="no-highlight">505</i>&nbsp;        } else {</b>
+<b class="fc"><i class="no-highlight">506</i>&nbsp;            logger.log(Level.SEVERE, &quot;forbidden move&quot;);</b>
+<b class="fc"><i class="no-highlight">507</i>&nbsp;            sendError(game.getCurrPlayer().getId(), &quot;Forbidden command&quot;);</b>
+<i class="no-highlight">508</i>&nbsp;        }
+<i class="no-highlight">509</i>&nbsp;    }
+<i class="no-highlight">510</i>&nbsp;
+<i class="no-highlight">511</i>&nbsp;    //ACTION PHASE 2
+<i class="no-highlight">512</i>&nbsp;
+<i class="no-highlight">513</i>&nbsp;    /**
+<i class="no-highlight">514</i>&nbsp;     * This methods takes the students of the selected cloud and gives them to the current player
+<i class="no-highlight">515</i>&nbsp;     *
+<i class="no-highlight">516</i>&nbsp;     * @param cloudIndex index of the selected cloud
+<i class="no-highlight">517</i>&nbsp;     */
+<i class="no-highlight">518</i>&nbsp;    public synchronized void takeFromCloud(int cloudIndex) { //they go in the entranceList
+<b class="fc"><i class="no-highlight">519</i>&nbsp;        if (game.getCurrRound().getStage() == RoundState.ACTION_STATE &amp;&amp; game.getCurrRound().getCurrTurn().getStage() == TurnState.CHOOSE_CLOUD_STATE) {</b>
+<b class="fc"><i class="no-highlight">520</i>&nbsp;            if (game.getCloudByIndex(cloudIndex) == null || game.getCloudByIndex(cloudIndex).getStudents().isEmpty()) {</b>
+<b class="nc"><i class="no-highlight">521</i>&nbsp;                logger.log(Level.SEVERE, &quot;wrong parameters&quot;);</b>
+<b class="nc"><i class="no-highlight">522</i>&nbsp;                sendError(game.getCurrPlayer().getId(), &quot;Wrong parameters&quot;);</b>
+<i class="no-highlight">523</i>&nbsp;                return;
+<i class="no-highlight">524</i>&nbsp;            }
+<i class="no-highlight">525</i>&nbsp;
+<b class="fc"><i class="no-highlight">526</i>&nbsp;            game.getCurrPlayer().getDashboard().getEntranceList().addAll(game.getCloudByIndex(cloudIndex).getStudents());</b>
+<b class="fc"><i class="no-highlight">527</i>&nbsp;            game.getCloudByIndex(cloudIndex).getStudents().clear();</b>
+<b class="fc"><i class="no-highlight">528</i>&nbsp;            game.sendDashboard();</b>
+<i class="no-highlight">529</i>&nbsp;
+<b class="fc"><i class="no-highlight">530</i>&nbsp;            boolean result = game.getCurrRound().nextTurn();</b>
+<b class="fc"><i class="no-highlight">531</i>&nbsp;            if (!result) { //the round is ended and we fill the clouds again</b>
+<b class="fc"><i class="no-highlight">532</i>&nbsp;                if (checkWin(true)) {</b>
+<b class="nc"><i class="no-highlight">533</i>&nbsp;                    game.sendWin(getWinner());</b>
+<b class="nc"><i class="no-highlight">534</i>&nbsp;                    game.setState(GameState.FINISHED_STATE);</b>
+<i class="no-highlight">535</i>&nbsp;                    return;
+<i class="no-highlight">536</i>&nbsp;                }
+<i class="no-highlight">537</i>&nbsp;
+<b class="fc"><i class="no-highlight">538</i>&nbsp;                for (Player p : game.getPlayersList()) {</b>
+<b class="fc"><i class="no-highlight">539</i>&nbsp;                    p.setSelectedAssistant(null);</b>
+<b class="fc"><i class="no-highlight">540</i>&nbsp;                }</b>
+<b class="fc"><i class="no-highlight">541</i>&nbsp;                game.getCurrRound().fillClouds(game.getCloudsList(), game.getBag(), game.getNumOfPlayers());</b>
+<i class="no-highlight">542</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">543</i>&nbsp;            game.sendTable();</b>
+<b class="fc"><i class="no-highlight">544</i>&nbsp;            game.sendInGameState();</b>
+<b class="fc"><i class="no-highlight">545</i>&nbsp;        } else {</b>
+<b class="fc"><i class="no-highlight">546</i>&nbsp;            logger.log(Level.SEVERE, &quot;forbidden move&quot;);</b>
+<b class="fc"><i class="no-highlight">547</i>&nbsp;            sendError(game.getCurrPlayer().getId(), &quot;Forbidden command&quot;);</b>
+<i class="no-highlight">548</i>&nbsp;        }
+<i class="no-highlight">549</i>&nbsp;
+<i class="no-highlight">550</i>&nbsp;    }
+<i class="no-highlight">551</i>&nbsp;
+<i class="no-highlight">552</i>&nbsp;    //ACTION PHASE 3
+<i class="no-highlight">553</i>&nbsp;
+<i class="no-highlight">554</i>&nbsp;    /**
+<i class="no-highlight">555</i>&nbsp;     * This method selects an assistant for the current player
+<i class="no-highlight">556</i>&nbsp;     *
+<i class="no-highlight">557</i>&nbsp;     * @param assistantId id of the selected assistant
+<i class="no-highlight">558</i>&nbsp;     */
+<i class="no-highlight">559</i>&nbsp;    public synchronized void selectAssistant(int assistantId) {
+<b class="fc"><i class="no-highlight">560</i>&nbsp;        if (game.getCurrRound().getStage() == RoundState.PLANNING_STATE) {</b>
+<b class="fc"><i class="no-highlight">561</i>&nbsp;            Round round = game.getCurrRound();</b>
+<b class="fc"><i class="no-highlight">562</i>&nbsp;            Player player = round.getPlanningPhasePlayer(game.getPlayersList());</b>
+<b class="fc"><i class="no-highlight">563</i>&nbsp;            if (player.getAssistantDeck().getAssistantById(assistantId) == null) {</b>
+<b class="nc"><i class="no-highlight">564</i>&nbsp;                logger.log(Level.SEVERE, &quot;wrong parameters&quot;);</b>
+<b class="nc"><i class="no-highlight">565</i>&nbsp;                sendError(player.getId(), &quot;Assistant not available&quot;);</b>
+<i class="no-highlight">566</i>&nbsp;                return;
+<i class="no-highlight">567</i>&nbsp;            }
+<i class="no-highlight">568</i>&nbsp;
+<b class="fc"><i class="no-highlight">569</i>&nbsp;            List&lt;Integer&gt; thrownAssistants = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">570</i>&nbsp;            List&lt;Integer&gt; myAssistants = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">571</i>&nbsp;            for (Player p : game.getPlayersList()) {</b>
+<b class="fc"><i class="no-highlight">572</i>&nbsp;                if (p.getSelectedAssistant() != null) {</b>
+<b class="fc"><i class="no-highlight">573</i>&nbsp;                    thrownAssistants.add(p.getSelectedAssistant().getId());</b>
+<i class="no-highlight">574</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">575</i>&nbsp;            }</b>
+<b class="fc"><i class="no-highlight">576</i>&nbsp;            for (Assistant a : player.getAssistantDeck().getAssistantsList()) {</b>
+<b class="fc"><i class="no-highlight">577</i>&nbsp;                myAssistants.add(a.getId());</b>
+<b class="fc"><i class="no-highlight">578</i>&nbsp;            }</b>
+<i class="no-highlight">579</i>&nbsp;
+<b class="fc"><i class="no-highlight">580</i>&nbsp;            if (thrownAssistants.contains(assistantId) &amp;&amp; !thrownAssistants.containsAll(myAssistants)) { //my assistant was already thrown, and it is false that all my assistants were already thrown</b>
+<b class="nc"><i class="no-highlight">581</i>&nbsp;                logger.log(Level.SEVERE, &quot;same id of other players&quot;);</b>
+<b class="nc"><i class="no-highlight">582</i>&nbsp;                sendError(player.getId(), &quot;Assistant not available&quot;);</b>
+<i class="no-highlight">583</i>&nbsp;                return;
+<i class="no-highlight">584</i>&nbsp;            }
+<i class="no-highlight">585</i>&nbsp;
+<b class="fc"><i class="no-highlight">586</i>&nbsp;            player.setSelectedAssistant(assistantId);</b>
+<b class="fc"><i class="no-highlight">587</i>&nbsp;            player.getAssistantDeck().removeAssistantById(assistantId);</b>
+<i class="no-highlight">588</i>&nbsp;
+<b class="fc"><i class="no-highlight">589</i>&nbsp;            sendAssistantsToClient(player.getId(), player.getAssistantDeck().getReducedAssistantsList()); //send the remaining assistants only to the current player</b>
+<b class="fc"><i class="no-highlight">590</i>&nbsp;            game.sendSelectedAssistant(); //send selected assistant to all players before setting the next player of planning phase</b>
+<i class="no-highlight">591</i>&nbsp;
+<b class="fc"><i class="no-highlight">592</i>&nbsp;            round.setNextPlayerPlanning(game.getNumOfPlayers());</b>
+<i class="no-highlight">593</i>&nbsp;
+<b class="fc"><i class="no-highlight">594</i>&nbsp;            if (round.getNumOfAssistantThrows() == game.getNumOfPlayers()) {</b>
+<b class="fc"><i class="no-highlight">595</i>&nbsp;                round.initRound(game.getPlayersList());</b>
+<i class="no-highlight">596</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">597</i>&nbsp;            game.sendInGameState();</b>
+<b class="fc"><i class="no-highlight">598</i>&nbsp;        } else {</b>
+<b class="fc"><i class="no-highlight">599</i>&nbsp;            logger.log(Level.SEVERE, &quot;forbidden move&quot;);</b>
+<b class="fc"><i class="no-highlight">600</i>&nbsp;            sendError(game.getCurrPlayer().getId(), &quot;Forbidden command&quot;);</b>
+<i class="no-highlight">601</i>&nbsp;        }
+<i class="no-highlight">602</i>&nbsp;    }
+<i class="no-highlight">603</i>&nbsp;
+<i class="no-highlight">604</i>&nbsp;    /**
+<i class="no-highlight">605</i>&nbsp;     * this method uses a character for the current player
+<i class="no-highlight">606</i>&nbsp;     *
+<i class="no-highlight">607</i>&nbsp;     * @param characterId id of the selected character
+<i class="no-highlight">608</i>&nbsp;     * @param parameters  the selected character&#39;s parameters
+<i class="no-highlight">609</i>&nbsp;     */
+<i class="no-highlight">610</i>&nbsp;    public synchronized void useCharacter(int characterId, CharacterParameters parameters) {
+<b class="fc"><i class="no-highlight">611</i>&nbsp;        if (game.getCurrRound().getStage() == RoundState.ACTION_STATE) {</b>
+<b class="fc"><i class="no-highlight">612</i>&nbsp;            Character usedCharacter = game.getCharacterById(characterId);</b>
+<b class="fc"><i class="no-highlight">613</i>&nbsp;            if (usedCharacter == null) {</b>
+<b class="fc"><i class="no-highlight">614</i>&nbsp;                logger.log(Level.SEVERE, &quot;wrong parameters&quot;);</b>
+<b class="fc"><i class="no-highlight">615</i>&nbsp;                sendError(game.getCurrPlayer().getId(), &quot;Wrong parameters&quot;);</b>
+<i class="no-highlight">616</i>&nbsp;                return;
+<i class="no-highlight">617</i>&nbsp;            }
+<i class="no-highlight">618</i>&nbsp;
+<i class="no-highlight">619</i>&nbsp;            //calculate true character cost
+<b class="fc"><i class="no-highlight">620</i>&nbsp;            int characterCost = usedCharacter.getInitialCost();</b>
+<b class="fc"><i class="no-highlight">621</i>&nbsp;            if (usedCharacter.isUsed()) { //increment character cost if already used</b>
+<b class="nc"><i class="no-highlight">622</i>&nbsp;                characterCost++;</b>
+<i class="no-highlight">623</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">624</i>&nbsp;            if (game.getCurrPlayer().getMoney() &gt;= characterCost) { //check if the player has enough money to pay the character</b>
+<b class="fc"><i class="no-highlight">625</i>&nbsp;                boolean result = usedCharacter.applyEffect(parameters);</b>
+<b class="fc"><i class="no-highlight">626</i>&nbsp;                Island prevIsl = game.getIslandByIndex(game.getMotherNaturePos());</b>
+<b class="fc"><i class="no-highlight">627</i>&nbsp;                int prevIslListsize = game.getIslandsList().size();</b>
+<b class="fc"><i class="no-highlight">628</i>&nbsp;                int newMotherNaturePos = game.getCurrRound().getCurrTurn().updateIslandList(game.getIslandsList());</b>
+<b class="fc"><i class="no-highlight">629</i>&nbsp;                int diff = prevIslListsize - game.getIslandsList().size();</b>
+<b class="fc"><i class="no-highlight">630</i>&nbsp;                if (newMotherNaturePos != -1 &amp;&amp; (!game.getIslandsList().contains(prevIsl) || parameters.getIsland() == prevIsl)) {</b>
+<b class="nc"><i class="no-highlight">631</i>&nbsp;                    game.setMotherNaturePosition(newMotherNaturePos);</b>
+<i class="no-highlight">632</i>&nbsp;                }  //we update islands because some characters calculate the influence
+<b class="fc"><i class="no-highlight">633</i>&nbsp;                else if (diff != 0 &amp;&amp; newMotherNaturePos &lt; game.getMotherNaturePos()) {</b>
+<b class="nc"><i class="no-highlight">634</i>&nbsp;                    game.setMotherNaturePosition((game.getMotherNaturePos()) - diff);</b>
+<i class="no-highlight">635</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">636</i>&nbsp;                game.getCurrRound().getCurrTurn().updateProfessorsLists(game.getPlayersList(), game.getTableProfessorsList());</b>
+<b class="fc"><i class="no-highlight">637</i>&nbsp;                game.getCurrRound().getCurrTurn().returnProfessorsToTable(game.getPlayersList(), game.getTableProfessorsList());</b>
+<i class="no-highlight">638</i>&nbsp;
+<b class="fc"><i class="no-highlight">639</i>&nbsp;                if (!result) {</b>
+<b class="nc"><i class="no-highlight">640</i>&nbsp;                    logger.log(Level.SEVERE, &quot;error in character use&quot;);</b>
+<b class="nc"><i class="no-highlight">641</i>&nbsp;                    sendError(game.getCurrPlayer().getId(), &quot;Error, retry to use character or continue playing&quot;);</b>
+<b class="nc"><i class="no-highlight">642</i>&nbsp;                    game.sendInGameState();</b>
+<i class="no-highlight">643</i>&nbsp;                    return;
+<i class="no-highlight">644</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">645</i>&nbsp;                game.getCurrPlayer().modifyMoney(-(characterCost), game.getTableMoney(), usedCharacter.isUsed());</b>
+<b class="fc"><i class="no-highlight">646</i>&nbsp;                usedCharacter.setUsed();</b>
+<b class="fc"><i class="no-highlight">647</i>&nbsp;                game.getCurrRound().getCurrTurn().setUsedCharacter(game.getCharacterById(characterId));</b>
+<b class="fc"><i class="no-highlight">648</i>&nbsp;                game.sendCharacterTable(); //update the characters on the table</b>
+<b class="fc"><i class="no-highlight">649</i>&nbsp;                game.sendTable();//update the table</b>
+<b class="fc"><i class="no-highlight">650</i>&nbsp;                game.sendAllDashboards(); //update the dashboards of all users</b>
+<b class="fc"><i class="no-highlight">651</i>&nbsp;                game.sendInGameState(); //orders the update of the views</b>
+<b class="fc"><i class="no-highlight">652</i>&nbsp;                game.sendThrownCharacter(characterId);</b>
+<i class="no-highlight">653</i>&nbsp;
+<b class="fc"><i class="no-highlight">654</i>&nbsp;                if (checkWin(false)) {</b>
+<b class="nc"><i class="no-highlight">655</i>&nbsp;                    game.sendWin(getWinner());</b>
+<b class="nc"><i class="no-highlight">656</i>&nbsp;                    game.setState(GameState.FINISHED_STATE);</b>
+<i class="no-highlight">657</i>&nbsp;                    return;
+<i class="no-highlight">658</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">659</i>&nbsp;            } else {</b>
+<b class="nc"><i class="no-highlight">660</i>&nbsp;                logger.log(Level.SEVERE, &quot;Not enough money&quot;);</b>
+<b class="nc"><i class="no-highlight">661</i>&nbsp;                sendError(game.getCurrPlayer().getId(), &quot;Not enough money&quot;);</b>
+<i class="no-highlight">662</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">663</i>&nbsp;        } else {</b>
+<b class="nc"><i class="no-highlight">664</i>&nbsp;            logger.log(Level.SEVERE, &quot;forbidden move&quot;);</b>
+<b class="nc"><i class="no-highlight">665</i>&nbsp;            sendError(game.getCurrPlayer().getId(), &quot;Forbidden command&quot;);</b>
+<i class="no-highlight">666</i>&nbsp;        }
+<i class="no-highlight">667</i>&nbsp;    }
+<i class="no-highlight">668</i>&nbsp;
+<i class="no-highlight">669</i>&nbsp;    /**
+<i class="no-highlight">670</i>&nbsp;     * @return the state of the game
+<i class="no-highlight">671</i>&nbsp;     */
+<i class="no-highlight">672</i>&nbsp;    private GameState getGameState() {
+<b class="fc"><i class="no-highlight">673</i>&nbsp;        return game.getGameState();</b>
+<i class="no-highlight">674</i>&nbsp;    }
+<i class="no-highlight">675</i>&nbsp;
+<i class="no-highlight">676</i>&nbsp;    /**
+<i class="no-highlight">677</i>&nbsp;     * @param finishedRound
+<i class="no-highlight">678</i>&nbsp;     * @return {@code true} if someone won {@code false} if not
+<i class="no-highlight">679</i>&nbsp;     */
+<i class="no-highlight">680</i>&nbsp;    public boolean checkWin(boolean finishedRound) {
+<b class="fc"><i class="no-highlight">681</i>&nbsp;        if (finishedRound) {</b>
+<b class="fc"><i class="no-highlight">682</i>&nbsp;            for (Player p : game.getPlayersList()) { //one player finished assistants, the check on the bag is done in the method movemothernature</b>
+<b class="fc"><i class="no-highlight">683</i>&nbsp;                if (p.getAssistantDeck().getAssistantsList().isEmpty()) {</b>
+<b class="fc"><i class="no-highlight">684</i>&nbsp;                    logger.log(Level.INFO, &quot;win on finished assistants&quot;);</b>
+<b class="fc"><i class="no-highlight">685</i>&nbsp;                    return true;</b>
+<i class="no-highlight">686</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">687</i>&nbsp;            }</b>
+<i class="no-highlight">688</i>&nbsp;        } else {
+<b class="fc"><i class="no-highlight">689</i>&nbsp;            for (Player p : game.getPlayersList()) {</b>
+<b class="fc"><i class="no-highlight">690</i>&nbsp;                if (p.hasTower() &amp;&amp; p.getDashboard().getTowersList().isEmpty()) { //a player finished the towers</b>
+<b class="fc"><i class="no-highlight">691</i>&nbsp;                    logger.log(Level.INFO, &quot;win on finished towers&quot;);</b>
+<b class="fc"><i class="no-highlight">692</i>&nbsp;                    return true;</b>
+<i class="no-highlight">693</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">694</i>&nbsp;            }</b>
+<b class="fc"><i class="no-highlight">695</i>&nbsp;            if (game.getIslandsList().size() &lt;= 3) {//there are only three islands on the table</b>
+<b class="nc"><i class="no-highlight">696</i>&nbsp;                logger.log(Level.INFO, &quot;win on 3 island remained&quot;);</b>
+<b class="nc"><i class="no-highlight">697</i>&nbsp;                return true;</b>
+<i class="no-highlight">698</i>&nbsp;            }
+<i class="no-highlight">699</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">700</i>&nbsp;        return false;</b>
+<i class="no-highlight">701</i>&nbsp;    }
+<i class="no-highlight">702</i>&nbsp;
+<i class="no-highlight">703</i>&nbsp;    /**
+<i class="no-highlight">704</i>&nbsp;     * @return the player who won the game
+<i class="no-highlight">705</i>&nbsp;     */
+<i class="no-highlight">706</i>&nbsp;    public int getWinner() {  //it was private, but we have to put it public for the tests
+<b class="fc"><i class="no-highlight">707</i>&nbsp;        int winnerId = -1;</b>
+<b class="fc"><i class="no-highlight">708</i>&nbsp;        Player tmpPlayer = null;</b>
+<b class="fc"><i class="no-highlight">709</i>&nbsp;        for (int i = 0; i &lt; game.getPlayersList().size(); i++) {</b>
+<b class="fc"><i class="no-highlight">710</i>&nbsp;            if (game.getPlayersList().get(i).hasTower() == true) { //it is impossible that tmpPlayer is not set here</b>
+<b class="fc"><i class="no-highlight">711</i>&nbsp;                tmpPlayer = game.getPlayersList().get(i); //tmpPlayer is the current winner player,</b>
+<b class="fc"><i class="no-highlight">712</i>&nbsp;                break;</b>
+<i class="no-highlight">713</i>&nbsp;            }
+<i class="no-highlight">714</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">715</i>&nbsp;        for (Player p : game.getPlayersList()) {</b>
+<b class="fc"><i class="no-highlight">716</i>&nbsp;            if (p.hasTower()) {</b>
+<b class="fc"><i class="no-highlight">717</i>&nbsp;                if (p.getDashboard().getTowersList().size() &lt; tmpPlayer.getDashboard().getTowersList().size()) {</b>
+<b class="nc"><i class="no-highlight">718</i>&nbsp;                    tmpPlayer = p;</b>
+<b class="fc"><i class="no-highlight">719</i>&nbsp;                } else if (p.getDashboard().getTowersList().size() == tmpPlayer.getDashboard().getTowersList().size()) {</b>
+<b class="fc"><i class="no-highlight">720</i>&nbsp;                    if (p.getDashboard().getProfessorsList().size() &gt; tmpPlayer.getDashboard().getProfessorsList().size()) { //if also professors are the same number it will win the first checked by the loop (pseudo-randomly)</b>
+<b class="nc"><i class="no-highlight">721</i>&nbsp;                        tmpPlayer = p;</b>
+<i class="no-highlight">722</i>&nbsp;                    }
+<i class="no-highlight">723</i>&nbsp;                }
+<i class="no-highlight">724</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">725</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">726</i>&nbsp;        return tmpPlayer.getId();</b>
+<i class="no-highlight">727</i>&nbsp;    }
+<i class="no-highlight">728</i>&nbsp;
+<i class="no-highlight">729</i>&nbsp;    /**
+<i class="no-highlight">730</i>&nbsp;     * This method checks if the sender of the message is the current player
+<i class="no-highlight">731</i>&nbsp;     *
+<i class="no-highlight">732</i>&nbsp;     * @param message the received message
+<i class="no-highlight">733</i>&nbsp;     * @return {@code true} if the sender of the message is the current player {@code false} otherwise
+<i class="no-highlight">734</i>&nbsp;     */
+<i class="no-highlight">735</i>&nbsp;    private boolean checkUser(Message message) {
+<b class="fc"><i class="no-highlight">736</i>&nbsp;        return (game.getCurrRound().getStage() == RoundState.ACTION_STATE &amp;&amp; message.getSenderId() == game.getCurrPlayer().getId()) || (game.getCurrRound().getStage() == RoundState.PLANNING_STATE &amp;&amp; message.getSenderId() == game.getCurrRound().getPlanningPhasePlayer(game.getPlayersList()).getId());</b>
+<i class="no-highlight">737</i>&nbsp;    }
+<i class="no-highlight">738</i>&nbsp;
+<i class="no-highlight">739</i>&nbsp;    /**
+<i class="no-highlight">740</i>&nbsp;     * This method sends an error message to a player
+<i class="no-highlight">741</i>&nbsp;     *
+<i class="no-highlight">742</i>&nbsp;     * @param playerId id of the player
+<i class="no-highlight">743</i>&nbsp;     * @param message  the message received
+<i class="no-highlight">744</i>&nbsp;     */
+<i class="no-highlight">745</i>&nbsp;    private void sendError(int playerId, String message) {
+<b class="fc"><i class="no-highlight">746</i>&nbsp;        if (server != null) {</b>
+<b class="nc"><i class="no-highlight">747</i>&nbsp;            RemoteView remoteView = server.getRemoteViewByPlayerId(playerId);</b>
+<b class="nc"><i class="no-highlight">748</i>&nbsp;            remoteView.sendToClient(new StringMessage(MessageType.ERROR_REPLY, SERVERID, false, message));</b>
+<i class="no-highlight">749</i>&nbsp;        }
+<i class="no-highlight">750</i>&nbsp;    }
+<i class="no-highlight">751</i>&nbsp;
+<i class="no-highlight">752</i>&nbsp;    /**
+<i class="no-highlight">753</i>&nbsp;     * This method sends an ok message to a player
+<i class="no-highlight">754</i>&nbsp;     *
+<i class="no-highlight">755</i>&nbsp;     * @param playerId id of the player
+<i class="no-highlight">756</i>&nbsp;     */
+<i class="no-highlight">757</i>&nbsp;    private void sendOk(int playerId) {
+<b class="fc"><i class="no-highlight">758</i>&nbsp;        if (server != null) {</b>
+<b class="nc"><i class="no-highlight">759</i>&nbsp;            RemoteView remoteView = server.getRemoteViewByPlayerId(playerId);</b>
+<b class="nc"><i class="no-highlight">760</i>&nbsp;            remoteView.sendToClient(new GenericMessage(MessageType.OK_REPLY, SERVERID, false));</b>
+<i class="no-highlight">761</i>&nbsp;        }
+<i class="no-highlight">762</i>&nbsp;    }
+<i class="no-highlight">763</i>&nbsp;
+<i class="no-highlight">764</i>&nbsp;    /**
+<i class="no-highlight">765</i>&nbsp;     * Sends the assistants to a player
+<i class="no-highlight">766</i>&nbsp;     *
+<i class="no-highlight">767</i>&nbsp;     * @param playerId      id of the player
+<i class="no-highlight">768</i>&nbsp;     * @param assistantList list of the sent assistants
+<i class="no-highlight">769</i>&nbsp;     */
+<i class="no-highlight">770</i>&nbsp;    private void sendAssistantsToClient(int playerId, List&lt;ReducedAssistant&gt; assistantList) {
+<b class="fc"><i class="no-highlight">771</i>&nbsp;        if (server != null) {</b>
+<b class="nc"><i class="no-highlight">772</i>&nbsp;            RemoteView remoteView = server.getRemoteViewByPlayerId(playerId);</b>
+<b class="nc"><i class="no-highlight">773</i>&nbsp;            remoteView.sendToClient(new AssistantsSendMessage(SERVERID, assistantList));</b>
+<i class="no-highlight">774</i>&nbsp;        }
+<i class="no-highlight">775</i>&nbsp;    }
+<i class="no-highlight">776</i>&nbsp;
+<i class="no-highlight">777</i>&nbsp;    /**
+<i class="no-highlight">778</i>&nbsp;     * @return the server
+<i class="no-highlight">779</i>&nbsp;     */
+<i class="no-highlight">780</i>&nbsp;    public Server getServer() {
+<b class="fc"><i class="no-highlight">781</i>&nbsp;        return server;</b>
+<i class="no-highlight">782</i>&nbsp;    }
 <i class="no-highlight">783</i>&nbsp;
 <i class="no-highlight">784</i>&nbsp;    //ONLY TO TEST METHOD
 <i class="no-highlight">785</i>&nbsp;
@@ -919,7 +919,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-29 20:56</div>
+    <div style="float:right;">generated on 2022-07-01 13:15</div>
 </div>
 </body>
 </html>

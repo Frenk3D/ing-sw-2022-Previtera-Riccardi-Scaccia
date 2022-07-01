@@ -61,7 +61,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/36)
+    (0/34)
   </span>
 </td>
 </tr>
@@ -106,7 +106,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">31</i>&nbsp;     * @param ip               the client ip
 <i class="no-highlight">32</i>&nbsp;     * @param port             the client port
 <i class="no-highlight">33</i>&nbsp;     * @param clientController the client controller
-<i class="no-highlight">34</i>&nbsp;     * @throws IOException
+<i class="no-highlight">34</i>&nbsp;     * @throws IOException ex
 <i class="no-highlight">35</i>&nbsp;     */
 <b class="nc"><i class="no-highlight">36</i>&nbsp;    public ClientSocket(String ip, int port, ClientController clientController) throws IOException {</b>
 <b class="nc"><i class="no-highlight">37</i>&nbsp;        this.ip = ip;</b>
@@ -132,69 +132,67 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">57</i>&nbsp;                Message message;
 <i class="no-highlight">58</i>&nbsp;                try {
 <b class="nc"><i class="no-highlight">59</i>&nbsp;                    message = (Message) inputStm.readObject();</b>
-<b class="nc"><i class="no-highlight">60</i>&nbsp;                    System.out.println(&quot;Received: &quot; + message.getMessageType()); //only for debug</b>
-<b class="nc"><i class="no-highlight">61</i>&nbsp;                    clientController.onMessageReceived(message);</b>
-<b class="nc"><i class="no-highlight">62</i>&nbsp;                } catch (IOException | ClassNotFoundException e) {</b>
-<i class="no-highlight">63</i>&nbsp;                    //e.printStackTrace();
-<b class="nc"><i class="no-highlight">64</i>&nbsp;                    disconnect();</b>
-<b class="nc"><i class="no-highlight">65</i>&nbsp;                }</b>
-<i class="no-highlight">66</i>&nbsp;            }
-<i class="no-highlight">67</i>&nbsp;        });
-<i class="no-highlight">68</i>&nbsp;    }
-<i class="no-highlight">69</i>&nbsp;
-<i class="no-highlight">70</i>&nbsp;    /**
-<i class="no-highlight">71</i>&nbsp;     * This method handles the sending of messages through the socket&#39;s output stream
-<i class="no-highlight">72</i>&nbsp;     * If an IOException is detected the socket is disconnected
-<i class="no-highlight">73</i>&nbsp;     *
-<i class="no-highlight">74</i>&nbsp;     * @param message the message to be sent
-<i class="no-highlight">75</i>&nbsp;     */
-<i class="no-highlight">76</i>&nbsp;    public synchronized void sendMessage(Message message) {
-<i class="no-highlight">77</i>&nbsp;        try {
-<b class="nc"><i class="no-highlight">78</i>&nbsp;            System.out.println(&quot;--SENT MESSAGE: &quot; + message.getMessageType());</b>
-<b class="nc"><i class="no-highlight">79</i>&nbsp;            outputStm.writeObject(message);</b>
-<b class="nc"><i class="no-highlight">80</i>&nbsp;            outputStm.flush();</b>
-<b class="nc"><i class="no-highlight">81</i>&nbsp;            outputStm.reset();</b>
-<b class="nc"><i class="no-highlight">82</i>&nbsp;        } catch (IOException e) {</b>
-<b class="nc"><i class="no-highlight">83</i>&nbsp;            e.printStackTrace();</b>
-<b class="nc"><i class="no-highlight">84</i>&nbsp;            disconnect();</b>
-<b class="nc"><i class="no-highlight">85</i>&nbsp;        }</b>
-<i class="no-highlight">86</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">60</i>&nbsp;                    clientController.onMessageReceived(message);</b>
+<b class="nc"><i class="no-highlight">61</i>&nbsp;                } catch (IOException | ClassNotFoundException e) {</b>
+<i class="no-highlight">62</i>&nbsp;                    //e.printStackTrace();
+<b class="nc"><i class="no-highlight">63</i>&nbsp;                    disconnect();</b>
+<b class="nc"><i class="no-highlight">64</i>&nbsp;                }</b>
+<i class="no-highlight">65</i>&nbsp;            }
+<i class="no-highlight">66</i>&nbsp;        });
+<i class="no-highlight">67</i>&nbsp;    }
+<i class="no-highlight">68</i>&nbsp;
+<i class="no-highlight">69</i>&nbsp;    /**
+<i class="no-highlight">70</i>&nbsp;     * This method handles the sending of messages through the socket&#39;s output stream
+<i class="no-highlight">71</i>&nbsp;     * If an IOException is detected the socket is disconnected
+<i class="no-highlight">72</i>&nbsp;     *
+<i class="no-highlight">73</i>&nbsp;     * @param message the message to be sent
+<i class="no-highlight">74</i>&nbsp;     */
+<i class="no-highlight">75</i>&nbsp;    public synchronized void sendMessage(Message message) {
+<i class="no-highlight">76</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">77</i>&nbsp;            outputStm.writeObject(message);</b>
+<b class="nc"><i class="no-highlight">78</i>&nbsp;            outputStm.flush();</b>
+<b class="nc"><i class="no-highlight">79</i>&nbsp;            outputStm.reset();</b>
+<b class="nc"><i class="no-highlight">80</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i class="no-highlight">81</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">82</i>&nbsp;            disconnect();</b>
+<b class="nc"><i class="no-highlight">83</i>&nbsp;        }</b>
+<i class="no-highlight">84</i>&nbsp;    }
+<i class="no-highlight">85</i>&nbsp;
+<i class="no-highlight">86</i>&nbsp;    //it is when THIS client disconnect, or there are others critical problems...
 <i class="no-highlight">87</i>&nbsp;
-<i class="no-highlight">88</i>&nbsp;    //it is when THIS client disconnect, or there are others critical problems...
-<i class="no-highlight">89</i>&nbsp;
-<i class="no-highlight">90</i>&nbsp;    /**
-<i class="no-highlight">91</i>&nbsp;     * This method handles the socket disconnection by closing it
-<i class="no-highlight">92</i>&nbsp;     */
-<i class="no-highlight">93</i>&nbsp;    public void disconnect() {
-<b class="nc"><i class="no-highlight">94</i>&nbsp;        readExecutionQueue.shutdownNow();</b>
-<i class="no-highlight">95</i>&nbsp;        try {
-<b class="nc"><i class="no-highlight">96</i>&nbsp;            if (!socket.isClosed()) {</b>
-<b class="nc"><i class="no-highlight">97</i>&nbsp;                socket.close();</b>
-<i class="no-highlight">98</i>&nbsp;            }
-<b class="nc"><i class="no-highlight">99</i>&nbsp;        } catch (IOException e) {</b>
-<b class="nc"><i class="no-highlight">100</i>&nbsp;            System.out.println(&quot;Could not disconnect&quot;);</b>
-<b class="nc"><i class="no-highlight">101</i>&nbsp;            e.printStackTrace();</b>
-<b class="nc"><i class="no-highlight">102</i>&nbsp;        }</b>
-<b class="nc"><i class="no-highlight">103</i>&nbsp;        clientController.onSocketDisconnect();</b>
-<i class="no-highlight">104</i>&nbsp;    }
-<i class="no-highlight">105</i>&nbsp;
-<i class="no-highlight">106</i>&nbsp;    /**
-<i class="no-highlight">107</i>&nbsp;     * @return the client&#39;s id
-<i class="no-highlight">108</i>&nbsp;     */
-<i class="no-highlight">109</i>&nbsp;    public int getClientId() {
-<b class="nc"><i class="no-highlight">110</i>&nbsp;        return clientId;</b>
-<i class="no-highlight">111</i>&nbsp;    }
-<i class="no-highlight">112</i>&nbsp;
-<i class="no-highlight">113</i>&nbsp;    /**
-<i class="no-highlight">114</i>&nbsp;     * Sets the client id
-<i class="no-highlight">115</i>&nbsp;     *
-<i class="no-highlight">116</i>&nbsp;     * @param clientId the client id
-<i class="no-highlight">117</i>&nbsp;     */
-<i class="no-highlight">118</i>&nbsp;    public void setClientId(int clientId) {
-<b class="nc"><i class="no-highlight">119</i>&nbsp;        this.clientId = clientId;</b>
-<i class="no-highlight">120</i>&nbsp;    }
-<i class="no-highlight">121</i>&nbsp;}
-<i class="no-highlight">122</i>&nbsp;
+<i class="no-highlight">88</i>&nbsp;    /**
+<i class="no-highlight">89</i>&nbsp;     * This method handles the socket disconnection by closing it
+<i class="no-highlight">90</i>&nbsp;     */
+<i class="no-highlight">91</i>&nbsp;    public void disconnect() {
+<b class="nc"><i class="no-highlight">92</i>&nbsp;        readExecutionQueue.shutdownNow();</b>
+<i class="no-highlight">93</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">94</i>&nbsp;            if (!socket.isClosed()) {</b>
+<b class="nc"><i class="no-highlight">95</i>&nbsp;                socket.close();</b>
+<i class="no-highlight">96</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">97</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i class="no-highlight">98</i>&nbsp;            System.out.println(&quot;Could not disconnect&quot;);</b>
+<b class="nc"><i class="no-highlight">99</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">100</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">101</i>&nbsp;        clientController.onSocketDisconnect();</b>
+<i class="no-highlight">102</i>&nbsp;    }
+<i class="no-highlight">103</i>&nbsp;
+<i class="no-highlight">104</i>&nbsp;    /**
+<i class="no-highlight">105</i>&nbsp;     * @return the client&#39;s id
+<i class="no-highlight">106</i>&nbsp;     */
+<i class="no-highlight">107</i>&nbsp;    public int getClientId() {
+<b class="nc"><i class="no-highlight">108</i>&nbsp;        return clientId;</b>
+<i class="no-highlight">109</i>&nbsp;    }
+<i class="no-highlight">110</i>&nbsp;
+<i class="no-highlight">111</i>&nbsp;    /**
+<i class="no-highlight">112</i>&nbsp;     * Sets the client id
+<i class="no-highlight">113</i>&nbsp;     *
+<i class="no-highlight">114</i>&nbsp;     * @param clientId the client id
+<i class="no-highlight">115</i>&nbsp;     */
+<i class="no-highlight">116</i>&nbsp;    public void setClientId(int clientId) {
+<b class="nc"><i class="no-highlight">117</i>&nbsp;        this.clientId = clientId;</b>
+<i class="no-highlight">118</i>&nbsp;    }
+<i class="no-highlight">119</i>&nbsp;}
+<i class="no-highlight">120</i>&nbsp;
 </div>
 </pre>
 </div>
@@ -221,7 +219,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-29 20:56</div>
+    <div style="float:right;">generated on 2022-07-01 13:15</div>
 </div>
 </body>
 </html>

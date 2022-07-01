@@ -55,7 +55,7 @@ The following documentation includes a description for most of the classes and m
 Starts from index.html.
 
 ### Test coverage (on Server):
-Controller: ~81%  (methods that regards the communication are also tested playing the game)  
+[Controller](https://github.com/Frenk3D/ing-sw-2022-Previtera-Riccardi-Scaccia/blob/main/src/main/java/it/polimi/ingsw/controllers/Controller.java): ~81%  (methods that regards the communication are also tested playing the game)  
 Model: ~88%
   
   

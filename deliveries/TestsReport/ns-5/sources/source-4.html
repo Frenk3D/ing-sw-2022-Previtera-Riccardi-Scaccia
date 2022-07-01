@@ -58,10 +58,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    76.1%
+    74.1%
   </span>
   <span class="absValue">
-    (54/71)
+    (60/81)
   </span>
 </td>
 </tr>
@@ -175,118 +175,129 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">100</i>&nbsp;     */
 <i class="no-highlight">101</i>&nbsp;    private boolean moveStudent7(Player cardPlayer, List&lt;Integer&gt; studentsIndexList, List&lt;Integer&gt; studentsIndexEntranceList) {
 <i class="no-highlight">102</i>&nbsp;        try {
-<i class="no-highlight">103</i>&nbsp;
+<b class="fc"><i class="no-highlight">103</i>&nbsp;            int[] checkArray=new int[10];</b>
 <i class="no-highlight">104</i>&nbsp;            //check if selected students exist
 <b class="fc"><i class="no-highlight">105</i>&nbsp;            for (Integer i : studentsIndexEntranceList) {</b>
 <b class="fc"><i class="no-highlight">106</i>&nbsp;                if (cardPlayer.getDashboard().getEntranceStudentByIndex(i) == null) {</b>
 <b class="nc"><i class="no-highlight">107</i>&nbsp;                    logger.log(Level.SEVERE, &quot;selected entrance students does not exist&quot;);</b>
 <b class="nc"><i class="no-highlight">108</i>&nbsp;                    return false;</b>
 <i class="no-highlight">109</i>&nbsp;                }
-<b class="fc"><i class="no-highlight">110</i>&nbsp;            }</b>
-<i class="no-highlight">111</i>&nbsp;
-<b class="fc"><i class="no-highlight">112</i>&nbsp;            for (Integer i : studentsIndexList) {</b>
-<b class="fc"><i class="no-highlight">113</i>&nbsp;                if (cardStudentsList.size() &lt;= i || i &lt; 0) {</b>
-<b class="nc"><i class="no-highlight">114</i>&nbsp;                    logger.log(Level.SEVERE, &quot;selected students from the card does not exist&quot;);</b>
-<b class="nc"><i class="no-highlight">115</i>&nbsp;                    return false;</b>
-<i class="no-highlight">116</i>&nbsp;                }
-<b class="fc"><i class="no-highlight">117</i>&nbsp;            }</b>
-<i class="no-highlight">118</i>&nbsp;
-<i class="no-highlight">119</i>&nbsp;
-<b class="fc"><i class="no-highlight">120</i>&nbsp;            List&lt;Student&gt; tmpDashboardStudents = new ArrayList&lt;&gt;();</b>
-<b class="fc"><i class="no-highlight">121</i>&nbsp;            List&lt;Student&gt; tmpCardStudents = new ArrayList&lt;&gt;();</b>
-<b class="fc"><i class="no-highlight">122</i>&nbsp;            for (Integer i : studentsIndexEntranceList) {</b>
-<b class="fc"><i class="no-highlight">123</i>&nbsp;                tmpDashboardStudents.add(cardPlayer.getDashboard().getEntranceList().get(i));</b>
-<b class="fc"><i class="no-highlight">124</i>&nbsp;            }</b>
-<i class="no-highlight">125</i>&nbsp;
-<b class="fc"><i class="no-highlight">126</i>&nbsp;            for (Integer i : studentsIndexList) {</b>
-<b class="fc"><i class="no-highlight">127</i>&nbsp;                tmpCardStudents.add(cardStudentsList.get(i));</b>
+<b class="fc"><i class="no-highlight">110</i>&nbsp;                checkArray[i]++;</b>
+<b class="fc"><i class="no-highlight">111</i>&nbsp;                if(checkArray[i]&gt;1){</b>
+<b class="nc"><i class="no-highlight">112</i>&nbsp;                    logger.log(Level.SEVERE, &quot;repeated entrance student&quot;);</b>
+<b class="nc"><i class="no-highlight">113</i>&nbsp;                    return false;</b>
+<i class="no-highlight">114</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">115</i>&nbsp;            }</b>
+<i class="no-highlight">116</i>&nbsp;
+<b class="fc"><i class="no-highlight">117</i>&nbsp;            checkArray = new int[10];</b>
+<b class="fc"><i class="no-highlight">118</i>&nbsp;            for (Integer i : studentsIndexList) {</b>
+<b class="fc"><i class="no-highlight">119</i>&nbsp;                if (cardStudentsList.size() &lt;= i || i &lt; 0) {</b>
+<b class="nc"><i class="no-highlight">120</i>&nbsp;                    logger.log(Level.SEVERE, &quot;selected students from the card does not exist&quot;);</b>
+<b class="nc"><i class="no-highlight">121</i>&nbsp;                    return false;</b>
+<i class="no-highlight">122</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">123</i>&nbsp;                checkArray[i]++;</b>
+<b class="fc"><i class="no-highlight">124</i>&nbsp;                if(checkArray[i]&gt;1){</b>
+<b class="nc"><i class="no-highlight">125</i>&nbsp;                    logger.log(Level.SEVERE, &quot;repeated card student&quot;);</b>
+<b class="nc"><i class="no-highlight">126</i>&nbsp;                    return false;</b>
+<i class="no-highlight">127</i>&nbsp;                }
 <b class="fc"><i class="no-highlight">128</i>&nbsp;            }</b>
 <i class="no-highlight">129</i>&nbsp;
-<b class="fc"><i class="no-highlight">130</i>&nbsp;            for (Student s : tmpDashboardStudents) {</b>
-<b class="fc"><i class="no-highlight">131</i>&nbsp;                cardStudentsList.add(s);</b>
-<b class="fc"><i class="no-highlight">132</i>&nbsp;                cardPlayer.getDashboard().getEntranceList().remove(s);</b>
-<b class="fc"><i class="no-highlight">133</i>&nbsp;            }</b>
-<i class="no-highlight">134</i>&nbsp;
-<b class="fc"><i class="no-highlight">135</i>&nbsp;            for (Student s : tmpCardStudents) {</b>
-<b class="fc"><i class="no-highlight">136</i>&nbsp;                cardPlayer.getDashboard().getEntranceList().add(s);</b>
-<b class="fc"><i class="no-highlight">137</i>&nbsp;                cardStudentsList.remove(s);</b>
-<b class="fc"><i class="no-highlight">138</i>&nbsp;            }</b>
-<b class="fc"><i class="no-highlight">139</i>&nbsp;            return true;</b>
-<b class="nc"><i class="no-highlight">140</i>&nbsp;        } catch (Exception e) {</b>
-<b class="nc"><i class="no-highlight">141</i>&nbsp;            return false;</b>
-<i class="no-highlight">142</i>&nbsp;        }
-<i class="no-highlight">143</i>&nbsp;    }
-<i class="no-highlight">144</i>&nbsp;
-<i class="no-highlight">145</i>&nbsp;    /**
-<i class="no-highlight">146</i>&nbsp;     * This method adds a student to a selected hall list from the character card
-<i class="no-highlight">147</i>&nbsp;     *
-<i class="no-highlight">148</i>&nbsp;     * @param cardPlayer   the card player
-<i class="no-highlight">149</i>&nbsp;     * @param studentIndex the student from the card
-<i class="no-highlight">150</i>&nbsp;     * @param tableMoney   the table money
-<i class="no-highlight">151</i>&nbsp;     * @return false if the student of a given index of the entrance list is null
-<i class="no-highlight">152</i>&nbsp;     * @return false if an exception is detected
-<i class="no-highlight">153</i>&nbsp;     * @return true if the effect is correctly applied
-<i class="no-highlight">154</i>&nbsp;     */
-<i class="no-highlight">155</i>&nbsp;    private boolean moveStudent11(Player cardPlayer, int studentIndex, AtomicInteger tableMoney) {
-<i class="no-highlight">156</i>&nbsp;
-<i class="no-highlight">157</i>&nbsp;        try {
-<i class="no-highlight">158</i>&nbsp;            //check if selected students exist
-<b class="fc"><i class="no-highlight">159</i>&nbsp;            if (cardPlayer.getDashboard().getEntranceStudentByIndex(studentIndex) == null) {</b>
-<b class="nc"><i class="no-highlight">160</i>&nbsp;                logger.log(Level.SEVERE, &quot;selected entrance students does not exist&quot;);</b>
-<b class="nc"><i class="no-highlight">161</i>&nbsp;                return false;</b>
-<i class="no-highlight">162</i>&nbsp;            }
-<i class="no-highlight">163</i>&nbsp;
-<i class="no-highlight">164</i>&nbsp;            //cardPlayer.getDashboard().getHallStudentsListByColor(cardStudentsList.get(studentIndex).getColor()).add(cardStudentsList.get(studentIndex));
-<b class="fc"><i class="no-highlight">165</i>&nbsp;            cardPlayer.getDashboard().addStudentHall(cardStudentsList.get(studentIndex), cardPlayer, tableMoney);</b>
-<b class="fc"><i class="no-highlight">166</i>&nbsp;            cardStudentsList.remove(studentIndex);</b>
-<b class="fc"><i class="no-highlight">167</i>&nbsp;            List&lt;Student&gt; newStudentList = bag.extractStudents(1);</b>
-<b class="fc"><i class="no-highlight">168</i>&nbsp;            if (newStudentList != null) {</b>
-<b class="fc"><i class="no-highlight">169</i>&nbsp;                cardStudentsList.add(newStudentList.get(0));</b>
-<i class="no-highlight">170</i>&nbsp;            }
-<b class="fc"><i class="no-highlight">171</i>&nbsp;            return true;</b>
-<b class="nc"><i class="no-highlight">172</i>&nbsp;        } catch (Exception e) {</b>
-<b class="nc"><i class="no-highlight">173</i>&nbsp;            return false;</b>
-<i class="no-highlight">174</i>&nbsp;        }
-<i class="no-highlight">175</i>&nbsp;    }
-<i class="no-highlight">176</i>&nbsp;
-<i class="no-highlight">177</i>&nbsp;    /**
-<i class="no-highlight">178</i>&nbsp;     * class used for the pattern factory
-<i class="no-highlight">179</i>&nbsp;     *
-<i class="no-highlight">180</i>&nbsp;     * @param params the character params
-<i class="no-highlight">181</i>&nbsp;     * @return true if the effect is applied
-<i class="no-highlight">182</i>&nbsp;     */
-<i class="no-highlight">183</i>&nbsp;    @Override
-<i class="no-highlight">184</i>&nbsp;    public boolean applyEffect(CharacterParameters params) {
-<b class="fc"><i class="no-highlight">185</i>&nbsp;        switch (id) {</b>
-<i class="no-highlight">186</i>&nbsp;            case 1:
-<b class="fc"><i class="no-highlight">187</i>&nbsp;                return moveStudent1(params.getIsland(), params.getStudentIndex());</b>
-<i class="no-highlight">188</i>&nbsp;            case 7:
-<b class="fc"><i class="no-highlight">189</i>&nbsp;                return moveStudent7(params.getPlayer(), params.getStudentsIndexList(), params.getStudentsIndexEntranceList());</b>
-<i class="no-highlight">190</i>&nbsp;            case 11:
-<b class="fc"><i class="no-highlight">191</i>&nbsp;                return moveStudent11(params.getPlayer(), params.getStudentIndex(), params.getTableMoney());</b>
-<i class="no-highlight">192</i>&nbsp;            default:
-<b class="nc"><i class="no-highlight">193</i>&nbsp;                return false;</b>
-<i class="no-highlight">194</i>&nbsp;        }
-<i class="no-highlight">195</i>&nbsp;    }
-<i class="no-highlight">196</i>&nbsp;
-<i class="no-highlight">197</i>&nbsp;    /**
-<i class="no-highlight">198</i>&nbsp;     * initializes the character
-<i class="no-highlight">199</i>&nbsp;     *
-<i class="no-highlight">200</i>&nbsp;     * @param params the char params
-<i class="no-highlight">201</i>&nbsp;     */
-<i class="no-highlight">202</i>&nbsp;    @Override
-<i class="no-highlight">203</i>&nbsp;    public void initCharacter(CharacterParameters params) {
-<b class="fc"><i class="no-highlight">204</i>&nbsp;        bag = params.getBag();</b>
-<b class="fc"><i class="no-highlight">205</i>&nbsp;        initStudents();</b>
+<i class="no-highlight">130</i>&nbsp;
+<b class="fc"><i class="no-highlight">131</i>&nbsp;            List&lt;Student&gt; tmpDashboardStudents = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">132</i>&nbsp;            List&lt;Student&gt; tmpCardStudents = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">133</i>&nbsp;            for (Integer i : studentsIndexEntranceList) {</b>
+<b class="fc"><i class="no-highlight">134</i>&nbsp;                tmpDashboardStudents.add(cardPlayer.getDashboard().getEntranceList().get(i));</b>
+<b class="fc"><i class="no-highlight">135</i>&nbsp;            }</b>
+<i class="no-highlight">136</i>&nbsp;
+<b class="fc"><i class="no-highlight">137</i>&nbsp;            for (Integer i : studentsIndexList) {</b>
+<b class="fc"><i class="no-highlight">138</i>&nbsp;                tmpCardStudents.add(cardStudentsList.get(i));</b>
+<b class="fc"><i class="no-highlight">139</i>&nbsp;            }</b>
+<i class="no-highlight">140</i>&nbsp;
+<b class="fc"><i class="no-highlight">141</i>&nbsp;            for (Student s : tmpDashboardStudents) {</b>
+<b class="fc"><i class="no-highlight">142</i>&nbsp;                cardStudentsList.add(s);</b>
+<b class="fc"><i class="no-highlight">143</i>&nbsp;                cardPlayer.getDashboard().getEntranceList().remove(s);</b>
+<b class="fc"><i class="no-highlight">144</i>&nbsp;            }</b>
+<i class="no-highlight">145</i>&nbsp;
+<b class="fc"><i class="no-highlight">146</i>&nbsp;            for (Student s : tmpCardStudents) {</b>
+<b class="fc"><i class="no-highlight">147</i>&nbsp;                cardPlayer.getDashboard().getEntranceList().add(s);</b>
+<b class="fc"><i class="no-highlight">148</i>&nbsp;                cardStudentsList.remove(s);</b>
+<b class="fc"><i class="no-highlight">149</i>&nbsp;            }</b>
+<b class="fc"><i class="no-highlight">150</i>&nbsp;            return true;</b>
+<b class="nc"><i class="no-highlight">151</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">152</i>&nbsp;            return false;</b>
+<i class="no-highlight">153</i>&nbsp;        }
+<i class="no-highlight">154</i>&nbsp;    }
+<i class="no-highlight">155</i>&nbsp;
+<i class="no-highlight">156</i>&nbsp;    /**
+<i class="no-highlight">157</i>&nbsp;     * This method adds a student to a selected hall list from the character card
+<i class="no-highlight">158</i>&nbsp;     *
+<i class="no-highlight">159</i>&nbsp;     * @param cardPlayer   the card player
+<i class="no-highlight">160</i>&nbsp;     * @param studentIndex the student from the card
+<i class="no-highlight">161</i>&nbsp;     * @param tableMoney   the table money
+<i class="no-highlight">162</i>&nbsp;     * @return false if the student of a given index of the entrance list is null
+<i class="no-highlight">163</i>&nbsp;     * @return false if an exception is detected
+<i class="no-highlight">164</i>&nbsp;     * @return true if the effect is correctly applied
+<i class="no-highlight">165</i>&nbsp;     */
+<i class="no-highlight">166</i>&nbsp;    private boolean moveStudent11(Player cardPlayer, int studentIndex, AtomicInteger tableMoney) {
+<i class="no-highlight">167</i>&nbsp;
+<i class="no-highlight">168</i>&nbsp;        try {
+<i class="no-highlight">169</i>&nbsp;            //check if selected students exist
+<b class="fc"><i class="no-highlight">170</i>&nbsp;            if (cardPlayer.getDashboard().getEntranceStudentByIndex(studentIndex) == null) {</b>
+<b class="nc"><i class="no-highlight">171</i>&nbsp;                logger.log(Level.SEVERE, &quot;selected entrance students does not exist&quot;);</b>
+<b class="nc"><i class="no-highlight">172</i>&nbsp;                return false;</b>
+<i class="no-highlight">173</i>&nbsp;            }
+<i class="no-highlight">174</i>&nbsp;
+<i class="no-highlight">175</i>&nbsp;            //cardPlayer.getDashboard().getHallStudentsListByColor(cardStudentsList.get(studentIndex).getColor()).add(cardStudentsList.get(studentIndex));
+<b class="fc"><i class="no-highlight">176</i>&nbsp;            cardPlayer.getDashboard().addStudentHall(cardStudentsList.get(studentIndex), cardPlayer, tableMoney);</b>
+<b class="fc"><i class="no-highlight">177</i>&nbsp;            cardStudentsList.remove(studentIndex);</b>
+<b class="fc"><i class="no-highlight">178</i>&nbsp;            List&lt;Student&gt; newStudentList = bag.extractStudents(1);</b>
+<b class="fc"><i class="no-highlight">179</i>&nbsp;            if (newStudentList != null) {</b>
+<b class="fc"><i class="no-highlight">180</i>&nbsp;                cardStudentsList.add(newStudentList.get(0));</b>
+<i class="no-highlight">181</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">182</i>&nbsp;            return true;</b>
+<b class="nc"><i class="no-highlight">183</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">184</i>&nbsp;            return false;</b>
+<i class="no-highlight">185</i>&nbsp;        }
+<i class="no-highlight">186</i>&nbsp;    }
+<i class="no-highlight">187</i>&nbsp;
+<i class="no-highlight">188</i>&nbsp;    /**
+<i class="no-highlight">189</i>&nbsp;     * class used for the pattern factory
+<i class="no-highlight">190</i>&nbsp;     *
+<i class="no-highlight">191</i>&nbsp;     * @param params the character params
+<i class="no-highlight">192</i>&nbsp;     * @return true if the effect is applied
+<i class="no-highlight">193</i>&nbsp;     */
+<i class="no-highlight">194</i>&nbsp;    @Override
+<i class="no-highlight">195</i>&nbsp;    public boolean applyEffect(CharacterParameters params) {
+<b class="fc"><i class="no-highlight">196</i>&nbsp;        switch (id) {</b>
+<i class="no-highlight">197</i>&nbsp;            case 1:
+<b class="fc"><i class="no-highlight">198</i>&nbsp;                return moveStudent1(params.getIsland(), params.getStudentIndex());</b>
+<i class="no-highlight">199</i>&nbsp;            case 7:
+<b class="fc"><i class="no-highlight">200</i>&nbsp;                return moveStudent7(params.getPlayer(), params.getStudentsIndexList(), params.getStudentsIndexEntranceList());</b>
+<i class="no-highlight">201</i>&nbsp;            case 11:
+<b class="fc"><i class="no-highlight">202</i>&nbsp;                return moveStudent11(params.getPlayer(), params.getStudentIndex(), params.getTableMoney());</b>
+<i class="no-highlight">203</i>&nbsp;            default:
+<b class="nc"><i class="no-highlight">204</i>&nbsp;                return false;</b>
+<i class="no-highlight">205</i>&nbsp;        }
 <i class="no-highlight">206</i>&nbsp;    }
 <i class="no-highlight">207</i>&nbsp;
 <i class="no-highlight">208</i>&nbsp;    /**
-<i class="no-highlight">209</i>&nbsp;     * @return the card students list
-<i class="no-highlight">210</i>&nbsp;     */
-<i class="no-highlight">211</i>&nbsp;    public List&lt;Student&gt; getCardStudentsList() {
-<b class="fc"><i class="no-highlight">212</i>&nbsp;        return cardStudentsList;</b>
-<i class="no-highlight">213</i>&nbsp;    }
-<i class="no-highlight">214</i>&nbsp;}
+<i class="no-highlight">209</i>&nbsp;     * initializes the character
+<i class="no-highlight">210</i>&nbsp;     *
+<i class="no-highlight">211</i>&nbsp;     * @param params the char params
+<i class="no-highlight">212</i>&nbsp;     */
+<i class="no-highlight">213</i>&nbsp;    @Override
+<i class="no-highlight">214</i>&nbsp;    public void initCharacter(CharacterParameters params) {
+<b class="fc"><i class="no-highlight">215</i>&nbsp;        bag = params.getBag();</b>
+<b class="fc"><i class="no-highlight">216</i>&nbsp;        initStudents();</b>
+<i class="no-highlight">217</i>&nbsp;    }
+<i class="no-highlight">218</i>&nbsp;
+<i class="no-highlight">219</i>&nbsp;    /**
+<i class="no-highlight">220</i>&nbsp;     * @return the card students list
+<i class="no-highlight">221</i>&nbsp;     */
+<i class="no-highlight">222</i>&nbsp;    public List&lt;Student&gt; getCardStudentsList() {
+<b class="fc"><i class="no-highlight">223</i>&nbsp;        return cardStudentsList;</b>
+<i class="no-highlight">224</i>&nbsp;    }
+<i class="no-highlight">225</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -313,7 +324,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-29 20:56</div>
+    <div style="float:right;">generated on 2022-07-01 13:15</div>
 </div>
 </body>
 </html>

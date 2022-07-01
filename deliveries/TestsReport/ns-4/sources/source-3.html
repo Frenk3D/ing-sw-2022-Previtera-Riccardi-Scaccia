@@ -124,45 +124,44 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">49</i>&nbsp;     *
 <i class="no-highlight">50</i>&nbsp;     * @param num of the students to extract
 <i class="no-highlight">51</i>&nbsp;     * @return the students extracted (type List).
-<i class="no-highlight">52</i>&nbsp;     * @throws /
-<i class="no-highlight">53</i>&nbsp;     */
-<i class="no-highlight">54</i>&nbsp;    public List&lt;Student&gt; extractStudents(int num) {
-<b class="fc"><i class="no-highlight">55</i>&nbsp;        if (studentsList.size() &lt; num) {</b>
-<b class="nc"><i class="no-highlight">56</i>&nbsp;            logger.log(Level.SEVERE, &quot;Not enough students in bag&quot;);</b>
-<b class="nc"><i class="no-highlight">57</i>&nbsp;            return null;</b>
-<i class="no-highlight">58</i>&nbsp;        }
-<i class="no-highlight">59</i>&nbsp;
-<b class="fc"><i class="no-highlight">60</i>&nbsp;        List&lt;Student&gt; result = new ArrayList&lt;&gt;(); //..</b>
-<b class="fc"><i class="no-highlight">61</i>&nbsp;        int remainingExtraction = num;</b>
-<b class="fc"><i class="no-highlight">62</i>&nbsp;        while (remainingExtraction &gt; 0) {</b>
-<b class="fc"><i class="no-highlight">63</i>&nbsp;            int randomInt = (int) (Math.random() * (studentsList.size()));</b>
-<b class="fc"><i class="no-highlight">64</i>&nbsp;            result.add(studentsList.get(randomInt));</b>
-<b class="fc"><i class="no-highlight">65</i>&nbsp;            studentsList.remove(randomInt);</b>
-<b class="fc"><i class="no-highlight">66</i>&nbsp;            remainingExtraction--;</b>
-<b class="fc"><i class="no-highlight">67</i>&nbsp;        }</b>
-<b class="fc"><i class="no-highlight">68</i>&nbsp;        return result;</b>
-<i class="no-highlight">69</i>&nbsp;    }
-<i class="no-highlight">70</i>&nbsp;
-<i class="no-highlight">71</i>&nbsp;    /**
-<i class="no-highlight">72</i>&nbsp;     * adds all the remaining students to the bag
-<i class="no-highlight">73</i>&nbsp;     */
-<i class="no-highlight">74</i>&nbsp;    public void addAllStudents() { //fills the bag with remaining students
-<b class="fc"><i class="no-highlight">75</i>&nbsp;        for (int i = 0; i &lt; 24; i++) {</b>
-<b class="fc"><i class="no-highlight">76</i>&nbsp;            studentsList.add(new Student(PawnColor.BLUE));</b>
-<b class="fc"><i class="no-highlight">77</i>&nbsp;            studentsList.add(new Student(PawnColor.RED));</b>
-<b class="fc"><i class="no-highlight">78</i>&nbsp;            studentsList.add(new Student(PawnColor.GREEN));</b>
-<b class="fc"><i class="no-highlight">79</i>&nbsp;            studentsList.add(new Student(PawnColor.PINK));</b>
-<b class="fc"><i class="no-highlight">80</i>&nbsp;            studentsList.add(new Student(PawnColor.YELLOW));</b>
-<i class="no-highlight">81</i>&nbsp;        }
-<i class="no-highlight">82</i>&nbsp;    }
-<i class="no-highlight">83</i>&nbsp;
-<i class="no-highlight">84</i>&nbsp;    /**
-<i class="no-highlight">85</i>&nbsp;     * @return the number of remaining students in the bag
-<i class="no-highlight">86</i>&nbsp;     */
-<i class="no-highlight">87</i>&nbsp;    public int getRemainingStudents() {
-<b class="fc"><i class="no-highlight">88</i>&nbsp;        return studentsList.size();</b>
-<i class="no-highlight">89</i>&nbsp;    }
-<i class="no-highlight">90</i>&nbsp;}
+<i class="no-highlight">52</i>&nbsp;     */
+<i class="no-highlight">53</i>&nbsp;    public List&lt;Student&gt; extractStudents(int num) {
+<b class="fc"><i class="no-highlight">54</i>&nbsp;        if (studentsList.size() &lt; num) {</b>
+<b class="nc"><i class="no-highlight">55</i>&nbsp;            logger.log(Level.SEVERE, &quot;Not enough students in bag&quot;);</b>
+<b class="nc"><i class="no-highlight">56</i>&nbsp;            return null;</b>
+<i class="no-highlight">57</i>&nbsp;        }
+<i class="no-highlight">58</i>&nbsp;
+<b class="fc"><i class="no-highlight">59</i>&nbsp;        List&lt;Student&gt; result = new ArrayList&lt;&gt;(); //..</b>
+<b class="fc"><i class="no-highlight">60</i>&nbsp;        int remainingExtraction = num;</b>
+<b class="fc"><i class="no-highlight">61</i>&nbsp;        while (remainingExtraction &gt; 0) {</b>
+<b class="fc"><i class="no-highlight">62</i>&nbsp;            int randomInt = (int) (Math.random() * (studentsList.size()));</b>
+<b class="fc"><i class="no-highlight">63</i>&nbsp;            result.add(studentsList.get(randomInt));</b>
+<b class="fc"><i class="no-highlight">64</i>&nbsp;            studentsList.remove(randomInt);</b>
+<b class="fc"><i class="no-highlight">65</i>&nbsp;            remainingExtraction--;</b>
+<b class="fc"><i class="no-highlight">66</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">67</i>&nbsp;        return result;</b>
+<i class="no-highlight">68</i>&nbsp;    }
+<i class="no-highlight">69</i>&nbsp;
+<i class="no-highlight">70</i>&nbsp;    /**
+<i class="no-highlight">71</i>&nbsp;     * adds all the remaining students to the bag
+<i class="no-highlight">72</i>&nbsp;     */
+<i class="no-highlight">73</i>&nbsp;    public void addAllStudents() { //fills the bag with remaining students
+<b class="fc"><i class="no-highlight">74</i>&nbsp;        for (int i = 0; i &lt; 24; i++) {</b>
+<b class="fc"><i class="no-highlight">75</i>&nbsp;            studentsList.add(new Student(PawnColor.BLUE));</b>
+<b class="fc"><i class="no-highlight">76</i>&nbsp;            studentsList.add(new Student(PawnColor.RED));</b>
+<b class="fc"><i class="no-highlight">77</i>&nbsp;            studentsList.add(new Student(PawnColor.GREEN));</b>
+<b class="fc"><i class="no-highlight">78</i>&nbsp;            studentsList.add(new Student(PawnColor.PINK));</b>
+<b class="fc"><i class="no-highlight">79</i>&nbsp;            studentsList.add(new Student(PawnColor.YELLOW));</b>
+<i class="no-highlight">80</i>&nbsp;        }
+<i class="no-highlight">81</i>&nbsp;    }
+<i class="no-highlight">82</i>&nbsp;
+<i class="no-highlight">83</i>&nbsp;    /**
+<i class="no-highlight">84</i>&nbsp;     * @return the number of remaining students in the bag
+<i class="no-highlight">85</i>&nbsp;     */
+<i class="no-highlight">86</i>&nbsp;    public int getRemainingStudents() {
+<b class="fc"><i class="no-highlight">87</i>&nbsp;        return studentsList.size();</b>
+<i class="no-highlight">88</i>&nbsp;    }
+<i class="no-highlight">89</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -189,7 +188,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-29 20:56</div>
+    <div style="float:right;">generated on 2022-07-01 13:15</div>
 </div>
 </body>
 </html>

@@ -61,7 +61,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/115)
+    (0/119)
   </span>
 </td>
 </tr>
@@ -84,299 +84,301 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">9</i>&nbsp;import it.polimi.ingsw.view.View;
 <i class="no-highlight">10</i>&nbsp;
 <i class="no-highlight">11</i>&nbsp;import java.io.PrintStream;
-<i class="no-highlight">12</i>&nbsp;import java.util.HashMap;
-<i class="no-highlight">13</i>&nbsp;import java.util.List;
-<i class="no-highlight">14</i>&nbsp;import java.util.Map;
-<i class="no-highlight">15</i>&nbsp;import java.util.Scanner;
+<i class="no-highlight">12</i>&nbsp;import java.util.*;
+<i class="no-highlight">13</i>&nbsp;
+<i class="no-highlight">14</i>&nbsp;//for CLI representation, we don&#39;t need some parameters because we have the instance of clientGameModel in keyboardManager and we have the GamePrinter, but the interface for GUI need?
+<i class="no-highlight">15</i>&nbsp;
 <i class="no-highlight">16</i>&nbsp;
-<i class="no-highlight">17</i>&nbsp;//for CLI representation, we don&#39;t need some parameters because we have the instance of clientGameModel in keyboardManager and we have the GamePrinter, but the interface for GUI need?
-<i class="no-highlight">18</i>&nbsp;
-<i class="no-highlight">19</i>&nbsp;
-<i class="no-highlight">20</i>&nbsp;/**
-<i class="no-highlight">21</i>&nbsp; * This class offers a User Interface to the user via terminal. It is an implementation of the {@link View}.
-<i class="no-highlight">22</i>&nbsp; */
-<i class="no-highlight">23</i>&nbsp;public class Cli extends View {
-<i class="no-highlight">24</i>&nbsp;
-<i class="no-highlight">25</i>&nbsp;    private static final String STR_ROW = &quot;Row: &quot;;
-<i class="no-highlight">26</i>&nbsp;    private static final String STR_COLUMN = &quot;Column: &quot;;
-<i class="no-highlight">27</i>&nbsp;    private static final String STR_POSITION = &quot;Position &quot;;
-<i class="no-highlight">28</i>&nbsp;    private final PrintStream out;
-<i class="no-highlight">29</i>&nbsp;    private final Thread keyboardManagerThread;
-<i class="no-highlight">30</i>&nbsp;    private final KeyboardManager keyboardManager;
-<i class="no-highlight">31</i>&nbsp;    private final GamePrinter gamePrinter;
-<i class="no-highlight">32</i>&nbsp;
-<i class="no-highlight">33</i>&nbsp;    /**
-<i class="no-highlight">34</i>&nbsp;     * Default constructor.
-<i class="no-highlight">35</i>&nbsp;     */
-<b class="nc"><i class="no-highlight">36</i>&nbsp;    public Cli(ClientController controller) {</b>
-<b class="nc"><i class="no-highlight">37</i>&nbsp;        out = System.out;</b>
-<i class="no-highlight">38</i>&nbsp;        //this.state = state;
-<i class="no-highlight">39</i>&nbsp;
-<b class="nc"><i class="no-highlight">40</i>&nbsp;        keyboardManager = new KeyboardManager(controller, this);</b>
-<b class="nc"><i class="no-highlight">41</i>&nbsp;        keyboardManagerThread = new Thread(keyboardManager, &quot;keyboardManager&quot;);</b>
-<b class="nc"><i class="no-highlight">42</i>&nbsp;        gamePrinter = new GamePrinter();</b>
-<i class="no-highlight">43</i>&nbsp;    }
-<i class="no-highlight">44</i>&nbsp;
-<i class="no-highlight">45</i>&nbsp;
-<i class="no-highlight">46</i>&nbsp;    public void init() { //it is called by the ClientApp
-<b class="nc"><i class="no-highlight">47</i>&nbsp;        String welcome = &quot;███████╗██████╗ ██╗ █████╗ ███╗   ██╗████████╗██╗   ██╗███████╗\n&quot; +</b>
-<i class="no-highlight">48</i>&nbsp;                &quot;██╔════╝██╔══██╗██║██╔══██╗████╗  ██║╚══██╔══╝╚██╗ ██╔╝██╔════╝\n&quot; +
-<i class="no-highlight">49</i>&nbsp;                &quot;█████╗  ██████╔╝██║███████║██╔██╗ ██║   ██║    ╚████╔╝ ███████╗\n&quot; +
-<i class="no-highlight">50</i>&nbsp;                &quot;██╔══╝  ██╔══██╗██║██╔══██║██║╚██╗██║   ██║     ╚██╔╝  ╚════██║\n&quot; +
-<i class="no-highlight">51</i>&nbsp;                &quot;███████╗██║  ██║██║██║  ██║██║ ╚████║   ██║      ██║   ███████║\n&quot; +
-<i class="no-highlight">52</i>&nbsp;                &quot;╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝      ╚═╝   ╚══════╝&quot;;
+<i class="no-highlight">17</i>&nbsp;/**
+<i class="no-highlight">18</i>&nbsp; * This class offers a User Interface to the user via terminal. It is an implementation of the {@link View}.
+<i class="no-highlight">19</i>&nbsp; */
+<i class="no-highlight">20</i>&nbsp;public class Cli extends View {
+<i class="no-highlight">21</i>&nbsp;
+<i class="no-highlight">22</i>&nbsp;    private static final String STR_ROW = &quot;Row: &quot;;
+<i class="no-highlight">23</i>&nbsp;    private static final String STR_COLUMN = &quot;Column: &quot;;
+<i class="no-highlight">24</i>&nbsp;    private static final String STR_POSITION = &quot;Position &quot;;
+<i class="no-highlight">25</i>&nbsp;    private final PrintStream out;
+<i class="no-highlight">26</i>&nbsp;    private final Thread keyboardManagerThread;
+<i class="no-highlight">27</i>&nbsp;    private final KeyboardManager keyboardManager;
+<i class="no-highlight">28</i>&nbsp;    private final GamePrinter gamePrinter;
+<i class="no-highlight">29</i>&nbsp;
+<i class="no-highlight">30</i>&nbsp;    /**
+<i class="no-highlight">31</i>&nbsp;     * Default constructor.
+<i class="no-highlight">32</i>&nbsp;     */
+<b class="nc"><i class="no-highlight">33</i>&nbsp;    public Cli(ClientController controller) {</b>
+<b class="nc"><i class="no-highlight">34</i>&nbsp;        out = System.out;</b>
+<i class="no-highlight">35</i>&nbsp;        //this.state = state;
+<i class="no-highlight">36</i>&nbsp;
+<b class="nc"><i class="no-highlight">37</i>&nbsp;        keyboardManager = new KeyboardManager(controller, this);</b>
+<b class="nc"><i class="no-highlight">38</i>&nbsp;        keyboardManagerThread = new Thread(keyboardManager, &quot;keyboardManager&quot;);</b>
+<b class="nc"><i class="no-highlight">39</i>&nbsp;        gamePrinter = new GamePrinter();</b>
+<i class="no-highlight">40</i>&nbsp;    }
+<i class="no-highlight">41</i>&nbsp;
+<i class="no-highlight">42</i>&nbsp;
+<i class="no-highlight">43</i>&nbsp;    public void init() { //it is called by the ClientApp
+<b class="nc"><i class="no-highlight">44</i>&nbsp;        String welcome = &quot;███████╗██████╗ ██╗ █████╗ ███╗   ██╗████████╗██╗   ██╗███████╗\n&quot; +</b>
+<i class="no-highlight">45</i>&nbsp;                &quot;██╔════╝██╔══██╗██║██╔══██╗████╗  ██║╚══██╔══╝╚██╗ ██╔╝██╔════╝\n&quot; +
+<i class="no-highlight">46</i>&nbsp;                &quot;█████╗  ██████╔╝██║███████║██╔██╗ ██║   ██║    ╚████╔╝ ███████╗\n&quot; +
+<i class="no-highlight">47</i>&nbsp;                &quot;██╔══╝  ██╔══██╗██║██╔══██║██║╚██╗██║   ██║     ╚██╔╝  ╚════██║\n&quot; +
+<i class="no-highlight">48</i>&nbsp;                &quot;███████╗██║  ██║██║██║  ██║██║ ╚████║   ██║      ██║   ███████║\n&quot; +
+<i class="no-highlight">49</i>&nbsp;                &quot;╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝      ╚═╝   ╚══════╝&quot;;
+<i class="no-highlight">50</i>&nbsp;
+<i class="no-highlight">51</i>&nbsp;
+<b class="nc"><i class="no-highlight">52</i>&nbsp;        out.println(welcome);</b>
 <i class="no-highlight">53</i>&nbsp;
-<i class="no-highlight">54</i>&nbsp;
-<b class="nc"><i class="no-highlight">55</i>&nbsp;        out.println(welcome);</b>
+<b class="nc"><i class="no-highlight">54</i>&nbsp;        out.println(&quot;\n             Welcome to the magic world of Eriantys!&quot;);</b>
+<b class="nc"><i class="no-highlight">55</i>&nbsp;        out.println(&quot;Have fun, from Marco Previtera, Francesco Riccardi and Nicolò Scaccia\n&quot;);</b>
 <i class="no-highlight">56</i>&nbsp;
-<b class="nc"><i class="no-highlight">57</i>&nbsp;        out.println(&quot;\n             Welcome to the magic world of Eriantys!&quot;);</b>
-<b class="nc"><i class="no-highlight">58</i>&nbsp;        out.println(&quot;Have fun, from Marco Previtera, Francesco Riccardi and Nicolò Scaccia\n&quot;);</b>
+<i class="no-highlight">57</i>&nbsp;
+<b class="nc"><i class="no-highlight">58</i>&nbsp;        onAskServerInfo();</b>
 <i class="no-highlight">59</i>&nbsp;
-<i class="no-highlight">60</i>&nbsp;
-<b class="nc"><i class="no-highlight">61</i>&nbsp;        onAskServerInfo();</b>
+<i class="no-highlight">60</i>&nbsp;    }
+<i class="no-highlight">61</i>&nbsp;
 <i class="no-highlight">62</i>&nbsp;
-<i class="no-highlight">63</i>&nbsp;    }
-<i class="no-highlight">64</i>&nbsp;
-<i class="no-highlight">65</i>&nbsp;
-<i class="no-highlight">66</i>&nbsp;    /**
-<i class="no-highlight">67</i>&nbsp;     * Reads a line from the standard input.
-<i class="no-highlight">68</i>&nbsp;     *
-<i class="no-highlight">69</i>&nbsp;     * @return the string read from the input.
-<i class="no-highlight">70</i>&nbsp;     */
-<i class="no-highlight">71</i>&nbsp;
-<i class="no-highlight">72</i>&nbsp;
-<i class="no-highlight">73</i>&nbsp;    /**
-<i class="no-highlight">74</i>&nbsp;     * Clears the CLI terminal.
-<i class="no-highlight">75</i>&nbsp;     */
-<i class="no-highlight">76</i>&nbsp;    public void clearCli() { //only on intellij doesn&#39;t work
-<b class="nc"><i class="no-highlight">77</i>&nbsp;        out.print(ColorCli.RESET);</b>
-<b class="nc"><i class="no-highlight">78</i>&nbsp;        out.print(ColorCli.CLEAR);</b>
-<b class="nc"><i class="no-highlight">79</i>&nbsp;        out.flush();</b>
-<i class="no-highlight">80</i>&nbsp;    }
-<i class="no-highlight">81</i>&nbsp;
-<i class="no-highlight">82</i>&nbsp;    /**
-<i class="no-highlight">83</i>&nbsp;     * Asks the server address and port to the user.
-<i class="no-highlight">84</i>&nbsp;     */
-<i class="no-highlight">85</i>&nbsp;    @Override
-<i class="no-highlight">86</i>&nbsp;    public void onAskServerInfo() {
-<i class="no-highlight">87</i>&nbsp;        //serverInfo is a map with ip and port, they are String, but we parse the port into an Integer
-<b class="nc"><i class="no-highlight">88</i>&nbsp;        Map&lt;String, String&gt; serverInfo = new HashMap&lt;&gt;();</b>
-<b class="nc"><i class="no-highlight">89</i>&nbsp;        String defaultAddress = &quot;localhost&quot;;</b>
-<b class="nc"><i class="no-highlight">90</i>&nbsp;        String defaultPort = &quot;3333&quot;;</b>
-<i class="no-highlight">91</i>&nbsp;        boolean validInput;
-<b class="nc"><i class="no-highlight">92</i>&nbsp;        Scanner scanner = new Scanner(System.in);</b>
+<i class="no-highlight">63</i>&nbsp;    /**
+<i class="no-highlight">64</i>&nbsp;     * Reads a line from the standard input.
+<i class="no-highlight">65</i>&nbsp;     *
+<i class="no-highlight">66</i>&nbsp;     * @return the string read from the input.
+<i class="no-highlight">67</i>&nbsp;     */
+<i class="no-highlight">68</i>&nbsp;
+<i class="no-highlight">69</i>&nbsp;
+<i class="no-highlight">70</i>&nbsp;    /**
+<i class="no-highlight">71</i>&nbsp;     * Clears the CLI terminal.
+<i class="no-highlight">72</i>&nbsp;     */
+<i class="no-highlight">73</i>&nbsp;    public void clearCli() { //only on intellij doesn&#39;t work
+<b class="nc"><i class="no-highlight">74</i>&nbsp;        out.print(ColorCli.RESET);</b>
+<b class="nc"><i class="no-highlight">75</i>&nbsp;        out.print(ColorCli.CLEAR);</b>
+<b class="nc"><i class="no-highlight">76</i>&nbsp;        out.flush();</b>
+<i class="no-highlight">77</i>&nbsp;    }
+<i class="no-highlight">78</i>&nbsp;
+<i class="no-highlight">79</i>&nbsp;    /**
+<i class="no-highlight">80</i>&nbsp;     * Asks the server address and port to the user.
+<i class="no-highlight">81</i>&nbsp;     */
+<i class="no-highlight">82</i>&nbsp;    @Override
+<i class="no-highlight">83</i>&nbsp;    public void onAskServerInfo() {
+<i class="no-highlight">84</i>&nbsp;        try {
+<i class="no-highlight">85</i>&nbsp;            //serverInfo is a map with ip and port, they are String, but we parse the port into an Integer
+<b class="nc"><i class="no-highlight">86</i>&nbsp;            Map&lt;String, String&gt; serverInfo = new HashMap&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">87</i>&nbsp;            String defaultAddress = &quot;localhost&quot;;</b>
+<b class="nc"><i class="no-highlight">88</i>&nbsp;            String defaultPort = &quot;3333&quot;;</b>
+<i class="no-highlight">89</i>&nbsp;            boolean validInput;
+<b class="nc"><i class="no-highlight">90</i>&nbsp;            Scanner scanner = new Scanner(System.in);</b>
+<i class="no-highlight">91</i>&nbsp;
+<b class="nc"><i class="no-highlight">92</i>&nbsp;            out.println(&quot;Please specify the following settings. The default value is shown between brackets.&quot;);</b>
 <i class="no-highlight">93</i>&nbsp;
-<b class="nc"><i class="no-highlight">94</i>&nbsp;        out.println(&quot;Please specify the following settings. The default value is shown between brackets.&quot;);</b>
-<i class="no-highlight">95</i>&nbsp;
-<i class="no-highlight">96</i>&nbsp;        do {
-<b class="nc"><i class="no-highlight">97</i>&nbsp;            out.print(&quot;Enter the server address [&quot; + defaultAddress + &quot;]: &quot;);</b>
-<b class="nc"><i class="no-highlight">98</i>&nbsp;            String address = scanner.nextLine();</b>
-<b class="nc"><i class="no-highlight">99</i>&nbsp;            scanner.reset();</b>
-<b class="nc"><i class="no-highlight">100</i>&nbsp;            if (address.equals(&quot;&quot;) || address.equals(&quot; &quot;) || address.equals(&quot;\n&quot;)) {</b>
-<b class="nc"><i class="no-highlight">101</i>&nbsp;                serverInfo.put(&quot;address&quot;, defaultAddress);</b>
-<b class="nc"><i class="no-highlight">102</i>&nbsp;                validInput = true;</b>
-<b class="nc"><i class="no-highlight">103</i>&nbsp;            } else if (ClientController.isValidIpAddress(address)) {</b>
-<b class="nc"><i class="no-highlight">104</i>&nbsp;                serverInfo.put(&quot;address&quot;, address);</b>
-<b class="nc"><i class="no-highlight">105</i>&nbsp;                validInput = true;</b>
-<i class="no-highlight">106</i>&nbsp;            } else {
-<b class="nc"><i class="no-highlight">107</i>&nbsp;                out.println(&quot;Invalid address!&quot;);</b>
-<b class="nc"><i class="no-highlight">108</i>&nbsp;                clearCli();</b>
-<b class="nc"><i class="no-highlight">109</i>&nbsp;                validInput = false;</b>
-<i class="no-highlight">110</i>&nbsp;            }
-<b class="nc"><i class="no-highlight">111</i>&nbsp;        } while (!validInput);</b>
-<i class="no-highlight">112</i>&nbsp;
-<i class="no-highlight">113</i>&nbsp;        do {
-<b class="nc"><i class="no-highlight">114</i>&nbsp;            out.print(&quot;Enter the server port [&quot; + defaultPort + &quot;]: &quot;);</b>
-<b class="nc"><i class="no-highlight">115</i>&nbsp;            String port = scanner.nextLine();</b>
-<b class="nc"><i class="no-highlight">116</i>&nbsp;            scanner.reset();</b>
-<i class="no-highlight">117</i>&nbsp;
-<b class="nc"><i class="no-highlight">118</i>&nbsp;            if (port.equals(&quot;&quot;) || port.equals(&quot; &quot;) || port.equals(&quot;\n&quot;)) {</b>
-<b class="nc"><i class="no-highlight">119</i>&nbsp;                serverInfo.put(&quot;port&quot;, defaultPort);</b>
-<b class="nc"><i class="no-highlight">120</i>&nbsp;                validInput = true;</b>
-<i class="no-highlight">121</i>&nbsp;            } else {
-<b class="nc"><i class="no-highlight">122</i>&nbsp;                if (ClientController.isValidPort(port)) {</b>
-<b class="nc"><i class="no-highlight">123</i>&nbsp;                    serverInfo.put(&quot;port&quot;, port);</b>
-<b class="nc"><i class="no-highlight">124</i>&nbsp;                    validInput = true;</b>
-<i class="no-highlight">125</i>&nbsp;                } else {
-<b class="nc"><i class="no-highlight">126</i>&nbsp;                    out.println(&quot;Invalid port!&quot;);</b>
-<b class="nc"><i class="no-highlight">127</i>&nbsp;                    validInput = false;</b>
-<i class="no-highlight">128</i>&nbsp;                }
-<i class="no-highlight">129</i>&nbsp;            }
-<b class="nc"><i class="no-highlight">130</i>&nbsp;        } while (!validInput);</b>
-<i class="no-highlight">131</i>&nbsp;
-<b class="nc"><i class="no-highlight">132</i>&nbsp;        notifyObserver(obs -&gt; obs.onAskServerInfo(serverInfo));</b>
-<b class="nc"><i class="no-highlight">133</i>&nbsp;        scanner.reset();</b>
-<i class="no-highlight">134</i>&nbsp;    }
-<i class="no-highlight">135</i>&nbsp;
-<i class="no-highlight">136</i>&nbsp;    @Override
-<i class="no-highlight">137</i>&nbsp;    public void onSendLoginRequest() {
-<b class="nc"><i class="no-highlight">138</i>&nbsp;        if (!keyboardManagerThread.isAlive()) {</b>
-<b class="nc"><i class="no-highlight">139</i>&nbsp;            keyboardManagerThread.start();</b>
-<i class="no-highlight">140</i>&nbsp;        }
-<i class="no-highlight">141</i>&nbsp;
-<b class="nc"><i class="no-highlight">142</i>&nbsp;        out.print(&quot;Enter name: &quot;);</b>
-<i class="no-highlight">143</i>&nbsp;    }
+<i class="no-highlight">94</i>&nbsp;            do {
+<b class="nc"><i class="no-highlight">95</i>&nbsp;                out.print(&quot;Enter the server address [&quot; + defaultAddress + &quot;]: &quot;);</b>
+<b class="nc"><i class="no-highlight">96</i>&nbsp;                String address = scanner.nextLine();</b>
+<b class="nc"><i class="no-highlight">97</i>&nbsp;                scanner.reset();</b>
+<b class="nc"><i class="no-highlight">98</i>&nbsp;                if (address.equals(&quot;&quot;) || address.equals(&quot; &quot;) || address.equals(&quot;\n&quot;)) {</b>
+<b class="nc"><i class="no-highlight">99</i>&nbsp;                    serverInfo.put(&quot;address&quot;, defaultAddress);</b>
+<b class="nc"><i class="no-highlight">100</i>&nbsp;                    validInput = true;</b>
+<b class="nc"><i class="no-highlight">101</i>&nbsp;                } else if (ClientController.isValidIpAddress(address)) {</b>
+<b class="nc"><i class="no-highlight">102</i>&nbsp;                    serverInfo.put(&quot;address&quot;, address);</b>
+<b class="nc"><i class="no-highlight">103</i>&nbsp;                    validInput = true;</b>
+<i class="no-highlight">104</i>&nbsp;                } else {
+<b class="nc"><i class="no-highlight">105</i>&nbsp;                    out.println(&quot;Invalid address!&quot;);</b>
+<b class="nc"><i class="no-highlight">106</i>&nbsp;                    clearCli();</b>
+<b class="nc"><i class="no-highlight">107</i>&nbsp;                    validInput = false;</b>
+<i class="no-highlight">108</i>&nbsp;                }
+<b class="nc"><i class="no-highlight">109</i>&nbsp;            } while (!validInput);</b>
+<i class="no-highlight">110</i>&nbsp;
+<i class="no-highlight">111</i>&nbsp;            do {
+<b class="nc"><i class="no-highlight">112</i>&nbsp;                out.print(&quot;Enter the server port [&quot; + defaultPort + &quot;]: &quot;);</b>
+<b class="nc"><i class="no-highlight">113</i>&nbsp;                String port = scanner.nextLine();</b>
+<b class="nc"><i class="no-highlight">114</i>&nbsp;                scanner.reset();</b>
+<i class="no-highlight">115</i>&nbsp;
+<b class="nc"><i class="no-highlight">116</i>&nbsp;                if (port.equals(&quot;&quot;) || port.equals(&quot; &quot;) || port.equals(&quot;\n&quot;)) {</b>
+<b class="nc"><i class="no-highlight">117</i>&nbsp;                    serverInfo.put(&quot;port&quot;, defaultPort);</b>
+<b class="nc"><i class="no-highlight">118</i>&nbsp;                    validInput = true;</b>
+<i class="no-highlight">119</i>&nbsp;                } else {
+<b class="nc"><i class="no-highlight">120</i>&nbsp;                    if (ClientController.isValidPort(port)) {</b>
+<b class="nc"><i class="no-highlight">121</i>&nbsp;                        serverInfo.put(&quot;port&quot;, port);</b>
+<b class="nc"><i class="no-highlight">122</i>&nbsp;                        validInput = true;</b>
+<i class="no-highlight">123</i>&nbsp;                    } else {
+<b class="nc"><i class="no-highlight">124</i>&nbsp;                        out.println(&quot;Invalid port!&quot;);</b>
+<b class="nc"><i class="no-highlight">125</i>&nbsp;                        validInput = false;</b>
+<i class="no-highlight">126</i>&nbsp;                    }
+<i class="no-highlight">127</i>&nbsp;                }
+<b class="nc"><i class="no-highlight">128</i>&nbsp;            } while (!validInput);</b>
+<i class="no-highlight">129</i>&nbsp;
+<b class="nc"><i class="no-highlight">130</i>&nbsp;            notifyObserver(obs -&gt; obs.onAskServerInfo(serverInfo));</b>
+<b class="nc"><i class="no-highlight">131</i>&nbsp;            scanner.reset();</b>
+<i class="no-highlight">132</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">133</i>&nbsp;        catch (NoSuchElementException e) {</b>
+<b class="nc"><i class="no-highlight">134</i>&nbsp;            System.out.println(&quot;\nClosing connection...&quot;);</b>
+<b class="nc"><i class="no-highlight">135</i>&nbsp;            System.exit(0);</b>
+<b class="nc"><i class="no-highlight">136</i>&nbsp;        }</b>
+<i class="no-highlight">137</i>&nbsp;    }
+<i class="no-highlight">138</i>&nbsp;
+<i class="no-highlight">139</i>&nbsp;    @Override
+<i class="no-highlight">140</i>&nbsp;    public void onSendLoginRequest() {
+<b class="nc"><i class="no-highlight">141</i>&nbsp;        if (!keyboardManagerThread.isAlive()) {</b>
+<b class="nc"><i class="no-highlight">142</i>&nbsp;            keyboardManagerThread.start();</b>
+<i class="no-highlight">143</i>&nbsp;        }
 <i class="no-highlight">144</i>&nbsp;
-<i class="no-highlight">145</i>&nbsp;    @Override
-<i class="no-highlight">146</i>&nbsp;    public void onAskCreateOrJoin() {
-<b class="nc"><i class="no-highlight">147</i>&nbsp;        clearCli();</b>
-<b class="nc"><i class="no-highlight">148</i>&nbsp;        out.println(&quot;Type &#39;c&#39; to create a new lobby and join it, or type &#39;j&#39; to join an existing lobby&quot;);</b>
-<i class="no-highlight">149</i>&nbsp;    }
-<i class="no-highlight">150</i>&nbsp;
-<i class="no-highlight">151</i>&nbsp;
-<i class="no-highlight">152</i>&nbsp;    public void sendNewLobbyRequest() {
-<b class="nc"><i class="no-highlight">153</i>&nbsp;        out.println(&quot;Enter [Lobby name] [Number of players] [Expert mode]&quot;);</b>
-<i class="no-highlight">154</i>&nbsp;
-<i class="no-highlight">155</i>&nbsp;    }
-<i class="no-highlight">156</i>&nbsp;
-<i class="no-highlight">157</i>&nbsp;    @Override
-<i class="no-highlight">158</i>&nbsp;    public void onSendChooseLobby(List&lt;Lobby&gt; lobbylist) {
-<b class="nc"><i class="no-highlight">159</i>&nbsp;        clearCli();</b>
-<b class="nc"><i class="no-highlight">160</i>&nbsp;        out.println(&quot;Write a lobby name to access: \n&quot;);</b>
-<b class="nc"><i class="no-highlight">161</i>&nbsp;        int counter = 1;</b>
-<b class="nc"><i class="no-highlight">162</i>&nbsp;        for (Lobby lobby : lobbylist) {</b>
-<b class="nc"><i class="no-highlight">163</i>&nbsp;            out.println(&quot;#&quot; + counter + &quot; Lobby name: &quot; + lobby.getName());</b>
-<b class="nc"><i class="no-highlight">164</i>&nbsp;            out.println(&quot;Number of players: &quot; + lobby.getActualNumOfPlayers() + &quot;/&quot; + lobby.getNumOfPlayers());</b>
-<b class="nc"><i class="no-highlight">165</i>&nbsp;            out.println(&quot;Mode: &quot; + (lobby.isExpertMode() ? &quot;Expert\n&quot; : &quot;Normal\n&quot;));</b>
-<b class="nc"><i class="no-highlight">166</i>&nbsp;            counter++;</b>
-<b class="nc"><i class="no-highlight">167</i>&nbsp;        }</b>
-<b class="nc"><i class="no-highlight">168</i>&nbsp;        keyboardManager.setLobbiesList(lobbylist);</b>
-<i class="no-highlight">169</i>&nbsp;    }
-<i class="no-highlight">170</i>&nbsp;
-<i class="no-highlight">171</i>&nbsp;    @Override
-<i class="no-highlight">172</i>&nbsp;    public void onSendChooseTeam(Map&lt;String, Integer&gt; availablePlayers) {
-<b class="nc"><i class="no-highlight">173</i>&nbsp;        clearCli();</b>
-<b class="nc"><i class="no-highlight">174</i>&nbsp;        out.println(&quot;Choose a team player from the available ids:&quot;);</b>
-<b class="nc"><i class="no-highlight">175</i>&nbsp;        for (Map.Entry&lt;String, Integer&gt; entry : availablePlayers.entrySet()) {</b>
-<b class="nc"><i class="no-highlight">176</i>&nbsp;            out.println(&quot;Name: &quot; + entry.getKey() + &quot;, Id: &quot; + entry.getValue());</b>
-<b class="nc"><i class="no-highlight">177</i>&nbsp;        }</b>
-<b class="nc"><i class="no-highlight">178</i>&nbsp;        keyboardManager.setAvailablePlayers(availablePlayers);</b>
-<i class="no-highlight">179</i>&nbsp;    }
-<i class="no-highlight">180</i>&nbsp;
-<i class="no-highlight">181</i>&nbsp;    @Override
-<i class="no-highlight">182</i>&nbsp;    public void onSendChooseTowerColor(List&lt;TowerColor&gt; availableTowerColors) { //ONLY IN THREE PLAYERS GAME WE HAVE ALSO GRAY COLOR
-<b class="nc"><i class="no-highlight">183</i>&nbsp;        clearCli();</b>
-<b class="nc"><i class="no-highlight">184</i>&nbsp;        out.println(&quot;Choose a Tower Color from the available colors: &quot;);</b>
-<b class="nc"><i class="no-highlight">185</i>&nbsp;        for (TowerColor c : availableTowerColors) {</b>
-<b class="nc"><i class="no-highlight">186</i>&nbsp;            out.println(&quot;Color: &quot; + c);</b>
-<b class="nc"><i class="no-highlight">187</i>&nbsp;        }</b>
-<b class="nc"><i class="no-highlight">188</i>&nbsp;        keyboardManager.setAvailableTowerColors(availableTowerColors);</b>
-<i class="no-highlight">189</i>&nbsp;    }
-<i class="no-highlight">190</i>&nbsp;
-<i class="no-highlight">191</i>&nbsp;    @Override
-<i class="no-highlight">192</i>&nbsp;    public void onSendChooseWizard(List&lt;Wizard&gt; availableWizards) {
-<b class="nc"><i class="no-highlight">193</i>&nbsp;        clearCli();</b>
-<b class="nc"><i class="no-highlight">194</i>&nbsp;        out.println(&quot;Choose a Wizard from the available wizards: &quot;);</b>
-<b class="nc"><i class="no-highlight">195</i>&nbsp;        for (Wizard wizard : availableWizards) {</b>
-<b class="nc"><i class="no-highlight">196</i>&nbsp;            out.println(&quot;Wizard: &quot; + wizard);</b>
-<b class="nc"><i class="no-highlight">197</i>&nbsp;        }</b>
-<b class="nc"><i class="no-highlight">198</i>&nbsp;        keyboardManager.setAvailableWizards(availableWizards);</b>
-<i class="no-highlight">199</i>&nbsp;    }
-<i class="no-highlight">200</i>&nbsp;
-<i class="no-highlight">201</i>&nbsp;    @Override
-<i class="no-highlight">202</i>&nbsp;    public void onSendSelectAssistant() {
-<b class="nc"><i class="no-highlight">203</i>&nbsp;        out.print(&quot;Choose an Assistant id from the list: &quot;);</b>
-<i class="no-highlight">204</i>&nbsp;    }
-<i class="no-highlight">205</i>&nbsp;
-<i class="no-highlight">206</i>&nbsp;    @Override
-<i class="no-highlight">207</i>&nbsp;    public void onAskWhereToMoveStudent() {
-<b class="nc"><i class="no-highlight">208</i>&nbsp;        out.print(&quot;Type d to move a student in the dashboard, or type i to move the student on an island: &quot;);</b>
-<i class="no-highlight">209</i>&nbsp;    }
-<i class="no-highlight">210</i>&nbsp;
-<i class="no-highlight">211</i>&nbsp;    public void sendMoveStudentDashboard() {
-<b class="nc"><i class="no-highlight">212</i>&nbsp;        out.print(&quot;Select a student (index) from your entrance list: &quot;);</b>
-<i class="no-highlight">213</i>&nbsp;    }
-<i class="no-highlight">214</i>&nbsp;
-<i class="no-highlight">215</i>&nbsp;    public void sendMoveStudentIsland() {
-<b class="nc"><i class="no-highlight">216</i>&nbsp;        out.print(&quot;Select a student index from your entrance list and a island index where to put: &quot;);</b>
-<i class="no-highlight">217</i>&nbsp;    }
-<i class="no-highlight">218</i>&nbsp;
-<i class="no-highlight">219</i>&nbsp;    @Override
-<i class="no-highlight">220</i>&nbsp;    public void onSendMoveMotherNature() {
-<b class="nc"><i class="no-highlight">221</i>&nbsp;        out.print(&quot;Choose the island index where to move mother nature: &quot;);</b>
-<i class="no-highlight">222</i>&nbsp;
-<i class="no-highlight">223</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">145</i>&nbsp;        out.print(&quot;Enter name: &quot;);</b>
+<i class="no-highlight">146</i>&nbsp;    }
+<i class="no-highlight">147</i>&nbsp;
+<i class="no-highlight">148</i>&nbsp;    @Override
+<i class="no-highlight">149</i>&nbsp;    public void onAskCreateOrJoin() {
+<b class="nc"><i class="no-highlight">150</i>&nbsp;        out.println(&quot;Type &#39;c&#39; to create a new lobby and join it, or type &#39;j&#39; to join an existing lobby&quot;);</b>
+<i class="no-highlight">151</i>&nbsp;    }
+<i class="no-highlight">152</i>&nbsp;
+<i class="no-highlight">153</i>&nbsp;
+<i class="no-highlight">154</i>&nbsp;    public void sendNewLobbyRequest() {
+<b class="nc"><i class="no-highlight">155</i>&nbsp;        clearCli();</b>
+<b class="nc"><i class="no-highlight">156</i>&nbsp;        out.println(&quot;Enter [Lobby name] [Number of players] [Expert mode: true or false]&quot;);</b>
+<i class="no-highlight">157</i>&nbsp;    }
+<i class="no-highlight">158</i>&nbsp;
+<i class="no-highlight">159</i>&nbsp;    @Override
+<i class="no-highlight">160</i>&nbsp;    public void onSendChooseLobby(List&lt;Lobby&gt; lobbylist) {
+<b class="nc"><i class="no-highlight">161</i>&nbsp;        clearCli();</b>
+<b class="nc"><i class="no-highlight">162</i>&nbsp;        out.println(&quot;Write a lobby name to access: \n&quot;);</b>
+<b class="nc"><i class="no-highlight">163</i>&nbsp;        int counter = 1;</b>
+<b class="nc"><i class="no-highlight">164</i>&nbsp;        for (Lobby lobby : lobbylist) {</b>
+<b class="nc"><i class="no-highlight">165</i>&nbsp;            out.println(&quot;#&quot; + counter + &quot; Lobby name: &quot; + lobby.getName());</b>
+<b class="nc"><i class="no-highlight">166</i>&nbsp;            out.println(&quot;Number of players: &quot; + lobby.getActualNumOfPlayers() + &quot;/&quot; + lobby.getNumOfPlayers());</b>
+<b class="nc"><i class="no-highlight">167</i>&nbsp;            out.println(&quot;Mode: &quot; + (lobby.isExpertMode() ? &quot;Expert\n&quot; : &quot;Normal\n&quot;));</b>
+<b class="nc"><i class="no-highlight">168</i>&nbsp;            counter++;</b>
+<b class="nc"><i class="no-highlight">169</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">170</i>&nbsp;        keyboardManager.setLobbiesList(lobbylist);</b>
+<i class="no-highlight">171</i>&nbsp;    }
+<i class="no-highlight">172</i>&nbsp;
+<i class="no-highlight">173</i>&nbsp;    @Override
+<i class="no-highlight">174</i>&nbsp;    public void onSendChooseTeam(Map&lt;String, Integer&gt; availablePlayers) {
+<b class="nc"><i class="no-highlight">175</i>&nbsp;        clearCli();</b>
+<b class="nc"><i class="no-highlight">176</i>&nbsp;        out.println(&quot;Choose a team player from the available ids:&quot;);</b>
+<b class="nc"><i class="no-highlight">177</i>&nbsp;        for (Map.Entry&lt;String, Integer&gt; entry : availablePlayers.entrySet()) {</b>
+<b class="nc"><i class="no-highlight">178</i>&nbsp;            out.println(&quot;Name: &quot; + entry.getKey() + &quot;, Id: &quot; + entry.getValue());</b>
+<b class="nc"><i class="no-highlight">179</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">180</i>&nbsp;        keyboardManager.setAvailablePlayers(availablePlayers);</b>
+<i class="no-highlight">181</i>&nbsp;    }
+<i class="no-highlight">182</i>&nbsp;
+<i class="no-highlight">183</i>&nbsp;    @Override
+<i class="no-highlight">184</i>&nbsp;    public void onSendChooseTowerColor(List&lt;TowerColor&gt; availableTowerColors) { //ONLY IN THREE PLAYERS GAME WE HAVE ALSO GRAY COLOR
+<b class="nc"><i class="no-highlight">185</i>&nbsp;        clearCli();</b>
+<b class="nc"><i class="no-highlight">186</i>&nbsp;        out.println(&quot;Choose a Tower Color from the available colors: &quot;);</b>
+<b class="nc"><i class="no-highlight">187</i>&nbsp;        for (TowerColor c : availableTowerColors) {</b>
+<b class="nc"><i class="no-highlight">188</i>&nbsp;            out.println(&quot;Color: &quot; + c);</b>
+<b class="nc"><i class="no-highlight">189</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">190</i>&nbsp;        keyboardManager.setAvailableTowerColors(availableTowerColors);</b>
+<i class="no-highlight">191</i>&nbsp;    }
+<i class="no-highlight">192</i>&nbsp;
+<i class="no-highlight">193</i>&nbsp;    @Override
+<i class="no-highlight">194</i>&nbsp;    public void onSendChooseWizard(List&lt;Wizard&gt; availableWizards) {
+<b class="nc"><i class="no-highlight">195</i>&nbsp;        clearCli();</b>
+<b class="nc"><i class="no-highlight">196</i>&nbsp;        out.println(&quot;Choose a Wizard from the available wizards: &quot;);</b>
+<b class="nc"><i class="no-highlight">197</i>&nbsp;        for (Wizard wizard : availableWizards) {</b>
+<b class="nc"><i class="no-highlight">198</i>&nbsp;            out.println(&quot;Wizard: &quot; + wizard);</b>
+<b class="nc"><i class="no-highlight">199</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">200</i>&nbsp;        keyboardManager.setAvailableWizards(availableWizards);</b>
+<i class="no-highlight">201</i>&nbsp;    }
+<i class="no-highlight">202</i>&nbsp;
+<i class="no-highlight">203</i>&nbsp;    @Override
+<i class="no-highlight">204</i>&nbsp;    public void onSendSelectAssistant() {
+<b class="nc"><i class="no-highlight">205</i>&nbsp;        out.print(&quot;Choose an Assistant id from the list: &quot;);</b>
+<i class="no-highlight">206</i>&nbsp;    }
+<i class="no-highlight">207</i>&nbsp;
+<i class="no-highlight">208</i>&nbsp;    @Override
+<i class="no-highlight">209</i>&nbsp;    public void onAskWhereToMoveStudent() {
+<b class="nc"><i class="no-highlight">210</i>&nbsp;        out.print(&quot;Type d to move a student in the dashboard, or type i to move the student on an island: &quot;);</b>
+<i class="no-highlight">211</i>&nbsp;    }
+<i class="no-highlight">212</i>&nbsp;
+<i class="no-highlight">213</i>&nbsp;    public void sendMoveStudentDashboard() {
+<b class="nc"><i class="no-highlight">214</i>&nbsp;        out.print(&quot;Select a student (index) from your entrance list: &quot;);</b>
+<i class="no-highlight">215</i>&nbsp;    }
+<i class="no-highlight">216</i>&nbsp;
+<i class="no-highlight">217</i>&nbsp;    public void sendMoveStudentIsland() {
+<b class="nc"><i class="no-highlight">218</i>&nbsp;        out.print(&quot;Select a student index from your entrance list and a island index where to put: &quot;);</b>
+<i class="no-highlight">219</i>&nbsp;    }
+<i class="no-highlight">220</i>&nbsp;
+<i class="no-highlight">221</i>&nbsp;    @Override
+<i class="no-highlight">222</i>&nbsp;    public void onSendMoveMotherNature() {
+<b class="nc"><i class="no-highlight">223</i>&nbsp;        out.print(&quot;Choose the island index where to move mother nature: &quot;);</b>
 <i class="no-highlight">224</i>&nbsp;
-<i class="no-highlight">225</i>&nbsp;    @Override
-<i class="no-highlight">226</i>&nbsp;    public void onSendChooseCloud() {
-<b class="nc"><i class="no-highlight">227</i>&nbsp;        out.print(&quot;Choose the cloud index where do you want to pick the students: &quot;);</b>
-<i class="no-highlight">228</i>&nbsp;
-<i class="no-highlight">229</i>&nbsp;    }
+<i class="no-highlight">225</i>&nbsp;    }
+<i class="no-highlight">226</i>&nbsp;
+<i class="no-highlight">227</i>&nbsp;    @Override
+<i class="no-highlight">228</i>&nbsp;    public void onSendChooseCloud() {
+<b class="nc"><i class="no-highlight">229</i>&nbsp;        out.print(&quot;Choose the cloud index where do you want to pick the students: &quot;);</b>
 <i class="no-highlight">230</i>&nbsp;
-<i class="no-highlight">231</i>&nbsp;    /**
-<i class="no-highlight">232</i>&nbsp;     * @param characterId
-<i class="no-highlight">233</i>&nbsp;     */
-<i class="no-highlight">234</i>&nbsp;    @Override
-<i class="no-highlight">235</i>&nbsp;    public void onAskCharacterParameters(int characterId) {
-<b class="nc"><i class="no-highlight">236</i>&nbsp;        switch (characterId) {</b>
-<i class="no-highlight">237</i>&nbsp;            case 1:
-<b class="nc"><i class="no-highlight">238</i>&nbsp;                out.println(&quot;Choose a student index from the card and an island index where to put the student&quot;);</b>
-<b class="nc"><i class="no-highlight">239</i>&nbsp;                break;</b>
-<i class="no-highlight">240</i>&nbsp;            case 3:
-<b class="nc"><i class="no-highlight">241</i>&nbsp;                out.println(&quot;Choose an island index where to calculate the influence&quot;);</b>
-<b class="nc"><i class="no-highlight">242</i>&nbsp;                break;</b>
-<i class="no-highlight">243</i>&nbsp;            case 5:
-<b class="nc"><i class="no-highlight">244</i>&nbsp;                out.println(&quot;Choose an island index where to put a forbid card&quot;);</b>
-<b class="nc"><i class="no-highlight">245</i>&nbsp;                break;</b>
-<i class="no-highlight">246</i>&nbsp;            case 7:
-<b class="nc"><i class="no-highlight">247</i>&nbsp;                out.println(&quot;Choose up to three students from the card and after the students to be replaced in the entrance&quot;); //check the parity</b>
-<b class="nc"><i class="no-highlight">248</i>&nbsp;                break;</b>
-<i class="no-highlight">249</i>&nbsp;            case 9:
-<b class="nc"><i class="no-highlight">250</i>&nbsp;                out.println(&quot;Choose a Pawn Color that will be not included in the calculation of the influence&quot;);</b>
-<b class="nc"><i class="no-highlight">251</i>&nbsp;                break;</b>
-<i class="no-highlight">252</i>&nbsp;            case 10:
-<b class="nc"><i class="no-highlight">253</i>&nbsp;                out.println(&quot;Choose up to two studentsColor from the hall and after the students to be replaced in the entrance&quot;);</b>
-<b class="nc"><i class="no-highlight">254</i>&nbsp;                break;</b>
-<i class="no-highlight">255</i>&nbsp;            case 11:
-<b class="nc"><i class="no-highlight">256</i>&nbsp;                out.println(&quot;Choose a student from the card to put in the hall&quot;);</b>
-<b class="nc"><i class="no-highlight">257</i>&nbsp;                break;</b>
-<i class="no-highlight">258</i>&nbsp;            case 12:
-<b class="nc"><i class="no-highlight">259</i>&nbsp;                out.println(&quot;Choose a Pawn Color of the students to put in the bag&quot;);</b>
-<b class="nc"><i class="no-highlight">260</i>&nbsp;                break;</b>
-<i class="no-highlight">261</i>&nbsp;            default: //it will never happen
-<b class="nc"><i class="no-highlight">262</i>&nbsp;                out.println(&quot;Error in the application&quot;);</b>
-<i class="no-highlight">263</i>&nbsp;                break;
-<i class="no-highlight">264</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">265</i>&nbsp;        keyboardManager.setUsedCharacter(characterId);</b>
-<i class="no-highlight">266</i>&nbsp;
-<i class="no-highlight">267</i>&nbsp;    }
+<i class="no-highlight">231</i>&nbsp;    }
+<i class="no-highlight">232</i>&nbsp;
+<i class="no-highlight">233</i>&nbsp;    /**
+<i class="no-highlight">234</i>&nbsp;     * @param characterId
+<i class="no-highlight">235</i>&nbsp;     */
+<i class="no-highlight">236</i>&nbsp;    @Override
+<i class="no-highlight">237</i>&nbsp;    public void onAskCharacterParameters(int characterId) {
+<b class="nc"><i class="no-highlight">238</i>&nbsp;        switch (characterId) {</b>
+<i class="no-highlight">239</i>&nbsp;            case 1:
+<b class="nc"><i class="no-highlight">240</i>&nbsp;                out.println(&quot;Choose a student index from the card and an island index where to put the student&quot;);</b>
+<b class="nc"><i class="no-highlight">241</i>&nbsp;                break;</b>
+<i class="no-highlight">242</i>&nbsp;            case 3:
+<b class="nc"><i class="no-highlight">243</i>&nbsp;                out.println(&quot;Choose an island index where to calculate the influence&quot;);</b>
+<b class="nc"><i class="no-highlight">244</i>&nbsp;                break;</b>
+<i class="no-highlight">245</i>&nbsp;            case 5:
+<b class="nc"><i class="no-highlight">246</i>&nbsp;                out.println(&quot;Choose an island index where to put a forbid card&quot;);</b>
+<b class="nc"><i class="no-highlight">247</i>&nbsp;                break;</b>
+<i class="no-highlight">248</i>&nbsp;            case 7:
+<b class="nc"><i class="no-highlight">249</i>&nbsp;                out.println(&quot;Choose up to three students from the card and after the students to be replaced in the entrance&quot;); //check the parity</b>
+<b class="nc"><i class="no-highlight">250</i>&nbsp;                break;</b>
+<i class="no-highlight">251</i>&nbsp;            case 9:
+<b class="nc"><i class="no-highlight">252</i>&nbsp;                out.println(&quot;Choose a Pawn Color that will be not included in the calculation of the influence&quot;);</b>
+<b class="nc"><i class="no-highlight">253</i>&nbsp;                break;</b>
+<i class="no-highlight">254</i>&nbsp;            case 10:
+<b class="nc"><i class="no-highlight">255</i>&nbsp;                out.println(&quot;Choose up to two studentsColor from the hall and after the students to be replaced in the entrance&quot;);</b>
+<b class="nc"><i class="no-highlight">256</i>&nbsp;                break;</b>
+<i class="no-highlight">257</i>&nbsp;            case 11:
+<b class="nc"><i class="no-highlight">258</i>&nbsp;                out.println(&quot;Choose a student from the card to put in the hall&quot;);</b>
+<b class="nc"><i class="no-highlight">259</i>&nbsp;                break;</b>
+<i class="no-highlight">260</i>&nbsp;            case 12:
+<b class="nc"><i class="no-highlight">261</i>&nbsp;                out.println(&quot;Choose a Pawn Color of the students to put in the bag&quot;);</b>
+<b class="nc"><i class="no-highlight">262</i>&nbsp;                break;</b>
+<i class="no-highlight">263</i>&nbsp;            default: //it will never happen
+<b class="nc"><i class="no-highlight">264</i>&nbsp;                out.println(&quot;Error in the application&quot;);</b>
+<i class="no-highlight">265</i>&nbsp;                break;
+<i class="no-highlight">266</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">267</i>&nbsp;        keyboardManager.setUsedCharacter(characterId);</b>
 <i class="no-highlight">268</i>&nbsp;
-<i class="no-highlight">269</i>&nbsp;
-<i class="no-highlight">270</i>&nbsp;    @Override
-<i class="no-highlight">271</i>&nbsp;    public void onShow(Object toShow) { //we can print in different way in base of the type  //not typeOf...
-<b class="nc"><i class="no-highlight">272</i>&nbsp;        System.out.println(toShow);</b>
-<i class="no-highlight">273</i>&nbsp;
-<i class="no-highlight">274</i>&nbsp;    }
+<i class="no-highlight">269</i>&nbsp;    }
+<i class="no-highlight">270</i>&nbsp;
+<i class="no-highlight">271</i>&nbsp;
+<i class="no-highlight">272</i>&nbsp;    @Override
+<i class="no-highlight">273</i>&nbsp;    public void onShow(Object toShow) { //we can print in different way in base of the type  //not typeOf...
+<b class="nc"><i class="no-highlight">274</i>&nbsp;        System.out.println(&quot;\n&quot;+toShow);</b>
 <i class="no-highlight">275</i>&nbsp;
-<i class="no-highlight">276</i>&nbsp;    @Override
-<i class="no-highlight">277</i>&nbsp;    public void updateClientGameModel(ClientGameModel clientGameModel) {
-<b class="nc"><i class="no-highlight">278</i>&nbsp;        keyboardManager.setClientGameModel(clientGameModel);</b>
-<i class="no-highlight">279</i>&nbsp;    }
-<i class="no-highlight">280</i>&nbsp;
-<i class="no-highlight">281</i>&nbsp;    @Override
-<i class="no-highlight">282</i>&nbsp;    public void onShowGame(ClientGameModel clientGameModel) {
-<b class="nc"><i class="no-highlight">283</i>&nbsp;        clearCli();</b>
-<b class="nc"><i class="no-highlight">284</i>&nbsp;        gamePrinter.print(clientGameModel);</b>
-<i class="no-highlight">285</i>&nbsp;    }
-<i class="no-highlight">286</i>&nbsp;
-<i class="no-highlight">287</i>&nbsp;    @Override
-<i class="no-highlight">288</i>&nbsp;    public void onShowPlayerJoin(List&lt;String&gt; playersList) {
-<b class="nc"><i class="no-highlight">289</i>&nbsp;        clearCli();</b>
-<b class="nc"><i class="no-highlight">290</i>&nbsp;        out.println(&quot;The players in the lobby are:&quot;);</b>
-<b class="nc"><i class="no-highlight">291</i>&nbsp;        for (String player : playersList) {</b>
-<b class="nc"><i class="no-highlight">292</i>&nbsp;            out.println(&quot;Player: &quot; + player);</b>
-<b class="nc"><i class="no-highlight">293</i>&nbsp;        }</b>
-<b class="nc"><i class="no-highlight">294</i>&nbsp;        out.println(&quot;Waiting for other players...&quot;);</b>
-<i class="no-highlight">295</i>&nbsp;
-<i class="no-highlight">296</i>&nbsp;    }
+<i class="no-highlight">276</i>&nbsp;    }
+<i class="no-highlight">277</i>&nbsp;
+<i class="no-highlight">278</i>&nbsp;    @Override
+<i class="no-highlight">279</i>&nbsp;    public void updateClientGameModel(ClientGameModel clientGameModel) {
+<b class="nc"><i class="no-highlight">280</i>&nbsp;        keyboardManager.setClientGameModel(clientGameModel);</b>
+<i class="no-highlight">281</i>&nbsp;    }
+<i class="no-highlight">282</i>&nbsp;
+<i class="no-highlight">283</i>&nbsp;    @Override
+<i class="no-highlight">284</i>&nbsp;    public void onShowGame(ClientGameModel clientGameModel) {
+<b class="nc"><i class="no-highlight">285</i>&nbsp;        clearCli();</b>
+<b class="nc"><i class="no-highlight">286</i>&nbsp;        gamePrinter.print(clientGameModel);</b>
+<i class="no-highlight">287</i>&nbsp;    }
+<i class="no-highlight">288</i>&nbsp;
+<i class="no-highlight">289</i>&nbsp;    @Override
+<i class="no-highlight">290</i>&nbsp;    public void onShowPlayerJoin(List&lt;String&gt; playersList) {
+<b class="nc"><i class="no-highlight">291</i>&nbsp;        clearCli();</b>
+<b class="nc"><i class="no-highlight">292</i>&nbsp;        out.println(&quot;The players in the lobby are:&quot;);</b>
+<b class="nc"><i class="no-highlight">293</i>&nbsp;        for (String player : playersList) {</b>
+<b class="nc"><i class="no-highlight">294</i>&nbsp;            out.println(&quot;Player: &quot; + player);</b>
+<b class="nc"><i class="no-highlight">295</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">296</i>&nbsp;        out.println(&quot;Waiting for other players...&quot;);</b>
 <i class="no-highlight">297</i>&nbsp;
-<i class="no-highlight">298</i>&nbsp;    @Override
-<i class="no-highlight">299</i>&nbsp;    public void onShowChosenTeam(String toShow) {
-<b class="nc"><i class="no-highlight">300</i>&nbsp;        out.println(toShow);</b>
-<i class="no-highlight">301</i>&nbsp;    }
-<i class="no-highlight">302</i>&nbsp;
-<i class="no-highlight">303</i>&nbsp;
-<i class="no-highlight">304</i>&nbsp;}
+<i class="no-highlight">298</i>&nbsp;    }
+<i class="no-highlight">299</i>&nbsp;
+<i class="no-highlight">300</i>&nbsp;    @Override
+<i class="no-highlight">301</i>&nbsp;    public void onShowChosenTeam(String toShow) {
+<b class="nc"><i class="no-highlight">302</i>&nbsp;        out.println(toShow);</b>
+<i class="no-highlight">303</i>&nbsp;    }
+<i class="no-highlight">304</i>&nbsp;
+<i class="no-highlight">305</i>&nbsp;
+<i class="no-highlight">306</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -403,7 +405,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-29 20:56</div>
+    <div style="float:right;">generated on 2022-07-01 13:15</div>
 </div>
 </body>
 </html>

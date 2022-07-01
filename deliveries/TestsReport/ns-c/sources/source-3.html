@@ -128,445 +128,434 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">27</i>&nbsp;     * @param clientGameModel the client&#39;s game model
 <i class="no-highlight">28</i>&nbsp;     */
 <i class="no-highlight">29</i>&nbsp;    public void print(ClientGameModel clientGameModel) { //this class is called by the Cli
-<i class="no-highlight">30</i>&nbsp;        /*
-<i class="no-highlight">31</i>&nbsp;        try {
-<i class="no-highlight">32</i>&nbsp;            new ProcessBuilder(&quot;cmd&quot;,&quot;/c&quot;,&quot;chcp 65001&quot;).inheritIO().start().waitFor();
-<i class="no-highlight">33</i>&nbsp;        } catch (InterruptedException e) {
-<i class="no-highlight">34</i>&nbsp;            e.printStackTrace();
-<i class="no-highlight">35</i>&nbsp;        } catch (IOException e) {
-<i class="no-highlight">36</i>&nbsp;            e.printStackTrace();
-<i class="no-highlight">37</i>&nbsp;        }
-<i class="no-highlight">38</i>&nbsp;        */
-<i class="no-highlight">39</i>&nbsp;
-<i class="no-highlight">40</i>&nbsp;
-<b class="nc"><i class="no-highlight">41</i>&nbsp;        String[] canvas = generateSquare(189, 50);</b>
+<b class="nc"><i class="no-highlight">30</i>&nbsp;        String[] canvas = generateSquare(189, 50);</b>
+<i class="no-highlight">31</i>&nbsp;
+<b class="nc"><i class="no-highlight">32</i>&nbsp;        boolean motherNatureHere = false;</b>
+<b class="nc"><i class="no-highlight">33</i>&nbsp;        int index = -1;</b>
+<b class="nc"><i class="no-highlight">34</i>&nbsp;        int indexList = 0;</b>
+<b class="nc"><i class="no-highlight">35</i>&nbsp;        for (ReducedIsland island : clientGameModel.getIslandList()) {</b>
+<b class="nc"><i class="no-highlight">36</i>&nbsp;            motherNatureHere = clientGameModel.getMotherNaturePos() == indexList;</b>
+<b class="nc"><i class="no-highlight">37</i>&nbsp;            index += island.getWeight();</b>
+<b class="nc"><i class="no-highlight">38</i>&nbsp;            String[] generatedIsland = generateIsland(island, indexList + 1, motherNatureHere);</b>
+<b class="nc"><i class="no-highlight">39</i>&nbsp;            mergeMatrix(canvas, islandPositions[index][0], islandPositions[index][1], generatedIsland);</b>
+<b class="nc"><i class="no-highlight">40</i>&nbsp;            indexList++;</b>
+<b class="nc"><i class="no-highlight">41</i>&nbsp;        }</b>
 <i class="no-highlight">42</i>&nbsp;
-<b class="nc"><i class="no-highlight">43</i>&nbsp;        boolean motherNatureHere = false;</b>
-<b class="nc"><i class="no-highlight">44</i>&nbsp;        int index = -1;</b>
-<b class="nc"><i class="no-highlight">45</i>&nbsp;        int indexList = 0;</b>
-<b class="nc"><i class="no-highlight">46</i>&nbsp;        for (ReducedIsland island : clientGameModel.getIslandList()) {</b>
-<b class="nc"><i class="no-highlight">47</i>&nbsp;            motherNatureHere = clientGameModel.getMotherNaturePos() == indexList;</b>
-<b class="nc"><i class="no-highlight">48</i>&nbsp;            index += island.getWeight();</b>
-<b class="nc"><i class="no-highlight">49</i>&nbsp;            String[] generatedIsland = generateIsland(island, indexList + 1, motherNatureHere);</b>
-<b class="nc"><i class="no-highlight">50</i>&nbsp;            mergeMatrix(canvas, islandPositions[index][0], islandPositions[index][1], generatedIsland);</b>
-<b class="nc"><i class="no-highlight">51</i>&nbsp;            indexList++;</b>
-<b class="nc"><i class="no-highlight">52</i>&nbsp;        }</b>
-<i class="no-highlight">53</i>&nbsp;
-<b class="nc"><i class="no-highlight">54</i>&nbsp;        index = 0;</b>
-<b class="nc"><i class="no-highlight">55</i>&nbsp;        for (ReducedCloud cloud : clientGameModel.getCloudList()) {</b>
-<b class="nc"><i class="no-highlight">56</i>&nbsp;            String[] generatedCloud = generateCloud(cloud, index + 1);</b>
-<b class="nc"><i class="no-highlight">57</i>&nbsp;            mergeMatrix(canvas, cloudPositions[index][0], cloudPositions[index][1], generatedCloud);</b>
-<b class="nc"><i class="no-highlight">58</i>&nbsp;            index++;</b>
-<b class="nc"><i class="no-highlight">59</i>&nbsp;        }</b>
-<i class="no-highlight">60</i>&nbsp;
-<b class="nc"><i class="no-highlight">61</i>&nbsp;        index = 0;</b>
-<b class="nc"><i class="no-highlight">62</i>&nbsp;        for (ReducedPlayer player : clientGameModel.getPlayersList()) {</b>
-<i class="no-highlight">63</i>&nbsp;
-<b class="nc"><i class="no-highlight">64</i>&nbsp;            String teamPlayer = &quot;&quot;;</b>
-<b class="nc"><i class="no-highlight">65</i>&nbsp;            if (clientGameModel.getNumOfPlayers() == 4) {</b>
-<b class="nc"><i class="no-highlight">66</i>&nbsp;                for (ReducedPlayer currP : clientGameModel.getPlayersList()) {</b>
-<b class="nc"><i class="no-highlight">67</i>&nbsp;                    if (currP != player &amp;&amp; currP.getTeam() == player.getTeam()) {</b>
-<b class="nc"><i class="no-highlight">68</i>&nbsp;                        teamPlayer = currP.getName();</b>
-<b class="nc"><i class="no-highlight">69</i>&nbsp;                        break;</b>
-<i class="no-highlight">70</i>&nbsp;                    }
-<b class="nc"><i class="no-highlight">71</i>&nbsp;                }</b>
-<i class="no-highlight">72</i>&nbsp;            }
-<i class="no-highlight">73</i>&nbsp;
-<b class="nc"><i class="no-highlight">74</i>&nbsp;            String[] generatedDashboard = generateDashboard(player, teamPlayer);</b>
-<b class="nc"><i class="no-highlight">75</i>&nbsp;            mergeMatrix(canvas, dashboardPositions[index][0], dashboardPositions[index][1], generatedDashboard);</b>
-<b class="nc"><i class="no-highlight">76</i>&nbsp;            index++;</b>
-<b class="nc"><i class="no-highlight">77</i>&nbsp;        }</b>
-<i class="no-highlight">78</i>&nbsp;
-<b class="nc"><i class="no-highlight">79</i>&nbsp;        writeAtPos(canvas, 10, 41, &quot;My assistants&quot;);</b>
-<b class="nc"><i class="no-highlight">80</i>&nbsp;        for (int i = 41; i &lt; 47; i++) {</b>
-<b class="nc"><i class="no-highlight">81</i>&nbsp;            writeAtPos(canvas, 7, i, &quot;|&quot;);</b>
-<i class="no-highlight">82</i>&nbsp;        }
-<i class="no-highlight">83</i>&nbsp;
-<b class="nc"><i class="no-highlight">84</i>&nbsp;        int assistantPos = 10;</b>
-<b class="nc"><i class="no-highlight">85</i>&nbsp;        for (ReducedAssistant myAssistant : clientGameModel.getAssistantList()) {</b>
-<b class="nc"><i class="no-highlight">86</i>&nbsp;            String[] generatedAssistant = generateAssistant(myAssistant);</b>
-<b class="nc"><i class="no-highlight">87</i>&nbsp;            mergeMatrix(canvas, assistantPos, 42, generatedAssistant);</b>
-<b class="nc"><i class="no-highlight">88</i>&nbsp;            assistantPos += 10;</b>
-<b class="nc"><i class="no-highlight">89</i>&nbsp;        }</b>
-<i class="no-highlight">90</i>&nbsp;
-<b class="nc"><i class="no-highlight">91</i>&nbsp;        if (clientGameModel.isExpertMode()) {</b>
-<b class="nc"><i class="no-highlight">92</i>&nbsp;            writeAtPos(canvas, 144, 48, &quot;Write use_character [id] to use a character&quot;);</b>
-<i class="no-highlight">93</i>&nbsp;
-<b class="nc"><i class="no-highlight">94</i>&nbsp;            writeAtPos(canvas, 150, 40, &quot;Characters - Table money: &quot; + clientGameModel.getTableMoney());</b>
-<b class="nc"><i class="no-highlight">95</i>&nbsp;            for (int i = 40; i &lt; 48; i++) {</b>
-<b class="nc"><i class="no-highlight">96</i>&nbsp;                writeAtPos(canvas, 147, i, &quot;|&quot;);</b>
-<i class="no-highlight">97</i>&nbsp;            }
-<i class="no-highlight">98</i>&nbsp;
-<b class="nc"><i class="no-highlight">99</i>&nbsp;            int characterPos = 150;</b>
-<b class="nc"><i class="no-highlight">100</i>&nbsp;            for (ReducedCharacter character : clientGameModel.getCharactersList()) {</b>
-<b class="nc"><i class="no-highlight">101</i>&nbsp;                String[] generatedCharacter = generateCharacter(character);</b>
-<b class="nc"><i class="no-highlight">102</i>&nbsp;                mergeMatrix(canvas, characterPos, 41, generatedCharacter);</b>
-<b class="nc"><i class="no-highlight">103</i>&nbsp;                characterPos += 13;</b>
-<b class="nc"><i class="no-highlight">104</i>&nbsp;            }</b>
-<i class="no-highlight">105</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">106</i>&nbsp;        printMatrix(canvas);</b>
-<i class="no-highlight">107</i>&nbsp;    }
-<i class="no-highlight">108</i>&nbsp;
-<i class="no-highlight">109</i>&nbsp;    /**
-<i class="no-highlight">110</i>&nbsp;     * This method generates an island in the cli
-<i class="no-highlight">111</i>&nbsp;     */
-<i class="no-highlight">112</i>&nbsp;    private String[] generateIsland(ReducedIsland island, int id, boolean motherNature) {
-<b class="nc"><i class="no-highlight">113</i>&nbsp;        String[] result = generateSquare(23, 9);</b>
-<b class="nc"><i class="no-highlight">114</i>&nbsp;        writeAtPos(result, 7, 1, &quot;Island &quot; + id);</b>
-<i class="no-highlight">115</i>&nbsp;
-<b class="nc"><i class="no-highlight">116</i>&nbsp;        Map&lt;PawnColor, Integer&gt; colorsMap = new HashMap&lt;&gt;();</b>
-<b class="nc"><i class="no-highlight">117</i>&nbsp;        for (PawnColor p : island.getStudentsList()) {</b>
-<b class="nc"><i class="no-highlight">118</i>&nbsp;            Integer existingNum = colorsMap.get(p);</b>
-<b class="nc"><i class="no-highlight">119</i>&nbsp;            if (existingNum == null) {</b>
-<b class="nc"><i class="no-highlight">120</i>&nbsp;                colorsMap.put(p, 1);</b>
-<i class="no-highlight">121</i>&nbsp;            } else {
-<b class="nc"><i class="no-highlight">122</i>&nbsp;                colorsMap.put(p, ++existingNum);</b>
-<i class="no-highlight">123</i>&nbsp;            }
-<b class="nc"><i class="no-highlight">124</i>&nbsp;        }</b>
-<i class="no-highlight">125</i>&nbsp;
-<i class="no-highlight">126</i>&nbsp;        //drawing students
-<b class="nc"><i class="no-highlight">127</i>&nbsp;        int startPos = 3;</b>
-<b class="nc"><i class="no-highlight">128</i>&nbsp;        for (PawnColor p : PawnColor.values()) {</b>
-<b class="nc"><i class="no-highlight">129</i>&nbsp;            if (colorsMap.get(p) != null) {</b>
-<b class="nc"><i class="no-highlight">130</i>&nbsp;                writeAtPos(result, 2, startPos, getColor(p) + &quot;█&quot; + ColorCli.RESET + &quot;: &quot; + colorsMap.get(p));</b>
-<b class="nc"><i class="no-highlight">131</i>&nbsp;                startPos++;</b>
-<i class="no-highlight">132</i>&nbsp;            }
-<i class="no-highlight">133</i>&nbsp;        }
-<i class="no-highlight">134</i>&nbsp;
-<i class="no-highlight">135</i>&nbsp;        //drawing weight
-<b class="nc"><i class="no-highlight">136</i>&nbsp;        writeAtPos(result, 18, 1, &quot;(&quot; + island.getWeight() + &quot;)&quot;);</b>
+<b class="nc"><i class="no-highlight">43</i>&nbsp;        index = 0;</b>
+<b class="nc"><i class="no-highlight">44</i>&nbsp;        for (ReducedCloud cloud : clientGameModel.getCloudList()) {</b>
+<b class="nc"><i class="no-highlight">45</i>&nbsp;            String[] generatedCloud = generateCloud(cloud, index + 1);</b>
+<b class="nc"><i class="no-highlight">46</i>&nbsp;            mergeMatrix(canvas, cloudPositions[index][0], cloudPositions[index][1], generatedCloud);</b>
+<b class="nc"><i class="no-highlight">47</i>&nbsp;            index++;</b>
+<b class="nc"><i class="no-highlight">48</i>&nbsp;        }</b>
+<i class="no-highlight">49</i>&nbsp;
+<b class="nc"><i class="no-highlight">50</i>&nbsp;        index = 0;</b>
+<b class="nc"><i class="no-highlight">51</i>&nbsp;        for (ReducedPlayer player : clientGameModel.getPlayersList()) {</b>
+<i class="no-highlight">52</i>&nbsp;
+<b class="nc"><i class="no-highlight">53</i>&nbsp;            String teamPlayer = &quot;&quot;;</b>
+<b class="nc"><i class="no-highlight">54</i>&nbsp;            if (clientGameModel.getNumOfPlayers() == 4) {</b>
+<b class="nc"><i class="no-highlight">55</i>&nbsp;                for (ReducedPlayer currP : clientGameModel.getPlayersList()) {</b>
+<b class="nc"><i class="no-highlight">56</i>&nbsp;                    if (currP != player &amp;&amp; currP.getTeam() == player.getTeam()) {</b>
+<b class="nc"><i class="no-highlight">57</i>&nbsp;                        teamPlayer = currP.getName();</b>
+<b class="nc"><i class="no-highlight">58</i>&nbsp;                        break;</b>
+<i class="no-highlight">59</i>&nbsp;                    }
+<b class="nc"><i class="no-highlight">60</i>&nbsp;                }</b>
+<i class="no-highlight">61</i>&nbsp;            }
+<i class="no-highlight">62</i>&nbsp;
+<b class="nc"><i class="no-highlight">63</i>&nbsp;            String[] generatedDashboard = generateDashboard(player, teamPlayer);</b>
+<b class="nc"><i class="no-highlight">64</i>&nbsp;            mergeMatrix(canvas, dashboardPositions[index][0], dashboardPositions[index][1], generatedDashboard);</b>
+<b class="nc"><i class="no-highlight">65</i>&nbsp;            index++;</b>
+<b class="nc"><i class="no-highlight">66</i>&nbsp;        }</b>
+<i class="no-highlight">67</i>&nbsp;
+<b class="nc"><i class="no-highlight">68</i>&nbsp;        writeAtPos(canvas, 10, 41, &quot;My assistants&quot;);</b>
+<b class="nc"><i class="no-highlight">69</i>&nbsp;        for (int i = 41; i &lt; 47; i++) {</b>
+<b class="nc"><i class="no-highlight">70</i>&nbsp;            writeAtPos(canvas, 7, i, &quot;|&quot;);</b>
+<i class="no-highlight">71</i>&nbsp;        }
+<i class="no-highlight">72</i>&nbsp;
+<b class="nc"><i class="no-highlight">73</i>&nbsp;        int assistantPos = 10;</b>
+<b class="nc"><i class="no-highlight">74</i>&nbsp;        for (ReducedAssistant myAssistant : clientGameModel.getAssistantList()) {</b>
+<b class="nc"><i class="no-highlight">75</i>&nbsp;            String[] generatedAssistant = generateAssistant(myAssistant);</b>
+<b class="nc"><i class="no-highlight">76</i>&nbsp;            mergeMatrix(canvas, assistantPos, 42, generatedAssistant);</b>
+<b class="nc"><i class="no-highlight">77</i>&nbsp;            assistantPos += 10;</b>
+<b class="nc"><i class="no-highlight">78</i>&nbsp;        }</b>
+<i class="no-highlight">79</i>&nbsp;
+<b class="nc"><i class="no-highlight">80</i>&nbsp;        if (clientGameModel.isExpertMode()) {</b>
+<b class="nc"><i class="no-highlight">81</i>&nbsp;            writeAtPos(canvas, 144, 48, &quot;Write use_character [id] to use a character&quot;);</b>
+<i class="no-highlight">82</i>&nbsp;
+<b class="nc"><i class="no-highlight">83</i>&nbsp;            writeAtPos(canvas, 150, 40, &quot;Characters - Table money: &quot; + clientGameModel.getTableMoney());</b>
+<b class="nc"><i class="no-highlight">84</i>&nbsp;            for (int i = 40; i &lt; 48; i++) {</b>
+<b class="nc"><i class="no-highlight">85</i>&nbsp;                writeAtPos(canvas, 147, i, &quot;|&quot;);</b>
+<i class="no-highlight">86</i>&nbsp;            }
+<i class="no-highlight">87</i>&nbsp;
+<b class="nc"><i class="no-highlight">88</i>&nbsp;            int characterPos = 150;</b>
+<b class="nc"><i class="no-highlight">89</i>&nbsp;            for (ReducedCharacter character : clientGameModel.getCharactersList()) {</b>
+<b class="nc"><i class="no-highlight">90</i>&nbsp;                String[] generatedCharacter = generateCharacter(character);</b>
+<b class="nc"><i class="no-highlight">91</i>&nbsp;                mergeMatrix(canvas, characterPos, 41, generatedCharacter);</b>
+<b class="nc"><i class="no-highlight">92</i>&nbsp;                characterPos += 13;</b>
+<b class="nc"><i class="no-highlight">93</i>&nbsp;            }</b>
+<i class="no-highlight">94</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">95</i>&nbsp;        printMatrix(canvas);</b>
+<i class="no-highlight">96</i>&nbsp;    }
+<i class="no-highlight">97</i>&nbsp;
+<i class="no-highlight">98</i>&nbsp;    /**
+<i class="no-highlight">99</i>&nbsp;     * This method generates an island in the cli
+<i class="no-highlight">100</i>&nbsp;     */
+<i class="no-highlight">101</i>&nbsp;    private String[] generateIsland(ReducedIsland island, int id, boolean motherNature) {
+<b class="nc"><i class="no-highlight">102</i>&nbsp;        String[] result = generateSquare(23, 9);</b>
+<b class="nc"><i class="no-highlight">103</i>&nbsp;        writeAtPos(result, 7, 1, &quot;Island &quot; + id);</b>
+<i class="no-highlight">104</i>&nbsp;
+<b class="nc"><i class="no-highlight">105</i>&nbsp;        Map&lt;PawnColor, Integer&gt; colorsMap = new HashMap&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">106</i>&nbsp;        for (PawnColor p : island.getStudentsList()) {</b>
+<b class="nc"><i class="no-highlight">107</i>&nbsp;            Integer existingNum = colorsMap.get(p);</b>
+<b class="nc"><i class="no-highlight">108</i>&nbsp;            if (existingNum == null) {</b>
+<b class="nc"><i class="no-highlight">109</i>&nbsp;                colorsMap.put(p, 1);</b>
+<i class="no-highlight">110</i>&nbsp;            } else {
+<b class="nc"><i class="no-highlight">111</i>&nbsp;                colorsMap.put(p, ++existingNum);</b>
+<i class="no-highlight">112</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">113</i>&nbsp;        }</b>
+<i class="no-highlight">114</i>&nbsp;
+<i class="no-highlight">115</i>&nbsp;        //drawing students
+<b class="nc"><i class="no-highlight">116</i>&nbsp;        int startPos = 3;</b>
+<b class="nc"><i class="no-highlight">117</i>&nbsp;        for (PawnColor p : PawnColor.values()) {</b>
+<b class="nc"><i class="no-highlight">118</i>&nbsp;            if (colorsMap.get(p) != null) {</b>
+<b class="nc"><i class="no-highlight">119</i>&nbsp;                writeAtPos(result, 2, startPos, getColor(p) + &quot;█&quot; + ColorCli.RESET + &quot;: &quot; + colorsMap.get(p));</b>
+<b class="nc"><i class="no-highlight">120</i>&nbsp;                startPos++;</b>
+<i class="no-highlight">121</i>&nbsp;            }
+<i class="no-highlight">122</i>&nbsp;        }
+<i class="no-highlight">123</i>&nbsp;
+<i class="no-highlight">124</i>&nbsp;        //drawing weight
+<b class="nc"><i class="no-highlight">125</i>&nbsp;        writeAtPos(result, 18, 1, &quot;(&quot; + island.getWeight() + &quot;)&quot;);</b>
+<i class="no-highlight">126</i>&nbsp;
+<i class="no-highlight">127</i>&nbsp;        //drawing towers
+<b class="nc"><i class="no-highlight">128</i>&nbsp;        if (island.getTowerColor() != null) {</b>
+<b class="nc"><i class="no-highlight">129</i>&nbsp;            writeAtPos(result, 8, 3, &quot;Domain: &quot; + getColor(island.getTowerColor()) + island.getTowerColor() + ColorCli.RESET);</b>
+<b class="nc"><i class="no-highlight">130</i>&nbsp;            writeAtPos(result, 8, 4, &quot;█ Towers: &quot; + island.getWeight());</b>
+<i class="no-highlight">131</i>&nbsp;        }
+<i class="no-highlight">132</i>&nbsp;
+<i class="no-highlight">133</i>&nbsp;        //drawing forbid cards
+<b class="nc"><i class="no-highlight">134</i>&nbsp;        if (island.getForbidCards() != 0) {</b>
+<b class="nc"><i class="no-highlight">135</i>&nbsp;            writeAtPos(result, 8, 5, &quot;Forb.cards: &quot; + island.getForbidCards());</b>
+<i class="no-highlight">136</i>&nbsp;        }
 <i class="no-highlight">137</i>&nbsp;
-<i class="no-highlight">138</i>&nbsp;        //drawing towers
-<b class="nc"><i class="no-highlight">139</i>&nbsp;        if (island.getTowerColor() != null) {</b>
-<b class="nc"><i class="no-highlight">140</i>&nbsp;            writeAtPos(result, 8, 3, &quot;Domain: &quot; + getColor(island.getTowerColor()) + island.getTowerColor() + ColorCli.RESET);</b>
-<b class="nc"><i class="no-highlight">141</i>&nbsp;            writeAtPos(result, 8, 4, &quot;█ Towers: &quot; + island.getWeight());</b>
+<i class="no-highlight">138</i>&nbsp;        //drawing mother nature
+<b class="nc"><i class="no-highlight">139</i>&nbsp;        if (motherNature) {</b>
+<b class="nc"><i class="no-highlight">140</i>&nbsp;            writeAtPos(result, 11, 6, ColorCli.RED + &quot;█  Mother&quot; + ColorCli.RESET);</b>
+<b class="nc"><i class="no-highlight">141</i>&nbsp;            writeAtPos(result, 10, 7, ColorCli.RED + &quot;███ Nature&quot; + ColorCli.RESET);</b>
 <i class="no-highlight">142</i>&nbsp;        }
 <i class="no-highlight">143</i>&nbsp;
-<i class="no-highlight">144</i>&nbsp;        //drawing forbid cards
-<b class="nc"><i class="no-highlight">145</i>&nbsp;        if (island.getForbidCards() != 0) {</b>
-<b class="nc"><i class="no-highlight">146</i>&nbsp;            writeAtPos(result, 8, 5, &quot;Forb.cards: &quot; + island.getForbidCards());</b>
-<i class="no-highlight">147</i>&nbsp;        }
-<i class="no-highlight">148</i>&nbsp;
-<i class="no-highlight">149</i>&nbsp;        //drawing mother nature
-<b class="nc"><i class="no-highlight">150</i>&nbsp;        if (motherNature) {</b>
-<b class="nc"><i class="no-highlight">151</i>&nbsp;            writeAtPos(result, 11, 6, ColorCli.RED + &quot;█  Mother&quot; + ColorCli.RESET);</b>
-<b class="nc"><i class="no-highlight">152</i>&nbsp;            writeAtPos(result, 10, 7, ColorCli.RED + &quot;███ Nature&quot; + ColorCli.RESET);</b>
-<i class="no-highlight">153</i>&nbsp;        }
-<i class="no-highlight">154</i>&nbsp;
-<b class="nc"><i class="no-highlight">155</i>&nbsp;        return result;</b>
-<i class="no-highlight">156</i>&nbsp;    }
-<i class="no-highlight">157</i>&nbsp;
-<i class="no-highlight">158</i>&nbsp;    /**
-<i class="no-highlight">159</i>&nbsp;     * This methods generates a player&#39;s dashboard in the cli
-<i class="no-highlight">160</i>&nbsp;     *
-<i class="no-highlight">161</i>&nbsp;     * @param player the player
-<i class="no-highlight">162</i>&nbsp;     * @return the dashboard string
-<i class="no-highlight">163</i>&nbsp;     */
-<i class="no-highlight">164</i>&nbsp;    private String[] generateDashboard(ReducedPlayer player, String teamPlayer) {
-<b class="nc"><i class="no-highlight">165</i>&nbsp;        ReducedDashboard dashboard = player.getDashboard();</b>
-<b class="nc"><i class="no-highlight">166</i>&nbsp;        String playerName = player.getName();</b>
-<b class="nc"><i class="no-highlight">167</i>&nbsp;        TowerColor towerColor = player.getPlayerTowerColor();</b>
-<b class="nc"><i class="no-highlight">168</i>&nbsp;        ReducedAssistant assistant = player.getSelectedAssistant();</b>
-<i class="no-highlight">169</i>&nbsp;
-<b class="nc"><i class="no-highlight">170</i>&nbsp;        String[] result = generateSquare(45, 7);</b>
-<i class="no-highlight">171</i>&nbsp;
-<b class="nc"><i class="no-highlight">172</i>&nbsp;        if (player.getNumOfMoney() != -1) {</b>
-<b class="nc"><i class="no-highlight">173</i>&nbsp;            writeAtPos(result, 2, 0, &quot; &quot; + playerName + &quot; (&quot; + player.getWizard().toString() + &quot; &quot; + teamPlayer + &quot;) Money: &quot; + player.getNumOfMoney() + &quot; &quot;);</b>
-<i class="no-highlight">174</i>&nbsp;        } else {
-<b class="nc"><i class="no-highlight">175</i>&nbsp;            writeAtPos(result, 2, 0, &quot; &quot; + playerName + &quot; (&quot; + player.getWizard().toString() + &quot;) &quot;);</b>
-<i class="no-highlight">176</i>&nbsp;
-<i class="no-highlight">177</i>&nbsp;        }
-<i class="no-highlight">178</i>&nbsp;
-<b class="nc"><i class="no-highlight">179</i>&nbsp;        int pos = 0;</b>
-<i class="no-highlight">180</i>&nbsp;        int i;
-<i class="no-highlight">181</i>&nbsp;
-<b class="nc"><i class="no-highlight">182</i>&nbsp;        for (PawnColor p : dashboard.getEntranceList()) {</b>
-<b class="nc"><i class="no-highlight">183</i>&nbsp;            writeAtPos(result, dashboardEntrancePositions[pos][0], dashboardEntrancePositions[pos][1], getColorBg(p) + &quot; &quot; + (pos + 1) + &quot; &quot; + ColorCli.RESET);</b>
-<b class="nc"><i class="no-highlight">184</i>&nbsp;            pos++;</b>
-<b class="nc"><i class="no-highlight">185</i>&nbsp;        }</b>
-<i class="no-highlight">186</i>&nbsp;
-<i class="no-highlight">187</i>&nbsp;        //first separator
-<b class="nc"><i class="no-highlight">188</i>&nbsp;        for (i = 1; i &lt; 6; i++) {</b>
-<b class="nc"><i class="no-highlight">189</i>&nbsp;            writeAtPos(result, 10, i, &quot;|&quot;);</b>
-<i class="no-highlight">190</i>&nbsp;        }
-<i class="no-highlight">191</i>&nbsp;
-<b class="nc"><i class="no-highlight">192</i>&nbsp;        pos = 1;</b>
-<b class="nc"><i class="no-highlight">193</i>&nbsp;        for (PawnColor p : PawnColor.values()) {</b>
-<b class="nc"><i class="no-highlight">194</i>&nbsp;            writeAtPos(result, 12, pos, getColor(p) + &quot;█&quot; + ColorCli.RESET + &quot;: &quot; + dashboard.getStudentsHall().get(p));</b>
-<i class="no-highlight">195</i>&nbsp;
-<b class="nc"><i class="no-highlight">196</i>&nbsp;            if (dashboard.getProfessorsList().contains(p)) {</b>
-<b class="nc"><i class="no-highlight">197</i>&nbsp;                writeAtPos(result, 20, pos, getColor(p) + &quot;██&quot; + ColorCli.RESET);</b>
-<i class="no-highlight">198</i>&nbsp;            }
-<b class="nc"><i class="no-highlight">199</i>&nbsp;            pos++;</b>
-<i class="no-highlight">200</i>&nbsp;        }
-<i class="no-highlight">201</i>&nbsp;
-<i class="no-highlight">202</i>&nbsp;        //second separator
-<b class="nc"><i class="no-highlight">203</i>&nbsp;        for (i = 1; i &lt; 6; i++) {</b>
-<b class="nc"><i class="no-highlight">204</i>&nbsp;            writeAtPos(result, 24, i, &quot;|&quot;);</b>
-<i class="no-highlight">205</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">206</i>&nbsp;        if (towerColor != null) {</b>
-<b class="nc"><i class="no-highlight">207</i>&nbsp;            writeAtPos(result, 26, 2, &quot;Towers:&quot;);</b>
-<b class="nc"><i class="no-highlight">208</i>&nbsp;            writeAtPos(result, 27, 3, getColor(towerColor) + towerColor + ColorCli.RESET);</b>
-<b class="nc"><i class="no-highlight">209</i>&nbsp;            writeAtPos(result, 29, 4, getColor(towerColor) + dashboard.getTowerNumber() + ColorCli.RESET);</b>
-<i class="no-highlight">210</i>&nbsp;        }
-<i class="no-highlight">211</i>&nbsp;
-<i class="no-highlight">212</i>&nbsp;        //third separator
-<b class="nc"><i class="no-highlight">213</i>&nbsp;        for (i = 1; i &lt; 6; i++) {</b>
-<b class="nc"><i class="no-highlight">214</i>&nbsp;            writeAtPos(result, 34, i, &quot;|&quot;);</b>
-<i class="no-highlight">215</i>&nbsp;        }
-<i class="no-highlight">216</i>&nbsp;
-<b class="nc"><i class="no-highlight">217</i>&nbsp;        writeAtPos(result, 37, 2, &quot;Card:&quot;);</b>
-<i class="no-highlight">218</i>&nbsp;
-<b class="nc"><i class="no-highlight">219</i>&nbsp;        if (assistant != null &amp;&amp; assistant.getId() != 0) {</b>
-<b class="nc"><i class="no-highlight">220</i>&nbsp;            writeAtPos(result, 37, 3, ColorCli.BLUE_BOLD + &quot;ID: &quot; + assistant.getId() + ColorCli.RESET);</b>
-<b class="nc"><i class="no-highlight">221</i>&nbsp;            writeAtPos(result, 36, 4, &quot;POS: +&quot; + assistant.getMotherNaturePosShift());</b>
-<i class="no-highlight">222</i>&nbsp;        } else {
-<b class="nc"><i class="no-highlight">223</i>&nbsp;            writeAtPos(result, 38, 4, &quot;...&quot;);</b>
-<i class="no-highlight">224</i>&nbsp;        }
-<i class="no-highlight">225</i>&nbsp;
-<b class="nc"><i class="no-highlight">226</i>&nbsp;        return result;</b>
-<i class="no-highlight">227</i>&nbsp;    }
-<i class="no-highlight">228</i>&nbsp;
-<i class="no-highlight">229</i>&nbsp;    /**
-<i class="no-highlight">230</i>&nbsp;     * This method generates a cloud in th cli
-<i class="no-highlight">231</i>&nbsp;     *
-<i class="no-highlight">232</i>&nbsp;     * @param cloud the generated cloud
-<i class="no-highlight">233</i>&nbsp;     * @param id    the cloud&#39;s id
-<i class="no-highlight">234</i>&nbsp;     * @return the generated cloud string
-<i class="no-highlight">235</i>&nbsp;     */
-<i class="no-highlight">236</i>&nbsp;    private String[] generateCloud(ReducedCloud cloud, int id) {
-<b class="nc"><i class="no-highlight">237</i>&nbsp;        String[] result = generateSquare(16, 5);</b>
-<b class="nc"><i class="no-highlight">238</i>&nbsp;        writeAtPos(result, 4, 1, &quot;Cloud &quot; + id);</b>
-<b class="nc"><i class="no-highlight">239</i>&nbsp;        int startPos = 3;</b>
-<i class="no-highlight">240</i>&nbsp;
-<b class="nc"><i class="no-highlight">241</i>&nbsp;        for (PawnColor p : cloud.getStudentsList()) {</b>
-<b class="nc"><i class="no-highlight">242</i>&nbsp;            writeAtPos(result, startPos, 3, getColor(p) + &quot;█&quot; + ColorCli.RESET);</b>
-<b class="nc"><i class="no-highlight">243</i>&nbsp;            startPos = startPos + 3;</b>
-<b class="nc"><i class="no-highlight">244</i>&nbsp;        }</b>
-<b class="nc"><i class="no-highlight">245</i>&nbsp;        return result;</b>
-<i class="no-highlight">246</i>&nbsp;    }
-<i class="no-highlight">247</i>&nbsp;
-<i class="no-highlight">248</i>&nbsp;    /**
-<i class="no-highlight">249</i>&nbsp;     * This method generates an assistant in the cli
-<i class="no-highlight">250</i>&nbsp;     *
-<i class="no-highlight">251</i>&nbsp;     * @param assistant the generated assistant
-<i class="no-highlight">252</i>&nbsp;     * @return the generated assistant string
-<i class="no-highlight">253</i>&nbsp;     */
-<i class="no-highlight">254</i>&nbsp;    private String[] generateAssistant(ReducedAssistant assistant) {
-<b class="nc"><i class="no-highlight">255</i>&nbsp;        String[] result = generateSquare(8, 5);</b>
-<b class="nc"><i class="no-highlight">256</i>&nbsp;        writeAtPos(result, 1, 1, ColorCli.BLUE_BOLD + &quot;&quot; + assistant.getId() + &quot;&quot; + ColorCli.RESET);</b>
-<b class="nc"><i class="no-highlight">257</i>&nbsp;        writeAtPos(result, 2, 2, &quot;POS:&quot;);</b>
-<b class="nc"><i class="no-highlight">258</i>&nbsp;        writeAtPos(result, 3, 3, &quot;+&quot; + assistant.getMotherNaturePosShift());</b>
-<b class="nc"><i class="no-highlight">259</i>&nbsp;        return result;</b>
-<i class="no-highlight">260</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">144</i>&nbsp;        return result;</b>
+<i class="no-highlight">145</i>&nbsp;    }
+<i class="no-highlight">146</i>&nbsp;
+<i class="no-highlight">147</i>&nbsp;    /**
+<i class="no-highlight">148</i>&nbsp;     * This methods generates a player&#39;s dashboard in the cli
+<i class="no-highlight">149</i>&nbsp;     *
+<i class="no-highlight">150</i>&nbsp;     * @param player the player
+<i class="no-highlight">151</i>&nbsp;     * @return the dashboard string
+<i class="no-highlight">152</i>&nbsp;     */
+<i class="no-highlight">153</i>&nbsp;    private String[] generateDashboard(ReducedPlayer player, String teamPlayer) {
+<b class="nc"><i class="no-highlight">154</i>&nbsp;        ReducedDashboard dashboard = player.getDashboard();</b>
+<b class="nc"><i class="no-highlight">155</i>&nbsp;        String playerName = player.getName();</b>
+<b class="nc"><i class="no-highlight">156</i>&nbsp;        TowerColor towerColor = player.getPlayerTowerColor();</b>
+<b class="nc"><i class="no-highlight">157</i>&nbsp;        ReducedAssistant assistant = player.getSelectedAssistant();</b>
+<i class="no-highlight">158</i>&nbsp;
+<b class="nc"><i class="no-highlight">159</i>&nbsp;        String[] result = generateSquare(45, 7);</b>
+<i class="no-highlight">160</i>&nbsp;
+<b class="nc"><i class="no-highlight">161</i>&nbsp;        if (player.getNumOfMoney() != -1) {</b>
+<b class="nc"><i class="no-highlight">162</i>&nbsp;            writeAtPos(result, 2, 0, &quot; &quot; + playerName + &quot; (&quot; + player.getWizard().toString() + &quot; &quot; + teamPlayer + &quot;) Money: &quot; + player.getNumOfMoney() + &quot; &quot;);</b>
+<i class="no-highlight">163</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">164</i>&nbsp;            writeAtPos(result, 2, 0, &quot; &quot; + playerName + &quot; (&quot; + player.getWizard().toString() + &quot;) &quot;);</b>
+<i class="no-highlight">165</i>&nbsp;
+<i class="no-highlight">166</i>&nbsp;        }
+<i class="no-highlight">167</i>&nbsp;
+<b class="nc"><i class="no-highlight">168</i>&nbsp;        int pos = 0;</b>
+<i class="no-highlight">169</i>&nbsp;        int i;
+<i class="no-highlight">170</i>&nbsp;
+<b class="nc"><i class="no-highlight">171</i>&nbsp;        for (PawnColor p : dashboard.getEntranceList()) {</b>
+<b class="nc"><i class="no-highlight">172</i>&nbsp;            writeAtPos(result, dashboardEntrancePositions[pos][0], dashboardEntrancePositions[pos][1], getColorBg(p) + &quot; &quot; + (pos + 1) + &quot; &quot; + ColorCli.RESET);</b>
+<b class="nc"><i class="no-highlight">173</i>&nbsp;            pos++;</b>
+<b class="nc"><i class="no-highlight">174</i>&nbsp;        }</b>
+<i class="no-highlight">175</i>&nbsp;
+<i class="no-highlight">176</i>&nbsp;        //first separator
+<b class="nc"><i class="no-highlight">177</i>&nbsp;        for (i = 1; i &lt; 6; i++) {</b>
+<b class="nc"><i class="no-highlight">178</i>&nbsp;            writeAtPos(result, 10, i, &quot;|&quot;);</b>
+<i class="no-highlight">179</i>&nbsp;        }
+<i class="no-highlight">180</i>&nbsp;
+<b class="nc"><i class="no-highlight">181</i>&nbsp;        pos = 1;</b>
+<b class="nc"><i class="no-highlight">182</i>&nbsp;        for (PawnColor p : PawnColor.values()) {</b>
+<b class="nc"><i class="no-highlight">183</i>&nbsp;            writeAtPos(result, 12, pos, getColor(p) + &quot;█&quot; + ColorCli.RESET + &quot;: &quot; + dashboard.getStudentsHall().get(p));</b>
+<i class="no-highlight">184</i>&nbsp;
+<b class="nc"><i class="no-highlight">185</i>&nbsp;            if (dashboard.getProfessorsList().contains(p)) {</b>
+<b class="nc"><i class="no-highlight">186</i>&nbsp;                writeAtPos(result, 20, pos, getColor(p) + &quot;██&quot; + ColorCli.RESET);</b>
+<i class="no-highlight">187</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">188</i>&nbsp;            pos++;</b>
+<i class="no-highlight">189</i>&nbsp;        }
+<i class="no-highlight">190</i>&nbsp;
+<i class="no-highlight">191</i>&nbsp;        //second separator
+<b class="nc"><i class="no-highlight">192</i>&nbsp;        for (i = 1; i &lt; 6; i++) {</b>
+<b class="nc"><i class="no-highlight">193</i>&nbsp;            writeAtPos(result, 24, i, &quot;|&quot;);</b>
+<i class="no-highlight">194</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">195</i>&nbsp;        if (towerColor != null) {</b>
+<b class="nc"><i class="no-highlight">196</i>&nbsp;            writeAtPos(result, 26, 2, &quot;Towers:&quot;);</b>
+<b class="nc"><i class="no-highlight">197</i>&nbsp;            writeAtPos(result, 27, 3, getColor(towerColor) + towerColor + ColorCli.RESET);</b>
+<b class="nc"><i class="no-highlight">198</i>&nbsp;            writeAtPos(result, 29, 4, getColor(towerColor) + dashboard.getTowerNumber() + ColorCli.RESET);</b>
+<i class="no-highlight">199</i>&nbsp;        }
+<i class="no-highlight">200</i>&nbsp;
+<i class="no-highlight">201</i>&nbsp;        //third separator
+<b class="nc"><i class="no-highlight">202</i>&nbsp;        for (i = 1; i &lt; 6; i++) {</b>
+<b class="nc"><i class="no-highlight">203</i>&nbsp;            writeAtPos(result, 34, i, &quot;|&quot;);</b>
+<i class="no-highlight">204</i>&nbsp;        }
+<i class="no-highlight">205</i>&nbsp;
+<b class="nc"><i class="no-highlight">206</i>&nbsp;        writeAtPos(result, 37, 2, &quot;Card:&quot;);</b>
+<i class="no-highlight">207</i>&nbsp;
+<b class="nc"><i class="no-highlight">208</i>&nbsp;        if (assistant != null &amp;&amp; assistant.getId() != 0) {</b>
+<b class="nc"><i class="no-highlight">209</i>&nbsp;            writeAtPos(result, 37, 3, ColorCli.BLUE_BOLD + &quot;ID: &quot; + assistant.getId() + ColorCli.RESET);</b>
+<b class="nc"><i class="no-highlight">210</i>&nbsp;            writeAtPos(result, 36, 4, &quot;POS: +&quot; + assistant.getMotherNaturePosShift());</b>
+<i class="no-highlight">211</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">212</i>&nbsp;            writeAtPos(result, 38, 4, &quot;...&quot;);</b>
+<i class="no-highlight">213</i>&nbsp;        }
+<i class="no-highlight">214</i>&nbsp;
+<b class="nc"><i class="no-highlight">215</i>&nbsp;        return result;</b>
+<i class="no-highlight">216</i>&nbsp;    }
+<i class="no-highlight">217</i>&nbsp;
+<i class="no-highlight">218</i>&nbsp;    /**
+<i class="no-highlight">219</i>&nbsp;     * This method generates a cloud in th cli
+<i class="no-highlight">220</i>&nbsp;     *
+<i class="no-highlight">221</i>&nbsp;     * @param cloud the generated cloud
+<i class="no-highlight">222</i>&nbsp;     * @param id    the cloud&#39;s id
+<i class="no-highlight">223</i>&nbsp;     * @return the generated cloud string
+<i class="no-highlight">224</i>&nbsp;     */
+<i class="no-highlight">225</i>&nbsp;    private String[] generateCloud(ReducedCloud cloud, int id) {
+<b class="nc"><i class="no-highlight">226</i>&nbsp;        String[] result = generateSquare(16, 5);</b>
+<b class="nc"><i class="no-highlight">227</i>&nbsp;        writeAtPos(result, 4, 1, &quot;Cloud &quot; + id);</b>
+<b class="nc"><i class="no-highlight">228</i>&nbsp;        int startPos = 3;</b>
+<i class="no-highlight">229</i>&nbsp;
+<b class="nc"><i class="no-highlight">230</i>&nbsp;        for (PawnColor p : cloud.getStudentsList()) {</b>
+<b class="nc"><i class="no-highlight">231</i>&nbsp;            writeAtPos(result, startPos, 3, getColor(p) + &quot;█&quot; + ColorCli.RESET);</b>
+<b class="nc"><i class="no-highlight">232</i>&nbsp;            startPos = startPos + 3;</b>
+<b class="nc"><i class="no-highlight">233</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">234</i>&nbsp;        return result;</b>
+<i class="no-highlight">235</i>&nbsp;    }
+<i class="no-highlight">236</i>&nbsp;
+<i class="no-highlight">237</i>&nbsp;    /**
+<i class="no-highlight">238</i>&nbsp;     * This method generates an assistant in the cli
+<i class="no-highlight">239</i>&nbsp;     *
+<i class="no-highlight">240</i>&nbsp;     * @param assistant the generated assistant
+<i class="no-highlight">241</i>&nbsp;     * @return the generated assistant string
+<i class="no-highlight">242</i>&nbsp;     */
+<i class="no-highlight">243</i>&nbsp;    private String[] generateAssistant(ReducedAssistant assistant) {
+<b class="nc"><i class="no-highlight">244</i>&nbsp;        String[] result = generateSquare(8, 5);</b>
+<b class="nc"><i class="no-highlight">245</i>&nbsp;        writeAtPos(result, 1, 1, ColorCli.BLUE_BOLD + &quot;&quot; + assistant.getId() + &quot;&quot; + ColorCli.RESET);</b>
+<b class="nc"><i class="no-highlight">246</i>&nbsp;        writeAtPos(result, 2, 2, &quot;POS:&quot;);</b>
+<b class="nc"><i class="no-highlight">247</i>&nbsp;        writeAtPos(result, 3, 3, &quot;+&quot; + assistant.getMotherNaturePosShift());</b>
+<b class="nc"><i class="no-highlight">248</i>&nbsp;        return result;</b>
+<i class="no-highlight">249</i>&nbsp;    }
+<i class="no-highlight">250</i>&nbsp;
+<i class="no-highlight">251</i>&nbsp;    /**
+<i class="no-highlight">252</i>&nbsp;     * This method generates a character in the cli
+<i class="no-highlight">253</i>&nbsp;     *
+<i class="no-highlight">254</i>&nbsp;     * @param character the generated character
+<i class="no-highlight">255</i>&nbsp;     * @return the generated character string
+<i class="no-highlight">256</i>&nbsp;     */
+<i class="no-highlight">257</i>&nbsp;    private String[] generateCharacter(ReducedCharacter character) {
+<b class="nc"><i class="no-highlight">258</i>&nbsp;        String[] result = generateSquare(11, 7);</b>
+<b class="nc"><i class="no-highlight">259</i>&nbsp;        writeAtPos(result, 1, 1, ColorCli.GREEN_BOLD + &quot;&quot; + character.getId() + &quot;&quot; + ColorCli.RESET);</b>
+<b class="nc"><i class="no-highlight">260</i>&nbsp;        writeAtPos(result, 2, 2, &quot;COST: &quot; + character.getInitialCost());</b>
 <i class="no-highlight">261</i>&nbsp;
-<i class="no-highlight">262</i>&nbsp;    /**
-<i class="no-highlight">263</i>&nbsp;     * This method generates a character in the cli
-<i class="no-highlight">264</i>&nbsp;     *
-<i class="no-highlight">265</i>&nbsp;     * @param character the generated character
-<i class="no-highlight">266</i>&nbsp;     * @return the generated character string
-<i class="no-highlight">267</i>&nbsp;     */
-<i class="no-highlight">268</i>&nbsp;    private String[] generateCharacter(ReducedCharacter character) {
-<b class="nc"><i class="no-highlight">269</i>&nbsp;        String[] result = generateSquare(11, 7);</b>
-<b class="nc"><i class="no-highlight">270</i>&nbsp;        writeAtPos(result, 1, 1, ColorCli.GREEN_BOLD + &quot;&quot; + character.getId() + &quot;&quot; + ColorCli.RESET);</b>
-<b class="nc"><i class="no-highlight">271</i>&nbsp;        writeAtPos(result, 2, 2, &quot;COST: &quot; + character.getInitialCost());</b>
-<i class="no-highlight">272</i>&nbsp;
-<b class="nc"><i class="no-highlight">273</i>&nbsp;        if (character.isUsed()) {</b>
-<b class="nc"><i class="no-highlight">274</i>&nbsp;            writeAtPos(result, 8, 1, ColorCli.YELLOW_BOLD + &quot;█&quot; + ColorCli.RESET);</b>
+<b class="nc"><i class="no-highlight">262</i>&nbsp;        if (character.isUsed()) {</b>
+<b class="nc"><i class="no-highlight">263</i>&nbsp;            writeAtPos(result, 8, 1, ColorCli.YELLOW_BOLD + &quot;█&quot; + ColorCli.RESET);</b>
+<i class="no-highlight">264</i>&nbsp;        }
+<i class="no-highlight">265</i>&nbsp;
+<b class="nc"><i class="no-highlight">266</i>&nbsp;        if (character.getId() == 1 || character.getId() == 7 || character.getId() == 11) {</b>
+<b class="nc"><i class="no-highlight">267</i>&nbsp;            int pos = 0;</b>
+<b class="nc"><i class="no-highlight">268</i>&nbsp;            for (PawnColor p : character.getCardStudentsList()) {</b>
+<b class="nc"><i class="no-highlight">269</i>&nbsp;                writeAtPos(result, characterStudentsPositions[pos][0], characterStudentsPositions[pos][1], getColorBg(p) + &quot; &quot; + (pos + 1) + &quot; &quot; + ColorCli.RESET);</b>
+<b class="nc"><i class="no-highlight">270</i>&nbsp;                pos++;</b>
+<b class="nc"><i class="no-highlight">271</i>&nbsp;            }</b>
+<b class="nc"><i class="no-highlight">272</i>&nbsp;        } else if (character.getId() == 5) {</b>
+<b class="nc"><i class="no-highlight">273</i>&nbsp;            writeAtPos(result, 2, 4, &quot;Forbid&quot;);</b>
+<b class="nc"><i class="no-highlight">274</i>&nbsp;            writeAtPos(result, 2, 5, &quot;Cards:&quot; + character.getNumOfForbidCards());</b>
 <i class="no-highlight">275</i>&nbsp;        }
 <i class="no-highlight">276</i>&nbsp;
-<b class="nc"><i class="no-highlight">277</i>&nbsp;        if (character.getId() == 1 || character.getId() == 7 || character.getId() == 11) {</b>
-<b class="nc"><i class="no-highlight">278</i>&nbsp;            int pos = 0;</b>
-<b class="nc"><i class="no-highlight">279</i>&nbsp;            for (PawnColor p : character.getCardStudentsList()) {</b>
-<b class="nc"><i class="no-highlight">280</i>&nbsp;                writeAtPos(result, characterStudentsPositions[pos][0], characterStudentsPositions[pos][1], getColorBg(p) + &quot; &quot; + (pos + 1) + &quot; &quot; + ColorCli.RESET);</b>
-<b class="nc"><i class="no-highlight">281</i>&nbsp;                pos++;</b>
-<b class="nc"><i class="no-highlight">282</i>&nbsp;            }</b>
-<b class="nc"><i class="no-highlight">283</i>&nbsp;        } else if (character.getId() == 5) {</b>
-<b class="nc"><i class="no-highlight">284</i>&nbsp;            writeAtPos(result, 2, 4, &quot;Forbid&quot;);</b>
-<b class="nc"><i class="no-highlight">285</i>&nbsp;            writeAtPos(result, 2, 5, &quot;Cards:&quot; + character.getNumOfForbidCards());</b>
-<i class="no-highlight">286</i>&nbsp;        }
-<i class="no-highlight">287</i>&nbsp;
-<b class="nc"><i class="no-highlight">288</i>&nbsp;        return result;</b>
-<i class="no-highlight">289</i>&nbsp;    }
-<i class="no-highlight">290</i>&nbsp;
-<i class="no-highlight">291</i>&nbsp;    //------------------------------------------------------------------------------------------------------
-<i class="no-highlight">292</i>&nbsp;
-<i class="no-highlight">293</i>&nbsp;    /**
-<i class="no-highlight">294</i>&nbsp;     * This method merges a greater matrix with a smaller one
-<i class="no-highlight">295</i>&nbsp;     *
-<i class="no-highlight">296</i>&nbsp;     * @param matrixToAdd greater matrix
-<i class="no-highlight">297</i>&nbsp;     * @param x           position in the x axis
-<i class="no-highlight">298</i>&nbsp;     * @param y           position in the y axis
-<i class="no-highlight">299</i>&nbsp;     * @param matrix2     smaller matrix
-<i class="no-highlight">300</i>&nbsp;     */
-<i class="no-highlight">301</i>&nbsp;    private void mergeMatrix(String[] matrixToAdd, int x, int y, String[] matrix2) {
-<b class="nc"><i class="no-highlight">302</i>&nbsp;        for (String s : matrix2) {</b>
-<b class="nc"><i class="no-highlight">303</i>&nbsp;            writeAtPos(matrixToAdd, x, y, s);</b>
-<b class="nc"><i class="no-highlight">304</i>&nbsp;            y++;</b>
-<i class="no-highlight">305</i>&nbsp;        }
-<i class="no-highlight">306</i>&nbsp;    }
-<i class="no-highlight">307</i>&nbsp;
-<i class="no-highlight">308</i>&nbsp;    /**
-<i class="no-highlight">309</i>&nbsp;     * Writes text at a given position in a matrix
-<i class="no-highlight">310</i>&nbsp;     *
-<i class="no-highlight">311</i>&nbsp;     * @param matrix the matrix
-<i class="no-highlight">312</i>&nbsp;     * @param x      the position in the x axis
-<i class="no-highlight">313</i>&nbsp;     * @param y      the position in the y axis
-<i class="no-highlight">314</i>&nbsp;     * @param text   the text to be written
-<i class="no-highlight">315</i>&nbsp;     */
-<i class="no-highlight">316</i>&nbsp;    private void writeAtPos(String[] matrix, int x, int y, String text) {
-<b class="nc"><i class="no-highlight">317</i>&nbsp;        String[] result = matrix;</b>
-<b class="nc"><i class="no-highlight">318</i>&nbsp;        int ansiLengthText = 0;</b>
-<b class="nc"><i class="no-highlight">319</i>&nbsp;        int ansiLenghtMatrix = 0;</b>
-<b class="nc"><i class="no-highlight">320</i>&nbsp;        Pattern pattern = Pattern.compile(&quot;\u001B\\[.*?m&quot;);</b>
-<b class="nc"><i class="no-highlight">321</i>&nbsp;        Matcher matcher = pattern.matcher(text);</b>
-<b class="nc"><i class="no-highlight">322</i>&nbsp;        while (matcher.find()) {</b>
-<b class="nc"><i class="no-highlight">323</i>&nbsp;            String s = matcher.group(0);</b>
-<b class="nc"><i class="no-highlight">324</i>&nbsp;            ansiLengthText += s.length();</b>
-<b class="nc"><i class="no-highlight">325</i>&nbsp;        }</b>
-<i class="no-highlight">326</i>&nbsp;
-<b class="nc"><i class="no-highlight">327</i>&nbsp;        matcher = pattern.matcher(matrix[y]);</b>
-<b class="nc"><i class="no-highlight">328</i>&nbsp;        while (matcher.find()) {</b>
-<b class="nc"><i class="no-highlight">329</i>&nbsp;            int len = matcher.group(0).length();</b>
-<b class="nc"><i class="no-highlight">330</i>&nbsp;            if (matcher.start() &lt; x + len + ansiLenghtMatrix) {</b>
-<b class="nc"><i class="no-highlight">331</i>&nbsp;                ansiLenghtMatrix += len;</b>
-<i class="no-highlight">332</i>&nbsp;            }
-<b class="nc"><i class="no-highlight">333</i>&nbsp;        }</b>
-<i class="no-highlight">334</i>&nbsp;
-<b class="nc"><i class="no-highlight">335</i>&nbsp;        StringBuilder stringBuilder = new StringBuilder(result[y]);</b>
-<i class="no-highlight">336</i>&nbsp;        // replace substring from index 5 to index 9
-<b class="nc"><i class="no-highlight">337</i>&nbsp;        stringBuilder.replace(x + ansiLenghtMatrix, x + ansiLenghtMatrix + text.length() - ansiLengthText, text);</b>
-<b class="nc"><i class="no-highlight">338</i>&nbsp;        result[y] = stringBuilder.toString();</b>
-<i class="no-highlight">339</i>&nbsp;    }
-<i class="no-highlight">340</i>&nbsp;
-<i class="no-highlight">341</i>&nbsp;    /**
-<i class="no-highlight">342</i>&nbsp;     * This method generates a square in the cli
-<i class="no-highlight">343</i>&nbsp;     *
-<i class="no-highlight">344</i>&nbsp;     * @param x the position in the x axis
-<i class="no-highlight">345</i>&nbsp;     * @param y the position in the y axis
-<i class="no-highlight">346</i>&nbsp;     * @return the generated square string
-<i class="no-highlight">347</i>&nbsp;     */
-<i class="no-highlight">348</i>&nbsp;    private String[] generateSquare(int x, int y) { //x number of columns, y number of rows
-<b class="nc"><i class="no-highlight">349</i>&nbsp;        String[] result = new String[y];</b>
-<i class="no-highlight">350</i>&nbsp;        int i, j;
-<b class="nc"><i class="no-highlight">351</i>&nbsp;        for (i = 0; i &lt; y; i++) {</b>
-<b class="nc"><i class="no-highlight">352</i>&nbsp;            result[i] = &quot;&quot;;</b>
-<b class="nc"><i class="no-highlight">353</i>&nbsp;            for (j = 0; j &lt; x; j++) {</b>
-<b class="nc"><i class="no-highlight">354</i>&nbsp;                if (i == 0) {</b>
-<b class="nc"><i class="no-highlight">355</i>&nbsp;                    if (j == 0) {</b>
-<b class="nc"><i class="no-highlight">356</i>&nbsp;                        result[i] += &quot;┌&quot;;</b>
-<b class="nc"><i class="no-highlight">357</i>&nbsp;                    } else if (j == x - 1) {</b>
-<b class="nc"><i class="no-highlight">358</i>&nbsp;                        result[i] += &quot;┐&quot;;</b>
-<i class="no-highlight">359</i>&nbsp;                    } else {
-<b class="nc"><i class="no-highlight">360</i>&nbsp;                        result[i] += &quot;─&quot;;</b>
-<i class="no-highlight">361</i>&nbsp;                    }
-<b class="nc"><i class="no-highlight">362</i>&nbsp;                } else if (i == y - 1) {</b>
-<b class="nc"><i class="no-highlight">363</i>&nbsp;                    if (j == 0) {</b>
-<b class="nc"><i class="no-highlight">364</i>&nbsp;                        result[i] += &quot;└&quot;;</b>
-<b class="nc"><i class="no-highlight">365</i>&nbsp;                    } else if (j == x - 1) {</b>
-<b class="nc"><i class="no-highlight">366</i>&nbsp;                        result[i] += &quot;┘&quot;;</b>
-<i class="no-highlight">367</i>&nbsp;                    } else {
-<b class="nc"><i class="no-highlight">368</i>&nbsp;                        result[i] += &quot;─&quot;;</b>
-<i class="no-highlight">369</i>&nbsp;                    }
-<i class="no-highlight">370</i>&nbsp;                } else {
-<b class="nc"><i class="no-highlight">371</i>&nbsp;                    if (j == 0 || j == x - 1) {</b>
-<b class="nc"><i class="no-highlight">372</i>&nbsp;                        result[i] += &quot;|&quot;;</b>
-<i class="no-highlight">373</i>&nbsp;                    } else {
-<b class="nc"><i class="no-highlight">374</i>&nbsp;                        result[i] += &quot; &quot;;</b>
-<i class="no-highlight">375</i>&nbsp;                    }
-<i class="no-highlight">376</i>&nbsp;                }
-<i class="no-highlight">377</i>&nbsp;            }
-<i class="no-highlight">378</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">379</i>&nbsp;        return result;</b>
-<i class="no-highlight">380</i>&nbsp;    }
-<i class="no-highlight">381</i>&nbsp;
-<i class="no-highlight">382</i>&nbsp;    /**
-<i class="no-highlight">383</i>&nbsp;     * Prints a matrix in the cli
-<i class="no-highlight">384</i>&nbsp;     *
-<i class="no-highlight">385</i>&nbsp;     * @param matrix the printed matrix
-<i class="no-highlight">386</i>&nbsp;     */
-<i class="no-highlight">387</i>&nbsp;    private void printMatrix(String[] matrix) {
-<b class="nc"><i class="no-highlight">388</i>&nbsp;        for (String s : matrix) {</b>
-<b class="nc"><i class="no-highlight">389</i>&nbsp;            if (s != null) {</b>
-<b class="nc"><i class="no-highlight">390</i>&nbsp;                System.out.println(s);</b>
-<i class="no-highlight">391</i>&nbsp;            }
-<i class="no-highlight">392</i>&nbsp;        }
-<i class="no-highlight">393</i>&nbsp;    }
-<i class="no-highlight">394</i>&nbsp;
-<i class="no-highlight">395</i>&nbsp;    /**
-<i class="no-highlight">396</i>&nbsp;     * @param p the pawn color
-<i class="no-highlight">397</i>&nbsp;     * @return the pawn color string
-<i class="no-highlight">398</i>&nbsp;     */
-<i class="no-highlight">399</i>&nbsp;    private String getColor(PawnColor p) {
-<b class="nc"><i class="no-highlight">400</i>&nbsp;        String color = &quot;&quot;;</b>
-<b class="nc"><i class="no-highlight">401</i>&nbsp;        switch (p) {</b>
-<i class="no-highlight">402</i>&nbsp;            case RED:
-<b class="nc"><i class="no-highlight">403</i>&nbsp;                color = ColorCli.RED_BOLD.toString();</b>
-<b class="nc"><i class="no-highlight">404</i>&nbsp;                break;</b>
-<i class="no-highlight">405</i>&nbsp;            case GREEN:
-<b class="nc"><i class="no-highlight">406</i>&nbsp;                color = ColorCli.GREEN_BOLD.toString();</b>
-<b class="nc"><i class="no-highlight">407</i>&nbsp;                break;</b>
-<i class="no-highlight">408</i>&nbsp;            case BLUE:
-<b class="nc"><i class="no-highlight">409</i>&nbsp;                color = ColorCli.BLUE_BOLD.toString();</b>
-<b class="nc"><i class="no-highlight">410</i>&nbsp;                break;</b>
-<i class="no-highlight">411</i>&nbsp;            case PINK:
-<b class="nc"><i class="no-highlight">412</i>&nbsp;                color = ColorCli.PINK_BOLD.toString();</b>
-<b class="nc"><i class="no-highlight">413</i>&nbsp;                break;</b>
-<i class="no-highlight">414</i>&nbsp;            case YELLOW:
-<b class="nc"><i class="no-highlight">415</i>&nbsp;                color = ColorCli.YELLOW_BOLD.toString();</b>
-<i class="no-highlight">416</i>&nbsp;                break;
-<i class="no-highlight">417</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">418</i>&nbsp;        return color;</b>
-<i class="no-highlight">419</i>&nbsp;    }
-<i class="no-highlight">420</i>&nbsp;
-<i class="no-highlight">421</i>&nbsp;    /**
-<i class="no-highlight">422</i>&nbsp;     * @param t the tower color
-<i class="no-highlight">423</i>&nbsp;     * @return the tower color string
-<i class="no-highlight">424</i>&nbsp;     */
-<i class="no-highlight">425</i>&nbsp;    private String getColor(TowerColor t) {
-<b class="nc"><i class="no-highlight">426</i>&nbsp;        String color = &quot;&quot;;</b>
-<b class="nc"><i class="no-highlight">427</i>&nbsp;        if (t != null) {</b>
-<b class="nc"><i class="no-highlight">428</i>&nbsp;            switch (t) {</b>
-<i class="no-highlight">429</i>&nbsp;                case WHITE:
-<b class="nc"><i class="no-highlight">430</i>&nbsp;                    color = ColorCli.WHITE_BOLD.toString();</b>
-<b class="nc"><i class="no-highlight">431</i>&nbsp;                    break;</b>
-<i class="no-highlight">432</i>&nbsp;                case BLACK:
-<b class="nc"><i class="no-highlight">433</i>&nbsp;                    color = ColorCli.BLACK_BOLD.toString();</b>
-<b class="nc"><i class="no-highlight">434</i>&nbsp;                    break;</b>
-<i class="no-highlight">435</i>&nbsp;                case GRAY:
-<b class="nc"><i class="no-highlight">436</i>&nbsp;                    color = ColorCli.GRAY_BOLD.toString();</b>
-<i class="no-highlight">437</i>&nbsp;                    break;
-<i class="no-highlight">438</i>&nbsp;            }
-<i class="no-highlight">439</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">440</i>&nbsp;        return color;</b>
-<i class="no-highlight">441</i>&nbsp;    }
-<i class="no-highlight">442</i>&nbsp;
-<i class="no-highlight">443</i>&nbsp;    /**
-<i class="no-highlight">444</i>&nbsp;     * @param p the pawn color
-<i class="no-highlight">445</i>&nbsp;     * @return the pawn color string obtained from the background
-<i class="no-highlight">446</i>&nbsp;     */
-<i class="no-highlight">447</i>&nbsp;    private String getColorBg(PawnColor p) {
-<b class="nc"><i class="no-highlight">448</i>&nbsp;        String color = &quot;&quot;;</b>
-<b class="nc"><i class="no-highlight">449</i>&nbsp;        switch (p) {</b>
-<i class="no-highlight">450</i>&nbsp;            case RED:
-<b class="nc"><i class="no-highlight">451</i>&nbsp;                color = ColorCli.RED_BG.toString();</b>
-<b class="nc"><i class="no-highlight">452</i>&nbsp;                break;</b>
-<i class="no-highlight">453</i>&nbsp;            case GREEN:
-<b class="nc"><i class="no-highlight">454</i>&nbsp;                color = ColorCli.GREEN_BG.toString();</b>
-<b class="nc"><i class="no-highlight">455</i>&nbsp;                break;</b>
-<i class="no-highlight">456</i>&nbsp;            case BLUE:
-<b class="nc"><i class="no-highlight">457</i>&nbsp;                color = ColorCli.BLUE_BG.toString();</b>
-<b class="nc"><i class="no-highlight">458</i>&nbsp;                break;</b>
-<i class="no-highlight">459</i>&nbsp;            case PINK:
-<b class="nc"><i class="no-highlight">460</i>&nbsp;                color = ColorCli.PINK_BG.toString();</b>
-<b class="nc"><i class="no-highlight">461</i>&nbsp;                break;</b>
-<i class="no-highlight">462</i>&nbsp;            case YELLOW:
-<b class="nc"><i class="no-highlight">463</i>&nbsp;                color = ColorCli.YELLOW_BG.toString();</b>
-<i class="no-highlight">464</i>&nbsp;                break;
-<i class="no-highlight">465</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">466</i>&nbsp;        return color;</b>
-<i class="no-highlight">467</i>&nbsp;    }
-<i class="no-highlight">468</i>&nbsp;}
+<b class="nc"><i class="no-highlight">277</i>&nbsp;        return result;</b>
+<i class="no-highlight">278</i>&nbsp;    }
+<i class="no-highlight">279</i>&nbsp;
+<i class="no-highlight">280</i>&nbsp;    //------------------------------------------------------------------------------------------------------
+<i class="no-highlight">281</i>&nbsp;
+<i class="no-highlight">282</i>&nbsp;    /**
+<i class="no-highlight">283</i>&nbsp;     * This method merges a greater matrix with a smaller one
+<i class="no-highlight">284</i>&nbsp;     *
+<i class="no-highlight">285</i>&nbsp;     * @param matrixToAdd greater matrix
+<i class="no-highlight">286</i>&nbsp;     * @param x           position in the x axis
+<i class="no-highlight">287</i>&nbsp;     * @param y           position in the y axis
+<i class="no-highlight">288</i>&nbsp;     * @param matrix2     smaller matrix
+<i class="no-highlight">289</i>&nbsp;     */
+<i class="no-highlight">290</i>&nbsp;    private void mergeMatrix(String[] matrixToAdd, int x, int y, String[] matrix2) {
+<b class="nc"><i class="no-highlight">291</i>&nbsp;        for (String s : matrix2) {</b>
+<b class="nc"><i class="no-highlight">292</i>&nbsp;            writeAtPos(matrixToAdd, x, y, s);</b>
+<b class="nc"><i class="no-highlight">293</i>&nbsp;            y++;</b>
+<i class="no-highlight">294</i>&nbsp;        }
+<i class="no-highlight">295</i>&nbsp;    }
+<i class="no-highlight">296</i>&nbsp;
+<i class="no-highlight">297</i>&nbsp;    /**
+<i class="no-highlight">298</i>&nbsp;     * Writes text at a given position in a matrix
+<i class="no-highlight">299</i>&nbsp;     *
+<i class="no-highlight">300</i>&nbsp;     * @param matrix the matrix
+<i class="no-highlight">301</i>&nbsp;     * @param x      the position in the x axis
+<i class="no-highlight">302</i>&nbsp;     * @param y      the position in the y axis
+<i class="no-highlight">303</i>&nbsp;     * @param text   the text to be written
+<i class="no-highlight">304</i>&nbsp;     */
+<i class="no-highlight">305</i>&nbsp;    private void writeAtPos(String[] matrix, int x, int y, String text) {
+<b class="nc"><i class="no-highlight">306</i>&nbsp;        String[] result = matrix;</b>
+<b class="nc"><i class="no-highlight">307</i>&nbsp;        int ansiLengthText = 0;</b>
+<b class="nc"><i class="no-highlight">308</i>&nbsp;        int ansiLenghtMatrix = 0;</b>
+<b class="nc"><i class="no-highlight">309</i>&nbsp;        Pattern pattern = Pattern.compile(&quot;\u001B\\[.*?m&quot;);</b>
+<b class="nc"><i class="no-highlight">310</i>&nbsp;        Matcher matcher = pattern.matcher(text);</b>
+<b class="nc"><i class="no-highlight">311</i>&nbsp;        while (matcher.find()) {</b>
+<b class="nc"><i class="no-highlight">312</i>&nbsp;            String s = matcher.group(0);</b>
+<b class="nc"><i class="no-highlight">313</i>&nbsp;            ansiLengthText += s.length();</b>
+<b class="nc"><i class="no-highlight">314</i>&nbsp;        }</b>
+<i class="no-highlight">315</i>&nbsp;
+<b class="nc"><i class="no-highlight">316</i>&nbsp;        matcher = pattern.matcher(matrix[y]);</b>
+<b class="nc"><i class="no-highlight">317</i>&nbsp;        while (matcher.find()) {</b>
+<b class="nc"><i class="no-highlight">318</i>&nbsp;            int len = matcher.group(0).length();</b>
+<b class="nc"><i class="no-highlight">319</i>&nbsp;            if (matcher.start() &lt; x + len + ansiLenghtMatrix) {</b>
+<b class="nc"><i class="no-highlight">320</i>&nbsp;                ansiLenghtMatrix += len;</b>
+<i class="no-highlight">321</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">322</i>&nbsp;        }</b>
+<i class="no-highlight">323</i>&nbsp;
+<b class="nc"><i class="no-highlight">324</i>&nbsp;        StringBuilder stringBuilder = new StringBuilder(result[y]);</b>
+<i class="no-highlight">325</i>&nbsp;        // replace substring from index 5 to index 9
+<b class="nc"><i class="no-highlight">326</i>&nbsp;        stringBuilder.replace(x + ansiLenghtMatrix, x + ansiLenghtMatrix + text.length() - ansiLengthText, text);</b>
+<b class="nc"><i class="no-highlight">327</i>&nbsp;        result[y] = stringBuilder.toString();</b>
+<i class="no-highlight">328</i>&nbsp;    }
+<i class="no-highlight">329</i>&nbsp;
+<i class="no-highlight">330</i>&nbsp;    /**
+<i class="no-highlight">331</i>&nbsp;     * This method generates a square in the cli
+<i class="no-highlight">332</i>&nbsp;     *
+<i class="no-highlight">333</i>&nbsp;     * @param x the position in the x axis
+<i class="no-highlight">334</i>&nbsp;     * @param y the position in the y axis
+<i class="no-highlight">335</i>&nbsp;     * @return the generated square string
+<i class="no-highlight">336</i>&nbsp;     */
+<i class="no-highlight">337</i>&nbsp;    private String[] generateSquare(int x, int y) { //x number of columns, y number of rows
+<b class="nc"><i class="no-highlight">338</i>&nbsp;        String[] result = new String[y];</b>
+<i class="no-highlight">339</i>&nbsp;        int i, j;
+<b class="nc"><i class="no-highlight">340</i>&nbsp;        for (i = 0; i &lt; y; i++) {</b>
+<b class="nc"><i class="no-highlight">341</i>&nbsp;            result[i] = &quot;&quot;;</b>
+<b class="nc"><i class="no-highlight">342</i>&nbsp;            for (j = 0; j &lt; x; j++) {</b>
+<b class="nc"><i class="no-highlight">343</i>&nbsp;                if (i == 0) {</b>
+<b class="nc"><i class="no-highlight">344</i>&nbsp;                    if (j == 0) {</b>
+<b class="nc"><i class="no-highlight">345</i>&nbsp;                        result[i] += &quot;┌&quot;;</b>
+<b class="nc"><i class="no-highlight">346</i>&nbsp;                    } else if (j == x - 1) {</b>
+<b class="nc"><i class="no-highlight">347</i>&nbsp;                        result[i] += &quot;┐&quot;;</b>
+<i class="no-highlight">348</i>&nbsp;                    } else {
+<b class="nc"><i class="no-highlight">349</i>&nbsp;                        result[i] += &quot;─&quot;;</b>
+<i class="no-highlight">350</i>&nbsp;                    }
+<b class="nc"><i class="no-highlight">351</i>&nbsp;                } else if (i == y - 1) {</b>
+<b class="nc"><i class="no-highlight">352</i>&nbsp;                    if (j == 0) {</b>
+<b class="nc"><i class="no-highlight">353</i>&nbsp;                        result[i] += &quot;└&quot;;</b>
+<b class="nc"><i class="no-highlight">354</i>&nbsp;                    } else if (j == x - 1) {</b>
+<b class="nc"><i class="no-highlight">355</i>&nbsp;                        result[i] += &quot;┘&quot;;</b>
+<i class="no-highlight">356</i>&nbsp;                    } else {
+<b class="nc"><i class="no-highlight">357</i>&nbsp;                        result[i] += &quot;─&quot;;</b>
+<i class="no-highlight">358</i>&nbsp;                    }
+<i class="no-highlight">359</i>&nbsp;                } else {
+<b class="nc"><i class="no-highlight">360</i>&nbsp;                    if (j == 0 || j == x - 1) {</b>
+<b class="nc"><i class="no-highlight">361</i>&nbsp;                        result[i] += &quot;|&quot;;</b>
+<i class="no-highlight">362</i>&nbsp;                    } else {
+<b class="nc"><i class="no-highlight">363</i>&nbsp;                        result[i] += &quot; &quot;;</b>
+<i class="no-highlight">364</i>&nbsp;                    }
+<i class="no-highlight">365</i>&nbsp;                }
+<i class="no-highlight">366</i>&nbsp;            }
+<i class="no-highlight">367</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">368</i>&nbsp;        return result;</b>
+<i class="no-highlight">369</i>&nbsp;    }
+<i class="no-highlight">370</i>&nbsp;
+<i class="no-highlight">371</i>&nbsp;    /**
+<i class="no-highlight">372</i>&nbsp;     * Prints a matrix in the cli
+<i class="no-highlight">373</i>&nbsp;     *
+<i class="no-highlight">374</i>&nbsp;     * @param matrix the printed matrix
+<i class="no-highlight">375</i>&nbsp;     */
+<i class="no-highlight">376</i>&nbsp;    private void printMatrix(String[] matrix) {
+<b class="nc"><i class="no-highlight">377</i>&nbsp;        for (String s : matrix) {</b>
+<b class="nc"><i class="no-highlight">378</i>&nbsp;            if (s != null) {</b>
+<b class="nc"><i class="no-highlight">379</i>&nbsp;                System.out.println(s);</b>
+<i class="no-highlight">380</i>&nbsp;            }
+<i class="no-highlight">381</i>&nbsp;        }
+<i class="no-highlight">382</i>&nbsp;    }
+<i class="no-highlight">383</i>&nbsp;
+<i class="no-highlight">384</i>&nbsp;    /**
+<i class="no-highlight">385</i>&nbsp;     * @param p the pawn color
+<i class="no-highlight">386</i>&nbsp;     * @return the pawn color string
+<i class="no-highlight">387</i>&nbsp;     */
+<i class="no-highlight">388</i>&nbsp;    private String getColor(PawnColor p) {
+<b class="nc"><i class="no-highlight">389</i>&nbsp;        String color = &quot;&quot;;</b>
+<b class="nc"><i class="no-highlight">390</i>&nbsp;        switch (p) {</b>
+<i class="no-highlight">391</i>&nbsp;            case RED:
+<b class="nc"><i class="no-highlight">392</i>&nbsp;                color = ColorCli.RED_BOLD.toString();</b>
+<b class="nc"><i class="no-highlight">393</i>&nbsp;                break;</b>
+<i class="no-highlight">394</i>&nbsp;            case GREEN:
+<b class="nc"><i class="no-highlight">395</i>&nbsp;                color = ColorCli.GREEN_BOLD.toString();</b>
+<b class="nc"><i class="no-highlight">396</i>&nbsp;                break;</b>
+<i class="no-highlight">397</i>&nbsp;            case BLUE:
+<b class="nc"><i class="no-highlight">398</i>&nbsp;                color = ColorCli.BLUE_BOLD.toString();</b>
+<b class="nc"><i class="no-highlight">399</i>&nbsp;                break;</b>
+<i class="no-highlight">400</i>&nbsp;            case PINK:
+<b class="nc"><i class="no-highlight">401</i>&nbsp;                color = ColorCli.PINK_BOLD.toString();</b>
+<b class="nc"><i class="no-highlight">402</i>&nbsp;                break;</b>
+<i class="no-highlight">403</i>&nbsp;            case YELLOW:
+<b class="nc"><i class="no-highlight">404</i>&nbsp;                color = ColorCli.YELLOW_BOLD.toString();</b>
+<i class="no-highlight">405</i>&nbsp;                break;
+<i class="no-highlight">406</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">407</i>&nbsp;        return color;</b>
+<i class="no-highlight">408</i>&nbsp;    }
+<i class="no-highlight">409</i>&nbsp;
+<i class="no-highlight">410</i>&nbsp;    /**
+<i class="no-highlight">411</i>&nbsp;     * @param t the tower color
+<i class="no-highlight">412</i>&nbsp;     * @return the tower color string
+<i class="no-highlight">413</i>&nbsp;     */
+<i class="no-highlight">414</i>&nbsp;    private String getColor(TowerColor t) {
+<b class="nc"><i class="no-highlight">415</i>&nbsp;        String color = &quot;&quot;;</b>
+<b class="nc"><i class="no-highlight">416</i>&nbsp;        if (t != null) {</b>
+<b class="nc"><i class="no-highlight">417</i>&nbsp;            switch (t) {</b>
+<i class="no-highlight">418</i>&nbsp;                case WHITE:
+<b class="nc"><i class="no-highlight">419</i>&nbsp;                    color = ColorCli.WHITE_BOLD.toString();</b>
+<b class="nc"><i class="no-highlight">420</i>&nbsp;                    break;</b>
+<i class="no-highlight">421</i>&nbsp;                case BLACK:
+<b class="nc"><i class="no-highlight">422</i>&nbsp;                    color = ColorCli.BLACK_BOLD.toString();</b>
+<b class="nc"><i class="no-highlight">423</i>&nbsp;                    break;</b>
+<i class="no-highlight">424</i>&nbsp;                case GRAY:
+<b class="nc"><i class="no-highlight">425</i>&nbsp;                    color = ColorCli.GRAY_BOLD.toString();</b>
+<i class="no-highlight">426</i>&nbsp;                    break;
+<i class="no-highlight">427</i>&nbsp;            }
+<i class="no-highlight">428</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">429</i>&nbsp;        return color;</b>
+<i class="no-highlight">430</i>&nbsp;    }
+<i class="no-highlight">431</i>&nbsp;
+<i class="no-highlight">432</i>&nbsp;    /**
+<i class="no-highlight">433</i>&nbsp;     * @param p the pawn color
+<i class="no-highlight">434</i>&nbsp;     * @return the pawn color string obtained from the background
+<i class="no-highlight">435</i>&nbsp;     */
+<i class="no-highlight">436</i>&nbsp;    private String getColorBg(PawnColor p) {
+<b class="nc"><i class="no-highlight">437</i>&nbsp;        String color = &quot;&quot;;</b>
+<b class="nc"><i class="no-highlight">438</i>&nbsp;        switch (p) {</b>
+<i class="no-highlight">439</i>&nbsp;            case RED:
+<b class="nc"><i class="no-highlight">440</i>&nbsp;                color = ColorCli.RED_BG.toString();</b>
+<b class="nc"><i class="no-highlight">441</i>&nbsp;                break;</b>
+<i class="no-highlight">442</i>&nbsp;            case GREEN:
+<b class="nc"><i class="no-highlight">443</i>&nbsp;                color = ColorCli.GREEN_BG.toString();</b>
+<b class="nc"><i class="no-highlight">444</i>&nbsp;                break;</b>
+<i class="no-highlight">445</i>&nbsp;            case BLUE:
+<b class="nc"><i class="no-highlight">446</i>&nbsp;                color = ColorCli.BLUE_BG.toString();</b>
+<b class="nc"><i class="no-highlight">447</i>&nbsp;                break;</b>
+<i class="no-highlight">448</i>&nbsp;            case PINK:
+<b class="nc"><i class="no-highlight">449</i>&nbsp;                color = ColorCli.PINK_BG.toString();</b>
+<b class="nc"><i class="no-highlight">450</i>&nbsp;                break;</b>
+<i class="no-highlight">451</i>&nbsp;            case YELLOW:
+<b class="nc"><i class="no-highlight">452</i>&nbsp;                color = ColorCli.YELLOW_BG.toString();</b>
+<i class="no-highlight">453</i>&nbsp;                break;
+<i class="no-highlight">454</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">455</i>&nbsp;        return color;</b>
+<i class="no-highlight">456</i>&nbsp;    }
+<i class="no-highlight">457</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -593,7 +582,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-29 20:56</div>
+    <div style="float:right;">generated on 2022-07-01 13:15</div>
 </div>
 </body>
 </html>

@@ -50,7 +50,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/469)
+    (0/463)
   </span>
 </td>
 </tr>
@@ -88,7 +88,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/472)
+    (0/466)
   </span>
 </td>
 </tr>
@@ -324,790 +324,784 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">223</i>&nbsp;     * function called by gui class to ask to choose character parameters
 <i class="no-highlight">224</i>&nbsp;     */
 <i class="no-highlight">225</i>&nbsp;    public void requestedCharacterParameters(int id) {
-<b class="nc"><i class="no-highlight">226</i>&nbsp;        System.out.println(&quot;Requesting character parameters...&quot;);</b>
-<b class="nc"><i class="no-highlight">227</i>&nbsp;        MessageCharacterParameters params = new MessageCharacterParameters();</b>
-<b class="nc"><i class="no-highlight">228</i>&nbsp;        params.setCharacterId(id);</b>
-<b class="nc"><i class="no-highlight">229</i>&nbsp;        switch (id) {</b>
-<i class="no-highlight">230</i>&nbsp;            case 1: //choose 1 student from card and 1 island
-<b class="nc"><i class="no-highlight">231</i>&nbsp;                if (selectFromCharacter(getCharacterById(id, gameModel.getCharactersList()))) {</b>
-<b class="nc"><i class="no-highlight">232</i>&nbsp;                    guiState = GuiState.WAITING_FOR_ISLAND_CHAR1;</b>
-<b class="nc"><i class="no-highlight">233</i>&nbsp;                    tableInfoLabel.setText(&quot;Select the island where to put the student&quot;);</b>
-<i class="no-highlight">234</i>&nbsp;                }
-<i class="no-highlight">235</i>&nbsp;                break;
-<i class="no-highlight">236</i>&nbsp;            case 3:
-<b class="nc"><i class="no-highlight">237</i>&nbsp;                guiState = WAITING_FOR_ISLAND_CHAR3;</b>
-<b class="nc"><i class="no-highlight">238</i>&nbsp;                tableInfoLabel.setText(&quot;Select the island where to calculate the influence&quot;);</b>
-<b class="nc"><i class="no-highlight">239</i>&nbsp;                break;</b>
-<i class="no-highlight">240</i>&nbsp;
-<i class="no-highlight">241</i>&nbsp;            case 5: //choose 1 island
-<b class="nc"><i class="no-highlight">242</i>&nbsp;                guiState = WAITING_FOR_ISLAND_CHAR5;</b>
-<b class="nc"><i class="no-highlight">243</i>&nbsp;                tableInfoLabel.setText(&quot;Select the island where to put the forbid card&quot;);</b>
-<b class="nc"><i class="no-highlight">244</i>&nbsp;                break;</b>
-<i class="no-highlight">245</i>&nbsp;            case 7: //choose 1-3 students from card and 1-3 students from hall
-<b class="nc"><i class="no-highlight">246</i>&nbsp;                if (selectFromCharacter(getCharacterById(id, gameModel.getCharactersList()))) {</b>
-<b class="nc"><i class="no-highlight">247</i>&nbsp;                    if (selectFromDashboard(cardStudentsSelection.size(), false)) {</b>
-<b class="nc"><i class="no-highlight">248</i>&nbsp;                        params.setStudentsIndexList(cardStudentsSelection);</b>
-<b class="nc"><i class="no-highlight">249</i>&nbsp;                        params.setStudentsIndexEntranceList(dashboardEntranceSelection);</b>
-<b class="nc"><i class="no-highlight">250</i>&nbsp;                        new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendUseCharacter(params)))).start();</b>
-<i class="no-highlight">251</i>&nbsp;                    }
-<i class="no-highlight">252</i>&nbsp;                }
-<i class="no-highlight">253</i>&nbsp;                break;
-<i class="no-highlight">254</i>&nbsp;            case 9: //choose 1 pawn color from card
-<b class="nc"><i class="no-highlight">255</i>&nbsp;                if (selectFromCharacter(getCharacterById(id, gameModel.getCharactersList()))) {</b>
-<b class="nc"><i class="no-highlight">256</i>&nbsp;                    params.setSelectedColor(cardColorSelection);</b>
-<b class="nc"><i class="no-highlight">257</i>&nbsp;                    new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendUseCharacter(params)))).start();</b>
-<i class="no-highlight">258</i>&nbsp;                }
-<i class="no-highlight">259</i>&nbsp;                break;
-<i class="no-highlight">260</i>&nbsp;            case 10: //choose 1-2 students from hall and 1-2 pawn colors
-<b class="nc"><i class="no-highlight">261</i>&nbsp;                if (selectFromDashboard(2, true)) {</b>
-<b class="nc"><i class="no-highlight">262</i>&nbsp;                    params.setStudentsIndexEntranceList(dashboardEntranceSelection);</b>
-<b class="nc"><i class="no-highlight">263</i>&nbsp;                    params.setSelectedColor(dashboardHallSelection.get(0));</b>
-<b class="nc"><i class="no-highlight">264</i>&nbsp;                    if (dashboardHallSelection.size() == 2) {</b>
-<b class="nc"><i class="no-highlight">265</i>&nbsp;                        params.setSelectedColor2(dashboardHallSelection.get(1));</b>
-<i class="no-highlight">266</i>&nbsp;                    }
-<b class="nc"><i class="no-highlight">267</i>&nbsp;                    new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendUseCharacter(params)))).start();</b>
-<i class="no-highlight">268</i>&nbsp;                }
-<i class="no-highlight">269</i>&nbsp;                break;
-<i class="no-highlight">270</i>&nbsp;            case 11: //choose 1 student from card
-<b class="nc"><i class="no-highlight">271</i>&nbsp;                if (selectFromCharacter(getCharacterById(id, gameModel.getCharactersList()))) {</b>
-<b class="nc"><i class="no-highlight">272</i>&nbsp;                    params.setStudentIndex(cardStudentsSelection.get(0));</b>
-<b class="nc"><i class="no-highlight">273</i>&nbsp;                    new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendUseCharacter(params)))).start();</b>
-<i class="no-highlight">274</i>&nbsp;                }
-<i class="no-highlight">275</i>&nbsp;                break;
-<i class="no-highlight">276</i>&nbsp;            case 12: //choose 1 pawn color from card
-<b class="nc"><i class="no-highlight">277</i>&nbsp;                if (selectFromCharacter(getCharacterById(id, gameModel.getCharactersList()))) {</b>
-<b class="nc"><i class="no-highlight">278</i>&nbsp;                    params.setSelectedColor(cardColorSelection);</b>
-<b class="nc"><i class="no-highlight">279</i>&nbsp;                    new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendUseCharacter(params)))).start();</b>
-<i class="no-highlight">280</i>&nbsp;                }
-<i class="no-highlight">281</i>&nbsp;                break;
-<i class="no-highlight">282</i>&nbsp;        }
-<i class="no-highlight">283</i>&nbsp;    }
-<i class="no-highlight">284</i>&nbsp;
-<i class="no-highlight">285</i>&nbsp;    /**
-<i class="no-highlight">286</i>&nbsp;     * Island click event
-<i class="no-highlight">287</i>&nbsp;     *
-<i class="no-highlight">288</i>&nbsp;     * @param e
-<i class="no-highlight">289</i>&nbsp;     */
-<i class="no-highlight">290</i>&nbsp;    private void onIslandClick(Event e) {
-<b class="nc"><i class="no-highlight">291</i>&nbsp;        int islandIndex = (int) ((StackPane) e.getSource()).getUserData();</b>
-<b class="nc"><i class="no-highlight">292</i>&nbsp;        if (guiState == GuiState.WAITING_FOR_ISLAND_MOVE) {</b>
-<b class="nc"><i class="no-highlight">293</i>&nbsp;            guiState = GuiState.LOCKED;</b>
-<b class="nc"><i class="no-highlight">294</i>&nbsp;            new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendMoveAStudentIsland(dashboardEntranceSelection.get(0), islandToId[islandIndex])))).start();</b>
-<b class="nc"><i class="no-highlight">295</i>&nbsp;        } else if (guiState == GuiState.WAITING_FOR_ISLAND_MN) {</b>
-<b class="nc"><i class="no-highlight">296</i>&nbsp;            new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendMoveMotherNature(islandToId[islandIndex])))).start();</b>
-<b class="nc"><i class="no-highlight">297</i>&nbsp;        } else if (guiState == GuiState.WAITING_FOR_ISLAND_CHAR1) {</b>
-<b class="nc"><i class="no-highlight">298</i>&nbsp;            guiState = GuiState.LOCKED;</b>
-<b class="nc"><i class="no-highlight">299</i>&nbsp;            MessageCharacterParameters params = new MessageCharacterParameters();</b>
-<b class="nc"><i class="no-highlight">300</i>&nbsp;            params.setCharacterId(1);</b>
-<b class="nc"><i class="no-highlight">301</i>&nbsp;            params.setIslandIndex(islandToId[islandIndex]);</b>
-<b class="nc"><i class="no-highlight">302</i>&nbsp;            params.setStudentIndex(cardStudentsSelection.get(0));</b>
-<b class="nc"><i class="no-highlight">303</i>&nbsp;            new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendUseCharacter(params)))).start();</b>
-<b class="nc"><i class="no-highlight">304</i>&nbsp;        } else if (guiState == GuiState.WAITING_FOR_ISLAND_CHAR3) {</b>
-<b class="nc"><i class="no-highlight">305</i>&nbsp;            guiState = GuiState.LOCKED;</b>
-<b class="nc"><i class="no-highlight">306</i>&nbsp;            MessageCharacterParameters params = new MessageCharacterParameters();</b>
-<b class="nc"><i class="no-highlight">307</i>&nbsp;            params.setCharacterId(3);</b>
-<b class="nc"><i class="no-highlight">308</i>&nbsp;            params.setIslandIndex(islandToId[islandIndex]);</b>
-<b class="nc"><i class="no-highlight">309</i>&nbsp;            new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendUseCharacter(params)))).start();</b>
-<b class="nc"><i class="no-highlight">310</i>&nbsp;        } else if (guiState == GuiState.WAITING_FOR_ISLAND_CHAR5) {</b>
-<b class="nc"><i class="no-highlight">311</i>&nbsp;            guiState = GuiState.LOCKED;</b>
-<b class="nc"><i class="no-highlight">312</i>&nbsp;            MessageCharacterParameters params = new MessageCharacterParameters();</b>
-<b class="nc"><i class="no-highlight">313</i>&nbsp;            params.setCharacterId(5);</b>
-<b class="nc"><i class="no-highlight">314</i>&nbsp;            params.setIslandIndex(islandToId[islandIndex]);</b>
-<b class="nc"><i class="no-highlight">315</i>&nbsp;            new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendUseCharacter(params)))).start();</b>
-<i class="no-highlight">316</i>&nbsp;        }
-<i class="no-highlight">317</i>&nbsp;
-<i class="no-highlight">318</i>&nbsp;    }
-<i class="no-highlight">319</i>&nbsp;
-<i class="no-highlight">320</i>&nbsp;    /**
-<i class="no-highlight">321</i>&nbsp;     * Assistant click event
-<i class="no-highlight">322</i>&nbsp;     *
-<i class="no-highlight">323</i>&nbsp;     * @param e
-<i class="no-highlight">324</i>&nbsp;     */
-<i class="no-highlight">325</i>&nbsp;    private void onAssistantClick(Event e) {
-<b class="nc"><i class="no-highlight">326</i>&nbsp;        int assistantIndex = (int) ((ImageView) e.getSource()).getUserData();</b>
-<b class="nc"><i class="no-highlight">327</i>&nbsp;        if (guiState == WAITING_FOR_ASSISTANT_CLICK) {</b>
-<b class="nc"><i class="no-highlight">328</i>&nbsp;            System.out.println(&quot;Click on assistant &quot; + assistantIndex);</b>
-<b class="nc"><i class="no-highlight">329</i>&nbsp;            new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendSelectAssistant(assistantIndex)))).start();</b>
-<i class="no-highlight">330</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">226</i>&nbsp;        MessageCharacterParameters params = new MessageCharacterParameters();</b>
+<b class="nc"><i class="no-highlight">227</i>&nbsp;        params.setCharacterId(id);</b>
+<b class="nc"><i class="no-highlight">228</i>&nbsp;        switch (id) {</b>
+<i class="no-highlight">229</i>&nbsp;            case 1: //choose 1 student from card and 1 island
+<b class="nc"><i class="no-highlight">230</i>&nbsp;                if (selectFromCharacter(getCharacterById(id, gameModel.getCharactersList()))) {</b>
+<b class="nc"><i class="no-highlight">231</i>&nbsp;                    guiState = GuiState.WAITING_FOR_ISLAND_CHAR1;</b>
+<b class="nc"><i class="no-highlight">232</i>&nbsp;                    tableInfoLabel.setText(&quot;Select the island where to put the student&quot;);</b>
+<i class="no-highlight">233</i>&nbsp;                }
+<i class="no-highlight">234</i>&nbsp;                break;
+<i class="no-highlight">235</i>&nbsp;            case 3:
+<b class="nc"><i class="no-highlight">236</i>&nbsp;                guiState = WAITING_FOR_ISLAND_CHAR3;</b>
+<b class="nc"><i class="no-highlight">237</i>&nbsp;                tableInfoLabel.setText(&quot;Select the island where to calculate the influence&quot;);</b>
+<b class="nc"><i class="no-highlight">238</i>&nbsp;                break;</b>
+<i class="no-highlight">239</i>&nbsp;
+<i class="no-highlight">240</i>&nbsp;            case 5: //choose 1 island
+<b class="nc"><i class="no-highlight">241</i>&nbsp;                guiState = WAITING_FOR_ISLAND_CHAR5;</b>
+<b class="nc"><i class="no-highlight">242</i>&nbsp;                tableInfoLabel.setText(&quot;Select the island where to put the forbid card&quot;);</b>
+<b class="nc"><i class="no-highlight">243</i>&nbsp;                break;</b>
+<i class="no-highlight">244</i>&nbsp;            case 7: //choose 1-3 students from card and 1-3 students from hall
+<b class="nc"><i class="no-highlight">245</i>&nbsp;                if (selectFromCharacter(getCharacterById(id, gameModel.getCharactersList()))) {</b>
+<b class="nc"><i class="no-highlight">246</i>&nbsp;                    if (selectFromDashboard(cardStudentsSelection.size(), false)) {</b>
+<b class="nc"><i class="no-highlight">247</i>&nbsp;                        params.setStudentsIndexList(cardStudentsSelection);</b>
+<b class="nc"><i class="no-highlight">248</i>&nbsp;                        params.setStudentsIndexEntranceList(dashboardEntranceSelection);</b>
+<b class="nc"><i class="no-highlight">249</i>&nbsp;                        new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendUseCharacter(params)))).start();</b>
+<i class="no-highlight">250</i>&nbsp;                    }
+<i class="no-highlight">251</i>&nbsp;                }
+<i class="no-highlight">252</i>&nbsp;                break;
+<i class="no-highlight">253</i>&nbsp;            case 9: //choose 1 pawn color from card
+<b class="nc"><i class="no-highlight">254</i>&nbsp;                if (selectFromCharacter(getCharacterById(id, gameModel.getCharactersList()))) {</b>
+<b class="nc"><i class="no-highlight">255</i>&nbsp;                    params.setSelectedColor(cardColorSelection);</b>
+<b class="nc"><i class="no-highlight">256</i>&nbsp;                    new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendUseCharacter(params)))).start();</b>
+<i class="no-highlight">257</i>&nbsp;                }
+<i class="no-highlight">258</i>&nbsp;                break;
+<i class="no-highlight">259</i>&nbsp;            case 10: //choose 1-2 students from hall and 1-2 pawn colors
+<b class="nc"><i class="no-highlight">260</i>&nbsp;                if (selectFromDashboard(2, true)) {</b>
+<b class="nc"><i class="no-highlight">261</i>&nbsp;                    params.setStudentsIndexEntranceList(dashboardEntranceSelection);</b>
+<b class="nc"><i class="no-highlight">262</i>&nbsp;                    params.setSelectedColor(dashboardHallSelection.get(0));</b>
+<b class="nc"><i class="no-highlight">263</i>&nbsp;                    if (dashboardHallSelection.size() == 2) {</b>
+<b class="nc"><i class="no-highlight">264</i>&nbsp;                        params.setSelectedColor2(dashboardHallSelection.get(1));</b>
+<i class="no-highlight">265</i>&nbsp;                    }
+<b class="nc"><i class="no-highlight">266</i>&nbsp;                    new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendUseCharacter(params)))).start();</b>
+<i class="no-highlight">267</i>&nbsp;                }
+<i class="no-highlight">268</i>&nbsp;                break;
+<i class="no-highlight">269</i>&nbsp;            case 11: //choose 1 student from card
+<b class="nc"><i class="no-highlight">270</i>&nbsp;                if (selectFromCharacter(getCharacterById(id, gameModel.getCharactersList()))) {</b>
+<b class="nc"><i class="no-highlight">271</i>&nbsp;                    params.setStudentIndex(cardStudentsSelection.get(0));</b>
+<b class="nc"><i class="no-highlight">272</i>&nbsp;                    new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendUseCharacter(params)))).start();</b>
+<i class="no-highlight">273</i>&nbsp;                }
+<i class="no-highlight">274</i>&nbsp;                break;
+<i class="no-highlight">275</i>&nbsp;            case 12: //choose 1 pawn color from card
+<b class="nc"><i class="no-highlight">276</i>&nbsp;                if (selectFromCharacter(getCharacterById(id, gameModel.getCharactersList()))) {</b>
+<b class="nc"><i class="no-highlight">277</i>&nbsp;                    params.setSelectedColor(cardColorSelection);</b>
+<b class="nc"><i class="no-highlight">278</i>&nbsp;                    new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendUseCharacter(params)))).start();</b>
+<i class="no-highlight">279</i>&nbsp;                }
+<i class="no-highlight">280</i>&nbsp;                break;
+<i class="no-highlight">281</i>&nbsp;        }
+<i class="no-highlight">282</i>&nbsp;    }
+<i class="no-highlight">283</i>&nbsp;
+<i class="no-highlight">284</i>&nbsp;    /**
+<i class="no-highlight">285</i>&nbsp;     * Island click event
+<i class="no-highlight">286</i>&nbsp;     *
+<i class="no-highlight">287</i>&nbsp;     * @param e
+<i class="no-highlight">288</i>&nbsp;     */
+<i class="no-highlight">289</i>&nbsp;    private void onIslandClick(Event e) {
+<b class="nc"><i class="no-highlight">290</i>&nbsp;        int islandIndex = (int) ((StackPane) e.getSource()).getUserData();</b>
+<b class="nc"><i class="no-highlight">291</i>&nbsp;        if (guiState == GuiState.WAITING_FOR_ISLAND_MOVE) {</b>
+<b class="nc"><i class="no-highlight">292</i>&nbsp;            guiState = GuiState.LOCKED;</b>
+<b class="nc"><i class="no-highlight">293</i>&nbsp;            new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendMoveAStudentIsland(dashboardEntranceSelection.get(0), islandToId[islandIndex])))).start();</b>
+<b class="nc"><i class="no-highlight">294</i>&nbsp;        } else if (guiState == GuiState.WAITING_FOR_ISLAND_MN) {</b>
+<b class="nc"><i class="no-highlight">295</i>&nbsp;            new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendMoveMotherNature(islandToId[islandIndex])))).start();</b>
+<b class="nc"><i class="no-highlight">296</i>&nbsp;        } else if (guiState == GuiState.WAITING_FOR_ISLAND_CHAR1) {</b>
+<b class="nc"><i class="no-highlight">297</i>&nbsp;            guiState = GuiState.LOCKED;</b>
+<b class="nc"><i class="no-highlight">298</i>&nbsp;            MessageCharacterParameters params = new MessageCharacterParameters();</b>
+<b class="nc"><i class="no-highlight">299</i>&nbsp;            params.setCharacterId(1);</b>
+<b class="nc"><i class="no-highlight">300</i>&nbsp;            params.setIslandIndex(islandToId[islandIndex]);</b>
+<b class="nc"><i class="no-highlight">301</i>&nbsp;            params.setStudentIndex(cardStudentsSelection.get(0));</b>
+<b class="nc"><i class="no-highlight">302</i>&nbsp;            new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendUseCharacter(params)))).start();</b>
+<b class="nc"><i class="no-highlight">303</i>&nbsp;        } else if (guiState == GuiState.WAITING_FOR_ISLAND_CHAR3) {</b>
+<b class="nc"><i class="no-highlight">304</i>&nbsp;            guiState = GuiState.LOCKED;</b>
+<b class="nc"><i class="no-highlight">305</i>&nbsp;            MessageCharacterParameters params = new MessageCharacterParameters();</b>
+<b class="nc"><i class="no-highlight">306</i>&nbsp;            params.setCharacterId(3);</b>
+<b class="nc"><i class="no-highlight">307</i>&nbsp;            params.setIslandIndex(islandToId[islandIndex]);</b>
+<b class="nc"><i class="no-highlight">308</i>&nbsp;            new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendUseCharacter(params)))).start();</b>
+<b class="nc"><i class="no-highlight">309</i>&nbsp;        } else if (guiState == GuiState.WAITING_FOR_ISLAND_CHAR5) {</b>
+<b class="nc"><i class="no-highlight">310</i>&nbsp;            guiState = GuiState.LOCKED;</b>
+<b class="nc"><i class="no-highlight">311</i>&nbsp;            MessageCharacterParameters params = new MessageCharacterParameters();</b>
+<b class="nc"><i class="no-highlight">312</i>&nbsp;            params.setCharacterId(5);</b>
+<b class="nc"><i class="no-highlight">313</i>&nbsp;            params.setIslandIndex(islandToId[islandIndex]);</b>
+<b class="nc"><i class="no-highlight">314</i>&nbsp;            new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendUseCharacter(params)))).start();</b>
+<i class="no-highlight">315</i>&nbsp;        }
+<i class="no-highlight">316</i>&nbsp;
+<i class="no-highlight">317</i>&nbsp;    }
+<i class="no-highlight">318</i>&nbsp;
+<i class="no-highlight">319</i>&nbsp;    /**
+<i class="no-highlight">320</i>&nbsp;     * Assistant click event
+<i class="no-highlight">321</i>&nbsp;     *
+<i class="no-highlight">322</i>&nbsp;     * @param e
+<i class="no-highlight">323</i>&nbsp;     */
+<i class="no-highlight">324</i>&nbsp;    private void onAssistantClick(Event e) {
+<b class="nc"><i class="no-highlight">325</i>&nbsp;        int assistantIndex = (int) ((ImageView) e.getSource()).getUserData();</b>
+<b class="nc"><i class="no-highlight">326</i>&nbsp;        if (guiState == WAITING_FOR_ASSISTANT_CLICK) {</b>
+<b class="nc"><i class="no-highlight">327</i>&nbsp;            new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendSelectAssistant(assistantIndex)))).start();</b>
+<i class="no-highlight">328</i>&nbsp;        }
+<i class="no-highlight">329</i>&nbsp;
+<i class="no-highlight">330</i>&nbsp;    }
 <i class="no-highlight">331</i>&nbsp;
-<i class="no-highlight">332</i>&nbsp;    }
-<i class="no-highlight">333</i>&nbsp;
-<i class="no-highlight">334</i>&nbsp;    /**
-<i class="no-highlight">335</i>&nbsp;     * Cloud click event
-<i class="no-highlight">336</i>&nbsp;     *
-<i class="no-highlight">337</i>&nbsp;     * @param e
-<i class="no-highlight">338</i>&nbsp;     */
-<i class="no-highlight">339</i>&nbsp;    private void onCloudClick(Event e) {
-<b class="nc"><i class="no-highlight">340</i>&nbsp;        int cloudIndex = (int) ((StackPane) e.getSource()).getUserData();</b>
-<b class="nc"><i class="no-highlight">341</i>&nbsp;        if (guiState == GuiState.WAITING_FOR_CLOUD) {</b>
-<b class="nc"><i class="no-highlight">342</i>&nbsp;            System.out.println(&quot;Click on cloud &quot; + cloudIndex);</b>
-<b class="nc"><i class="no-highlight">343</i>&nbsp;            new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendChooseCloud(cloudIndex)))).start();</b>
-<i class="no-highlight">344</i>&nbsp;        }
-<i class="no-highlight">345</i>&nbsp;    }
-<i class="no-highlight">346</i>&nbsp;
-<i class="no-highlight">347</i>&nbsp;    /**
-<i class="no-highlight">348</i>&nbsp;     * Dashboard click event
-<i class="no-highlight">349</i>&nbsp;     *
-<i class="no-highlight">350</i>&nbsp;     * @param e
-<i class="no-highlight">351</i>&nbsp;     */
-<i class="no-highlight">352</i>&nbsp;    private void onDashboardClick(Event e) {
-<b class="nc"><i class="no-highlight">353</i>&nbsp;        int playerIndex = (int) ((Button) e.getSource()).getUserData();</b>
-<b class="nc"><i class="no-highlight">354</i>&nbsp;        System.out.println(&quot;Click on dashboard &quot; + playerIndex);</b>
-<b class="nc"><i class="no-highlight">355</i>&nbsp;        openDashboard(gameModel.getPlayersList().get(playerIndex));</b>
-<i class="no-highlight">356</i>&nbsp;    }
-<i class="no-highlight">357</i>&nbsp;
-<i class="no-highlight">358</i>&nbsp;    /**
-<i class="no-highlight">359</i>&nbsp;     * Character click event
-<i class="no-highlight">360</i>&nbsp;     *
-<i class="no-highlight">361</i>&nbsp;     * @param e
-<i class="no-highlight">362</i>&nbsp;     */
-<i class="no-highlight">363</i>&nbsp;    private void onCharacterClick(Event e) {
-<b class="nc"><i class="no-highlight">364</i>&nbsp;        int characterIndex = (int) ((StackPane) e.getSource()).getUserData();</b>
-<b class="nc"><i class="no-highlight">365</i>&nbsp;        int result = openCharacter(gameModel.getCharactersList().get(characterIndex));</b>
-<b class="nc"><i class="no-highlight">366</i>&nbsp;        if (result != -1 &amp;&amp; guiState != GuiState.LOCKED &amp;&amp; guiState != GuiState.WAITING_FOR_ASSISTANT_CLICK) {</b>
-<b class="nc"><i class="no-highlight">367</i>&nbsp;            new Thread(() -&gt; notifyObserver((obs -&gt; obs.onAskCharacter(result)))).start();</b>
-<b class="nc"><i class="no-highlight">368</i>&nbsp;            System.out.println(&quot;Used character &quot; + result);</b>
-<i class="no-highlight">369</i>&nbsp;        }
-<i class="no-highlight">370</i>&nbsp;    }
-<i class="no-highlight">371</i>&nbsp;
-<i class="no-highlight">372</i>&nbsp;    /**
-<i class="no-highlight">373</i>&nbsp;     * Button move student dashboard or move student island click event
-<i class="no-highlight">374</i>&nbsp;     *
-<i class="no-highlight">375</i>&nbsp;     * @param e
-<i class="no-highlight">376</i>&nbsp;     */
-<i class="no-highlight">377</i>&nbsp;    private void onButtonCommandClick(Event e) {
-<b class="nc"><i class="no-highlight">378</i>&nbsp;        buttonCommand1.setVisible(false);</b>
-<b class="nc"><i class="no-highlight">379</i>&nbsp;        buttonCommand2.setVisible(false);</b>
-<b class="nc"><i class="no-highlight">380</i>&nbsp;        if (guiState == GuiState.WAITING_FOR_MOVE_OR) {</b>
-<b class="nc"><i class="no-highlight">381</i>&nbsp;            guiState = GuiState.LOCKED;</b>
-<b class="nc"><i class="no-highlight">382</i>&nbsp;            int buttonIndex = (int) ((Button) e.getSource()).getUserData();</b>
-<b class="nc"><i class="no-highlight">383</i>&nbsp;            System.out.println(&quot;Click on button &quot; + buttonIndex);</b>
-<b class="nc"><i class="no-highlight">384</i>&nbsp;            if (!selectFromDashboard(1, false)) {</b>
-<b class="nc"><i class="no-highlight">385</i>&nbsp;                requestedMoveStudent();</b>
-<i class="no-highlight">386</i>&nbsp;                return;
-<i class="no-highlight">387</i>&nbsp;            }
-<i class="no-highlight">388</i>&nbsp;
-<b class="nc"><i class="no-highlight">389</i>&nbsp;            if (buttonIndex == 0) { //move student island</b>
-<b class="nc"><i class="no-highlight">390</i>&nbsp;                guiState = GuiState.WAITING_FOR_ISLAND_MOVE;</b>
-<b class="nc"><i class="no-highlight">391</i>&nbsp;                tableInfoLabel.setText(&quot;Choose the island to move the student...&quot;);</b>
-<i class="no-highlight">392</i>&nbsp;            } else { //move student dashboard
-<b class="nc"><i class="no-highlight">393</i>&nbsp;                new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendMoveAStudentDashboard(dashboardEntranceSelection.get(0))))).start();</b>
-<i class="no-highlight">394</i>&nbsp;            }
-<i class="no-highlight">395</i>&nbsp;        }
-<i class="no-highlight">396</i>&nbsp;    }
-<i class="no-highlight">397</i>&nbsp;
-<i class="no-highlight">398</i>&nbsp;
-<i class="no-highlight">399</i>&nbsp;    /**
-<i class="no-highlight">400</i>&nbsp;     * open a new stage with the selected character
-<i class="no-highlight">401</i>&nbsp;     *
-<i class="no-highlight">402</i>&nbsp;     * @param character selected character
-<i class="no-highlight">403</i>&nbsp;     * @return the id of played character if selected else -1
-<i class="no-highlight">404</i>&nbsp;     */
-<i class="no-highlight">405</i>&nbsp;    private int openCharacter(ReducedCharacter character) {
-<b class="nc"><i class="no-highlight">406</i>&nbsp;        boolean usable = guiState == WAITING_FOR_MOVE_OR || guiState == WAITING_FOR_ISLAND_MN || guiState == WAITING_FOR_CLOUD;</b>
-<i class="no-highlight">407</i>&nbsp;
-<b class="nc"><i class="no-highlight">408</i>&nbsp;        stage = new Stage();</b>
-<b class="nc"><i class="no-highlight">409</i>&nbsp;        FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource(&quot;/fxml/CharacterScene.fxml&quot;));</b>
-<i class="no-highlight">410</i>&nbsp;
-<i class="no-highlight">411</i>&nbsp;        try {
-<b class="nc"><i class="no-highlight">412</i>&nbsp;            characterScene = new Scene(loader.load());</b>
-<b class="nc"><i class="no-highlight">413</i>&nbsp;            characterScene.setUserData(character);</b>
-<b class="nc"><i class="no-highlight">414</i>&nbsp;        } catch (IOException e) {</b>
-<b class="nc"><i class="no-highlight">415</i>&nbsp;            e.printStackTrace();</b>
-<b class="nc"><i class="no-highlight">416</i>&nbsp;        }</b>
-<i class="no-highlight">417</i>&nbsp;
-<b class="nc"><i class="no-highlight">418</i>&nbsp;        stage.setScene(characterScene);</b>
-<b class="nc"><i class="no-highlight">419</i>&nbsp;        stage.setTitle(&quot;Character Detail&quot;);</b>
-<b class="nc"><i class="no-highlight">420</i>&nbsp;        stage.setWidth(329);</b>
-<b class="nc"><i class="no-highlight">421</i>&nbsp;        stage.setHeight(540);</b>
-<b class="nc"><i class="no-highlight">422</i>&nbsp;        stage.setResizable(false);</b>
-<b class="nc"><i class="no-highlight">423</i>&nbsp;        stage.initModality(Modality.APPLICATION_MODAL);</b>
-<b class="nc"><i class="no-highlight">424</i>&nbsp;        CharacterSceneController characterController = loader.getController();</b>
-<b class="nc"><i class="no-highlight">425</i>&nbsp;        characterController.loadCharacter(character, usable);</b>
-<b class="nc"><i class="no-highlight">426</i>&nbsp;        characterController.setStage(stage);</b>
-<b class="nc"><i class="no-highlight">427</i>&nbsp;        currCharacterController = characterController;</b>
-<b class="nc"><i class="no-highlight">428</i>&nbsp;        stage.showAndWait();</b>
-<b class="nc"><i class="no-highlight">429</i>&nbsp;        if (characterController.isChooseUse()) {</b>
-<b class="nc"><i class="no-highlight">430</i>&nbsp;            return character.getId();</b>
-<i class="no-highlight">431</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">432</i>&nbsp;        return -1;</b>
-<i class="no-highlight">433</i>&nbsp;    }
-<i class="no-highlight">434</i>&nbsp;
-<i class="no-highlight">435</i>&nbsp;    /**
-<i class="no-highlight">436</i>&nbsp;     * open character in a new stage to select things on it
-<i class="no-highlight">437</i>&nbsp;     *
-<i class="no-highlight">438</i>&nbsp;     * @param character selected character
-<i class="no-highlight">439</i>&nbsp;     * @return true if selection succeeded false if window was closed
-<i class="no-highlight">440</i>&nbsp;     */
-<i class="no-highlight">441</i>&nbsp;    private boolean selectFromCharacter(ReducedCharacter character) {
-<b class="nc"><i class="no-highlight">442</i>&nbsp;        stage = new Stage();</b>
-<b class="nc"><i class="no-highlight">443</i>&nbsp;        FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource(&quot;/fxml/CharacterScene.fxml&quot;));</b>
+<i class="no-highlight">332</i>&nbsp;    /**
+<i class="no-highlight">333</i>&nbsp;     * Cloud click event
+<i class="no-highlight">334</i>&nbsp;     *
+<i class="no-highlight">335</i>&nbsp;     * @param e
+<i class="no-highlight">336</i>&nbsp;     */
+<i class="no-highlight">337</i>&nbsp;    private void onCloudClick(Event e) {
+<b class="nc"><i class="no-highlight">338</i>&nbsp;        int cloudIndex = (int) ((StackPane) e.getSource()).getUserData();</b>
+<b class="nc"><i class="no-highlight">339</i>&nbsp;        if (guiState == GuiState.WAITING_FOR_CLOUD) {</b>
+<b class="nc"><i class="no-highlight">340</i>&nbsp;            new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendChooseCloud(cloudIndex)))).start();</b>
+<i class="no-highlight">341</i>&nbsp;        }
+<i class="no-highlight">342</i>&nbsp;    }
+<i class="no-highlight">343</i>&nbsp;
+<i class="no-highlight">344</i>&nbsp;    /**
+<i class="no-highlight">345</i>&nbsp;     * Dashboard click event
+<i class="no-highlight">346</i>&nbsp;     *
+<i class="no-highlight">347</i>&nbsp;     * @param e
+<i class="no-highlight">348</i>&nbsp;     */
+<i class="no-highlight">349</i>&nbsp;    private void onDashboardClick(Event e) {
+<b class="nc"><i class="no-highlight">350</i>&nbsp;        int playerIndex = (int) ((Button) e.getSource()).getUserData();</b>
+<b class="nc"><i class="no-highlight">351</i>&nbsp;        openDashboard(gameModel.getPlayersList().get(playerIndex));</b>
+<i class="no-highlight">352</i>&nbsp;    }
+<i class="no-highlight">353</i>&nbsp;
+<i class="no-highlight">354</i>&nbsp;    /**
+<i class="no-highlight">355</i>&nbsp;     * Character click event
+<i class="no-highlight">356</i>&nbsp;     *
+<i class="no-highlight">357</i>&nbsp;     * @param e
+<i class="no-highlight">358</i>&nbsp;     */
+<i class="no-highlight">359</i>&nbsp;    private void onCharacterClick(Event e) {
+<b class="nc"><i class="no-highlight">360</i>&nbsp;        int characterIndex = (int) ((StackPane) e.getSource()).getUserData();</b>
+<b class="nc"><i class="no-highlight">361</i>&nbsp;        int result = openCharacter(gameModel.getCharactersList().get(characterIndex));</b>
+<b class="nc"><i class="no-highlight">362</i>&nbsp;        if (result != -1 &amp;&amp; guiState != GuiState.LOCKED &amp;&amp; guiState != GuiState.WAITING_FOR_ASSISTANT_CLICK) {</b>
+<b class="nc"><i class="no-highlight">363</i>&nbsp;            new Thread(() -&gt; notifyObserver((obs -&gt; obs.onAskCharacter(result)))).start();</b>
+<i class="no-highlight">364</i>&nbsp;        }
+<i class="no-highlight">365</i>&nbsp;    }
+<i class="no-highlight">366</i>&nbsp;
+<i class="no-highlight">367</i>&nbsp;    /**
+<i class="no-highlight">368</i>&nbsp;     * Button move student dashboard or move student island click event
+<i class="no-highlight">369</i>&nbsp;     *
+<i class="no-highlight">370</i>&nbsp;     * @param e
+<i class="no-highlight">371</i>&nbsp;     */
+<i class="no-highlight">372</i>&nbsp;    private void onButtonCommandClick(Event e) {
+<b class="nc"><i class="no-highlight">373</i>&nbsp;        buttonCommand1.setVisible(false);</b>
+<b class="nc"><i class="no-highlight">374</i>&nbsp;        buttonCommand2.setVisible(false);</b>
+<b class="nc"><i class="no-highlight">375</i>&nbsp;        if (guiState == GuiState.WAITING_FOR_MOVE_OR) {</b>
+<b class="nc"><i class="no-highlight">376</i>&nbsp;            guiState = GuiState.LOCKED;</b>
+<b class="nc"><i class="no-highlight">377</i>&nbsp;            int buttonIndex = (int) ((Button) e.getSource()).getUserData();</b>
+<b class="nc"><i class="no-highlight">378</i>&nbsp;            if (!selectFromDashboard(1, false)) {</b>
+<b class="nc"><i class="no-highlight">379</i>&nbsp;                requestedMoveStudent();</b>
+<i class="no-highlight">380</i>&nbsp;                return;
+<i class="no-highlight">381</i>&nbsp;            }
+<i class="no-highlight">382</i>&nbsp;
+<b class="nc"><i class="no-highlight">383</i>&nbsp;            if (buttonIndex == 0) { //move student island</b>
+<b class="nc"><i class="no-highlight">384</i>&nbsp;                guiState = GuiState.WAITING_FOR_ISLAND_MOVE;</b>
+<b class="nc"><i class="no-highlight">385</i>&nbsp;                tableInfoLabel.setText(&quot;Choose the island to move the student...&quot;);</b>
+<i class="no-highlight">386</i>&nbsp;            } else { //move student dashboard
+<b class="nc"><i class="no-highlight">387</i>&nbsp;                new Thread(() -&gt; notifyObserver((obs -&gt; obs.onSendMoveAStudentDashboard(dashboardEntranceSelection.get(0))))).start();</b>
+<i class="no-highlight">388</i>&nbsp;            }
+<i class="no-highlight">389</i>&nbsp;        }
+<i class="no-highlight">390</i>&nbsp;    }
+<i class="no-highlight">391</i>&nbsp;
+<i class="no-highlight">392</i>&nbsp;
+<i class="no-highlight">393</i>&nbsp;    /**
+<i class="no-highlight">394</i>&nbsp;     * open a new stage with the selected character
+<i class="no-highlight">395</i>&nbsp;     *
+<i class="no-highlight">396</i>&nbsp;     * @param character selected character
+<i class="no-highlight">397</i>&nbsp;     * @return the id of played character if selected else -1
+<i class="no-highlight">398</i>&nbsp;     */
+<i class="no-highlight">399</i>&nbsp;    private int openCharacter(ReducedCharacter character) {
+<b class="nc"><i class="no-highlight">400</i>&nbsp;        boolean usable = guiState == WAITING_FOR_MOVE_OR || guiState == WAITING_FOR_ISLAND_MN || guiState == WAITING_FOR_CLOUD;</b>
+<i class="no-highlight">401</i>&nbsp;
+<b class="nc"><i class="no-highlight">402</i>&nbsp;        stage = new Stage();</b>
+<b class="nc"><i class="no-highlight">403</i>&nbsp;        FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource(&quot;/fxml/CharacterScene.fxml&quot;));</b>
+<i class="no-highlight">404</i>&nbsp;
+<i class="no-highlight">405</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">406</i>&nbsp;            characterScene = new Scene(loader.load());</b>
+<b class="nc"><i class="no-highlight">407</i>&nbsp;            characterScene.setUserData(character);</b>
+<b class="nc"><i class="no-highlight">408</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i class="no-highlight">409</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">410</i>&nbsp;        }</b>
+<i class="no-highlight">411</i>&nbsp;
+<b class="nc"><i class="no-highlight">412</i>&nbsp;        stage.setScene(characterScene);</b>
+<b class="nc"><i class="no-highlight">413</i>&nbsp;        stage.setTitle(&quot;Character Detail&quot;);</b>
+<b class="nc"><i class="no-highlight">414</i>&nbsp;        stage.setWidth(329);</b>
+<b class="nc"><i class="no-highlight">415</i>&nbsp;        stage.setHeight(540);</b>
+<b class="nc"><i class="no-highlight">416</i>&nbsp;        stage.setResizable(false);</b>
+<b class="nc"><i class="no-highlight">417</i>&nbsp;        stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i class="no-highlight">418</i>&nbsp;        CharacterSceneController characterController = loader.getController();</b>
+<b class="nc"><i class="no-highlight">419</i>&nbsp;        characterController.loadCharacter(character, usable);</b>
+<b class="nc"><i class="no-highlight">420</i>&nbsp;        characterController.setStage(stage);</b>
+<b class="nc"><i class="no-highlight">421</i>&nbsp;        currCharacterController = characterController;</b>
+<b class="nc"><i class="no-highlight">422</i>&nbsp;        stage.showAndWait();</b>
+<b class="nc"><i class="no-highlight">423</i>&nbsp;        if (characterController.isChooseUse()) {</b>
+<b class="nc"><i class="no-highlight">424</i>&nbsp;            return character.getId();</b>
+<i class="no-highlight">425</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">426</i>&nbsp;        return -1;</b>
+<i class="no-highlight">427</i>&nbsp;    }
+<i class="no-highlight">428</i>&nbsp;
+<i class="no-highlight">429</i>&nbsp;    /**
+<i class="no-highlight">430</i>&nbsp;     * open character in a new stage to select things on it
+<i class="no-highlight">431</i>&nbsp;     *
+<i class="no-highlight">432</i>&nbsp;     * @param character selected character
+<i class="no-highlight">433</i>&nbsp;     * @return true if selection succeeded false if window was closed
+<i class="no-highlight">434</i>&nbsp;     */
+<i class="no-highlight">435</i>&nbsp;    private boolean selectFromCharacter(ReducedCharacter character) {
+<b class="nc"><i class="no-highlight">436</i>&nbsp;        stage = new Stage();</b>
+<b class="nc"><i class="no-highlight">437</i>&nbsp;        FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource(&quot;/fxml/CharacterScene.fxml&quot;));</b>
+<i class="no-highlight">438</i>&nbsp;
+<i class="no-highlight">439</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">440</i>&nbsp;            characterScene = new Scene(loader.load());</b>
+<b class="nc"><i class="no-highlight">441</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i class="no-highlight">442</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">443</i>&nbsp;        }</b>
 <i class="no-highlight">444</i>&nbsp;
-<i class="no-highlight">445</i>&nbsp;        try {
-<b class="nc"><i class="no-highlight">446</i>&nbsp;            characterScene = new Scene(loader.load());</b>
-<b class="nc"><i class="no-highlight">447</i>&nbsp;        } catch (IOException e) {</b>
-<b class="nc"><i class="no-highlight">448</i>&nbsp;            e.printStackTrace();</b>
-<b class="nc"><i class="no-highlight">449</i>&nbsp;        }</b>
-<i class="no-highlight">450</i>&nbsp;
-<b class="nc"><i class="no-highlight">451</i>&nbsp;        stage.setScene(characterScene);</b>
-<b class="nc"><i class="no-highlight">452</i>&nbsp;        stage.setTitle(&quot;Character Detail&quot;);</b>
-<b class="nc"><i class="no-highlight">453</i>&nbsp;        stage.setWidth(329);</b>
-<b class="nc"><i class="no-highlight">454</i>&nbsp;        stage.setHeight(540);</b>
-<b class="nc"><i class="no-highlight">455</i>&nbsp;        stage.setResizable(false);</b>
-<b class="nc"><i class="no-highlight">456</i>&nbsp;        stage.initModality(Modality.APPLICATION_MODAL);</b>
-<b class="nc"><i class="no-highlight">457</i>&nbsp;        CharacterSceneController characterController = loader.getController();</b>
-<b class="nc"><i class="no-highlight">458</i>&nbsp;        characterController.loadCharacter(character, true);</b>
-<b class="nc"><i class="no-highlight">459</i>&nbsp;        characterController.setStage(stage);</b>
-<b class="nc"><i class="no-highlight">460</i>&nbsp;        characterController.selectionMode();</b>
-<b class="nc"><i class="no-highlight">461</i>&nbsp;        currCharacterController = characterController;</b>
-<b class="nc"><i class="no-highlight">462</i>&nbsp;        stage.showAndWait();</b>
-<b class="nc"><i class="no-highlight">463</i>&nbsp;        cardColorSelection = characterController.getSelectedProfessorResult();</b>
-<b class="nc"><i class="no-highlight">464</i>&nbsp;        cardStudentsSelection = characterController.getSelectedStudentResult();</b>
-<b class="nc"><i class="no-highlight">465</i>&nbsp;        return characterController.isSelectionSuccess();</b>
-<i class="no-highlight">466</i>&nbsp;    }
-<i class="no-highlight">467</i>&nbsp;
-<i class="no-highlight">468</i>&nbsp;
-<i class="no-highlight">469</i>&nbsp;    /**
-<i class="no-highlight">470</i>&nbsp;     * open a new stage with the dashboard of selected player
-<i class="no-highlight">471</i>&nbsp;     *
-<i class="no-highlight">472</i>&nbsp;     * @param player selected player
-<i class="no-highlight">473</i>&nbsp;     */
-<i class="no-highlight">474</i>&nbsp;    private void openDashboard(ReducedPlayer player) {
-<b class="nc"><i class="no-highlight">475</i>&nbsp;        stage = new Stage();</b>
-<b class="nc"><i class="no-highlight">476</i>&nbsp;        FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource(&quot;/fxml/DashboardScene.fxml&quot;));</b>
-<i class="no-highlight">477</i>&nbsp;
-<i class="no-highlight">478</i>&nbsp;        try {
-<b class="nc"><i class="no-highlight">479</i>&nbsp;            dashboardScene = new Scene(loader.load());</b>
-<b class="nc"><i class="no-highlight">480</i>&nbsp;            dashboardScene.setUserData(player);</b>
-<b class="nc"><i class="no-highlight">481</i>&nbsp;        } catch (IOException e) {</b>
-<b class="nc"><i class="no-highlight">482</i>&nbsp;            e.printStackTrace();</b>
-<b class="nc"><i class="no-highlight">483</i>&nbsp;        }</b>
-<i class="no-highlight">484</i>&nbsp;
-<b class="nc"><i class="no-highlight">485</i>&nbsp;        stage.setScene(dashboardScene);</b>
-<b class="nc"><i class="no-highlight">486</i>&nbsp;        stage.setTitle(&quot;Dashboard &quot; + player.getName());</b>
-<b class="nc"><i class="no-highlight">487</i>&nbsp;        stage.setWidth(999);</b>
-<b class="nc"><i class="no-highlight">488</i>&nbsp;        stage.setHeight(434);</b>
-<b class="nc"><i class="no-highlight">489</i>&nbsp;        stage.setResizable(false);</b>
-<b class="nc"><i class="no-highlight">490</i>&nbsp;        stage.initModality(Modality.APPLICATION_MODAL);</b>
-<b class="nc"><i class="no-highlight">491</i>&nbsp;        DashboardSceneController dashboardController = loader.getController();</b>
-<b class="nc"><i class="no-highlight">492</i>&nbsp;        dashboardController.loadDashboard(player.getDashboard(), player.getPlayerTowerColor());</b>
-<b class="nc"><i class="no-highlight">493</i>&nbsp;        currDashboardController = dashboardController;</b>
-<b class="nc"><i class="no-highlight">494</i>&nbsp;        stage.showAndWait();</b>
-<i class="no-highlight">495</i>&nbsp;    }
-<i class="no-highlight">496</i>&nbsp;
-<i class="no-highlight">497</i>&nbsp;    /**
-<i class="no-highlight">498</i>&nbsp;     * open the dashboard of the selected player in selection mode
-<i class="no-highlight">499</i>&nbsp;     *
-<i class="no-highlight">500</i>&nbsp;     * @param entranceChoice number of students to choose
-<i class="no-highlight">501</i>&nbsp;     * @param isCharacter10  true if the choice is of character 10
-<i class="no-highlight">502</i>&nbsp;     * @return true if ok, false if closed
-<i class="no-highlight">503</i>&nbsp;     */
-<i class="no-highlight">504</i>&nbsp;    public boolean selectFromDashboard(int entranceChoice, boolean isCharacter10) {
-<b class="nc"><i class="no-highlight">505</i>&nbsp;        stage = new Stage();</b>
-<b class="nc"><i class="no-highlight">506</i>&nbsp;        FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource(&quot;/fxml/DashboardScene.fxml&quot;));</b>
+<b class="nc"><i class="no-highlight">445</i>&nbsp;        stage.setScene(characterScene);</b>
+<b class="nc"><i class="no-highlight">446</i>&nbsp;        stage.setTitle(&quot;Character Detail&quot;);</b>
+<b class="nc"><i class="no-highlight">447</i>&nbsp;        stage.setWidth(329);</b>
+<b class="nc"><i class="no-highlight">448</i>&nbsp;        stage.setHeight(540);</b>
+<b class="nc"><i class="no-highlight">449</i>&nbsp;        stage.setResizable(false);</b>
+<b class="nc"><i class="no-highlight">450</i>&nbsp;        stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i class="no-highlight">451</i>&nbsp;        CharacterSceneController characterController = loader.getController();</b>
+<b class="nc"><i class="no-highlight">452</i>&nbsp;        characterController.loadCharacter(character, true);</b>
+<b class="nc"><i class="no-highlight">453</i>&nbsp;        characterController.setStage(stage);</b>
+<b class="nc"><i class="no-highlight">454</i>&nbsp;        characterController.selectionMode();</b>
+<b class="nc"><i class="no-highlight">455</i>&nbsp;        currCharacterController = characterController;</b>
+<b class="nc"><i class="no-highlight">456</i>&nbsp;        stage.showAndWait();</b>
+<b class="nc"><i class="no-highlight">457</i>&nbsp;        cardColorSelection = characterController.getSelectedProfessorResult();</b>
+<b class="nc"><i class="no-highlight">458</i>&nbsp;        cardStudentsSelection = characterController.getSelectedStudentResult();</b>
+<b class="nc"><i class="no-highlight">459</i>&nbsp;        return characterController.isSelectionSuccess();</b>
+<i class="no-highlight">460</i>&nbsp;    }
+<i class="no-highlight">461</i>&nbsp;
+<i class="no-highlight">462</i>&nbsp;
+<i class="no-highlight">463</i>&nbsp;    /**
+<i class="no-highlight">464</i>&nbsp;     * open a new stage with the dashboard of selected player
+<i class="no-highlight">465</i>&nbsp;     *
+<i class="no-highlight">466</i>&nbsp;     * @param player selected player
+<i class="no-highlight">467</i>&nbsp;     */
+<i class="no-highlight">468</i>&nbsp;    private void openDashboard(ReducedPlayer player) {
+<b class="nc"><i class="no-highlight">469</i>&nbsp;        stage = new Stage();</b>
+<b class="nc"><i class="no-highlight">470</i>&nbsp;        FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource(&quot;/fxml/DashboardScene.fxml&quot;));</b>
+<i class="no-highlight">471</i>&nbsp;
+<i class="no-highlight">472</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">473</i>&nbsp;            dashboardScene = new Scene(loader.load());</b>
+<b class="nc"><i class="no-highlight">474</i>&nbsp;            dashboardScene.setUserData(player);</b>
+<b class="nc"><i class="no-highlight">475</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i class="no-highlight">476</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">477</i>&nbsp;        }</b>
+<i class="no-highlight">478</i>&nbsp;
+<b class="nc"><i class="no-highlight">479</i>&nbsp;        stage.setScene(dashboardScene);</b>
+<b class="nc"><i class="no-highlight">480</i>&nbsp;        stage.setTitle(&quot;Dashboard &quot; + player.getName());</b>
+<b class="nc"><i class="no-highlight">481</i>&nbsp;        stage.setWidth(999);</b>
+<b class="nc"><i class="no-highlight">482</i>&nbsp;        stage.setHeight(434);</b>
+<b class="nc"><i class="no-highlight">483</i>&nbsp;        stage.setResizable(false);</b>
+<b class="nc"><i class="no-highlight">484</i>&nbsp;        stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i class="no-highlight">485</i>&nbsp;        DashboardSceneController dashboardController = loader.getController();</b>
+<b class="nc"><i class="no-highlight">486</i>&nbsp;        dashboardController.loadDashboard(player.getDashboard(), player.getPlayerTowerColor());</b>
+<b class="nc"><i class="no-highlight">487</i>&nbsp;        currDashboardController = dashboardController;</b>
+<b class="nc"><i class="no-highlight">488</i>&nbsp;        stage.showAndWait();</b>
+<i class="no-highlight">489</i>&nbsp;    }
+<i class="no-highlight">490</i>&nbsp;
+<i class="no-highlight">491</i>&nbsp;    /**
+<i class="no-highlight">492</i>&nbsp;     * open the dashboard of the selected player in selection mode
+<i class="no-highlight">493</i>&nbsp;     *
+<i class="no-highlight">494</i>&nbsp;     * @param entranceChoice number of students to choose
+<i class="no-highlight">495</i>&nbsp;     * @param isCharacter10  true if the choice is of character 10
+<i class="no-highlight">496</i>&nbsp;     * @return true if ok, false if closed
+<i class="no-highlight">497</i>&nbsp;     */
+<i class="no-highlight">498</i>&nbsp;    public boolean selectFromDashboard(int entranceChoice, boolean isCharacter10) {
+<b class="nc"><i class="no-highlight">499</i>&nbsp;        stage = new Stage();</b>
+<b class="nc"><i class="no-highlight">500</i>&nbsp;        FXMLLoader loader = new FXMLLoader(JavaFXGui.class.getResource(&quot;/fxml/DashboardScene.fxml&quot;));</b>
+<i class="no-highlight">501</i>&nbsp;
+<i class="no-highlight">502</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">503</i>&nbsp;            dashboardScene = new Scene(loader.load());</b>
+<b class="nc"><i class="no-highlight">504</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i class="no-highlight">505</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">506</i>&nbsp;        }</b>
 <i class="no-highlight">507</i>&nbsp;
-<i class="no-highlight">508</i>&nbsp;        try {
-<b class="nc"><i class="no-highlight">509</i>&nbsp;            dashboardScene = new Scene(loader.load());</b>
-<b class="nc"><i class="no-highlight">510</i>&nbsp;        } catch (IOException e) {</b>
-<b class="nc"><i class="no-highlight">511</i>&nbsp;            e.printStackTrace();</b>
-<b class="nc"><i class="no-highlight">512</i>&nbsp;        }</b>
-<i class="no-highlight">513</i>&nbsp;
-<b class="nc"><i class="no-highlight">514</i>&nbsp;        stage.setScene(dashboardScene);</b>
-<b class="nc"><i class="no-highlight">515</i>&nbsp;        stage.setTitle(&quot;Select from dashboard&quot;);</b>
-<b class="nc"><i class="no-highlight">516</i>&nbsp;        stage.setWidth(999);</b>
-<b class="nc"><i class="no-highlight">517</i>&nbsp;        stage.setHeight(434);</b>
-<b class="nc"><i class="no-highlight">518</i>&nbsp;        stage.setResizable(false);</b>
-<b class="nc"><i class="no-highlight">519</i>&nbsp;        stage.initModality(Modality.APPLICATION_MODAL);</b>
-<b class="nc"><i class="no-highlight">520</i>&nbsp;        DashboardSceneController dashboardController = loader.getController();</b>
-<b class="nc"><i class="no-highlight">521</i>&nbsp;        dashboardController.setStage(stage);</b>
-<b class="nc"><i class="no-highlight">522</i>&nbsp;        dashboardController.selectionMode(entranceChoice, isCharacter10);</b>
-<b class="nc"><i class="no-highlight">523</i>&nbsp;        dashboardController.loadDashboard(gameModel.findPlayerById(gameModel.getMyPlayerId()).getDashboard(), gameModel.findPlayerById(gameModel.getMyPlayerId()).getPlayerTowerColor());</b>
-<b class="nc"><i class="no-highlight">524</i>&nbsp;        currDashboardController = dashboardController;</b>
-<b class="nc"><i class="no-highlight">525</i>&nbsp;        stage.showAndWait();</b>
-<b class="nc"><i class="no-highlight">526</i>&nbsp;        dashboardEntranceSelection = dashboardController.getEntranceChoiceSelection();</b>
-<b class="nc"><i class="no-highlight">527</i>&nbsp;        dashboardHallSelection = dashboardController.getHallChoiceSelection();</b>
-<b class="nc"><i class="no-highlight">528</i>&nbsp;        return dashboardController.isSelectionSuccess();</b>
-<i class="no-highlight">529</i>&nbsp;    }
-<i class="no-highlight">530</i>&nbsp;
-<i class="no-highlight">531</i>&nbsp;    /**
-<i class="no-highlight">532</i>&nbsp;     * function called by gui when new data arrives
-<i class="no-highlight">533</i>&nbsp;     *
-<i class="no-highlight">534</i>&nbsp;     * @param model game to show
-<i class="no-highlight">535</i>&nbsp;     */
-<i class="no-highlight">536</i>&nbsp;    public void updateGraphics(ClientGameModel model) {
-<b class="nc"><i class="no-highlight">537</i>&nbsp;        gameModel = model;</b>
-<b class="nc"><i class="no-highlight">538</i>&nbsp;        loadAssistants(model.getAssistantList());</b>
-<b class="nc"><i class="no-highlight">539</i>&nbsp;        loadIslands(model.getIslandList(), model.getMotherNaturePos());</b>
-<b class="nc"><i class="no-highlight">540</i>&nbsp;        loadClouds(model.getCloudList());</b>
-<b class="nc"><i class="no-highlight">541</i>&nbsp;        loadPlayers(model.getPlayersList());</b>
-<b class="nc"><i class="no-highlight">542</i>&nbsp;        if (model.isExpertMode()) {</b>
-<b class="nc"><i class="no-highlight">543</i>&nbsp;            loadCharacters(gameModel.getCharactersList());</b>
-<b class="nc"><i class="no-highlight">544</i>&nbsp;            tableMoneyLabel.setVisible(true);</b>
-<b class="nc"><i class="no-highlight">545</i>&nbsp;            imageViewTableMoney.setVisible(true);</b>
-<b class="nc"><i class="no-highlight">546</i>&nbsp;            tableMoneyLabel.setText(gameModel.getTableMoney() + &quot; coins&quot;);</b>
-<i class="no-highlight">547</i>&nbsp;        } else {
-<b class="nc"><i class="no-highlight">548</i>&nbsp;            character1Pane.setManaged(false);</b>
-<b class="nc"><i class="no-highlight">549</i>&nbsp;            character2Pane.setManaged(false);</b>
-<b class="nc"><i class="no-highlight">550</i>&nbsp;            character3Pane.setManaged(false);</b>
-<i class="no-highlight">551</i>&nbsp;        }
-<i class="no-highlight">552</i>&nbsp;
-<b class="nc"><i class="no-highlight">553</i>&nbsp;        if (stage != null &amp;&amp; stage.isShowing()) {</b>
-<b class="nc"><i class="no-highlight">554</i>&nbsp;            currDashboardController.loadDashboard(((ReducedPlayer) dashboardScene.getUserData()).getDashboard(), ((ReducedPlayer) dashboardScene.getUserData()).getPlayerTowerColor());</b>
-<i class="no-highlight">555</i>&nbsp;        }
-<i class="no-highlight">556</i>&nbsp;    }
-<i class="no-highlight">557</i>&nbsp;
-<i class="no-highlight">558</i>&nbsp;    /**
-<i class="no-highlight">559</i>&nbsp;     * loads the players in the graphic
-<i class="no-highlight">560</i>&nbsp;     *
-<i class="no-highlight">561</i>&nbsp;     * @param playerList
-<i class="no-highlight">562</i>&nbsp;     */
-<i class="no-highlight">563</i>&nbsp;    private void loadPlayers(List&lt;ReducedPlayer&gt; playerList) {
-<b class="nc"><i class="no-highlight">564</i>&nbsp;        int i = 0;</b>
-<b class="nc"><i class="no-highlight">565</i>&nbsp;        for (ReducedPlayer player : playerList) {</b>
-<b class="nc"><i class="no-highlight">566</i>&nbsp;            dashboardArray[i].setVisible(true);</b>
-<b class="nc"><i class="no-highlight">567</i>&nbsp;            loadPlayer(dashboardArray[i], player);</b>
-<b class="nc"><i class="no-highlight">568</i>&nbsp;            i++;</b>
-<b class="nc"><i class="no-highlight">569</i>&nbsp;        }</b>
-<i class="no-highlight">570</i>&nbsp;    }
-<i class="no-highlight">571</i>&nbsp;
-<i class="no-highlight">572</i>&nbsp;    /**
-<i class="no-highlight">573</i>&nbsp;     * loads the selected player
-<i class="no-highlight">574</i>&nbsp;     *
-<i class="no-highlight">575</i>&nbsp;     * @param playerPane pane where to load the player
-<i class="no-highlight">576</i>&nbsp;     * @param player     player to load
-<i class="no-highlight">577</i>&nbsp;     */
-<i class="no-highlight">578</i>&nbsp;    private void loadPlayer(HBox playerPane, ReducedPlayer player) {
-<b class="nc"><i class="no-highlight">579</i>&nbsp;        StackPane dashboardPane = (StackPane) playerPane.getChildren().get(0);</b>
-<b class="nc"><i class="no-highlight">580</i>&nbsp;        Button button = (Button) dashboardPane.getChildren().get(1);</b>
-<i class="no-highlight">581</i>&nbsp;
-<b class="nc"><i class="no-highlight">582</i>&nbsp;        String buttonText = &quot;&quot;;</b>
-<b class="nc"><i class="no-highlight">583</i>&nbsp;        buttonText += player.getName();</b>
-<i class="no-highlight">584</i>&nbsp;
-<b class="nc"><i class="no-highlight">585</i>&nbsp;        if (player.getId() == gameModel.getMyPlayerId()) {</b>
-<b class="nc"><i class="no-highlight">586</i>&nbsp;            buttonText += &quot; (Me)&quot;;</b>
-<i class="no-highlight">587</i>&nbsp;        }
-<i class="no-highlight">588</i>&nbsp;
-<b class="nc"><i class="no-highlight">589</i>&nbsp;        if (gameModel.isExpertMode()) {</b>
-<b class="nc"><i class="no-highlight">590</i>&nbsp;            buttonText += &quot; - Coins: &quot; + player.getNumOfMoney();</b>
-<i class="no-highlight">591</i>&nbsp;        }
-<i class="no-highlight">592</i>&nbsp;
-<b class="nc"><i class="no-highlight">593</i>&nbsp;        if (gameModel.getNumOfPlayers() == 4) {</b>
-<b class="nc"><i class="no-highlight">594</i>&nbsp;            for (ReducedPlayer currP : gameModel.getPlayersList()) {</b>
-<b class="nc"><i class="no-highlight">595</i>&nbsp;                if (currP != player &amp;&amp; currP.getTeam() == player.getTeam()) {</b>
-<b class="nc"><i class="no-highlight">596</i>&nbsp;                    buttonText += &quot;\nTeam: &quot; + currP.getName();</b>
-<b class="nc"><i class="no-highlight">597</i>&nbsp;                    break;</b>
-<i class="no-highlight">598</i>&nbsp;                }
-<b class="nc"><i class="no-highlight">599</i>&nbsp;            }</b>
-<i class="no-highlight">600</i>&nbsp;        }
-<i class="no-highlight">601</i>&nbsp;
-<b class="nc"><i class="no-highlight">602</i>&nbsp;        button.setText(buttonText);</b>
-<i class="no-highlight">603</i>&nbsp;
-<b class="nc"><i class="no-highlight">604</i>&nbsp;        ImageView thrownAssistantImage = (ImageView) playerPane.getChildren().get(1);</b>
-<b class="nc"><i class="no-highlight">605</i>&nbsp;        if (player.getSelectedAssistant() != null) {</b>
-<b class="nc"><i class="no-highlight">606</i>&nbsp;            getAssistantImage(player.getSelectedAssistant().getId(), thrownAssistantImage);</b>
-<i class="no-highlight">607</i>&nbsp;        } else {
-<b class="nc"><i class="no-highlight">608</i>&nbsp;            getWizardImage(player.getWizard(), thrownAssistantImage);</b>
-<i class="no-highlight">609</i>&nbsp;        }
-<i class="no-highlight">610</i>&nbsp;
-<i class="no-highlight">611</i>&nbsp;
-<i class="no-highlight">612</i>&nbsp;    }
-<i class="no-highlight">613</i>&nbsp;
-<i class="no-highlight">614</i>&nbsp;    /**
-<i class="no-highlight">615</i>&nbsp;     * loads the characters in the graphic
-<i class="no-highlight">616</i>&nbsp;     *
-<i class="no-highlight">617</i>&nbsp;     * @param characterList
-<i class="no-highlight">618</i>&nbsp;     */
-<i class="no-highlight">619</i>&nbsp;    private void loadCharacters(List&lt;ReducedCharacter&gt; characterList) {
-<b class="nc"><i class="no-highlight">620</i>&nbsp;        int i = 0;</b>
-<b class="nc"><i class="no-highlight">621</i>&nbsp;        for (ReducedCharacter character : characterList) {</b>
-<b class="nc"><i class="no-highlight">622</i>&nbsp;            characterArray[i].setVisible(true);</b>
-<b class="nc"><i class="no-highlight">623</i>&nbsp;            StackPane characterPane = characterArray[i];</b>
-<b class="nc"><i class="no-highlight">624</i>&nbsp;            if (characterPane.getChildren().size() != 1) {</b>
-<b class="nc"><i class="no-highlight">625</i>&nbsp;                characterPane.getChildren().remove(1);</b>
-<i class="no-highlight">626</i>&nbsp;            }
-<b class="nc"><i class="no-highlight">627</i>&nbsp;            loadCharacter(characterPane, character);</b>
-<b class="nc"><i class="no-highlight">628</i>&nbsp;            i++;</b>
-<b class="nc"><i class="no-highlight">629</i>&nbsp;        }</b>
-<i class="no-highlight">630</i>&nbsp;    }
-<i class="no-highlight">631</i>&nbsp;
-<i class="no-highlight">632</i>&nbsp;    /**
-<i class="no-highlight">633</i>&nbsp;     * loads the character
-<i class="no-highlight">634</i>&nbsp;     *
-<i class="no-highlight">635</i>&nbsp;     * @param characterPane selected Pane
-<i class="no-highlight">636</i>&nbsp;     * @param character     selected character
-<i class="no-highlight">637</i>&nbsp;     */
-<i class="no-highlight">638</i>&nbsp;    private void loadCharacter(StackPane characterPane, ReducedCharacter character) {
-<b class="nc"><i class="no-highlight">639</i>&nbsp;        ImageView charImageView = (ImageView) characterPane.getChildren().get(0);</b>
-<b class="nc"><i class="no-highlight">640</i>&nbsp;        getCharacterImage(character.getId(), charImageView);</b>
-<i class="no-highlight">641</i>&nbsp;    }
-<i class="no-highlight">642</i>&nbsp;
-<i class="no-highlight">643</i>&nbsp;    /**
-<i class="no-highlight">644</i>&nbsp;     * loads the clouds in the graphic
-<i class="no-highlight">645</i>&nbsp;     *
-<i class="no-highlight">646</i>&nbsp;     * @param cloudList
-<i class="no-highlight">647</i>&nbsp;     */
-<i class="no-highlight">648</i>&nbsp;    private void loadClouds(List&lt;ReducedCloud&gt; cloudList) {
-<b class="nc"><i class="no-highlight">649</i>&nbsp;        int i = 0;</b>
-<b class="nc"><i class="no-highlight">650</i>&nbsp;        for (ReducedCloud c : cloudList) {</b>
-<b class="nc"><i class="no-highlight">651</i>&nbsp;            cloudArray[i].setVisible(true);</b>
-<b class="nc"><i class="no-highlight">652</i>&nbsp;            StackPane cloudPane = cloudArray[i];</b>
-<b class="nc"><i class="no-highlight">653</i>&nbsp;            if (cloudPane.getChildren().size() != 1) {</b>
-<b class="nc"><i class="no-highlight">654</i>&nbsp;                cloudPane.getChildren().remove(1);</b>
-<i class="no-highlight">655</i>&nbsp;            }
-<b class="nc"><i class="no-highlight">656</i>&nbsp;            loadCloud(cloudPane, c);</b>
-<b class="nc"><i class="no-highlight">657</i>&nbsp;            i++;</b>
-<b class="nc"><i class="no-highlight">658</i>&nbsp;        }</b>
-<i class="no-highlight">659</i>&nbsp;    }
-<i class="no-highlight">660</i>&nbsp;
-<i class="no-highlight">661</i>&nbsp;    /**
-<i class="no-highlight">662</i>&nbsp;     * load the cloud
-<i class="no-highlight">663</i>&nbsp;     *
-<i class="no-highlight">664</i>&nbsp;     * @param cloudPane selected Pane
-<i class="no-highlight">665</i>&nbsp;     * @param cloud     selected cloud
-<i class="no-highlight">666</i>&nbsp;     */
-<i class="no-highlight">667</i>&nbsp;    private void loadCloud(StackPane cloudPane, ReducedCloud cloud) {
-<b class="nc"><i class="no-highlight">668</i>&nbsp;        AnchorPane anchorPane = new AnchorPane();</b>
-<b class="nc"><i class="no-highlight">669</i>&nbsp;        double[][] positions = {{25, 30}, {58, 30}, {25, 63}, {58, 63}};</b>
-<i class="no-highlight">670</i>&nbsp;
-<b class="nc"><i class="no-highlight">671</i>&nbsp;        int i = 0;</b>
-<b class="nc"><i class="no-highlight">672</i>&nbsp;        for (PawnColor pawn : cloud.getStudentsList()) {</b>
-<b class="nc"><i class="no-highlight">673</i>&nbsp;            ImageView pawnImageView = getPawnImage(pawn);</b>
-<b class="nc"><i class="no-highlight">674</i>&nbsp;            pawnImageView.setFitHeight(30);</b>
-<b class="nc"><i class="no-highlight">675</i>&nbsp;            pawnImageView.setFitWidth(30);</b>
-<b class="nc"><i class="no-highlight">676</i>&nbsp;            pawnImageView.setLayoutX(positions[i][0]);</b>
-<b class="nc"><i class="no-highlight">677</i>&nbsp;            pawnImageView.setLayoutY(positions[i][1]);</b>
-<b class="nc"><i class="no-highlight">678</i>&nbsp;            anchorPane.getChildren().add(pawnImageView);</b>
-<b class="nc"><i class="no-highlight">679</i>&nbsp;            i++;</b>
-<b class="nc"><i class="no-highlight">680</i>&nbsp;        }</b>
-<i class="no-highlight">681</i>&nbsp;
-<b class="nc"><i class="no-highlight">682</i>&nbsp;        cloudPane.getChildren().add(anchorPane);</b>
-<i class="no-highlight">683</i>&nbsp;
-<i class="no-highlight">684</i>&nbsp;    }
-<i class="no-highlight">685</i>&nbsp;
-<i class="no-highlight">686</i>&nbsp;    /**
-<i class="no-highlight">687</i>&nbsp;     * load the islands in the graphics
-<i class="no-highlight">688</i>&nbsp;     *
-<i class="no-highlight">689</i>&nbsp;     * @param islandList   list of islands
-<i class="no-highlight">690</i>&nbsp;     * @param motherNature mother nature position
-<i class="no-highlight">691</i>&nbsp;     */
-<i class="no-highlight">692</i>&nbsp;    private void loadIslands(List&lt;ReducedIsland&gt; islandList, int motherNature) {
-<b class="nc"><i class="no-highlight">693</i>&nbsp;        int i = 0, index = -1;</b>
-<i class="no-highlight">694</i>&nbsp;        boolean motherNatureHere;
-<b class="nc"><i class="no-highlight">695</i>&nbsp;        for (int j = 0; j &lt; 12; j++) {</b>
-<b class="nc"><i class="no-highlight">696</i>&nbsp;            islandToId[j] = -1;</b>
-<i class="no-highlight">697</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">698</i>&nbsp;        for (ReducedIsland island : islandList) {</b>
-<b class="nc"><i class="no-highlight">699</i>&nbsp;            motherNatureHere = motherNature == i;</b>
-<b class="nc"><i class="no-highlight">700</i>&nbsp;            index += island.getWeight();</b>
-<b class="nc"><i class="no-highlight">701</i>&nbsp;            StackPane islandPane = islandArray[index];</b>
-<b class="nc"><i class="no-highlight">702</i>&nbsp;            if (islandPane.getChildren().size() != 1) { //clear the old islands</b>
-<b class="nc"><i class="no-highlight">703</i>&nbsp;                islandPane.getChildren().remove(1);</b>
-<i class="no-highlight">704</i>&nbsp;            }
-<b class="nc"><i class="no-highlight">705</i>&nbsp;            islandToId[index] = i;</b>
-<b class="nc"><i class="no-highlight">706</i>&nbsp;            loadIsland(islandPane, island, motherNatureHere);</b>
-<b class="nc"><i class="no-highlight">707</i>&nbsp;            i++;</b>
-<b class="nc"><i class="no-highlight">708</i>&nbsp;        }</b>
-<b class="nc"><i class="no-highlight">709</i>&nbsp;        for (int j = 0; j &lt; 12; j++) {</b>
-<b class="nc"><i class="no-highlight">710</i>&nbsp;            if (islandToId[j] == -1) {</b>
-<b class="nc"><i class="no-highlight">711</i>&nbsp;                islandArray[j].setVisible(false);</b>
-<i class="no-highlight">712</i>&nbsp;            }
-<i class="no-highlight">713</i>&nbsp;        }
-<i class="no-highlight">714</i>&nbsp;    }
-<i class="no-highlight">715</i>&nbsp;
-<i class="no-highlight">716</i>&nbsp;    /**
-<i class="no-highlight">717</i>&nbsp;     * load selected island
-<i class="no-highlight">718</i>&nbsp;     *
-<i class="no-highlight">719</i>&nbsp;     * @param islandPane   selected Pane
-<i class="no-highlight">720</i>&nbsp;     * @param island
-<i class="no-highlight">721</i>&nbsp;     * @param motherNature true if mother nature is on the island
-<i class="no-highlight">722</i>&nbsp;     */
-<i class="no-highlight">723</i>&nbsp;    private void loadIsland(StackPane islandPane, ReducedIsland island, boolean motherNature) {
-<b class="nc"><i class="no-highlight">724</i>&nbsp;        islandPane.setVisible(true);</b>
-<b class="nc"><i class="no-highlight">725</i>&nbsp;        AnchorPane anchorPane = new AnchorPane();</b>
-<i class="no-highlight">726</i>&nbsp;
-<i class="no-highlight">727</i>&nbsp;        //preload colors
-<b class="nc"><i class="no-highlight">728</i>&nbsp;        Map&lt;PawnColor, Integer&gt; colorsMap = new HashMap&lt;&gt;();</b>
-<b class="nc"><i class="no-highlight">729</i>&nbsp;        for (PawnColor p : island.getStudentsList()) {</b>
-<b class="nc"><i class="no-highlight">730</i>&nbsp;            Integer existingNum = colorsMap.get(p);</b>
-<b class="nc"><i class="no-highlight">731</i>&nbsp;            if (existingNum == null) {</b>
-<b class="nc"><i class="no-highlight">732</i>&nbsp;                colorsMap.put(p, 1);</b>
-<i class="no-highlight">733</i>&nbsp;            } else {
-<b class="nc"><i class="no-highlight">734</i>&nbsp;                colorsMap.put(p, ++existingNum);</b>
-<i class="no-highlight">735</i>&nbsp;            }
-<b class="nc"><i class="no-highlight">736</i>&nbsp;        }</b>
-<i class="no-highlight">737</i>&nbsp;
-<i class="no-highlight">738</i>&nbsp;        //draw students
-<b class="nc"><i class="no-highlight">739</i>&nbsp;        int vPos = 18;</b>
-<b class="nc"><i class="no-highlight">740</i>&nbsp;        for (PawnColor p : PawnColor.values()) {</b>
-<b class="nc"><i class="no-highlight">741</i>&nbsp;            if (colorsMap.get(p) != null) {</b>
-<b class="nc"><i class="no-highlight">742</i>&nbsp;                ImageView pawnImageView = getPawnImage(p);</b>
-<b class="nc"><i class="no-highlight">743</i>&nbsp;                pawnImageView.setLayoutX(40);</b>
-<b class="nc"><i class="no-highlight">744</i>&nbsp;                pawnImageView.setLayoutY(vPos);</b>
-<b class="nc"><i class="no-highlight">745</i>&nbsp;                anchorPane.getChildren().add(pawnImageView);</b>
-<i class="no-highlight">746</i>&nbsp;
-<b class="nc"><i class="no-highlight">747</i>&nbsp;                Label label = new Label(&quot;&quot; + colorsMap.get(p));</b>
-<b class="nc"><i class="no-highlight">748</i>&nbsp;                label.setFont(Font.font(&quot;System&quot;, FontWeight.NORMAL, 13));</b>
-<b class="nc"><i class="no-highlight">749</i>&nbsp;                label.setTextFill(Color.WHITE);</b>
-<b class="nc"><i class="no-highlight">750</i>&nbsp;                label.setLayoutX(62);</b>
-<b class="nc"><i class="no-highlight">751</i>&nbsp;                label.setLayoutY(vPos);</b>
-<b class="nc"><i class="no-highlight">752</i>&nbsp;                anchorPane.getChildren().add(label);</b>
-<b class="nc"><i class="no-highlight">753</i>&nbsp;                vPos += 20;</b>
-<i class="no-highlight">754</i>&nbsp;            }
-<i class="no-highlight">755</i>&nbsp;        }
-<i class="no-highlight">756</i>&nbsp;
-<i class="no-highlight">757</i>&nbsp;        //draw mother nature
-<b class="nc"><i class="no-highlight">758</i>&nbsp;        if (motherNature) {</b>
-<b class="nc"><i class="no-highlight">759</i>&nbsp;            ImageView mnImageView = new ImageView();</b>
-<b class="nc"><i class="no-highlight">760</i>&nbsp;            mnImageView.setImage(new Image(getClass().getResourceAsStream(&quot;/images/mother_nature.png&quot;)));</b>
-<b class="nc"><i class="no-highlight">761</i>&nbsp;            mnImageView.setFitWidth(61);</b>
-<b class="nc"><i class="no-highlight">762</i>&nbsp;            mnImageView.setFitHeight(61);</b>
-<b class="nc"><i class="no-highlight">763</i>&nbsp;            mnImageView.setLayoutX(72);</b>
-<b class="nc"><i class="no-highlight">764</i>&nbsp;            mnImageView.setLayoutY(-3);</b>
-<b class="nc"><i class="no-highlight">765</i>&nbsp;            anchorPane.getChildren().add(mnImageView);</b>
-<i class="no-highlight">766</i>&nbsp;        }
-<i class="no-highlight">767</i>&nbsp;
-<i class="no-highlight">768</i>&nbsp;
-<i class="no-highlight">769</i>&nbsp;        //draw tower
-<b class="nc"><i class="no-highlight">770</i>&nbsp;        if (island.getTowerColor() != null) {</b>
-<b class="nc"><i class="no-highlight">771</i>&nbsp;            ImageView towerImageView = getTowerImage(island.getTowerColor());</b>
-<b class="nc"><i class="no-highlight">772</i>&nbsp;            towerImageView.setLayoutX(76);</b>
-<b class="nc"><i class="no-highlight">773</i>&nbsp;            towerImageView.setLayoutY(60);</b>
-<b class="nc"><i class="no-highlight">774</i>&nbsp;            anchorPane.getChildren().add(towerImageView);</b>
-<i class="no-highlight">775</i>&nbsp;
-<b class="nc"><i class="no-highlight">776</i>&nbsp;            Label towerLabel = new Label(&quot;&quot; + island.getWeight());</b>
-<b class="nc"><i class="no-highlight">777</i>&nbsp;            towerLabel.setFont(Font.font(&quot;System&quot;, FontWeight.BOLD, 17));</b>
-<b class="nc"><i class="no-highlight">778</i>&nbsp;            towerLabel.setTextFill(Color.WHITE);</b>
-<b class="nc"><i class="no-highlight">779</i>&nbsp;            towerLabel.setLayoutX(117);</b>
-<b class="nc"><i class="no-highlight">780</i>&nbsp;            towerLabel.setLayoutY(71);</b>
-<b class="nc"><i class="no-highlight">781</i>&nbsp;            anchorPane.getChildren().add(towerLabel);</b>
-<i class="no-highlight">782</i>&nbsp;        }
-<i class="no-highlight">783</i>&nbsp;
-<i class="no-highlight">784</i>&nbsp;        //draw forbid cards
-<b class="nc"><i class="no-highlight">785</i>&nbsp;        if (island.getForbidCards() != 0) {</b>
-<b class="nc"><i class="no-highlight">786</i>&nbsp;            ImageView forbidCardImageView = new ImageView();</b>
-<b class="nc"><i class="no-highlight">787</i>&nbsp;            forbidCardImageView.setImage(new Image(getClass().getResourceAsStream(&quot;/images/deny_icon.png&quot;)));</b>
-<b class="nc"><i class="no-highlight">788</i>&nbsp;            forbidCardImageView.setFitWidth(40);</b>
-<b class="nc"><i class="no-highlight">789</i>&nbsp;            forbidCardImageView.setFitHeight(40);</b>
-<b class="nc"><i class="no-highlight">790</i>&nbsp;            forbidCardImageView.setLayoutX(0);</b>
-<b class="nc"><i class="no-highlight">791</i>&nbsp;            forbidCardImageView.setLayoutY(60);</b>
-<b class="nc"><i class="no-highlight">792</i>&nbsp;            anchorPane.getChildren().add(forbidCardImageView);</b>
-<i class="no-highlight">793</i>&nbsp;
-<b class="nc"><i class="no-highlight">794</i>&nbsp;            Label forbidLabel = new Label(&quot;&quot; + island.getForbidCards());</b>
-<b class="nc"><i class="no-highlight">795</i>&nbsp;            forbidLabel.setFont(Font.font(&quot;System&quot;, FontWeight.BOLD, 15));</b>
-<b class="nc"><i class="no-highlight">796</i>&nbsp;            forbidLabel.setTextFill(Color.WHITE);</b>
-<b class="nc"><i class="no-highlight">797</i>&nbsp;            forbidLabel.setLayoutX(16);</b>
-<b class="nc"><i class="no-highlight">798</i>&nbsp;            forbidLabel.setLayoutY(40);</b>
-<b class="nc"><i class="no-highlight">799</i>&nbsp;            anchorPane.getChildren().add(forbidLabel);</b>
-<i class="no-highlight">800</i>&nbsp;        }
-<i class="no-highlight">801</i>&nbsp;
-<b class="nc"><i class="no-highlight">802</i>&nbsp;        islandPane.getChildren().add(anchorPane);</b>
-<i class="no-highlight">803</i>&nbsp;    }
-<i class="no-highlight">804</i>&nbsp;
-<i class="no-highlight">805</i>&nbsp;    /**
-<i class="no-highlight">806</i>&nbsp;     * load assistants on the graphic
-<i class="no-highlight">807</i>&nbsp;     *
-<i class="no-highlight">808</i>&nbsp;     * @param assistantList
-<i class="no-highlight">809</i>&nbsp;     */
-<i class="no-highlight">810</i>&nbsp;    private void loadAssistants(List&lt;ReducedAssistant&gt; assistantList) {
-<b class="nc"><i class="no-highlight">811</i>&nbsp;        assistantsPane.getChildren().clear();</b>
-<b class="nc"><i class="no-highlight">812</i>&nbsp;        for (ReducedAssistant assistant : assistantList) {</b>
-<b class="nc"><i class="no-highlight">813</i>&nbsp;            ImageView assistantImageView = getAssistantImage(assistant.getId());</b>
-<b class="nc"><i class="no-highlight">814</i>&nbsp;            assistantsPane.getChildren().add(assistantImageView);</b>
-<b class="nc"><i class="no-highlight">815</i>&nbsp;            assistantImageView.setUserData(assistant.getId());</b>
-<b class="nc"><i class="no-highlight">816</i>&nbsp;            assistantImageView.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onAssistantClick);</b>
-<b class="nc"><i class="no-highlight">817</i>&nbsp;            assistantImageView.setOnMouseEntered((e) -&gt; {</b>
-<b class="nc"><i class="no-highlight">818</i>&nbsp;                assistantImageView.setScaleX(1.04);</b>
-<b class="nc"><i class="no-highlight">819</i>&nbsp;                assistantImageView.setScaleY(1.04);</b>
-<i class="no-highlight">820</i>&nbsp;            });
-<b class="nc"><i class="no-highlight">821</i>&nbsp;            assistantImageView.setOnMouseExited((e) -&gt; {</b>
-<b class="nc"><i class="no-highlight">822</i>&nbsp;                assistantImageView.setScaleX(1);</b>
-<b class="nc"><i class="no-highlight">823</i>&nbsp;                assistantImageView.setScaleY(1);</b>
-<i class="no-highlight">824</i>&nbsp;            });
-<b class="nc"><i class="no-highlight">825</i>&nbsp;        }</b>
-<i class="no-highlight">826</i>&nbsp;
-<i class="no-highlight">827</i>&nbsp;    }
-<i class="no-highlight">828</i>&nbsp;
-<i class="no-highlight">829</i>&nbsp;    /**
-<i class="no-highlight">830</i>&nbsp;     * load all the table components in an array to iterate on them
-<i class="no-highlight">831</i>&nbsp;     */
-<i class="no-highlight">832</i>&nbsp;    private void loadGraphicsArrays() {
-<b class="nc"><i class="no-highlight">833</i>&nbsp;        islandArray[0] = island1Pane;</b>
-<b class="nc"><i class="no-highlight">834</i>&nbsp;        islandArray[1] = island2Pane;</b>
-<b class="nc"><i class="no-highlight">835</i>&nbsp;        islandArray[2] = island3Pane;</b>
-<b class="nc"><i class="no-highlight">836</i>&nbsp;        islandArray[3] = island4Pane;</b>
-<b class="nc"><i class="no-highlight">837</i>&nbsp;        islandArray[4] = island5Pane;</b>
-<b class="nc"><i class="no-highlight">838</i>&nbsp;        islandArray[5] = island6Pane;</b>
-<b class="nc"><i class="no-highlight">839</i>&nbsp;        islandArray[6] = island7Pane;</b>
-<b class="nc"><i class="no-highlight">840</i>&nbsp;        islandArray[7] = island8Pane;</b>
-<b class="nc"><i class="no-highlight">841</i>&nbsp;        islandArray[8] = island9Pane;</b>
-<b class="nc"><i class="no-highlight">842</i>&nbsp;        islandArray[9] = island10Pane;</b>
-<b class="nc"><i class="no-highlight">843</i>&nbsp;        islandArray[10] = island11Pane;</b>
-<b class="nc"><i class="no-highlight">844</i>&nbsp;        islandArray[11] = island12Pane;</b>
-<b class="nc"><i class="no-highlight">845</i>&nbsp;        dashboardArray[0] = HboxPlayer1;</b>
-<b class="nc"><i class="no-highlight">846</i>&nbsp;        dashboardArray[1] = HboxPlayer2;</b>
-<b class="nc"><i class="no-highlight">847</i>&nbsp;        dashboardArray[2] = HboxPlayer3;</b>
-<b class="nc"><i class="no-highlight">848</i>&nbsp;        dashboardArray[3] = HboxPlayer4;</b>
-<b class="nc"><i class="no-highlight">849</i>&nbsp;        cloudArray[0] = cloud1Pane;</b>
-<b class="nc"><i class="no-highlight">850</i>&nbsp;        cloudArray[1] = cloud2Pane;</b>
-<b class="nc"><i class="no-highlight">851</i>&nbsp;        cloudArray[2] = cloud3Pane;</b>
-<b class="nc"><i class="no-highlight">852</i>&nbsp;        cloudArray[3] = cloud4Pane;</b>
-<b class="nc"><i class="no-highlight">853</i>&nbsp;        characterArray[0] = character1Pane;</b>
-<b class="nc"><i class="no-highlight">854</i>&nbsp;        characterArray[1] = character2Pane;</b>
-<b class="nc"><i class="no-highlight">855</i>&nbsp;        characterArray[2] = character3Pane;</b>
-<i class="no-highlight">856</i>&nbsp;    }
-<i class="no-highlight">857</i>&nbsp;
-<i class="no-highlight">858</i>&nbsp;    /**
-<i class="no-highlight">859</i>&nbsp;     * close dashboard or character stages if opened when we exit the game
-<i class="no-highlight">860</i>&nbsp;     */
-<i class="no-highlight">861</i>&nbsp;    public void closeAllPopups() {
-<b class="nc"><i class="no-highlight">862</i>&nbsp;        if (stage != null &amp;&amp; stage.isShowing()) {</b>
-<b class="nc"><i class="no-highlight">863</i>&nbsp;            stage.close();</b>
-<i class="no-highlight">864</i>&nbsp;        }
-<i class="no-highlight">865</i>&nbsp;    }
-<i class="no-highlight">866</i>&nbsp;
-<i class="no-highlight">867</i>&nbsp;    /**
-<i class="no-highlight">868</i>&nbsp;     * get imageview of selected Pawn
-<i class="no-highlight">869</i>&nbsp;     *
-<i class="no-highlight">870</i>&nbsp;     * @param color
-<i class="no-highlight">871</i>&nbsp;     * @return ImageView
-<i class="no-highlight">872</i>&nbsp;     */
-<i class="no-highlight">873</i>&nbsp;    private ImageView getPawnImage(PawnColor color) {
-<b class="nc"><i class="no-highlight">874</i>&nbsp;        ImageView imageView = new ImageView();</b>
-<b class="nc"><i class="no-highlight">875</i>&nbsp;        String path = &quot;/images/&quot;;</b>
-<b class="nc"><i class="no-highlight">876</i>&nbsp;        switch (color) {</b>
-<i class="no-highlight">877</i>&nbsp;            case RED:
-<b class="nc"><i class="no-highlight">878</i>&nbsp;                path += &quot;redStudent3D.png&quot;;</b>
+<b class="nc"><i class="no-highlight">508</i>&nbsp;        stage.setScene(dashboardScene);</b>
+<b class="nc"><i class="no-highlight">509</i>&nbsp;        stage.setTitle(&quot;Select from dashboard&quot;);</b>
+<b class="nc"><i class="no-highlight">510</i>&nbsp;        stage.setWidth(999);</b>
+<b class="nc"><i class="no-highlight">511</i>&nbsp;        stage.setHeight(434);</b>
+<b class="nc"><i class="no-highlight">512</i>&nbsp;        stage.setResizable(false);</b>
+<b class="nc"><i class="no-highlight">513</i>&nbsp;        stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i class="no-highlight">514</i>&nbsp;        DashboardSceneController dashboardController = loader.getController();</b>
+<b class="nc"><i class="no-highlight">515</i>&nbsp;        dashboardController.setStage(stage);</b>
+<b class="nc"><i class="no-highlight">516</i>&nbsp;        dashboardController.selectionMode(entranceChoice, isCharacter10);</b>
+<b class="nc"><i class="no-highlight">517</i>&nbsp;        dashboardController.loadDashboard(gameModel.findPlayerById(gameModel.getMyPlayerId()).getDashboard(), gameModel.findPlayerById(gameModel.getMyPlayerId()).getPlayerTowerColor());</b>
+<b class="nc"><i class="no-highlight">518</i>&nbsp;        currDashboardController = dashboardController;</b>
+<b class="nc"><i class="no-highlight">519</i>&nbsp;        stage.showAndWait();</b>
+<b class="nc"><i class="no-highlight">520</i>&nbsp;        dashboardEntranceSelection = dashboardController.getEntranceChoiceSelection();</b>
+<b class="nc"><i class="no-highlight">521</i>&nbsp;        dashboardHallSelection = dashboardController.getHallChoiceSelection();</b>
+<b class="nc"><i class="no-highlight">522</i>&nbsp;        return dashboardController.isSelectionSuccess();</b>
+<i class="no-highlight">523</i>&nbsp;    }
+<i class="no-highlight">524</i>&nbsp;
+<i class="no-highlight">525</i>&nbsp;    /**
+<i class="no-highlight">526</i>&nbsp;     * function called by gui when new data arrives
+<i class="no-highlight">527</i>&nbsp;     *
+<i class="no-highlight">528</i>&nbsp;     * @param model game to show
+<i class="no-highlight">529</i>&nbsp;     */
+<i class="no-highlight">530</i>&nbsp;    public void updateGraphics(ClientGameModel model) {
+<b class="nc"><i class="no-highlight">531</i>&nbsp;        gameModel = model;</b>
+<b class="nc"><i class="no-highlight">532</i>&nbsp;        loadAssistants(model.getAssistantList());</b>
+<b class="nc"><i class="no-highlight">533</i>&nbsp;        loadIslands(model.getIslandList(), model.getMotherNaturePos());</b>
+<b class="nc"><i class="no-highlight">534</i>&nbsp;        loadClouds(model.getCloudList());</b>
+<b class="nc"><i class="no-highlight">535</i>&nbsp;        loadPlayers(model.getPlayersList());</b>
+<b class="nc"><i class="no-highlight">536</i>&nbsp;        if (model.isExpertMode()) {</b>
+<b class="nc"><i class="no-highlight">537</i>&nbsp;            loadCharacters(gameModel.getCharactersList());</b>
+<b class="nc"><i class="no-highlight">538</i>&nbsp;            tableMoneyLabel.setVisible(true);</b>
+<b class="nc"><i class="no-highlight">539</i>&nbsp;            imageViewTableMoney.setVisible(true);</b>
+<b class="nc"><i class="no-highlight">540</i>&nbsp;            tableMoneyLabel.setText(gameModel.getTableMoney() + &quot; coins&quot;);</b>
+<i class="no-highlight">541</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">542</i>&nbsp;            character1Pane.setManaged(false);</b>
+<b class="nc"><i class="no-highlight">543</i>&nbsp;            character2Pane.setManaged(false);</b>
+<b class="nc"><i class="no-highlight">544</i>&nbsp;            character3Pane.setManaged(false);</b>
+<i class="no-highlight">545</i>&nbsp;        }
+<i class="no-highlight">546</i>&nbsp;
+<b class="nc"><i class="no-highlight">547</i>&nbsp;        if (stage != null &amp;&amp; stage.isShowing()) {</b>
+<b class="nc"><i class="no-highlight">548</i>&nbsp;            currDashboardController.loadDashboard(((ReducedPlayer) dashboardScene.getUserData()).getDashboard(), ((ReducedPlayer) dashboardScene.getUserData()).getPlayerTowerColor());</b>
+<i class="no-highlight">549</i>&nbsp;        }
+<i class="no-highlight">550</i>&nbsp;    }
+<i class="no-highlight">551</i>&nbsp;
+<i class="no-highlight">552</i>&nbsp;    /**
+<i class="no-highlight">553</i>&nbsp;     * loads the players in the graphic
+<i class="no-highlight">554</i>&nbsp;     *
+<i class="no-highlight">555</i>&nbsp;     * @param playerList
+<i class="no-highlight">556</i>&nbsp;     */
+<i class="no-highlight">557</i>&nbsp;    private void loadPlayers(List&lt;ReducedPlayer&gt; playerList) {
+<b class="nc"><i class="no-highlight">558</i>&nbsp;        int i = 0;</b>
+<b class="nc"><i class="no-highlight">559</i>&nbsp;        for (ReducedPlayer player : playerList) {</b>
+<b class="nc"><i class="no-highlight">560</i>&nbsp;            dashboardArray[i].setVisible(true);</b>
+<b class="nc"><i class="no-highlight">561</i>&nbsp;            loadPlayer(dashboardArray[i], player);</b>
+<b class="nc"><i class="no-highlight">562</i>&nbsp;            i++;</b>
+<b class="nc"><i class="no-highlight">563</i>&nbsp;        }</b>
+<i class="no-highlight">564</i>&nbsp;    }
+<i class="no-highlight">565</i>&nbsp;
+<i class="no-highlight">566</i>&nbsp;    /**
+<i class="no-highlight">567</i>&nbsp;     * loads the selected player
+<i class="no-highlight">568</i>&nbsp;     *
+<i class="no-highlight">569</i>&nbsp;     * @param playerPane pane where to load the player
+<i class="no-highlight">570</i>&nbsp;     * @param player     player to load
+<i class="no-highlight">571</i>&nbsp;     */
+<i class="no-highlight">572</i>&nbsp;    private void loadPlayer(HBox playerPane, ReducedPlayer player) {
+<b class="nc"><i class="no-highlight">573</i>&nbsp;        StackPane dashboardPane = (StackPane) playerPane.getChildren().get(0);</b>
+<b class="nc"><i class="no-highlight">574</i>&nbsp;        Button button = (Button) dashboardPane.getChildren().get(1);</b>
+<i class="no-highlight">575</i>&nbsp;
+<b class="nc"><i class="no-highlight">576</i>&nbsp;        String buttonText = &quot;&quot;;</b>
+<b class="nc"><i class="no-highlight">577</i>&nbsp;        buttonText += player.getName();</b>
+<i class="no-highlight">578</i>&nbsp;
+<b class="nc"><i class="no-highlight">579</i>&nbsp;        if (player.getId() == gameModel.getMyPlayerId()) {</b>
+<b class="nc"><i class="no-highlight">580</i>&nbsp;            buttonText += &quot; (Me)&quot;;</b>
+<i class="no-highlight">581</i>&nbsp;        }
+<i class="no-highlight">582</i>&nbsp;
+<b class="nc"><i class="no-highlight">583</i>&nbsp;        if (gameModel.isExpertMode()) {</b>
+<b class="nc"><i class="no-highlight">584</i>&nbsp;            buttonText += &quot; - Coins: &quot; + player.getNumOfMoney();</b>
+<i class="no-highlight">585</i>&nbsp;        }
+<i class="no-highlight">586</i>&nbsp;
+<b class="nc"><i class="no-highlight">587</i>&nbsp;        if (gameModel.getNumOfPlayers() == 4) {</b>
+<b class="nc"><i class="no-highlight">588</i>&nbsp;            for (ReducedPlayer currP : gameModel.getPlayersList()) {</b>
+<b class="nc"><i class="no-highlight">589</i>&nbsp;                if (currP != player &amp;&amp; currP.getTeam() == player.getTeam()) {</b>
+<b class="nc"><i class="no-highlight">590</i>&nbsp;                    buttonText += &quot;\nTeam: &quot; + currP.getName();</b>
+<b class="nc"><i class="no-highlight">591</i>&nbsp;                    break;</b>
+<i class="no-highlight">592</i>&nbsp;                }
+<b class="nc"><i class="no-highlight">593</i>&nbsp;            }</b>
+<i class="no-highlight">594</i>&nbsp;        }
+<i class="no-highlight">595</i>&nbsp;
+<b class="nc"><i class="no-highlight">596</i>&nbsp;        button.setText(buttonText);</b>
+<i class="no-highlight">597</i>&nbsp;
+<b class="nc"><i class="no-highlight">598</i>&nbsp;        ImageView thrownAssistantImage = (ImageView) playerPane.getChildren().get(1);</b>
+<b class="nc"><i class="no-highlight">599</i>&nbsp;        if (player.getSelectedAssistant() != null) {</b>
+<b class="nc"><i class="no-highlight">600</i>&nbsp;            getAssistantImage(player.getSelectedAssistant().getId(), thrownAssistantImage);</b>
+<i class="no-highlight">601</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">602</i>&nbsp;            getWizardImage(player.getWizard(), thrownAssistantImage);</b>
+<i class="no-highlight">603</i>&nbsp;        }
+<i class="no-highlight">604</i>&nbsp;
+<i class="no-highlight">605</i>&nbsp;
+<i class="no-highlight">606</i>&nbsp;    }
+<i class="no-highlight">607</i>&nbsp;
+<i class="no-highlight">608</i>&nbsp;    /**
+<i class="no-highlight">609</i>&nbsp;     * loads the characters in the graphic
+<i class="no-highlight">610</i>&nbsp;     *
+<i class="no-highlight">611</i>&nbsp;     * @param characterList
+<i class="no-highlight">612</i>&nbsp;     */
+<i class="no-highlight">613</i>&nbsp;    private void loadCharacters(List&lt;ReducedCharacter&gt; characterList) {
+<b class="nc"><i class="no-highlight">614</i>&nbsp;        int i = 0;</b>
+<b class="nc"><i class="no-highlight">615</i>&nbsp;        for (ReducedCharacter character : characterList) {</b>
+<b class="nc"><i class="no-highlight">616</i>&nbsp;            characterArray[i].setVisible(true);</b>
+<b class="nc"><i class="no-highlight">617</i>&nbsp;            StackPane characterPane = characterArray[i];</b>
+<b class="nc"><i class="no-highlight">618</i>&nbsp;            if (characterPane.getChildren().size() != 1) {</b>
+<b class="nc"><i class="no-highlight">619</i>&nbsp;                characterPane.getChildren().remove(1);</b>
+<i class="no-highlight">620</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">621</i>&nbsp;            loadCharacter(characterPane, character);</b>
+<b class="nc"><i class="no-highlight">622</i>&nbsp;            i++;</b>
+<b class="nc"><i class="no-highlight">623</i>&nbsp;        }</b>
+<i class="no-highlight">624</i>&nbsp;    }
+<i class="no-highlight">625</i>&nbsp;
+<i class="no-highlight">626</i>&nbsp;    /**
+<i class="no-highlight">627</i>&nbsp;     * loads the character
+<i class="no-highlight">628</i>&nbsp;     *
+<i class="no-highlight">629</i>&nbsp;     * @param characterPane selected Pane
+<i class="no-highlight">630</i>&nbsp;     * @param character     selected character
+<i class="no-highlight">631</i>&nbsp;     */
+<i class="no-highlight">632</i>&nbsp;    private void loadCharacter(StackPane characterPane, ReducedCharacter character) {
+<b class="nc"><i class="no-highlight">633</i>&nbsp;        ImageView charImageView = (ImageView) characterPane.getChildren().get(0);</b>
+<b class="nc"><i class="no-highlight">634</i>&nbsp;        getCharacterImage(character.getId(), charImageView);</b>
+<i class="no-highlight">635</i>&nbsp;    }
+<i class="no-highlight">636</i>&nbsp;
+<i class="no-highlight">637</i>&nbsp;    /**
+<i class="no-highlight">638</i>&nbsp;     * loads the clouds in the graphic
+<i class="no-highlight">639</i>&nbsp;     *
+<i class="no-highlight">640</i>&nbsp;     * @param cloudList
+<i class="no-highlight">641</i>&nbsp;     */
+<i class="no-highlight">642</i>&nbsp;    private void loadClouds(List&lt;ReducedCloud&gt; cloudList) {
+<b class="nc"><i class="no-highlight">643</i>&nbsp;        int i = 0;</b>
+<b class="nc"><i class="no-highlight">644</i>&nbsp;        for (ReducedCloud c : cloudList) {</b>
+<b class="nc"><i class="no-highlight">645</i>&nbsp;            cloudArray[i].setVisible(true);</b>
+<b class="nc"><i class="no-highlight">646</i>&nbsp;            StackPane cloudPane = cloudArray[i];</b>
+<b class="nc"><i class="no-highlight">647</i>&nbsp;            if (cloudPane.getChildren().size() != 1) {</b>
+<b class="nc"><i class="no-highlight">648</i>&nbsp;                cloudPane.getChildren().remove(1);</b>
+<i class="no-highlight">649</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">650</i>&nbsp;            loadCloud(cloudPane, c);</b>
+<b class="nc"><i class="no-highlight">651</i>&nbsp;            i++;</b>
+<b class="nc"><i class="no-highlight">652</i>&nbsp;        }</b>
+<i class="no-highlight">653</i>&nbsp;    }
+<i class="no-highlight">654</i>&nbsp;
+<i class="no-highlight">655</i>&nbsp;    /**
+<i class="no-highlight">656</i>&nbsp;     * load the cloud
+<i class="no-highlight">657</i>&nbsp;     *
+<i class="no-highlight">658</i>&nbsp;     * @param cloudPane selected Pane
+<i class="no-highlight">659</i>&nbsp;     * @param cloud     selected cloud
+<i class="no-highlight">660</i>&nbsp;     */
+<i class="no-highlight">661</i>&nbsp;    private void loadCloud(StackPane cloudPane, ReducedCloud cloud) {
+<b class="nc"><i class="no-highlight">662</i>&nbsp;        AnchorPane anchorPane = new AnchorPane();</b>
+<b class="nc"><i class="no-highlight">663</i>&nbsp;        double[][] positions = {{25, 30}, {58, 30}, {25, 63}, {58, 63}};</b>
+<i class="no-highlight">664</i>&nbsp;
+<b class="nc"><i class="no-highlight">665</i>&nbsp;        int i = 0;</b>
+<b class="nc"><i class="no-highlight">666</i>&nbsp;        for (PawnColor pawn : cloud.getStudentsList()) {</b>
+<b class="nc"><i class="no-highlight">667</i>&nbsp;            ImageView pawnImageView = getPawnImage(pawn);</b>
+<b class="nc"><i class="no-highlight">668</i>&nbsp;            pawnImageView.setFitHeight(30);</b>
+<b class="nc"><i class="no-highlight">669</i>&nbsp;            pawnImageView.setFitWidth(30);</b>
+<b class="nc"><i class="no-highlight">670</i>&nbsp;            pawnImageView.setLayoutX(positions[i][0]);</b>
+<b class="nc"><i class="no-highlight">671</i>&nbsp;            pawnImageView.setLayoutY(positions[i][1]);</b>
+<b class="nc"><i class="no-highlight">672</i>&nbsp;            anchorPane.getChildren().add(pawnImageView);</b>
+<b class="nc"><i class="no-highlight">673</i>&nbsp;            i++;</b>
+<b class="nc"><i class="no-highlight">674</i>&nbsp;        }</b>
+<i class="no-highlight">675</i>&nbsp;
+<b class="nc"><i class="no-highlight">676</i>&nbsp;        cloudPane.getChildren().add(anchorPane);</b>
+<i class="no-highlight">677</i>&nbsp;
+<i class="no-highlight">678</i>&nbsp;    }
+<i class="no-highlight">679</i>&nbsp;
+<i class="no-highlight">680</i>&nbsp;    /**
+<i class="no-highlight">681</i>&nbsp;     * load the islands in the graphics
+<i class="no-highlight">682</i>&nbsp;     *
+<i class="no-highlight">683</i>&nbsp;     * @param islandList   list of islands
+<i class="no-highlight">684</i>&nbsp;     * @param motherNature mother nature position
+<i class="no-highlight">685</i>&nbsp;     */
+<i class="no-highlight">686</i>&nbsp;    private void loadIslands(List&lt;ReducedIsland&gt; islandList, int motherNature) {
+<b class="nc"><i class="no-highlight">687</i>&nbsp;        int i = 0, index = -1;</b>
+<i class="no-highlight">688</i>&nbsp;        boolean motherNatureHere;
+<b class="nc"><i class="no-highlight">689</i>&nbsp;        for (int j = 0; j &lt; 12; j++) {</b>
+<b class="nc"><i class="no-highlight">690</i>&nbsp;            islandToId[j] = -1;</b>
+<i class="no-highlight">691</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">692</i>&nbsp;        for (ReducedIsland island : islandList) {</b>
+<b class="nc"><i class="no-highlight">693</i>&nbsp;            motherNatureHere = motherNature == i;</b>
+<b class="nc"><i class="no-highlight">694</i>&nbsp;            index += island.getWeight();</b>
+<b class="nc"><i class="no-highlight">695</i>&nbsp;            StackPane islandPane = islandArray[index];</b>
+<b class="nc"><i class="no-highlight">696</i>&nbsp;            if (islandPane.getChildren().size() != 1) { //clear the old islands</b>
+<b class="nc"><i class="no-highlight">697</i>&nbsp;                islandPane.getChildren().remove(1);</b>
+<i class="no-highlight">698</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">699</i>&nbsp;            islandToId[index] = i;</b>
+<b class="nc"><i class="no-highlight">700</i>&nbsp;            loadIsland(islandPane, island, motherNatureHere);</b>
+<b class="nc"><i class="no-highlight">701</i>&nbsp;            i++;</b>
+<b class="nc"><i class="no-highlight">702</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">703</i>&nbsp;        for (int j = 0; j &lt; 12; j++) {</b>
+<b class="nc"><i class="no-highlight">704</i>&nbsp;            if (islandToId[j] == -1) {</b>
+<b class="nc"><i class="no-highlight">705</i>&nbsp;                islandArray[j].setVisible(false);</b>
+<i class="no-highlight">706</i>&nbsp;            }
+<i class="no-highlight">707</i>&nbsp;        }
+<i class="no-highlight">708</i>&nbsp;    }
+<i class="no-highlight">709</i>&nbsp;
+<i class="no-highlight">710</i>&nbsp;    /**
+<i class="no-highlight">711</i>&nbsp;     * load selected island
+<i class="no-highlight">712</i>&nbsp;     *
+<i class="no-highlight">713</i>&nbsp;     * @param islandPane   selected Pane
+<i class="no-highlight">714</i>&nbsp;     * @param island
+<i class="no-highlight">715</i>&nbsp;     * @param motherNature true if mother nature is on the island
+<i class="no-highlight">716</i>&nbsp;     */
+<i class="no-highlight">717</i>&nbsp;    private void loadIsland(StackPane islandPane, ReducedIsland island, boolean motherNature) {
+<b class="nc"><i class="no-highlight">718</i>&nbsp;        islandPane.setVisible(true);</b>
+<b class="nc"><i class="no-highlight">719</i>&nbsp;        AnchorPane anchorPane = new AnchorPane();</b>
+<i class="no-highlight">720</i>&nbsp;
+<i class="no-highlight">721</i>&nbsp;        //preload colors
+<b class="nc"><i class="no-highlight">722</i>&nbsp;        Map&lt;PawnColor, Integer&gt; colorsMap = new HashMap&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">723</i>&nbsp;        for (PawnColor p : island.getStudentsList()) {</b>
+<b class="nc"><i class="no-highlight">724</i>&nbsp;            Integer existingNum = colorsMap.get(p);</b>
+<b class="nc"><i class="no-highlight">725</i>&nbsp;            if (existingNum == null) {</b>
+<b class="nc"><i class="no-highlight">726</i>&nbsp;                colorsMap.put(p, 1);</b>
+<i class="no-highlight">727</i>&nbsp;            } else {
+<b class="nc"><i class="no-highlight">728</i>&nbsp;                colorsMap.put(p, ++existingNum);</b>
+<i class="no-highlight">729</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">730</i>&nbsp;        }</b>
+<i class="no-highlight">731</i>&nbsp;
+<i class="no-highlight">732</i>&nbsp;        //draw students
+<b class="nc"><i class="no-highlight">733</i>&nbsp;        int vPos = 18;</b>
+<b class="nc"><i class="no-highlight">734</i>&nbsp;        for (PawnColor p : PawnColor.values()) {</b>
+<b class="nc"><i class="no-highlight">735</i>&nbsp;            if (colorsMap.get(p) != null) {</b>
+<b class="nc"><i class="no-highlight">736</i>&nbsp;                ImageView pawnImageView = getPawnImage(p);</b>
+<b class="nc"><i class="no-highlight">737</i>&nbsp;                pawnImageView.setLayoutX(40);</b>
+<b class="nc"><i class="no-highlight">738</i>&nbsp;                pawnImageView.setLayoutY(vPos);</b>
+<b class="nc"><i class="no-highlight">739</i>&nbsp;                anchorPane.getChildren().add(pawnImageView);</b>
+<i class="no-highlight">740</i>&nbsp;
+<b class="nc"><i class="no-highlight">741</i>&nbsp;                Label label = new Label(&quot;&quot; + colorsMap.get(p));</b>
+<b class="nc"><i class="no-highlight">742</i>&nbsp;                label.setFont(Font.font(&quot;System&quot;, FontWeight.NORMAL, 13));</b>
+<b class="nc"><i class="no-highlight">743</i>&nbsp;                label.setTextFill(Color.WHITE);</b>
+<b class="nc"><i class="no-highlight">744</i>&nbsp;                label.setLayoutX(62);</b>
+<b class="nc"><i class="no-highlight">745</i>&nbsp;                label.setLayoutY(vPos);</b>
+<b class="nc"><i class="no-highlight">746</i>&nbsp;                anchorPane.getChildren().add(label);</b>
+<b class="nc"><i class="no-highlight">747</i>&nbsp;                vPos += 20;</b>
+<i class="no-highlight">748</i>&nbsp;            }
+<i class="no-highlight">749</i>&nbsp;        }
+<i class="no-highlight">750</i>&nbsp;
+<i class="no-highlight">751</i>&nbsp;        //draw mother nature
+<b class="nc"><i class="no-highlight">752</i>&nbsp;        if (motherNature) {</b>
+<b class="nc"><i class="no-highlight">753</i>&nbsp;            ImageView mnImageView = new ImageView();</b>
+<b class="nc"><i class="no-highlight">754</i>&nbsp;            mnImageView.setImage(new Image(getClass().getResourceAsStream(&quot;/images/mother_nature.png&quot;)));</b>
+<b class="nc"><i class="no-highlight">755</i>&nbsp;            mnImageView.setFitWidth(61);</b>
+<b class="nc"><i class="no-highlight">756</i>&nbsp;            mnImageView.setFitHeight(61);</b>
+<b class="nc"><i class="no-highlight">757</i>&nbsp;            mnImageView.setLayoutX(72);</b>
+<b class="nc"><i class="no-highlight">758</i>&nbsp;            mnImageView.setLayoutY(-3);</b>
+<b class="nc"><i class="no-highlight">759</i>&nbsp;            anchorPane.getChildren().add(mnImageView);</b>
+<i class="no-highlight">760</i>&nbsp;        }
+<i class="no-highlight">761</i>&nbsp;
+<i class="no-highlight">762</i>&nbsp;
+<i class="no-highlight">763</i>&nbsp;        //draw tower
+<b class="nc"><i class="no-highlight">764</i>&nbsp;        if (island.getTowerColor() != null) {</b>
+<b class="nc"><i class="no-highlight">765</i>&nbsp;            ImageView towerImageView = getTowerImage(island.getTowerColor());</b>
+<b class="nc"><i class="no-highlight">766</i>&nbsp;            towerImageView.setLayoutX(76);</b>
+<b class="nc"><i class="no-highlight">767</i>&nbsp;            towerImageView.setLayoutY(60);</b>
+<b class="nc"><i class="no-highlight">768</i>&nbsp;            anchorPane.getChildren().add(towerImageView);</b>
+<i class="no-highlight">769</i>&nbsp;
+<b class="nc"><i class="no-highlight">770</i>&nbsp;            Label towerLabel = new Label(&quot;&quot; + island.getWeight());</b>
+<b class="nc"><i class="no-highlight">771</i>&nbsp;            towerLabel.setFont(Font.font(&quot;System&quot;, FontWeight.BOLD, 17));</b>
+<b class="nc"><i class="no-highlight">772</i>&nbsp;            towerLabel.setTextFill(Color.WHITE);</b>
+<b class="nc"><i class="no-highlight">773</i>&nbsp;            towerLabel.setLayoutX(117);</b>
+<b class="nc"><i class="no-highlight">774</i>&nbsp;            towerLabel.setLayoutY(71);</b>
+<b class="nc"><i class="no-highlight">775</i>&nbsp;            anchorPane.getChildren().add(towerLabel);</b>
+<i class="no-highlight">776</i>&nbsp;        }
+<i class="no-highlight">777</i>&nbsp;
+<i class="no-highlight">778</i>&nbsp;        //draw forbid cards
+<b class="nc"><i class="no-highlight">779</i>&nbsp;        if (island.getForbidCards() != 0) {</b>
+<b class="nc"><i class="no-highlight">780</i>&nbsp;            ImageView forbidCardImageView = new ImageView();</b>
+<b class="nc"><i class="no-highlight">781</i>&nbsp;            forbidCardImageView.setImage(new Image(getClass().getResourceAsStream(&quot;/images/deny_icon.png&quot;)));</b>
+<b class="nc"><i class="no-highlight">782</i>&nbsp;            forbidCardImageView.setFitWidth(40);</b>
+<b class="nc"><i class="no-highlight">783</i>&nbsp;            forbidCardImageView.setFitHeight(40);</b>
+<b class="nc"><i class="no-highlight">784</i>&nbsp;            forbidCardImageView.setLayoutX(0);</b>
+<b class="nc"><i class="no-highlight">785</i>&nbsp;            forbidCardImageView.setLayoutY(60);</b>
+<b class="nc"><i class="no-highlight">786</i>&nbsp;            anchorPane.getChildren().add(forbidCardImageView);</b>
+<i class="no-highlight">787</i>&nbsp;
+<b class="nc"><i class="no-highlight">788</i>&nbsp;            Label forbidLabel = new Label(&quot;&quot; + island.getForbidCards());</b>
+<b class="nc"><i class="no-highlight">789</i>&nbsp;            forbidLabel.setFont(Font.font(&quot;System&quot;, FontWeight.BOLD, 15));</b>
+<b class="nc"><i class="no-highlight">790</i>&nbsp;            forbidLabel.setTextFill(Color.WHITE);</b>
+<b class="nc"><i class="no-highlight">791</i>&nbsp;            forbidLabel.setLayoutX(16);</b>
+<b class="nc"><i class="no-highlight">792</i>&nbsp;            forbidLabel.setLayoutY(40);</b>
+<b class="nc"><i class="no-highlight">793</i>&nbsp;            anchorPane.getChildren().add(forbidLabel);</b>
+<i class="no-highlight">794</i>&nbsp;        }
+<i class="no-highlight">795</i>&nbsp;
+<b class="nc"><i class="no-highlight">796</i>&nbsp;        islandPane.getChildren().add(anchorPane);</b>
+<i class="no-highlight">797</i>&nbsp;    }
+<i class="no-highlight">798</i>&nbsp;
+<i class="no-highlight">799</i>&nbsp;    /**
+<i class="no-highlight">800</i>&nbsp;     * load assistants on the graphic
+<i class="no-highlight">801</i>&nbsp;     *
+<i class="no-highlight">802</i>&nbsp;     * @param assistantList
+<i class="no-highlight">803</i>&nbsp;     */
+<i class="no-highlight">804</i>&nbsp;    private void loadAssistants(List&lt;ReducedAssistant&gt; assistantList) {
+<b class="nc"><i class="no-highlight">805</i>&nbsp;        assistantsPane.getChildren().clear();</b>
+<b class="nc"><i class="no-highlight">806</i>&nbsp;        for (ReducedAssistant assistant : assistantList) {</b>
+<b class="nc"><i class="no-highlight">807</i>&nbsp;            ImageView assistantImageView = getAssistantImage(assistant.getId());</b>
+<b class="nc"><i class="no-highlight">808</i>&nbsp;            assistantsPane.getChildren().add(assistantImageView);</b>
+<b class="nc"><i class="no-highlight">809</i>&nbsp;            assistantImageView.setUserData(assistant.getId());</b>
+<b class="nc"><i class="no-highlight">810</i>&nbsp;            assistantImageView.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onAssistantClick);</b>
+<b class="nc"><i class="no-highlight">811</i>&nbsp;            assistantImageView.setOnMouseEntered((e) -&gt; {</b>
+<b class="nc"><i class="no-highlight">812</i>&nbsp;                assistantImageView.setScaleX(1.04);</b>
+<b class="nc"><i class="no-highlight">813</i>&nbsp;                assistantImageView.setScaleY(1.04);</b>
+<i class="no-highlight">814</i>&nbsp;            });
+<b class="nc"><i class="no-highlight">815</i>&nbsp;            assistantImageView.setOnMouseExited((e) -&gt; {</b>
+<b class="nc"><i class="no-highlight">816</i>&nbsp;                assistantImageView.setScaleX(1);</b>
+<b class="nc"><i class="no-highlight">817</i>&nbsp;                assistantImageView.setScaleY(1);</b>
+<i class="no-highlight">818</i>&nbsp;            });
+<b class="nc"><i class="no-highlight">819</i>&nbsp;        }</b>
+<i class="no-highlight">820</i>&nbsp;
+<i class="no-highlight">821</i>&nbsp;    }
+<i class="no-highlight">822</i>&nbsp;
+<i class="no-highlight">823</i>&nbsp;    /**
+<i class="no-highlight">824</i>&nbsp;     * load all the table components in an array to iterate on them
+<i class="no-highlight">825</i>&nbsp;     */
+<i class="no-highlight">826</i>&nbsp;    private void loadGraphicsArrays() {
+<b class="nc"><i class="no-highlight">827</i>&nbsp;        islandArray[0] = island1Pane;</b>
+<b class="nc"><i class="no-highlight">828</i>&nbsp;        islandArray[1] = island2Pane;</b>
+<b class="nc"><i class="no-highlight">829</i>&nbsp;        islandArray[2] = island3Pane;</b>
+<b class="nc"><i class="no-highlight">830</i>&nbsp;        islandArray[3] = island4Pane;</b>
+<b class="nc"><i class="no-highlight">831</i>&nbsp;        islandArray[4] = island5Pane;</b>
+<b class="nc"><i class="no-highlight">832</i>&nbsp;        islandArray[5] = island6Pane;</b>
+<b class="nc"><i class="no-highlight">833</i>&nbsp;        islandArray[6] = island7Pane;</b>
+<b class="nc"><i class="no-highlight">834</i>&nbsp;        islandArray[7] = island8Pane;</b>
+<b class="nc"><i class="no-highlight">835</i>&nbsp;        islandArray[8] = island9Pane;</b>
+<b class="nc"><i class="no-highlight">836</i>&nbsp;        islandArray[9] = island10Pane;</b>
+<b class="nc"><i class="no-highlight">837</i>&nbsp;        islandArray[10] = island11Pane;</b>
+<b class="nc"><i class="no-highlight">838</i>&nbsp;        islandArray[11] = island12Pane;</b>
+<b class="nc"><i class="no-highlight">839</i>&nbsp;        dashboardArray[0] = HboxPlayer1;</b>
+<b class="nc"><i class="no-highlight">840</i>&nbsp;        dashboardArray[1] = HboxPlayer2;</b>
+<b class="nc"><i class="no-highlight">841</i>&nbsp;        dashboardArray[2] = HboxPlayer3;</b>
+<b class="nc"><i class="no-highlight">842</i>&nbsp;        dashboardArray[3] = HboxPlayer4;</b>
+<b class="nc"><i class="no-highlight">843</i>&nbsp;        cloudArray[0] = cloud1Pane;</b>
+<b class="nc"><i class="no-highlight">844</i>&nbsp;        cloudArray[1] = cloud2Pane;</b>
+<b class="nc"><i class="no-highlight">845</i>&nbsp;        cloudArray[2] = cloud3Pane;</b>
+<b class="nc"><i class="no-highlight">846</i>&nbsp;        cloudArray[3] = cloud4Pane;</b>
+<b class="nc"><i class="no-highlight">847</i>&nbsp;        characterArray[0] = character1Pane;</b>
+<b class="nc"><i class="no-highlight">848</i>&nbsp;        characterArray[1] = character2Pane;</b>
+<b class="nc"><i class="no-highlight">849</i>&nbsp;        characterArray[2] = character3Pane;</b>
+<i class="no-highlight">850</i>&nbsp;    }
+<i class="no-highlight">851</i>&nbsp;
+<i class="no-highlight">852</i>&nbsp;    /**
+<i class="no-highlight">853</i>&nbsp;     * close dashboard or character stages if opened when we exit the game
+<i class="no-highlight">854</i>&nbsp;     */
+<i class="no-highlight">855</i>&nbsp;    public void closeAllPopups() {
+<b class="nc"><i class="no-highlight">856</i>&nbsp;        if (stage != null &amp;&amp; stage.isShowing()) {</b>
+<b class="nc"><i class="no-highlight">857</i>&nbsp;            stage.close();</b>
+<i class="no-highlight">858</i>&nbsp;        }
+<i class="no-highlight">859</i>&nbsp;    }
+<i class="no-highlight">860</i>&nbsp;
+<i class="no-highlight">861</i>&nbsp;    /**
+<i class="no-highlight">862</i>&nbsp;     * get imageview of selected Pawn
+<i class="no-highlight">863</i>&nbsp;     *
+<i class="no-highlight">864</i>&nbsp;     * @param color
+<i class="no-highlight">865</i>&nbsp;     * @return ImageView
+<i class="no-highlight">866</i>&nbsp;     */
+<i class="no-highlight">867</i>&nbsp;    private ImageView getPawnImage(PawnColor color) {
+<b class="nc"><i class="no-highlight">868</i>&nbsp;        ImageView imageView = new ImageView();</b>
+<b class="nc"><i class="no-highlight">869</i>&nbsp;        String path = &quot;/images/&quot;;</b>
+<b class="nc"><i class="no-highlight">870</i>&nbsp;        switch (color) {</b>
+<i class="no-highlight">871</i>&nbsp;            case RED:
+<b class="nc"><i class="no-highlight">872</i>&nbsp;                path += &quot;redStudent3D.png&quot;;</b>
+<b class="nc"><i class="no-highlight">873</i>&nbsp;                break;</b>
+<i class="no-highlight">874</i>&nbsp;            case BLUE:
+<b class="nc"><i class="no-highlight">875</i>&nbsp;                path += &quot;blueStudent3D.png&quot;;</b>
+<b class="nc"><i class="no-highlight">876</i>&nbsp;                break;</b>
+<i class="no-highlight">877</i>&nbsp;            case YELLOW:
+<b class="nc"><i class="no-highlight">878</i>&nbsp;                path += &quot;yellowStudent3D.png&quot;;</b>
 <b class="nc"><i class="no-highlight">879</i>&nbsp;                break;</b>
-<i class="no-highlight">880</i>&nbsp;            case BLUE:
-<b class="nc"><i class="no-highlight">881</i>&nbsp;                path += &quot;blueStudent3D.png&quot;;</b>
+<i class="no-highlight">880</i>&nbsp;            case PINK:
+<b class="nc"><i class="no-highlight">881</i>&nbsp;                path += &quot;pinkStudent3D.png&quot;;</b>
 <b class="nc"><i class="no-highlight">882</i>&nbsp;                break;</b>
-<i class="no-highlight">883</i>&nbsp;            case YELLOW:
-<b class="nc"><i class="no-highlight">884</i>&nbsp;                path += &quot;yellowStudent3D.png&quot;;</b>
-<b class="nc"><i class="no-highlight">885</i>&nbsp;                break;</b>
-<i class="no-highlight">886</i>&nbsp;            case PINK:
-<b class="nc"><i class="no-highlight">887</i>&nbsp;                path += &quot;pinkStudent3D.png&quot;;</b>
-<b class="nc"><i class="no-highlight">888</i>&nbsp;                break;</b>
-<i class="no-highlight">889</i>&nbsp;            case GREEN:
-<b class="nc"><i class="no-highlight">890</i>&nbsp;                path += &quot;greenStudent3D.png&quot;;</b>
-<i class="no-highlight">891</i>&nbsp;                break;
-<i class="no-highlight">892</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">893</i>&nbsp;        imageView.setImage(new Image(getClass().getResourceAsStream(path)));</b>
-<b class="nc"><i class="no-highlight">894</i>&nbsp;        imageView.setFitWidth(18);</b>
-<b class="nc"><i class="no-highlight">895</i>&nbsp;        imageView.setFitHeight(18);</b>
-<b class="nc"><i class="no-highlight">896</i>&nbsp;        return imageView;</b>
-<i class="no-highlight">897</i>&nbsp;    }
-<i class="no-highlight">898</i>&nbsp;
-<i class="no-highlight">899</i>&nbsp;    /**
-<i class="no-highlight">900</i>&nbsp;     * get imageview of selected Tower
-<i class="no-highlight">901</i>&nbsp;     *
-<i class="no-highlight">902</i>&nbsp;     * @param color
-<i class="no-highlight">903</i>&nbsp;     * @return ImageView
-<i class="no-highlight">904</i>&nbsp;     */
-<i class="no-highlight">905</i>&nbsp;    private ImageView getTowerImage(TowerColor color) {
-<b class="nc"><i class="no-highlight">906</i>&nbsp;        ImageView imageView = new ImageView();</b>
-<b class="nc"><i class="no-highlight">907</i>&nbsp;        String path = &quot;/images/&quot;;</b>
-<b class="nc"><i class="no-highlight">908</i>&nbsp;        switch (color) {</b>
-<i class="no-highlight">909</i>&nbsp;            case BLACK:
-<b class="nc"><i class="no-highlight">910</i>&nbsp;                path += &quot;black_tower.png&quot;;</b>
-<b class="nc"><i class="no-highlight">911</i>&nbsp;                break;</b>
-<i class="no-highlight">912</i>&nbsp;            case WHITE:
-<b class="nc"><i class="no-highlight">913</i>&nbsp;                path += &quot;white_tower.png&quot;;</b>
-<b class="nc"><i class="no-highlight">914</i>&nbsp;                break;</b>
-<i class="no-highlight">915</i>&nbsp;            case GRAY:
-<b class="nc"><i class="no-highlight">916</i>&nbsp;                path += &quot;grey_tower.png&quot;;</b>
-<i class="no-highlight">917</i>&nbsp;                break;
-<i class="no-highlight">918</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">919</i>&nbsp;        imageView.setImage(new Image(getClass().getResourceAsStream(path)));</b>
-<b class="nc"><i class="no-highlight">920</i>&nbsp;        imageView.setFitWidth(50);</b>
-<b class="nc"><i class="no-highlight">921</i>&nbsp;        imageView.setFitHeight(50);</b>
-<b class="nc"><i class="no-highlight">922</i>&nbsp;        return imageView;</b>
-<i class="no-highlight">923</i>&nbsp;    }
-<i class="no-highlight">924</i>&nbsp;
-<i class="no-highlight">925</i>&nbsp;    /**
-<i class="no-highlight">926</i>&nbsp;     * get imageview of selected Assistant
-<i class="no-highlight">927</i>&nbsp;     *
-<i class="no-highlight">928</i>&nbsp;     * @param id
-<i class="no-highlight">929</i>&nbsp;     * @return ImageView
-<i class="no-highlight">930</i>&nbsp;     */
-<i class="no-highlight">931</i>&nbsp;    private ImageView getAssistantImage(int id) {
-<b class="nc"><i class="no-highlight">932</i>&nbsp;        ImageView imageView = new ImageView();</b>
-<b class="nc"><i class="no-highlight">933</i>&nbsp;        String path = &quot;/images/ass&quot; + id + &quot;.png&quot;;</b>
-<b class="nc"><i class="no-highlight">934</i>&nbsp;        imageView.setImage(new Image(getClass().getResourceAsStream(path)));</b>
-<b class="nc"><i class="no-highlight">935</i>&nbsp;        imageView.setFitWidth(74);</b>
-<b class="nc"><i class="no-highlight">936</i>&nbsp;        imageView.setFitHeight(110);</b>
-<b class="nc"><i class="no-highlight">937</i>&nbsp;        return imageView;</b>
-<i class="no-highlight">938</i>&nbsp;    }
-<i class="no-highlight">939</i>&nbsp;
-<i class="no-highlight">940</i>&nbsp;    /**
-<i class="no-highlight">941</i>&nbsp;     * loads assistant image in the selected imageview
-<i class="no-highlight">942</i>&nbsp;     *
-<i class="no-highlight">943</i>&nbsp;     * @param id
-<i class="no-highlight">944</i>&nbsp;     * @param imageView
-<i class="no-highlight">945</i>&nbsp;     */
-<i class="no-highlight">946</i>&nbsp;    private void getAssistantImage(int id, ImageView imageView) {
-<b class="nc"><i class="no-highlight">947</i>&nbsp;        String path = &quot;/images/ass&quot; + id + &quot;.png&quot;;</b>
-<b class="nc"><i class="no-highlight">948</i>&nbsp;        imageView.setImage(new Image(getClass().getResourceAsStream(path)));</b>
-<b class="nc"><i class="no-highlight">949</i>&nbsp;        imageView.setFitWidth(78);</b>
-<b class="nc"><i class="no-highlight">950</i>&nbsp;        imageView.setFitHeight(115);</b>
-<i class="no-highlight">951</i>&nbsp;    }
-<i class="no-highlight">952</i>&nbsp;
-<i class="no-highlight">953</i>&nbsp;    /**
-<i class="no-highlight">954</i>&nbsp;     * loads character image in the selected imageview
-<i class="no-highlight">955</i>&nbsp;     *
-<i class="no-highlight">956</i>&nbsp;     * @param id
-<i class="no-highlight">957</i>&nbsp;     * @param imageView
-<i class="no-highlight">958</i>&nbsp;     */
-<i class="no-highlight">959</i>&nbsp;    private void getCharacterImage(int id, ImageView imageView) {
-<b class="nc"><i class="no-highlight">960</i>&nbsp;        String path = &quot;/images/char&quot; + id + &quot;-small.png&quot;;</b>
-<b class="nc"><i class="no-highlight">961</i>&nbsp;        imageView.setImage(new Image(getClass().getResourceAsStream(path)));</b>
-<b class="nc"><i class="no-highlight">962</i>&nbsp;        imageView.setFitWidth(85);</b>
-<b class="nc"><i class="no-highlight">963</i>&nbsp;        imageView.setFitHeight(130);</b>
-<i class="no-highlight">964</i>&nbsp;    }
-<i class="no-highlight">965</i>&nbsp;
-<i class="no-highlight">966</i>&nbsp;    /**
-<i class="no-highlight">967</i>&nbsp;     * loads wizard image in the selected imageview
-<i class="no-highlight">968</i>&nbsp;     *
-<i class="no-highlight">969</i>&nbsp;     * @param wizard
-<i class="no-highlight">970</i>&nbsp;     * @param imageView
-<i class="no-highlight">971</i>&nbsp;     */
-<i class="no-highlight">972</i>&nbsp;    private void getWizardImage(Wizard wizard, ImageView imageView) {
-<b class="nc"><i class="no-highlight">973</i>&nbsp;        String path = &quot;/images/&quot;;</b>
-<b class="nc"><i class="no-highlight">974</i>&nbsp;        switch (wizard) {</b>
-<i class="no-highlight">975</i>&nbsp;            case SAGE:
-<b class="nc"><i class="no-highlight">976</i>&nbsp;                path += &quot;MAGO1_1.jpg&quot;;</b>
+<i class="no-highlight">883</i>&nbsp;            case GREEN:
+<b class="nc"><i class="no-highlight">884</i>&nbsp;                path += &quot;greenStudent3D.png&quot;;</b>
+<i class="no-highlight">885</i>&nbsp;                break;
+<i class="no-highlight">886</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">887</i>&nbsp;        imageView.setImage(new Image(getClass().getResourceAsStream(path)));</b>
+<b class="nc"><i class="no-highlight">888</i>&nbsp;        imageView.setFitWidth(18);</b>
+<b class="nc"><i class="no-highlight">889</i>&nbsp;        imageView.setFitHeight(18);</b>
+<b class="nc"><i class="no-highlight">890</i>&nbsp;        return imageView;</b>
+<i class="no-highlight">891</i>&nbsp;    }
+<i class="no-highlight">892</i>&nbsp;
+<i class="no-highlight">893</i>&nbsp;    /**
+<i class="no-highlight">894</i>&nbsp;     * get imageview of selected Tower
+<i class="no-highlight">895</i>&nbsp;     *
+<i class="no-highlight">896</i>&nbsp;     * @param color
+<i class="no-highlight">897</i>&nbsp;     * @return ImageView
+<i class="no-highlight">898</i>&nbsp;     */
+<i class="no-highlight">899</i>&nbsp;    private ImageView getTowerImage(TowerColor color) {
+<b class="nc"><i class="no-highlight">900</i>&nbsp;        ImageView imageView = new ImageView();</b>
+<b class="nc"><i class="no-highlight">901</i>&nbsp;        String path = &quot;/images/&quot;;</b>
+<b class="nc"><i class="no-highlight">902</i>&nbsp;        switch (color) {</b>
+<i class="no-highlight">903</i>&nbsp;            case BLACK:
+<b class="nc"><i class="no-highlight">904</i>&nbsp;                path += &quot;black_tower.png&quot;;</b>
+<b class="nc"><i class="no-highlight">905</i>&nbsp;                break;</b>
+<i class="no-highlight">906</i>&nbsp;            case WHITE:
+<b class="nc"><i class="no-highlight">907</i>&nbsp;                path += &quot;white_tower.png&quot;;</b>
+<b class="nc"><i class="no-highlight">908</i>&nbsp;                break;</b>
+<i class="no-highlight">909</i>&nbsp;            case GRAY:
+<b class="nc"><i class="no-highlight">910</i>&nbsp;                path += &quot;grey_tower.png&quot;;</b>
+<i class="no-highlight">911</i>&nbsp;                break;
+<i class="no-highlight">912</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">913</i>&nbsp;        imageView.setImage(new Image(getClass().getResourceAsStream(path)));</b>
+<b class="nc"><i class="no-highlight">914</i>&nbsp;        imageView.setFitWidth(50);</b>
+<b class="nc"><i class="no-highlight">915</i>&nbsp;        imageView.setFitHeight(50);</b>
+<b class="nc"><i class="no-highlight">916</i>&nbsp;        return imageView;</b>
+<i class="no-highlight">917</i>&nbsp;    }
+<i class="no-highlight">918</i>&nbsp;
+<i class="no-highlight">919</i>&nbsp;    /**
+<i class="no-highlight">920</i>&nbsp;     * get imageview of selected Assistant
+<i class="no-highlight">921</i>&nbsp;     *
+<i class="no-highlight">922</i>&nbsp;     * @param id
+<i class="no-highlight">923</i>&nbsp;     * @return ImageView
+<i class="no-highlight">924</i>&nbsp;     */
+<i class="no-highlight">925</i>&nbsp;    private ImageView getAssistantImage(int id) {
+<b class="nc"><i class="no-highlight">926</i>&nbsp;        ImageView imageView = new ImageView();</b>
+<b class="nc"><i class="no-highlight">927</i>&nbsp;        String path = &quot;/images/ass&quot; + id + &quot;.png&quot;;</b>
+<b class="nc"><i class="no-highlight">928</i>&nbsp;        imageView.setImage(new Image(getClass().getResourceAsStream(path)));</b>
+<b class="nc"><i class="no-highlight">929</i>&nbsp;        imageView.setFitWidth(74);</b>
+<b class="nc"><i class="no-highlight">930</i>&nbsp;        imageView.setFitHeight(110);</b>
+<b class="nc"><i class="no-highlight">931</i>&nbsp;        return imageView;</b>
+<i class="no-highlight">932</i>&nbsp;    }
+<i class="no-highlight">933</i>&nbsp;
+<i class="no-highlight">934</i>&nbsp;    /**
+<i class="no-highlight">935</i>&nbsp;     * loads assistant image in the selected imageview
+<i class="no-highlight">936</i>&nbsp;     *
+<i class="no-highlight">937</i>&nbsp;     * @param id
+<i class="no-highlight">938</i>&nbsp;     * @param imageView
+<i class="no-highlight">939</i>&nbsp;     */
+<i class="no-highlight">940</i>&nbsp;    private void getAssistantImage(int id, ImageView imageView) {
+<b class="nc"><i class="no-highlight">941</i>&nbsp;        String path = &quot;/images/ass&quot; + id + &quot;.png&quot;;</b>
+<b class="nc"><i class="no-highlight">942</i>&nbsp;        imageView.setImage(new Image(getClass().getResourceAsStream(path)));</b>
+<b class="nc"><i class="no-highlight">943</i>&nbsp;        imageView.setFitWidth(78);</b>
+<b class="nc"><i class="no-highlight">944</i>&nbsp;        imageView.setFitHeight(115);</b>
+<i class="no-highlight">945</i>&nbsp;    }
+<i class="no-highlight">946</i>&nbsp;
+<i class="no-highlight">947</i>&nbsp;    /**
+<i class="no-highlight">948</i>&nbsp;     * loads character image in the selected imageview
+<i class="no-highlight">949</i>&nbsp;     *
+<i class="no-highlight">950</i>&nbsp;     * @param id
+<i class="no-highlight">951</i>&nbsp;     * @param imageView
+<i class="no-highlight">952</i>&nbsp;     */
+<i class="no-highlight">953</i>&nbsp;    private void getCharacterImage(int id, ImageView imageView) {
+<b class="nc"><i class="no-highlight">954</i>&nbsp;        String path = &quot;/images/char&quot; + id + &quot;-small.png&quot;;</b>
+<b class="nc"><i class="no-highlight">955</i>&nbsp;        imageView.setImage(new Image(getClass().getResourceAsStream(path)));</b>
+<b class="nc"><i class="no-highlight">956</i>&nbsp;        imageView.setFitWidth(85);</b>
+<b class="nc"><i class="no-highlight">957</i>&nbsp;        imageView.setFitHeight(130);</b>
+<i class="no-highlight">958</i>&nbsp;    }
+<i class="no-highlight">959</i>&nbsp;
+<i class="no-highlight">960</i>&nbsp;    /**
+<i class="no-highlight">961</i>&nbsp;     * loads wizard image in the selected imageview
+<i class="no-highlight">962</i>&nbsp;     *
+<i class="no-highlight">963</i>&nbsp;     * @param wizard
+<i class="no-highlight">964</i>&nbsp;     * @param imageView
+<i class="no-highlight">965</i>&nbsp;     */
+<i class="no-highlight">966</i>&nbsp;    private void getWizardImage(Wizard wizard, ImageView imageView) {
+<b class="nc"><i class="no-highlight">967</i>&nbsp;        String path = &quot;/images/&quot;;</b>
+<b class="nc"><i class="no-highlight">968</i>&nbsp;        switch (wizard) {</b>
+<i class="no-highlight">969</i>&nbsp;            case SAGE:
+<b class="nc"><i class="no-highlight">970</i>&nbsp;                path += &quot;MAGO1_1.jpg&quot;;</b>
+<b class="nc"><i class="no-highlight">971</i>&nbsp;                break;</b>
+<i class="no-highlight">972</i>&nbsp;            case KING:
+<b class="nc"><i class="no-highlight">973</i>&nbsp;                path += &quot;MAGO2_1.jpg&quot;;</b>
+<b class="nc"><i class="no-highlight">974</i>&nbsp;                break;</b>
+<i class="no-highlight">975</i>&nbsp;            case WITCH:
+<b class="nc"><i class="no-highlight">976</i>&nbsp;                path += &quot;MAGO3_1_correzioni.jpg&quot;;</b>
 <b class="nc"><i class="no-highlight">977</i>&nbsp;                break;</b>
-<i class="no-highlight">978</i>&nbsp;            case KING:
-<b class="nc"><i class="no-highlight">979</i>&nbsp;                path += &quot;MAGO2_1.jpg&quot;;</b>
-<b class="nc"><i class="no-highlight">980</i>&nbsp;                break;</b>
-<i class="no-highlight">981</i>&nbsp;            case WITCH:
-<b class="nc"><i class="no-highlight">982</i>&nbsp;                path += &quot;MAGO3_1_correzioni.jpg&quot;;</b>
-<b class="nc"><i class="no-highlight">983</i>&nbsp;                break;</b>
-<i class="no-highlight">984</i>&nbsp;            case ASIATIC:
-<b class="nc"><i class="no-highlight">985</i>&nbsp;                path += &quot;MAGO4_1.jpg&quot;;</b>
-<i class="no-highlight">986</i>&nbsp;                break;
-<i class="no-highlight">987</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">988</i>&nbsp;        imageView.setImage(new Image(getClass().getResourceAsStream(path)));</b>
-<b class="nc"><i class="no-highlight">989</i>&nbsp;        imageView.setFitWidth(78);</b>
-<b class="nc"><i class="no-highlight">990</i>&nbsp;        imageView.setFitHeight(115);</b>
-<i class="no-highlight">991</i>&nbsp;    }
-<i class="no-highlight">992</i>&nbsp;
-<i class="no-highlight">993</i>&nbsp;    /**
-<i class="no-highlight">994</i>&nbsp;     * get character object from its id
-<i class="no-highlight">995</i>&nbsp;     *
-<i class="no-highlight">996</i>&nbsp;     * @param id            character id
-<i class="no-highlight">997</i>&nbsp;     * @param characterList character list
-<i class="no-highlight">998</i>&nbsp;     * @return ReducedCharacter
-<i class="no-highlight">999</i>&nbsp;     */
-<i class="no-highlight">1000</i>&nbsp;    private ReducedCharacter getCharacterById(int id, List&lt;ReducedCharacter&gt; characterList) {
-<b class="nc"><i class="no-highlight">1001</i>&nbsp;        for (ReducedCharacter c : characterList) {</b>
-<b class="nc"><i class="no-highlight">1002</i>&nbsp;            if (c.getId() == id) {</b>
-<b class="nc"><i class="no-highlight">1003</i>&nbsp;                return c;</b>
-<i class="no-highlight">1004</i>&nbsp;            }
-<b class="nc"><i class="no-highlight">1005</i>&nbsp;        }</b>
-<b class="nc"><i class="no-highlight">1006</i>&nbsp;        return null;</b>
-<i class="no-highlight">1007</i>&nbsp;    }
-<i class="no-highlight">1008</i>&nbsp;
-<i class="no-highlight">1009</i>&nbsp;}
+<i class="no-highlight">978</i>&nbsp;            case ASIATIC:
+<b class="nc"><i class="no-highlight">979</i>&nbsp;                path += &quot;MAGO4_1.jpg&quot;;</b>
+<i class="no-highlight">980</i>&nbsp;                break;
+<i class="no-highlight">981</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">982</i>&nbsp;        imageView.setImage(new Image(getClass().getResourceAsStream(path)));</b>
+<b class="nc"><i class="no-highlight">983</i>&nbsp;        imageView.setFitWidth(78);</b>
+<b class="nc"><i class="no-highlight">984</i>&nbsp;        imageView.setFitHeight(115);</b>
+<i class="no-highlight">985</i>&nbsp;    }
+<i class="no-highlight">986</i>&nbsp;
+<i class="no-highlight">987</i>&nbsp;    /**
+<i class="no-highlight">988</i>&nbsp;     * get character object from its id
+<i class="no-highlight">989</i>&nbsp;     *
+<i class="no-highlight">990</i>&nbsp;     * @param id            character id
+<i class="no-highlight">991</i>&nbsp;     * @param characterList character list
+<i class="no-highlight">992</i>&nbsp;     * @return ReducedCharacter
+<i class="no-highlight">993</i>&nbsp;     */
+<i class="no-highlight">994</i>&nbsp;    private ReducedCharacter getCharacterById(int id, List&lt;ReducedCharacter&gt; characterList) {
+<b class="nc"><i class="no-highlight">995</i>&nbsp;        for (ReducedCharacter c : characterList) {</b>
+<b class="nc"><i class="no-highlight">996</i>&nbsp;            if (c.getId() == id) {</b>
+<b class="nc"><i class="no-highlight">997</i>&nbsp;                return c;</b>
+<i class="no-highlight">998</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">999</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">1000</i>&nbsp;        return null;</b>
+<i class="no-highlight">1001</i>&nbsp;    }
+<i class="no-highlight">1002</i>&nbsp;
+<i class="no-highlight">1003</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -1134,7 +1128,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-29 20:56</div>
+    <div style="float:right;">generated on 2022-07-01 13:15</div>
 </div>
 </body>
 </html>
