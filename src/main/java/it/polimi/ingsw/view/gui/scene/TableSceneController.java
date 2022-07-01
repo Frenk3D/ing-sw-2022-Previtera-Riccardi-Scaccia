@@ -223,7 +223,6 @@ public class TableSceneController extends ViewObservable implements GenericScene
      * function called by gui class to ask to choose character parameters
      */
     public void requestedCharacterParameters(int id) {
-        System.out.println("Requesting character parameters...");
         MessageCharacterParameters params = new MessageCharacterParameters();
         params.setCharacterId(id);
         switch (id) {
@@ -325,7 +324,6 @@ public class TableSceneController extends ViewObservable implements GenericScene
     private void onAssistantClick(Event e) {
         int assistantIndex = (int) ((ImageView) e.getSource()).getUserData();
         if (guiState == WAITING_FOR_ASSISTANT_CLICK) {
-            System.out.println("Click on assistant " + assistantIndex);
             new Thread(() -> notifyObserver((obs -> obs.onSendSelectAssistant(assistantIndex)))).start();
         }
 
@@ -339,7 +337,6 @@ public class TableSceneController extends ViewObservable implements GenericScene
     private void onCloudClick(Event e) {
         int cloudIndex = (int) ((StackPane) e.getSource()).getUserData();
         if (guiState == GuiState.WAITING_FOR_CLOUD) {
-            System.out.println("Click on cloud " + cloudIndex);
             new Thread(() -> notifyObserver((obs -> obs.onSendChooseCloud(cloudIndex)))).start();
         }
     }
@@ -351,7 +348,6 @@ public class TableSceneController extends ViewObservable implements GenericScene
      */
     private void onDashboardClick(Event e) {
         int playerIndex = (int) ((Button) e.getSource()).getUserData();
-        System.out.println("Click on dashboard " + playerIndex);
         openDashboard(gameModel.getPlayersList().get(playerIndex));
     }
 
@@ -365,7 +361,6 @@ public class TableSceneController extends ViewObservable implements GenericScene
         int result = openCharacter(gameModel.getCharactersList().get(characterIndex));
         if (result != -1 && guiState != GuiState.LOCKED && guiState != GuiState.WAITING_FOR_ASSISTANT_CLICK) {
             new Thread(() -> notifyObserver((obs -> obs.onAskCharacter(result)))).start();
-            System.out.println("Used character " + result);
         }
     }
 
@@ -380,7 +375,6 @@ public class TableSceneController extends ViewObservable implements GenericScene
         if (guiState == GuiState.WAITING_FOR_MOVE_OR) {
             guiState = GuiState.LOCKED;
             int buttonIndex = (int) ((Button) e.getSource()).getUserData();
-            System.out.println("Click on button " + buttonIndex);
             if (!selectFromDashboard(1, false)) {
                 requestedMoveStudent();
                 return;
