@@ -54,7 +54,7 @@ class Characters3and4and5Test {
     }
 
     @Test
-    void addForbidCard5() {
+    void addForbidCard5() { //test if forbid cards are added
         ((Characters3and4and5) c5).addForbidCard5();
         assertEquals(4, ((Characters3and4and5) c5).getForbidCards()); //too many no entry tiles
         ((Characters3and4and5) c5).setForbidCards(3);

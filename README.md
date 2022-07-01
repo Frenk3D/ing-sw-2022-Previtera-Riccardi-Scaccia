@@ -5,7 +5,8 @@
 ![alt text](src/main/resources/images/Eriantys_scatola3Dombra-600x600.png)
 
   
-The game is playable starting a ServerApp and after using ClientApp CLI or GUI, the game is auto-guided to help the player to play.
+The game is playable starting a ServerApp and after using ClientApp CLI or GUI, the game is auto-guided to help the player to play.  
+You need a java version 11 or higher to play.
 
 
 ## Gruppo GC02
@@ -54,7 +55,7 @@ The following documentation includes a description for most of the classes and m
 Starts from index.html.
 
 ### Test coverage (on Server):
-Controller: ~73%  (methods that regards the communication are tested playing )  
+Controller: ~81%  (methods that regards the communication are also tested playing the game)  
 Model: ~88%
   
   

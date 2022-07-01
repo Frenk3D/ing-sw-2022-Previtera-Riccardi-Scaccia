@@ -86,7 +86,7 @@ class Characters10and12Test {
             assertEquals(characterParameters.getSelectedColor2(), p.getDashboard().getEntranceList().get(p.getDashboard().getEntranceList().size() - 1).getColor());
             assertEquals(characterParameters.getSelectedColor(), p.getDashboard().getEntranceList().get(p.getDashboard().getEntranceList().size() - 2).getColor());
         } else {
-        } //there are too many cases to
+        } //there are too many cases to test in else, tested in the real matches
 
         p.getDashboard().getEntranceList().removeAll(p.getDashboard().getEntranceList());
         p.getDashboard().getEntranceList().add(new Student(PawnColor.PINK));

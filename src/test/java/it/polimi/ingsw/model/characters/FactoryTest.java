@@ -25,7 +25,7 @@ class FactoryTest {
     }
 
     @Test
-    void newCharacter() {
+    void newCharacter() { //if the factory works correctly
         assertEquals(character.getId(), c2.getId());
 
     }

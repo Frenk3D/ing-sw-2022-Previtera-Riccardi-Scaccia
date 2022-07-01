@@ -25,7 +25,7 @@ import static it.polimi.ingsw.network.server.Server.SERVERID;
 public class Controller implements Observer {
     private final Logger logger = Logger.getLogger(getClass().getName());
     //attributes
-    private final GameModel game;  //intellij says it should be final,but it actually changes so it's not
+    private final GameModel game;  //intellij says it should be final
     private Server server;
 
     //constructor
@@ -780,7 +780,6 @@ public class Controller implements Observer {
     public Server getServer() {
         return server;
     }
-
 
     //ONLY TO TEST METHOD
 

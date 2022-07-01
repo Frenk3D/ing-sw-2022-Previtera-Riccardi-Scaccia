@@ -25,7 +25,7 @@ class Characters1and7and11Test {
     Player p;
 
     @BeforeEach
-    void setUp() {
+    void setUp() { //creation of characters and setting of the parameters
         c1 = Factory.newCharacter(1);
         c7 = Factory.newCharacter(7);
         c11 = Factory.newCharacter(11);

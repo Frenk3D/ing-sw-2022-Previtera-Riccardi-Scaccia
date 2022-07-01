@@ -28,7 +28,8 @@ class ControllerTest {
 
 
     @BeforeEach
-    void setUp() {
+    void setUp() { //we simulate a new game for each method
+
         controller = new Controller();
         professorsList = new ArrayList<>();
         p1 = new Player("Jorginho", 1);
@@ -44,10 +45,21 @@ class ControllerTest {
         controller.chooseTeam(3, 4);
         controller.chooseTowerColor(1, TowerColor.BLACK);
         controller.chooseTowerColor(3, TowerColor.WHITE);
+
+        Controller controllertmp = controller;
+        controller.chooseTowerColor(5, TowerColor.WHITE); //some limit cases not correct
+        controller.chooseTowerColor(1, TowerColor.WHITE);
+        controller.chooseTowerColor(1, null);
+        assertEquals(controllertmp, controller);
+
         controller.chooseWizard(1, Wizard.SAGE);
         controller.chooseWizard(2, Wizard.WITCH);
         controller.chooseWizard(3, Wizard.KING);
-        controller.chooseWizard(4, Wizard.ASIATIC);
+        controller.chooseWizard(4, Wizard.ASIATIC); //some limit cases not correct
+        controller.chooseWizard(7, Wizard.ASIATIC);
+        controller.chooseWizard(3, null);
+        assertEquals(controllertmp, controller);
+
         s = new Student(PawnColor.RED);
         //AT THIS MOMENT CONTROLLER STARTS THE GAME
 
@@ -55,19 +67,19 @@ class ControllerTest {
     }
 
     @Test
-    void configure() {
+    void configure() { //we test if the init is correct
         assertEquals(4, controller.getGame().getNumOfPlayers());
         assertNotEquals(false, controller.getGame().isExpertMode());
     }
 
     @Test
-    void addPlayer() {
+    void addPlayer() { //we test if the method add player works correctly
         assertEquals(4, controller.getGame().getNumOfPlayers());
         assertEquals(p1, controller.getGame().getPlayerById(1));
     }
 
     @RepeatedTest(5)
-    void moveStudentIsland() {
+    void moveStudentIsland() { //we test some cases of movestudentisland
         controller.getGame().getCurrRound().getCurrTurn().setCurrPlayer(p1);
         controller.getGame().getCurrRound().setStage(RoundState.ACTION_STATE);
         controller.getGame().getCurrRound().getCurrTurn().setStage(TurnState.MOVE_STUDENT_STATE);
@@ -82,7 +94,7 @@ class ControllerTest {
     }
 
     @RepeatedTest(5)
-    void moveStudentDashboard() {
+    void moveStudentDashboard() { //test of some cases of movestudentdashboard action in expert mode
         controller.getGame().getCurrRound().getCurrTurn().setCurrPlayer(p1);
         controller.getGame().getCurrRound().setStage(RoundState.ACTION_STATE);
         controller.getGame().getCurrRound().getCurrTurn().setStage(TurnState.MOVE_STUDENT_STATE);
@@ -97,7 +109,7 @@ class ControllerTest {
     }
 
     @Test
-    void moveMotherNature() {
+    void moveMotherNature() { //we test some cases of movemothernature, in expertmode or not etc...
         controller.getGame().getCurrRound().getCurrTurn().setCurrPlayer(p1);
         controller.getGame().getCurrRound().setStage(RoundState.ACTION_STATE);
         controller.getGame().getCurrRound().getCurrTurn().setStage(TurnState.MOVE_MOTHER_NATURE_STATE);
@@ -128,7 +140,7 @@ class ControllerTest {
     }
 
     @Test
-    void takeFromCloud() {
+    void takeFromCloud() { //we test the takefromcloud action (if it is not the last turn)
         controller.getGame().getCurrRound().setStage(RoundState.ACTION_STATE);
         controller.getGame().getCurrRound().getCurrTurn().setStage(TurnState.CHOOSE_CLOUD_STATE);
         controller.getGame().getCurrRound().getCurrTurn().setCurrPlayer(p1);
@@ -145,7 +157,7 @@ class ControllerTest {
     }
 
     @Test
-    void selectAssistant() {
+    void selectAssistant() { //test of the action selectassistant
         controller.getGame().getCurrRound().setStage(RoundState.PLANNING_STATE);
         Player p = controller.getGame().getCurrRound().getPlanningPhasePlayer(controller.getGame().getPlayersList());
         assertEquals(10, p.getAssistantDeck().getAssistantsList().size());
@@ -161,7 +173,7 @@ class ControllerTest {
     }
 
     @Test
-    void useCharacter() {
+    void useCharacter() { //test of the use of a character
         controller.getGame().getCurrRound().setStage(RoundState.ACTION_STATE);
         CharacterParameters params = new CharacterParameters();
         params.setIsland(new Island());
@@ -184,11 +196,11 @@ class ControllerTest {
 
     @Test
     void inGameState() {
-
+    //already tested in update (below from here)
     }
 
     @RepeatedTest(5)
-    void update() {
+    void update() { //test of the manage of messages
         controller.getGame().setState(GameState.SETTING_STATE);
         message = new ChooseTowerColorMessage(1, TowerColor.WHITE);
         controller.update(message);
@@ -197,6 +209,10 @@ class ControllerTest {
         Message message6 = new ChooseTeamMessage(1, 3);
         controller.update(message6);
         assertEquals(4, controller.getGame().getNumOfPlayers());
+
+        Message message12 = new ChooseTeamMessage(1, 5);
+        controller.update(message12);
+        assertEquals(4, controller.getGame().getNumOfPlayers()); //nothing changes
 
         params = new MessageCharacterParameters();
         params.setStudentIndex(1);
@@ -221,6 +237,21 @@ class ControllerTest {
         Message message4 = new TakeFromCloudMessage(1, 0);
         controller.update(message4);
         assertNotEquals(2, controller.getGame().getCharactersList().size());
+
+        Message message9 = new SelectAssistantMessage(p1.getId(), 0);
+        controller.update(message9);
+        GameModel game2 = controller.getGame();
+        assertEquals(controller.getGame(), game2); //nothing change because it is not correct
+
+        Message message10 = new MoveMotherNatureMessage(p1.getId(), 0);
+        controller.update(message10);
+        assertEquals(controller.getGame(), game2); //nothing change because it is not correct
+
+        Message message11 = new ChooseTeamMessage(p1.getId(), 0);
+        controller.update(message11);
+        assertEquals(controller.getGame(), game2); //nothing change because it is not correct
+
+
         Message message3 = new MoveStudentDashboardMessage(p1.getId(), 0);
         controller.update(message3);
 
@@ -229,10 +260,20 @@ class ControllerTest {
 
         controller.getGame().setState(GameState.FINISHED_STATE);
         controller.update(message);
+
+        controller.getGame().setState(GameState.SETTING_STATE);
+        message = new ChooseWizardMessage(1, Wizard.ASIATIC);
+        controller.update(message);
+        assertEquals(4, controller.getGame().getNumOfPlayers());
+
+        controller.getGame().setState(GameState.SETTING_STATE);
+        message = new UseCharacterMessage(1, params);
+        controller.update(message);
+        assertNotEquals(3, controller.getGame().getNumOfPlayers());
     }
 
     @Test
-    void NewTests() {
+    void NewTests() { //some limit cases tests
         controller.getGame().setState(GameState.LOGIN_STATE);
         assertEquals(true, controller.isOpen());
         assertEquals(controller.getActualNumOfPlayers(), controller.getNumOfPlayer());
@@ -245,5 +286,54 @@ class ControllerTest {
         controller.getGame().getCurrPlayer().getDashboard().setTowersList(new ArrayList<>());
         assertEquals(false, controller.checkWin(true));
         assertEquals(controller.getGame().getCurrPlayer().getId(), controller.getWinner());
+
+        p1.getAssistantDeck().getAssistantsList().removeAll(p1.getAssistantDeck().getAssistantsList());
+        assertEquals(true, controller.checkWin(true));
+
+
+        controller.getGame().setIslandsList(new ArrayList<>());
+        assertEquals(true, controller.checkWin(false)); //test win on finished islands
+        p1.getDashboard().setTowersList(new ArrayList<>());
+        assertEquals(true, controller.checkWin(false)); //test win of finished towers
+
+
+    }
+
+    @RepeatedTest(5)
+    void moveStudentDashboardNormal() {  //it is a test on normal mode
+        controller.getGame().setExpertMode(false);
+        controller.getGame().getCurrRound().getCurrTurn().setCurrPlayer(p1);
+        controller.getGame().getCurrRound().setStage(RoundState.ACTION_STATE);
+        controller.getGame().getCurrRound().getCurrTurn().setStage(TurnState.MOVE_STUDENT_STATE);
+        controller.getGame().getCurrRound().getCurrTurn().setUsedCharacter(Factory.newCharacter(2));
+        Student s = controller.getGame().getCurrPlayer().getDashboard().getEntranceList().get(3);
+        int size = controller.getGame().getCurrRound().getCurrTurn().getCurrPlayer().getDashboard().getProfessorsList().size();
+        assertEquals(size, controller.getGame().getCurrPlayer().getDashboard().getProfessorsList().size());
+        controller.moveStudentDashboard(3);
+        assertNotEquals(size, controller.getGame().getCurrPlayer().getDashboard().getProfessorsList().size());
+        assertEquals(6, controller.getGame().getCurrPlayer().getDashboard().getEntranceList().size());
+        assertNotEquals(true, s == controller.getGame().getCurrPlayer().getDashboard().getEntranceList().get(3));
+
+    }
+
+    @Test
+    void takeFromCloudFinished() { //take from cloud when a round is finished
+        controller.getGame().getCurrRound().setStage(RoundState.ACTION_STATE);
+        controller.getGame().getCurrRound().getCurrTurn().setStage(TurnState.CHOOSE_CLOUD_STATE);
+        controller.getGame().getCurrRound().getCurrTurn().setCurrPlayer(p1);
+        controller.getGame().getCurrRound().getPlayersOrder().add(p3);
+        controller.getGame().getCurrPlayer().getDashboard().getEntranceList().remove(0);
+        controller.getGame().getCurrPlayer().getDashboard().getEntranceList().remove(0);
+        controller.getGame().getCurrPlayer().getDashboard().getEntranceList().remove(0);
+        controller.getGame().getCurrPlayer().getDashboard().getEntranceList().remove(0);
+        controller.getGame().getCurrRound().getPlayersOrder().remove(0); //now it is 0
+        controller.getGame().getCurrRound().setLastRound(true);
+        assertEquals(0, controller.getGame().getCurrRound().getPlayersOrder().size());
+        int size = controller.getGame().getCurrPlayer().getDashboard().getEntranceList().size();
+        assertEquals(3, controller.getGame().getCloudByIndex(0).getStudents().size()); //now we don't take from cloud
+        assertEquals(p1, controller.getGame().getCurrPlayer());
+        controller.takeFromCloud(0);
+        assertEquals(3, controller.getGame().getCloudByIndex(0).getStudents().size()); //round ended we fill clouds again instead of the takefromcloud upside
+        assertEquals(size + 3, p1.getDashboard().getEntranceList().size());
     }
 }

@@ -22,24 +22,24 @@ class CharacterTest {
     }
 
     @Test
-    void isUsed() {
+    void isUsed() { //return if a char is used or not
         character.setUsed();
         assertEquals(true, character.isUsed());
 
     }
 
-    @Test
+    @Test //if return the correct id
     void getId() {
         assertEquals(2, character.getId());
     }
 
-    @Test
+    @Test //if return the correct initial cost
     void getInitialCost() {
         assertEquals(2, character.getInitialCost());
     }
 
     @Test
-    void extractCharacters() {
+    void extractCharacters() { //test if extract correctly
         charactersList = character.extractCharacters();
         assertEquals(3, charactersList.size());
         assertNotEquals(charactersList.get(0), charactersList.get(1));

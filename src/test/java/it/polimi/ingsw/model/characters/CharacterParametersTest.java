@@ -13,6 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+//Here there are tests of only getters and setters
 class CharacterParametersTest {
     Island island;
     CharacterParameters characterParameters;
