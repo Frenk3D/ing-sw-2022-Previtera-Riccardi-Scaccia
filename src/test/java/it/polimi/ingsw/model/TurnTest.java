@@ -14,6 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+//This is a test class for the turn
 class TurnTest {
     Turn turn = new Turn();
     Character c1 = Factory.newCharacter(3);
@@ -24,7 +25,7 @@ class TurnTest {
 
 
     @BeforeEach
-    void setUp() {
+    void setUp() { //Sets the required attributes for testing
         turn.initTurn();
         game1 = new GameModel();
         game1.setNumOfPlayers(2);
@@ -36,20 +37,20 @@ class TurnTest {
     }
 
     @Test
-    void getUsedCharacter() {
+    void getUsedCharacter() {//Tests the used character's getter
         turn.setUsedCharacter(c1);
         assertEquals(c1, turn.getUsedCharacter());
     }
 
     @Test
-    void setStage() {
+    void setStage() { //Tests the stage setter
         turn.setStage(TurnState.CHOOSE_CLOUD_STATE);
         assertEquals(TurnState.CHOOSE_CLOUD_STATE, turn.getStage());
     }
 
 
     @Test
-    void updateProfessorsLists() {
+    void updateProfessorsLists() { //Tests the method that updates the professors' list
         game1.start();
         game1.getPlayersList().get(0).getDashboard().addStudentHall(new Student(PawnColor.RED), game1.getPlayersList().get(0), null);
         game1.getPlayersList().get(1).getDashboard().addStudentHall(new Student(PawnColor.GREEN), game1.getPlayersList().get(0), null);
@@ -63,7 +64,7 @@ class TurnTest {
 
 
     @Test
-    void updateIslandList() {
+    void updateIslandList() { //Tests the method that updates the islands' list
         game1.init();
         game1.start();
         game1.getIslandByIndex(0).addTower(t1);
@@ -71,12 +72,12 @@ class TurnTest {
         assertEquals(12, game1.getIslandsList().size());
         game1.getIslandByIndex(0).mergeIsland(game1.getIslandByIndex(0 + 1));
         game1.getCurrRound().getCurrTurn().updateIslandList(game1.getIslandsList());
-        assertEquals(11, game1.getIslandsList().size());
+        assertEquals(11, game1.getIslandsList().size()); //The size must decrease since a merge happened
 
     }
 
     @Test
-    void incrementMovedStudents() {
+    void incrementMovedStudents() { //Tests the method that increments the number of moved students
         int num = game1.getCurrRound().getCurrTurn().getMovedStudentsNumber();
         game1.getCurrRound().getCurrTurn().incrementMovedStudents(2);
         assertEquals(num + 1, game1.getCurrRound().getCurrTurn().getMovedStudentsNumber());

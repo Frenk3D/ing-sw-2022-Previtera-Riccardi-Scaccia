@@ -11,6 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+//This is a test class for the round
 class RoundTest {
     Round round;
     Round tmpRound;
@@ -33,7 +34,7 @@ class RoundTest {
 
 
     @BeforeEach
-    void setUp() {
+    void setUp() { //Sets the required attributes for testing
         p = new Player("Giggio", 1);
         p.setTeam(1);
         p.setPlayerTowerColor(TowerColor.WHITE);
@@ -63,7 +64,7 @@ class RoundTest {
     }
 
     @Test
-    void resetRound() {
+    void resetRound() { //Tests the method that resets the round
         round.setStage(RoundState.ACTION_STATE);
         tmpRound.setStage(RoundState.PLANNING_STATE);
         round.setNumOfAssistantThrows(2);
@@ -71,12 +72,12 @@ class RoundTest {
         tmpRound.resetRound();
         round.resetRound();
         assertEquals(round.getStage(), tmpRound.getStage());
-        assertEquals(round.getNumOfAssistantThrows(), tmpRound.getNumOfAssistantThrows());
-        assertEquals(RoundState.PLANNING_STATE, round.getStage());
+        assertEquals(round.getNumOfAssistantThrows(), tmpRound.getNumOfAssistantThrows()); //The number of assistant throws must be equals
+        assertEquals(RoundState.PLANNING_STATE, round.getStage()); //After reset the round must be in planning state
     }
 
     @Test
-    void initRound() {
+    void initRound() { //Tests the method that initializes the round
         round.initRound(playersList);
         assertEquals(3, cloudsList.get(0).getStudents().size());
         assertEquals(p1.getId(), round.getCurrTurn().getCurrPlayer().getId());
@@ -102,7 +103,7 @@ class RoundTest {
     }
 
     @Test
-    void setNextPlayerPlanning() {
+    void setNextPlayerPlanning() { //Tests the method that sets the next planning player
         round.resetRound();
         round.randomStartingPlayer(playersList);
         tmpPlayer = round.getPlanningPhasePlayer(playersList);

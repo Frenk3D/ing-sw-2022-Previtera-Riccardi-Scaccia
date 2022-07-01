@@ -15,6 +15,7 @@ import static it.polimi.ingsw.model.enumerations.TowerColor.WHITE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+//This is a test class for the dashboard
 class DashboardTest {
     Dashboard dashboard;
     List<Student> hallList;
@@ -29,7 +30,7 @@ class DashboardTest {
     AtomicInteger tableMoney;
 
     @BeforeEach
-    void setUp() {
+    void setUp() { //Sets the required attributes for testing
         tableMoney = new AtomicInteger(20);
         bag = new Bag();
         dashboard = new Dashboard();
@@ -47,21 +48,21 @@ class DashboardTest {
     }
 
     @Test
-    void getHallStudentsListByColor() {
+    void getHallStudentsListByColor() { //Test the hall list students' getter based on their color
 
 
-        assertEquals(s, dashboard.getHallStudentsListByColor(PawnColor.RED).get(0));
+        assertEquals(s, dashboard.getHallStudentsListByColor(PawnColor.RED).get(0)); //the red student must be equals to the student found by the method
         assertEquals(3, player.getMoney());
     }
 
     @Test
-    void getProfessorByColor() {
+    void getProfessorByColor() { //Tests the professor by color getter
         dashboard.getProfessorsList().add(professor);
         assertEquals(professor, dashboard.getProfessorByColor(PawnColor.RED));
     }
 
     @Test
-    void placeStudentEntrance() {
+    void placeStudentEntrance() { //Tests the method that places students in the entrance
         bag.addAllStudents(); //we use add all students because when we fill the dashboard the bag has already been used with initialBagFill()
         List<Student> tmpList = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
@@ -76,7 +77,7 @@ class DashboardTest {
     //we use jupiter
     @RepeatedTest(2)
     //we try multiple tests
-    void generateTower() {
+    void generateTower() { //Tests the towers' generator
         List<Tower> towerList = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
             towerList.add(tower);
@@ -87,22 +88,23 @@ class DashboardTest {
     }
 
     @Test
-    void addStudentHall() {
+    void addStudentHall() { //Tests the method that adds students to the hall
         hallList.add(s);
         dashboard.addStudentHall(s, player, tableMoney);
         assertEquals(hallList.get(0), dashboard.getHallStudentsListByColor(PawnColor.RED).get(0));
     }
 
     @Test
-    void setTowersList() {
+    void setTowersList() { //Tests the tower list setter
         towerList.add(tower);
         dashboard.setTowersList(towerList);
         assertEquals(towerList, dashboard.getTowersList());
     }
 
     @Test
-    void getEntranceStudentByIndex() {
-        assertEquals(null, dashboard.getEntranceStudentByIndex(99));
+    void getEntranceStudentByIndex() { //Tests the method that gets a student in the entrance by its index
+
+        assertEquals(null, dashboard.getEntranceStudentByIndex(99)); //The index should be out of bounds
     }
 
 }

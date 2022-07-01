@@ -9,20 +9,21 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+//This is a test class for the cloud
 class CloudTest {
     Cloud cloud;
     List<Student> studentList;
     Student s;
 
     @BeforeEach
-    void setUp() {
+    void setUp() { //Sets the required attributes for testing
         cloud = new Cloud();
         studentList = new ArrayList<>();
         s = new Student(PawnColor.RED);
     }
 
     @Test
-    void getStudents() {
+    void getStudents() { //Tests the students' getter
 
         studentList.add(s);
         cloud.setStudentsList(studentList);
@@ -30,7 +31,7 @@ class CloudTest {
     }
 
     @Test
-    void setStudentsList() {
+    void setStudentsList() { //Tests the students' list setter
         studentList.add(s);
         cloud.setStudentsList(studentList);
         assertEquals(s.getColor(), cloud.getStudents().get(0).getColor());
@@ -38,13 +39,13 @@ class CloudTest {
     }
 
     @Test
-    void generateCloudsList() {
+    void generateCloudsList() { //Tests the clouds' list generator
         List<Cloud> cloudList = new ArrayList<>();
         Cloud cloud1 = new Cloud();
         Cloud cloud2 = new Cloud();
         cloudList.add(cloud1);
         cloudList.add(cloud2);
-        assertEquals(cloudList.size(), Cloud.generateCloudsList(2).size());
+        assertEquals(cloudList.size(), Cloud.generateCloudsList(2).size()); //the size of the two clouds must be equals
 
     }
 }

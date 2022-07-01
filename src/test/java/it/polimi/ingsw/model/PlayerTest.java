@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+//This is a test class for the player
 class PlayerTest {
     Player player;
     AtomicInteger tableMoney;
@@ -21,7 +22,7 @@ class PlayerTest {
 
 
     @BeforeEach
-    void setUp() {
+    void setUp() { //Sets the required attributes for testing
         player = new Player("Gigio", 2);
         player.setPlayerTowerColor(TowerColor.BLACK);
         player.setTeam(1);
@@ -38,7 +39,7 @@ class PlayerTest {
     }
 
     @Test
-    void modifyMoney() {
+    void modifyMoney() { //Tests the method that modifies money
         player.modifyMoney(0, tableMoney);
         assertEquals(finalMoney, player.getMoney());
         player.modifyMoney(4, tableMoney);
@@ -61,7 +62,7 @@ class PlayerTest {
     }
 
     @Test
-    void hasTower() {
+    void hasTower() { //Tests the method that checks if the player has the towers (is the team leader)
         assertEquals(true, player.hasTower());
         player.setHasTower(false);
         assertEquals(false, player.hasTower());
@@ -69,7 +70,7 @@ class PlayerTest {
 
 
     @Test
-    void getTeamPlayer() {
+    void getTeamPlayer() { //Tests the team player's getter
         Player p = player.getTeamPlayer(playersList);
         assertEquals(tmpPlayer, p);
 

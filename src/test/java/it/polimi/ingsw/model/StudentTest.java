@@ -7,12 +7,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+//This is a test class for the student
 class StudentTest {
     Student student;
     Student tmpStudent;
 
     @BeforeEach
-    void setUp() {
+    void setUp() { //Sets the required attributes for testing
         student = new Student(PawnColor.RED);
         tmpStudent = new Student(PawnColor.RED);
     }
@@ -22,7 +23,7 @@ class StudentTest {
     }
 
     @Test
-    void getColor() {
+    void getColor() { //Tests the student's color getter
         assertEquals(student.getColor(), tmpStudent.getColor());
     }
 }

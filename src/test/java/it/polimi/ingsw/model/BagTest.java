@@ -11,6 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+//This is a test class for the bag
 class BagTest {
     Bag bag;
     Bag tmpBag;
@@ -18,7 +19,7 @@ class BagTest {
     List<Student> tmpStudentsList;
 
     @BeforeEach
-    void setUp() {
+    void setUp() { //This class sets the needed attributes
         studentsList = new ArrayList<>();
         bag = new Bag();
         tmpBag = new Bag();
@@ -34,7 +35,7 @@ class BagTest {
 
     }
 
-    private boolean searchByColor(Bag tmpBag) {
+    private boolean searchByColor(Bag tmpBag) { //This method is implemented to make testing easier for this class
         int counterRed = 0;
         int counterGreen = 0;
         int counterBlue = 0;
@@ -69,9 +70,9 @@ class BagTest {
     }
 
     @Test
-    void initialBagFill() {
+    void initialBagFill() { //Tests the method InitialBagFill
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; i++) { //Fill a temp bag with 5 students
             tmpBag.getStudentsList().add(new Student(PawnColor.RED));
             tmpBag.getStudentsList().add(new Student(PawnColor.BLUE));
             tmpBag.getStudentsList().add(new Student(PawnColor.GREEN));
@@ -86,18 +87,18 @@ class BagTest {
     }
 
     @Test
-    void extractStudents() {
+    void extractStudents() { //Tests the extact students method
         bag.addAllStudents();
         studentsList = (bag.extractStudents(3));
         tmpStudentsList = (bag.extractStudents(3));
-        assertNotEquals(studentsList, tmpStudentsList);
+        assertNotEquals(studentsList, tmpStudentsList); //the two list must be different since the extraction is random,even if there is a slight chance they might actually be equals
         assertNotEquals(studentsList, null);
         assertNotEquals(tmpStudentsList, null);
     }
 
     @Test
-    void addAllStudents() {
-        for (int i = 0; i < 24; i++) {
+    void addAllStudents() { //Tests addAllStudents
+        for (int i = 0; i < 24; i++) { //adds all the remaining students
             tmpBag.getStudentsList().add(new Student(PawnColor.RED));
             tmpBag.getStudentsList().add(new Student(PawnColor.BLUE));
             tmpBag.getStudentsList().add(new Student(PawnColor.GREEN));

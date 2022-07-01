@@ -14,6 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+//This is a test class for the game model
 class GameModelTest {
     GameModel game1;
     GameModel game2;
@@ -27,7 +28,7 @@ class GameModelTest {
     List<Character> tmpCharactersList;
 
     @BeforeEach
-    void setUp() {
+    void setUp() { //Sets the required attributes for testing
         game1 = new GameModel();
         game1.setNumOfPlayers(4);
         game1.setExpertMode(true);
@@ -69,20 +70,20 @@ class GameModelTest {
     }
 
     @Test
-    void addPlayer() {
+    void addPlayer() { //Test the method that adds players
         assertEquals(p1, game1.getPlayerById(1));
         assertEquals(p4, game1.getPlayersList().get(3));
         assertEquals(false, game1.addPlayer(p1));
     }
 
     @Test
-    void start() {
-        assertEquals(GameState.INGAME_STATE, game1.getGameState());
+    void start() { //Tests the method that starts the game
+        assertEquals(GameState.INGAME_STATE, game1.getGameState()); //The game state should be in game
 
     }
 
     @Test
-    void getIslandByIndex() {
+    void getIslandByIndex() { //Tests the method that gets an island by index
         islandsList = Island.generateIslandsList();
         game1.setIslandsList(islandsList);
         assertEquals(islandsList.get(2), game1.getIslandByIndex(2));
@@ -90,14 +91,14 @@ class GameModelTest {
     }
 
     @Test
-    void getCloudByIndex() {
+    void getCloudByIndex() { //Tests the method that gets a cloud by index
         cloudsList = Cloud.generateCloudsList(4);
         game1.setCloudsList(cloudsList);
         assertEquals(cloudsList.get(2), game1.getCloudByIndex(2));
     }
 
     @Test
-    void getCharacterByIndex() {
+    void getCharacterByIndex() { //Tests the method that gets a cloud by index
         tmpCharactersList = game1.getCharactersList();
         assertEquals(tmpCharactersList.get(1), game1.getCharacterByIndex(1));
         assertNotEquals(null, game1.getCharacterByIndex(1));
@@ -110,13 +111,13 @@ class GameModelTest {
     }
 
     @Test
-    void setNumOfPlayers() {
+    void setNumOfPlayers() { //Tests the method that sets the number of players
         game2.setNumOfPlayers(4);
         assertEquals(game1.getNumOfPlayers(), game2.getNumOfPlayers());
     }
 
     @Test
-    void aLotOfTests() {
+    void aLotOfTests() { //Tests various getter and setters of the model
         assertEquals(5, game1.getForbidCharacter().getId());
         assertEquals(true, game1.isExpertMode());
         assertEquals(4, game1.getCloudsList().size());
