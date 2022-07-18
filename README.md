@@ -67,4 +67,8 @@ Model: ~88%
 | __JUnit__      | Unit testing framework (recommended by the course).                                       |    
 
 ### Other useful info/links:
-Peer-reviews, JavaDoc (generable from intellij) and network protocol messages are in the deliverables folder.
+Peer-reviews, JavaDoc (generable from intellij) and network protocol messages are in the deliverables folder.  
+  
+  
+####Supervisor: Prof. G. Cugola   
+####Grade: 30/30 cum laude. 
