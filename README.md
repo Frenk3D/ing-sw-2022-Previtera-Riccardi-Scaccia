@@ -11,9 +11,9 @@ You need a java version 11 or higher to play.
 
 ## Gruppo GC02
 
-- ###  10651584  [Francesco Riccardi](https://github.com/Frenk3D) <br>Email: francesco3.riccardi@mail.polimi.it / Cell. : +39 3313051309
-- ###  10724922  [Nicolò Scaccia](https://github.com/NicoScaccia) <br>Email: nicolo.scaccia@mail.polimi.it / Cell. : +39 3662607385
-- ###  10682248  [Marco Luca Previtera](https://github.com/MarcoLucaPrevitera) <br>Email: marcoluca.previtera@mail.polimi.it / Cell. : +39 3466776801
+- ###  10651584  [Francesco Riccardi](https://github.com/Frenk3D) <br>Email: francesco3.riccardi@mail.polimi.it / Cell. : PRIVATE
+- ###  10724922  [Nicolò Scaccia](https://github.com/NicoScaccia) <br>Email: nicolo.scaccia@mail.polimi.it / Cell. : PRIVATE
+- ###  10682248  [Marco Luca Previtera](https://github.com/MarcoLucaPrevitera) <br>Email: marcoluca.previtera@mail.polimi.it / Cell. : PRIVATE
 
   
   
